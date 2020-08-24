@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult, AssetBundle> Send(DownloadableContentUrlFn getDownloadableContentUrlFn,
                                                         string shortCode, long lastModifiedTime)
         {
-            DispatchSignal(ContentDownloadStatus.Started);
+
             TLUtils.LogUtil.Log("Initiated downloaded bundle request for - " + shortCode, "cyan");
 
             this.shortCode = shortCode;
@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                contentSignal.Dispatch(contentType, ContentDownloadStatus.Started);
                 TLUtils.LogUtil.Log("Skip downloaded bundle URL request", "cyan");
 
                 this.downloadUrl = "FromCache";
@@ -78,7 +79,7 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.DOWNLOAD_URL_GET_FAILED)
             {
                 promise.Dispatch(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
-                DispatchSignal(ContentDownloadStatus.Failed);
+                contentSignal.Dispatch(contentType, ContentDownloadStatus.Failed);
 
             }
         }
@@ -109,26 +110,17 @@ namespace TurboLabz.InstantFramework
                 AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
                 Debug.Log("Bundle fetched: bundle name is " + bundle.name);
                 TLUtils.LogUtil.Log("Downloaded bundle - " + shortCode, "cyan");
-                DispatchSignal(ContentDownloadStatus.Completed);
                 promise.Dispatch(BackendResult.SUCCESS, bundle);
+                contentSignal.Dispatch(contentType, ContentDownloadStatus.Completed);
             }
             else
             {
                 TLUtils.LogUtil.Log("FAILED to to fetch bundle!! - ", "cyan");
-                DispatchSignal(ContentDownloadStatus.Failed);
                 promise.Dispatch(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
+                contentSignal.Dispatch(contentType, ContentDownloadStatus.Failed);
             }
 
 
-        }
-
-        private void DispatchSignal(ContentDownloadStatus status)
-        {
-            if (contentSignal != null)
-            {
-                //string stat = status.ToString();
-                contentSignal.Dispatch(contentType, status);
-            }
         }
 
     }

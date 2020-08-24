@@ -65,16 +65,13 @@ namespace TurboLabz.InstantFramework
         {
             foreach (var item in versionCache.Where(i=>i.Value.loadFromCache))
             {
-                var shortCode = item.Value.shortCode.AppendPlatform();
+                var shortCode = item.Value.shortCode;
                 Get(shortCode);
             }
         }
 
         public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn = null, ContentType? contentType = null )
-        {
-            
-            shortCode = shortCode.AppendPlatform();
-            
+        {   
             TLUtils.LogUtil.Log("BundleRefs - requesting download " + shortCode, "cyan");
             try
             {
@@ -89,13 +86,11 @@ namespace TurboLabz.InstantFramework
 
         public bool IsUpdateAvailable(string shortCode)
         {
-            shortCode = shortCode.AppendPlatform();
             return !versionCache.ContainsKey(shortCode) ? true : versionCache[shortCode].lastModified < downloadableItems[shortCode].lastModified;
         }
 
         public void LoadFromCache(string shortCode, bool shouldLoad)
         {
-            shortCode = shortCode.AppendPlatform();
             if (downloadableItems.ContainsKey(shortCode))
             {
                 downloadableItems[shortCode].loadFromCache = shouldLoad;
@@ -105,7 +100,6 @@ namespace TurboLabz.InstantFramework
 
         public void MarkUpdated(string shortCode)
         {
-            shortCode = shortCode.AppendPlatform();
             if (!versionCache.ContainsKey(shortCode))
             {
                 versionCache.Add(shortCode, downloadableItems[shortCode]);
@@ -120,7 +114,6 @@ namespace TurboLabz.InstantFramework
 
         public AssetBundle GetBundleFromVersionCache(string shortCode)
         {
-            shortCode = shortCode.AppendPlatform();
             if (versionCache.ContainsKey(shortCode))
             {
                 return versionCache[shortCode].bundle;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GameSparks.Api.Requests;
 using GameSparks.Api.Responses;
 using strange.extensions.promise.api;
+using TurboLabz.TLUtils;
 using UnityEngine;
 
 namespace TurboLabz.InstantFramework
@@ -36,6 +37,7 @@ namespace TurboLabz.InstantFramework
                 this.errorCode = BackendResult.DOWNLOAD_URL_GET_FAILED;
                 this.onSuccess = onSuccess;
                 this.onSuccessExternal = onSuccessExternal;
+                shortCode = shortCode.AppendPlatform();
 
                 new GetDownloadableRequest()
                     .SetShortCode(shortCode)

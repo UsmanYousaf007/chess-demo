@@ -416,7 +416,7 @@ namespace TurboLabz.InstantFramework
                 {
                     DownloadableItem item = new DownloadableItem();
                     item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
-                    item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE).RemovePlatfrom();
                     item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
                     item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
                     item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);

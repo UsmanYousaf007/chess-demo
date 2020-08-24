@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
                                             ContentType? contentType)
         {
             // Note: GetDownloadableContentRequest is not in the Strange context, but it uses a function from IBackendService. So the backend service
-            // function delegate is passed in to GetDownloadableContentRequest as a parameter.
+            // function delegate and DownloadableContentSignal is passed in to GetDownloadableContentRequest.
 
             
             DownloadableItem dlItem = downloadablesModel?.downloadableItems?[shortCode];
@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
-                new GetDownloadableContentRequest(null, contentType).Send(null, dlItem.shortCode, dlItem.lastModified)
+                new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.shortCode, dlItem.lastModified)
                                                     .Then(OnDownloadContentComplete);
             }
         }
@@ -76,14 +76,5 @@ namespace TurboLabz.InstantFramework
 
             onDownloadContentCompleteCB?.Invoke(result, bundle);
         }
-
-        //private void DispatchSignal(ContentDownloadStatus status)
-        //{
-        //    if (contentSignal != null)
-        //    {
-        //        string stat = status.ToString();
-        //        contentSignal.Dispatch(contentType, stat);
-        //    }
-        //}
     }
 }
