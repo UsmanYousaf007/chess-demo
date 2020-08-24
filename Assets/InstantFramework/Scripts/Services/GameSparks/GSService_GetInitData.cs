@@ -224,7 +224,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maxFriendsCount = gsSettingsData.GetInt(GSBackendKeys.MAX_FRIENDS_COUNT).Value;
             settingsModel.maxRecentlyCompletedMatchCount = gsSettingsData.GetInt(GSBackendKeys.MAX_RECENTLY_COMPLETED_MATCH_COUNT).Value;
             settingsModel.maxCommunityMatches = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
-
+            settingsModel.hintsAllowedPerGame = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.HINTS_ALLOWED);
             settingsModel.maintenanceFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
             settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
             settingsModel.maintenanceMessage = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_MESSAGE);

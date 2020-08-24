@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
+                { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints allowed per game"},
 
                 #endregion
 

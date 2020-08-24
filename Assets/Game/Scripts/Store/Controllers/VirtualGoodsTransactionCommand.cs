@@ -41,6 +41,11 @@ namespace TurboLabz.InstantFramework
                 jsonData.AddNumber("consumeQuantity", vo.consumeQuantity);
             }
 
+            if (!string.IsNullOrEmpty(vo.challengeId))
+            {
+                jsonData.AddString("challengeId", vo.challengeId);
+            }
+
             if (jsonData.ContainsKey("buyShortCode") || jsonData.ContainsKey("consumeShortCode"))
             {
                 Retain();

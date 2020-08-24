@@ -25,7 +25,7 @@ namespace TurboLabz.CPU
             getHintSignal.Dispatch(false);
         }
 
-        [ListensTo(typeof(RenderHintSignal))]
+        //[ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHint(HintVO vo)
         {
             if (!vo.isHindsight)

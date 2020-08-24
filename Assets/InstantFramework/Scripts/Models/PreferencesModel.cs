@@ -72,6 +72,7 @@ namespace TurboLabz.InstantGame
         public int gameCountLong { get; set; }
         public int gameCountCPU { get; set; }
         public bool isAllLessonsCompleted { get; set; }
+        public int cpuPowerUpsUsedCount { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -123,6 +124,7 @@ namespace TurboLabz.InstantGame
             gameCountLong = 0;
             gameCountCPU = 0;
             isAllLessonsCompleted = false;
+            cpuPowerUpsUsedCount = 0;
             ResetDailyPrefers();
         }
 
@@ -386,6 +388,11 @@ namespace TurboLabz.InstantGame
                     isAllLessonsCompleted = reader.Read<bool>(PrefKeys.LESSONS_COMPLETED);
                 }
 
+                if (reader.HasKey(PrefKeys.CPU_POWERUPS_USED))
+                {
+                    cpuPowerUpsUsedCount = reader.Read<int>(PrefKeys.CPU_POWERUPS_USED);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -454,6 +461,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.GAME_COUNT_LONG, gameCountLong);
                 writer.Write<int>(PrefKeys.GAME_COUNT_CPU, gameCountCPU);
                 writer.Write<bool>(PrefKeys.LESSONS_COMPLETED, isAllLessonsCompleted);
+                writer.Write<int>(PrefKeys.CPU_POWERUPS_USED, cpuPowerUpsUsedCount);
 
                 writer.Close();
             }

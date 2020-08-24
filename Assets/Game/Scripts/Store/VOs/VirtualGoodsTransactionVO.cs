@@ -11,5 +11,6 @@ namespace TurboLabz.InstantFramework
         public int buyQuantity;
         public string consumeItemShortCode;
         public int consumeQuantity;
+        public string challengeId;
     }
 }

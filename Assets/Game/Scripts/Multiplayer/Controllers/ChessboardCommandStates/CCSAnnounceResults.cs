@@ -82,6 +82,7 @@ namespace TurboLabz.Multiplayer
 
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
+            cmd.specialHintAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
         }

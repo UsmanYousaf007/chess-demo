@@ -46,8 +46,8 @@ namespace TurboLabz.Multiplayer
         public Text resultsBoostRatingToolTipText;
         public Text resultsBoostRatingGemsCost;
         public Image resultsBoostRatingGemsBg;
-        public Sprite resultsBoostRatingEnoughGems;
-        public Sprite resultsBoostRatingNotEnoughGems;
+        public Sprite enoughGemsSprite;
+        public Sprite notEnoughGemsSprite;
         public string resultsBoostRatingShortCode;
 
         public Button resultsCollectRewardButton;
@@ -76,7 +76,7 @@ namespace TurboLabz.Multiplayer
         public Signal backToLobbySignal = new Signal();
         public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
         public Signal refreshLobbySignal = new Signal();
-        public Signal notEnoughItemsToBoostSignal = new Signal();
+        public Signal notEnoughGemsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -95,9 +95,9 @@ namespace TurboLabz.Multiplayer
         private string challengeId;
         private bool isResultsBoostRatingButtonEnabled = false;
         private Color originalColor;
-        private StoreItem storeItem;
-        private bool haveEnoughGems;
-        private bool haveEnoughStoreItems;
+        private StoreItem ratingBoosterStoreItem;
+        private bool haveEnoughGemsForRatingBooster;
+        private bool haveEnoughRatingBoosters;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -448,7 +448,7 @@ namespace TurboLabz.Multiplayer
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
 
-            storeItem = vo.ratingBoostStoreItem;
+            ratingBoosterStoreItem = vo.ratingBoostStoreItem;
             SetupBoostPrice();
         }
 
@@ -521,21 +521,21 @@ namespace TurboLabz.Multiplayer
             {
                 var transactionVO = new VirtualGoodsTransactionVO();
 
-                if (haveEnoughStoreItems)
+                if (haveEnoughRatingBoosters)
                 {
                     transactionVO.consumeItemShortCode = resultsBoostRatingShortCode;
                     transactionVO.consumeQuantity = 1;
                     BoostRating(transactionVO);
                 }
-                else if (haveEnoughGems)
+                else if (haveEnoughGemsForRatingBooster)
                 {
                     transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                    transactionVO.consumeQuantity = storeItem.currency3Cost;
+                    transactionVO.consumeQuantity = ratingBoosterStoreItem.currency3Cost;
                     BoostRating(transactionVO);
                 }
                 else
                 {
-                    notEnoughItemsToBoostSignal.Dispatch();
+                    notEnoughGemsSignal.Dispatch();
                 }
             }
         }
@@ -655,11 +655,16 @@ namespace TurboLabz.Multiplayer
 
         public void SetupBoostPrice()
         {
-            resultsBoostRatingGemsCost.text = storeItem.currency3Cost.ToString();
-            haveEnoughStoreItems = playerModel.GetInventoryItemCount(resultsBoostRatingShortCode) > 0;
-            haveEnoughGems = playerModel.gems >= storeItem.currency3Cost;
-            resultsBoostRatingGemsBg.sprite = haveEnoughGems ? resultsBoostRatingEnoughGems : resultsBoostRatingNotEnoughGems;
-            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughStoreItems);
+            if (ratingBoosterStoreItem == null)
+            {
+                return;
+            }
+
+            resultsBoostRatingGemsCost.text = ratingBoosterStoreItem.currency3Cost.ToString();
+            haveEnoughRatingBoosters = playerModel.GetInventoryItemCount(resultsBoostRatingShortCode) > 0;
+            haveEnoughGemsForRatingBooster = playerModel.gems >= ratingBoosterStoreItem.currency3Cost;
+            resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
+            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters);
         }
     }
 }

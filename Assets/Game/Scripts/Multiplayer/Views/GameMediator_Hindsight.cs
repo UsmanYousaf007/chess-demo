@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
             }   
         }
 
-        [ListensTo(typeof(RenderHintSignal))]
+        //[ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHindsight(HintVO vo)
         {
             if (vo.isHindsight)

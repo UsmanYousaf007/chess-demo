@@ -40,7 +40,7 @@ namespace TurboLabz.Multiplayer
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
             view.boostRatingSignal.AddListener(OnBoostRating);
-            view.notEnoughItemsToBoostSignal.AddListener(OnNotEnoughItemsToBoost);
+            view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
         }
 
         public void OnRemoveResults()
@@ -146,6 +146,7 @@ namespace TurboLabz.Multiplayer
             if (view.IsVisible())
             {
                 view.SetupBoostPrice();
+                view.SetupSpecialHintButton();
             }
         }
     }

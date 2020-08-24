@@ -76,6 +76,13 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.inventory[consumedShortCode] -= consumedQuantity;
                     }
+
+                    var challengeId = response.ScriptData.GetString("challengeId");
+
+                    if (!string.IsNullOrEmpty(challengeId) && matchInfoModel.matches.ContainsKey(challengeId))
+                    {
+                        matchInfoModel.matches[challengeId].playerPowerupUsedCount++;
+                    }
                 }
             }
         }

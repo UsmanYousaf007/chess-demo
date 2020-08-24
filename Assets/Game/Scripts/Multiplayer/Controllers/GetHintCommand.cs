@@ -47,7 +47,7 @@ namespace TurboLabz.Multiplayer
             
             chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
 
-            if (chessboard.lastPlayerMove != null)
+            if (chessboard.isPlayerTurn)
             {
                 Retain();
 
@@ -60,7 +60,7 @@ namespace TurboLabz.Multiplayer
                 vo.isStrength = !isHindsight;
                 vo.playerStrengthPct = 0.5f;
                 vo.isHint = isHindsight;
-                vo.fen = chessboard.previousPlayerTurnFen;
+                vo.fen = chessboard.fen;
 
                 IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
                 promise.Then(OnAiMoveStrength);
@@ -86,28 +86,28 @@ namespace TurboLabz.Multiplayer
             newVo.skinId = playerModel.activeSkinId;
             newVo.didPlayerMadeBestMove = false;
 
-            var chessMoveTemp = new ChessMove();
-            if (chessMoveTemp.MoveToString(chessboard.lastPlayerMove.from, chessboard.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
-            {
-                newVo.didPlayerMadeBestMove = true;
-            }
+            //var chessMoveTemp = new ChessMove();
+            //if (chessMoveTemp.MoveToString(chessboard.lastPlayerMove.from, chessboard.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
+            //{
+            //    newVo.didPlayerMadeBestMove = true;
+            //}
 
             if (isHindsight)
             {
-                var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
+                //var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
 
-                //check if piece color is of opponent's then player's piece is captured
-                if (pieceColor != chessboard.playerColor)
-                {
-                    //set captured piece flag
-                    strength = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
-                }
+                ////check if piece color is of opponent's then player's piece is captured
+                //if (pieceColor != chessboard.playerColor)
+                //{
+                //    //set captured piece flag
+                //    strength = string.Format("{0}captured", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                //}
 
-                if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo)
-                    && newVo.didPlayerMadeBestMove)
-                {
-                    strength = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
-                }
+                //if (!string.IsNullOrEmpty(chessboard.lastPlayerMove.promo)
+                //    && newVo.didPlayerMadeBestMove)
+                //{
+                //    strength = string.Format("{0}p", chessboard.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                //}
 
                 newVo.piece = strength;
             }
@@ -132,20 +132,20 @@ namespace TurboLabz.Multiplayer
 
             renderHintSignal.Dispatch(newVo);
 
-            if (isHindsight)
-            {
-                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
-                preferencesModel.isCoachTooltipShown = true;
-                preferencesModel.coachUsedCount++;
-            }
-            else
-            {
-                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
-                preferencesModel.isStrengthTooltipShown = true;
-                preferencesModel.strengthUsedCount++;
-            }
+            //if (isHindsight)
+            //{
+            //    updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            //    preferencesModel.isCoachTooltipShown = true;
+            //    preferencesModel.coachUsedCount++;
+            //}
+            //else
+            //{
+            //    updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            //    preferencesModel.isStrengthTooltipShown = true;
+            //    preferencesModel.strengthUsedCount++;
+            //}
 
             Release();
         }

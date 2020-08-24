@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_ADVANTAGE = "gmAdvantage";
         public const string GM_EXIT_BUTTON_LOBBY = "gsmExitButtonLobby";
         public const string GM_EXIT_BUTTON_COLLECT_REWARD = "gsmExitButtonCollectReward";
+        public const string GM_SPECIAL_HINT_NOT_AVAILABLE = "gmSpecialHintNotAvailable";
 
         #endregion
 

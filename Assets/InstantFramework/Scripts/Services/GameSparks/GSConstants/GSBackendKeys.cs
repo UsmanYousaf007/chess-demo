@@ -48,7 +48,8 @@ namespace TurboLabz.InstantFramework
         public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
         public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
         public const string PREMIUM = "premium";
-        
+        public const string HINTS_ALLOWED = "hintsAllowedPerGame";
+
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
         public const string SHOP_ITEM_TAGS = "tags";

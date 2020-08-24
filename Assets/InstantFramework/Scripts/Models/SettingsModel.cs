@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public string manageSubscriptionURL { get; set; }
         public int maxLongMatchCountPremium { get; set; }
         public int maxFriendsCountPremium { get; set; }
+        public int hintsAllowedPerGame { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
 
@@ -51,6 +52,7 @@ namespace TurboLabz.InstantFramework
             manageSubscriptionURL = "";
             maxLongMatchCountPremium = 0;
             maxFriendsCountPremium = 0;
+            hintsAllowedPerGame = 0;
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
         }
