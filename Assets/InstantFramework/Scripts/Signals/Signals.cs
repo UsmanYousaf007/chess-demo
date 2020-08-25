@@ -162,6 +162,8 @@ namespace TurboLabz.InstantFramework
     public class PhotoPickerCompleteSignal : Signal<Photo> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
+    public class LoadArenaSignal : Signal { }
+    public class UpdateTournamentsViewSignal : Signal { }
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

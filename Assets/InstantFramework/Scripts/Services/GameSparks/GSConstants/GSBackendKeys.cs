@@ -365,6 +365,7 @@ namespace TurboLabz.InstantFramework
 
         public static class Tournament
         {
+            public const string TOURNAMENT_KEY = "tournament";
             public const string TYPE = "type";
             public const string SHORT_CODE = "shortCode";
             public const string ACTIVE = "active";
@@ -372,7 +373,7 @@ namespace TurboLabz.InstantFramework
             public const string RANK = "rank";
             public const string GRAND_PRIZE = "grandPrize";
             public const string START_TIME = "startTime";
-            public const string DURATION = "startTime";
+            public const string DURATION = "duration";
             public const string WAIT_TIME = "waitTime";
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
@@ -382,6 +383,11 @@ namespace TurboLabz.InstantFramework
         {
             public const string TYPE = "type";
             public const string QUANTITY = "quantity";
+            public const string TROPHIES = "trophies";
+            public const string CHEST_TYPE = "chestType";
+            public const string GEMS = "gems";
+            public const string HINTS = "hints";
+            public const string RATING_BOOSTERS = "ratingBoosters";
         }
 
         public static class TournamentsOp

@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -95,6 +96,7 @@ namespace TurboLabz.InstantFramework
                 pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(true);
+                updateTournamentsViewSignal.Dispatch();
                 SendAnalytics();
             }
 

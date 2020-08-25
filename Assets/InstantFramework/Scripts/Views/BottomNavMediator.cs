@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
 
 
         public override void OnRegister()
@@ -46,7 +47,8 @@ namespace TurboLabz.InstantFramework
 
         void OnFriendsButtonClicked()
         {
-            loadFriendsSignal.Dispatch();
+            loadArenaSignal.Dispatch();
+            //loadFriendsSignal.Dispatch();
         }
     }
 }

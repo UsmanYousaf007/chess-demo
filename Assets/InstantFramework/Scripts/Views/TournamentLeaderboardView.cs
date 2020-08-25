@@ -34,17 +34,17 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            PopulateTournamentInfoBar();
-            PopulateTournamentHeader();
-            PopulateFooter();
+            //PopulateTournamentInfoBar();
+            //PopulateTournamentHeader();
+            //PopulateFooter();
 
-            AddPlayerBar();
-            AddPlayerBar();
-            AddPlayerBar();
-            AddPlayerBar();
-            AddPlayerBar();
-            AddPlayerBar();
-            Sort();
+            //AddPlayerBar();
+            //AddPlayerBar();
+            //AddPlayerBar();
+            //AddPlayerBar();
+            //AddPlayerBar();
+            //AddPlayerBar();
+            //Sort();
         }
 
         private void Sort()
@@ -77,7 +77,7 @@ namespace TurboLabz.InstantFramework
             item.tournamentImage.sprite = Resources.Load("AD") as Sprite;
             item.prizeImage.sprite = Resources.Load("AL") as Sprite;
             item.countdownTimerText.text = "2h 23n";
-            item.playerTrophiesCountText.text = "8";
+            item.grandPrizeTrophiesCountText.text = "8";
             item.playerRankCountText.text = "4";
         }
 
@@ -125,7 +125,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
-            tournamentLeaderboardPlayerBars.Add(item.name+tournamentLeaderboardPlayerBars.Count.ToString(), item);
+            tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
         }
     }
 }

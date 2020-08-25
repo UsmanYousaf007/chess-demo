@@ -69,12 +69,14 @@ namespace TurboLabz.InstantFramework
             if (joinedTournaments != null)
             {
                 FillJoinedTournaments(joinedTournaments);
+                tournamentsModel.lastFetchedTime = DateTime.UtcNow;
             }
 
-            GSData liveTournaments = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.LIVE_TOURNAMENTS);
+            List<GSData> liveTournaments = response.ScriptData.GetGSDataList(GSBackendKeys.TournamentsOp.LIVE_TOURNAMENTS);
             if (liveTournaments != null)
             {
                 FillLiveTournaments(liveTournaments);
+                tournamentsModel.lastFetchedTime = DateTime.UtcNow;
             }
 
             GSData tournament = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENT);
@@ -108,7 +110,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> Send(string op, Action<object, Action<object>> onSuccess, string opJson = null)
         {
-            this.errorCode = BackendResult.FRIENDS_OP_FAILED;
+            this.errorCode = BackendResult.TOURNAMENTS_OP_FAILED;
             this.onSuccess = onSuccess;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)

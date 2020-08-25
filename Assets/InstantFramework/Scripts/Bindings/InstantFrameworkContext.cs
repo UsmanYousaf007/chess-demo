@@ -66,6 +66,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<BackendErrorSignal>().To<BackendErrorCommand>();
             commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
+            commandBinder.Bind<LoadArenaSignal>().To<LoadArenaCommand>();
+
             // Bind signals to models data loader commands
             commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
             commandBinder.Bind<UpdatePlayerDataSignal>().To<UpdatePlayerDataCommand>();
@@ -178,6 +180,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

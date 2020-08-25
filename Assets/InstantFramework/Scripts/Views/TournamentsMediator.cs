@@ -39,6 +39,30 @@ namespace TurboLabz.InstantFramework
             view.upcomingItemClickedSignal.AddListener(OnUpcomingItemClicked);
         }
 
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.ARENA_VIEW)
+            {
+                view.Show();
+            }
+        }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.ARENA_VIEW)
+            {
+                view.Hide();
+            }
+        }
+
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateView()
+        {
+            view.UpdateView();
+        }
+
         public void OnUpcomingItemClicked(TournamentLiveItem item)
         {
             TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");

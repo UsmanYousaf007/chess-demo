@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
             friendsLabel.text = localizationService.Get(LocalizationKey.NAV_FRIENDS);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
-            friendsButton.onClick.AddListener(SettingsButtonClicked);
+            friendsButton.onClick.AddListener(FriendsButtonClicked);
 
             UpdateButtons();
         }
@@ -86,7 +86,7 @@ namespace TurboLabz.InstantFramework
             homeButtonClickedSignal.Dispatch();
         }
 
-        void SettingsButtonClicked()
+        void FriendsButtonClicked()
         {
             friendsButtonClickedSignal.Dispatch();
         }

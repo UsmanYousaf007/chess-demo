@@ -62,6 +62,7 @@ namespace TurboLabz.InstantFramework
         SHOW_AD_SKIPPED_DLG,
         SHOW_LESSON_VIDEO,
         SHOW_TOPICS_VIEW,
-        SHOW_LESSONS_VIEW
+        SHOW_LESSONS_VIEW,
+        SHOW_ARENA
     }
 }

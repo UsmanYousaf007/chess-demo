@@ -71,7 +71,7 @@ namespace TurboLabz.InstantFramework
             GSData joinedTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.JOINED_TOURNAMENTS);
             FillJoinedTournaments(joinedTournamentsData);
 
-            GSData liveTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.LIVE_TOURNAMENTS);
+            List<GSData> liveTournamentsData = response.ScriptData.GetGSDataList(GSBackendKeys.LIVE_TOURNAMENTS);
             FillLiveTournaments(liveTournamentsData);
 
             playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
@@ -412,6 +412,8 @@ namespace TurboLabz.InstantFramework
 
         private void FillJoinedTournaments(GSData joinedTournaments)
         {
+            tournamentsModel.joinedTournaments.Clear();
+
             if (joinedTournaments != null)
             {
                 foreach (KeyValuePair<string, object> pair in joinedTournaments.BaseData)
@@ -467,13 +469,16 @@ namespace TurboLabz.InstantFramework
             return tournamentEntries;
         }
 
-        private void FillLiveTournaments(GSData liveTournaments)
+        private void FillLiveTournaments(List<GSData> liveTournaments)
         {
+            tournamentsModel.openTournaments.Clear();
+            tournamentsModel.upcomingTournaments.Clear();
+
             if (liveTournaments != null)
             {
-                foreach (KeyValuePair<string, object> pair in liveTournaments.BaseData)
+                for (int i = 0; i < liveTournaments.Count; i++)
                 {
-                    var tournamentGSData = pair.Value as GSData;
+                    var tournamentGSData = liveTournaments[i].BaseData[GSBackendKeys.Tournament.TOURNAMENT_KEY] as GSData;
                     LiveTournamentData liveTournament = new LiveTournamentData();
 
                     liveTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
@@ -484,7 +489,18 @@ namespace TurboLabz.InstantFramework
                     liveTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
                     liveTournament.waitTimeMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
 
-                    tournamentsModel.calculateCurrentStartTime(liveTournament);
+                    var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+                    if (grandPrizeGSData != null)
+                    {
+                        TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
+
+                        liveTournament.grandPrize = grandPrize;
+                    }
+
+                    long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
+                    long durationSeconds = liveTournament.durationMinutes * 60;
+                    long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
+                    liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
 
                     if (tournamentsModel.isTournamentOpen(liveTournament))
                     {
@@ -502,8 +518,11 @@ namespace TurboLabz.InstantFramework
         {
             if (rewardGSData != null) {
                 TournamentReward reward = new TournamentReward();
-                reward.type = GSParser.GetSafeString(rewardGSData, GSBackendKeys.TournamentReward.TYPE);
-                reward.quantity = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.QUANTITY);
+                reward.trophies = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.TROPHIES);
+                reward.chestType = GSParser.GetSafeString(rewardGSData, GSBackendKeys.TournamentReward.CHEST_TYPE);
+                reward.gems = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.GEMS);
+                reward.hints = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.HINTS);
+                reward.ratingBoosters = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.RATING_BOOSTERS);
 
                 return reward;
             }
