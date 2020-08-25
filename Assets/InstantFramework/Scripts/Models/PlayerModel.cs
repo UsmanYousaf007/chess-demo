@@ -80,6 +80,9 @@ namespace TurboLabz.InstantFramework
         public float rewardCurrentPoints { get; set; }
         public float rewardPointsRequired { get; set; }
 
+        // Inbox
+        public int inboxMessageCount { get; set; }
+
         private bool isSubscriber = false;
         private float MAX_VIDEO_PROGRESS = 100;
 

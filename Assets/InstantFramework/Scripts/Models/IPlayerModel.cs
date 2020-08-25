@@ -78,6 +78,9 @@ namespace TurboLabz.InstantFramework
         float rewardCurrentPoints { get; set; }
         float rewardPointsRequired { get; set; }
 
+        // Inbox
+        int inboxMessageCount { get; set; }
+
         void UpdateGoodsInventory(string key, int quantity);
         AdsRewardVO GetAdsRewardsData();
 

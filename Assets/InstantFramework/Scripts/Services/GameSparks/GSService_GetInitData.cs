@@ -74,6 +74,8 @@ namespace TurboLabz.InstantFramework
             GSData liveTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.LIVE_TOURNAMENTS);
             FillLiveTournaments(liveTournamentsData);
 
+            playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+
             storeAvailableSignal.Dispatch(false);
 
             ParseActiveChallenges(response.ScriptData);
