@@ -14,9 +14,8 @@ namespace TurboLabz.InstantGame
     {
         //Singals
         [Inject] public ShowPromotionSignal showPromotionSignal { get; set; }
-        [Inject] public ShowCoachTrainingDailogueSignal showCoachTrainingDailogueSignal { get; set; }
-        [Inject] public ShowStrengthTrainingDailogueSignal showStrengthTrainingDailogueSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -29,8 +28,8 @@ namespace TurboLabz.InstantGame
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
-        private const int TOTAL_PROMOTIONS = 1;
-        private List<PromotionVO> promotionCycle;
+        private const int TOTAL_PROMOTIONS = 5;
+        private static List<PromotionVO> promotionCycle;
         private static bool isUpdateBannerShown;
 
         public override void Execute()
@@ -115,7 +114,7 @@ namespace TurboLabz.InstantGame
 
                     return isUpdateBannerShown;
                 },
-                onClick = delegate (string key)
+                onClick = delegate
                 {
                     audioService.PlayStandardClick();
 #if UNITY_ANDROID
@@ -147,24 +146,93 @@ namespace TurboLabz.InstantGame
 
         private void Init()
         {
+            if (promotionCycle != null)
+            {
+                return;
+            }
+
             promotionCycle = new List<PromotionVO>();
 
-            var ultimateItem = new PromotionVO
+            var adsBanner = new PromotionVO
             {
                 cycleIndex = 1,
+                key = LobbyPromotionKeys.ADS_BANNER,
+                condition = delegate
+                {
+                    return !(playerModel.HasSubscription() || playerModel.OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK));
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.REMOVE_ADS_PACK, true);
+                }
+            };
+
+            var lessonsBanner = new PromotionVO
+            {
+                cycleIndex = 2,
+                key = LobbyPromotionKeys.LESSONS_BANNER,
+                condition = delegate
+                {
+                    return !playerModel.OwnsAllLessons();
+                },
+                onClick = delegate 
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
+                }
+            };
+
+            var themesBanner = new PromotionVO
+            {
+                cycleIndex = 3,
+                key = LobbyPromotionKeys.THEMES_BANNER,
+                condition = delegate
+                {
+                    return !playerModel.OwnsAllThemes();
+                },
+                onClick = delegate 
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
+                }
+            };
+
+            var subscriptionBanner = new PromotionVO
+            {
+                cycleIndex = 4,
                 key = LobbyPromotionKeys.SUBSCRIPTION_BANNER,
                 condition = delegate
                 {
                     return !playerModel.HasSubscription();
                 },
-                onClick = delegate (string key)
+                onClick = delegate 
                 {
                     audioService.PlayStandardClick();
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 }
             };
 
-            promotionCycle.Add(ultimateItem);
+            var rewardsBanner = new PromotionVO
+            {
+                cycleIndex = 5,
+                key = LobbyPromotionKeys.REWARDS_BANNER,
+                condition = delegate
+                {
+                    return !playerModel.HasSubscription();
+                },
+                onClick = delegate 
+                {
+                    audioService.PlayStandardClick();
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+                }
+            };
+
+            promotionCycle.Add(adsBanner);
+            promotionCycle.Add(lessonsBanner);
+            promotionCycle.Add(themesBanner);
+            promotionCycle.Add(subscriptionBanner);
+            promotionCycle.Add(rewardsBanner);
         }
 
         IEnumerator LoadNextPromotionAfter(float seconds)

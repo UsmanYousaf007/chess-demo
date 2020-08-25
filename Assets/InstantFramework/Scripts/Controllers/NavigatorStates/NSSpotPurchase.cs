@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -31,6 +31,10 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
                     return new NSMultiplayerResultsDlg();
+                }
+                else if (viewId == NavigatorViewId.LESSONS_VIEW)
+                {
+                    return new NSLessonsView();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)

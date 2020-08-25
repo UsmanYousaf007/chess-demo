@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
 
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+
         public void ShowPromotion(PromotionVO vo)
         {
             currentPromotion = vo;
@@ -50,39 +52,14 @@ namespace TurboLabz.InstantFramework
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
                     playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
+                    spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
 
-                    iapBanner = spawnedBanner.GetComponent<IAPBanner>();
-                    if (iapBanner != null)
+                    var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
+                    if (updateBanner != null)
                     {
-                        storeItem = metaDataModel.store.items[iapBanner.key];
-
-                        if (storeItem != null)
-                        {
-                            //iapBanner.price.text = storeItem.remoteProductPrice == null ?
-                                //localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
-                                //storeItem.remoteProductPrice;
-                            spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
-
-                            //if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
-                            //{
-                            //    iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
-                            //}
-                        }
-                        else
-                        {
-                            LogUtil.Log(string.Format("Banner Promotion: store item against key '{0}' not found", iapBanner.key), "red");
-                        }
+                        updateBanner.updateReleaseMessage.text = settingsModel.updateReleaseBannerMessage;
                     }
-                    else
-                    {
-                        var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
-                        if (updateBanner != null)
-                        {
-                            updateBanner.updateReleaseMessage.text = settingsModel.updateReleaseBannerMessage;
-                        }
 
-                        spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
-                    }
                 }
                 else
                 {
@@ -119,16 +96,9 @@ namespace TurboLabz.InstantFramework
 
         public void RemovePromotion(string key)
         {
-            if (iapBanner != null)
+            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
             {
-                //for closing promotion pass key 'none'
-                ShowPromotion(new PromotionVO
-                {
-                    cycleIndex = 0,
-                    key = "none",
-                    condition = null,
-                    onClick = null
-                });
+                loadPromotionSingal.Dispatch();
             }
         }
     }

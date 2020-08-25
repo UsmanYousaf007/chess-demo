@@ -8,12 +8,14 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
 using ArabicSupport;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
     public class PlayerModel : IPlayerModel
     {
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         public string id { get; set; }
         public long creationDate { get; set; }
@@ -330,6 +332,58 @@ namespace TurboLabz.InstantFramework
         public int GetInventoryItemCount(string key)
         {
             return OwnsVGood(key) ? inventory[key] : 0;
+        }
+
+        public bool OwnsAllLessons()
+        {
+            if (HasSubscription())
+            {
+                return true;
+            }
+
+            if (OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
+            {
+                return true;
+            }
+
+            var lessons = storeSettingsModel.lists[GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG];
+            int count = 0;
+
+            foreach (var lesson in lessons)
+            {
+                if(OwnsVGood(lesson.key))
+                {
+                    count++;
+                }
+            }
+
+            return count == lessons.Count;
+        }
+
+        public bool OwnsAllThemes()
+        {
+            if (HasSubscription())
+            {
+                return true;
+            }
+
+            if (OwnsVGood(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
+            {
+                return true;
+            }
+
+            var themes = storeSettingsModel.lists[GSBackendKeys.ShopItem.SKIN_SHOP_TAG];
+            int count = 0;
+
+            foreach (var theme in themes)
+            {
+                if (OwnsVGood(theme.key))
+                {
+                    count++;
+                }
+            }
+
+            return count == themes.Count;
         }
     }
 }

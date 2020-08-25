@@ -17,6 +17,7 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
+        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
 
         //Analytics Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -29,6 +30,7 @@ namespace TurboLabz.InstantGame
             view.Init();
             view.backSignal.AddListener(OnBackPressed);
             view.playVideoSingal.AddListener(OnPlayVideo);
+            view.unlockVideoSingal.AddListener(OnUnlockVideo);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -89,16 +91,42 @@ namespace TurboLabz.InstantGame
         {
             view.audioService.PlayStandardClick();
 
-            if (lesson.vo.isLocked)
-            {
-                setSubscriptionContext.Dispatch($"lessons_{lesson.vo.section.ToLower().Replace(' ', '_')}");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
-            }
-            else
+            if (!lesson.vo.isLocked)
             {
                 view.processing.SetActive(true);
                 appInfoModel.isVideoLoading = true;
                 loadVideoSignal.Dispatch(lesson.vo);
+            }
+            //else
+            //{
+            //    setSubscriptionContext.Dispatch($"lessons_{lesson.vo.section.ToLower().Replace(' ', '_')}");
+            //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            //}
+        }
+
+        private void OnUnlockVideo(LessonTile lesson)
+        {
+            view.audioService.PlayStandardClick();
+
+            var vo = new VirtualGoodsTransactionVO();
+            vo.buyItemShortCode = lesson.vo.videoId;
+            vo.buyQuantity = 1;
+
+            if (lesson.haveEnoughItemsToUnlock)
+            {
+                vo.consumeItemShortCode = lesson.vo.unlockItem.key;
+                vo.consumeQuantity = 1;
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else if (lesson.haveEnoughGemsToUnlock)
+            {
+                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                vo.consumeQuantity = lesson.vo.unlockItem.currency3Cost;
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }
         }
 
@@ -109,6 +137,24 @@ namespace TurboLabz.InstantGame
                (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
             {
                 view.UnlockLessons();
+            }
+        }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdateLessons();
+            }
+        }
+
+        [ListensTo(typeof(VirtualGoodBoughtSignal))]
+        public void OnItemUnlocked(string itemShortCode)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UnlockLesson(itemShortCode);
             }
         }
     }

@@ -90,5 +90,7 @@ namespace TurboLabz.InstantFramework
         float? GetVideoProgress(string videoId);
 
         int GetInventoryItemCount(string key);
+        bool OwnsAllLessons();
+        bool OwnsAllThemes();
     }
 }

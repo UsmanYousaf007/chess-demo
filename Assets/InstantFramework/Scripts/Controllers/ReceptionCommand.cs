@@ -28,7 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
 
         // Models
@@ -90,7 +89,6 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.sessionCount++;
                 initBackendOnceSignal.Dispatch();
                 loadLobbySignal.Dispatch();
-                loadPromotionSingal.Dispatch();
                 autoSubscriptionDailogueService.Show();
                 pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();

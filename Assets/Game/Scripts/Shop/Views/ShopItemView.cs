@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         private StoreItem storeItem;
         private static StoreIconsContainer iconsContainer;
         private static StoreThumbsContainer thumbsContainer;
+        private bool isOwned;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -132,6 +133,12 @@ namespace TurboLabz.InstantFramework
         private void OnBuyButtonClicked()
         {
             audioService.PlayStandardClick();
+
+            if (checkOwned && isOwned)
+            {
+                return;
+            }
+
             buyButtonSignal.Dispatch(shortCode);
         }
 
@@ -139,7 +146,19 @@ namespace TurboLabz.InstantFramework
         {
             if (checkOwned)
             {
-                var isOwned = playerModel.HasSubscription() || playerModel.OwnsVGood(shortCode);
+                if (shortCode.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
+                {
+                    isOwned = playerModel.OwnsAllThemes();
+                }
+                else if (shortCode.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
+                {
+                    isOwned = playerModel.OwnsAllLessons();
+                }
+                else
+                {
+                    isOwned = playerModel.HasSubscription() || playerModel.OwnsVGood(shortCode);
+                }
+
                 ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 buyButton.gameObject.SetActive(!isOwned);
                 owned.SetActive(isOwned);

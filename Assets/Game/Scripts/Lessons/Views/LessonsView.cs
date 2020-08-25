@@ -9,6 +9,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace TurboLabz.InstantGame
 {
@@ -26,13 +27,17 @@ namespace TurboLabz.InstantGame
         public GameObject lessonTile;
         public GameObject processing;
         public ScrollRect scrollView;
+        public GameObject gridRow;
+        public Transform emptyTile;
 
         private GameObjectsPool lessonTilePool;
+        private GameObjectsPool gridRowPool;
         private string lastTopicId = string.Empty;
         private List<LessonTile> lessonTiles;
 
         public Signal backSignal = new Signal();
         public Signal<LessonTile> playVideoSingal = new Signal<LessonTile>();
+        public Signal<LessonTile> unlockVideoSingal = new Signal<LessonTile>();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -41,6 +46,7 @@ namespace TurboLabz.InstantGame
         public void Init()
         {
             lessonTilePool = new GameObjectsPool(lessonTile);
+            gridRowPool = new GameObjectsPool(gridRow);
             backButton.onClick.AddListener(OnBackButtonClicked);
             backButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
             lessonTiles = new List<LessonTile>();
@@ -61,16 +67,34 @@ namespace TurboLabz.InstantGame
         {
             SetupTopic(vo.topicVO);
 
-            foreach(var lessonVO in vo.lessons)
+            int i = 0;
+            GameObject lessonContainer = null;
+
+            foreach (var lessonVO in vo.lessons)
             {
+                if (i % 2 == 0)
+                {
+                    lessonContainer = gridRowPool.GetObject();
+                    lessonContainer.SetActive(true);
+                    lessonContainer.transform.SetParent(lessonTileContainer, false);
+                }
+
                 var lesson = lessonTilePool.GetObject();
                 var lessonTile = lesson.GetComponent<LessonTile>();
                 lessonTile.Init(lessonVO);
                 lessonTile.button.onClick.RemoveAllListeners();
                 lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonTile));
-                lesson.transform.SetParent(lessonTileContainer, false);
+                lessonTile.unlockBtn.onClick.RemoveAllListeners();
+                lessonTile.unlockBtn.onClick.AddListener(() => unlockVideoSingal.Dispatch(lessonTile));
+                lesson.transform.SetParent(lessonContainer.transform, false);
                 lesson.SetActive(true);
                 lessonTiles.Add(lessonTile);
+                i++;
+
+                if (i == vo.lessons.Count)
+                {
+                    emptyTile.SetParent( i % 2 == 0 ? transform : lessonContainer.transform, false);
+                }
             }
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
@@ -82,6 +106,12 @@ namespace TurboLabz.InstantGame
             {
                 lessonTilePool.ReturnObject(tile.gameObject);
             }
+
+            foreach (var row in lessonTileContainer.GetComponentsInChildren<HorizontalLayoutGroup>())
+            {
+                gridRowPool.ReturnObject(row.gameObject);
+            }
+
             lessonTiles.Clear();
         }
 
@@ -115,6 +145,27 @@ namespace TurboLabz.InstantGame
             foreach (var lesson in lessonTiles)
             {
                 lesson.Unlock();
+            }
+        }
+
+        public void UpdateLessons()
+        {
+            foreach (var lesson in lessonTiles)
+            {
+                lesson.SetupUnlockButton();
+            }
+        }
+
+        public void UnlockLesson(string lessonId)
+        {
+            var lesson = (from lessonTile in lessonTiles
+                          where lessonTile.vo.videoId.Equals(lessonId)
+                          select lessonTile).FirstOrDefault();
+
+            if (lesson != null)
+            {
+                lesson.Unlock();
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
         }
     }
