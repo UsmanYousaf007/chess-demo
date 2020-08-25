@@ -29,6 +29,7 @@ namespace TurboLabz.InstantGame
         public ScrollRect scrollView;
         public GameObject gridRow;
         public Transform emptyTile;
+        public Button lessonsBanner;
 
         private GameObjectsPool lessonTilePool;
         private GameObjectsPool gridRowPool;
@@ -38,6 +39,7 @@ namespace TurboLabz.InstantGame
         public Signal backSignal = new Signal();
         public Signal<LessonTile> playVideoSingal = new Signal<LessonTile>();
         public Signal<LessonTile> unlockVideoSingal = new Signal<LessonTile>();
+        public Signal unlockAllLessonsSignal = new Signal();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -48,6 +50,7 @@ namespace TurboLabz.InstantGame
             lessonTilePool = new GameObjectsPool(lessonTile);
             gridRowPool = new GameObjectsPool(gridRow);
             backButton.onClick.AddListener(OnBackButtonClicked);
+            lessonsBanner.onClick.AddListener(OnLessonsBannerClicked);
             backButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_BACK_TO_GAME);
             lessonTiles = new List<LessonTile>();
         }
@@ -66,6 +69,7 @@ namespace TurboLabz.InstantGame
         public void UpdateView(LessonsViewVO vo)
         {
             SetupTopic(vo.topicVO);
+            lessonsBanner.gameObject.SetActive(vo.showBanner);
 
             int i = 0;
             GameObject lessonContainer = null;
@@ -167,6 +171,12 @@ namespace TurboLabz.InstantGame
                 lesson.Unlock();
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
+        }
+
+        private void OnLessonsBannerClicked()
+        {
+            audioService.PlayStandardClick();
+            unlockAllLessonsSignal.Dispatch();
         }
     }
 }

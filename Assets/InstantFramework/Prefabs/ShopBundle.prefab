@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 6923537109627155500}
   - component: {fileID: 6923537109627155502}
   - component: {fileID: 6923537109627155501}
+  - component: {fileID: 8516694558224548283}
   m_Layer: 5
   m_Name: Sparkle
   m_TagString: Untagged
@@ -306,6 +307,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8516694558224548283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923537109627155499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObj: {fileID: 6923537109627155501}
+  EndColor: {r: 1, g: 1, b: 1, a: 1}
+  StartColor: {r: 1, g: 1, b: 1, a: 0}
+  time: 6
 --- !u!1 &6923537109795709232
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,9 +517,14 @@ MonoBehaviour:
   checkOwned: 0
   owned: {fileID: 0}
   ownedText: {fileID: 0}
+  thumbnailButton: {fileID: 2829686532459200571}
   isGems: 0
   isBundle: 1
-  thumbnailButton: {fileID: 2829686532459200571}
+  showDiscount: 0
+  discountObj: {fileID: 0}
+  discountPercentage: 0
+  discountAmount: {fileID: 0}
+  discountValue: {fileID: 0}
 --- !u!114 &2829686532459200571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,6 +995,7 @@ GameObject:
   - component: {fileID: 6923537110594549577}
   - component: {fileID: 6923537110594549579}
   - component: {fileID: 6923537110594549578}
+  - component: {fileID: 3275939112831079048}
   m_Layer: 5
   m_Name: Sparkle
   m_TagString: Untagged
@@ -1036,6 +1059,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &3275939112831079048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923537110594549576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObj: {fileID: 6923537110594549578}
+  EndColor: {r: 1, g: 1, b: 1, a: 1}
+  StartColor: {r: 1, g: 1, b: 1, a: 0}
+  time: 6
 --- !u!1 &6923537110613863834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,6 +1384,7 @@ GameObject:
   - component: {fileID: 6923537110740828829}
   - component: {fileID: 6923537110740828831}
   - component: {fileID: 6923537110740828830}
+  - component: {fileID: 7586395360575008312}
   m_Layer: 5
   m_Name: Sparkle
   m_TagString: Untagged
@@ -1408,6 +1448,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &7586395360575008312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923537110740828828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObj: {fileID: 6923537110740828830}
+  EndColor: {r: 1, g: 1, b: 1, a: 1}
+  StartColor: {r: 1, g: 1, b: 1, a: 0}
+  time: 6
 --- !u!1 &6923537110971782554
 GameObject:
   m_ObjectHideFlags: 0

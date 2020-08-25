@@ -40,11 +40,15 @@ public class LessonTile : MonoBehaviour
 
     public void Unlock()
     {
+        if (vo.isLocked)
+        {
+            PlayAnimation();
+        }
+
         vo.isLocked = false;
         locked.SetActive(false);
         play.SetActive(true);
         unlockBtn.gameObject.SetActive(false);
-        PlayAnimation();
     }
 
     public void SetupUnlockButton()

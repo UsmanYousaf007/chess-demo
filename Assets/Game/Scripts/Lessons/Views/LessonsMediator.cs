@@ -18,6 +18,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
         //Analytics Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantGame
             view.backSignal.AddListener(OnBackPressed);
             view.playVideoSingal.AddListener(OnPlayVideo);
             view.unlockVideoSingal.AddListener(OnUnlockVideo);
+            view.unlockAllLessonsSignal.AddListener(OnUnlockAllLessons);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -136,6 +138,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled &&
                (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
             {
+                view.lessonsBanner.gameObject.SetActive(false);
                 view.UnlockLessons();
             }
         }
@@ -156,6 +159,11 @@ namespace TurboLabz.InstantGame
             {
                 view.UnlockLesson(itemShortCode);
             }
+        }
+
+        private void OnUnlockAllLessons()
+        {
+            purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
         }
     }
 }

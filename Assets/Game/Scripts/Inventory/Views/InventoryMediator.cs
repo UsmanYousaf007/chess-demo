@@ -11,13 +11,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
-        //DispatchSignals
+        //Dispatch Signals
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
             view.applyThemeSignal.AddListener(OnApplyTheme);
+            view.unlockAllThemesSignal.AddListener(OnUnlockAllThemes);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -52,6 +54,20 @@ namespace TurboLabz.InstantFramework
                 savePlayerInventorySignal.Dispatch("");
                 view.originalSkinId = view.playerModel.activeSkinId;
                 hAnalyticsService.LogEvent("selection", "menu", "", "theme_change");
+            }
+        }
+
+        private void OnUnlockAllThemes()
+        {
+            purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnProductPurchased(StoreItem item)
+        {
+            if (item.key.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
+            {
+                view.themesBanner.gameObject.SetActive(false);
             }
         }
     }

@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         public InventoryTab specialItem;
         public InventoryTab themes;
         public SkinItemView[] skinMenuItems;
+        public Button themesBanner;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
 
         //Signals
         public Signal applyThemeSignal = new Signal();
+        public Signal unlockAllThemesSignal = new Signal();
 
         [HideInInspector] public string originalSkinId;
 
@@ -40,6 +42,7 @@ namespace TurboLabz.InstantFramework
             themes.title.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
             specialItem.button.onClick.AddListener(OnClickSpecialItems);
             themes.button.onClick.AddListener(OnClickThemes);
+            themesBanner.onClick.AddListener(OnThemesBannerClicked);
             SetupTab(specialItem, themes);
         }
 
@@ -60,6 +63,10 @@ namespace TurboLabz.InstantFramework
             if (!isAvailable)
             {
                 SetupSkinItems();
+            }
+            else
+            {
+                themesBanner.gameObject.SetActive(!playerModel.OwnsAllThemes());
             }
         }
 
@@ -99,6 +106,12 @@ namespace TurboLabz.InstantFramework
         public bool HasSkinChanged()
         {
             return originalSkinId != playerModel.activeSkinId;
+        }
+
+        private void OnThemesBannerClicked()
+        {
+            audioService.PlayStandardClick();
+            unlockAllThemesSignal.Dispatch();
         }
     }
 }
