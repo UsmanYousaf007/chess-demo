@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
@@ -11,7 +12,7 @@ using UnityEngine.UI;
 
 namespace TurboLabz.InstantFramework
 {
-    public class InBoxView : View
+    public class InboxView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -23,38 +24,51 @@ namespace TurboLabz.InstantFramework
 
         public Transform listContainer;
         public GameObject sectionHeader;
+        public GameObject inBoxBarPrefab;
+        public GameObject emptyInBoxStrip;
 
         public Text heading;
         public Text stripHeading;
 
         // Player bar click signal
         [HideInInspector]
-        public Signal<InBoxBar> inBoxBarClickedSignal = new Signal<InBoxBar>();
-        private Dictionary<string, InBoxBar> inBoxBars = new Dictionary<string, InBoxBar>();
+        public Signal<InboxBar> inBoxBarClickedSignal = new Signal<InboxBar>();
+        private Dictionary<string, InboxBar> inBoxBars = new Dictionary<string, InboxBar>();
+        private Dictionary<string, Action<InboxMessage>> AddInboxBarFnMap = new Dictionary<string, Action<InboxMessage>>();
 
         public void Init()
         {
-            heading.text = "InBox";
-            stripHeading.text = "Rewards";
+            heading.text = localizationService.Get(LocalizationKey.INBOX_HEADING);
+            stripHeading.text = localizationService.Get(LocalizationKey.INBOX_SECTION_HEADER_REWARDS);
 
-            AddInBoxBar("InBoxBarTournamentResult");
-            AddInBoxBar("InBoxBarTournamentResult");
-            AddInBoxBar("InBoxBarTournamentResult");
-            AddInBoxBar("InBoxBarTournamentResult");
+            sectionHeader.gameObject.SetActive(false);
+            emptyInBoxStrip.gameObject.SetActive(false);
+
+            AddInboxBarFnMap.Add("TournamentReward", AddTournamentRewardBar);
+            AddInboxBarFnMap.Add("SubsciptoinDailyReward", AddDailySubscriptionRewardBar);
+            AddInboxBarFnMap.Add("DailyLeagueReward", AddDailyLeagueRewardBar);
+            AddInboxBarFnMap.Add("LeaguePromotionReward", AddLeaguePromotionRewardBar);
+
             Sort();
         }
 
         private void Sort()
         {
-            List<InBoxBar> items = new List<InBoxBar>();
+            List<InboxBar> items = new List<InboxBar>();
 
             // Copy all player bars into a list
-            foreach (KeyValuePair<string, InBoxBar> item in inBoxBars)
+            foreach (KeyValuePair<string, InboxBar> item in inBoxBars)
             {
                 items.Add(item.Value);
             }
 
+            sectionHeader.gameObject.SetActive(items.Count > 0);
+            emptyInBoxStrip.gameObject.SetActive(items.Count == 0);
+
             // Todo: Sort
+
+            items.Sort((x, y) => x.timeStamp > y.timeStamp ? -1 : ((x.timeStamp < y.timeStamp) ? 1 : 0));
+
 
             // Adust order
             int index = 0;
@@ -66,27 +80,105 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void AddInBoxBar(string inBoxBarPrefabName)
+        public void AddTournamentRewardBar(InboxMessage msg)
         {
-            GameObject objPrefab = Resources.Load(inBoxBarPrefabName) as GameObject;
+            GameObject obj = GameObject.Instantiate(inBoxBarPrefab);
+            InboxBar item = obj.GetComponent<InboxBar>();
 
-            GameObject obj = GameObject.Instantiate(objPrefab);
-            InBoxBar item = obj.GetComponent<InBoxBar>();
+            item.timeStamp = 0;
 
-            if (item.GetType() == typeof(InBoxBarTournamentResult))
-            {
-                InBoxBarTournamentResult itemTournamentResult = item as InBoxBarTournamentResult;
-                itemTournamentResult.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-                itemTournamentResult.headingText.text = "Tournament Results";
-                itemTournamentResult.subHeadingText.text = "Completed 08/10/2020";
-                itemTournamentResult.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
-                itemTournamentResult.trophiesCount.text = "5";
-            }
+            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.headingText.text = msg.heading;
+            item.subHeadingText.text = msg.subHeading;
+            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+
+            item.timeStamp = msg.timeStamp;
+            item.msgId = msg.id;
 
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
             inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+        }
+
+        public void AddDailySubscriptionRewardBar(InboxMessage msg)
+        {
+            GameObject obj = GameObject.Instantiate(inBoxBarPrefab);
+            InboxBar item = obj.GetComponent<InboxBar>();
+
+            item.timeStamp = 0;
+
+            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.headingText.text = msg.heading;
+            item.subHeadingText.text = msg.subHeading;
+            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+
+            item.timeStamp = msg.timeStamp;
+            item.msgId = msg.id;
+
+            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+
+            item.transform.SetParent(listContainer, false);
+            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+        }
+
+        public void AddDailyLeagueRewardBar(InboxMessage msg)
+        {
+            GameObject obj = GameObject.Instantiate(inBoxBarPrefab);
+            InboxBar item = obj.GetComponent<InboxBar>();
+
+            item.timeStamp = 0;
+
+            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.headingText.text = msg.heading;
+            item.subHeadingText.text = msg.subHeading;
+            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+
+            item.timeStamp = msg.timeStamp;
+            item.msgId = msg.id;
+
+            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+
+            item.transform.SetParent(listContainer, false);
+            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+        }
+
+        public void AddLeaguePromotionRewardBar(InboxMessage msg)
+        {
+            GameObject obj = GameObject.Instantiate(inBoxBarPrefab);
+            InboxBar item = obj.GetComponent<InboxBar>();
+
+            item.timeStamp = 0;
+
+            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.headingText.text = msg.heading;
+            item.subHeadingText.text = msg.subHeading;
+            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+
+            item.timeStamp = msg.timeStamp;
+            item.msgId = msg.id;
+
+            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+
+            item.transform.SetParent(listContainer, false);
+            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+        }
+
+        public void AddMessages(Dictionary<string, InboxMessage> messages)
+        {
+            //inBoxBars.Clear();
+            //listContainer.DetachChildren();
+
+            foreach (KeyValuePair<string, InboxMessage> obj in messages)
+            {
+                InboxMessage msg = obj.Value;
+                if (AddInboxBarFnMap.ContainsKey(msg.type))
+                {
+                    AddInboxBarFnMap[msg.type].Invoke(msg);
+                }
+            }
+
+            Sort();
         }
     }
 }

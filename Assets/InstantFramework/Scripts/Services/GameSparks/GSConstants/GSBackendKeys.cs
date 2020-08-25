@@ -390,7 +390,13 @@ namespace TurboLabz.InstantFramework
             public const string TOURNAMENT = "tournament";
             public const string TOURNAMENTS = "tournaments";
             public const string LIVE_TOURNAMENTS = "liveTournaments";
+        }
 
+        public static class InBoxOp
+        {
+            public const string ERROR = "error";
+            public const string GET = "get";
+            public const string COLLECT = "collect";
         }
 
         public static class OfferDrawOp

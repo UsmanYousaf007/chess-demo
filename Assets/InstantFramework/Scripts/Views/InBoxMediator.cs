@@ -6,15 +6,19 @@
 using UnityEngine;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
-    public class InBoxMediator : Mediator
+    public class InboxMediator : Mediator
     {
         // View injection
-        [Inject] public InBoxView view { get; set; }
+        [Inject] public InboxView view { get; set; }
+
+        [Inject] public IBackendService backendService { get; set; }
 
         // Dispatch signals
+        //[Inject] public InboxMessageCollectSignal inboxMessageCollectSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -31,9 +35,18 @@ namespace TurboLabz.InstantFramework
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
         }
 
-        public void OnInBoxBarClicked(InBoxBar inBoxBar)
+        public void OnInBoxBarClicked(InboxBar inboxBar)
         {
-            TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inBoxBar.GetType().ToString());
+            backendService.InBoxOpCollect(inboxBar.msgId);
+
+            //inboxMessageCollectSignal.Dispatch(inboxBar.msgId);
+            TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
+        }
+
+        [ListensTo(typeof(InboxAddMessagesSignal))]
+        public void OnInboxAddMessages(Dictionary<string, InboxMessage> messages)
+        {
+            view.AddMessages(messages);
         }
     }
 }

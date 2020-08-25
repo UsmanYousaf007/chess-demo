@@ -347,7 +347,16 @@ namespace TurboLabz.InstantFramework
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
-		public static void LogPublicProfile(PublicProfile publicProfile)
+        public static void ParseInboxMessage(InboxMessage msg, GSData data)
+        {
+            msg.id = data.GetString("id");
+            msg.type = data.GetString("type");
+            msg.heading = data.GetString("heading");
+            msg.subHeading = data.GetString("body");
+            msg.timeStamp = data.GetLong("time").Value;
+        }
+
+        public static void LogPublicProfile(PublicProfile publicProfile)
 		{
 			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
 			LogUtil.Log("********** publicProfile.countryId" + " " + publicProfile.countryId);
@@ -373,6 +382,17 @@ namespace TurboLabz.InstantFramework
 				LogFriend(friend.Value);
 			}
 		}
+
+        public static void LogInboxMessage(InboxMessage msg)
+        {
+            TLUtils.LogUtil.Log("<<---------- Inbox Message <<----------");
+            TLUtils.LogUtil.Log("id = " + msg.id);
+            TLUtils.LogUtil.Log("type = " + msg.type);
+            TLUtils.LogUtil.Log("heading = " + msg.heading);
+            TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
+            TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+            TLUtils.LogUtil.Log("<<---------- Inbox Message End <<----------");
+        }
 
         public static void LogPlayerInfo(IPlayerModel playerModel)
         {
