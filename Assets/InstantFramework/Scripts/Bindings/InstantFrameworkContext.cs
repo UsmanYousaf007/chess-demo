@@ -177,6 +177,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<VirtualGoodBoughtSignal>().ToSingleton();
             injectionBinder.Bind<InventoryVideoResultSignal>().ToSingleton();
             injectionBinder.Bind<VirtualGoodsTransactionResultSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateBottomNavSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

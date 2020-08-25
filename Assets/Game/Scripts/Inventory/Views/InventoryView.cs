@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public InventoryTab themes;
         public SkinItemView[] skinMenuItems;
         public Button themesBanner;
+        public GameObject themesAlert;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -29,6 +30,7 @@ namespace TurboLabz.InstantFramework
         //Models 
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Signals
         public Signal applyThemeSignal = new Signal();
@@ -50,6 +52,7 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.SetActive(true);
             originalSkinId = playerModel.activeSkinId;
+            themesAlert.SetActive(!preferencesModel.themesTabVisited);
         }
 
         public void Hide()
@@ -81,6 +84,8 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             originalSkinId = playerModel.activeSkinId;
+            preferencesModel.themesTabVisited = true;
+            themesAlert.SetActive(false);
             SetupTab(themes, specialItem);
         }
 

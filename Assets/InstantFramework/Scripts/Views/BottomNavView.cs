@@ -23,8 +23,6 @@ namespace TurboLabz.InstantFramework
 {
     public class BottomNavView : View
     {
-        [Inject] public ILocalizationService localizationService { get; set; }
-
         public enum ButtonId
         {
             Home,
@@ -50,6 +48,9 @@ namespace TurboLabz.InstantFramework
         public Button inventoryButton;
         public Button shopButton;
 
+        public GameObject shopAlert;
+        public GameObject inventoryAlert;
+
         public Signal homeButtonClickedSignal = new Signal();
         public Signal friendsButtonClickedSignal = new Signal();
         public Signal inventoryButtonClickedSignal = new Signal();
@@ -57,6 +58,10 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
+
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public void Init()
         {
@@ -71,6 +76,17 @@ namespace TurboLabz.InstantFramework
             shopButton.onClick.AddListener(ShopButtonClicked);
 
             UpdateButtons();
+        }
+
+        private void OnEnable()
+        {
+            UpdateAlerts();
+        }
+
+        public void UpdateAlerts()
+        {
+            shopAlert.SetActive(!preferencesModel.shopTabVisited);
+            inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
         void UpdateButtons()
@@ -132,12 +148,14 @@ namespace TurboLabz.InstantFramework
         void InventoryButtonClicked()
         {
             audioService.PlayStandardClick();
+            preferencesModel.inventoryTabVisited = true;
             inventoryButtonClickedSignal.Dispatch();
         }
 
         void ShopButtonClicked()
         {
             audioService.PlayStandardClick();
+            preferencesModel.shopTabVisited = true;
             shopButtonClickedSignal.Dispatch();
         }
     }

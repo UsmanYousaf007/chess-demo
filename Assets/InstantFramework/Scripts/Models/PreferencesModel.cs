@@ -73,6 +73,9 @@ namespace TurboLabz.InstantGame
         public int gameCountCPU { get; set; }
         public bool isAllLessonsCompleted { get; set; }
         public int cpuPowerUpsUsedCount { get; set; }
+        public bool inventoryTabVisited { get; set; }
+        public bool shopTabVisited { get; set; }
+        public bool themesTabVisited { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -125,6 +128,9 @@ namespace TurboLabz.InstantGame
             gameCountCPU = 0;
             isAllLessonsCompleted = false;
             cpuPowerUpsUsedCount = 0;
+            themesTabVisited = false;
+            inventoryTabVisited = false;
+            shopTabVisited = false;
             ResetDailyPrefers();
         }
 
@@ -393,6 +399,21 @@ namespace TurboLabz.InstantGame
                     cpuPowerUpsUsedCount = reader.Read<int>(PrefKeys.CPU_POWERUPS_USED);
                 }
 
+                if (reader.HasKey(PrefKeys.INVENTORY_TAB_VISITED))
+                {
+                    inventoryTabVisited = reader.Read<bool>(PrefKeys.INVENTORY_TAB_VISITED);
+                }
+
+                if (reader.HasKey(PrefKeys.SHOP_TAB_VISITED))
+                {
+                    shopTabVisited = reader.Read<bool>(PrefKeys.SHOP_TAB_VISITED);
+                }
+
+                if (reader.HasKey(PrefKeys.THEMES_TAB_VISITED))
+                {
+                    themesTabVisited = reader.Read<bool>(PrefKeys.THEMES_TAB_VISITED);
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -462,6 +483,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.GAME_COUNT_CPU, gameCountCPU);
                 writer.Write<bool>(PrefKeys.LESSONS_COMPLETED, isAllLessonsCompleted);
                 writer.Write<int>(PrefKeys.CPU_POWERUPS_USED, cpuPowerUpsUsedCount);
+                writer.Write<bool>(PrefKeys.INVENTORY_TAB_VISITED, inventoryTabVisited);
+                writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
+                writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
 
                 writer.Close();
             }

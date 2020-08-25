@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -56,11 +57,19 @@ namespace TurboLabz.InstantFramework
         void OnInventoryButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch();
         }
 
         void OnShopButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            updateBottomNavSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(UpdateBottomNavSignal))]
+        public void OnUpdateView()
+        {
+            view.UpdateAlerts();
         }
     }
 }

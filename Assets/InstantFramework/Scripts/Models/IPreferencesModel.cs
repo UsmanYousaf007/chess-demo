@@ -52,6 +52,9 @@ namespace TurboLabz.InstantFramework
         int gameCountCPU { get; set; }
         bool isAllLessonsCompleted { get; set; }
         int cpuPowerUpsUsedCount { get; set; }
+        bool inventoryTabVisited { get; set; }
+        bool shopTabVisited { get; set; }
+        bool themesTabVisited { get; set; }
 
         void ResetDailyPrefers();
 
