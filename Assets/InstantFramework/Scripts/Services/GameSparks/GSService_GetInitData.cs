@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
 using UnityEngine;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -412,17 +413,29 @@ namespace TurboLabz.InstantFramework
             if (downloadablesData != null)
             {
                 downloadablesModel.downloadableItems = new Dictionary<string, DownloadableItem>();
+
                 foreach (var downloadable in downloadablesData)
                 {
-                    DownloadableItem item = new DownloadableItem();
-                    item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
-                    item.shortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE).RemovePlatfrom();
-                    item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
-                    item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
-                    item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
-                    downloadablesModel.downloadableItems.Add(item.shortCode, item);
+                    string downloadShortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    if (PlatformUtil.IsCurrentPlatformSuffixAppended(downloadShortCode))
+                    {
+                        DownloadableItem item = new DownloadableItem();
+                        item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
+                        item.downloadShortCode = downloadShortCode;
+                        item.shortCode = downloadShortCode.RemovePlatfrom();
+                        item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
+                        item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
+                        item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
+                        downloadablesModel.downloadableItems.Add(item.shortCode, item);
+                    }
+                    
                 }
             }
+        }
+
+        private void GetFilteredDownloadbleItems(List<GSData> downloadablesData)
+        {
+            //downloadablesData
         }
     }
 

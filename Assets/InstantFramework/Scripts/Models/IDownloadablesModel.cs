@@ -12,8 +12,8 @@ namespace TurboLabz.InstantFramework
         void Init();
         bool IsUpdateAvailable(string shortCode);
         void MarkUpdated(string shortCode);
-        void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn, ContentType? contentType);
-        void LoadFromCache(string shortCode, bool shouldLoad);
+        void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn = null, ContentType? contentType = null);
+        void PreloadFromCache(string shortCode, bool shouldLoad);
         AssetBundle GetBundleFromVersionCache(string shortCode);
     }
 }

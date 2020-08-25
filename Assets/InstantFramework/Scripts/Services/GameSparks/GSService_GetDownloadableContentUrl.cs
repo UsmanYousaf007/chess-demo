@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
                 GetDownloadableResponse response = (GetDownloadableResponse)data;
                 onSuccessExternal?.Invoke(response.Url);
             }
-
         }
 
         #region request
@@ -37,7 +36,6 @@ namespace TurboLabz.InstantFramework
                 this.errorCode = BackendResult.DOWNLOAD_URL_GET_FAILED;
                 this.onSuccess = onSuccess;
                 this.onSuccessExternal = onSuccessExternal;
-                shortCode = shortCode.AppendPlatform();
 
                 new GetDownloadableRequest()
                     .SetShortCode(shortCode)

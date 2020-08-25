@@ -10,10 +10,11 @@ namespace TurboLabz.InstantFramework
     {
         public string url { get; set; }
         public string shortCode { get; set; }
+        public string downloadShortCode { get; set; }
         public long size { get; set; }
         public long lastModified { get; set; }
         public AssetBundle bundle { get; set; }
-        public bool loadFromCache { get; set; }
+        public bool preloadFromCache { get; set; }
     }
 
     public enum ContentType
@@ -63,7 +64,7 @@ namespace TurboLabz.InstantFramework
 
         private void LoadBundlesFromCachePreLaunch()
         {
-            foreach (var item in versionCache.Where(i=>i.Value.loadFromCache))
+            foreach (var item in versionCache.Where(i=>i.Value.preloadFromCache))
             {
                 var shortCode = item.Value.shortCode;
                 Get(shortCode);
@@ -72,7 +73,6 @@ namespace TurboLabz.InstantFramework
 
         public void Get(string shortCode, Action<BackendResult, AssetBundle> callbackFn = null, ContentType? contentType = null )
         {   
-            TLUtils.LogUtil.Log("BundleRefs - requesting download " + shortCode, "cyan");
             try
             {
                 downloadablesService.GetDownloadableContent(shortCode, callbackFn, contentType);
@@ -89,11 +89,11 @@ namespace TurboLabz.InstantFramework
             return !versionCache.ContainsKey(shortCode) ? true : versionCache[shortCode].lastModified < downloadableItems[shortCode].lastModified;
         }
 
-        public void LoadFromCache(string shortCode, bool shouldLoad)
+        public void PreloadFromCache(string shortCode, bool shouldLoad)
         {
             if (downloadableItems.ContainsKey(shortCode))
             {
-                downloadableItems[shortCode].loadFromCache = shouldLoad;
+                downloadableItems[shortCode].preloadFromCache = shouldLoad;
                 MarkUpdated(shortCode);
             }
         }
@@ -174,10 +174,11 @@ namespace TurboLabz.InstantFramework
             {
                 string iStr = i.ToString();
                 writer.Write<string>("key" + iStr, dlItem.Key);
+                writer.Write<string>("downloadShortCode" + iStr, dlItem.Value.downloadShortCode);
                 writer.Write<string>("shortCode" + iStr, dlItem.Value.shortCode);
                 writer.Write<long>("size" + iStr, dlItem.Value.size);
                 writer.Write<long>("lastModified" + iStr, dlItem.Value.lastModified);
-                writer.Write<bool>("loadFromCache" + iStr, dlItem.Value.loadFromCache);
+                writer.Write<bool>("loadFromCache" + iStr, dlItem.Value.preloadFromCache);
                 //writer.Write<string>("url" + iStr, dlItem.Value.url);
                 i++;
             }
@@ -194,10 +195,11 @@ namespace TurboLabz.InstantFramework
                 DownloadableItem dlItem = new DownloadableItem();
 
                 string key = reader.Read<string>("key" + iStr);
+                dlItem.downloadShortCode = reader.Read<string>("downloadShortCode" + iStr);
                 dlItem.shortCode = reader.Read<string>("shortCode" + iStr);
                 dlItem.size = reader.Read<long>("size" + iStr);
                 dlItem.lastModified = reader.Read<long>("lastModified" + iStr);
-                dlItem.loadFromCache = reader.Read<bool>("loadFromCache" + iStr);
+                dlItem.preloadFromCache = reader.Read<bool>("loadFromCache" + iStr);
                 //dlItem.url = reader.Read<string>("url" + iStr);
 
                 dict.Add(key, dlItem);

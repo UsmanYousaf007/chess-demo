@@ -39,10 +39,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public IPromise<BackendResult, AssetBundle> Send(DownloadableContentUrlFn getDownloadableContentUrlFn,
-                                                        string shortCode, long lastModifiedTime)
+                                                        string downloadShortCode, string shortCode, long lastModifiedTime)
         {
-
-            TLUtils.LogUtil.Log("Initiated downloaded bundle request for - " + shortCode, "cyan");
 
             this.shortCode = shortCode;
             this.lastModifiedTime = lastModifiedTime;
@@ -51,11 +49,10 @@ namespace TurboLabz.InstantFramework
 
             if (getDownloadableContentUrlFn != null)
             {
-                getDownloadableContentUrlFn(shortCode, OnExternalSuccess).Then(OnUrlDownloadComplete);
+                getDownloadableContentUrlFn(downloadShortCode, OnExternalSuccess).Then(OnUrlDownloadComplete);
             }
             else
             {
-                TLUtils.LogUtil.Log("Skip downloaded bundle URL request", "cyan");
                 this.downloadUrl = "FromCache";
                 OnUrlDownloadComplete(BackendResult.SUCCESS);
             }
@@ -92,8 +89,6 @@ namespace TurboLabz.InstantFramework
             string name = Application.companyName + "//" + Application.productName + "//" + "downlooadables//" + shortCode;
             www.downloadHandler = new DownloadHandlerAssetBundle(url, name, hash, 0);
 
-            TLUtils.LogUtil.Log("Initiated downloaded bundle request - " + name + " hash: " + hash, "cyan");
-
             yield return www.SendWebRequest();
 
             if (string.IsNullOrEmpty(www.error))
@@ -103,24 +98,15 @@ namespace TurboLabz.InstantFramework
                     yield return null;
                 }
 
-                TLUtils.LogUtil.Log("Fetch bundle from download handler - ", "cyan");
-
-
                 AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
-                Debug.Log("Bundle fetched: bundle name is " + bundle.name);
-                TLUtils.LogUtil.Log("Downloaded bundle - " + shortCode, "cyan");
                 promise.Dispatch(BackendResult.SUCCESS, bundle);
                 contentSignal.Dispatch(contentType, ContentDownloadStatus.Completed);
             }
             else
             {
-                TLUtils.LogUtil.Log("FAILED to to fetch bundle!! - ", "cyan");
                 promise.Dispatch(BackendResult.DOWNLOADABLE_CONTENT_GET_FAILED, null);
                 contentSignal.Dispatch(contentType, ContentDownloadStatus.Failed);
             }
-
-
         }
-
     }
 }

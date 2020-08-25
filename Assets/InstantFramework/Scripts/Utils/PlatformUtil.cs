@@ -34,5 +34,12 @@ namespace TurboLabz.TLUtils {
             else
                 return str;
         }
+
+        public static bool IsCurrentPlatformSuffixAppended(string str)
+        {
+            string substring = "_" + GetPlatform().ToString().ToLower();
+            return str.EndsWith(substring);
+                
+        }
     }
 }

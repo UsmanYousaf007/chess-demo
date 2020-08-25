@@ -15,10 +15,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
         [Inject] public DownloadableContentEventSignal dlcSignal { get; set; }
-        private string downloadShortCode;
+        private string shortCode;
         private Action<BackendResult, AssetBundle> onDownloadContentCompleteCB;
 
-        public void GetDownloadableContent(string shortCode, Action<BackendResult, AssetBundle> callbackFn,
+        public void GetDownloadableContent( string shortCode, Action<BackendResult, AssetBundle> callbackFn,
                                             ContentType? contentType)
         {
             // Note: GetDownloadableContentRequest is not in the Strange context, but it uses a function from IBackendService. So the backend service
@@ -40,21 +40,20 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            downloadShortCode = shortCode;
+            this.shortCode = shortCode;
             onDownloadContentCompleteCB = callbackFn;
 
             if (downloadablesModel.IsUpdateAvailable(shortCode))
             {
-                TLUtils.LogUtil.Log("GetDownloadableContent()==> Download from URL", "cyan");
                 new GetDownloadableContentRequest(dlcSignal, contentType).Send(backendService.GetDownloadableContentUrl,
-                                                    dlItem.shortCode, dlItem.lastModified)
+                                                    dlItem.downloadShortCode,dlItem.shortCode, dlItem.lastModified)
                                                     .Then(OnDownloadContentComplete);
             }
 
             else
             {
-                TLUtils.LogUtil.Log("GetDownloadableContent()==> Fetch from Cache", "cyan");
-                new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.shortCode, dlItem.lastModified)
+                new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.downloadShortCode,
+                                                    dlItem.shortCode, dlItem.lastModified)
                                                     .Then(OnDownloadContentComplete);
             }
         }
@@ -63,15 +62,8 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                downloadablesModel.downloadableItems[downloadShortCode].bundle = bundle;
-                downloadablesModel.MarkUpdated(downloadShortCode);
-
-                string[] all = bundle.GetAllAssetNames();
-                TLUtils.LogUtil.Log("----> Bundle assets <---- " + all.Length, "yellow");
-                for (int i = 0; i < all.Length; i++)
-                {
-                    TLUtils.LogUtil.Log("bundle asset: " + all[i], "yellow");
-                }
+                downloadablesModel.downloadableItems[shortCode].bundle = bundle;
+                downloadablesModel.MarkUpdated(shortCode);
             }
 
             onDownloadContentCompleteCB?.Invoke(result, bundle);

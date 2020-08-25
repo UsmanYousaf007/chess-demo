@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
                     LoadTransform(container);
                     if (currentSkinId != null)
                     {
-                        downloadablesModel.LoadFromCache(currentSkinId, false);
+                        downloadablesModel.PreloadFromCache(currentSkinId, false);
                     }
                     currentSkinId = newSkinId;
                     refreshSkinLinksSignal.Dispatch();
@@ -55,17 +55,15 @@ namespace TurboLabz.InstantFramework
 
         public void OnSkinBundleLoaded(BackendResult result, AssetBundle bundle)
         {
-            TLUtils.LogUtil.Log("SkinRefs - requesting download SKN_AMZ result: " + result.ToString(), "cyan");
-
             if (result == BackendResult.SUCCESS)
             {
                 SkinContainer container = bundle.LoadAsset<SkinContainer>(newSkinId);
                 LoadTransform(container);
                 if (currentSkinId != null)
                 {
-                    downloadablesModel.LoadFromCache(currentSkinId, false);
+                    downloadablesModel.PreloadFromCache(currentSkinId, false);
                 }
-                downloadablesModel.LoadFromCache(newSkinId, true);
+                downloadablesModel.PreloadFromCache(newSkinId, true);
                 currentSkinId = newSkinId;
             }
             refreshSkinLinksSignal.Dispatch();
