@@ -5,23 +5,18 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TurboLabz.InstantFramework
 {
-    public class TournamentLiveItem : MonoBehaviour
+    public class InBoxBarTournamentResult : InBoxBar
     {
-        public Image bg;
-        public Text headingLabel;
-        public Text subHeadingLabel;
-        public Image tournamentImage;
-        public Image prizeImage;
-        public Text countdownTimerText;
-
-        public Text playerTrophiesCountText;
-        public Text playerRankCountText;
-
-        public Button button;
+        public Image thumbnailBg;
+        public Text headingText;
+        public Text subHeadingText;
+        public Image thumbnail;
+        public Text trophiesCount;
     }
 }

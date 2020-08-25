@@ -159,8 +159,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2178914900432450761}
   - component: {fileID: 2176746357830543731}
+  - component: {fileID: 1301423618960124357}
   m_Layer: 5
-  m_Name: InBoxBar
+  m_Name: InBoxBarTournamentResult
   m_TagString: FriendStrip.Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,6 +203,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099828837320243397}
   m_CullTransparentMesh: 0
+--- !u!114 &1301423618960124357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099828837320243397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef2f597b95824b5fafc3943f57d628a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 2068652422211778413}
+  thumbnailBg: {fileID: 399853548698006986}
+  headingText: {fileID: 2069968462965195305}
+  subHeadingText: {fileID: 2721607330947863127}
+  thumbnail: {fileID: 2721607331786558566}
+  trophiesCount: {fileID: 5756455236857322328}
 --- !u!1 &2099847016110373551
 GameObject:
   m_ObjectHideFlags: 0

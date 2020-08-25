@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSkin()
         {
-            Assertions.Assert(sourceImage != null, "Source Image Not Set For Skin Link: " + gameObject.name);
+            //Assertions.Assert(sourceImage != null, "Source Image Not Set For Skin Link: " + gameObject.name);
 
             if (sourceImage == null || sourceImage.sprite == null)
             {
