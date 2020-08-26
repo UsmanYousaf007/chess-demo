@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
             view.friendsButtonClickedSignal.AddListener(OnFriendsButtonClicked);
             view.inventoryButtonClickedSignal.AddListener(OnInventoryButtonClicked);
             view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
+            view.arenaButtonClickedSignal.AddListener(OnArenaButtonClicked);
         }
 
         public override void OnRemove()
@@ -48,12 +49,19 @@ namespace TurboLabz.InstantFramework
         void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
         }
 
         void OnFriendsButtonClicked()
         {
+            loadFriendsSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
+        }
+
+        void OnArenaButtonClicked()
+        {
             loadArenaSignal.Dispatch();
-            //loadFriendsSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
         }
 
         void OnInventoryButtonClicked()

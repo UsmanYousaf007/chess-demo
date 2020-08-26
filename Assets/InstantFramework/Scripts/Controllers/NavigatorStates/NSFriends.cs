@@ -90,6 +90,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
 
             return null;
         }

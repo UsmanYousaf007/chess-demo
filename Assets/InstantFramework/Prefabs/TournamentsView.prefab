@@ -1198,8 +1198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 460.5, y: -50}
-  m_SizeDelta: {x: 921, y: 100}
+  m_AnchoredPosition: {x: 498, y: -50}
+  m_SizeDelta: {x: 996, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &393412944974194929
 GameObject:
@@ -3730,6 +3730,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393412944879450079}
     m_Modifications:
+    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_Name
+      value: Progress Bar Particles Final
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805238, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3839,16 +3849,6 @@ PrefabInstance:
         type: 3}
       propertyPath: playOnAwake
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_Name
-      value: Progress Bar Particles Final
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087500997421805233, guid: ac40c97f61f104b598219f89f2a03363,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1087500997421805239, guid: ac40c97f61f104b598219f89f2a03363,
         type: 3}
@@ -4159,6 +4159,41 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114247154888059070, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: buttonId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921895883435769001, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921895883435769001, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921895883435769001, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921895883435769001, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081615949960843937, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081615949960843937, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4, type: 3}
 --- !u!1 &391872272724899593 stripped
@@ -4180,6 +4215,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393412946195439992}
     m_Modifications:
+    - target: {fileID: 5591997171372360935, guid: ffba95e4b1fc445c4a127c9b71d6be41,
+        type: 3}
+      propertyPath: m_Name
+      value: LeagueProfileStrip
+      objectReference: {fileID: 0}
     - target: {fileID: 5591997171372360936, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4284,11 +4324,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5591997171372360935, guid: ffba95e4b1fc445c4a127c9b71d6be41,
-        type: 3}
-      propertyPath: m_Name
-      value: LeagueProfileStrip
       objectReference: {fileID: 0}
     - target: {fileID: 5591997172205225390, guid: ffba95e4b1fc445c4a127c9b71d6be41,
         type: 3}

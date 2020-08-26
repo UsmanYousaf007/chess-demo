@@ -353,6 +353,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
                 { LocalizationKey.NAV_INVENTORY, "Inventory" },
+                { LocalizationKey.NAV_ARENA, "Arena" },
 
                 #endregion
 
