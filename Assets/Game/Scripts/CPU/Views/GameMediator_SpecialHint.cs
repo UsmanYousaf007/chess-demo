@@ -23,8 +23,15 @@ namespace TurboLabz.CPU
 
         private void OnGetSpecialHint(VirtualGoodsTransactionVO vo)
         {
-            virtualGoodsTransactionResultSignal.AddOnce(OnSpecialHintConsumed);
-            virtualGoodsTransactionSignal.Dispatch(vo);
+            if (vo.consumeItemShortCode.Equals("premium"))
+            {
+                OnSpecialHintConsumed(BackendResult.SUCCESS);
+            }
+            else
+            {
+                virtualGoodsTransactionResultSignal.AddOnce(OnSpecialHintConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
         }
 
         private void OnSpecialHintConsumed(BackendResult result)
