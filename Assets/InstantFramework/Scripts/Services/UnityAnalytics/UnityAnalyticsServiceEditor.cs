@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Text;
 using System;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -165,6 +166,17 @@ namespace TurboLabz.InstantFramework
                 Print(evt);
             }
             Print(evtStr);
+        }
+
+        public void ResourceEvent(GAResourceFlowType flowType, string currency, int amount, string itemType, string itemId)
+        {
+            var paramDict = new Dictionary<string, object>();
+            paramDict.Add("currency", currency);
+            paramDict.Add("amount", amount);
+            paramDict.Add("itemType", itemType);
+            paramDict.Add("itemId", itemId);
+
+            Print(flowType.ToString(), paramDict);
         }
     }
 }

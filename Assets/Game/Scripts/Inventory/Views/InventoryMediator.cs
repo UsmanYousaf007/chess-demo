@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnUnlockAllThemes()
         {
+            analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.unlock_all_themes);
             purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
         }
 
@@ -67,7 +68,12 @@ namespace TurboLabz.InstantFramework
         {
             if (item.key.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
             {
-                view.themesBanner.gameObject.SetActive(false);
+                view.ShowThemeBanner(false);
+
+                if (view.isActiveAndEnabled)
+                {
+                    analyticsService.Event(AnalyticsEventId.banner_purchased, AnalyticsContext.unlock_all_themes);
+                }
             }
         }
     }

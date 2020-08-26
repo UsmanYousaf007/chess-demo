@@ -127,7 +127,17 @@ namespace TurboLabz.InstantFramework
         all_lessons_complete,
 
         //profile pic
-        upload_picture
+        upload_picture,
+
+        //monetisation
+        inventory_rewarded_video_watched,
+        banner_shown,
+        banner_clicked,
+        banner_purchased,
+        booster_shown,
+        shop_purchase,
+        shop_popup_view,
+        shop_popup_purchase
     }
 
     public enum AnalyticsContext
@@ -212,13 +222,36 @@ namespace TurboLabz.InstantFramework
         //lessons
         started,
         completed,
+        unlocked,
+
         //power_ups
         coach,
         move_meter,
+
         //profile picture
         dlg_shown,        
         choose_existing,
-        take_new
+        take_new,
+
+        //monetization
+        rating_booster,
+        lucky_gem_booster,
+        hint,
+        key,
+        rewarded_rating_booster,
+        rewarded_hints,
+        rewarded_keys,
+        rewarded_gem_booster,
+        lobby_lessons_pack,
+        lobby_themes_pack,
+        lobby_remove_ads,
+        lobby_collect_rewards,
+        unlock_all_themes,
+        unlock_all_lessons,
+        lobby_update_banner,
+        lobby_subscription_banner,
+        ratingBooster,
+        gems
     }
 
     public enum AnalyticsParameter

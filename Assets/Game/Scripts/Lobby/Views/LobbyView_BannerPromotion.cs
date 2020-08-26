@@ -98,6 +98,11 @@ namespace TurboLabz.InstantFramework
         {
             if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
             {
+                if (IsVisible())
+                {
+                    analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
+                }
+
                 loadPromotionSingal.Dispatch();
             }
         }

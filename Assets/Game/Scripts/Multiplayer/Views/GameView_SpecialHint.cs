@@ -49,6 +49,11 @@ namespace TurboLabz.Multiplayer
             canUseSpecialHint = vo.isAvailable;
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             SetupSpecialHintButton();
+
+            if (canUseSpecialHint)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.hint);
+            }
         }
 
         public void UpdateSpecialHintButton(int hintUsedCount)

@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +30,7 @@ namespace TurboLabz.InstantFramework
         void DesignEvent(AnalyticsEventId evt);
         void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt);
         void HEvent(string evt, params string [] param);
+        void ResourceEvent(GAResourceFlowType flowType, string currency, int amount, string itemType, string itemId);
 
         void LevelComplete(int difficulty);
         void LevelFail(int difficulty);

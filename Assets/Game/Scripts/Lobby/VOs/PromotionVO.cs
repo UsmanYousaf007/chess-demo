@@ -10,5 +10,6 @@ namespace TurboLabz.InstantGame
         public Condition condition;
         public delegate void OnClick();
         public OnClick onClick;
+        public AnalyticsContext analyticsContext;
     }
 }

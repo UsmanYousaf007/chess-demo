@@ -450,6 +450,11 @@ namespace TurboLabz.Multiplayer
 
             ratingBoosterStoreItem = vo.ratingBoostStoreItem;
             SetupBoostPrice();
+
+            if (isRankedGame && !isDraw)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.rating_booster);
+            }
         }
 
         private void AnimateResultsDialog()
