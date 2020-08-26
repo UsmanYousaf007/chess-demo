@@ -192,6 +192,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
+            
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -210,6 +212,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SkillLevelDlgView>().To<SkillLevelDlgMediator>();
             mediationBinder.Bind<MaintenanceView>().To<MaintenanceMediator>();
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
+            mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
+            
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

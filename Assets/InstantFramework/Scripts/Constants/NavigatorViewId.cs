@@ -75,6 +75,7 @@ namespace TurboLabz.InstantFramework
         SHOP_BUNDLE_PURCHASED,
         INVENTORY,
         ARENA_VIEW,
-        INBOX_VIEW
+        INBOX_VIEW,
+        REWARD_DLG
     }
 }
