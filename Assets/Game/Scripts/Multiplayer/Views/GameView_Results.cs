@@ -41,6 +41,14 @@ namespace TurboLabz.Multiplayer
         public Button resultsBoostRatingButton;
         public Text resultsBoostRatingButtonLabel;
         public Image resultsBoostRatingAdTVImage;
+        public Text resultsBoostRatingAddedCount;
+        public GameObject resultsBoostRatingToolTip;
+        public Text resultsBoostRatingToolTipText;
+        public Text resultsBoostRatingGemsCost;
+        public Image resultsBoostRatingGemsBg;
+        public Sprite enoughGemsSprite;
+        public Sprite notEnoughGemsSprite;
+        public string resultsBoostRatingShortCode;
 
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
@@ -66,8 +74,9 @@ namespace TurboLabz.Multiplayer
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
-
+        public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
         public Signal refreshLobbySignal = new Signal();
+        public Signal notEnoughGemsSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -75,7 +84,7 @@ namespace TurboLabz.Multiplayer
         private float resultsDialogHalfHeight;
         private float declinedDialogHalfHeight;
         private float rewardBarOriginalWidth;
-
+        private Tweener addedAnimation;
         private bool playerWins;
         private bool isDraw;
         private string adRewardType;
@@ -85,6 +94,10 @@ namespace TurboLabz.Multiplayer
         private string opponentName;
         private string challengeId;
         private bool isResultsBoostRatingButtonEnabled = false;
+        private Color originalColor;
+        private StoreItem ratingBoosterStoreItem;
+        private bool haveEnoughGemsForRatingBooster;
+        private bool haveEnoughRatingBoosters;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -115,6 +128,7 @@ namespace TurboLabz.Multiplayer
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
             rewardBarOriginalWidth = rewardBar.sizeDelta.x;
+            originalColor = resultsBoostRatingAddedCount.color;
         }
 
         public void CleanupResults()
@@ -217,7 +231,8 @@ namespace TurboLabz.Multiplayer
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
-                EnableRewarededVideoButton(false);
+                //EnableRewarededVideoButton(false);
+                SetupRatingBoostButton(false);
                 return;
             }
 
@@ -244,7 +259,7 @@ namespace TurboLabz.Multiplayer
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
             viewBoardResultPanel.reason.text = "";
-            EnableRewarededVideoButton(true);
+            //EnableRewarededVideoButton(true);
             offerTextDlg.SetActive(false);
             offerDrawDialog.SetActive(false);
 
@@ -264,7 +279,7 @@ namespace TurboLabz.Multiplayer
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
-                        EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
+                        //EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                     }
                     else
                     {
@@ -328,6 +343,8 @@ namespace TurboLabz.Multiplayer
             {
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
             }
+
+            SetupRatingBoostButton(!isDraw);
         }
 
         private void UpdateGameResultHeadingSection(int eloScoreDelta)
@@ -389,7 +406,7 @@ namespace TurboLabz.Multiplayer
             
             UpdateGameEndReasonSection(vo.reason);
             UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
-            EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
+            //EnableRewarededVideoButton(adsService.IsRewardedVideoAvailable());
             UpdateGameResultHeadingSection(vo.eloScoreDelta);
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
@@ -430,6 +447,9 @@ namespace TurboLabz.Multiplayer
 
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
+
+            ratingBoosterStoreItem = vo.ratingBoostStoreItem;
+            SetupBoostPrice();
         }
 
         private void AnimateResultsDialog()
@@ -486,14 +506,46 @@ namespace TurboLabz.Multiplayer
         private void OnResultsBoostRatingButtonClicked()
         {
             audioService.PlayStandardClick();
-            ResultAdsVO vo = new ResultAdsVO();
-            vo.adsType = AdType.RewardedVideo;
-            vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
-            vo.challengeId = challengeId;
-            vo.playerWins = playerWins;
-            playerModel.adContext = AnalyticsContext.rewarded;
-            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            showRewardedAdSignal.Dispatch(vo);
+
+            if (!isRankedGame)
+            {
+                resultsBoostRatingToolTip.SetActive(true);
+                resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
+            }
+            else if (isDraw)
+            {
+                resultsBoostRatingToolTip.SetActive(true);
+                resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_DRAW);
+            }
+            else
+            {
+                var transactionVO = new VirtualGoodsTransactionVO();
+
+                if (haveEnoughRatingBoosters)
+                {
+                    transactionVO.consumeItemShortCode = resultsBoostRatingShortCode;
+                    transactionVO.consumeQuantity = 1;
+                    BoostRating(transactionVO);
+                }
+                else if (haveEnoughGemsForRatingBooster)
+                {
+                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                    transactionVO.consumeQuantity = ratingBoosterStoreItem.currency3Cost;
+                    BoostRating(transactionVO);
+                }
+                else
+                {
+                    notEnoughGemsSignal.Dispatch();
+                }
+            }
+        }
+
+        private void BoostRating(VirtualGoodsTransactionVO transactionVO)
+        {
+            boostRatingSignal.Dispatch(challengeId, transactionVO);
+            resultsBoostRatingButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
+            SetupRatingBoostButton(false);
+            resultsBoostRatingButton.interactable = false;
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -554,6 +606,65 @@ namespace TurboLabz.Multiplayer
         {
             appInfoModel.internalAdType = InternalAdType.NONE;
             toggleBannerSignal.Dispatch(true);
+        }
+
+        private void SetupRatingBoostButton(bool enable)
+        {
+            var c = resultsBoostRatingAdTVImage.color;
+            resultsBoostRatingToolTip.gameObject.SetActive(false);
+            resultsBoostRatingButton.interactable = true;
+
+            if (enable)
+            {
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
+                c.a = Colors.FULL_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
+                resultsBoostRatingButton.GetComponent<Image>().color = c;
+            }
+            else
+            {
+                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+                c = resultsBoostRatingAdTVImage.color;
+                c.a = Colors.DISABLED_TEXT_ALPHA;
+                resultsBoostRatingAdTVImage.color = c;
+                resultsBoostRatingButton.GetComponent<Image>().color = c;
+            }
+        }
+
+        public void PlayEloBoostedAnimation(int ratingBoosted)
+        {
+            if (addedAnimation != null)
+            {
+                addedAnimation.Kill();
+                DOTween.Kill(resultsBoostRatingAddedCount.transform);
+            }
+
+            resultsBoostRatingAddedCount.text = $"+{ratingBoosted}";
+            resultsBoostRatingAddedCount.transform.localPosition = Vector3.zero;
+            resultsBoostRatingAddedCount.color = originalColor;
+            resultsBoostRatingAddedCount.gameObject.SetActive(true);
+            addedAnimation = DOTween.ToAlpha(() => resultsBoostRatingAddedCount.color, x => resultsBoostRatingAddedCount.color = x, 0.0f, 3.0f).OnComplete(OnFadeComplete);
+            resultsBoostRatingAddedCount.transform.DOMoveY(resultsBoostRatingAddedCount.transform.position.y + 100, 3.0f);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+        }
+
+        private void OnFadeComplete()
+        {
+            resultsBoostRatingAddedCount.gameObject.SetActive(false);
+        }
+
+        public void SetupBoostPrice()
+        {
+            if (ratingBoosterStoreItem == null)
+            {
+                return;
+            }
+
+            resultsBoostRatingGemsCost.text = ratingBoosterStoreItem.currency3Cost.ToString();
+            haveEnoughRatingBoosters = playerModel.GetInventoryItemCount(resultsBoostRatingShortCode) > 0;
+            haveEnoughGemsForRatingBooster = playerModel.gems >= ratingBoosterStoreItem.currency3Cost;
+            resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
+            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters);
         }
     }
 }

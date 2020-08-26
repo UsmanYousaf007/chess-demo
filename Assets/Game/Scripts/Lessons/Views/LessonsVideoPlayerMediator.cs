@@ -253,7 +253,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            if (nextVideo != null)
+            if (nextVideo != null &&
+               (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
             {
                 nextVideo.isLocked = false;
             }

@@ -115,6 +115,12 @@ namespace TurboLabz.CPU
             if (cmd.chessboardModel.moveList.Count > 1) cmd.toggleStepBackwardSignal.Dispatch(true);
             if (cmd.chessboardModel.trimmedMoveList.Count > 1) cmd.toggleStepForwardSignal.Dispatch(true);
 
+            var specialHintVO = new SpecialHintVO();
+            specialHintVO.specialHintStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT];
+            specialHintVO.isAvailable = cmd.preferencesModel.cpuPowerUpsUsedCount < cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
+            specialHintVO.hintsAllowedPerGame = cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
+            specialHintVO.isPlayerTurn = isPlayerTurn;
+            cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
         }
 
         protected void RenderOpponentMove(ChessboardCommand cmd)

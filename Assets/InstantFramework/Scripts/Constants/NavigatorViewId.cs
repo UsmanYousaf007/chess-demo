@@ -71,6 +71,9 @@ namespace TurboLabz.InstantFramework
         LESSON_VIDEO,
         TOPICS_VIEW,
         LESSONS_VIEW,
+        SHOP,
+        SHOP_BUNDLE_PURCHASED,
+        INVENTORY,
         ARENA_VIEW
     }
 }

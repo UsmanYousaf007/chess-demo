@@ -101,6 +101,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSArenaView();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
 
             return null;
         }

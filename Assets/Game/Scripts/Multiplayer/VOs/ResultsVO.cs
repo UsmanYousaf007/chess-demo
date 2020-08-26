@@ -12,6 +12,7 @@
 
 using UnityEngine;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -27,5 +28,6 @@ namespace TurboLabz.Multiplayer
         public string playerName;
         public string opponentName;
         public string challengeId;
+        public StoreItem ratingBoostStoreItem;
     }
 }

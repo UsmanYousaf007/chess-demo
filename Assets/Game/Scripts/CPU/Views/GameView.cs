@@ -61,6 +61,7 @@ namespace TurboLabz.CPU
             OnParentShowHindsight();
             OnParentShowStep();
             OnParentShowAdBanner();
+            OnParentShowSpecialHint();
             EnableSafeButton();
 
             showAdOnBack = false;

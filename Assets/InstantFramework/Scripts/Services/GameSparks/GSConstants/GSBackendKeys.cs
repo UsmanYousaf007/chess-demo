@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public const string MAX_RECENTLY_COMPLETED_MATCH_COUNT = "maxRecentlyCompletedMatchCount";
         public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
         public const string PREMIUM = "premium";
+        public const string HINTS_ALLOWED = "hintsAllowedPerGame";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_DESCRIPTION = "description";
         public const string SHOP_ITEM_CURRENCY1COST = "currency1Cost";
         public const string SHOP_ITEM_CURRENCY2COST = "currency2Cost";
+        public const string SHOP_ITEM_CURRENCY3COST = "currency3Cost";
         public const string SHOP_ITEM_MAX_QUANTITY = "maxQuantity";
         public const string SHOP_ITEM_UNLOCKATLEVEL = "unlockAtLevel";
         public const string SHOP_ITEM_CURRENCY1PAYOUT = "currency1Cost";
@@ -260,6 +262,10 @@ namespace TurboLabz.InstantFramework
             public const string POWERUP_SAFEMOVE_SHOP_ITEMS = "powerUpSafeMoveShopItems";
             public const string SUBSCRIPTION_SHOP_ITEMS = "subscriptionShopItems";
             public const string VIDEO_LESSON_SHOP_ITEMS = "videoLessonShopItems";
+            public const string GEMPACK_SHOP_ITEMS = "gemPackShopItems";
+            public const string SPECIALPACK_SHOP_ITEMS = "specialPackShopItems";
+            public const string SPECIALITEM_SHOP_ITEMS = "specialItemShopItems";
+            public const string SPECIALITEM_POINTS_ITEMS = "specialItemPointItems";
 
             public const string SKIN_SHOP_TAG = "Skin";
             public const string COINS_SHOP_TAG = "CoinPack";
@@ -285,6 +291,11 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_BUNDLE_STANDARD_SHOP_TAG = "SpecialBundleStandard";
             public const string SPECIAL_BUNDLE_NOADSFOREVER_SHOP_TAG = "SpecialBundleNoAdsForever";
 
+            public const string GEMPACK_SHOP_TAG = "GemPack";
+            public const string SPECIALPACK_SHOP_TAG = "SpecialPack";
+            public const string SPECIALITEM_SHOP_TAG = "SpecialItem";
+            public const string SPECIALITEM_POINTS_TAG = "Points";
+
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
 
@@ -295,6 +306,16 @@ namespace TurboLabz.InstantFramework
 
             public const string SHOP_ITEM_TYPE_CURRENCY = "CURRENCY";
             public const string SHOP_ITEM_TYPE_VGOOD = "VGOOD";
+
+            public const string ALL_THEMES_PACK = "SpecialPackAllThemes";
+            public const string ALL_LESSONS_PACK = "SpecialPackAllLessons";
+            public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
+
+            public const string SPECIAL_ITEM_GEMS_BOOSTER = "SpecialItemGemsBooster";
+            public const string SPECIAL_ITEM_HINT = "SpecialItemHint";
+            public const string SPECIAL_ITEM_KEY = "SpecialItemKey";
+            public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";
+            public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
 
             public static string GetOfferItemKey(string text)
             {
@@ -464,6 +485,7 @@ namespace TurboLabz.InstantFramework
             public const string ADS_REWARD_DATA = "adsRewardData";
             public const string UPLOADED_PIC_ID = "uploadedPicId";
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
+            public const string GEMS = "gems";
         }
 
         public static class Match

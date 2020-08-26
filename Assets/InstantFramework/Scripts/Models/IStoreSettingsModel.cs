@@ -5,6 +5,7 @@
 
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
+using UnityEngine.Purchasing;
 
 namespace TurboLabz.InstantFramework
 {
@@ -14,7 +15,7 @@ namespace TurboLabz.InstantFramework
         IDictionary<string, List<StoreItem>> lists { get; set; }
         IOrderedDictionary<string, StoreItem> items { get; set; }
         void Add(string kind, IOrderedDictionary<string, StoreItem> kindItems);
-        List<string> getRemoteProductIds();
+        Dictionary<string, ProductType> getRemoteProductIds();
         StoreItem GetItemBySkinIndex(int skinIndex);
         StoreItem GetVideoByShortCode(string shortCode);
         long lastPurchaseAttemptTimestamp { get; set; }

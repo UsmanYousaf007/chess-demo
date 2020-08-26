@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         string subscriptionType { get; set; }
         AnalyticsContext adContext { get; set; }
         string uploadedPicId { get; set; }
+        long gems { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -90,5 +91,9 @@ namespace TurboLabz.InstantFramework
         bool isVideoFullyWatched(string videoId);
         bool isAnyVideoWatched();
         float? GetVideoProgress(string videoId);
+
+        int GetInventoryItemCount(string key);
+        bool OwnsAllLessons();
+        bool OwnsAllThemes();
     }
 }

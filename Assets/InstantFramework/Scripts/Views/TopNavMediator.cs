@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ThemeAlertDisableSignal themeAlertDisableSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
 
         //Services
@@ -25,18 +24,16 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
-
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
-            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
-            view.rewardBarClicked.AddListener(RewardBarClicked);
             view.supportButtonClicked.AddListener(OnSupportButtonClicked);
+            view.addGemsButtonClickedSignal.AddListener(OnAddGemsButtonClicked);
         }
 
         public override void OnRemove()
         {
             view.settingsButtonClickedSignal.RemoveAllListeners();
-            view.selectThemeClickedSignal.RemoveAllListeners();
-            view.rewardBarClicked.RemoveAllListeners();
+            view.supportButtonClicked.RemoveAllListeners();
+            view.addGemsButtonClickedSignal.RemoveAllListeners();
         }
 
         private void OnSettingsButtonClicked()
@@ -51,61 +48,15 @@ namespace TurboLabz.InstantFramework
             contactSupportSignal.Dispatch();
         }
 
-        [ListensTo(typeof(UpdateRemoveAdsSignal))]
-        public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
+        private void OnAddGemsButtonClicked()
         {
-            view.UpdateRemoveAds(freePeriod, isRemoved);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
         }
 
-        private void OnSelectThemeClicked()
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnGemsUpdated(PlayerInventoryVO inventory)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
-            themeAlertDisableSignal.Dispatch();
-        }
-
-        [ListensTo(typeof(ThemeAlertDisableSignal))]
-        public void DisableAlert()
-        {
-            view.rewardUnlockedAlert.SetActive(false);
-        }
-
-        [ListensTo(typeof(RewardUnlockedSignal))]
-        public void OnRewardUnlocked(string key, int quantity)
-        {
-            view.OnRewardUnlocked(key, quantity);
-        }
-
-        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-        public void OnSubscrionPurchased(StoreItem item)
-        {
-            view.ShowRewardBar();
-        }
-
-        [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
-        public void OnRewardClaimed(float from, float to)
-        {
-            if (view.isActiveAndEnabled)
-            {
-                view.AnimateRewardBar(from, to);
-            }
-            else
-            {
-                view.SetupRewardBar();
-            }
-        }
-
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable)
-        {
-            if (!isAvailable)
-            {
-                view.SetupRewardBar();
-            }
-        }
-
-        private void RewardBarClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EARN_REWARDS_DLG);
+            view.UpdateGemsCount(inventory.gemsCount);
         }
     }
 }

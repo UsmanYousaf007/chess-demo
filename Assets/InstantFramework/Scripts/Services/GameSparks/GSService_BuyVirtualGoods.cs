@@ -29,6 +29,11 @@ namespace TurboLabz.InstantFramework
             {
                 playerModel.bucks -= response.CurrencyConsumed.Value;
             }
+            // Consume gems
+            else if (response.CurrencyType == 3 && response.CurrencyConsumed.HasValue)
+            {
+                playerModel.gems -= response.CurrencyConsumed.Value;
+            }
 
             GSEnumerable<BuyVirtualGoodResponse._Boughtitem> virtualGoods = response.BoughtItems;
             foreach (var v in virtualGoods)

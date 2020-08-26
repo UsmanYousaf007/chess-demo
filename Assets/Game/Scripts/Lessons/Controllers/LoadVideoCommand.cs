@@ -59,7 +59,7 @@ namespace TurboLabz.InstantGame
                     nextLessonVO.name = storeSettingsModel.items[nextLesson].displayName;
                     nextLessonVO.videoId = nextLesson;
                     nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
-                    nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson));
+                    nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
                     nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
                     nextLessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(nextLesson);
                     nextLessonVO.section = lessonsModel.topicsMapping[lessonsModel.lessonsMapping[nextLesson]];

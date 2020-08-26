@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_ADVANTAGE = "gmAdvantage";
         public const string GM_EXIT_BUTTON_LOBBY = "gsmExitButtonLobby";
         public const string GM_EXIT_BUTTON_COLLECT_REWARD = "gsmExitButtonCollectReward";
+        public const string GM_SPECIAL_HINT_NOT_AVAILABLE = "gmSpecialHintNotAvailable";
 
         #endregion
 
@@ -171,6 +172,9 @@ namespace TurboLabz.InstantFramework
         public const string RESULTS_SKIP_REWARD_BUTTON = "resultsSkipRewardButton";
         public const string RESULTS_EARNED = "resultsEarned";
         public const string RESULTS_REWARD = "resultsReward";
+        public const string RESULTS_BOOST_DRAW = "resultsBoostDraw";
+        public const string RESULTS_BOOST_FRIENDLY = "resultsBoostFriendly";
+        public const string RESULTS_BOOSTED = "resultsBoosted";
 
         #endregion
 
@@ -267,6 +271,23 @@ namespace TurboLabz.InstantFramework
         public const string PROMOTION_DLG_PRICE = "promotionDlgPrice";
         public const string PROMOTION_DLG_PURCHASE = "promotionDlgPurchase";
 
+        public const string SHOP_SPECIAL_PACKS = "shopSpecailPacks";
+        public const string SHOP_GEM_PACKS = "shopGemPacks";
+        public const string SHOP_SUBSCRIPTION_STRIP = "shopSubscriptionStrip";
+        public const string SHOP_PURCHASED_DLG_GAINED = "shopPurchasedDlgGained";
+        public const string SHOP_PURHCASED_DLG_OK = "shopPurchasedDlgOk";
+
+        public const string INVENTORY_SPECIAL_ITEMS = "inventorySpecialItems";
+        public const string INVENTORY_ITEM_UNLOCK = "inventoryItemUnlock";
+        public const string INVENTORY_WATCH_AD = "inventoryWatchAd";
+        public const string INVENTORY_TOOL_TIP = "inventoryToolTip";
+        public const string INVENTORY_SUBSCIRPTION_ENABLE = "inventorySubscriptionEnabled";
+        public const string INVENTORY_OR = "inventoryOr";
+        public const string INVENTORY_UNLIMITED = "inventoryLimited";
+
+        public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
+        public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
+
         #endregion
 
         #region Friends
@@ -332,6 +353,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_PROFILE = "navProfile";
         public const string NAV_SHOP = "navShop";
         public const string NAV_FRIENDS = "navFriends";
+        public const string NAV_INVENTORY = "navInventory";
 
         #endregion
 

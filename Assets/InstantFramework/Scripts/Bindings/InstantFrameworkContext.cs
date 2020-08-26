@@ -107,6 +107,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<RemoteStorePurchaseCompletedSignal>().To<RemoteStorePurchaseCompletedCommand>();
             commandBinder.Bind<ManageBlockedFriendsSignal>().To<ManageBlockedFriendsCommand>();
             commandBinder.Bind<UploadFileSignal>().To<UploadProfilePicCommand>();
+            commandBinder.Bind<VirtualGoodsTransactionSignal>().To<VirtualGoodsTransactionCommand>();
+            commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
@@ -176,9 +178,13 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<VideoLoadFailedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
             injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateShopBundlePurchasedViewSignal>().ToSingleton();
+            injectionBinder.Bind<VirtualGoodBoughtSignal>().ToSingleton();
+            injectionBinder.Bind<InventoryVideoResultSignal>().ToSingleton();
+            injectionBinder.Bind<VirtualGoodsTransactionResultSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateBottomNavSignal>().ToSingleton();
             injectionBinder.Bind<InboxAddMessagesSignal>().ToSingleton();
-            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();
-            
+            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();          
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
@@ -322,6 +328,12 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LessonsVideoPlayerView>().To<LessonsVideoPlayerMediator>();
             mediationBinder.Bind<TopicsView>().To<TopicsMediator>();
             mediationBinder.Bind<LessonsView>().To<LessonsMediator>();
+            mediationBinder.Bind<ShopItemView>().To<ShopItemMediator>();
+            mediationBinder.Bind<ShopView>().To<ShopMediator>();
+            mediationBinder.Bind<ShopBundlePurchasedView>().To<ShopBundlePurchasedMediator>();
+            mediationBinder.Bind<InventoryView>().To<InventoryMediator>();
+            mediationBinder.Bind<InventoryItemView>().To<InventoryItemMediator>();
+            mediationBinder.Bind<SpotPurchaseView>().To<SpotPurchaseMediator>();
             mediationBinder.Bind<LeagueProfileStripView>().To<LeagueProfileStripMediator>();
             mediationBinder.Bind<TournamentsView>().To<TournamentsMediator>();
             mediationBinder.Bind<TournamentLeaderboardView>().To<TournamentLeaderboardMediator>();

@@ -123,7 +123,7 @@ public class CoachView : MonoBehaviour
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         parentPanel.position = positionVector;
 
-        Invoke("OnCompleteStickerAnimation", 0.8f);
+        //Invoke("OnCompleteStickerAnimation", 0.8f);
 
         FadeIn();
     }

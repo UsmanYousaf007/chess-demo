@@ -24,7 +24,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
-
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -32,12 +33,16 @@ namespace TurboLabz.InstantFramework
 
             view.homeButtonClickedSignal.AddListener(OnHomeButtonClicked);
             view.friendsButtonClickedSignal.AddListener(OnFriendsButtonClicked);
+            view.inventoryButtonClickedSignal.AddListener(OnInventoryButtonClicked);
+            view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
         }
 
         public override void OnRemove()
         {
             view.homeButtonClickedSignal.RemoveAllListeners();
             view.friendsButtonClickedSignal.RemoveAllListeners();
+            view.inventoryButtonClickedSignal.RemoveAllListeners();
+            view.shopButtonClickedSignal.RemoveAllListeners();
         }
 
         void OnHomeButtonClicked()
@@ -49,6 +54,24 @@ namespace TurboLabz.InstantFramework
         {
             loadArenaSignal.Dispatch();
             //loadFriendsSignal.Dispatch();
+        }
+
+        void OnInventoryButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch();
+        }
+
+        void OnShopButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            updateBottomNavSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(UpdateBottomNavSignal))]
+        public void OnUpdateView()
+        {
+            view.UpdateAlerts();
         }
     }
 }

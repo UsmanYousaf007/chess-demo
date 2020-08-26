@@ -44,7 +44,7 @@ namespace TurboLabz.TLUtils
 
             if (!stateToContextMap.ContainsKey(state))
             {
-                return string.Empty;
+                return $"unknown_{state}";
             }
 
             return stateToContextMap[state];
@@ -57,6 +57,7 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("LimitReachedDlg", "games_limit");
             stateToContextMap.Add("ThemeSelectionDlg", "themes");
             stateToContextMap.Add("Settings", "settings");
+            stateToContextMap.Add("Shop", "shop");
         }
     }
 }

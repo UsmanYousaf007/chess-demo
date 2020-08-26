@@ -36,29 +36,31 @@ namespace TurboLabz.InstantFramework
 
         private StoreItem item;
         private static NS pState = null;
+        private bool isSubscriptionItem;
 
         public override void Execute()
         {
             item = metaDataModel.store.items[key];
             if (navigatorModel.previousState.GetType() != typeof(NSConfirmDlg))
             {
-                pState = navigatorModel.previousState;
+                isSubscriptionItem = item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG);
+                pState =  isSubscriptionItem ? navigatorModel.previousState : navigatorModel.currentState;
             }
 
             PurchaseResult purchaseResult = PurchaseResult.NONE;
 
-            if (item.maxQuantity == 1 && playerModel.OwnsVGood(key) == true)
-            {
-                purchaseResult = PurchaseResult.ALREADY_OWNED;
-            }
-            else if (item.currency2Cost != 0 && playerModel.bucks < item.currency2Cost) 
-            {
-                purchaseResult = PurchaseResult.NOT_ENOUGH_BUCKS;
-            } 
-            else if (clearForPurchase == false)
-            {
-                purchaseResult = PurchaseResult.PERMISSION_TO_PURCHASE;
-            }
+            //if (item.maxQuantity == 1 && playerModel.OwnsVGood(key) == true)
+            //{
+            //    purchaseResult = PurchaseResult.ALREADY_OWNED;
+            //}
+            //else if (item.currency3Cost != 0 && playerModel.gems < item.currency3Cost) 
+            //{
+            //    purchaseResult = PurchaseResult.NOT_ENOUGH_GEMS;
+            //} 
+            //else if (clearForPurchase == false)
+            //{
+            //    purchaseResult = PurchaseResult.PERMISSION_TO_PURCHASE;
+            //}
 
             // Perform purchase if clear for purchase
             if (purchaseResult == PurchaseResult.NONE)
@@ -88,7 +90,7 @@ namespace TurboLabz.InstantFramework
             {
                 // Virtual good purchase
                 Retain();
-                backendService.BuyVirtualGoods(2, 1, storeItem.key).Then(OnPurchase);
+                backendService.BuyVirtualGoods(3, 1, storeItem.key).Then(OnPurchase);
             }
         }
 
@@ -114,6 +116,10 @@ namespace TurboLabz.InstantFramework
             {
                 cameFromScreen = "theme_selection";
             }
+            else if (pState.GetType() == typeof(NSShop))
+            {
+                cameFromScreen = "shop";
+            }
             else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
             {
                 if (metaDataModel.appInfo.internalAdType == InternalAdType.FORCED_ON_WIN)
@@ -134,8 +140,12 @@ namespace TurboLabz.InstantFramework
             else if (result == BackendResult.PURCHASE_COMPLETE)
             {
                 eventName = "completed";
-                analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
-                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+                if (isSubscriptionItem)
+                {
+                    analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                    GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+                }
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
             {
@@ -146,15 +156,17 @@ namespace TurboLabz.InstantFramework
                 eventName = "failed";
             }
 
+            var productName = isSubscriptionItem ? $"subscription_{item.displayName.Replace(" ", "_")}" : item.displayName.ToLower().Replace(" ", "_");
+
             if (eventName.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen,
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
 
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", cameFromScreen);
+                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen);
             }
         }
 
@@ -168,7 +180,7 @@ namespace TurboLabz.InstantFramework
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-                audioService.Play(audioService.sounds.SFX_SHOP_PURCHASE_ITEM);
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
 
             Release();

@@ -162,7 +162,8 @@ namespace TurboLabz.Chess
             }
             else if (aiMoveInputVO.isHint)
             {
-                GetBestMove();
+                //GetBestMove();
+                GetHint();
             }
             else
             {

@@ -12,5 +12,6 @@ namespace TurboLabz.InstantFramework
         public int hintCount;
         public int hindsightCount;
         public long coinCount;
+        public long gemsCount;
     }
 }

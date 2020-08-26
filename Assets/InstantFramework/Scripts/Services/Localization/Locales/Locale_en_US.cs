@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
+                { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints allowed per game"},
 
                 #endregion
 
@@ -176,6 +177,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RESULTS_SKIP_REWARD_BUTTON, "Back to Lobby" },
                 { LocalizationKey.RESULTS_EARNED, "Earn Rewards" },
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
+                { LocalizationKey.RESULTS_BOOSTED, "Boosted!"},
+                { LocalizationKey.RESULTS_BOOST_DRAW, "Rating boosts are available for wins and losses only"},
+                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for ranked games only"},
 
                 #endregion
 
@@ -223,7 +227,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.STORE_POWERUP_TITLE_HINT, "MOVE STRENGTH" },
                 { LocalizationKey.STORE_POWERUP_TITLE_HINDSIGHT, "COACH" },
 
-                { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "OWNED" },
+                { LocalizationKey.STORE_BUNDLE_FIELD_OWNED, "Owned" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_REMAINING, "Remaining" },
                 { LocalizationKey.STORE_BUNDLE_FIELD_DAYS, "Days" },
 
@@ -267,11 +271,27 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
                 
-
                 { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial."},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Subscribe Now"},
+
+                { LocalizationKey.SHOP_SPECIAL_PACKS, "SPECIAL PACKS"},
+                { LocalizationKey.SHOP_GEM_PACKS, "GEM PACKS"},
+                { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "All Packs\nPremium Upgrade!"},
+                { LocalizationKey.SHOP_PURCHASED_DLG_GAINED, "You Gained:"},
+                { LocalizationKey.SHOP_PURHCASED_DLG_OK, "Got It"},
+
+                { LocalizationKey.INVENTORY_SPECIAL_ITEMS, "SPECIAL ITEMS"},
+                { LocalizationKey.INVENTORY_ITEM_UNLOCK, "Unlock"},
+                { LocalizationKey.INVENTORY_WATCH_AD, "Watch Ad"},
+                { LocalizationKey.INVENTORY_TOOL_TIP, "Video will be available soon"},
+                { LocalizationKey.INVENTORY_SUBSCIRPTION_ENABLE, "Subscription Enabled"},
+                { LocalizationKey.INVENTORY_OR, "Or"},
+                { LocalizationKey.INVENTORY_UNLIMITED, "Unlimited"},
+
+                { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
+                { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},
 
                 #endregion
 
@@ -332,6 +352,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
+                { LocalizationKey.NAV_INVENTORY, "Inventory" },
 
                 #endregion
 
