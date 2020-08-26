@@ -176,7 +176,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<VideoLoadFailedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
             injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
-
+            injectionBinder.Bind<InboxAddMessagesSignal>().ToSingleton();
+            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();
+            
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
@@ -272,6 +274,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
             injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
             injectionBinder.Bind<ITournamentsModel>().To<TournamentsModel>().ToSingleton();
+            injectionBinder.Bind<IInboxModel>().To<InboxModel>().ToSingleton();
+
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -321,7 +325,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LeagueProfileStripView>().To<LeagueProfileStripMediator>();
             mediationBinder.Bind<TournamentsView>().To<TournamentsMediator>();
             mediationBinder.Bind<TournamentLeaderboardView>().To<TournamentLeaderboardMediator>();
-            mediationBinder.Bind<InBoxView>().To<InBoxMediator>();
+            mediationBinder.Bind<InboxView>().To<InboxMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

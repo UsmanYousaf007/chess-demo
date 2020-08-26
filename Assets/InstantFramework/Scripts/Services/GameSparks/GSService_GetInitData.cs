@@ -529,6 +529,25 @@ namespace TurboLabz.InstantFramework
 
             return null;
         }
+
+        private void FillInbox(IDictionary<string, InboxMessage> targetList, GSData targetData)
+        {
+            targetList.Clear();
+
+            GSData messages = targetData.GetGSData("messages");
+
+            foreach (KeyValuePair<string, object> obj in messages.BaseData)
+            {
+                GSData data = (GSData)obj.Value;
+                string id = obj.Key;
+                InboxMessage msg = new InboxMessage();
+
+                GSParser.ParseInboxMessage(msg, data);
+                GSParser.LogInboxMessage(msg);
+
+                targetList.Add(id, msg);
+            }
+        }
     }
 
     #region REQUEST

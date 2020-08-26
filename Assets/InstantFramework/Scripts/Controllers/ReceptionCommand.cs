@@ -86,6 +86,8 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            backendService.InBoxOpGet();
+
             if (!isResume)
             {
                 preferencesModel.sessionCount++;

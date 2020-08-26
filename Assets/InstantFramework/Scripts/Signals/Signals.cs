@@ -164,6 +164,9 @@ namespace TurboLabz.InstantFramework
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     public class LoadArenaSignal : Signal { }
     public class UpdateTournamentsViewSignal : Signal { }
+    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxRemoveMessagesSignal : Signal<string> { }
+
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

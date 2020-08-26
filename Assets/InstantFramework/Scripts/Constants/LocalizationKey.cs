@@ -475,5 +475,11 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
+        #region InBox
+
+        public const string INBOX_HEADING = "inBoxHeading";
+        public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
+
+        #endregion
     }
 }

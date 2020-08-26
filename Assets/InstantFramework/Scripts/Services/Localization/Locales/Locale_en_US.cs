@@ -476,7 +476,13 @@ namespace TurboLabz.InstantFramework
 
                 #endregion
 
-            };
+                #region InBox
+
+                { LocalizationKey.INBOX_HEADING, "InBox"},
+                { LocalizationKey.INBOX_SECTION_HEADER_REWARDS, "Rewards"},
+
+                #endregion
+    };
         }
     }
 }
