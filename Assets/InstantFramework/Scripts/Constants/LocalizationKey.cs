@@ -502,6 +502,7 @@ namespace TurboLabz.InstantFramework
 
         public const string INBOX_HEADING = "inBoxHeading";
         public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
+        public const string INBOX_EMPTY_INBOX_LABEL = "inBoxEmptyInboxLabel";
 
         #endregion
     }

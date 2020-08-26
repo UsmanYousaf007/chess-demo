@@ -6,15 +6,17 @@
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public class InboxModel : IInboxModel
     {
-        public Dictionary<string, InboxMessage> items { get; set; }
-
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+
+        public Dictionary<string, InboxMessage> items { get; set; }
+        public DateTime lastFetchedTime { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -24,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
+            lastFetchedTime = DateTime.MinValue;
             items = new Dictionary<string, InboxMessage>();
         }
     }

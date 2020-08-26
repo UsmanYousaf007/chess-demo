@@ -35,6 +35,25 @@ namespace TurboLabz.InstantFramework
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
         }
 
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.INBOX_VIEW)
+            {
+                view.Show();
+            }
+        }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.INBOX_VIEW)
+            {
+                view.Hide();
+            }
+        }
+
+
         public void OnInBoxBarClicked(InboxBar inboxBar)
         {
             backendService.InBoxOpCollect(inboxBar.msgId);

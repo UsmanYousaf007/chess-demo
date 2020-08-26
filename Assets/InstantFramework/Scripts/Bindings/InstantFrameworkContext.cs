@@ -67,6 +67,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             commandBinder.Bind<LoadArenaSignal>().To<LoadArenaCommand>();
+            commandBinder.Bind<LoadInboxSignal>().To<LoadInboxCommand>();
+
 
             // Bind signals to models data loader commands
             commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();

@@ -173,6 +173,8 @@ namespace TurboLabz.InstantFramework
     public class UpdateBottomNavSignal : Signal { }
     public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
+    public class LoadInboxSignal : Signal { }
+
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

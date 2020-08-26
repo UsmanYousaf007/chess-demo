@@ -502,6 +502,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.INBOX_HEADING, "InBox"},
                 { LocalizationKey.INBOX_SECTION_HEADER_REWARDS, "Rewards"},
+                { LocalizationKey.INBOX_EMPTY_INBOX_LABEL, "There are no messages or rewards to collect"},
 
                 #endregion
     };

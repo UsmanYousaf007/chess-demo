@@ -6736,6 +6736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8832813152765469607}
+  - component: {fileID: 5398873594769290460}
   m_Layer: 5
   m_Name: InBoxView
   m_TagString: Untagged
@@ -6766,6 +6767,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5398873594769290460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8832813152765469604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c26975ff70244d04b023807f5a014de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listContainer: {fileID: 8832813153490082906}
+  sectionHeader: {fileID: 2116651955766832326}
+  inBoxBarPrefab: {fileID: 2099828837320243397, guid: 80ba3b89887d042748fd103427cb57e1,
+    type: 3}
+  emptyInBoxStrip: {fileID: 6490334237929175583}
+  emptyInboxLabel: {fileID: 7882819206669093017}
+  heading: {fileID: 7085954958104615416}
+  stripHeading: {fileID: 2116651956688950894}
 --- !u!1 &8832813152785352969
 GameObject:
   m_ObjectHideFlags: 0

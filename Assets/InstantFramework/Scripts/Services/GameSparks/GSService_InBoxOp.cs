@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
             {
                 FillInbox(inboxModel.items, inBoxMessagesData);
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
+                inboxModel.lastFetchedTime = DateTime.UtcNow;
             }
 
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
@@ -61,19 +62,16 @@ namespace TurboLabz.InstantFramework
                 string messageId = response.ScriptData.GetString("messageId");
 
                 TLUtils.LogUtil.Log("+++++====> GSBackendKeys.InBoxOp.COLLECT");
-                int gems = inBoxCollectData.GetInt("gems").Value;
-                TLUtils.LogUtil.Log("+++++====> gems = " + gems);
+                //int gems = inBoxCollectData.GetInt("gems").Value;
+                //TLUtils.LogUtil.Log("+++++====> gems = " + gems);
 
-                GSData items = inBoxCollectData.GetGSData("items");
-                if (items != null)
+                //GSData items = inBoxCollectData.GetGSData("items");
+                foreach (KeyValuePair<string, Object> obj in inBoxCollectData.BaseData)
                 {
-                    foreach (KeyValuePair<string, Object> obj in items.BaseData)
-                    {
-                        string itemShortCode = obj.Key;
-                        var qtyVar = obj.Value;
-                        int qtyInt = Int32.Parse(qtyVar.ToString());
-                        TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
-                    }
+                    string itemShortCode = obj.Key;
+                    var qtyVar = obj.Value;
+                    int qtyInt = Int32.Parse(qtyVar.ToString());
+                    TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
                 }
 
                 if (messageId != null)
