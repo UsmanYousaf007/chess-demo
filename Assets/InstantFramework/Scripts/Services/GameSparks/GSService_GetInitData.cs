@@ -71,6 +71,14 @@ namespace TurboLabz.InstantFramework
             GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
             FillLessonsModel(lessonsData);
 
+            GSData joinedTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.JOINED_TOURNAMENTS);
+            FillJoinedTournaments(joinedTournamentsData);
+
+            GSData liveTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.LIVE_TOURNAMENTS);
+            FillLiveTournaments(liveTournamentsData);
+
+            playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+
             storeAvailableSignal.Dispatch(false);
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
 
@@ -403,6 +411,126 @@ namespace TurboLabz.InstantFramework
                 {
                     settingsModel.inventorySpecialItemsRewardedVideoCost.Add(key, GSParser.GetSafeInt(inventorySettingsData, key));
                 }
+            }
+        }
+
+        private void FillJoinedTournaments(GSData joinedTournaments)
+        {
+            if (joinedTournaments != null)
+            {
+                foreach (KeyValuePair<string, object> pair in joinedTournaments.BaseData)
+                {
+                    var tournamentGSData = pair.Value as GSData;
+                    JoinedTournamentData joinedTournament = parseJoinedTournament(tournamentGSData, pair.Key);
+
+                    tournamentsModel.joinedTournaments.Add(joinedTournament);
+                }
+            }
+        }
+
+        private JoinedTournamentData parseJoinedTournament(GSData tournamentGSData, string id)
+        {
+            JoinedTournamentData joinedTournament = new JoinedTournamentData();
+            joinedTournament.id = id;
+            joinedTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+            joinedTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
+            joinedTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
+            joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
+
+            var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+            if (grandPrizeGSData != null)
+            {
+                TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
+
+                joinedTournament.grandPrize = grandPrize;
+            }
+
+            joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
+            joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
+
+            return joinedTournament;
+        }
+
+        private List<TournamentEntry> ParseTournamentEntries(List<GSData> entriesGSData)
+        {
+            List<TournamentEntry> tournamentEntries = new List<TournamentEntry>();
+            for (int i = 0; i < entriesGSData.Count; i++)
+            {
+                TournamentEntry tournamentEntry = new TournamentEntry();
+                tournamentEntry.rank = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.RANK);
+                tournamentEntry.score = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.SCORE);
+
+                PublicProfile publicProfile = new PublicProfile();
+                GSData publicProfileData = entriesGSData[i].GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
+                string friendId = publicProfileData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
+                GSParser.PopulatePublicProfile(publicProfile, publicProfileData, friendId);
+
+                tournamentEntries.Add(tournamentEntry);
+            }
+
+            return tournamentEntries;
+        }
+
+        private void FillLiveTournaments(GSData liveTournaments)
+        {
+            if (liveTournaments != null)
+            {
+                foreach (KeyValuePair<string, object> pair in liveTournaments.BaseData)
+                {
+                    var tournamentGSData = pair.Value as GSData;
+                    LiveTournamentData liveTournament = new LiveTournamentData();
+
+                    liveTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+                    liveTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
+                    liveTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
+                    liveTournament.active = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.ACTIVE);
+                    liveTournament.firstStartTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
+                    liveTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
+                    liveTournament.waitTimeMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
+
+                    tournamentsModel.calculateCurrentStartTime(liveTournament);
+
+                    if (tournamentsModel.isTournamentOpen(liveTournament))
+                    {
+                        tournamentsModel.openTournaments.Add(liveTournament);
+                    }
+                    else
+                    {
+                        tournamentsModel.upcomingTournaments.Add(liveTournament);
+                    }
+                }
+            }
+        }
+
+        private TournamentReward ParseTournamentReward(GSData rewardGSData)
+        {
+            if (rewardGSData != null) {
+                TournamentReward reward = new TournamentReward();
+                reward.type = GSParser.GetSafeString(rewardGSData, GSBackendKeys.TournamentReward.TYPE);
+                reward.quantity = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.QUANTITY);
+
+                return reward;
+            }
+
+            return null;
+        }
+
+        private void FillInbox(IDictionary<string, InboxMessage> targetList, GSData targetData)
+        {
+            targetList.Clear();
+
+            GSData messages = targetData.GetGSData("messages");
+
+            foreach (KeyValuePair<string, object> obj in messages.BaseData)
+            {
+                GSData data = (GSData)obj.Value;
+                string id = obj.Key;
+                InboxMessage msg = new InboxMessage();
+
+                GSParser.ParseInboxMessage(msg, data);
+                GSParser.LogInboxMessage(msg);
+
+                targetList.Add(id, msg);
             }
         }
     }

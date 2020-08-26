@@ -108,6 +108,9 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<VirtualGoodsTransactionSignal>().To<VirtualGoodsTransactionCommand>();
             commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
 
+            commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
+            commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
+
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
             injectionBinder.Bind<NavigatorHideViewSignal>().ToSingleton();
@@ -178,6 +181,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<InventoryVideoResultSignal>().ToSingleton();
             injectionBinder.Bind<VirtualGoodsTransactionResultSignal>().ToSingleton();
             injectionBinder.Bind<UpdateBottomNavSignal>().ToSingleton();
+            injectionBinder.Bind<InboxAddMessagesSignal>().ToSingleton();
+            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();          
+            injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
+            injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
@@ -252,6 +260,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowSplashContentSignal>().ToSingleton();
             injectionBinder.Bind<UpdateManageBlockedFriendsViewSignal>().ToSingleton();
             injectionBinder.Bind<ResetUnblockButtonSignal>().ToSingleton();
+            injectionBinder.Bind<LeagueProfileStripSetOnClickSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -266,6 +276,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IRewardsSettingsModel>().To<RewardsSettingsModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<ISettingsModel>().To<SettingsModel>().ToSingleton();
             injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
+            injectionBinder.Bind<ITournamentsModel>().To<TournamentsModel>().ToSingleton();
+            injectionBinder.Bind<IInboxModel>().To<InboxModel>().ToSingleton();
+
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -318,6 +331,10 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<InventoryView>().To<InventoryMediator>();
             mediationBinder.Bind<InventoryItemView>().To<InventoryItemMediator>();
             mediationBinder.Bind<SpotPurchaseView>().To<SpotPurchaseMediator>();
+            mediationBinder.Bind<LeagueProfileStripView>().To<LeagueProfileStripMediator>();
+            mediationBinder.Bind<TournamentsView>().To<TournamentsMediator>();
+            mediationBinder.Bind<TournamentLeaderboardView>().To<TournamentLeaderboardMediator>();
+            mediationBinder.Bind<InboxView>().To<InboxMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

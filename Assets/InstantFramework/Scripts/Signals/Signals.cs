@@ -169,10 +169,23 @@ namespace TurboLabz.InstantFramework
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
     public class UpdateBottomNavSignal : Signal { }
+    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxRemoveMessagesSignal : Signal<string> { }
+
+    // Tournaments
+    public class GetAllTournamentsSignal : Signal { }
+    public class TournamentOpFailedSignal : Signal { }
+    public class GetTournamentsSuccessSignal : Signal { }
+    public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
+    public class GetTournamentLeaderboardSuccessSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
     public class RatingBoostAnimSignal : Signal<int> { }
+
+    // LeagueProfileStrip
+    public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
+    public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
 }

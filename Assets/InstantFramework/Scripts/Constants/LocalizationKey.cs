@@ -468,5 +468,40 @@ namespace TurboLabz.InstantFramework
         public const string SUB_SWITCH_ANNUAL_BTN = "subSwitchAnnualBtn";
 
         #endregion
+
+        #region PlayerLeagueProfileStrip
+
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN = "leagueEndsInLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+
+        #endregion
+
+        #region TournamentItem
+
+        public const string TOURNAMENT_LIVE_ITEM_HEADING = "tournamentLiveItemHeading";
+        public const string TOURNAMENT_LIVE_ITEM_SUB_HEADING = "tournamentLiveItemSubHeading";
+        public const string TOURNAMENT_LIVE_ITEM_ENDS_IN = "tournamentLiveItemEndsIn";
+
+        public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
+        public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";
+
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK = "tournamentLeaderboardColumnHeaderRank";
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE = "tournamentLeaderboardColumnHeaderPlayerScore";
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS = "tournamentLeaderboardColumnHeaderRewards";
+
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE = "tournamentLeaderboardFooterYouHave";
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY = "tournamentLeaderboardFreePlay";
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY = "tournamentLeaderboardFooterTicketPlay";
+
+        #endregion
+
+        #region InBox
+
+        public const string INBOX_HEADING = "inBoxHeading";
+        public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
+
+        #endregion
     }
 }

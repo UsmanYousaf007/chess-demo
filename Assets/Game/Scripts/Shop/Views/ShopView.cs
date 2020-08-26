@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
 
+        private bool isSubscriber;
+
         public void Init()
         {
             specialPacksHeading.text = localizationService.Get(LocalizationKey.SHOP_SPECIAL_PACKS);
@@ -63,7 +65,7 @@ namespace TurboLabz.InstantFramework
 
         public void SetSubscriptionOwnedStatus()
         {
-            var isSubscriber = playerModel.HasSubscription();
+            isSubscriber = playerModel.HasSubscription();
             owned.SetActive(isSubscriber);
             subscriptionButton.gameObject.SetActive(!isSubscriber);
         }
@@ -78,6 +80,12 @@ namespace TurboLabz.InstantFramework
         private void OnSubscirptionButtonClicked()
         {
             audioService.PlayStandardClick();
+
+            if (isSubscriber)
+            {
+                return;
+            }
+
             subscriptionButtonClickedSignal.Dispatch();
         }
     }
