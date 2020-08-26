@@ -175,7 +175,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateVideoLessonViewSignal>().ToSingleton();
             injectionBinder.Bind<ShowVideoLessonSignal>().ToSingleton();
             injectionBinder.Bind<InboxAddMessagesSignal>().ToSingleton();
-
+            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();
+            
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
