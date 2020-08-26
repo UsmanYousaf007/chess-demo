@@ -48,5 +48,11 @@ namespace TurboLabz.InstantFramework
         {
             view.AddMessages(messages);
         }
+
+        [ListensTo(typeof(InboxRemoveMessagesSignal))]
+        public void OnInboxRemoveMessage(string messageId)
+        {
+            view.RemoveMessage(messageId);
+        }
     }
 }

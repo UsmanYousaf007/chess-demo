@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
+        [Inject] public InboxRemoveMessagesSignal inboxRemoveMessagesSignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
@@ -78,7 +79,8 @@ namespace TurboLabz.InstantFramework
                 if (messageId != null)
                 {
                     inboxModel.items.Remove(messageId);
-                    inboxAddMessagesSignal.Dispatch(inboxModel.items);
+                    inboxRemoveMessagesSignal.Dispatch(messageId);
+                    //inboxAddMessagesSignal.Dispatch(inboxModel.items);
                 }
                 
             }

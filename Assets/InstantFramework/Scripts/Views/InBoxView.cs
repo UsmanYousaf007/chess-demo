@@ -98,7 +98,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
-            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+            inBoxBars.Add(item.msgId, item);
         }
 
         public void AddDailySubscriptionRewardBar(InboxMessage msg)
@@ -119,7 +119,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
-            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+            inBoxBars.Add(item.msgId, item);
         }
 
         public void AddDailyLeagueRewardBar(InboxMessage msg)
@@ -140,7 +140,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
-            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+            inBoxBars.Add(item.msgId, item);
         }
 
         public void AddLeaguePromotionRewardBar(InboxMessage msg)
@@ -161,7 +161,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
-            inBoxBars.Add(item.name + inBoxBars.Count.ToString(), item);
+            inBoxBars.Add(item.msgId, item);
         }
 
         public void AddMessages(Dictionary<string, InboxMessage> messages)
@@ -179,6 +179,13 @@ namespace TurboLabz.InstantFramework
             }
 
             Sort();
+        }
+
+        public void RemoveMessage(string messageId)
+        {
+            InboxBar bar = inBoxBars[messageId];
+            inBoxBars.Remove(messageId);
+            GameObject.Destroy(bar.gameObject);
         }
     }
 }
