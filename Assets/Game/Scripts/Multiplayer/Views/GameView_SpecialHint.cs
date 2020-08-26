@@ -140,8 +140,15 @@ namespace TurboLabz.Multiplayer
 
                 if (haveEnoughHints)
                 {
-                    transactionVO.consumeItemShortCode = specialHintShortCode;
-                    transactionVO.consumeQuantity = 1;
+                    if (playerModel.HasSubscription())
+                    {
+                        transactionVO.consumeItemShortCode = "premium";
+                    }
+                    else
+                    {
+                        transactionVO.consumeItemShortCode = specialHintShortCode;
+                        transactionVO.consumeQuantity = 1;
+                    }
                     ProcessHint(transactionVO);
                 }
                 else if (haveEnoughGemsForHint)
