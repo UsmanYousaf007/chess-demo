@@ -191,6 +191,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

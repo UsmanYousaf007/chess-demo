@@ -174,7 +174,7 @@ namespace TurboLabz.InstantFramework
     public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
     public class LoadInboxSignal : Signal { }
-
+    public class UpdateInboxMessageCountViewSignal : Signal<long> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
