@@ -70,21 +70,21 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            /*if (appInfoModel.appBackendVersionValid == false)
+            if (appInfoModel.appBackendVersionValid == false)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
                 CommandEnd();
                 return;
-            }*/
+            }
 
-            if ((appUpdatesService.IsUpdateAvailable()) && !appUpdatesService.updateLater)// || appInfoModel.appBackendVersionValid == false) && !inAppUpdatesService.updateLater)
+            /*if ((appUpdatesService.IsUpdateAvailable()) && !appUpdatesService.updateLater)// || appInfoModel.appBackendVersionValid == false) && !inAppUpdatesService.updateLater)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
                 //CommandEnd();
                 return;
-            }
+            }*/
 
             if (settingsModel.maintenanceFlag == true)
             {
