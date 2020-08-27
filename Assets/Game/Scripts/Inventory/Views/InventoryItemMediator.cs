@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
                         break;
 
                     case InventoryVideoResult.ITEM_UNLOCKED:
-                        analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "video");
+                        analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
                         view.OnItemUnclocked();
                         break;
                 }

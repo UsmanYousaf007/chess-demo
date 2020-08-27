@@ -20,6 +20,8 @@ namespace TurboLabz.InstantFramework
         public Text ownedText;
         public GameObject loading;
         public RectTransform layout;
+        public GameObject uiBlocker;
+        public GameObject processing;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -87,6 +89,12 @@ namespace TurboLabz.InstantFramework
             }
 
             subscriptionButtonClickedSignal.Dispatch();
+        }
+
+        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
+        {
+            uiBlocker.SetActive(showUiBlocked);
+            processing.SetActive(showProcessing);
         }
     }
 }

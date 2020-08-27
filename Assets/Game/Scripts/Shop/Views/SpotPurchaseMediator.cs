@@ -1,5 +1,6 @@
 ﻿using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -66,6 +67,12 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.shop_popup_purchase, AnalyticsParameter.context, context);
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, "gems", item.currency3Payout, "spot_purchase", context);
             }
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessing(bool blocker, bool processing)
+        {
+            view.ShowProcessing(blocker, processing);
         }
     }
 }

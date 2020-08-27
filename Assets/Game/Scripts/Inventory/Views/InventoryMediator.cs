@@ -63,6 +63,15 @@ namespace TurboLabz.InstantFramework
             purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
         }
 
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            if (view.playerModel.OwnsAllThemes())
+            {
+                view.ShowThemeBanner(false);
+            }
+        }
+
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnProductPurchased(StoreItem item)
         {

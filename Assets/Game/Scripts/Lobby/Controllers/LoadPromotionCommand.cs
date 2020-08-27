@@ -233,7 +233,7 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.lobby_collect_rewards,
                 condition = delegate
                 {
-                    return !playerModel.HasSubscription();
+                    return true;
                 },
                 onClick = delegate 
                 {

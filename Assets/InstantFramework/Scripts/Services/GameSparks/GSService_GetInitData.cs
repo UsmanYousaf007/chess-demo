@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-
+            
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
 
@@ -80,6 +80,11 @@ namespace TurboLabz.InstantFramework
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+
+            if(GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
+            {
+                SendDefaultItemsOwnedAnalytics();
+            }
 
             storeAvailableSignal.Dispatch(false);
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
@@ -561,6 +566,28 @@ namespace TurboLabz.InstantFramework
                 GSParser.LogInboxMessage(msg);
 
                 targetList.Add(id, msg);
+            }
+
+        }
+
+        private void SendDefaultItemsOwnedAnalytics()
+        {
+            if (storeSettingsModel.items.ContainsKey(GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1))
+            {
+                var storeItem = storeSettingsModel.items[GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1];
+
+                if(storeItem.bundledItems != null)
+                {
+                    foreach (var item in storeItem.bundledItems)
+                    {
+                        var context = CollectionsUtil.GetContextFromString(item.Key);
+
+                        if (context != AnalyticsContext.unknown)
+                        {
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+                        }
+                    }
+                }
             }
         }
     }

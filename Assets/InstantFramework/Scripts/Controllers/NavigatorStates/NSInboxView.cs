@@ -34,6 +34,10 @@
             {
                 return new NSShop();
             }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
             else if (evt == NavigatorEvent.SHOW_SETTINGS)
             {
                 return new NSSettings();

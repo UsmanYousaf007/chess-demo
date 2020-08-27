@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ID = "opponentId";
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
+        public const string DEFAULT_ITEMS_ADDED = "isDefaultItemsAdded";
 
         // Lessons
         public const string LESSONS_MAPPING = "lessonsMapping";
@@ -316,6 +317,7 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_ITEM_KEY = "SpecialItemKey";
             public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";
             public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
+            public const string DEFAULT_ITEMS_V1 = "DefaultOwnedItemsV1";
 
             public static string GetOfferItemKey(string text)
             {

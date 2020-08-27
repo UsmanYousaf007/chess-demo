@@ -62,7 +62,7 @@ MonoBehaviour:
   addGemsButton: {fileID: 8990862123865640976}
   inboxButton: {fileID: 4079575685091461404}
   gemsCount: {fileID: 1729398880320329743}
-  boughtGemsCount: {fileID: 420958521006128200}
+  boughtGemsCount: {fileID: 0}
   messagesCount: {fileID: 900247852977755894}
   inboxNotification: {fileID: 8276561547277201255}
 --- !u!223 &222170606195207041
@@ -174,7 +174,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 20
+    m_MaxSize: 23
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -254,8 +254,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50.4, y: 6.6}
-  m_SizeDelta: {x: 63.6, y: 77.5}
+  m_AnchoredPosition: {x: 48.3, y: 6.08}
+  m_SizeDelta: {x: 63.6, y: 73.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6837759062485690941
 CanvasRenderer:
@@ -330,7 +330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -78.6, y: 2.4001465}
+  m_AnchoredPosition: {x: -65.2, y: 3.5}
   m_SizeDelta: {x: 76, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4741061580987572582
@@ -764,8 +764,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 127, y: -44}
-  m_SizeDelta: {x: 50.24, y: 49.492}
+  m_AnchoredPosition: {x: 141, y: -39.82}
+  m_SizeDelta: {x: 50.24, y: 44.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1368169235283946006
 CanvasRenderer:
@@ -872,7 +872,7 @@ GameObject:
   - component: {fileID: 7500119151339996023}
   - component: {fileID: 8276561547277201255}
   m_Layer: 5
-  m_Name: Plus
+  m_Name: NotificationCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -887,7 +887,7 @@ RectTransform:
   m_GameObject: {fileID: 3777495316123209764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1}
   m_Children:
   - {fileID: 3071357791519112699}
   m_Father: {fileID: 5190786023504306016}
@@ -895,7 +895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -2.2, y: 23}
+  m_AnchoredPosition: {x: -3.9, y: 28}
   m_SizeDelta: {x: 37, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7500119151339996023
@@ -1045,8 +1045,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -48}
-  m_SizeDelta: {x: 53, y: 52}
+  m_AnchoredPosition: {x: 11, y: -41.6}
+  m_SizeDelta: {x: 46, y: 39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4091216272535862949
 CanvasRenderer:
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.87058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1307,7 +1307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7117331518522771079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1422,7 +1422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -272, y: 2.4001465}
+  m_AnchoredPosition: {x: -290, y: 2.4001465}
   m_SizeDelta: {x: 230, y: 78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2046375213946450039
