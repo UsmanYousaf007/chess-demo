@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
+                { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
+                { LocalizationKey.LIVE_TEXT, "LIVE" },
                 { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
