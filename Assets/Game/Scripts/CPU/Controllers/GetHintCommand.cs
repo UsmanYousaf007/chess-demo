@@ -45,33 +45,33 @@ namespace TurboLabz.CPU
 
         public override void Execute()
         {
-            if(chessboardModel.lastPlayerMove != null)
+            //if (chessboardModel.isPlayerTurn)
+            //{
+            Retain();
+
+            //chessboardModel.usedHelp = true;
+
+            AiMoveInputVO vo = new AiMoveInputVO
             {
-                Retain();
+                aiColor = chessboardModel.playerColor,
+                playerColor = chessboardModel.opponentColor,
+                squares = chessboardModel.squares,
+                aiMoveDelay = AiMoveDelay.NONE,
+                lastPlayerMove = chessboardModel.lastPlayerMove,
+                isStrength = !isHindsight,
+                playerStrengthPct = 0.5f,
+                isHint = isHindsight,
+                fen = chessService.GetFen()
+            };
 
-                //chessboardModel.usedHelp = true;
-
-                AiMoveInputVO vo = new AiMoveInputVO
-                {
-                    aiColor = chessboardModel.playerColor,
-                    playerColor = chessboardModel.opponentColor,
-                    squares = chessboardModel.squares,
-                    aiMoveDelay = AiMoveDelay.NONE,
-                    lastPlayerMove = chessboardModel.lastPlayerMove,
-                    isStrength = !isHindsight,
-                    playerStrengthPct = 0.5f,
-                    isHint = isHindsight,
-                    fen = chessboardModel.previousPlayerTurnFen
-                };
-
-                IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
-                promise.Then(OnAiMoveStrength);
-            }
-            else
-            {
-                LogUtil.Log("Required one move : ");
-                cancelHintSignal.Dispatch();
-            }
+            IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMoveStrength(vo);
+            promise.Then(OnAiMoveStrength);
+            //}
+            //else
+            //{
+            //    LogUtil.Log("Required one move : ");
+            //    cancelHintSignal.Dispatch();
+            //}
 
         }
 
@@ -88,28 +88,28 @@ namespace TurboLabz.CPU
             newVo.skinId = playerModel.activeSkinId;
             newVo.didPlayerMadeBestMove = false;
 
-            var chessMoveTemp = new ChessMove();
-            if (chessMoveTemp.MoveToString(chessboardModel.lastPlayerMove.from, chessboardModel.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
-            {
-                newVo.didPlayerMadeBestMove = true;
-            }
+            //var chessMoveTemp = new ChessMove();
+            //if (chessMoveTemp.MoveToString(chessboardModel.lastPlayerMove.from, chessboardModel.lastPlayerMove.to).Equals(chessMoveTemp.MoveToString(from, to)))
+            //{
+            //    newVo.didPlayerMadeBestMove = true;
+            //}
 
             if (isHindsight)
             {
-                var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
+                //var pieceColor = strength[0].Equals('b') ? ChessColor.BLACK : ChessColor.WHITE;
 
-                //check if piece color is of opponent's then player's piece is captured
-                if (pieceColor != chessboardModel.playerColor)
-                {
-                    //set captured piece flag
-                    strength = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
-                }
+                ////check if piece color is of opponent's then player's piece is captured
+                //if (pieceColor != chessboardModel.playerColor)
+                //{
+                //    //set captured piece flag
+                //    strength = string.Format("{0}captured", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                //}
 
-                if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo)
-                    && newVo.didPlayerMadeBestMove)
-                {
-                    strength = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
-                }
+                //if (!string.IsNullOrEmpty(chessboardModel.lastPlayerMove.promo)
+                //    && newVo.didPlayerMadeBestMove)
+                //{
+                //    strength = string.Format("{0}p", chessboardModel.playerColor == ChessColor.BLACK ? 'b' : 'W');
+                //}
 
                 newVo.piece = strength;
             }
@@ -135,20 +135,20 @@ namespace TurboLabz.CPU
             
             renderHintSignal.Dispatch(newVo);
 
-            if (isHindsight)
-            {
-                updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
-                preferencesModel.isCoachTooltipShown = true;
-                preferencesModel.coachUsedCount++;
-            }
-            else
-            {
-                updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
-                consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
-                preferencesModel.isStrengthTooltipShown = true;
-                preferencesModel.strengthUsedCount++;
-            }
+            //if (isHindsight)
+            //{
+            //    updateHindsightCountSignal.Dispatch(playerModel.PowerUpHindsightCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINDSIGHT, 1);
+            //    preferencesModel.isCoachTooltipShown = true;
+            //    preferencesModel.coachUsedCount++;
+            //}
+            //else
+            //{
+            //    updateHintCountSignal.Dispatch(playerModel.PowerUpHintCount - 1);
+            //    consumeVirtualGoodSignal.Dispatch(GSBackendKeys.PowerUp.HINT, 1);
+            //    preferencesModel.isStrengthTooltipShown = true;
+            //    preferencesModel.strengthUsedCount++;
+            //}
 
             Release();
         }

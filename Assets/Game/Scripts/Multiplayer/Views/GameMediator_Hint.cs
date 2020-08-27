@@ -28,7 +28,7 @@ namespace TurboLabz.Multiplayer
             }       
         }
 
-        [ListensTo(typeof(RenderHintSignal))]
+        //[ListensTo(typeof(RenderHintSignal))]
         public void OnRenderHint(HintVO vo)
         {
             if (!vo.isHindsight)
@@ -61,7 +61,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            if (view.IsVisible())
+            if (view.IsVisible() && item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
             {
                 view.UpdateHintCount(0);
                 view.UpdateHindsightCount(0);

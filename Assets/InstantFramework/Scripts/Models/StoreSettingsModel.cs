@@ -6,6 +6,7 @@
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Purchasing;
 
 namespace TurboLabz.InstantFramework
 {
@@ -35,15 +36,18 @@ namespace TurboLabz.InstantFramework
             failedPurchaseTransactionId = "";
         }
 
-        public List<string> getRemoteProductIds ()
-        { 
-            List<string> ids = new List<string> ();
+        public Dictionary<string, ProductType> getRemoteProductIds ()
+        {
+            Dictionary<string, ProductType> ids = new Dictionary<string, ProductType>();
 
             foreach (KeyValuePair<string, StoreItem> item in items) 
 			{
                 if (item.Value.remoteProductId != null) 
 				{
-                    ids.Add(item.Value.remoteProductId);
+                    var itemType = item.Value.kind;
+                    var productType = itemType.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG) ? ProductType.NonConsumable :
+                        itemType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) ? ProductType.Subscription : ProductType.Consumable;
+                    ids.Add(item.Value.remoteProductId, productType);
 				}
 			}
 			return ids;			
@@ -107,8 +111,10 @@ namespace TurboLabz.InstantFramework
         public string description;              // Description to display in store     
         public int currency1Cost;               // Cost in currency1
         public int currency2Cost;               // Cost in currency2
+        public int currency3Cost;               // Cost in currency3
         public int currency1Payout;             // Payout in currency1
         public int currency2Payout;             // Payout in currency2
+        public int currency3Payout;             // Payout in currency3
         public string remoteProductId;          // Remote store product id
         public string remoteProductPrice;        // Remote store product localized price
         public string remoteProductCurrencyCode; // Remote store product currency code

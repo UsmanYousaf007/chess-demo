@@ -41,6 +41,7 @@ namespace TurboLabz.InstantGame
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
+            view.playTournamentButtonClickedSignal.AddListener(OnPlayTournamentButtonClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -98,6 +99,11 @@ namespace TurboLabz.InstantGame
         private void OnProfilePicButtonClicked()
         {
             playerProfilePicTappedSignal.Dispatch();
+        }
+
+        private void OnPlayTournamentButtonClicked()
+        {
+            //TODO dispatch signal to live tournament
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]

@@ -41,6 +41,7 @@ namespace TurboLabz.CPU
         public GameObject chessboardBlocker;
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
+        public GameObject logo;
 
         private bool menuButtonWasActive;
 
@@ -61,8 +62,9 @@ namespace TurboLabz.CPU
             OnParentShowHindsight();
             OnParentShowStep();
             OnParentShowAdBanner();
+            OnParentShowSpecialHint();
             EnableSafeButton();
-
+            OnShowLogo();
             showAdOnBack = false;
         }
 
@@ -139,6 +141,11 @@ namespace TurboLabz.CPU
             {
                 EnableMenuButton();
             }
+        }
+
+        private void OnShowLogo()
+        {
+            logo.SetActive(playerModel.HasRemoveAds());
         }
     }
 }

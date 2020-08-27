@@ -14,7 +14,9 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.MULTIPLAYER, NavigatorViewId.FRIENDS, NavigatorViewId.LOBBY, NavigatorViewId.MANAGE_BLOCKED_FRIENDS);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.MULTIPLAYER, NavigatorViewId.FRIENDS, NavigatorViewId.LOBBY,
+                NavigatorViewId.MANAGE_BLOCKED_FRIENDS, NavigatorViewId.SHOP, NavigatorViewId.INVENTORY,
+                NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LESSONS_VIEW, NavigatorViewId.LESSON_VIDEO);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -33,6 +35,28 @@ namespace TurboLabz.InstantFramework
                 else if (viewId == NavigatorViewId.MANAGE_BLOCKED_FRIENDS)
                 {
                     return new NSManageBlockedFriends();
+                }
+                else if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
+                }
+                else if (viewId == NavigatorViewId.INVENTORY)
+                {
+                    return new NSInventory();
+                }
+                if (viewId == NavigatorViewId.TOPICS_VIEW)
+                {
+                    cmd.loadTopicsViewSignal.Dispatch();
+                    return null;
+                }
+                else if (viewId == NavigatorViewId.LESSONS_VIEW)
+                {
+                    cmd.loadLessonsViewSignal.Dispatch(cmd.lessonsModel.lastViewedTopic);
+                    return null;
+                }
+                else if (viewId == NavigatorViewId.LESSON_VIDEO)
+                {
+                    return new NSLessonVideo();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
@@ -53,10 +77,6 @@ namespace TurboLabz.InstantFramework
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
-            }
-            else if (evt == NavigatorEvent.SHOW_TOPICS_VIEW)
-            {
-                return new NSLessonTopics();
             }
 
             return null;

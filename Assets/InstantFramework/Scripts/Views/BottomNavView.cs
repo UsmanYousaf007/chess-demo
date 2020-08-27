@@ -23,72 +23,163 @@ namespace TurboLabz.InstantFramework
 {
     public class BottomNavView : View
     {
-        [Inject] public ILocalizationService localizationService { get; set; }
-
         public enum ButtonId
         {
             Home,
             Shop,
-            Friends
+            Friends,
+            Inventory,
+            Arena
         }
 
         public ButtonId buttonId;
 
         public Text homeLabel;
         public Text friendsLabel;
+        public Text inventoryLabel;
+        public Text shopLabel;
+        public Text arenaLabel;
 
         public Image homeIcon;
         public Image friendsIcon;
+        public Image inventoryIcon;
+        public Image shopIcon;
+        public Image arenaIcon;
 
         public Button homeButton;
         public Button friendsButton;
+        public Button inventoryButton;
+        public Button shopButton;
+        public Button arenaButton;
+
+        public GameObject shopAlert;
+        public GameObject inventoryAlert;
 
         public Signal homeButtonClickedSignal = new Signal();
         public Signal friendsButtonClickedSignal = new Signal();
+        public Signal inventoryButtonClickedSignal = new Signal();
+        public Signal shopButtonClickedSignal = new Signal();
+        public Signal arenaButtonClickedSignal = new Signal();
+
+        //Services
+        [Inject] public IAudioService audioService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
+
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public void Init()
         {
             homeLabel.text = localizationService.Get(LocalizationKey.NAV_HOME);
             friendsLabel.text = localizationService.Get(LocalizationKey.NAV_FRIENDS);
+            inventoryLabel.text = localizationService.Get(LocalizationKey.NAV_INVENTORY);
+            shopLabel.text = localizationService.Get(LocalizationKey.NAV_SHOP);
+            arenaLabel.text = localizationService.Get(LocalizationKey.NAV_ARENA);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
-            friendsButton.onClick.AddListener(SettingsButtonClicked);
+            friendsButton.onClick.AddListener(FriendsButtonClicked);
+            inventoryButton.onClick.AddListener(InventoryButtonClicked);
+            shopButton.onClick.AddListener(ShopButtonClicked);
+            arenaButton.onClick.AddListener(ArenaButtonClicked);
 
             UpdateButtons();
+        }
+
+        private void OnEnable()
+        {
+            UpdateAlerts();
+        }
+
+        public void UpdateAlerts()
+        {
+            shopAlert.SetActive(!preferencesModel.shopTabVisited);
+            inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
         void UpdateButtons()
         {
             homeButton.interactable = true;
-            homeIcon.color = Colors.WHITE_100;
-            homeLabel.color = Colors.WHITE_100;
+            //homeIcon.color = Colors.WHITE_100;
+            homeLabel.enabled = false;
 
             friendsButton.interactable = true;
-            friendsIcon.color = Colors.WHITE_100;
-            friendsLabel.color = Colors.WHITE_100;
+            //friendsIcon.color = Colors.WHITE_100;
+            friendsLabel.enabled = false;
+
+            inventoryButton.interactable = true;
+            //inventoryIcon.color = Colors.WHITE_100;
+            inventoryLabel.enabled = false;
+
+            shopButton.interactable = true;
+            //shopIcon.color = Colors.WHITE_100;
+            shopLabel.enabled = false;
+
+            arenaButton.interactable = true;
+            //arenaIcon.color = Colors.WHITE_100;
+            arenaLabel.enabled = false;
 
             if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
-                homeIcon.color = Colors.YELLOW;
-                homeLabel.color = Colors.YELLOW;
+                //homeIcon.color = Colors.YELLOW;
+                homeLabel.enabled = true;
             }
             else if (buttonId == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
-                friendsIcon.color = Colors.YELLOW;
-                friendsLabel.color = Colors.YELLOW;
+                //friendsIcon.color = Colors.YELLOW;
+                friendsLabel.enabled = true;
+            }
+            else if (buttonId == ButtonId.Inventory)
+            {
+                inventoryButton.interactable = false;
+                //inventoryIcon.color = Colors.YELLOW;
+                inventoryLabel.enabled = true;
+            }
+            else if (buttonId == ButtonId.Shop)
+            {
+                shopButton.interactable = false;
+                //shopIcon.color = Colors.YELLOW;
+                shopLabel.enabled = true;
+            }
+            else if (buttonId == ButtonId.Arena)
+            {
+                arenaButton.interactable = false;
+                //arenaIcon.color = Colors.YELLOW;
+                arenaLabel.enabled = true;
             }
         }
 
         void HomeButtonClicked()
         {
+            audioService.PlayStandardClick();
             homeButtonClickedSignal.Dispatch();
         }
 
-        void SettingsButtonClicked()
+        void FriendsButtonClicked()
         {
+            audioService.PlayStandardClick();
             friendsButtonClickedSignal.Dispatch();
+        }
+
+        void ArenaButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            arenaButtonClickedSignal.Dispatch();
+        }
+
+        void InventoryButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            preferencesModel.inventoryTabVisited = true;
+            inventoryButtonClickedSignal.Dispatch();
+        }
+
+        void ShopButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            preferencesModel.shopTabVisited = true;
+            shopButtonClickedSignal.Dispatch();
         }
     }
 }

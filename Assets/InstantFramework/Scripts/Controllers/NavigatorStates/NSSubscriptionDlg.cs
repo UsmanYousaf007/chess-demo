@@ -10,7 +10,7 @@
         public override NS HandleEvent(NavigatorEvent evt)
         {
             NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER,
-                NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG,
+                NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SHOP,
                 NavigatorViewId.LESSONS_VIEW, NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LESSON_VIDEO);
 
             if (evt == NavigatorEvent.ESCAPE)
@@ -54,6 +54,10 @@
                 else if (viewId == NavigatorViewId.LESSON_VIDEO)
                 {
                     return new NSLessonVideo();
+                }
+                else if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

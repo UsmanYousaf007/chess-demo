@@ -189,5 +189,20 @@ namespace TurboLabz.InstantFramework
             }
             GameAnalytics.NewDesignEvent(evtStr);
         }
+
+        public void ResourceEvent(GAResourceFlowType flowType, string currency, int amount, string itemType, string itemId)
+        {
+            GameAnalytics.NewResourceEvent(flowType, currency, (float)amount, itemType, itemId);
+
+            var paramDict = new Dictionary<string, object>();
+            paramDict.Add("currency", currency);
+            paramDict.Add("amount", amount);
+            paramDict.Add("itemType", itemType);
+            paramDict.Add("itemId", itemId);
+
+            Analytics.CustomEvent(flowType.ToString(), paramDict);
+            Print(flowType.ToString(), paramDict);
+        }
+
     }
 }

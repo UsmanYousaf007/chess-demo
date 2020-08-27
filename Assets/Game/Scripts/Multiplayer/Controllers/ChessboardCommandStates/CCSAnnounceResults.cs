@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
             vo.playerName = cmd.playerModel.name;
             vo.opponentName = cmd.activeMatchInfo.opponentPublicProfile.name;
             vo.challengeId = cmd.matchInfoModel.activeChallengeId;
+            vo.ratingBoostStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER];
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
@@ -81,6 +82,7 @@ namespace TurboLabz.Multiplayer
 
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
+            cmd.specialHintAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
         }

@@ -35,6 +35,7 @@ namespace TurboLabz.Multiplayer
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
         public Text opponentConnectionMonitorLabel;
+        public GameObject logoObject;
 
 		[Header("Match Status")]
 		public GameObject friendlyObject;
@@ -69,8 +70,10 @@ namespace TurboLabz.Multiplayer
             OnParentShowHindsight();
             OnParentShowInfo();
             OnParentShowAdBanner();
+            OnParentShowSpecialHint();
             EnableSafeButton();
             ShowViewBoardResultsPanel(false);
+            OnShowLogo();
         }
 
         public void Hide()
@@ -213,6 +216,11 @@ namespace TurboLabz.Multiplayer
             }
 
             opponentConnectionMonitorLabel.gameObject.SetActive(false);
+        }
+
+        private void OnShowLogo()
+        {
+            logoObject.SetActive(playerModel.HasRemoveAds());
         }
     }
 }

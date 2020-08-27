@@ -63,6 +63,11 @@ namespace TurboLabz.InstantFramework
         SHOW_LESSON_VIDEO,
         SHOW_TOPICS_VIEW,
         SHOW_LESSONS_VIEW,
-        SHOW_OPPONENT_STATUS_DLG
+        SHOW_OPPONENT_STATUS_DLG,
+        SHOW_SHOP,
+        SHOW_SHOP_BUNDLE_PURCHASED,
+        SHOW_INVENTORY,
+        SHOW_ARENA,
+        SHOW_INBOX
     }
 }

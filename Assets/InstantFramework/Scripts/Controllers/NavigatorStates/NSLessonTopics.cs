@@ -58,6 +58,10 @@
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
 
             return null;
         }

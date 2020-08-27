@@ -20,6 +20,7 @@ namespace TurboLabz.TLUtils
     {
         private static Random random = new Random();
         private static Dictionary<string, string> stateToContextMap;
+        private static Dictionary<string, AnalyticsContext> stringToContextMap;
 
         public static void Shuffle<T>(T[] collection)
         {
@@ -44,10 +45,25 @@ namespace TurboLabz.TLUtils
 
             if (!stateToContextMap.ContainsKey(state))
             {
-                return string.Empty;
+                return $"unknown_{state}";
             }
 
             return stateToContextMap[state];
+        }
+
+        public static AnalyticsContext GetContextFromString(string context)
+        {
+            if (stringToContextMap == null)
+            {
+                CreateStringToContextMap();
+            }
+
+            if (!stringToContextMap.ContainsKey(context))
+            {
+                return AnalyticsContext.unknown;
+            }
+
+            return stringToContextMap[context];
         }
 
         private static void CreateStateToContextMap()
@@ -57,6 +73,26 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("LimitReachedDlg", "games_limit");
             stateToContextMap.Add("ThemeSelectionDlg", "themes");
             stateToContextMap.Add("Settings", "settings");
+            stateToContextMap.Add("Shop", "shop");
+            stateToContextMap.Add("CPU", "in_game");
+            stateToContextMap.Add("Inventory", "inventory");
+            stateToContextMap.Add("LessonsView", "lessons");
+            stateToContextMap.Add("Multiplayer", "in_game");
+            stateToContextMap.Add("MultiplayerResultsDlg", "end_card");
+        }
+
+        private static void CreateStringToContextMap()
+        {
+            stringToContextMap = new Dictionary<string, AnalyticsContext>();
+            stringToContextMap.Add("SpecialItemRatingBooster", AnalyticsContext.ratingBooster);
+            stringToContextMap.Add("SpecialItemHint", AnalyticsContext.hint);
+            stringToContextMap.Add("SpecialItemKey", AnalyticsContext.key);
+            stringToContextMap.Add("SpecialItemGemsBooster", AnalyticsContext.lucky_gem_booster);
+            stringToContextMap.Add("SpecialItemRatingBoosterPoints", AnalyticsContext.rewarded_rating_booster);
+            stringToContextMap.Add("SpecialItemHintPoints", AnalyticsContext.rewarded_hints);
+            stringToContextMap.Add("SpecialItemKeyPoints", AnalyticsContext.rewarded_keys);
+            stringToContextMap.Add("SpecialItemGemBoosterPoints", AnalyticsContext.rewarded_gem_booster);
+            stringToContextMap.Add("gems", AnalyticsContext.gems);
         }
     }
 }
