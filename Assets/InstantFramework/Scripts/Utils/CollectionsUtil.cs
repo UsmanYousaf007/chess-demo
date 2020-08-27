@@ -93,6 +93,8 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("SpecialItemKeyPoints", AnalyticsContext.rewarded_keys);
             stringToContextMap.Add("SpecialItemGemBoosterPoints", AnalyticsContext.rewarded_gem_booster);
             stringToContextMap.Add("gems", AnalyticsContext.gems);
+            stringToContextMap.Add("SpecialItemTicket", AnalyticsContext.ticket);
+            stringToContextMap.Add("SpecialItemTicketPoints", AnalyticsContext.rewarded_tickets);
         }
     }
 }

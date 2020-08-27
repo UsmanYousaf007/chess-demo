@@ -245,6 +245,7 @@ namespace TurboLabz.InstantFramework
         rewarded_hints,
         rewarded_keys,
         rewarded_gem_booster,
+        rewarded_tickets,
         lobby_lessons_pack,
         lobby_themes_pack,
         lobby_remove_ads,
@@ -254,7 +255,8 @@ namespace TurboLabz.InstantFramework
         lobby_update_banner,
         lobby_subscription_banner,
         ratingBooster,
-        gems
+        gems,
+        ticket
     }
 
     public enum AnalyticsParameter
