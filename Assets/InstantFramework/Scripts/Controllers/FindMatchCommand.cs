@@ -68,12 +68,8 @@ namespace TurboLabz.InstantFramework
         {
             if (opponentStatus.Equals("busy"))
             {
-
-                var opponentID = FindMatchAction.actionData.opponentId;
-                ProfileVO pvo = GetOpponentProfile(opponentID);
                 //show dailogue
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_OPPONENT_STATUS_DLG);
-                /*navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
 
                 var vo = new ConfirmDlgVO
                 {
@@ -85,11 +81,15 @@ namespace TurboLabz.InstantFramework
                         navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
                     }
                 };
-                updateConfirmDlgSignal.Dispatch(vo);*/
 
-                MatchAnalyticsVO matchAnalyticsvo = GetFindMatchAnalyticsVO(AnalyticsContext.failed);
-                updateOpponentStatusSignal.Dispatch(pvo, matchAnalyticsvo.matchType);
-                matchAnalyticsSignal.Dispatch(matchAnalyticsvo);
+                updateConfirmDlgSignal.Dispatch(vo);
+                matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
+
+                //TODO replace the above show dialogue code with the following code 
+                //var opponentID = FindMatchAction.actionData.opponentId;
+                //ProfileVO pvo = GetOpponentProfile(opponentID);
+                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_OPPONENT_STATUS_DLG);
+                //updateOpponentStatusSignal.Dispatch(pvo, matchAnalyticsvo.matchType);
             }
             else
             {
@@ -117,9 +117,11 @@ namespace TurboLabz.InstantFramework
 
             matchInfoModel.activeChallengeId = challengeId;
 
-            PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+            //TODO add this piece of code to get opponent profile based on given id
+            //PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+
             // Create and fill the opponent profile
-            ProfileVO pvo = GetOpponentProfile(publicProfile.playerId);
+            ProfileVO pvo = GetOpponentProfile();
 
             // Set the opponent info in the game view
             updateOpponentProfileSignal.Dispatch(pvo);
@@ -168,9 +170,11 @@ namespace TurboLabz.InstantFramework
                 if (matchInfoModel.activeMatch != null)
                 {
                     matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
-                    PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
-                    ProfileVO pvo = GetOpponentProfile(publicProfile.playerId);
+                    //TODO add this piece of code to get opponent profile based on given id
+                    //PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+
+                    ProfileVO pvo = GetOpponentProfile();
                     updateOpponentProfileSignal.Dispatch(pvo);
 
                     updateChatOpponentPicSignal.Dispatch(sprite);
@@ -180,11 +184,13 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-        private ProfileVO GetOpponentProfile(string opponentID)
+        //TODO add opponentID as paramenter to get opponent profile based on given id
+        private ProfileVO GetOpponentProfile()
         {
-            //PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+            PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
 
-            PublicProfile publicProfile = null;
+            //TODO get profile picture based on given id
+            /*PublicProfile publicProfile = null;
             var friend = playerModel.GetFriend(opponentID);
             if (friend != null)
             {
@@ -193,7 +199,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-            }
+            }*/
 
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
