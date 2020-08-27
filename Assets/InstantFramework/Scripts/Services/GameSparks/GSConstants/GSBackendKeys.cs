@@ -313,6 +313,7 @@ namespace TurboLabz.InstantFramework
             public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
 
             public const string SPECIAL_ITEM_GEMS_BOOSTER = "SpecialItemGemsBooster";
+            public const string SPECIAL_ITEM_TICKET = "SpecialItemTicket";
             public const string SPECIAL_ITEM_HINT = "SpecialItemHint";
             public const string SPECIAL_ITEM_KEY = "SpecialItemKey";
             public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";

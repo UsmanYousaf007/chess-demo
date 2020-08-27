@@ -411,7 +411,8 @@ namespace TurboLabz.InstantFramework
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_GEMS_BOOSTER,
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER,
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY,
-                    GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT,
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET
                 };
 
                 foreach (var key in inventoryItemKeys)
