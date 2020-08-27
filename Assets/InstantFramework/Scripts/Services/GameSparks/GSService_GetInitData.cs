@@ -77,6 +77,8 @@ namespace TurboLabz.InstantFramework
             List<GSData> liveTournamentsData = response.ScriptData.GetGSDataList(GSBackendKeys.LIVE_TOURNAMENTS);
             FillLiveTournaments(liveTournamentsData);
 
+            tournamentsModel.lastFetchedTime = DateTime.UtcNow;
+
             playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
 
             storeAvailableSignal.Dispatch(false);
@@ -483,28 +485,7 @@ namespace TurboLabz.InstantFramework
                 for (int i = 0; i < liveTournaments.Count; i++)
                 {
                     var tournamentGSData = liveTournaments[i].BaseData[GSBackendKeys.Tournament.TOURNAMENT_KEY] as GSData;
-                    LiveTournamentData liveTournament = new LiveTournamentData();
-
-                    liveTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
-                    liveTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
-                    liveTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
-                    liveTournament.active = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.ACTIVE);
-                    liveTournament.firstStartTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
-                    liveTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
-                    liveTournament.waitTimeMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
-
-                    var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
-                    if (grandPrizeGSData != null)
-                    {
-                        TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
-
-                        liveTournament.grandPrize = grandPrize;
-                    }
-
-                    long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
-                    long durationSeconds = liveTournament.durationMinutes * 60;
-                    long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
-                    liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData);
 
                     if (tournamentsModel.isTournamentOpen(liveTournament))
                     {
@@ -516,6 +497,36 @@ namespace TurboLabz.InstantFramework
                     }
                 }
             }
+        }
+
+        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData)
+        {
+            LiveTournamentData liveTournament = new LiveTournamentData();
+
+            liveTournament.shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+            liveTournament.name = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.NAME);
+            liveTournament.type = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.TYPE);
+            liveTournament.active = GSParser.GetSafeBool(liveTournamentGSData, GSBackendKeys.Tournament.ACTIVE);
+            liveTournament.firstStartTimeUTC = GSParser.GetSafeLong(liveTournamentGSData, GSBackendKeys.Tournament.START_TIME);
+            liveTournament.durationMinutes = GSParser.GetSafeInt(liveTournamentGSData, GSBackendKeys.Tournament.DURATION);
+            liveTournament.waitTimeMinutes = GSParser.GetSafeInt(liveTournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
+
+            var grandPrizeGSData = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+            if (grandPrizeGSData != null)
+            {
+                TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
+
+                liveTournament.grandPrize = grandPrize;
+            }
+
+            var rewards = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+
+            long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
+            long durationSeconds = liveTournament.durationMinutes * 60;
+            long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
+            liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+
+            return liveTournament;
         }
 
         private TournamentReward ParseTournamentReward(GSData rewardGSData)

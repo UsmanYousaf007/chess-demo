@@ -49,6 +49,14 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getTournamentLeaderboard", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        public IPromise<BackendResult> TournamentsOpGetLiveRewards(string tournamentShortCode)
+        {
+            JsonObject jsonObj = new JsonObject();
+            jsonObj.Add("tournamentShortCode", tournamentShortCode);
+
+            return new GSTournamentsOpRequest(GetRequestContext()).Send("getLiveTournamentRewards", OnTournamentsOpSuccess, jsonObj.ToString());
+        }
+
         private void OnTournamentsOpSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
@@ -94,6 +102,15 @@ namespace TurboLabz.InstantFramework
                         joinedTournamentsList[i].entries = tournamentEntries;
                     }
                 }
+            }
+
+            GSData liveTournamentGSData = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.LIVE_TOURNAMENT);
+            if (liveTournamentGSData != null)
+            {
+                LiveTournamentData liveTournament = ParseLiveTournament(liveTournamentGSData);
+                liveTournament.lastFetchedTime = DateTime.UtcNow;
+
+                tournamentsModel.SetOpenTournament(liveTournament);
             }
         }
     }

@@ -183,7 +183,9 @@ namespace TurboLabz.InstantFramework
     public class TournamentOpFailedSignal : Signal { }
     public class GetTournamentsSuccessSignal : Signal { }
     public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
+    public class FetchLiveTournamentRewardsSignal : Signal<string> { }
     public class GetTournamentLeaderboardSuccessSignal : Signal { }
+    public class FetchLiveTournamentRewardsSuccessSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }

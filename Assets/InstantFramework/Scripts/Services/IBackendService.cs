@@ -78,6 +78,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> TournamentsOpGetLiveTournaments();
         IPromise<BackendResult> TournamentsOpGetAllTournaments();
         IPromise<BackendResult> TournamentsOpGetLeaderboard(string tournamentId, bool update = true);
+        IPromise<BackendResult> TournamentsOpGetLiveRewards(string tournamentShortCode);
 
         IPromise<BackendResult> InBoxOpGet();
         IPromise<BackendResult> InBoxOpCollect(string messageId);

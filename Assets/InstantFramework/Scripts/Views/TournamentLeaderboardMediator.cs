@@ -35,6 +35,12 @@ namespace TurboLabz.InstantFramework
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
         }
 
+        [ListensTo(typeof(FetchLiveTournamentRewardsSuccessSignal))]
+        public void UpdateView()
+        {
+
+        }
+
         public void OnEnterButtonClicked()
         {
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnEnterButtonClicked()");

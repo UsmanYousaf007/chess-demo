@@ -398,6 +398,7 @@ namespace TurboLabz.InstantFramework
             public const string WAIT_TIME = "waitTime";
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
+            public const string REWARDS = "rewards";
         }
 
         public static class TournamentReward
@@ -415,6 +416,7 @@ namespace TurboLabz.InstantFramework
         {
             public const string ERROR = "error";
             public const string TOURNAMENT = "tournament";
+            public const string LIVE_TOURNAMENT = "liveTournament";
             public const string TOURNAMENTS = "tournaments";
             public const string LIVE_TOURNAMENTS = "liveTournaments";
         }

@@ -45,6 +45,16 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public TournamentAsset GetAssets(string tournamentType)
+        {
+            if (assetsDict.ContainsKey(tournamentType))
+            {
+                return assetsDict[tournamentType];
+            }
+
+            return null;
+        }
+
         private void PopulateDict ()
         {
             assetsDict = new Dictionary<string, TournamentAsset>(assets.Length + 1);
