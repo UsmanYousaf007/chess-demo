@@ -551,6 +551,7 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
             SetupRatingBoostButton(false);
             resultsBoostRatingButton.interactable = false;
+            resultsBoostRatingGemsBg.gameObject.SetActive(false);
         }
 
         private void OnResultsDeclinedButtonClicked()

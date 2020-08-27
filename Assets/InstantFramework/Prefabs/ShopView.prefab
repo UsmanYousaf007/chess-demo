@@ -438,8 +438,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.00012207031}
-  m_SizeDelta: {x: 845.8128, y: 1948}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3057387841713171604
 CanvasRenderer:
@@ -1958,6 +1958,8 @@ MonoBehaviour:
   ownedText: {fileID: 2764308018607167947}
   loading: {fileID: 1142582619287379139}
   layout: {fileID: 3057387842889659124}
+  uiBlocker: {fileID: 3057387841713171595}
+  processing: {fileID: 3056758574384589256}
 --- !u!1 &3057387843342230216
 GameObject:
   m_ObjectHideFlags: 0
