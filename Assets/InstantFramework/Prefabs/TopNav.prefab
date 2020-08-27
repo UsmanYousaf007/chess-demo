@@ -62,7 +62,7 @@ MonoBehaviour:
   addGemsButton: {fileID: 8990862123865640976}
   inboxButton: {fileID: 4079575685091461404}
   gemsCount: {fileID: 1729398880320329743}
-  boughtGemsCount: {fileID: 420958521006128200}
+  boughtGemsCount: {fileID: 0}
   messagesCount: {fileID: 900247852977755894}
   inboxNotification: {fileID: 8276561547277201255}
 --- !u!223 &222170606195207041
@@ -1307,7 +1307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7117331518522771079
 RectTransform:
   m_ObjectHideFlags: 0
