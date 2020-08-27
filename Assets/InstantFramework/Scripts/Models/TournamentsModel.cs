@@ -8,6 +8,9 @@ namespace TurboLabz.InstantFramework
 {
     public class TournamentsModel : ITournamentsModel
     {
+        private static ChestIconsContainer chestIconsContainer;
+        private static TournamentAssetsContainer tournamentAssetsContainer;
+
         // Signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -21,6 +24,9 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             modelsResetSignal.AddListener(Reset);
+
+            chestIconsContainer = chestIconsContainer == null ? ChestIconsContainer.Load() : chestIconsContainer;
+            tournamentAssetsContainer = tournamentAssetsContainer == null ? TournamentAssetsContainer.Load() : tournamentAssetsContainer;
         }
 
         private void Reset()
@@ -94,6 +100,57 @@ namespace TurboLabz.InstantFramework
             long startTime = joinedTournament.startTimeUTC * 60;
             return (startTime + durationSeconds - currentTimeSeconds);
         }
+
+        public LiveTournamentData GetOpenTournament(string shortCode)
+        {
+            for (int i = 0; i < openTournaments.Count; i++)
+            {
+                if (openTournaments[i].shortCode == shortCode)
+                {
+                    return openTournaments[i];
+                }
+            }
+
+            return null;
+        }
+
+        public void SetOpenTournament(LiveTournamentData openTournament)
+        {
+            for (int i = 0; i < openTournaments.Count; i++)
+            {
+                if (openTournaments[i].shortCode == openTournament.shortCode)
+                {
+                    openTournaments[i] = openTournament;
+                }
+            }
+        }
+
+        public LiveTournamentData GetOpenTournament()
+        {
+            return openTournaments.Count > 0 ? openTournaments[0] : null;
+        }
+
+        public JoinedTournamentData GetJoinedTournament()
+        {
+            return joinedTournaments.Count > 0 ? joinedTournaments[0] : null;
+        }
+
+        #region Tournament Sprites API
+        public Sprite GetStickerSprite(string tournamentType)
+        {
+            return tournamentAssetsContainer.GetSticker(tournamentType);
+        }
+
+        public Sprite GetTileSprite(string tournamentType)
+        {
+            return tournamentAssetsContainer.GetTile(tournamentType);
+        }
+
+        public TournamentAssetsContainer.TournamentAsset GetAllSprites(string tournamentType)
+        {
+            return tournamentAssetsContainer.GetAssets(tournamentType);
+        }
+        #endregion
     }
 
     [Serializable]
@@ -116,7 +173,10 @@ namespace TurboLabz.InstantFramework
         public long startTimeUTC;
         public int durationMinutes;
         public long currentStartTimeInSeconds;
+        public List<TournamentReward> rewards;
         public List<TournamentEntry> entries = new List<TournamentEntry>();
+
+        public DateTime lastFetchedTime;
     }
 
     [Serializable]
@@ -130,8 +190,10 @@ namespace TurboLabz.InstantFramework
         public long firstStartTimeUTC;
         public int durationMinutes;
         public int waitTimeMinutes;
+        public List<TournamentReward> rewards;
 
         public long currentStartTimeInSeconds;
+        public DateTime lastFetchedTime;
     }
 
     [Serializable]
