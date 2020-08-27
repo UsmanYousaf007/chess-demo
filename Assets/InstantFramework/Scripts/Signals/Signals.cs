@@ -163,9 +163,37 @@ namespace TurboLabz.InstantFramework
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     public class UpdateOpponentStatusSignal : Signal<ProfileVO, string> { }
+    public class LoadArenaSignal : Signal { }
+    public class UpdateTournamentsViewSignal : Signal { }
+    public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
+    public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
+    public class VirtualGoodBoughtSignal : Signal<string> { }
+    public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
+    public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
+    public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
+    public class UpdateBottomNavSignal : Signal { }
+    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxRemoveMessagesSignal : Signal<string> { }
+    public class LoadInboxSignal : Signal { }
+    public class UpdateInboxMessageCountViewSignal : Signal<long> { }
+    public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
+
+    // Tournaments
+    public class GetAllTournamentsSignal : Signal { }
+    public class TournamentOpFailedSignal : Signal { }
+    public class GetTournamentsSuccessSignal : Signal { }
+    public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
+    public class FetchLiveTournamentRewardsSignal : Signal<string> { }
+    public class GetTournamentLeaderboardSuccessSignal : Signal { }
+    public class FetchLiveTournamentRewardsSuccessSignal : Signal { }
+
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
     public class RatingBoostAnimSignal : Signal<int> { }
+
+    // LeagueProfileStrip
+    public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
+    public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
 }

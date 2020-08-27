@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         string subscriptionType { get; set; }
         AnalyticsContext adContext { get; set; }
         string uploadedPicId { get; set; }
+        long gems { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -63,7 +64,7 @@ namespace TurboLabz.InstantFramework
         int PowerUpHindsightCount { get; }
         int PowerUpSafeMoveCount { get; }
 
-        bool HasRemoveAds(IAdsSettingsModel adsSettingsModel);
+        bool HasRemoveAds(IAdsSettingsModel adsSettingsModel = null);
         bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel);
         PlayerInventoryVO GetPlayerInventory();
 
@@ -78,6 +79,9 @@ namespace TurboLabz.InstantFramework
         float rewardCurrentPoints { get; set; }
         float rewardPointsRequired { get; set; }
 
+        // Inbox
+        int inboxMessageCount { get; set; }
+
         void UpdateGoodsInventory(string key, int quantity);
         AdsRewardVO GetAdsRewardsData();
 
@@ -87,5 +91,9 @@ namespace TurboLabz.InstantFramework
         bool isVideoFullyWatched(string videoId);
         bool isAnyVideoWatched();
         float? GetVideoProgress(string videoId);
+
+        int GetInventoryItemCount(string key);
+        bool OwnsAllLessons();
+        bool OwnsAllThemes();
     }
 }

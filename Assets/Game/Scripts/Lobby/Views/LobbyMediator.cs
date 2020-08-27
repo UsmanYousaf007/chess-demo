@@ -545,11 +545,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(RatingBoostAnimSignal))]
-        public void OnRatingBoostAnimation(int ratingBoost)
-        {
-            view.RatingBoostAnimation(ratingBoost);
-        }
+        //[ListensTo(typeof(RatingBoostAnimSignal))]
+        //public void OnRatingBoostAnimation(int ratingBoost)
+        //{
+        //    view.RatingBoostAnimation(ratingBoost);
+        //}
     }
 }
 

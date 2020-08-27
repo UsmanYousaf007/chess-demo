@@ -11,5 +11,6 @@ namespace TurboLabz.InstantGame
     {
         public TopicVO topicVO;
         public List<VideoLessonVO> lessons;
+        public bool showBanner;
     }
 }

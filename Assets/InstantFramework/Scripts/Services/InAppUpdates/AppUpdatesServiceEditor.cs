@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
 
         public bool IsUpdateAvailable()
         {
-            return true;
+            return false;
         }
 
         public void GoToStore(string url)

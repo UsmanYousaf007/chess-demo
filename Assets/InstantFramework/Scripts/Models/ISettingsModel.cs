@@ -3,6 +3,8 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections.Generic;
+
 namespace TurboLabz.InstantFramework
 {
     public interface ISettingsModel
@@ -26,5 +28,9 @@ namespace TurboLabz.InstantFramework
         string manageSubscriptionURL { get; set; }
         int maxLongMatchCountPremium { get; set; }
         int maxFriendsCountPremium { get; set; }
+        int hintsAllowedPerGame { get; set; }
+
+        Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
+        int GetInventorySpecialItemsRewardedVideoCost(string key);
     }
 }

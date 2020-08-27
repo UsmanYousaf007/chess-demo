@@ -45,6 +45,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterHindsight();
             OnRegisterInfo();
             OnRegisterChallengeSent();
+            OnRegisterSpecialHint();
         }
 
         public override void OnRemove()

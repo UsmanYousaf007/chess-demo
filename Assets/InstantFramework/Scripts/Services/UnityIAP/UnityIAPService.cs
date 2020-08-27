@@ -53,7 +53,7 @@ namespace TurboLabz.InstantFramework
 			PURCHASE_STATE_SUCCESS
 		}
 
-		public IPromise<bool> Init(List<string> storeProductIds) 
+		public IPromise<bool> Init(Dictionary<string, ProductType> storeProductIds) 
 		{
             if (isStoreAvailable())
             {
@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
 			// Add Products
 			foreach (var id in storeProductIds)
 			{
-				builder.AddProduct(id, ProductType.Subscription);
+				builder.AddProduct(id.Key, id.Value);
 			}
 
 			UnityPurchasing.Initialize(this, builder);
@@ -116,18 +116,22 @@ namespace TurboLabz.InstantFramework
                         hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
                             new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     }
-                }
+
 #if SUBSCRIPTION_TEST
-                else if (playerModel.subscriptionExipryTimeStamp > 0)
-                {
-                    playerModel.subscriptionExipryTimeStamp = 1;
-                    loadPromotionSingal.Dispatch();
-                    updatePlayerDataSignal.Dispatch();
-                }
+                    if (playerModel.subscriptionExipryTimeStamp > 0)
+                    {
+                        playerModel.subscriptionExipryTimeStamp = 1;
+                        loadPromotionSingal.Dispatch();
+                        updatePlayerDataSignal.Dispatch();
+                    }
 #endif 
+                }
             }
 
-			promise.Dispatch(true);
+            if (promise != null)
+            {
+                promise.Dispatch(true);
+            }
 		}
 
 		public void OnInitializeFailed(InitializationFailureReason error)
@@ -273,23 +277,24 @@ namespace TurboLabz.InstantFramework
                 long expiryTimeStamp = 0;
                 string shortCode = storeItem.key;
 
-                if (e.purchasedProduct.definition.type == ProductType.Subscription &&
-                    CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
+                if (e.purchasedProduct.definition.type == ProductType.Subscription)
                 {
-                    var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
-
-                    expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
-
-                    if (subscriptionInfo.isFreeTrial() == Result.True)
+                    if (CheckIfProductIsAvailableForSubscriptionManager(e.purchasedProduct.receipt))
                     {
-                        storeItem.currency1Cost = 0;
-                        storeItem.productPrice = 0;
-                    }
-                }
+                        var subscriptionInfo = new SubscriptionManager(e.purchasedProduct, null).getSubscriptionInfo();
 
+                        expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionInfo.getExpireDate());
+
+                        if (subscriptionInfo.isFreeTrial() == Result.True)
+                        {
+                            storeItem.currency1Cost = 0;
+                            storeItem.productPrice = 0;
+                        }
+                    }
 #if UNITY_EDITOR
-                expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
+                    expiryTimeStamp = backendService.serverClock.currentTimestamp + (10 * 60 * 1000);
 #endif
+                }
 
                 // Unlock the appropriate content here.
                 backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
@@ -368,20 +373,20 @@ namespace TurboLabz.InstantFramework
 			LogUtil.Log("UnityIAPService - Purchase failed: " + reason);
 
             //show dailogue
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
 
-            var vo = new ConfirmDlgVO
-            {
-                title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED),
-                desc = localizationService.Get(reason.ToString()),
-                yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
-                onClickYesButton = delegate
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-                }
-            };
+            //var vo = new ConfirmDlgVO
+            //{
+            //    title = localizationService.Get(LocalizationKey.STORE_PURCHASE_FAILED),
+            //    desc = localizationService.Get(reason.ToString()),
+            //    yesButtonText = localizationService.Get(LocalizationKey.LONG_PLAY_OK),
+            //    onClickYesButton = delegate
+            //    {
+            //        navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            //    }
+            //};
 
-            updateConfirmDlgSignal.Dispatch(vo);
+            //updateConfirmDlgSignal.Dispatch(vo);
 
             showIAPProcessingSignal.Dispatch(false, false);
 
@@ -509,6 +514,11 @@ namespace TurboLabz.InstantFramework
         private void LogAutoRenewEvent(string name, string productId)
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
+
+            if (!item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
+            {
+                return;
+            }
 
             if (name.Equals("failed"))
             {

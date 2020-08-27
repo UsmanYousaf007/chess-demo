@@ -28,7 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
 
         // Models
@@ -49,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
         [Inject] public IAppUpdatesService appUpdatesService { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -94,16 +94,18 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            backendService.InBoxOpGet();
+
             if (!isResume)
             {
                 preferencesModel.sessionCount++;
                 initBackendOnceSignal.Dispatch();
                 loadLobbySignal.Dispatch();
-                loadPromotionSingal.Dispatch();
                 autoSubscriptionDailogueService.Show();
                 pushNotificationService.Init();
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(true);
+                updateTournamentsViewSignal.Dispatch();
                 SendAnalytics();
             }
 
