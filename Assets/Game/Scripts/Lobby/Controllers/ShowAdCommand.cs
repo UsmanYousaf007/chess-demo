@@ -156,7 +156,6 @@ namespace TurboLabz.InstantGame
                         if (adsService.IsInterstitialAvailable())
                         {
                             var promise = adsService.ShowInterstitial();
-                            
                             if (promise != null)
                             {
                                 promise.Then(InterstitialAdCompleteHandler);
@@ -339,7 +338,6 @@ namespace TurboLabz.InstantGame
             }
         }
 
-
         private void InterstitialAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
         {
             if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
@@ -347,6 +345,7 @@ namespace TurboLabz.InstantGame
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
         }
+
 
         private void LoadGameStartSignal()
         {

@@ -1,4 +1,6 @@
-﻿using strange.extensions.mediation.impl;
+﻿using GameAnalyticsSDK;
+using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -11,6 +13,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowInventoryRewardedVideoSignal showInventoryRewardedVideoSignal { get; set; }
+
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -48,6 +53,9 @@ namespace TurboLabz.InstantFramework
             if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode))
             {
                 view.PlayAnimation();
+                var itemId = item.displayName.Replace(' ', '_').ToLower();
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(item.key).ToString(), 1, "inventory", "gems");
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", item.currency3Cost, "inventory", itemId);
             }
         }
 
@@ -72,6 +80,7 @@ namespace TurboLabz.InstantFramework
                         break;
 
                     case InventoryVideoResult.ITEM_UNLOCKED:
+                        analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
                         view.OnItemUnclocked();
                         break;
                 }

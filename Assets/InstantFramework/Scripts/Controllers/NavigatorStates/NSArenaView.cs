@@ -18,9 +18,49 @@
                     return new NSLobby();
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            {
+                return new NSTournamentLeaderboard();
+            }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
             {
                 return new NSLobby();
+            }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAT)
+            {
+                return new NSChat();
+            }
+            else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
+            {
+                return new NSConfirmDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
+            {
+                return new NSSubscriptionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED)
+            {
+                return new NSShopBundlePurchasedDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
             }
 
             return null;

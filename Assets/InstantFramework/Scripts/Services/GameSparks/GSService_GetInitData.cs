@@ -80,7 +80,14 @@ namespace TurboLabz.InstantFramework
             List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
             FillDownloadablesModel(downloadablesData);
 
+            tournamentsModel.lastFetchedTime = DateTime.UtcNow;
+
             playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+
+            if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
+            {
+                SendDefaultItemsOwnedAnalytics();
+            }
 
             storeAvailableSignal.Dispatch(false);
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
@@ -407,7 +414,8 @@ namespace TurboLabz.InstantFramework
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_GEMS_BOOSTER,
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER,
                     GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY,
-                    GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT,
+                    GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET
                 };
 
                 foreach (var key in inventoryItemKeys)
@@ -433,29 +441,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void FillDownloadablesModel(List<GSData> downloadablesData)
-        {
-            if (downloadablesData != null)
-            {
-                downloadablesModel.downloadableItems = new Dictionary<string, DownloadableItem>();
-                foreach (var downloadable in downloadablesData)
-                {
-                    string downloadShortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
-                    if (PlatformUtil.IsCurrentPlatformSuffixAppended(downloadShortCode))
-                    {
-                        DownloadableItem item = new DownloadableItem();
-                        item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
-                        item.downloadShortCode = downloadShortCode;
-                        item.shortCode = downloadShortCode.RemovePlatfrom();
-                        item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
-                        item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
-                        item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
-                        downloadablesModel.downloadableItems.Add(item.shortCode, item);
-                    }
-                }
-            }
-        }
-
         private JoinedTournamentData parseJoinedTournament(GSData tournamentGSData, string id)
         {
             JoinedTournamentData joinedTournament = new JoinedTournamentData();
@@ -471,6 +456,29 @@ namespace TurboLabz.InstantFramework
                 TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
 
                 joinedTournament.grandPrize = grandPrize;
+            }
+
+            var rewards = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            if (rewards != null)
+            {
+                joinedTournament.rewards.Clear();
+                joinedTournament.rewards.Capacity = rewards.Count;
+                for (int i = 0; i < rewards.Count; i++)
+                {
+                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    joinedTournament.rewards.Add(reward);
+                    for (int j = reward.minRank; j <= reward.maxRank; j++)
+                    {
+                        if (joinedTournament.rewardsDict.ContainsKey(j))
+                        {
+                            joinedTournament.rewardsDict[j] = reward;
+                        }
+                        else
+                        {
+                            joinedTournament.rewardsDict.Add(j, reward);
+                        }
+                    }
+                }
             }
 
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
@@ -509,28 +517,7 @@ namespace TurboLabz.InstantFramework
                 for (int i = 0; i < liveTournaments.Count; i++)
                 {
                     var tournamentGSData = liveTournaments[i].BaseData[GSBackendKeys.Tournament.TOURNAMENT_KEY] as GSData;
-                    LiveTournamentData liveTournament = new LiveTournamentData();
-
-                    liveTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
-                    liveTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
-                    liveTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
-                    liveTournament.active = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.ACTIVE);
-                    liveTournament.firstStartTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
-                    liveTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
-                    liveTournament.waitTimeMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
-
-                    var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
-                    if (grandPrizeGSData != null)
-                    {
-                        TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
-
-                        liveTournament.grandPrize = grandPrize;
-                    }
-
-                    long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
-                    long durationSeconds = liveTournament.durationMinutes * 60;
-                    long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
-                    liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData);
 
                     if (tournamentsModel.isTournamentOpen(liveTournament))
                     {
@@ -544,6 +531,57 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData)
+        {
+            LiveTournamentData liveTournament = new LiveTournamentData();
+
+            liveTournament.shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+            liveTournament.name = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.NAME);
+            liveTournament.type = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.TYPE);
+            liveTournament.active = GSParser.GetSafeBool(liveTournamentGSData, GSBackendKeys.Tournament.ACTIVE);
+            liveTournament.firstStartTimeUTC = GSParser.GetSafeLong(liveTournamentGSData, GSBackendKeys.Tournament.START_TIME);
+            liveTournament.durationMinutes = GSParser.GetSafeInt(liveTournamentGSData, GSBackendKeys.Tournament.DURATION);
+            liveTournament.waitTimeMinutes = GSParser.GetSafeInt(liveTournamentGSData, GSBackendKeys.Tournament.WAIT_TIME);
+
+            var grandPrizeGSData = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+            if (grandPrizeGSData != null)
+            {
+                TournamentReward grandPrize = ParseTournamentReward(grandPrizeGSData);
+
+                liveTournament.grandPrize = grandPrize;
+            }
+
+            var rewards = liveTournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            if (rewards != null)
+            {
+                liveTournament.rewards.Clear();
+                liveTournament.rewards.Capacity = rewards.Count;
+                for (int i = 0; i < rewards.Count; i++)
+                {
+                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    liveTournament.rewards.Add(reward);
+                    for (int j = reward.minRank; j <= reward.maxRank; j++)
+                    {
+                        if (liveTournament.rewardsDict.ContainsKey(j))
+                        {
+                            liveTournament.rewardsDict[j] = reward;
+                        }
+                        else
+                        {
+                            liveTournament.rewardsDict.Add(j, reward);
+                        }
+                    }
+                }
+            }
+
+            long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
+            long durationSeconds = liveTournament.durationMinutes * 60;
+            long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
+            liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+
+            return liveTournament;
+        }
+
         private TournamentReward ParseTournamentReward(GSData rewardGSData)
         {
             if (rewardGSData != null) {
@@ -553,6 +591,8 @@ namespace TurboLabz.InstantFramework
                 reward.gems = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.GEMS);
                 reward.hints = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.HINTS);
                 reward.ratingBoosters = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.RATING_BOOSTERS);
+                reward.minRank = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.MIN_RANK);
+                reward.maxRank = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.MAX_RANK);
 
                 return reward;
             }
@@ -576,6 +616,51 @@ namespace TurboLabz.InstantFramework
                 GSParser.LogInboxMessage(msg);
 
                 targetList.Add(id, msg);
+            }
+
+        }
+
+        private void FillDownloadablesModel(List<GSData> downloadablesData)
+        {
+            if (downloadablesData != null)
+            {
+                downloadablesModel.downloadableItems = new Dictionary<string, DownloadableItem>();
+                foreach (var downloadable in downloadablesData)
+                {
+                    string downloadShortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    if (PlatformUtil.IsCurrentPlatformSuffixAppended(downloadShortCode))
+                    {
+                        DownloadableItem item = new DownloadableItem();
+                        item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
+                        item.downloadShortCode = downloadShortCode;
+                        item.shortCode = downloadShortCode.RemovePlatfrom();
+                        item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
+                        item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
+                        item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
+                        downloadablesModel.downloadableItems.Add(item.shortCode, item);
+                    }
+                }
+            }
+        }
+
+        private void SendDefaultItemsOwnedAnalytics()
+        {
+            if (storeSettingsModel.items.ContainsKey(GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1))
+            {
+                var storeItem = storeSettingsModel.items[GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1];
+
+                if(storeItem.bundledItems != null)
+                {
+                    foreach (var item in storeItem.bundledItems)
+                    {
+                        var context = CollectionsUtil.GetContextFromString(item.Key);
+
+                        if (context != AnalyticsContext.unknown)
+                        {
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+                        }
+                    }
+                }
             }
         }
     }

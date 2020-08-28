@@ -109,6 +109,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
 
             return null;
         }

@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
+                { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
+                { LocalizationKey.LIVE_TEXT, "LIVE" },
                 { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
@@ -353,6 +355,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
                 { LocalizationKey.NAV_INVENTORY, "Inventory" },
+                { LocalizationKey.NAV_ARENA, "Arena" },
 
                 #endregion
 
@@ -501,6 +504,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.INBOX_HEADING, "InBox"},
                 { LocalizationKey.INBOX_SECTION_HEADER_REWARDS, "Rewards"},
+                { LocalizationKey.INBOX_EMPTY_INBOX_LABEL, "There are no messages or rewards to collect"},
 
                 #endregion
     };

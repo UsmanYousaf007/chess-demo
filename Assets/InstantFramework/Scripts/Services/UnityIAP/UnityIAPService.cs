@@ -515,6 +515,11 @@ namespace TurboLabz.InstantFramework
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
 
+            if (!item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
+            {
+                return;
+            }
+
             if (name.Equals("failed"))
             {
                 hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew",

@@ -67,6 +67,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             commandBinder.Bind<LoadArenaSignal>().To<LoadArenaCommand>();
+            commandBinder.Bind<LoadInboxSignal>().To<LoadInboxCommand>();
+
 
             // Bind signals to models data loader commands
             commandBinder.Bind<GetInitDataSignal>().To<GetInitDataCommand>();
@@ -112,6 +114,7 @@ namespace TurboLabz.InstantFramework
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
+            commandBinder.Bind<FetchLiveTournamentRewardsSignal>().To<FetchLiveTournamentRewardsCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();
@@ -189,7 +192,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<FetchLiveTournamentRewardsSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();
+
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
@@ -207,6 +214,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SkillLevelDlgView>().To<SkillLevelDlgMediator>();
             mediationBinder.Bind<MaintenanceView>().To<MaintenanceMediator>();
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
+            mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
+            
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

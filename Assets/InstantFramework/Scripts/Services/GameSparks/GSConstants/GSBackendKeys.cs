@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ID = "opponentId";
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
+        public const string DEFAULT_ITEMS_ADDED = "isDefaultItemsAdded";
 
         // Lessons
         public const string LESSONS_MAPPING = "lessonsMapping";
@@ -320,10 +321,12 @@ namespace TurboLabz.InstantFramework
             public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
 
             public const string SPECIAL_ITEM_GEMS_BOOSTER = "SpecialItemGemsBooster";
+            public const string SPECIAL_ITEM_TICKET = "SpecialItemTicket";
             public const string SPECIAL_ITEM_HINT = "SpecialItemHint";
             public const string SPECIAL_ITEM_KEY = "SpecialItemKey";
             public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";
             public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
+            public const string DEFAULT_ITEMS_V1 = "DefaultOwnedItemsV1";
 
             public static string GetOfferItemKey(string text)
             {
@@ -406,6 +409,7 @@ namespace TurboLabz.InstantFramework
             public const string WAIT_TIME = "waitTime";
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
+            public const string REWARDS = "rewards";
         }
 
         public static class TournamentReward
@@ -417,12 +421,15 @@ namespace TurboLabz.InstantFramework
             public const string GEMS = "gems";
             public const string HINTS = "hints";
             public const string RATING_BOOSTERS = "ratingBoosters";
+            public const string MIN_RANK = "minRank";
+            public const string MAX_RANK = "maxRank";
         }
 
         public static class TournamentsOp
         {
             public const string ERROR = "error";
             public const string TOURNAMENT = "tournament";
+            public const string LIVE_TOURNAMENT = "liveTournament";
             public const string TOURNAMENTS = "tournaments";
             public const string LIVE_TOURNAMENTS = "liveTournaments";
         }

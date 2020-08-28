@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -31,9 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
-
-        //Analytics Service
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private bool videoPaused = false;
         private bool buffering = false;

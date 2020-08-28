@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
@@ -20,6 +21,16 @@ namespace TurboLabz.InstantFramework
         long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament);
         long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament);
         bool isTournamentOpen(LiveTournamentData liveTournament);
+        void SetOpenTournament(LiveTournamentData openTournament);
+        LiveTournamentData GetOpenTournament();
+        LiveTournamentData GetOpenTournament(string shortCode);
+        JoinedTournamentData GetJoinedTournament();
+        JoinedTournamentData GetJoinedTournament(string tournamentId);
+        Sprite GetLiveTournamentSticker();
+
+        Sprite GetStickerSprite(string tournamentType);
+        Sprite GetTileSprite(string tournamentType);
+        TournamentAssetsContainer.TournamentAsset GetAllSprites(string tournamentType);
     }
 }
 

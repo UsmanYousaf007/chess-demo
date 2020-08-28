@@ -53,6 +53,11 @@ namespace TurboLabz.CPU
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             SetupSpecialHintButton();
             ToggleSpecialHintButton(vo.isPlayerTurn);
+
+            if (canUseSpecialHint)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.hint);
+            }
         }
 
         public void UpdateSpecialHintButton(int usedCount)

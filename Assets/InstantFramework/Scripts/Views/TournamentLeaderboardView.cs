@@ -3,11 +3,13 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -18,8 +20,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+        public Button backButton;
 
         public Transform listContainer;
         public GameObject tournamentLeaderboardPlayerBarPrefab;
@@ -30,55 +35,142 @@ namespace TurboLabz.InstantFramework
         // Player bar click signal
         [HideInInspector]
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
-        private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
+        public Signal backSignal = new Signal();
+
+        //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
+        private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
+
+        private LiveTournamentData liveTournament = null;
+        private JoinedTournamentData joinedTournament = null;
 
         public void Init()
         {
-            //PopulateTournamentInfoBar();
-            //PopulateTournamentHeader();
-            //PopulateFooter();
+            header.Init();
 
-            //AddPlayerBar();
-            //AddPlayerBar();
-            //AddPlayerBar();
-            //AddPlayerBar();
-            //AddPlayerBar();
-            //AddPlayerBar();
-            //Sort();
+            PopulateTournamentInfoBar();
+            PopulateFooter();
+
+            backButton.onClick.AddListener(OnBackButtonClicked);
+        }
+
+        public void Populate(LiveTournamentData liveTournament)
+        {
+            int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
+            if (itemBarsCount < 3)
+            {
+                for (int i = itemBarsCount; i < 3; i++)
+                {
+                    tournamentLeaderboardPlayerBars.Add(AddPlayerBar());
+                }
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                var playerBar = tournamentLeaderboardPlayerBars[i];
+                PopulateBar(playerBar, i + 1, liveTournament.rewards[i].trophies);
+            }
+
+            for (int i = 4; i < itemBarsCount; i++)
+            {
+                var playerBar = tournamentLeaderboardPlayerBars[i];
+                playerBar.gameObject.SetActive(false);
+            }
+
+            PopulateTournamentHeader(header, liveTournament);
+
+            // TODO: Disable scroll view here
+        }
+
+        public void Populate(JoinedTournamentData joinedTournament)
+        {
+            int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
+            if (itemBarsCount < joinedTournament.entries.Count)
+            {
+                for (int i = itemBarsCount; i < joinedTournament.entries.Count; i++)
+                {
+                    tournamentLeaderboardPlayerBars.Add(AddPlayerBar());
+                }
+            }
+
+            for (int i = 0; i < joinedTournament.entries.Count; i++)
+            {
+                var playerBar = tournamentLeaderboardPlayerBars[i];
+                PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i) ? joinedTournament.rewardsDict[i].trophies : 0);
+            }
+
+            PopulateTournamentHeader(header, joinedTournament);
+
+            // TODO: Enable scrolling here
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void UpdateView(JoinedTournamentData joinedTournament)
+        {
+            this.joinedTournament = joinedTournament;
+            Populate(joinedTournament);
+            Sort();
+        }
+
+        public void UpdateView(LiveTournamentData liveTournament)
+        {
+            this.liveTournament = liveTournament;
+            Populate(liveTournament);
+            Sort();
         }
 
         private void Sort()
         {
-            List<TournamentLeaderboardPlayerBar> items = new List<TournamentLeaderboardPlayerBar>();
+            List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
 
             // Copy all player bars into a list
-            foreach (KeyValuePair<string, TournamentLeaderboardPlayerBar> item in tournamentLeaderboardPlayerBars)
-            {
-                items.Add(item.Value);
-            }
+            //foreach (KeyValuePair<string, TournamentLeaderboardPlayerBar> item in this.tournamentLeaderboardPlayerBars)
+            //{
+            //    tournamentLeaderboardPlayerBars.Add(item.Value);
+            //}
 
             // Todo: Sort
 
             // Adust order
             int index = 0;
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
             {
-                items[i].transform.SetSiblingIndex(index++);
+                tournamentLeaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
         }
 
-        private void PopulateTournamentHeader()
+        public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
-            TournamentLiveItem item = header;
+            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
+            if (timeLeft < 0)
+            {
+                timeLeft = 0;
+            }
 
-            item.bg.sprite = Resources.Load("AM.png") as Sprite;
-            item.headingLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING);
-            item.subHeadingLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING);
-            item.tournamentImage.sprite = Resources.Load("AD") as Sprite;
-            item.prizeImage.sprite = Resources.Load("AL") as Sprite;
-            item.countdownTimerText.text = "2h 23n";
-            item.grandPrizeTrophiesCountText.text = "8";
-            item.playerRankCountText.text = "4";
+            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+
+            item.UpdateItem(joinedTournament, timeLeftString);
+        }
+
+        public void PopulateTournamentHeader(TournamentLiveItem item, LiveTournamentData liveTournament)
+        {
+            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
+            if (timeLeft < 0)
+            {
+                timeLeft = 0;
+            }
+
+            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+
+            item.UpdateItem(liveTournament, timeLeftString);
         }
 
         private void PopulateTournamentInfoBar()
@@ -110,22 +202,39 @@ namespace TurboLabz.InstantFramework
             item.ticketPlayButtonGroup.gameObject.SetActive(true);
         }
 
-        public void AddPlayerBar()
+        private TournamentLeaderboardPlayerBar AddPlayerBar()
         {
             GameObject obj = GameObject.Instantiate(tournamentLeaderboardPlayerBarPrefab);
             TournamentLeaderboardPlayerBar item = obj.GetComponent<TournamentLeaderboardPlayerBar>();
-
-            item.playerNameText.text = "Radio Monkey";
-            item.playerScoreCountText.text = "4384";
-            item.playerRankCountText.text = "23";
-            item.trophiesRewardCountText.text = "50";
-
-            item.rankIcon.gameObject.SetActive(false);
-
-            item.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(item));
-
             item.transform.SetParent(listContainer, false);
-            tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
+            AddPlayerBarListeners(item);
+            return item;
+            
+        }
+
+        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, int trophies)
+        {
+            playerBar.Populate(entry, trophies);
+
+            //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
+        }
+
+        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, int rank, int trophies)
+        {
+            playerBar.Populate(rank, trophies);
+
+            //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
+        }
+
+        private void AddPlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
+        {
+            playerBar.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(playerBar));
+        }
+
+        private void OnBackButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            backSignal.Dispatch();
         }
     }
 }

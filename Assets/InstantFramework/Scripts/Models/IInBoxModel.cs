@@ -6,11 +6,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IInboxModel
     {
         Dictionary<string, InboxMessage> items { get; set; }
+        DateTime lastFetchedTime { get; set; }
     }
 }

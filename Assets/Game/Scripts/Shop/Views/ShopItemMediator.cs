@@ -1,4 +1,6 @@
-﻿using strange.extensions.mediation.impl;
+﻿using GameAnalyticsSDK;
+using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
 using UnityEngine;
 
 namespace TurboLabz.InstantFramework
@@ -10,6 +12,9 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public override void OnRegister()
         {
@@ -33,9 +38,31 @@ namespace TurboLabz.InstantFramework
         {
             view.SetOwnedStatus();
 
-            if (view.checkOwned && view.shortCode.Equals(item.key))
+            if (view.isActiveAndEnabled && view.shortCode.Equals(item.key))
             {
-                iTween.PunchScale(view.owned.gameObject, iTween.Hash("amount", new Vector3(0.3f, 0.3f, 0f), "time", 3f));
+                if (view.checkOwned)
+                {
+                    iTween.PunchScale(view.owned.gameObject, iTween.Hash("amount", new Vector3(0.3f, 0.3f, 0f), "time", 3f));
+                }
+
+                if (!view.isSpot)
+                {
+                    var context = item.displayName.Replace(' ', '_').ToLower();
+                    analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, context);
+
+                    if (view.isBundle && item.bundledItems != null)
+                    {
+                        foreach (var bItem in item.bundledItems)
+                        {
+                            analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(bItem.Key).ToString(), bItem.Value, "shop", context);
+                        }
+                    }
+
+                    if (item.currency3Payout > 0)
+                    {
+                        analyticsService.ResourceEvent(GAResourceFlowType.Source, "gems", item.currency3Payout, "shop", context);
+                    }
+                }
             }
         }
     }

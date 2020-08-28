@@ -15,6 +15,7 @@ using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using GameSparks.Core;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -101,6 +102,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnBoostRating(string challengeId, VirtualGoodsTransactionVO vo)
         {
+            transactionVO = vo;
             this.challengeId = challengeId;
             virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
             virtualGoodsTransactionSignal.Dispatch(vo);
@@ -114,6 +116,8 @@ namespace TurboLabz.Multiplayer
                                                   .AddString("challengeId", challengeId);
 
                 backendService.ClaimReward(jsonData);
+
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "rating_booster");
             }
         }
 

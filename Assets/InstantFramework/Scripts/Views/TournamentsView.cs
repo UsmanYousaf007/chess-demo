@@ -141,6 +141,7 @@ namespace TurboLabz.InstantFramework
 
             TournamentLiveItem item = obj.GetComponent<TournamentLiveItem>();
             item.Init();
+            item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
 
             return item;
         }
@@ -150,15 +151,12 @@ namespace TurboLabz.InstantFramework
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
             if (timeLeft < 0)
             {
-                // TODO: Show tournamentEnd dialog
-                return;
+                timeLeft = 0;
             }
 
             string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
 
             item.UpdateItem(joinedTournament, timeLeftString);
-
-            item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
         }
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, LiveTournamentData liveTournament)
@@ -166,15 +164,12 @@ namespace TurboLabz.InstantFramework
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
             if (timeLeft < 0)
             {
-                // TODO: Show tournamentEnd dialog
-                return;
+                timeLeft = 0;
             }
 
             string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
 
             item.UpdateItem(liveTournament, timeLeftString);
-
-            //item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
         }
 
         public TournamentUpcomingItem AddTournamentUpcomingItemPrefab()
@@ -184,6 +179,7 @@ namespace TurboLabz.InstantFramework
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
             item.Init();
+            item.button.onClick.AddListener(() => upcomingItemClickedSignal.Dispatch(item));
 
             return item;
         }
@@ -194,8 +190,6 @@ namespace TurboLabz.InstantFramework
             string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
 
             item.UpdateItem(liveTournament, timeLeftString);
-
-            item.button.onClick.AddListener(() => upcomingItemClickedSignal.Dispatch(item));
         }
     }
 }

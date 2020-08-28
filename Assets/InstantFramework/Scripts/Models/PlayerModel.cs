@@ -182,7 +182,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel)
+        public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel = null)
         {
             //return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
             //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||

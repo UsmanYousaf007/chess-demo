@@ -72,6 +72,7 @@ namespace TurboLabz.InstantGame
 
             if (promotionToShowIndex != -1)
             {
+                analyticsService.Event(AnalyticsEventId.banner_shown, promotionCycle[promotionToShowIndex].analyticsContext);
                 showPromotionSignal.Dispatch(promotionCycle[promotionToShowIndex]);
             }
             else
@@ -81,7 +82,8 @@ namespace TurboLabz.InstantGame
                     cycleIndex = 0,
                     key = "none",
                     condition = null,
-                    onClick = null                };
+                    onClick = null
+                };
 
                 showPromotionSignal.Dispatch(emptyPromotion);
             }
@@ -93,6 +95,7 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 7,
                 key = LobbyPromotionKeys.GAME_UPDATE_BANNER,
+                analyticsContext = AnalyticsContext.lobby_update_banner,
                 condition = delegate
                 {
                     string[] vServer = settingsModel.minimumClientVersion.Split('.');
@@ -124,12 +127,14 @@ namespace TurboLabz.InstantGame
 #else
                     LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
 #endif
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_update_banner);
                 }
             };
 
             if(gameUpdateItem.condition())
             {
                 isUpdateBannerShown = true;
+                analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.lobby_update_banner);
                 showPromotionSignal.Dispatch(gameUpdateItem);
                 routineRunner.StartCoroutine(LoadNextPromotionAfter(180f));
                 return true;
@@ -157,6 +162,7 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 1,
                 key = LobbyPromotionKeys.ADS_BANNER,
+                analyticsContext = AnalyticsContext.lobby_remove_ads,
                 condition = delegate
                 {
                     return !(playerModel.HasSubscription() || playerModel.OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK));
@@ -165,6 +171,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.REMOVE_ADS_PACK, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_remove_ads);
                 }
             };
 
@@ -172,6 +179,7 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 2,
                 key = LobbyPromotionKeys.LESSONS_BANNER,
+                analyticsContext = AnalyticsContext.lobby_lessons_pack,
                 condition = delegate
                 {
                     return !playerModel.OwnsAllLessons();
@@ -180,6 +188,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_lessons_pack);
                 }
             };
 
@@ -187,6 +196,7 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 3,
                 key = LobbyPromotionKeys.THEMES_BANNER,
+                analyticsContext = AnalyticsContext.lobby_themes_pack,
                 condition = delegate
                 {
                     return !playerModel.OwnsAllThemes();
@@ -195,6 +205,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_themes_pack);
                 }
             };
 
@@ -202,6 +213,7 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 4,
                 key = LobbyPromotionKeys.SUBSCRIPTION_BANNER,
+                analyticsContext = AnalyticsContext.lobby_subscription_banner,
                 condition = delegate
                 {
                     return !playerModel.HasSubscription();
@@ -210,6 +222,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_subscription_banner);
                 }
             };
 
@@ -217,14 +230,16 @@ namespace TurboLabz.InstantGame
             {
                 cycleIndex = 5,
                 key = LobbyPromotionKeys.REWARDS_BANNER,
+                analyticsContext = AnalyticsContext.lobby_collect_rewards,
                 condition = delegate
                 {
-                    return !playerModel.HasSubscription();
+                    return true;
                 },
                 onClick = delegate 
                 {
                     audioService.PlayStandardClick();
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_collect_rewards);
                 }
             };
 

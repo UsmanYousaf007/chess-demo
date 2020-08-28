@@ -16,6 +16,8 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public LeagueProfileStripSetOnClickSignal leagueProfileStripSetOnClickSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -65,7 +67,11 @@ namespace TurboLabz.InstantFramework
 
         public void OnUpcomingItemClicked(TournamentLiveItem item)
         {
-            TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
+            if (item.openTournamentData != null)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                fetchLiveTournamentRewardsSignal.Dispatch(item.openTournamentData.shortCode);
+            }
         }
 
         public void OnUpcomingItemClicked(TournamentUpcomingItem item)

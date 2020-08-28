@@ -11,6 +11,11 @@
 
         public static bool Contains(string key)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return false;
+            }
+
             if (key.Equals(THEMES_BANNER)
                 || key.Equals(LESSONS_BANNER)
                 || key.Equals(ADS_BANNER)

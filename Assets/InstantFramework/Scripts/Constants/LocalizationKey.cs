@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCEPT_TEXT = "acceptText";
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
+        public const string LIVE_TEXT = "liveText";
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace TurboLabz.InstantFramework
         public const string ELO_SCORE = "eloScore";
         public const string FACEBOOK_LOGIN = "facebookLogin";
         public const string SIGN_IN = "signIn";
+        public const string PLAY_TOURNAMENT = "playTournament";
         public const string REMOVE_ADS = "removeAds";
         public const string FREE_NO_ADS_PERIOD = "freeNoAdsPeriod";
         public const string FREE_NO_ADS_MINUTES = "freeNoAdsMinutes";
@@ -354,6 +356,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_SHOP = "navShop";
         public const string NAV_FRIENDS = "navFriends";
         public const string NAV_INVENTORY = "navInventory";
+        public const string NAV_ARENA = "navArena";
 
         #endregion
 
@@ -501,6 +504,7 @@ namespace TurboLabz.InstantFramework
 
         public const string INBOX_HEADING = "inBoxHeading";
         public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
+        public const string INBOX_EMPTY_INBOX_LABEL = "inBoxEmptyInboxLabel";
 
         #endregion
     }

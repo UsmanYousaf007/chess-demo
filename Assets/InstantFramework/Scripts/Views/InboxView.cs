@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionHeader;
         public GameObject inBoxBarPrefab;
         public GameObject emptyInBoxStrip;
+        public Text emptyInboxLabel;
 
         public Text heading;
         public Text stripHeading;
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
         {
             heading.text = localizationService.Get(LocalizationKey.INBOX_HEADING);
             stripHeading.text = localizationService.Get(LocalizationKey.INBOX_SECTION_HEADER_REWARDS);
+            emptyInboxLabel.text = localizationService.Get(LocalizationKey.INBOX_EMPTY_INBOX_LABEL);
 
             sectionHeader.gameObject.SetActive(false);
             emptyInBoxStrip.gameObject.SetActive(false);
@@ -50,6 +52,16 @@ namespace TurboLabz.InstantFramework
             AddInboxBarFnMap.Add("LeaguePromotionReward", AddLeaguePromotionRewardBar);
 
             Sort();
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         private void Sort()
@@ -65,10 +77,7 @@ namespace TurboLabz.InstantFramework
             sectionHeader.gameObject.SetActive(items.Count > 0);
             emptyInBoxStrip.gameObject.SetActive(items.Count == 0);
 
-            // Todo: Sort
-
             items.Sort((x, y) => x.timeStamp > y.timeStamp ? -1 : ((x.timeStamp < y.timeStamp) ? 1 : 0));
-
 
             // Adust order
             int index = 0;
@@ -166,9 +175,6 @@ namespace TurboLabz.InstantFramework
 
         public void AddMessages(Dictionary<string, InboxMessage> messages)
         {
-            //inBoxBars.Clear();
-            //listContainer.DetachChildren();
-
             foreach (KeyValuePair<string, InboxMessage> obj in messages)
             {
                 InboxMessage msg = obj.Value;
@@ -186,6 +192,7 @@ namespace TurboLabz.InstantFramework
             InboxBar bar = inBoxBars[messageId];
             inBoxBars.Remove(messageId);
             GameObject.Destroy(bar.gameObject);
+            Sort();
         }
     }
 }
