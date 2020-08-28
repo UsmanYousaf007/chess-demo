@@ -96,10 +96,10 @@ namespace TurboLabz.InstantFramework
 
             item.timeStamp = 0;
 
-            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetTile(msg.tournamentType);
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("SubscriptionSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -141,7 +141,7 @@ namespace TurboLabz.InstantFramework
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("RankSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -162,8 +162,8 @@ namespace TurboLabz.InstantFramework
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
-
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("LeaguePromotionSticker");
+            
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
