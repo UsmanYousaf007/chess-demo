@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using strange.extensions.command.impl;
 using TurboLabz.InstantFramework;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TurboLabz.InstantGame
 {
@@ -13,6 +15,7 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -90,11 +93,21 @@ namespace TurboLabz.InstantGame
             return vo;
         }
 
+        private Sprite GetRewardImage(string shortCode)
+        {
+            Sprite sprite = SpriteBank.container.GetSprite(shortCode);
+            if (sprite == null)
+            {
+                sprite = SpriteBank.container.GetSprite("Smile");
+            }
+            return sprite;
+        }
+
         private void AddRewardsToVO(RewardDlgVO vo, Dictionary<string, int> rewards)
         {
             foreach (KeyValuePair<string, int> item in rewards)
             {
-                vo.AddRewardItem(item.Key, item.Value);
+                vo.AddRewardItem(item.Key, item.Value, GetRewardImage(item.Key));
             }
         }
     }

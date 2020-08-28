@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemImages[i].sprite = vo.GetRewardImage(i);
                 p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
             }
         }
@@ -78,7 +78,7 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemImages[i].sprite = vo.GetRewardImage(i);
                 p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
             }
         }
@@ -97,7 +97,7 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemImages[i].sprite = vo.GetRewardImage(i);
                 p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
             }
         }
@@ -115,7 +115,7 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemImages[i].sprite = vo.GetRewardImage(i);
                 p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
             }
         }
