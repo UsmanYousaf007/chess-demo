@@ -177,7 +177,6 @@ namespace TurboLabz.InstantFramework
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
 
-
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }
@@ -186,6 +185,7 @@ namespace TurboLabz.InstantFramework
     public class FetchLiveTournamentRewardsSignal : Signal<string> { }
     public class GetTournamentLeaderboardSuccessSignal : Signal<string> { }
     public class FetchLiveTournamentRewardsSuccessSignal : Signal<string> { }
+    public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }

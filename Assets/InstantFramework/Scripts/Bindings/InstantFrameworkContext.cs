@@ -195,9 +195,10 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<FetchLiveTournamentRewardsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
-            
+            injectionBinder.Bind<UpdateChestInfoDlgViewSignal>().ToSingleton();
 
             // Bind views to mediators
+            mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
             mediationBinder.Bind<HardStopView>().To<HardStopMediator>();

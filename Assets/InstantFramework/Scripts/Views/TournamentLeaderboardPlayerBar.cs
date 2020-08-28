@@ -23,6 +23,10 @@ namespace TurboLabz.InstantFramework
         private TournamentEntry entry;
         private TournamentReward reward;
 
+        [Inject] NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] UpdateChestInfoDlgViewSignal UpdateChestInfoDlgViewSignal { get; set; }
+
+
         public void Populate(TournamentEntry tournamentEntry, TournamentReward entryReward)
         {
             entry = tournamentEntry;
@@ -45,6 +49,12 @@ namespace TurboLabz.InstantFramework
 
             playerNameText.gameObject.SetActive(false);
             profile.SetActive(false);
+        }
+
+        public void OnChestButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHEST_INFO_DLG);
+            UpdateChestInfoDlgViewSignal.Dispatch(reward);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
         public Button playTournamentButton;
         public Text playTournamentButtonLabel;
         public Text tournamentLiveLabel;
+        public Image liveTournamentIcon;
 
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
@@ -65,6 +66,9 @@ namespace TurboLabz.InstantGame
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
         public Signal playTournamentButtonClickedSignal = new Signal();
+
+        //Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public void Init()
         {
@@ -102,6 +106,13 @@ namespace TurboLabz.InstantGame
             {
                 playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
             }
+
+            if (liveTournamentIcon != null)
+            {
+                LiveTournamentData liveTournamentData = tournamentsModel.GetOpenTournament();
+                liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(liveTournamentData.type);
+            }
+
         }
 
         public void CleanUp()
