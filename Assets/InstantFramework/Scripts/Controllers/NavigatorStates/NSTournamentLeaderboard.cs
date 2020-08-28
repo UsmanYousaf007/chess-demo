@@ -54,6 +54,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSInboxView();
             }
+            else if (evt == NavigatorEvent.SHOW_CHEST_INFO_DLG)
+            {
+                return new NSChestInfoDlgView();
+            }
 
             return null;
         }
