@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector]
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
+        public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
 
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
@@ -229,6 +230,7 @@ namespace TurboLabz.InstantFramework
         private void AddPlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
         {
             playerBar.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(playerBar));
+            playerBar.chestButton.onClick.AddListener(() => playerBarChestClickSignal.Dispatch(playerBar.reward));
         }
 
         private void OnBackButtonClicked()

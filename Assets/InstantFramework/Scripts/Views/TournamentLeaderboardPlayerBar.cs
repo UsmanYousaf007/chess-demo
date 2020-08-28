@@ -20,12 +20,10 @@ namespace TurboLabz.InstantFramework
 
         public GameObject profile;
 
-        private TournamentEntry entry;
-        private TournamentReward reward;
-
-        [Inject] NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] UpdateChestInfoDlgViewSignal UpdateChestInfoDlgViewSignal { get; set; }
-
+        [HideInInspector]
+        public TournamentEntry entry;
+        [HideInInspector]
+        public TournamentReward reward;
 
         public void Populate(TournamentEntry tournamentEntry, TournamentReward entryReward)
         {
@@ -49,12 +47,6 @@ namespace TurboLabz.InstantFramework
 
             playerNameText.gameObject.SetActive(false);
             profile.SetActive(false);
-        }
-
-        public void OnChestButtonClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHEST_INFO_DLG);
-            UpdateChestInfoDlgViewSignal.Dispatch(reward);
         }
     }
 }

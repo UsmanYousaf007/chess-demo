@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
             // Button click handlers
             view.playerBarClickedSignal.AddListener(OnPlayerBarClicked);
+            view.playerBarChestClickSignal.AddListener(OnPlayerBarChestClicked);
             view.footer.enterButtonClickedSignal.AddListener(OnEnterButtonClicked);
             view.infoBar.rulesButtonClickedSignal.AddListener(OnRulesButtonClicked);
             view.infoBar.totalScoreButtonClickedSignal.AddListener(OnTotalScoreButtonClicked);
@@ -88,6 +90,12 @@ namespace TurboLabz.InstantFramework
         public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)
         {
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnPlayerBarClicked()");
+        }
+
+        public void OnPlayerBarChestClicked(TournamentReward reward)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHEST_INFO_DLG);
+            updateChestInfoDlgViewSignal.Dispatch(reward);
         }
 
         public void OnRulesButtonClicked()
