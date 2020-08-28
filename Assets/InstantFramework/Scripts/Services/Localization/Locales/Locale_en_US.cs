@@ -498,6 +498,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY, "Free Play"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY, "Play"},
 
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE, "Arena Epic Chest"},
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION, "This Chest Contains:"},
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT, "Got it"},
+
                 #endregion
 
                 #region InBox

@@ -77,6 +77,7 @@ namespace TurboLabz.InstantFramework
         ARENA_VIEW,
         TOURNAMENT_LEADERBOARD_VIEW,
         INBOX_VIEW,
-        REWARD_DLG
+        REWARD_DLG,
+        CHEST_INFO_DLG
     }
 }

@@ -20,26 +20,30 @@ namespace TurboLabz.InstantFramework
 
         public GameObject profile;
 
-        private TournamentEntry entry;
+        [HideInInspector]
+        public TournamentEntry entry;
+        [HideInInspector]
+        public TournamentReward reward;
 
-        public void Populate(TournamentEntry tournamentEntry, int trophies)
+        public void Populate(TournamentEntry tournamentEntry, TournamentReward entryReward)
         {
             entry = tournamentEntry;
+            this.reward = entryReward;
 
             playerRankCountText.text = tournamentEntry.rank.ToString();
-            trophiesRewardCountText.text = trophies.ToString();
+            trophiesRewardCountText.text = entryReward.trophies.ToString();
 
             playerNameText.text = entry.publicProfile.name;
             playerScoreCountText.text = entry.score.ToString();
             profile.SetActive(true);
         }
 
-        public void Populate(int rank, int trophies)
+        public void Populate(int rank, TournamentReward entryReward)
         {
             entry = null;
 
             playerRankCountText.text = rank.ToString();
-            trophiesRewardCountText.text = trophies.ToString();
+            trophiesRewardCountText.text = entryReward.trophies.ToString();
 
             playerNameText.gameObject.SetActive(false);
             profile.SetActive(false);

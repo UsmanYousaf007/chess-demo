@@ -498,6 +498,10 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY = "tournamentLeaderboardFreePlay";
         public const string TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY = "tournamentLeaderboardFooterTicketPlay";
 
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE = "tournamentChestContentDialogueTitle";
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION = "tournamentChestContentDialogueDescriptiion";
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT = "tournamentChestContentDialogueOkayButtonText";
+
         #endregion
 
         #region InBox
