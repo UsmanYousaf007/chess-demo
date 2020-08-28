@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < 3; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
-                PopulateBar(playerBar, i + 1, liveTournament.rewards[i].trophies);
+                PopulateBar(playerBar, i + 1, liveTournament.rewards[i]);
             }
 
             for (int i = 4; i < itemBarsCount; i++)
@@ -95,7 +95,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < joinedTournament.entries.Count; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
-                PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i) ? joinedTournament.rewardsDict[i].trophies : 0);
+                PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i) ? joinedTournament.rewardsDict[i] : null);
             }
 
             PopulateTournamentHeader(header, joinedTournament);
@@ -212,16 +212,16 @@ namespace TurboLabz.InstantFramework
             
         }
 
-        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, int trophies)
+        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, TournamentReward reward)
         {
-            playerBar.Populate(entry, trophies);
+            playerBar.Populate(entry, reward);
 
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
         }
 
-        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, int rank, int trophies)
+        private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, int rank, TournamentReward reward)
         {
-            playerBar.Populate(rank, trophies);
+            playerBar.Populate(rank, reward);
 
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
         }
