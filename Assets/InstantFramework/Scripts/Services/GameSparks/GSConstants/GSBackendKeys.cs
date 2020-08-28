@@ -413,6 +413,8 @@ namespace TurboLabz.InstantFramework
             public const string GEMS = "gems";
             public const string HINTS = "hints";
             public const string RATING_BOOSTERS = "ratingBoosters";
+            public const string MIN_RANK = "minRank";
+            public const string MAX_RANK = "maxRank";
         }
 
         public static class TournamentsOp

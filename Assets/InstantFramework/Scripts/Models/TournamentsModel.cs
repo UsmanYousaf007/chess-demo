@@ -135,6 +135,19 @@ namespace TurboLabz.InstantFramework
             return joinedTournaments.Count > 0 ? joinedTournaments[0] : null;
         }
 
+        public JoinedTournamentData GetJoinedTournament(string tournamentId)
+        {
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                if (joinedTournaments[i].id == tournamentId)
+                {
+                    return joinedTournaments[i];
+                }
+            }
+
+            return null;
+        }
+
         #region Tournament Sprites API
         public Sprite GetStickerSprite(string tournamentType)
         {
@@ -173,10 +186,11 @@ namespace TurboLabz.InstantFramework
         public long startTimeUTC;
         public int durationMinutes;
         public long currentStartTimeInSeconds;
-        public List<TournamentReward> rewards;
+        public List<TournamentReward> rewards = new List<TournamentReward>();
         public List<TournamentEntry> entries = new List<TournamentEntry>();
 
         public DateTime lastFetchedTime;
+        public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
     }
 
     [Serializable]
@@ -190,10 +204,12 @@ namespace TurboLabz.InstantFramework
         public long firstStartTimeUTC;
         public int durationMinutes;
         public int waitTimeMinutes;
-        public List<TournamentReward> rewards;
+        public List<TournamentReward> rewards = new List<TournamentReward>();
 
         public long currentStartTimeInSeconds;
         public DateTime lastFetchedTime;
+        public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
+
     }
 
     [Serializable]
@@ -206,5 +222,7 @@ namespace TurboLabz.InstantFramework
         public int gems;
         public int hints;
         public int ratingBoosters;
+        public int minRank;
+        public int maxRank;
     }
 }

@@ -28,32 +28,43 @@ namespace TurboLabz.InstantFramework
 
         public Button button;
 
+        [HideInInspector]
+        public LiveTournamentData openTournamentData = null;
+        [HideInInspector]
+        public JoinedTournamentData joinedTournamentData = null;
+
         public void Init()
         {
-            ChestIconsContainer.Load();
-            TournamentAssetsContainer.Load();
+            chestIconsContainer = ChestIconsContainer.Load();
+            tournamentAssetsContainer = TournamentAssetsContainer.Load();
         }
 
         public void UpdateItem(LiveTournamentData liveTournamentData, string timeLeftText)
         {
+            openTournamentData = liveTournamentData;
+            joinedTournamentData = null;
+
             bg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(liveTournamentData.type);
             prizeImage.sprite = chestIconsContainer.GetChest(liveTournamentData.grandPrize.chestType);
             playerRankCountText.text = "";
             grandPrizeTrophiesCountText.text = liveTournamentData.grandPrize.trophies.ToString();
             countdownTimerText.text = timeLeftText;
-            liveImage.gameObject.SetActive(true);
+            liveImage?.gameObject.SetActive(true);
         }
 
         public void UpdateItem(JoinedTournamentData joinedTournamentData, string timeLeftText)
         {
+            openTournamentData = null;
+            this.joinedTournamentData = joinedTournamentData;
+
             bg.sprite = tournamentAssetsContainer.GetTile(joinedTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(joinedTournamentData.type);
             prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
             playerRankCountText.text = joinedTournamentData.rank.ToString();
             grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
             countdownTimerText.text = timeLeftText;
-            liveImage.gameObject.SetActive(false);
+            liveImage?.gameObject.SetActive(false);
         }
     }
 }

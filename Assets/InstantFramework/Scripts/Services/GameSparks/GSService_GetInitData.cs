@@ -455,6 +455,29 @@ namespace TurboLabz.InstantFramework
                 joinedTournament.grandPrize = grandPrize;
             }
 
+            var rewards = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            if (rewards != null)
+            {
+                joinedTournament.rewards.Clear();
+                joinedTournament.rewards.Capacity = rewards.Count;
+                for (int i = 0; i < rewards.Count; i++)
+                {
+                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    joinedTournament.rewards.Add(reward);
+                    for (int j = reward.minRank; j <= reward.maxRank; j++)
+                    {
+                        if (joinedTournament.rewardsDict.ContainsKey(j))
+                        {
+                            joinedTournament.rewardsDict[j] = reward;
+                        }
+                        else
+                        {
+                            joinedTournament.rewardsDict.Add(j, reward);
+                        }
+                    }
+                }
+            }
+
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
             joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
 
@@ -525,7 +548,28 @@ namespace TurboLabz.InstantFramework
                 liveTournament.grandPrize = grandPrize;
             }
 
-            var rewards = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
+            var rewards = liveTournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            if (rewards != null)
+            {
+                liveTournament.rewards.Clear();
+                liveTournament.rewards.Capacity = rewards.Count;
+                for (int i = 0; i < rewards.Count; i++)
+                {
+                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    liveTournament.rewards.Add(reward);
+                    for (int j = reward.minRank; j <= reward.maxRank; j++)
+                    {
+                        if (liveTournament.rewardsDict.ContainsKey(j))
+                        {
+                            liveTournament.rewardsDict[j] = reward;
+                        }
+                        else
+                        {
+                            liveTournament.rewardsDict.Add(j, reward);
+                        }
+                    }
+                }
+            }
 
             long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
             long durationSeconds = liveTournament.durationMinutes * 60;
@@ -544,6 +588,8 @@ namespace TurboLabz.InstantFramework
                 reward.gems = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.GEMS);
                 reward.hints = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.HINTS);
                 reward.ratingBoosters = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.RATING_BOOSTERS);
+                reward.minRank = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.MIN_RANK);
+                reward.maxRank = GSParser.GetSafeInt(rewardGSData, GSBackendKeys.TournamentReward.MAX_RANK);
 
                 return reward;
             }

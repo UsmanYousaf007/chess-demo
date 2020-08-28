@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
         SHOW_SHOP_BUNDLE_PURCHASED,
         SHOW_INVENTORY,
         SHOW_ARENA,
+        SHOW_TOURNAMENT_LEADERBOARDS,
         SHOW_INBOX
     }
 }

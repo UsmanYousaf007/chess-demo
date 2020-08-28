@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public string tournamentShortCode { get; set; }
 
         // Models
-        [Inject] public TournamentsModel tournamentsModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
         
         // dispatch signals
         [Inject] public FetchLiveTournamentRewardsSuccessSignal fetchSuccessSignal { get; set; }
@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    fetchSuccessSignal.Dispatch();
+                    fetchSuccessSignal.Dispatch(tournamentShortCode);
                 }
             }
             else
@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                fetchSuccessSignal.Dispatch();
+                fetchSuccessSignal.Dispatch(tournamentShortCode);
             }
             else
             {

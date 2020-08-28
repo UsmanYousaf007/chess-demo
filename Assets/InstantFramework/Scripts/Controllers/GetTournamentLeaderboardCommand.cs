@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                getLeaderboardSuccessSignal.Dispatch();
+                getLeaderboardSuccessSignal.Dispatch(tournamentId);
             }
             else
             {

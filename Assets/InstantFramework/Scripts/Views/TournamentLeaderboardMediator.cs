@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public TournamentLeaderboardView view { get; set; }
 
         // Dispatch signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -22,6 +23,10 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentModel { get; set; }
+
+        private LiveTournamentData liveTournament = null;
+        private JoinedTournamentData joinedTournament = null;
 
         public override void OnRegister()
         {
@@ -33,12 +38,46 @@ namespace TurboLabz.InstantFramework
             view.infoBar.rulesButtonClickedSignal.AddListener(OnRulesButtonClicked);
             view.infoBar.totalScoreButtonClickedSignal.AddListener(OnTotalScoreButtonClicked);
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
+            view.backSignal.AddListener(OnBackPressed);
+
+        }
+
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+            {
+                view.Show();
+            }
+        }
+
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+            {
+                view.Hide();
+            }
+        }
+
+        [ListensTo(typeof(GetTournamentLeaderboardSuccessSignal))]
+        public void UpdateJoinedTournamentView(string tournamentId)
+        {
+            var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
+            if (joinedTournament != null)
+            {
+                view.UpdateView(joinedTournament);
+            }
         }
 
         [ListensTo(typeof(FetchLiveTournamentRewardsSuccessSignal))]
-        public void UpdateView()
+        public void UpdateLiveTournamentView(string tournamentShortCode)
         {
-
+            var openTournament = tournamentModel.GetOpenTournament(tournamentShortCode);
+            if (openTournament != null)
+            {
+                view.UpdateView(openTournament);
+            }
         }
 
         public void OnEnterButtonClicked()
@@ -64,6 +103,11 @@ namespace TurboLabz.InstantFramework
         public void OnGameModeButtonClicked()
         {
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnGameModeButtonClicked()");
+        }
+
+        private void OnBackPressed()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }
