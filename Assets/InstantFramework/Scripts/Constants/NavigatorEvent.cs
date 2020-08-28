@@ -33,12 +33,12 @@ namespace TurboLabz.InstantFramework
         SHOW_MULTIPLAYER_CHAT_DLG,
         SHOW_MULTIPLAYER_SAFE_MOVE_DLG,
         SHOW_STATS,
-		SHOW_STORE,
+        SHOW_STORE,
         SHOW_SPOT_PURCHASE,
         SHOW_FRIENDS,
-		SHOW_BUY_DLG,
-		SHOW_NOT_ENOUGH_DLG,
-		SHOW_BUCK_PACKS_DLG,
+        SHOW_BUY_DLG,
+        SHOW_NOT_ENOUGH_DLG,
+        SHOW_BUCK_PACKS_DLG,
         SHOW_PROFILE_DLG,
         SHOW_RATE_APP_DLG,
         SHOW_PURCHASED_DLG,
@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
         SHOW_ARENA,
         SHOW_TOURNAMENT_LEADERBOARDS,
         SHOW_INBOX,
-        SHOW_CHEST_INFO_DLG
+        SHOW_CHEST_INFO_DLG,
+        SHOW_REWARD_DLG
     }
 }

@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public string heading;
         public string subHeading;
         public long timeStamp;
+        public Dictionary<string, int> rewards;
 
         public InboxMessage()
         {
@@ -46,6 +47,7 @@ namespace TurboLabz.InstantFramework
             heading = null;
             subHeading = null;
             timeStamp = 0;
-        }
+            rewards = new Dictionary<string, int>();
+    }
     }
 }

@@ -19,11 +19,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
-        public GameObject RewardDailySubscriptionDlgPrefab;
-        public GameObject RewardDailyLeadueDlgPrefab;
-        public GameObject RewardLeaguePromotionDlgPrefab;
-        public GameObject RewardTournamentEndDlgPrefab;
-
+        public GameObject rewardDailySubscriptionDlgPrefab;
+        public GameObject rewardDailyLeagueDlgPrefab;
+        public GameObject rewardLeaguePromotionDlgPrefab;
+        public GameObject rewardTournamentEndDlgPrefab;
 
         private GameObject activeDlg;
         public Signal buttonClickedSignal = new Signal();
@@ -32,28 +31,15 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            string test = RewardDailySubscriptionDlgPrefab.ToString();
+            initFnMap.Add("RewardDailySubscription", InitRewardDailySubscriptionDlgPrefab);
+            initFnMap.Add("RewardDailyLeague", InitRewardDailyLeagueDlgPrefab);
+            initFnMap.Add("RewardLeaguePromotion", InitRewardLeaguePromotionDlgPrefab);
+            initFnMap.Add("RewardTournamentEnd", InitRewardTournamentEndDlgPrefab);
 
-            initFnMap.Add("RewardDailySubscriptionDlg", InitRewardDailySubscriptionDlgPrefab);
-            initFnMap.Add("RewardDailyLeadueDlg", InitRewardDailyLeadueDlgPrefab);
-            initFnMap.Add("RewardLeaguePromotionDlg", InitRewardLeaguePromotionDlgPrefab);
-            initFnMap.Add("RewardTournamentEndDlg", InitRewardTournamentEndDlgPrefab);
-
-            prefabs.Add("RewardDailySubscriptionDlg", RewardDailySubscriptionDlgPrefab);
-            prefabs.Add("RewardDailyLeadueDlg", RewardDailyLeadueDlgPrefab);
-            prefabs.Add("RewardLeaguePromotionDlg", RewardLeaguePromotionDlgPrefab);
-            prefabs.Add("RewardTournamentEndDlg", RewardTournamentEndDlgPrefab);
-
-
-            RewardDlgVO vo = new RewardDlgVO();
-            vo.type = "RewardDailySubscriptionDlg";
-            vo.rewardQty1 = 5;
-            vo.rewardQty2 = 6;
-            vo.rewardQty3 = 7;
-            vo.rewardShortCode1 = "SpecialItemTournamentTicket";
-            vo.rewardShortCode2 = "gems";
-            vo.rewardShortCode3 = "SpecialItemRatingBoost";
-            OnUpdate(vo);
+            prefabs.Add("RewardDailySubscription", rewardDailySubscriptionDlgPrefab);
+            prefabs.Add("RewardDailyLeague", rewardDailyLeagueDlgPrefab);
+            prefabs.Add("RewardLeaguePromotion", rewardLeaguePromotionDlgPrefab);
+            prefabs.Add("RewardTournamentEnd", rewardTournamentEndDlgPrefab);
         }
 
         public void Show()
@@ -74,16 +60,14 @@ namespace TurboLabz.InstantFramework
             p.headingText.text = "Daily Subscription Reward!";
             p.buttonText.text = "Collect";
 
-            p.rewardText1.text = "x" + vo.rewardQty1.ToString();
-            p.rewardText2.text = "x" + vo.rewardQty2.ToString();
-            p.rewardText3.text = "x" + vo.rewardQty3.ToString();
-
-            //p.rewardImage1.sprite = blah(vo.rewardShortCode1);
-            //p.rewardImage2.sprite = blah(vo.rewardShortCode2);
-            //p.rewardImage3.sprite = blah(vo.rewardShortCode3);
+            for (int i = 0; i < vo.GetRewardItemsCount(); i++)
+            {
+                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+            }
         }
 
-        public void InitRewardDailyLeadueDlgPrefab(RewardDlgVO vo)
+        public void InitRewardDailyLeagueDlgPrefab(RewardDlgVO vo)
         {
             RewardDailyLeagueDlg p = activeDlg.GetComponent<RewardDailyLeagueDlg>();
             p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch());
@@ -92,13 +76,11 @@ namespace TurboLabz.InstantFramework
             p.subHeadingText.text = "Daily League Reward!";
             p.buttonText.text = "Collect";
 
-            p.rewardText1.text = "x" + vo.rewardQty1.ToString();
-            p.rewardText2.text = "x" + vo.rewardQty2.ToString();
-            p.rewardText3.text = "x" + vo.rewardQty3.ToString();
-
-            //p.rewardImage1.sprite = blah(vo.rewardShortCode1);
-            //p.rewardImage2.sprite = blah(vo.rewardShortCode2);
-            //p.rewardImage3.sprite = blah(vo.rewardShortCode3);
+            for (int i = 0; i < vo.GetRewardItemsCount(); i++)
+            {
+                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+            }
         }
 
         public void InitRewardLeaguePromotionDlgPrefab(RewardDlgVO vo)
@@ -113,13 +95,11 @@ namespace TurboLabz.InstantFramework
             p.leagueTitleText.text = vo.league;
             p.rewardsSubHeadingText.text = "Your Daily Perks";
 
-            p.rewardText1.text = "x" + vo.rewardQty1.ToString();
-            p.rewardText2.text = "x" + vo.rewardQty2.ToString();
-            p.rewardText3.text = "x" + vo.rewardQty3.ToString();
-
-            //p.rewardImage1.sprite = blah(vo.rewardShortCode1);
-            //p.rewardImage2.sprite = blah(vo.rewardShortCode2);
-            //p.rewardImage3.sprite = blah(vo.rewardShortCode3);
+            for (int i = 0; i < vo.GetRewardItemsCount(); i++)
+            {
+                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+            }
         }
 
         public void InitRewardTournamentEndDlgPrefab(RewardDlgVO vo)
@@ -133,14 +113,11 @@ namespace TurboLabz.InstantFramework
             // p.chestImage = blah(vo.chestShortCode);
             p.chestText.text = vo.chestName;
 
-            p.rewardText1.text = "x" + vo.rewardQty1.ToString();
-            p.rewardText2.text = "x" + vo.rewardQty2.ToString();
-            p.rewardText3.text = "x" + vo.rewardQty3.ToString();
-
-            //p.rewardImage1.sprite = blah(vo.rewardShortCode1);
-            //p.rewardImage2.sprite = blah(vo.rewardShortCode2);
-            //p.rewardImage3.sprite = blah(vo.rewardShortCode3);
-
+            for (int i = 0; i < vo.GetRewardItemsCount(); i++)
+            {
+                //p.itemImages[i].sprite = blah(vo.GetRewardItemShortCode(i));
+                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+            }
         }
 
         public void OnUpdate(RewardDlgVO vo)

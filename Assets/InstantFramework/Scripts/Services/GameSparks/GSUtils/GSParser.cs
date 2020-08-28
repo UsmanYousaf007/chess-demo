@@ -359,6 +359,18 @@ namespace TurboLabz.InstantFramework
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
+        public static void ParseIboxMessageRewards(GSData rewardsData, Dictionary<string, int> rewards)
+        {
+            foreach (KeyValuePair<string, Object> obj in rewardsData.BaseData)
+            {
+                string itemShortCode = obj.Key;
+                var qtyVar = obj.Value;
+                int qtyInt = Int32.Parse(qtyVar.ToString());
+                TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
+                rewards.Add(itemShortCode, qtyInt);
+            }
+        }
+
         public static void ParseInboxMessage(InboxMessage msg, GSData data)
         {
             msg.id = data.GetString("id");
@@ -366,6 +378,9 @@ namespace TurboLabz.InstantFramework
             msg.heading = data.GetString("heading");
             msg.subHeading = data.GetString("body");
             msg.timeStamp = data.GetLong("time").Value;
+
+            GSData rewardsData = data.GetGSData("reward");
+            ParseIboxMessageRewards(rewardsData, msg.rewards);
         }
 
         public static void LogPublicProfile(PublicProfile publicProfile)
@@ -403,6 +418,13 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("heading = " + msg.heading);
             TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
             TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+
+            TLUtils.LogUtil.Log("rewards:");
+            foreach (KeyValuePair<string, int> item in msg.rewards)
+            {
+                TLUtils.LogUtil.Log("shortCode = " + item.Key + "qty = " + item.Value);
+            }
+
             TLUtils.LogUtil.Log("<<---------- Inbox Message End <<----------");
         }
 

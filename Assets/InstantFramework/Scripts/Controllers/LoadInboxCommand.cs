@@ -24,29 +24,12 @@ namespace TurboLabz.InstantFramework
             var diffInSeconds = (DateTime.UtcNow - inboxModel.lastFetchedTime).TotalSeconds;
             if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
             {
-                Retain();
-                backendService.InBoxOpGet();//.Then(OnComplete);
+                backendService.InBoxOpGet();
             }
             else
             {
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
             }
         }
-
-        /*
-        private void OnComplete(BackendResult result)
-        {
-            if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
-            {
-                backendErrorSignal.Dispatch(result);
-            }
-            else
-            {
-                inboxAddMessagesSignal.Dispatch(inboxModel.items);
-            }
-
-            Release();
-        }
-        */
     }
 }

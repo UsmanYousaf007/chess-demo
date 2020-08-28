@@ -46,10 +46,10 @@ namespace TurboLabz.InstantFramework
             sectionHeader.gameObject.SetActive(false);
             emptyInBoxStrip.gameObject.SetActive(false);
 
-            AddInboxBarFnMap.Add("TournamentReward", AddTournamentRewardBar);
-            AddInboxBarFnMap.Add("SubsciptoinDailyReward", AddDailySubscriptionRewardBar);
-            AddInboxBarFnMap.Add("DailyLeagueReward", AddDailyLeagueRewardBar);
-            AddInboxBarFnMap.Add("LeaguePromotionReward", AddLeaguePromotionRewardBar);
+            AddInboxBarFnMap.Add("RewardTournamentEnd", AddTournamentRewardBar);
+            AddInboxBarFnMap.Add("RewardDailySubscription", AddDailySubscriptionRewardBar);
+            AddInboxBarFnMap.Add("RewardDailyLeague", AddDailyLeagueRewardBar);
+            AddInboxBarFnMap.Add("RewardLeaguePromotion", AddLeaguePromotionRewardBar);
 
             Sort();
         }
@@ -177,6 +177,11 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, InboxMessage> obj in messages)
             {
+                if (inBoxBars.ContainsKey(obj.Key))
+                {
+                    RemoveMessage(obj.Key);
+                }
+
                 InboxMessage msg = obj.Value;
                 if (AddInboxBarFnMap.ContainsKey(msg.type))
                 {

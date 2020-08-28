@@ -11,13 +11,7 @@ namespace TurboLabz.InstantFramework
     public class RewardDailySubscriptionDlg : RewardBaseDlg
     {
         public Text headingText;
-
-        public Image rewardImage1;
-        public Image rewardImage2;
-        public Image rewardImage3;
-
-        public Text rewardText1;
-        public Text rewardText2;
-        public Text rewardText3;
+        public Image[] itemImages;
+        public Text[] itemTexts;
     }
 }
