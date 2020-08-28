@@ -21,11 +21,12 @@ namespace TurboLabz.InstantFramework
         long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament);
         long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament);
         bool isTournamentOpen(LiveTournamentData liveTournament);
-        LiveTournamentData GetOpenTournament(string shortCode);
         void SetOpenTournament(LiveTournamentData openTournament);
         LiveTournamentData GetOpenTournament();
+        LiveTournamentData GetOpenTournament(string shortCode);
         JoinedTournamentData GetJoinedTournament();
         JoinedTournamentData GetJoinedTournament(string tournamentId);
+        Sprite GetLiveTournamentSticker();
 
         Sprite GetStickerSprite(string tournamentType);
         Sprite GetTileSprite(string tournamentType);

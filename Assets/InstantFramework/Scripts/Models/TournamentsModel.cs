@@ -148,6 +148,19 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public Sprite GetLiveTournamentSticker()
+        {
+            var joinedTournament = GetJoinedTournament();
+            if (joinedTournament != null)
+                return GetStickerSprite(joinedTournament.type);
+
+            var openTournament = GetOpenTournament();
+            if (openTournament != null)
+                return GetStickerSprite(openTournament.type);
+
+            return null;
+        }
+
         #region Tournament Sprites API
         public Sprite GetStickerSprite(string tournamentType)
         {
