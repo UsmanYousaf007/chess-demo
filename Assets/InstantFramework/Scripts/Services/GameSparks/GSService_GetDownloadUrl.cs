@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
                 this.errorCode = BackendResult.DOWNLOAD_URL_GET_FAILED;
                 this.onSuccess = onSuccess;
                 this.onSuccessExternal = onSuccessExternal;
-
+                
                 new GetUploadedRequest()
                     .SetUploadId(fileId)
                     .Send(OnRequestSuccess, OnRequestFailure);

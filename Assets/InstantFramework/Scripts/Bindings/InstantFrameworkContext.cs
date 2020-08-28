@@ -189,7 +189,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
-
+            injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();
             // Bind views to mediators
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
             mediationBinder.Bind<AppEventView>().To<AppEventMediator>();
@@ -234,6 +234,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IGameModesAnalyticsService>().To<GameModesAnalyticsService>().ToSingleton();
             injectionBinder.Bind<IPhotoService>().To<PhotoPickerService>().ToSingleton();
             injectionBinder.Bind<IProfilePicService>().To<ProfilePicService>().ToSingleton();
+            injectionBinder.Bind<IDownloadablesService>().To<DownloadablesService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
@@ -281,7 +282,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ILessonsModel>().To<LessonsModel>().ToSingleton();
             injectionBinder.Bind<ITournamentsModel>().To<TournamentsModel>().ToSingleton();
             injectionBinder.Bind<IInboxModel>().To<InboxModel>().ToSingleton();
-
+            injectionBinder.Bind<IDownloadablesModel>().To<DownloadablesModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();

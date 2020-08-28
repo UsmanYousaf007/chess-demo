@@ -190,4 +190,7 @@ namespace TurboLabz.InstantFramework
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
     public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
+
+    //Downloadable Content
+    public class DownloadableContentEventSignal : Signal<ContentType?, ContentDownloadStatus> { }
 }

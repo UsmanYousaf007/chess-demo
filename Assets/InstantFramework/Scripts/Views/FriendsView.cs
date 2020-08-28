@@ -896,6 +896,7 @@ namespace TurboLabz.InstantFramework
                 OnCancelSearchClicked();
             }
 
+            UpdateBarsSkin();
             SortFriends();
         }
 

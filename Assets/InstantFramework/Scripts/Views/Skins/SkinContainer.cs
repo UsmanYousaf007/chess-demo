@@ -87,8 +87,10 @@ namespace TurboLabz.InstantFramework
             {
                 string spritePath = spritePathPrefx + Path.GetFileName(filePath);
                 sprites.Add(AssetDatabase.LoadAssetAtPath<Sprite>(spritePath));
-            }
 
+
+            }
+            
             // Save the scriptable object to disk
             AssetBuilder.Build(this, skinName, ASSET_PATH);
 

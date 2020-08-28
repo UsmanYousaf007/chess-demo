@@ -103,6 +103,14 @@ namespace TurboLabz.InstantFramework
             return "";
         }
 
+        // Downloadables
+        public const string DOWNLOADBLES = "downloadables";
+        public const string DOWNLOADABLE_LAST_MODIFIED = "lastModified";
+        public const string DOWNLOADABLE_SHORT_CODE = "shortCode";
+        public const string DOWNALOADABLE_SIZE = "size";
+        public const string DOWNLOADABLE_URL = "url";
+
+
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
         public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";

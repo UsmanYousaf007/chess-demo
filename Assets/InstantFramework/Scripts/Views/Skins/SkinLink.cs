@@ -48,6 +48,12 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            if (sourceImage == null || sourceImage.sprite == null)
+            {
+                TLUtils.LogUtil.Log("Source Image Not Set For Skin Link: " + gameObject.name, "red");
+                return;
+            }
+
             // Apply alpha if required
             string[] tokens = sourceImage.sprite.name.Split(',');
             float alpha = 1f;
@@ -69,6 +75,15 @@ namespace TurboLabz.InstantFramework
             else if (targetSpriteRenderer != null) 
             {
                 targetSpriteRenderer.sprite = sourceImage.sprite;
+
+                if (targetSpriteRenderer.sprite.texture == null)
+                {
+                    TLUtils.LogUtil.Log("UpdateSkin()==> Name:" + targetSpriteRenderer.sprite.name + " has NULL txture", "red");
+                }
+                else
+                {
+                    TLUtils.LogUtil.Log("UpdateSkin()==> Name:" + targetSpriteRenderer.sprite.name + " txture:" + targetSpriteRenderer.sprite.texture.name, "yellow");
+                }
             }
 
             foreach(SkinLink link in clonedSkinLinks)

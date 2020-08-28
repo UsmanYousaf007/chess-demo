@@ -77,6 +77,9 @@ namespace TurboLabz.InstantFramework
             List<GSData> liveTournamentsData = response.ScriptData.GetGSDataList(GSBackendKeys.LIVE_TOURNAMENTS);
             FillLiveTournaments(liveTournamentsData);
 
+            List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
+            FillDownloadablesModel(downloadablesData);
+
             playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
 
             storeAvailableSignal.Dispatch(false);
@@ -275,7 +278,7 @@ namespace TurboLabz.InstantFramework
             int len = shopItemKeys.Length >> 1;
             for (int i = 0; i < len; i++)
             {
-                List<GSData> itemsData = storeSettingsData.GetGSDataList(shopItemKeys[i,0]);
+                List<GSData> itemsData = storeSettingsData.GetGSDataList(shopItemKeys[i, 0]);
                 if (itemsData != null)
                 {
                     IOrderedDictionary<string, StoreItem> items = PopulateStoreItems(itemsData);
@@ -288,7 +291,7 @@ namespace TurboLabz.InstantFramework
             List<StoreItem> videoLessons = storeSettingsModel.lists[GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG];
             for (int i = 0; i < videoLessons.Count; i++)
             {
-                videoLessons[i].videoUrl =  videoBaseUrl + videoLessons[i].key + ".mp4";
+                videoLessons[i].videoUrl = videoBaseUrl + videoLessons[i].key + ".mp4";
             }
         }
 
@@ -426,6 +429,29 @@ namespace TurboLabz.InstantFramework
                     JoinedTournamentData joinedTournament = parseJoinedTournament(tournamentGSData, pair.Key);
 
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
+                }
+            }
+        }
+
+        private void FillDownloadablesModel(List<GSData> downloadablesData)
+        {
+            if (downloadablesData != null)
+            {
+                downloadablesModel.downloadableItems = new Dictionary<string, DownloadableItem>();
+                foreach (var downloadable in downloadablesData)
+                {
+                    string downloadShortCode = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_SHORT_CODE);
+                    if (PlatformUtil.IsCurrentPlatformSuffixAppended(downloadShortCode))
+                    {
+                        DownloadableItem item = new DownloadableItem();
+                        item.size = downloadable.GetInt(GSBackendKeys.DOWNALOADABLE_SIZE).Value;
+                        item.downloadShortCode = downloadShortCode;
+                        item.shortCode = downloadShortCode.RemovePlatfrom();
+                        item.lastModified = downloadable.GetLong(GSBackendKeys.DOWNLOADABLE_LAST_MODIFIED).Value;
+                        item.url = downloadable.GetString(GSBackendKeys.DOWNLOADABLE_URL);
+                        item.bundle = downloadablesModel.GetBundleFromVersionCache(item.shortCode);
+                        downloadablesModel.downloadableItems.Add(item.shortCode, item);
+                    }
                 }
             }
         }
