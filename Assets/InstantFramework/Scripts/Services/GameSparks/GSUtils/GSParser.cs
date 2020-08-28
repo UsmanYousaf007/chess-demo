@@ -378,6 +378,9 @@ namespace TurboLabz.InstantFramework
             msg.heading = data.GetString("heading");
             msg.subHeading = data.GetString("body");
             msg.timeStamp = data.GetLong("time").Value;
+            msg.chestType = GetSafeString(data, "chestType");
+            msg.tournamentType = GetSafeString(data, "tournamentType");
+            msg.league = GetSafeString(data, "league");
 
             GSData rewardsData = data.GetGSData("reward");
             ParseIboxMessageRewards(rewardsData, msg.rewards);

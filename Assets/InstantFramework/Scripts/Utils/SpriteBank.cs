@@ -12,7 +12,6 @@ namespace TurboLabz.InstantFramework
         static SpriteBank()
         {
             container = SpritesContainer.Load("SpriteBank");
-            container.Init();
         }
     }
 }

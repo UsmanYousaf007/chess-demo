@@ -110,7 +110,7 @@ namespace TurboLabz.InstantFramework
             p.headingText.text = vo.tournamentName + " Reward!";
             p.buttonText.text = "Collect";
 
-            // p.chestImage = blah(vo.chestShortCode);
+            p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)

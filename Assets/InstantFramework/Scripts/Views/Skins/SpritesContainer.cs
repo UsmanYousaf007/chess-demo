@@ -20,28 +20,25 @@ namespace TurboLabz.InstantFramework
 
 		public static SpritesContainer Load(string assetName)
 		{
-			return Resources.Load(assetName) as SpritesContainer;
+			SpritesContainer container = Resources.Load(assetName) as SpritesContainer;
+			container.Init();
+			return container;
 		}
 
-		public void Init()
+		private void Init()
         {
 			foreach(Sprite sprite in sprites)
             {
-				dict.Add(sprite.name, sprite);
+				if (!dict.ContainsKey(sprite.name))
+				{
+					dict.Add(sprite.name, sprite);
+				}
             }
         }
 
 		public Sprite GetSprite(string key)
 		{
-			foreach (Sprite sprite in sprites)
-			{
-				if (sprite.name == key)
-				{
-					return sprite;
-				}
-			}
-
-			return null;
+			return dict.ContainsKey(key) ? dict[key] : null;
 		}
 
 		#if UNITY_EDITOR

@@ -38,6 +38,9 @@ namespace TurboLabz.InstantFramework
         public string heading;
         public string subHeading;
         public long timeStamp;
+        public string tournamentType;
+        public string chestType;
+        public string league;
         public Dictionary<string, int> rewards;
 
         public InboxMessage()
@@ -47,6 +50,9 @@ namespace TurboLabz.InstantFramework
             heading = null;
             subHeading = null;
             timeStamp = 0;
+            tournamentType = null;
+            chestType = null;
+            league = null;
             rewards = new Dictionary<string, int>();
     }
     }

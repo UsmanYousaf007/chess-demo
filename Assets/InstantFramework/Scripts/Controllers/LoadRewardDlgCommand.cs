@@ -66,7 +66,7 @@ namespace TurboLabz.InstantGame
             RewardDlgVO vo = new RewardDlgVO("RewardDailyLeague");
             InboxMessage msg = inboxModel.items[msgId];
 
-            vo.league = "EMERALD";
+            vo.league = msg.league;
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;
@@ -76,7 +76,7 @@ namespace TurboLabz.InstantGame
             RewardDlgVO vo = new RewardDlgVO("RewardLeaguePromotion");
             InboxMessage msg = inboxModel.items[msgId];
 
-            vo.league = "EMERALD";
+            vo.league = msg.league;
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;
@@ -86,8 +86,17 @@ namespace TurboLabz.InstantGame
             RewardDlgVO vo = new RewardDlgVO("RewardTournamentEnd");
             InboxMessage msg = inboxModel.items[msgId];
 
-            vo.tournamentName = "1M Bullet";
-            vo.chestName = "Epic Chest";
+            if (msg.tournamentType == TournamentConstants.TournamentType.MIN_1) vo.tournamentName = TournamentConstants.TournamentType.MIN_1;
+            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_5) vo.tournamentName = TournamentConstants.TournamentType.MIN_5;
+            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_10) vo.tournamentName = TournamentConstants.TournamentType.MIN_10;
+
+            if (msg.chestType == TournamentConstants.ChestType.COMMON) vo.chestName = "Common Chest";
+            if (msg.chestType == TournamentConstants.ChestType.EPIC) vo.chestName = "Epic Chest";
+            if (msg.chestType == TournamentConstants.ChestType.RARE) vo.chestName = "Rare Chest";
+
+            ChestIconsContainer container = ChestIconsContainer.Load();
+            vo.chestImage = container.GetChest(msg.chestType);
+
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;

@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         public string league;
         public string tournamentName;
         public string chestName;
+        public Sprite chestImage;
 
         public RewardDlgVO(string typeId)
         {
