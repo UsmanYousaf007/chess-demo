@@ -8,8 +8,8 @@ namespace TurboLabz.InstantFramework
 {
     public class TournamentsModel : ITournamentsModel
     {
-        private static ChestIconsContainer chestIconsContainer;
-        private static TournamentAssetsContainer tournamentAssetsContainer;
+        private ChestIconsContainer chestIconsContainer;
+        private TournamentAssetsContainer tournamentAssetsContainer;
 
         // Signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
 
         public long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament)
         {
-            long currentTimeSeconds = TimeUtil.unixTimestampMilliseconds / 1000;
+            long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             long durationSeconds = liveTournament.durationMinutes * 60;
             if (currentTimeSeconds > liveTournament.currentStartTimeInSeconds)
             {
@@ -95,9 +95,9 @@ namespace TurboLabz.InstantFramework
 
         public long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament)
         {
-            long currentTimeSeconds = TimeUtil.unixTimestampMilliseconds / 1000;
+            long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             long durationSeconds = joinedTournament.durationMinutes * 60;
-            long startTime = joinedTournament.startTimeUTC * 60;
+            long startTime = joinedTournament.startTimeUTC / 1000;
             return (startTime + durationSeconds - currentTimeSeconds);
         }
 
@@ -148,6 +148,19 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public LiveTournamentData GetUpcomingTournament(string shortCode)
+        {
+            for (int i = 0; i < upcomingTournaments.Count; i++)
+            {
+                if (upcomingTournaments[i].shortCode == shortCode)
+                {
+                    return upcomingTournaments[i];
+                }
+            }
+
+            return null;
+        }
+
         public Sprite GetLiveTournamentSticker()
         {
             var joinedTournament = GetJoinedTournament();
@@ -157,6 +170,29 @@ namespace TurboLabz.InstantFramework
             var openTournament = GetOpenTournament();
             if (openTournament != null)
                 return GetStickerSprite(openTournament.type);
+
+            return null;
+        }
+
+        public TournamentReward GetTournamentGrandPrize(string id)
+        {
+            var joinedTournament = GetJoinedTournament(id);
+            if (joinedTournament != null)
+            {
+                return joinedTournament.grandPrize;
+            }
+
+            var openTournament = GetOpenTournament(id);
+            if (openTournament != null)
+            {
+                return openTournament.grandPrize;
+            }
+
+            var upcomingTournament = GetUpcomingTournament(id);
+            if (upcomingTournament != null)
+            {
+                return upcomingTournament.grandPrize;
+            }
 
             return null;
         }
@@ -182,14 +218,6 @@ namespace TurboLabz.InstantFramework
     [Serializable]
     public class JoinedTournamentData
     {
-        //-- Server tournament model
-        //type: tournament.type,
-        //name: tournament.name,
-        //rank: tournamentPlayer.rank,
-        //grandPrize: tournament.rewards[0],
-        //startTime: tournament.startTime,
-        //duration: tournament.duration
-
         public string id;
         public string shortCode;
         public string type;
@@ -199,7 +227,6 @@ namespace TurboLabz.InstantFramework
         public long startTimeUTC;
         public int durationMinutes;
         public long currentStartTimeInSeconds;
-        public List<TournamentReward> rewards = new List<TournamentReward>();
         public List<TournamentEntry> entries = new List<TournamentEntry>();
 
         public DateTime lastFetchedTime;
@@ -217,7 +244,6 @@ namespace TurboLabz.InstantFramework
         public long firstStartTimeUTC;
         public int durationMinutes;
         public int waitTimeMinutes;
-        public List<TournamentReward> rewards = new List<TournamentReward>();
 
         public long currentStartTimeInSeconds;
         public DateTime lastFetchedTime;

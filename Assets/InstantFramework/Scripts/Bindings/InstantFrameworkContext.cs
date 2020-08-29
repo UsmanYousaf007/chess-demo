@@ -190,9 +190,9 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();          
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
-            injectionBinder.Bind<GetTournamentLeaderboardSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTournamentLeaderboardSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
-            injectionBinder.Bind<FetchLiveTournamentRewardsSuccessSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLiveTournamentRewardsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();

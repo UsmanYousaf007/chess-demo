@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LeagueProfileStripSetOnClickSignal leagueProfileStripSetOnClickSignal { get; set; }
         [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
@@ -71,6 +72,11 @@ namespace TurboLabz.InstantFramework
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
                 fetchLiveTournamentRewardsSignal.Dispatch(item.openTournamentData.shortCode);
+            }
+            else if (item.joinedTournamentData != null)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                getJoinedTournamentLeaderboardSignal.Dispatch(item.joinedTournamentData.id, true);
             }
         }
 

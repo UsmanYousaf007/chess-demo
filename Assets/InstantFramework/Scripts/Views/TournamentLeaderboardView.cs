@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < 3; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
-                PopulateBar(playerBar, i + 1, liveTournament.rewards[i]);
+                PopulateBar(playerBar, i + 1, liveTournament.rewardsDict[i + 1]);
             }
 
             for (int i = 4; i < itemBarsCount; i++)
@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < joinedTournament.entries.Count; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
-                PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i) ? joinedTournament.rewardsDict[i] : null);
+                PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i+1) ? joinedTournament.rewardsDict[i + 1] : null);
             }
 
             PopulateTournamentHeader(header, joinedTournament);

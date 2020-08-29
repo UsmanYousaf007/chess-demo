@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public bool update { get; set; }
 
         // dispatch signals
-        [Inject] public GetTournamentLeaderboardSuccessSignal getLeaderboardSuccessSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardSignal getLeaderboardSuccessSignal { get; set; }
         [Inject] public TournamentOpFailedSignal opFailedSignal { get; set; }
 
         // services

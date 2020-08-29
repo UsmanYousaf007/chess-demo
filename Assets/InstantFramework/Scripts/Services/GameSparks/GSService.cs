@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSuccessSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }

@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         LiveTournamentData GetOpenTournament(string shortCode);
         JoinedTournamentData GetJoinedTournament();
         JoinedTournamentData GetJoinedTournament(string tournamentId);
+        LiveTournamentData GetUpcomingTournament(string shortCode);
+        TournamentReward GetTournamentGrandPrize(string id);
         Sprite GetLiveTournamentSticker();
 
         Sprite GetStickerSprite(string tournamentType);

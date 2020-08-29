@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         
         // dispatch signals
-        [Inject] public FetchLiveTournamentRewardsSuccessSignal fetchSuccessSignal { get; set; }
+        [Inject] public UpdateLiveTournamentRewardsSuccessSignal fetchSuccessSignal { get; set; }
         [Inject] public TournamentOpFailedSignal opFailedSignal { get; set; }
 
         // services

@@ -239,18 +239,39 @@ namespace TurboLabz.InstantFramework
         private void OnChallengeWonMessage(ChallengeWonMessage message)
         {
             UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
+
+            GSData tournamentGSData = message.ScriptData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
+            if (tournamentGSData != null)
+            {
+                HandleTournamentEndMatch(tournamentGSData);
+            }
+
             OnGameChallengeWonMessage(message);
         }
 
         private void OnChallengeLostMessage(ChallengeLostMessage message)
         {
             UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
+
+            GSData tournamentGSData = message.ScriptData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
+            if (tournamentGSData != null)
+            {
+                HandleTournamentEndMatch(tournamentGSData);
+            }
+
             OnGameChallengeLostMessage(message);
         }
 
         private void OnChallengeDrawnMessage(ChallengeDrawnMessage message)
         {
             UpdateEndGameStats(message.Challenge.ChallengeId, message.ScriptData);
+
+            GSData tournamentGSData = message.ScriptData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
+            if (tournamentGSData != null)
+            {
+                HandleTournamentEndMatch(tournamentGSData);
+            }
+
             OnGameChallengeDrawnMessage(message);
         }
     }

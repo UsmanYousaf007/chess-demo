@@ -434,14 +434,14 @@ namespace TurboLabz.InstantFramework
                 foreach (KeyValuePair<string, object> pair in joinedTournaments.BaseData)
                 {
                     var tournamentGSData = pair.Value as GSData;
-                    JoinedTournamentData joinedTournament = parseJoinedTournament(tournamentGSData, pair.Key);
+                    JoinedTournamentData joinedTournament = ParseJoinedTournament(tournamentGSData, pair.Key);
 
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
                 }
             }
         }
 
-        private JoinedTournamentData parseJoinedTournament(GSData tournamentGSData, string id)
+        private JoinedTournamentData ParseJoinedTournament(GSData tournamentGSData, string id)
         {
             JoinedTournamentData joinedTournament = new JoinedTournamentData();
             joinedTournament.id = id;
@@ -461,12 +461,9 @@ namespace TurboLabz.InstantFramework
             var rewards = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                joinedTournament.rewards.Clear();
-                joinedTournament.rewards.Capacity = rewards.Count;
                 for (int i = 0; i < rewards.Count; i++)
                 {
                     TournamentReward reward = ParseTournamentReward(rewards[i]);
-                    joinedTournament.rewards.Add(reward);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (joinedTournament.rewardsDict.ContainsKey(j))
@@ -477,6 +474,24 @@ namespace TurboLabz.InstantFramework
                         {
                             joinedTournament.rewardsDict.Add(j, reward);
                         }
+                    }
+                }
+
+                joinedTournament.grandPrize = joinedTournament.rewardsDict[1];
+            }
+
+            var entries = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.ENTRIES);
+            if (entries != null)
+            {
+                List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
+                joinedTournament.entries = tournamentEntries;
+
+                var playerId = playerModel.id;
+                for (int i = 0; i < tournamentEntries.Count; i++)
+                {
+                    if (tournamentEntries[i].publicProfile.playerId == playerId)
+                    {
+                        joinedTournament.rank = tournamentEntries[i].rank;
                     }
                 }
             }
@@ -496,10 +511,10 @@ namespace TurboLabz.InstantFramework
                 tournamentEntry.rank = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.RANK);
                 tournamentEntry.score = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.SCORE);
 
-                PublicProfile publicProfile = new PublicProfile();
+                tournamentEntry.publicProfile = new PublicProfile();
                 GSData publicProfileData = entriesGSData[i].GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
-                string friendId = publicProfileData.GetString(GSBackendKeys.PlayerDetails.PLAYER_ID);
-                GSParser.PopulatePublicProfile(publicProfile, publicProfileData, friendId);
+                string entryId = GSParser.GetSafeString(entriesGSData[i], GSBackendKeys.PlayerDetails.PLAYER_ID);
+                GSParser.PopulatePublicProfile(tournamentEntry.publicProfile, publicProfileData, entryId);
 
                 tournamentEntries.Add(tournamentEntry);
             }
@@ -554,12 +569,9 @@ namespace TurboLabz.InstantFramework
             var rewards = liveTournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                liveTournament.rewards.Clear();
-                liveTournament.rewards.Capacity = rewards.Count;
                 for (int i = 0; i < rewards.Count; i++)
                 {
                     TournamentReward reward = ParseTournamentReward(rewards[i]);
-                    liveTournament.rewards.Add(reward);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (liveTournament.rewardsDict.ContainsKey(j))

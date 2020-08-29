@@ -398,6 +398,7 @@ namespace TurboLabz.InstantFramework
         public static class Tournament
         {
             public const string TOURNAMENT_KEY = "tournament";
+            public const string TOURNAMENT_ID = "tournamentId";
             public const string TYPE = "type";
             public const string SHORT_CODE = "shortCode";
             public const string ACTIVE = "active";

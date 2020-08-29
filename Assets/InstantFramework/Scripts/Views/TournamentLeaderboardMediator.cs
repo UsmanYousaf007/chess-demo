@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
 
         // Services
@@ -26,7 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentModel { get; set; }
 
-        private LiveTournamentData liveTournament = null;
+        private LiveTournamentData openTournament = null;
         private JoinedTournamentData joinedTournament = null;
 
         public override void OnRegister()
@@ -62,22 +63,24 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(GetTournamentLeaderboardSuccessSignal))]
+        [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
         public void UpdateJoinedTournamentView(string tournamentId)
         {
             var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
             if (joinedTournament != null)
             {
+                this.joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
             }
         }
 
-        [ListensTo(typeof(FetchLiveTournamentRewardsSuccessSignal))]
+        [ListensTo(typeof(UpdateLiveTournamentRewardsSuccessSignal))]
         public void UpdateLiveTournamentView(string tournamentShortCode)
         {
             var openTournament = tournamentModel.GetOpenTournament(tournamentShortCode);
             if (openTournament != null)
             {
+                this.openTournament = openTournament;
                 view.UpdateView(openTournament);
             }
         }
@@ -85,6 +88,28 @@ namespace TurboLabz.InstantFramework
         public void OnEnterButtonClicked()
         {
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnEnterButtonClicked()");
+            string tournamentType = joinedTournament != null ? joinedTournament.type : openTournament.type;
+            string actionCode;
+            switch (tournamentType)
+            {
+                case TournamentConstants.TournamentType.MIN_1:
+                    actionCode = FindMatchAction.ActionCode.Random1.ToString();
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_5:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_10:
+                    actionCode = FindMatchAction.ActionCode.Random10.ToString();
+                    break;
+
+                default:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    break;
+            }
+
+            FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
         }
 
         public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)

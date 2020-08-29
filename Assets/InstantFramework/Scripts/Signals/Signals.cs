@@ -163,7 +163,6 @@ namespace TurboLabz.InstantFramework
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     public class LoadArenaSignal : Signal { }
-    public class UpdateTournamentsViewSignal : Signal { }
     public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
     public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
     public class VirtualGoodBoughtSignal : Signal<string> { }
@@ -183,8 +182,9 @@ namespace TurboLabz.InstantFramework
     public class GetTournamentsSuccessSignal : Signal { }
     public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
     public class FetchLiveTournamentRewardsSignal : Signal<string> { }
-    public class GetTournamentLeaderboardSuccessSignal : Signal<string> { }
-    public class FetchLiveTournamentRewardsSuccessSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardSignal : Signal<string> { }
+    public class UpdateTournamentsViewSignal : Signal { }
+    public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
 
     // SKINS

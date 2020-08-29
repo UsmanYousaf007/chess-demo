@@ -90,8 +90,6 @@ namespace TurboLabz.InstantFramework
             GSData tournament = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENT);
             if (tournament != null)
             {
-                var entries = tournament.GetGSDataList(GSBackendKeys.Tournament.ENTRIES);
-                List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
                 string tournamentShortCode = GSParser.GetSafeString(tournament, GSBackendKeys.Tournament.SHORT_CODE);
 
                 List <JoinedTournamentData> joinedTournamentsList = tournamentsModel.joinedTournaments;
@@ -99,7 +97,7 @@ namespace TurboLabz.InstantFramework
                 {
                     if (joinedTournamentsList[i].shortCode == tournamentShortCode)
                     {
-                        joinedTournamentsList[i].entries = tournamentEntries;
+                        joinedTournamentsList[i] = ParseJoinedTournament(tournament, joinedTournamentsList[i].id);
                     }
                 }
             }

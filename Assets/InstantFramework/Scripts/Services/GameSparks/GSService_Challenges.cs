@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
         [Inject] public UpdateEloScoresSignal updateEloScoresSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
-        
+
 
         // Called by get init data and facebook auth commands
         private void ParseActiveChallenges(GSData data)
@@ -36,14 +36,14 @@ namespace TurboLabz.InstantFramework
 
             foreach (KeyValuePair<string, object> entry in activeChallenges)
             {
-                GSData challengeData = activeChallengesData.GetGSData(entry.Key);    
+                GSData challengeData = activeChallengesData.GetGSData(entry.Key);
                 ParseChallengeData(entry.Key, challengeData);
             }
         }
 
         private void ParseChallengeDataOfferDraw(string challengeId, GSData challengeData, bool hasGameEnded = false)
         {
-         
+
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
             GSData matchData = challengeData.GetGSData(GSBackendKeys.ChallengeData.MATCH_DATA_KEY);
 
@@ -88,7 +88,7 @@ namespace TurboLabz.InstantFramework
             GSData gameData = challengeData.GetGSData(GSBackendKeys.GAME_DATA);
 
             TLUtils.LogUtil.LogNullValidation(challengeId, "challengeId");
-            
+
             bool isNewMatch = challengeId != null && !matchInfoModel.matches.ContainsKey(challengeId);
 
             if (isNewMatch)
@@ -96,16 +96,17 @@ namespace TurboLabz.InstantFramework
                 ///////////////////////////////////////////////////////////////////////////////////////
                 // Leave if this is a long match challenge by a blocked user
                 string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
-                string challengedId = matchData.GetString (GSBackendKeys.Match.CHALLENGED_ID);
-                string challengerId = matchData.GetString (GSBackendKeys.Match.CHALLENGER_ID);
+                string challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
+                string challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
                 string opponentId = (playerModel.id == challengerId) ? challengedId : challengerId;
 
                 TLUtils.LogUtil.LogNullValidation(opponentId, "opponentId");
-                
+
                 if (opponentId == null) return;
 
                 if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE &&
-                    playerModel.blocked.ContainsKey(opponentId)) {
+                    playerModel.blocked.ContainsKey(opponentId))
+                {
                     return;
                 }
 
@@ -121,12 +122,12 @@ namespace TurboLabz.InstantFramework
                 matchInfoModel.matches[challengeId].drawOfferStatus = offerDrawVO.status;
                 matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
                 updateOfferDrawSignal.Dispatch(offerDrawVO);
-                
+
             }
 
             UpdateMatch(challengeId, matchData);
             UpdateGame(challengeId, gameData);
- 
+
             // Update the bars
             if (matchInfoModel.matches.ContainsKey(challengeId) /*&& matchInfoModel.matches[challengeId].isLongPlay*/)
             {
@@ -261,7 +262,7 @@ namespace TurboLabz.InstantFramework
         private void UpdateMatch(string challengeId, GSData matchData)
         {
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
-        
+
             // Update accept status
             matchInfo.acceptStatus = matchData.GetString(GSBackendKeys.Match.ACCEPT_STATUS_KEY);
 
@@ -281,7 +282,7 @@ namespace TurboLabz.InstantFramework
             MatchInfo matchInfo = matchInfoModel.matches[challengeId];
 
             if (matchInfo.isLongPlay)
-            {   
+            {
                 string opponentId = (playerModel.id == matchInfo.challengerId) ?
                     matchInfo.challengedId : matchInfo.challengerId;
 
@@ -310,7 +311,7 @@ namespace TurboLabz.InstantFramework
             {
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
-                playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;    
+                playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;
 
                 if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
                 {
@@ -345,6 +346,44 @@ namespace TurboLabz.InstantFramework
                     updateEloScoresSignal.Dispatch(vo);
                 }
             }
+        }
+
+        private void HandleTournamentEndMatch(GSData tournamentGSData)
+        {
+            string tournamentId = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TOURNAMENT_ID);
+            GSData tournamentDetailsGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
+            JoinedTournamentData joinedTournament = null;
+            if (tournamentDetailsGSData != null)
+            {
+                joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId);
+            }
+
+            var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
+            if (tournament != null)
+            {
+                if (joinedTournament == null)
+                {
+                    // Tournament has ended
+                    // Go to tournaments view instead of tournament leaderboards view
+                }
+                else
+                {
+                    tournament = joinedTournament;
+                }
+            }
+            else
+            {
+                tournamentsModel.joinedTournaments.Add(joinedTournament);
+            }
+
+            var openTournament = tournamentsModel.GetOpenTournament(joinedTournament.shortCode);
+            if (openTournament != null)
+            {
+                tournamentsModel.openTournaments.Remove(openTournament);
+            }
+
+            updateTournamentsViewSignal.Dispatch();
+            updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
         }
     }
 }
