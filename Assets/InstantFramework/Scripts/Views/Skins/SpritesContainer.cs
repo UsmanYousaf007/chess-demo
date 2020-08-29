@@ -16,28 +16,34 @@ namespace TurboLabz.InstantFramework
 	public class SpritesContainer : ScriptableObject 
 	{
 		public List<Sprite> sprites = new List<Sprite>();
+		public Dictionary<string, Sprite> dict = new Dictionary<string, Sprite>();
 
 		public static SpritesContainer Load(string assetName)
 		{
-			return Resources.Load(assetName) as SpritesContainer;
+			SpritesContainer container = Resources.Load(assetName) as SpritesContainer;
+			container.Init();
+			return container;
 		}
+
+		private void Init()
+        {
+			foreach(Sprite sprite in sprites)
+            {
+				if (!dict.ContainsKey(sprite.name))
+				{
+					dict.Add(sprite.name, sprite);
+				}
+            }
+        }
 
 		public Sprite GetSprite(string key)
 		{
-			foreach (Sprite sprite in sprites)
-			{
-				if (sprite.name == key)
-				{
-					return sprite;
-				}
-			}
-
-			return null;
+			return dict.ContainsKey(key) ? dict[key] : null;
 		}
 
 		#if UNITY_EDITOR
 		const string ASSET_PATH = "Assets/Game/Images/Resources/";
-		const string INPUT_PATH = "Assets/Game/Images/";
+		const string INPUT_PATH = "Assets/InstantFramework/Images/SpriteBank/";
 
 		[MenuItem("Assets/Create/Turbolabz/Sprite Container")]
 		public static void CreateAsset() 

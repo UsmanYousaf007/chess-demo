@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch signals
         //[Inject] public InboxMessageCollectSignal inboxMessageCollectSignal { get; set; }
+        [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -53,12 +54,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-
         public void OnInBoxBarClicked(InboxBar inboxBar)
         {
-            backendService.InBoxOpCollect(inboxBar.msgId);
-
-            //inboxMessageCollectSignal.Dispatch(inboxBar.msgId);
+            loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
         }
 

@@ -12,15 +12,10 @@ namespace TurboLabz.InstantFramework
     {
         public Text headingText;
 
-        public Text chestImage;
+        public Image chestImage;
         public Text chestText;
- 
-        public Image rewardImage1;
-        public Image rewardImage2;
-        public Image rewardImage3;
 
-        public Text rewardText1;
-        public Text rewardText2;
-        public Text rewardText3;
+        public Image[] itemImages;
+        public Text[] itemTexts;
     }
 }

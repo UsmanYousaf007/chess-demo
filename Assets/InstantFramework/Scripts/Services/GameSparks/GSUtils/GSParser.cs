@@ -359,13 +359,36 @@ namespace TurboLabz.InstantFramework
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
+        public static void ParseIboxMessageRewards(GSData rewardsData, Dictionary<string, int> rewards)
+        {
+            foreach (KeyValuePair<string, Object> obj in rewardsData.BaseData)
+            {
+                string itemShortCode = obj.Key;
+                var qtyVar = obj.Value;
+                int qtyInt = Int32.Parse(qtyVar.ToString());
+                TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
+                rewards.Add(itemShortCode, qtyInt);
+            }
+        }
+
         public static void ParseInboxMessage(InboxMessage msg, GSData data)
         {
             msg.id = data.GetString("id");
             msg.type = data.GetString("type");
+            msg.isDaily = GetSafeBool(data, "isDaily");
             msg.heading = data.GetString("heading");
-            msg.subHeading = data.GetString("body");
-            msg.timeStamp = data.GetLong("time").Value;
+            msg.subHeading = GetSafeString(data, "body");
+            msg.timeStamp = GetSafeLong(data, "time");
+            msg.chestType = GetSafeString(data, "chestType");
+            msg.tournamentType = GetSafeString(data, "tournamentType");
+            msg.league = GetSafeString(data, "league");
+            msg.startTime = GetSafeLong(data, "startTime");
+
+            GSData rewardsData = data.GetGSData("reward");
+            if (rewardsData != null)
+            { 
+                ParseIboxMessageRewards(rewardsData, msg.rewards);
+            }
         }
 
         public static void LogPublicProfile(PublicProfile publicProfile)
@@ -403,6 +426,13 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("heading = " + msg.heading);
             TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
             TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+
+            TLUtils.LogUtil.Log("rewards:");
+            foreach (KeyValuePair<string, int> item in msg.rewards)
+            {
+                TLUtils.LogUtil.Log("shortCode = " + item.Key + "qty = " + item.Value);
+            }
+
             TLUtils.LogUtil.Log("<<---------- Inbox Message End <<----------");
         }
 

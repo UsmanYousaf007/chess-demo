@@ -42,6 +42,10 @@
             {
                 return new NSSettings();
             }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
+            {
+                return new NSRewardDlgView();
+            }
 
             return null;
         }

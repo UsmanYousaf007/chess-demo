@@ -16,12 +16,7 @@ namespace TurboLabz.InstantFramework
         public Text leagueTitleText;
         public Text rewardsSubHeadingText;
 
-        public Image rewardImage1;
-        public Image rewardImage2;
-        public Image rewardImage3;
-
-        public Text rewardText1;
-        public Text rewardText2;
-        public Text rewardText3;
+        public Image[] itemImages;
+        public Text[] itemTexts;
     }
 }

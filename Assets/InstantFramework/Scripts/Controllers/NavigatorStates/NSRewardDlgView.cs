@@ -4,7 +4,7 @@
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.REWARD_DLG);
+            ShowDialog(NavigatorViewId.REWARD_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)

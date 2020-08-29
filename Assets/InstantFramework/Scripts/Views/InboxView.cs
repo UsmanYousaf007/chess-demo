@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,10 +47,10 @@ namespace TurboLabz.InstantFramework
             sectionHeader.gameObject.SetActive(false);
             emptyInBoxStrip.gameObject.SetActive(false);
 
-            AddInboxBarFnMap.Add("TournamentReward", AddTournamentRewardBar);
-            AddInboxBarFnMap.Add("SubsciptoinDailyReward", AddDailySubscriptionRewardBar);
-            AddInboxBarFnMap.Add("DailyLeagueReward", AddDailyLeagueRewardBar);
-            AddInboxBarFnMap.Add("LeaguePromotionReward", AddLeaguePromotionRewardBar);
+            AddInboxBarFnMap.Add("RewardTournamentEnd", AddTournamentRewardBar);
+            AddInboxBarFnMap.Add("RewardDailySubscription", AddDailySubscriptionRewardBar);
+            AddInboxBarFnMap.Add("RewardDailyLeague", AddDailyLeagueRewardBar);
+            AddInboxBarFnMap.Add("RewardLeaguePromotion", AddLeaguePromotionRewardBar);
 
             Sort();
         }
@@ -96,10 +97,10 @@ namespace TurboLabz.InstantFramework
 
             item.timeStamp = 0;
 
-            item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
+            item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetTile(msg.tournamentType);
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -120,7 +121,7 @@ namespace TurboLabz.InstantFramework
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("SubscriptionSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -141,7 +142,7 @@ namespace TurboLabz.InstantFramework
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("RankSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -158,12 +159,12 @@ namespace TurboLabz.InstantFramework
             InboxBar item = obj.GetComponent<InboxBar>();
 
             item.timeStamp = 0;
-
+            
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
-            item.thumbnail.sprite = null;// (Resources.Load("GE") as Image).sprite;
-
+            item.thumbnail.sprite = SpriteBank.container.GetSprite("LeaguePromotionSticker");
+            
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
@@ -177,8 +178,14 @@ namespace TurboLabz.InstantFramework
         {
             foreach (KeyValuePair<string, InboxMessage> obj in messages)
             {
+                if (inBoxBars.ContainsKey(obj.Key))
+                {
+                    RemoveMessage(obj.Key);
+                }
+
                 InboxMessage msg = obj.Value;
-                if (AddInboxBarFnMap.ContainsKey(msg.type))
+                if (TimeUtil.unixTimestampMilliseconds >= msg.startTime &&
+                    AddInboxBarFnMap.ContainsKey(msg.type))
                 {
                     AddInboxBarFnMap[msg.type].Invoke(msg);
                 }

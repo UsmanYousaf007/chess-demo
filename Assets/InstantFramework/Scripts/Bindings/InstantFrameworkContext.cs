@@ -187,7 +187,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<VirtualGoodsTransactionResultSignal>().ToSingleton();
             injectionBinder.Bind<UpdateBottomNavSignal>().ToSingleton();
             injectionBinder.Bind<InboxAddMessagesSignal>().ToSingleton();
-            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();          
+            injectionBinder.Bind<InboxRemoveMessagesSignal>().ToSingleton();
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentLeaderboardSignal>().ToSingleton();
@@ -197,6 +197,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();
             injectionBinder.Bind<UpdateChestInfoDlgViewSignal>().ToSingleton();
+            injectionBinder.Bind<LoadRewardDlgViewSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -217,7 +218,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<MaintenanceView>().To<MaintenanceMediator>();
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
             mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
-            
+
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -321,6 +322,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadVideoSignal>().To<LoadVideoCommand>();
             commandBinder.Bind<LoadTopicsViewSignal>().To<LoadTopicsViewCommand>();
             commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
+            commandBinder.Bind<LoadRewardDlgViewSignal>().To<LoadRewardDlgCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();

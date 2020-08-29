@@ -1375,12 +1375,14 @@ MonoBehaviour:
   button: {fileID: 158935697464157080}
   buttonText: {fileID: 3054294666573651400}
   headingText: {fileID: 8338575461887496247}
-  rewardImage1: {fileID: 6394733752431275430}
-  rewardImage2: {fileID: 7778142402085758899}
-  rewardImage3: {fileID: 4019932189431109647}
-  rewardText1: {fileID: 3089142001691523557}
-  rewardText2: {fileID: 5456184544873893746}
-  rewardText3: {fileID: 4751048537590473215}
+  itemImages:
+  - {fileID: 6394733752431275430}
+  - {fileID: 7778142402085758899}
+  - {fileID: 4019932189431109647}
+  itemTexts:
+  - {fileID: 3089142001691523557}
+  - {fileID: 5456184544873893746}
+  - {fileID: 4751048537590473215}
 --- !u!1 &9123740459887522095
 GameObject:
   m_ObjectHideFlags: 0
