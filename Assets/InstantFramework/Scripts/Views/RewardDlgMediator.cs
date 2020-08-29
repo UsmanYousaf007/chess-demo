@@ -55,16 +55,16 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateRewardDlgViewSignal))]
         public void OnUpdate(RewardDlgVO vo)
         {
-            //view.Show();
             view.OnUpdate(vo);
         }
 
-        public void OnButtonClicked()
+        public void OnButtonClicked(string msgId)
         {
             TLUtils.LogUtil.Log("RewardDlgMediator::OnButtonClicked()");
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             loadInboxSignal.Dispatch();
-        }
 
+            backendService.InBoxOpCollect(msgId);
+        }
     }
 }

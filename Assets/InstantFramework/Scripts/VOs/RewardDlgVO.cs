@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
     public class RewardDlgVO
     {
         public string type;
+        public string msgId;
 
         public List<string> rewardShortCodes;
         public List<int> rewardQty;
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public RewardDlgVO(string typeId)
         {
             type = typeId;
+            msgId = null;
             rewardShortCodes = new List<string>();
             rewardQty = new List<int>();
             rewardImages = new List<Sprite>();

@@ -54,10 +54,6 @@ namespace TurboLabz.InstantFramework
             {
                 FillInbox(inboxModel.items, inBoxMessagesData);
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
-
-                int inboxMessageCount = response.ScriptData.GetInt("count").Value;
-                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
-
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
             }
 
@@ -87,6 +83,14 @@ namespace TurboLabz.InstantFramework
                 }
                 
             }
+
+            if (response.ScriptData.ContainsKey("count"))
+            {
+                int inboxMessageCount = response.ScriptData.GetInt("count").Value;
+                inboxModel.inboxMessageCount = inboxMessageCount;
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+            }
+
         }
     }
 

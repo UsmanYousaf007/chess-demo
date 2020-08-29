@@ -47,6 +47,7 @@ namespace TurboLabz.InstantGame
                 vo = BuildVORewardDailySubscription(inboxMessageId);
             }
 
+            vo.msgId = inboxMessageId;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG);
             updateRewardDlgViewSignal.Dispatch(vo);
         }

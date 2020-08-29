@@ -25,7 +25,8 @@ namespace TurboLabz.InstantFramework
         public GameObject rewardTournamentEndDlgPrefab;
 
         private GameObject activeDlg;
-        public Signal buttonClickedSignal = new Signal();
+        private string messageId;
+        public Signal<string> buttonClickedSignal = new Signal<string>();
         private Dictionary<string, Action<RewardDlgVO>> initFnMap = new Dictionary<string, Action<RewardDlgVO>>();
         private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
@@ -55,7 +56,7 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailySubscriptionDlgPrefab(RewardDlgVO vo)
         {
             RewardDailySubscriptionDlg p = activeDlg.GetComponent<RewardDailySubscriptionDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch());
+            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = "Daily Subscription Reward!";
             p.buttonText.text = "Collect";
@@ -70,7 +71,7 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailyLeagueDlgPrefab(RewardDlgVO vo)
         {
             RewardDailyLeagueDlg p = activeDlg.GetComponent<RewardDailyLeagueDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch());
+            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = vo.league;
             p.subHeadingText.text = "Daily League Reward!";
@@ -86,7 +87,7 @@ namespace TurboLabz.InstantFramework
         public void InitRewardLeaguePromotionDlgPrefab(RewardDlgVO vo)
         {
             RewardLeaguePromotionDlg p = activeDlg.GetComponent<RewardLeaguePromotionDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch());
+            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = "Congratulations!";
             p.subHeadingText.text = "You have been promoted!";
@@ -105,7 +106,7 @@ namespace TurboLabz.InstantFramework
         public void InitRewardTournamentEndDlgPrefab(RewardDlgVO vo)
         {
             RewardTournamentEndDlg p = activeDlg.GetComponent<RewardTournamentEndDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch());
+            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = vo.tournamentName + " Reward!";
             p.buttonText.text = "Collect";
