@@ -14,5 +14,6 @@ namespace TurboLabz.InstantFramework
     {
         Dictionary<string, InboxMessage> items { get; set; }
         DateTime lastFetchedTime { get; set; }
+        int inboxMessageCount { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, InboxMessage> items { get; set; }
         public DateTime lastFetchedTime { get; set; }
 
+        public int inboxMessageCount { get; set; }
+
         [PostConstruct]
         public void PostConstruct()
         {
@@ -54,6 +56,6 @@ namespace TurboLabz.InstantFramework
             chestType = null;
             league = null;
             rewards = new Dictionary<string, int>();
-    }
+        }
     }
 }

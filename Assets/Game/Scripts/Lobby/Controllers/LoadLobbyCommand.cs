@@ -31,6 +31,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
+        [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -48,6 +49,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
 
         public override void Execute()
         {
@@ -56,6 +58,7 @@ namespace TurboLabz.InstantGame
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
+            updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {

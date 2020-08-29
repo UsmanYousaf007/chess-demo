@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
         [Inject] public InboxRemoveMessagesSignal inboxRemoveMessagesSignal { get; set; }
+        [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
@@ -53,6 +54,7 @@ namespace TurboLabz.InstantFramework
             {
                 FillInbox(inboxModel.items, inBoxMessagesData);
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
             }
 

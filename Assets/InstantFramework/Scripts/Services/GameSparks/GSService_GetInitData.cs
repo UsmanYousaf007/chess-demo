@@ -82,7 +82,7 @@ namespace TurboLabz.InstantFramework
 
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
-            playerModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+            inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
