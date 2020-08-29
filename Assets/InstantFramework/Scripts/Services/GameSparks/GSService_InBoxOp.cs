@@ -54,7 +54,10 @@ namespace TurboLabz.InstantFramework
             {
                 FillInbox(inboxModel.items, inBoxMessagesData);
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
+
+                int inboxMessageCount = response.ScriptData.GetInt("count").Value;
                 updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
             }
 

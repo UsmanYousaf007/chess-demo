@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -158,7 +159,7 @@ namespace TurboLabz.InstantFramework
             InboxBar item = obj.GetComponent<InboxBar>();
 
             item.timeStamp = 0;
-
+            
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = msg.heading;
             item.subHeadingText.text = msg.subHeading;
@@ -183,7 +184,8 @@ namespace TurboLabz.InstantFramework
                 }
 
                 InboxMessage msg = obj.Value;
-                if (AddInboxBarFnMap.ContainsKey(msg.type))
+                if (TimeUtil.unixTimestampMilliseconds >= msg.startTime &&
+                    AddInboxBarFnMap.ContainsKey(msg.type))
                 {
                     AddInboxBarFnMap[msg.type].Invoke(msg);
                 }

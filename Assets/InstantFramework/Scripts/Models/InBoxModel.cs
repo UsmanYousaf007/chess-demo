@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
     {
         public string id;
         public string type;
+        public bool isDaily;
         public string heading;
         public string subHeading;
         public long timeStamp;
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public string chestType;
         public string league;
         public Dictionary<string, int> rewards;
+        public long startTime;
 
         public InboxMessage()
         {

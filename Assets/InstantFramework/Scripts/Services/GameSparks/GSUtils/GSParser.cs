@@ -375,15 +375,20 @@ namespace TurboLabz.InstantFramework
         {
             msg.id = data.GetString("id");
             msg.type = data.GetString("type");
+            msg.isDaily = GetSafeBool(data, "isDaily");
             msg.heading = data.GetString("heading");
-            msg.subHeading = data.GetString("body");
-            msg.timeStamp = data.GetLong("time").Value;
+            msg.subHeading = GetSafeString(data, "body");
+            msg.timeStamp = GetSafeLong(data, "time");
             msg.chestType = GetSafeString(data, "chestType");
             msg.tournamentType = GetSafeString(data, "tournamentType");
             msg.league = GetSafeString(data, "league");
+            msg.startTime = GetSafeLong(data, "startTime");
 
             GSData rewardsData = data.GetGSData("reward");
-            ParseIboxMessageRewards(rewardsData, msg.rewards);
+            if (rewardsData != null)
+            { 
+                ParseIboxMessageRewards(rewardsData, msg.rewards);
+            }
         }
 
         public static void LogPublicProfile(PublicProfile publicProfile)
