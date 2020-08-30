@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public SkinItemView[] skinMenuItems;
         public Button themesBanner;
         public GameObject themesAlert;
+        public GameObject processing;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -75,6 +76,16 @@ namespace TurboLabz.InstantFramework
                 isThemeBannerShown = !playerModel.OwnsAllThemes();
                 ShowThemeBanner(isThemeBannerShown);
             }
+        }
+
+        public void ShowProcessing()
+        {
+            processing.SetActive(true);
+        }
+
+        public void HideProcessing()
+        {
+            processing.SetActive(false);
         }
 
         private void OnClickSpecialItems()

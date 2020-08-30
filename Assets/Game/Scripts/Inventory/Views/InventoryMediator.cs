@@ -47,6 +47,26 @@ namespace TurboLabz.InstantFramework
             view.OnStoreAvailable(isAvailable);
         }
 
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && status.Equals(ContentDownloadStatus.Started))
+            {
+                view.ShowProcessing();
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && !status.Equals(ContentDownloadStatus.Started))
+            {
+                view.HideProcessing();
+            }
+        }
+
         private void OnApplyTheme()
         {
             if (view.HasSkinChanged())
