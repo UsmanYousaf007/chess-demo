@@ -99,6 +99,7 @@ namespace TurboLabz.Multiplayer
         private StoreItem ratingBoosterStoreItem;
         private bool haveEnoughGemsForRatingBooster;
         private bool haveEnoughRatingBoosters;
+        private bool isBoosted;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -451,6 +452,7 @@ namespace TurboLabz.Multiplayer
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
 
             ratingBoosterStoreItem = vo.ratingBoostStoreItem;
+            isBoosted = false;
             SetupBoostPrice();
             resultsBoostRatingButtonLabel.gameObject.SetActive(true);
             resultsRatingBoostedLabel.gameObject.SetActive(false);
@@ -557,6 +559,7 @@ namespace TurboLabz.Multiplayer
             SetupRatingBoostButton(false);
             resultsBoostRatingButton.interactable = false;
             resultsBoostRatingGemsBg.gameObject.SetActive(false);
+            isBoosted = true;
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -677,7 +680,7 @@ namespace TurboLabz.Multiplayer
             haveEnoughRatingBoosters = playerModel.GetInventoryItemCount(resultsBoostRatingShortCode) > 0;
             haveEnoughGemsForRatingBooster = playerModel.gems >= ratingBoosterStoreItem.currency3Cost;
             resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
-            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters);
+            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters && !isBoosted);
         }
     }
 }
