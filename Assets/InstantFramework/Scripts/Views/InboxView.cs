@@ -98,13 +98,14 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
 
             item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetTile(msg.tournamentType);
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Tournament Rewards";
+            item.subHeadingText.text = "Completed " + DateTimeOffset.FromUnixTimeMilliseconds(msg.timeStamp).LocalDateTime.ToShortDateString();
             item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
@@ -119,13 +120,14 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
 
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Daily Subscription Rewards";
+            item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("SubscriptionSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
@@ -140,13 +142,14 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
 
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Daily League Rewards";
+            item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("RankSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
@@ -161,13 +164,14 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
             
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Congratulations!";
+            item.subHeadingText.text = "You've been Promoted!";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("LeaguePromotionSticker");
             
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "View";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);

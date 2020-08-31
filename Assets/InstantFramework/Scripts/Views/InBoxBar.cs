@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
     public class InboxBar : MonoBehaviour
     {
         public Button button;
+        public Text buttonText;
 
         public Image thumbnailBg;
         public Text headingText;
