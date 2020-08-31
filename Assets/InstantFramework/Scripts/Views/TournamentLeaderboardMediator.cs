@@ -51,6 +51,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
             {
                 view.Show();
+
+                if (joinedTournament == null && openTournament == null)
+                {
+                    // Show tournament end dialogue here, and then fetch Inbox.
+                }
             }
         }
 
@@ -66,11 +71,21 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
         public void UpdateJoinedTournamentView(string tournamentId)
         {
+            if (tournamentId == "" && this.joinedTournament != null)
+            {
+                tournamentId = this.joinedTournament.id;
+            }
+
             var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
             if (joinedTournament != null)
             {
                 this.joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
+            }
+            else
+            {
+                //-- This means that the tournament ended during the match
+
             }
         }
 
@@ -107,6 +122,11 @@ namespace TurboLabz.InstantFramework
                 default:
                     actionCode = FindMatchAction.ActionCode.Random.ToString();
                     break;
+            }
+
+            if (joinedTournament != null)
+            {
+                tournamentModel.StopScheduledCoroutine();
             }
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);

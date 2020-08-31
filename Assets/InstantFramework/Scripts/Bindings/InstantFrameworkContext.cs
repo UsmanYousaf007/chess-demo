@@ -115,6 +115,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
             commandBinder.Bind<FetchLiveTournamentRewardsSignal>().To<FetchLiveTournamentRewardsCommand>();
+            commandBinder.Bind<UpdateTournamentsSignal>().To<UpdateTournamentsCommand>();
 
             // Bind signals for dispatching to mediators
             injectionBinder.Bind<NavigatorShowViewSignal>().ToSingleton();

@@ -14,6 +14,10 @@ namespace TurboLabz.InstantFramework
 
         // Signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public UpdateTournamentsSignal updateTournamentsSignal { get; set; }
+
+        // Coroutine runner
+        [Inject] public IRoutineRunner routineRunner { get; set; }
 
         public DateTime lastFetchedTime { get; set; }
 
@@ -21,6 +25,8 @@ namespace TurboLabz.InstantFramework
         public List<LiveTournamentData> openTournaments { get; set; }
         public List<LiveTournamentData> upcomingTournaments { get; set; }
 
+        Coroutine tournamentsScheduleCoroutine = null;
+        
         [PostConstruct]
         public void PostConstruct()
         {
@@ -36,6 +42,61 @@ namespace TurboLabz.InstantFramework
             joinedTournaments = new List<JoinedTournamentData>();
             openTournaments = new List<LiveTournamentData>();
             upcomingTournaments = new List<LiveTournamentData>();
+        }
+
+        public void StartSchedulingCoroutine()
+        {
+            LogUtil.Log("StartSchedulingCoroutine", "green");
+
+            int joinedTournamentsCount = joinedTournaments.Count;
+            long minTimeLeft = joinedTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(joinedTournaments[0]) : 0;
+            for (int i = 1; i < joinedTournamentsCount; i++)
+            {
+                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(joinedTournaments[i]);
+                if (timeLeftSeconds < minTimeLeft)
+                {
+                    minTimeLeft = timeLeftSeconds;
+                }
+            }
+
+            int openTournamentsCount = openTournaments.Count;
+            if (minTimeLeft == 0)
+            {
+                minTimeLeft = openTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(openTournaments[0]) : 0;
+            }
+            for (int i = 1; i < openTournamentsCount; i++)
+            {
+                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(openTournaments[i]);
+                if (timeLeftSeconds < minTimeLeft)
+                {
+                    minTimeLeft = timeLeftSeconds;
+                }
+            }
+
+            int upcomingTournamentsCount = upcomingTournaments.Count;
+            if (minTimeLeft == 0)
+            {
+                minTimeLeft = upcomingTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(upcomingTournaments[0]) : 0;
+            }
+            for (int i = 1; i < upcomingTournamentsCount; i++)
+            {
+                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(upcomingTournaments[i]);
+                if (timeLeftSeconds < minTimeLeft)
+                {
+                    minTimeLeft = timeLeftSeconds;
+                }
+            }
+
+            if (minTimeLeft > 0)
+            {
+                tournamentsScheduleCoroutine = routineRunner.StartCoroutine(UpdateTournamentsCoroutine(minTimeLeft + 5));
+            }
+        }
+
+        public void StopScheduledCoroutine()
+        {
+            LogUtil.Log("StopScheduledCoroutine : ");
+            routineRunner.StopCoroutine(tournamentsScheduleCoroutine);
         }
 
         public long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds)
@@ -163,6 +224,20 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public bool RemoveFromJoinedTournament(string tournamentId)
+        {
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                if (joinedTournaments[i].id == tournamentId)
+                {
+                    joinedTournaments.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public Sprite GetLiveTournamentSticker()
         {
             var joinedTournament = GetJoinedTournament();
@@ -220,6 +295,78 @@ namespace TurboLabz.InstantFramework
             return leagueTierIconsContainer.GetAssets(leagueType);
         }
 
+        #endregion
+
+        #region Scheduling Coroutines
+        private IEnumerator UpdateTournamentsCoroutine(long seconds)
+        {
+            LogUtil.Log("UpdateTournamentsCoroutine::Start : " + seconds, "green");
+
+            yield return new WaitForSecondsRealtime(seconds);
+
+            // Dispatch update tournaments signal here
+            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
+
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                long timeLeft = CalculateTournamentTimeLeftSeconds(joinedTournaments[i]);
+                if (timeLeft <= 0)
+                {
+                    joinedTournaments.RemoveAt(i);
+                }
+            }
+
+            List<LiveTournamentData> expiredOpenTournaments = new List<LiveTournamentData>();
+            for (int i = 0; i < openTournaments.Count; i++)
+            {
+                long timeLeft = CalculateTournamentTimeLeftSeconds(openTournaments[i]);
+                if (timeLeft <= 0)
+                {
+                    expiredOpenTournaments.Add(openTournaments[i]);
+                    openTournaments.RemoveAt(i);
+                }
+            }
+
+            List<LiveTournamentData> openedUpcomingTournaments = new List<LiveTournamentData>();
+            for (int i = 0; i < upcomingTournaments.Count; i++)
+            {
+                long timeLeft = CalculateTournamentTimeLeftSeconds(upcomingTournaments[i]);
+                if (timeLeft <= 0)
+                {
+                    openedUpcomingTournaments.Add(upcomingTournaments[i]);
+                    upcomingTournaments.RemoveAt(i);
+                }
+            }
+
+            openTournaments.AddRange(openedUpcomingTournaments);
+            upcomingTournaments.AddRange(expiredOpenTournaments);
+
+            updateTournamentsSignal.Dispatch();
+        }
+
+        private IEnumerator UpdateOpenTournamentsCoroutine(long seconds)
+        {
+            LogUtil.Log("UpdateOpenTournamentsCoroutine::Start : " + seconds, "green");
+
+            yield return new WaitForSecondsRealtime(seconds);
+
+            // Dispatch update tournaments signal here
+            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
+
+            //updateTournamentsSignal.Dispatch();
+        }
+
+        private IEnumerator UpdateUpcomingTournamentsCoroutine(long seconds)
+        {
+            LogUtil.Log("UpdateUpcomingTournamentsCoroutine::Start : " + seconds, "green");
+
+            yield return new WaitForSecondsRealtime(seconds);
+
+            // Dispatch update tournaments signal here
+            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
+
+            //updateTournamentsSignal.Dispatch();
+        }
         #endregion
     }
 

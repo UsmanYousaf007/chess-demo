@@ -28,6 +28,9 @@ namespace TurboLabz.Multiplayer
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
 
+        // Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
@@ -82,6 +85,8 @@ namespace TurboLabz.Multiplayer
         {
             cancelHintSignal.Dispatch();
             loadLobbySignal.Dispatch();
+
+            tournamentsModel.StartSchedulingCoroutine();
         }
 
         private void OnResultsDialogClosedSignal()

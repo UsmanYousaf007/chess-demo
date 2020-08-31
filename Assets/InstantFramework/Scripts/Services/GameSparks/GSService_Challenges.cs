@@ -364,7 +364,8 @@ namespace TurboLabz.InstantFramework
                 if (joinedTournament == null)
                 {
                     // Tournament has ended
-                    // Go to tournaments view instead of tournament leaderboards view
+                    tournamentsModel.RemoveFromJoinedTournament(tournamentId);
+                    updateTournamentLeaderboardSuccessSignal.Dispatch("");
                 }
                 else
                 {

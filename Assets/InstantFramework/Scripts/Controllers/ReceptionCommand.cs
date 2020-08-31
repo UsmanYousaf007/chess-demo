@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -106,6 +108,7 @@ namespace TurboLabz.InstantFramework
         private void InitGame()
         {
             DispatchGameSignals();
+            tournamentsModel.StartSchedulingCoroutine();
             ResumeGame();
         }
 
