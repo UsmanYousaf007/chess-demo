@@ -63,8 +63,13 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                p.itemImages[i].sprite = vo.GetRewardImage(i);
-                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                int qty = vo.GetRewardItemQty(i);
+                p.itemImages[i].transform.parent.gameObject.SetActive(qty > 0);
+                if (qty > 0)
+                {
+                    p.itemImages[i].sprite = vo.GetRewardImage(i);
+                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                }
             }
         }
 
@@ -79,8 +84,13 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                p.itemImages[i].sprite = vo.GetRewardImage(i);
-                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                int qty = vo.GetRewardItemQty(i);
+                p.itemImages[i].transform.parent.gameObject.SetActive(qty > 0);
+                if (qty > 0)
+                {
+                    p.itemImages[i].sprite = vo.GetRewardImage(i);
+                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                }
             }
         }
 
@@ -98,8 +108,13 @@ namespace TurboLabz.InstantFramework
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                p.itemImages[i].sprite = vo.GetRewardImage(i);
-                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                int qty = vo.GetRewardItemQty(i);
+                p.itemImages[i].transform.parent.gameObject.SetActive(qty > 0);
+                if (qty > 0)
+                {
+                    p.itemImages[i].sprite = vo.GetRewardImage(i);
+                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                }
             }
         }
 
@@ -111,13 +126,20 @@ namespace TurboLabz.InstantFramework
             p.headingText.text = vo.tournamentName + " Reward!";
             p.buttonText.text = "Collect";
 
+            p.chestImage.gameObject.SetActive(vo.chestName != null);
+            p.chestText.gameObject.SetActive(vo.chestName != null);
             p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
-                p.itemImages[i].sprite = vo.GetRewardImage(i);
-                p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                int qty = vo.GetRewardItemQty(i);
+                p.itemImages[i].transform.parent.gameObject.SetActive(qty > 0);
+                if (qty > 0)
+                {
+                    p.itemImages[i].sprite = vo.GetRewardImage(i);
+                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                }
             }
         }
 
