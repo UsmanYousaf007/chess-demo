@@ -40,6 +40,7 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsBoostRatingButton;
         public Text resultsBoostRatingButtonLabel;
+        public Text resultsRatingBoostedLabel;
         public Image resultsBoostRatingAdTVImage;
         public Text resultsBoostRatingAddedCount;
         public GameObject resultsBoostRatingToolTip;
@@ -124,6 +125,7 @@ namespace TurboLabz.Multiplayer
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
             declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_RESULTS_BACK);
             earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            resultsRatingBoostedLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
@@ -450,6 +452,8 @@ namespace TurboLabz.Multiplayer
 
             ratingBoosterStoreItem = vo.ratingBoostStoreItem;
             SetupBoostPrice();
+            resultsBoostRatingButtonLabel.gameObject.SetActive(true);
+            resultsRatingBoostedLabel.gameObject.SetActive(false);
 
             if (isRankedGame && !isDraw)
             {
@@ -548,7 +552,8 @@ namespace TurboLabz.Multiplayer
         private void BoostRating(VirtualGoodsTransactionVO transactionVO)
         {
             boostRatingSignal.Dispatch(challengeId, transactionVO);
-            resultsBoostRatingButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
+            resultsBoostRatingButtonLabel.gameObject.SetActive(false);
+            resultsRatingBoostedLabel.gameObject.SetActive(true);
             SetupRatingBoostButton(false);
             resultsBoostRatingButton.interactable = false;
             resultsBoostRatingGemsBg.gameObject.SetActive(false);
@@ -623,6 +628,7 @@ namespace TurboLabz.Multiplayer
             if (enable)
             {
                 resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
+                resultsRatingBoostedLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
                 c.a = Colors.FULL_ALPHA;
                 resultsBoostRatingAdTVImage.color = c;
                 resultsBoostRatingButton.GetComponent<Image>().color = c;
@@ -630,6 +636,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+                resultsRatingBoostedLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
                 c = resultsBoostRatingAdTVImage.color;
                 c.a = Colors.DISABLED_TEXT_ALPHA;
                 resultsBoostRatingAdTVImage.color = c;

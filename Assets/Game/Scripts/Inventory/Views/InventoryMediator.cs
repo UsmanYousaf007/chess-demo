@@ -1,4 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -53,7 +54,7 @@ namespace TurboLabz.InstantFramework
             if (contentType != null && contentType.Equals(ContentType.Skins)
                 && status.Equals(ContentDownloadStatus.Started))
             {
-                view.ShowProcessing();
+                view.ShowProcessing(true);
             }
         }
 
@@ -63,7 +64,7 @@ namespace TurboLabz.InstantFramework
             if (contentType != null && contentType.Equals(ContentType.Skins)
                 && !status.Equals(ContentDownloadStatus.Started))
             {
-                view.HideProcessing();
+                view.ShowProcessing(false);
             }
         }
 
@@ -104,6 +105,12 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.banner_purchased, AnalyticsContext.unlock_all_themes);
                 }
             }
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessing(bool blocker, bool processing)
+        {
+            view.ShowProcessing(blocker);
         }
     }
 }
