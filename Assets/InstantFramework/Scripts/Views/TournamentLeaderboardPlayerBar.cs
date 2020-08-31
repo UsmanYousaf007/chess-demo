@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
             trophiesRewardCountText.text = entryReward.trophies.ToString();
 
             playerNameText.text = entry.publicProfile.name;
-            playerNameText.gameObject.SetActive(false);
+            playerNameText.gameObject.SetActive(true);
 
             playerScoreCountText.text = entry.score.ToString();
 
