@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
         SHOW_TOURNAMENT_LEADERBOARDS,
         SHOW_INBOX,
         SHOW_CHEST_INFO_DLG,
-        SHOW_REWARD_DLG
+        SHOW_REWARD_DLG,
+        SHOW_LEAGUE_PERKS_VIEW
     }
 }

@@ -511,6 +511,12 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.INBOX_EMPTY_INBOX_LABEL, "There are no messages or rewards to collect"},
 
                 #endregion
+
+                #region LeaguePerks
+
+                { LocalizationKey.LEAGUE_PERKS_TITLE, "League Perks"},
+
+                #endregion
     };
         }
     }
