@@ -9,7 +9,8 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW,
+                NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -35,6 +36,10 @@
                 else if (viewId == NavigatorViewId.LESSONS_VIEW)
                 {
                     return new NSLessonsView();
+                }
+                else if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+                {
+                    return new NSTournamentLeaderboard();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)

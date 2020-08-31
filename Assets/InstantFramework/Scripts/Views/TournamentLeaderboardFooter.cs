@@ -15,19 +15,21 @@ namespace TurboLabz.InstantFramework
     {
         public Image bg;
         public Text youHaveLabel;
-        public Text ticketsCountText;
         public Button enterButton;
-
         public Text enterButtonFreePlayLabel;
         public Text enterButtonTicketPlayLabel;
-
         public Text enterButtonTicketPlayCountText;
-
-        public GameObject freePlayButtonGroup;
         public GameObject ticketPlayButtonGroup;
+        public string itemToConsumeShortCode;
+        public Text gemsCost;
+        public Image gemsBg;
+        public Sprite haveEnoughGemsSprite;
+        public Sprite notEnoughGemsSprite;
 
-        [HideInInspector]
         public Signal enterButtonClickedSignal = new Signal();
+
+        [HideInInspector] public bool haveEnoughItems;
+        [HideInInspector] public bool haveEnoughGems;
 
         private void Awake()
         {
