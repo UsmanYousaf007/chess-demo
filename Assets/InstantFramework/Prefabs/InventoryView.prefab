@@ -452,10 +452,10 @@ RectTransform:
   m_Father: {fileID: 7739176987403995550}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720, y: 0}
-  m_SizeDelta: {x: 1440, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 562.5, y: -20}
+  m_SizeDelta: {x: 1125, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919204263931619492
 MonoBehaviour:
@@ -1777,7 +1777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1289.6503}
+  m_AnchoredPosition: {x: 0, y: 1029.209}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7739176986570343020
@@ -2076,8 +2076,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720, y: 0}
-  m_SizeDelta: {x: 1440, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7739176987403995546
 CanvasRenderer:
@@ -2575,10 +2575,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2683,6 +2679,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
@@ -2866,10 +2866,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2974,6 +2970,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
@@ -3152,10 +3152,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3260,6 +3256,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
@@ -3611,10 +3611,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3720,6 +3716,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!114 &2829041845600371119 stripped
@@ -3747,10 +3747,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3856,6 +3852,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!114 &2744110853145729585 stripped
@@ -3883,10 +3883,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3992,6 +3988,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!114 &3011909597907697604 stripped
@@ -4019,10 +4019,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4128,6 +4124,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!224 &4231270492210271771 stripped
@@ -4155,10 +4155,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4264,6 +4260,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!224 &4654879573855448925 stripped
@@ -4291,10 +4291,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4400,6 +4396,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
 --- !u!224 &5100467828853077098 stripped
@@ -4427,10 +4427,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4080549579065740779}
     m_Modifications:
-    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
-      propertyPath: m_Name
-      value: SkinMenuItem
-      objectReference: {fileID: 0}
     - target: {fileID: 224243161171037146, guid: 35ed8cd3b592d484aa3479c6fc027bf6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4535,6 +4531,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470712729698196, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}
+      propertyPath: m_Name
+      value: SkinMenuItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ed8cd3b592d484aa3479c6fc027bf6, type: 3}

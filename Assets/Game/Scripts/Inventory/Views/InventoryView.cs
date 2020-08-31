@@ -78,14 +78,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void ShowProcessing()
+        public void ShowProcessing(bool show)
         {
-            processing.SetActive(true);
-        }
-
-        public void HideProcessing()
-        {
-            processing.SetActive(false);
+            processing.SetActive(show);
         }
 
         private void OnClickSpecialItems()
