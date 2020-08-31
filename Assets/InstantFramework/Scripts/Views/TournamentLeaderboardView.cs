@@ -117,6 +117,7 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(JoinedTournamentData joinedTournament)
         {
             this.joinedTournament = joinedTournament;
+            this.liveTournament = null;
             Populate(joinedTournament);
             Sort();
         }
@@ -124,6 +125,7 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(LiveTournamentData liveTournament)
         {
             this.liveTournament = liveTournament;
+            this.joinedTournament = null;
             Populate(liveTournament);
             Sort();
         }
