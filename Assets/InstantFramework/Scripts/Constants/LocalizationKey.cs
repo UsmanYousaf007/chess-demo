@@ -511,5 +511,11 @@ namespace TurboLabz.InstantFramework
         public const string INBOX_EMPTY_INBOX_LABEL = "inBoxEmptyInboxLabel";
 
         #endregion
+
+        #region LeaguePerks
+
+        public const string LEAGUE_PERKS_TITLE = "leaguePerksTitle";
+
+        #endregion
     }
 }

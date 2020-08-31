@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LeagueProfileStripView view { get; set; }
 
         // Dispatch signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            view.leagueProfileClickedSignal.AddListener(OnLeagueProfileClicked);
         }
 
         [ListensTo(typeof(UpdateLeagueProfileStripSignal))]
@@ -42,6 +44,11 @@ namespace TurboLabz.InstantFramework
         public void OnSetStripClickedSignal(Signal signal)
         {
             view.SetStripClickedSignal(signal);
+        }
+
+        public void OnLeagueProfileClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
         }
     }
 }

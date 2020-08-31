@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
     {
         private ChestIconsContainer chestIconsContainer;
         private TournamentAssetsContainer tournamentAssetsContainer;
+        private static LeagueTierIconsContainer leagueTierIconsContainer;
 
         // Signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantFramework
 
             chestIconsContainer = chestIconsContainer == null ? ChestIconsContainer.Load() : chestIconsContainer;
             tournamentAssetsContainer = tournamentAssetsContainer == null ? TournamentAssetsContainer.Load() : tournamentAssetsContainer;
+            leagueTierIconsContainer = leagueTierIconsContainer == null ? LeagueTierIconsContainer.Load() : leagueTierIconsContainer;
         }
 
         private void Reset()
@@ -212,6 +214,12 @@ namespace TurboLabz.InstantFramework
         {
             return tournamentAssetsContainer.GetAssets(tournamentType);
         }
+
+        public LeagueTierIconsContainer.LeagueAsset GetLeagueSprites(string leagueType)
+        {
+            return leagueTierIconsContainer.GetAssets(leagueType);
+        }
+
         #endregion
     }
 

@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
         [Header("Strip")]
         public Button stripButton;
 
+        public Signal leagueProfileClickedSignal = new Signal();
         private Signal stripClickedSignal;
         private GameObject gameObjectPlayerRank;
 
@@ -50,7 +51,7 @@ namespace TurboLabz.InstantFramework
             trophiesLabel.text = localizationService.Get(LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES);
             rankLabel.text = localizationService.Get(LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_RANK);
 
-            stripButton.onClick.AddListener(OnStripButtonClicked);
+            stripButton.onClick.AddListener(OnLeagueProfileButtonClicked);
 
             gameObjectPlayerRank = playerRankStatusImage.gameObject;
         }
@@ -84,6 +85,11 @@ namespace TurboLabz.InstantFramework
             {
                 stripClickedSignal.Dispatch();
             }
+        }
+
+        public void OnLeagueProfileButtonClicked()
+        {
+            leagueProfileClickedSignal.Dispatch();
         }
     }
 }

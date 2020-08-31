@@ -219,7 +219,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
             mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
 
-
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
             injectionBinder.Bind<ILocalDataService>().To<EasySaveService>().ToSingleton();
@@ -352,6 +351,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<TournamentsView>().To<TournamentsMediator>();
             mediationBinder.Bind<TournamentLeaderboardView>().To<TournamentLeaderboardMediator>();
             mediationBinder.Bind<InboxView>().To<InboxMediator>();
+            mediationBinder.Bind<LeaguePerksView>().To<LeaguePerksMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
