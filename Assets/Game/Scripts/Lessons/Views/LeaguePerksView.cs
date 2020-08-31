@@ -30,8 +30,6 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPicsModel picsModel { get; set; }
 
         public void Init()
         {
@@ -64,35 +62,15 @@ namespace TurboLabz.InstantGame
                 item.SetLeagueInfo(leagueAssets);
                 leagues.Add(item.leagueType, item);
             }
-
-            UpdateLeague("bronze");
         }
 
-        public void UpdateLeague(string leagueID)
+        public void UpdateLeague(string leagueType, ProfileVO pvo)
         {
-            ProfileVO pvo = new ProfileVO();
-            pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
-            pvo.playerName = playerModel.name;
-            pvo.eloScore = playerModel.eloScore;
-            pvo.countryId = playerModel.countryId;
-            //pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
-            //pvo.isAppleSignedIn = signInWithAppleService.IsSignedIn();
-            //pvo.isAppleSignInSupported = signInWithAppleService.IsSupported();
-            pvo.playerId = playerModel.id;
-            pvo.avatarId = playerModel.avatarId;
-            pvo.avatarColorId = playerModel.avatarBgColorId;
-            pvo.isPremium = playerModel.HasSubscription();
-
-            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
-            {
-                pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
-            }
-
-            if (leagues.ContainsKey(leagueID))
+            if (leagues.ContainsKey(leagueType))
             { 
                 foreach (var item in list)
                 {
-                    if(item.leagueType == leagueID)
+                    if(item.leagueType == leagueType)
                         item.UpdateView(true, pvo);
                     else
                         item.UpdateView(false, pvo);

@@ -49,5 +49,11 @@ namespace TurboLabz.InstantGame
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
         }
+
+        [ListensTo(typeof(UpdateLeagueProfileSignal))]
+        public void UpdateLeague(string leagueType, ProfileVO vo)
+        {
+            view.UpdateLeague(leagueType, vo);
+        }
     }
 }

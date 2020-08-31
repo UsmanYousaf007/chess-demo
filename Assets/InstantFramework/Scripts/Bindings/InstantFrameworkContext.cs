@@ -277,6 +277,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ResetUnblockButtonSignal>().ToSingleton();
             injectionBinder.Bind<LeagueProfileStripSetOnClickSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

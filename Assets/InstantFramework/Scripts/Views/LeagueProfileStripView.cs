@@ -13,14 +13,6 @@ namespace TurboLabz.InstantFramework
 {
     public class LeagueProfileStripView : View
     {
-        [Inject] public ILocalizationService localizationService { get; set; }
-        [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public ISettingsModel settingsModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IBackendService backendService { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-
         [Header ("Player Info")]
         public Text playerLeagueTitleLabel;
         public Image playerLeagueThumbnailImage;
@@ -40,9 +32,24 @@ namespace TurboLabz.InstantFramework
         [Header("Strip")]
         public Button stripButton;
 
-        public Signal leagueProfileClickedSignal = new Signal();
+
         private Signal stripClickedSignal;
         private GameObject gameObjectPlayerRank;
+
+        //Models
+        [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+
+        //Services
+        [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+
+        //Signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        public Signal leagueProfileClickedSignal = new Signal();
 
         public void Init()
         {
@@ -89,6 +96,24 @@ namespace TurboLabz.InstantFramework
 
         public void OnLeagueProfileButtonClicked()
         {
+            /*ProfileVO pvo = new ProfileVO();
+            pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            pvo.playerName = playerModel.name;
+            pvo.eloScore = playerModel.eloScore;
+            pvo.countryId = playerModel.countryId;
+            //pvo.isFacebookLoggedIn = facebookService.isLoggedIn();
+            //pvo.isAppleSignedIn = signInWithAppleService.IsSignedIn();
+            //pvo.isAppleSignInSupported = signInWithAppleService.IsSupported();
+            pvo.playerId = playerModel.id;
+            pvo.avatarId = playerModel.avatarId;
+            pvo.avatarColorId = playerModel.avatarBgColorId;
+            pvo.isPremium = playerModel.HasSubscription();
+
+            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
+            {
+                pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            }*/
+
             leagueProfileClickedSignal.Dispatch();
         }
     }
