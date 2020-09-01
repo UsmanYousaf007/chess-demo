@@ -512,6 +512,9 @@ namespace TurboLabz.InstantFramework
             }
             LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
 
+            LogUtil.Log("********** playerModel.league " + playerModel.league);
+            LogUtil.Log("********** playerModel.trophies " + playerModel.trophies);
+
             LogUtil.Log("******************** END PLAYER INFO ********************");
         }
     }
