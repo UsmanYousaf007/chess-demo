@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public Transform listContainer;
+        public GameObject inBoxBarContainer;
         public GameObject sectionHeader;
         public GameObject inBoxBarPrefab;
         public GameObject emptyInBoxStrip;
@@ -44,7 +45,7 @@ namespace TurboLabz.InstantFramework
             stripHeading.text = localizationService.Get(LocalizationKey.INBOX_SECTION_HEADER_REWARDS);
             emptyInboxLabel.text = localizationService.Get(LocalizationKey.INBOX_EMPTY_INBOX_LABEL);
 
-            sectionHeader.gameObject.SetActive(false);
+            inBoxBarContainer.gameObject.SetActive(false);
             emptyInBoxStrip.gameObject.SetActive(false);
 
             AddInboxBarFnMap.Add("RewardTournamentEnd", AddTournamentRewardBar);
@@ -75,7 +76,7 @@ namespace TurboLabz.InstantFramework
                 items.Add(item.Value);
             }
 
-            sectionHeader.gameObject.SetActive(items.Count > 0);
+            inBoxBarContainer.gameObject.SetActive(items.Count > 0);
             emptyInBoxStrip.gameObject.SetActive(items.Count == 0);
 
             items.Sort((x, y) => x.timeStamp > y.timeStamp ? -1 : ((x.timeStamp < y.timeStamp) ? 1 : 0));
@@ -109,6 +110,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -131,6 +133,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -153,6 +156,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -175,6 +179,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 

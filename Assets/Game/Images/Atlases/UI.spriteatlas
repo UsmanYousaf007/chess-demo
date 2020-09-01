@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 20998419
+    totalSpriteSurfaceArea: 22200636
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -86,6 +86,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bbba68310c26b4763a3953c4c04d2a5e, type: 3}
   - {fileID: 21300000, guid: 529470412ee7b48a9bc6ee754b8130f4, type: 3}
   - {fileID: 21300000, guid: 31e8aa41dbe5f48ee9bdeb76adea8cc6, type: 3}
+  - {fileID: 21300000, guid: 52abbc61199a74886a2e3599c93df55b, type: 3}
   - {fileID: 21300000, guid: dc454171052ba4bf5832b8fe3dae6af3, type: 3}
   - {fileID: 21300000, guid: 7af33671f7de3494685ed6720152299d, type: 3}
   - {fileID: 21300000, guid: 96a26f717338141168fc5c6098f18e5e, type: 3}
@@ -235,6 +236,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
   - {fileID: 21300000, guid: 4d5e18970713043c59a4d099e83de649, type: 3}
   - {fileID: 21300000, guid: d07e9d9700d034f22b39d9341c8cf676, type: 3}
+  - {fileID: 21300000, guid: c9c154b7bc2fd43ab8593692cc71262f, type: 3}
   - {fileID: 21300000, guid: 5cd776b7c834e4d6a9b442bc43b65ea4, type: 3}
   - {fileID: 21300000, guid: 3e2bd7d70ca8a4521876c4f3e2d2e162, type: 3}
   - {fileID: 21300000, guid: f482a5e71cb314a20942bc9596fe8e93, type: 3}
@@ -374,6 +376,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5a63310e10b194ea1ac78aba3516c80c, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: 5b20f01eeb7b64fe88ed883b3a367071, type: 3}
+  - {fileID: 21300000, guid: a3b9a51e2ba7548c38ae7ea9ce4498dc, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
   - {fileID: 21300000, guid: 200fb25e4bd2141bbb34a82192f909a6, type: 3}
@@ -438,6 +441,7 @@ SpriteAtlas:
   - ChatIcon2
   - SubBannerBtn
   - VictoryIcon
+  - NoRewardGiftIcon
   - GemThumb
   - RankInkIcon
   - ChatMuteIconX
@@ -587,6 +591,7 @@ SpriteAtlas:
   - Error
   - InboxIcon
   - TimeBtnInnerSeparation
+  - inboxRef6
   - OnboardingMoveMeter
   - SubIcon
   - PowerUpPlusIcon
@@ -726,6 +731,7 @@ SpriteAtlas:
   - ExtraBadge
   - IconFreeCoins
   - minutesGameButtonCommunity
+  - ToolTipRightBubble
   - SettingsIcon
   - DrawAcceptBtn
   - DiscordIcon

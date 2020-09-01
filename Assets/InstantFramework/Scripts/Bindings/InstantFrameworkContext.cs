@@ -297,6 +297,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ITournamentsModel>().To<TournamentsModel>().ToSingleton();
             injectionBinder.Bind<IInboxModel>().To<InboxModel>().ToSingleton();
             injectionBinder.Bind<IDownloadablesModel>().To<DownloadablesModel>().ToSingleton();
+            injectionBinder.Bind<ILeaguesModel>().To<LeaguesModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();

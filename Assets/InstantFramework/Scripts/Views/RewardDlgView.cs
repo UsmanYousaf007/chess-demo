@@ -68,7 +68,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -124,18 +124,14 @@ namespace TurboLabz.InstantFramework
             p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = vo.tournamentName + " Reward!";
-            p.buttonText.text = "Collect";
-
             p.subHeadtingLabel.text = "Rank Achieved";
             p.rankCountText.text = vo.rankCount.ToString();
-
             p.trophiesCountText.text = vo.trophiesCount.ToString();
-
-            p.chestImage.gameObject.SetActive(vo.chestName != null);
-            p.chestText.gameObject.SetActive(vo.chestName != null);
             p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
+            p.chestSection.SetActive(vo.chestName != null);
 
+            int rewardCount = 0;
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
                 int qty = vo.GetRewardItemQty(i);
@@ -143,9 +139,14 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
+                    rewardCount++;
                 }
             }
+
+            p.rewardsSection.SetActive(rewardCount > 0);
+            p.buttonText.text = p.chestSection.activeSelf || p.rewardsSection.activeSelf ? "Collect" : "Ok";
+            LayoutRebuilder.ForceRebuildLayoutImmediate(p.layout);
         }
 
         public void OnUpdate(RewardDlgVO vo)
