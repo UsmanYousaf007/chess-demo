@@ -383,6 +383,8 @@ namespace TurboLabz.InstantFramework
             msg.tournamentType = GetSafeString(data, "tournamentType");
             msg.league = GetSafeString(data, "league");
             msg.startTime = GetSafeLong(data, "startTime");
+            msg.rankCount = GetSafeInt(data, "rank");
+            msg.trophiesCount = GetSafeInt(data, "trophies");
 
             GSData rewardsData = data.GetGSData("reward");
             if (rewardsData != null)
@@ -426,6 +428,8 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("heading = " + msg.heading);
             TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
             TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+            TLUtils.LogUtil.Log("rankCount = " + msg.rankCount);
+            TLUtils.LogUtil.Log("trophiesCount = " + msg.trophiesCount);
 
             TLUtils.LogUtil.Log("rewards:");
             foreach (KeyValuePair<string, int> item in msg.rewards)

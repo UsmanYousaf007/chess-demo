@@ -22,6 +22,9 @@ namespace TurboLabz.InstantFramework
         public string chestName;
         public Sprite chestImage;
 
+        public int rankCount;
+        public int trophiesCount;
+
         public RewardDlgVO(string typeId)
         {
             type = typeId;

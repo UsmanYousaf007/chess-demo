@@ -126,7 +126,12 @@ namespace TurboLabz.InstantFramework
             p.headingText.text = vo.tournamentName + " Reward!";
             p.buttonText.text = "Collect";
 
-            p.chestImage.gameObject.SetActive(vo.chestName != null);
+            p.subHeadtingLabel.text = "Rank Achieved";
+            p.rankCountText.text = vo.rankCount.ToString();
+
+            p.trophiesCountText.text = vo.trophiesCount.ToString();
+
+        p.chestImage.gameObject.SetActive(vo.chestName != null);
             p.chestText.gameObject.SetActive(vo.chestName != null);
             p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
