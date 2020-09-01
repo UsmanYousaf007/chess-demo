@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         public Button button;
         public Button chestButton;
+        public Image chestImage;
 
         public GameObject profile;
 
@@ -39,6 +41,9 @@ namespace TurboLabz.InstantFramework
             playerScoreCountText.text = entry.score.ToString();
 
             profile.SetActive(true);
+
+            ChestIconsContainer container = ChestIconsContainer.Load();
+            chestImage.sprite = container.GetChest(entryReward.chestType);
         }
 
         public void Populate(int rank, TournamentReward entryReward)
@@ -50,6 +55,23 @@ namespace TurboLabz.InstantFramework
 
             playerNameText.gameObject.SetActive(false);
             profile.SetActive(false);
+            rankIcon.enabled = true;
+            
+            if(rank == 1) {
+                rankIcon.color = Colors.GOLD;
+            }
+            else if (rank == 2){
+                rankIcon.color = Colors.SILVER;
+            }
+            else if (rank == 3){
+                rankIcon.color = Colors.BRONZE;
+            }
+            else{
+                rankIcon.enabled = false;
+            }
+
+            ChestIconsContainer container = ChestIconsContainer.Load();
+            chestImage.sprite = container.GetChest(entryReward.chestType);
         }
     }
 }
