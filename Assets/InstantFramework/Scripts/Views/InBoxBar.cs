@@ -12,14 +12,14 @@ namespace TurboLabz.InstantFramework
     {
         public Button button;
         public Text buttonText;
-
+        public SkinLink skinLink;
         public Image thumbnailBg;
         public Text headingText;
         public Text subHeadingText;
         public Image thumbnail;
 
-        [HideInInspector]
-        public long timeStamp;
-        public string msgId; 
+
+        [HideInInspector] public long timeStamp;
+        [HideInInspector] public string msgId; 
     }
 }

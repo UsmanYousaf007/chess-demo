@@ -73,6 +73,19 @@ namespace TurboLabz.InstantFramework
                     var qtyVar = obj.Value;
                     int qtyInt = Int32.Parse(qtyVar.ToString());
                     TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
+
+                    if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                    {
+                        playerModel.gems += qtyInt;
+                    }
+                    else if (playerModel.inventory.ContainsKey(itemShortCode))
+                    {
+                        playerModel.inventory[itemShortCode] += qtyInt;
+                    }
+                    else
+                    {
+                        playerModel.inventory.Add(itemShortCode, qtyInt);
+                    }
                 }
 
                 if (messageId != null)
@@ -81,7 +94,8 @@ namespace TurboLabz.InstantFramework
                     inboxRemoveMessagesSignal.Dispatch(messageId);
                     //inboxAddMessagesSignal.Dispatch(inboxModel.items);
                 }
-                
+
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
 
             if (response.ScriptData.ContainsKey("count"))

@@ -110,6 +110,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -132,6 +133,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -154,6 +156,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -176,6 +179,7 @@ namespace TurboLabz.InstantFramework
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
