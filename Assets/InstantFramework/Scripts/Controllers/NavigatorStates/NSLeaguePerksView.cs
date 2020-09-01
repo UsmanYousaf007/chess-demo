@@ -9,15 +9,15 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
-                if (viewId == NavigatorViewId.TOPICS_VIEW)
+                if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
-                    cmd.loadTopicsViewSignal.Dispatch();
-                    return null;
+                  return new NSArenaView();
                 }
+                 //   return null;
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
@@ -42,6 +42,14 @@
             else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
             {
                 return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            {
+                return new NSTournamentLeaderboard();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
             }
 
             return null;

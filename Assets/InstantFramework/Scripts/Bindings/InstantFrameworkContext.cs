@@ -219,6 +219,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<MaintenanceView>().To<MaintenanceMediator>();
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
             mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
+            mediationBinder.Bind<ProfilePicView>().To<ProfilePicMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -278,6 +279,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ResetUnblockButtonSignal>().ToSingleton();
             injectionBinder.Bind<LeagueProfileStripSetOnClickSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

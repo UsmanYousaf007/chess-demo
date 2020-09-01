@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
+        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -26,6 +27,9 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentModel { get; set; }
+
+        //Listeners
+        [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
         private LiveTournamentData openTournament = null;
         private JoinedTournamentData joinedTournament = null;
@@ -100,11 +104,58 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            view.PopulateFooter();
+        }
+
         public void OnEnterButtonClicked()
         {
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnEnterButtonClicked()");
+            view.audioService.PlayStandardClick();
+
+            if (joinedTournament == null)
+            {
+                StartTournament();
+            }
+            else if (view.footer.haveEnoughItems)
+            {
+                var vo = new VirtualGoodsTransactionVO();
+                vo.consumeItemShortCode = view.footer.itemToConsumeShortCode;
+                vo.consumeQuantity = 1;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else if (view.footer.haveEnoughGems)
+            {
+                var vo = new VirtualGoodsTransactionVO();
+                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                vo.consumeQuantity = view.ticketStoreItem.currency3Cost;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }
+        }
+
+        private void OnItemConsumed(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                return;
+            }
+
+            StartTournament();
+        }
+
+        private void StartTournament()
+        {
             string tournamentType = joinedTournament != null ? joinedTournament.type : openTournament.type;
             string actionCode;
+
             switch (tournamentType)
             {
                 case TournamentConstants.TournamentType.MIN_1:

@@ -214,11 +214,13 @@ namespace TurboLabz.InstantFramework
             var barValurTo = rewardBarOriginalWidth * barFillPercentageTo;
             rewardedVideoProgressBarText.text = $"{to}/{requiredPoints}";
             AnimateRewardedVideoProgressBar(barValueFrom, barValurTo);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
 
         public void OnItemUnclocked()
         {
             isItemUnlockedByVideo = true;
+            count.text = (int.Parse(count.text) - 1).ToString();
             var requiredPoints = settingsModel.GetInventorySpecialItemsRewardedVideoCost(shortCode);
             rewardedVideoProgressBarText.text = $"{requiredPoints}/{requiredPoints}";
             AnimateRewardedVideoProgressBar(rewardedVideoProgressBar.sizeDelta.x, rewardBarOriginalWidth);
@@ -226,8 +228,6 @@ namespace TurboLabz.InstantFramework
 
         private void AnimateRewardedVideoProgressBar(float from, float to)
         {
-            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-
             if (!rewardBarParticleSystem.isPlaying)
             {
                 rewardBarParticleSystem.Play();
@@ -253,6 +253,8 @@ namespace TurboLabz.InstantFramework
                 isItemUnlockedByVideo = false;
                 SetupRewardBar();
                 PlayAnimation();
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+                count.text = playerModel.GetInventoryItemCount(shortCode).ToString();
             }
         }
 

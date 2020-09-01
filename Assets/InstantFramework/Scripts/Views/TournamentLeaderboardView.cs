@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public Button backButton;
@@ -33,10 +34,10 @@ namespace TurboLabz.InstantFramework
         public TournamentLeaderboardFooter footer;
 
         // Player bar click signal
-        [HideInInspector]
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
         public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
+        public StoreItem ticketStoreItem;
 
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
@@ -47,10 +48,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             header.Init();
-
             PopulateTournamentInfoBar();
-            PopulateFooter();
-
             backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
@@ -100,7 +98,7 @@ namespace TurboLabz.InstantFramework
             }
 
             PopulateTournamentHeader(header, joinedTournament);
-
+            PopulateFooter();
             // TODO: Enable scrolling here
         }
 
@@ -188,21 +186,31 @@ namespace TurboLabz.InstantFramework
             item.columnHeaderRewardsLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS);
         }
 
-        private void PopulateFooter()
+        public void PopulateFooter()
         {
             TournamentLeaderboardFooter item = footer;
 
-            item.bg.sprite = Resources.Load("AM.png") as Sprite;
+            if (!storeSettingsModel.items.ContainsKey(item.itemToConsumeShortCode))
+            {
+                return;
+            }
 
-            item.youHaveLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE);
+            var itemsOwned = playerModel.GetInventoryItemCount(item.itemToConsumeShortCode);
+            var alreadyPlayed = joinedTournament != null;
+
+            ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
+            item.haveEnoughItems = itemsOwned > 0;
+            item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
+            item.bg.sprite = Resources.Load("AM.png") as Sprite;
+            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}/5";
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
-
-            item.ticketsCountText.text = "3/5";
-            item.enterButtonTicketPlayCountText.text = "12";
-
-            item.freePlayButtonGroup.gameObject.SetActive(false);
-            item.ticketPlayButtonGroup.gameObject.SetActive(true);
+            item.enterButtonTicketPlayCountText.text = "1";
+            item.gemsCost.text = ticketStoreItem.currency3Cost.ToString();
+            item.enterButtonFreePlayLabel.gameObject.SetActive(!alreadyPlayed);
+            item.ticketPlayButtonGroup.gameObject.SetActive(alreadyPlayed);
+            item.gemsBg.sprite = item.haveEnoughGems ? item.haveEnoughGemsSprite : item.notEnoughGemsSprite;
+            item.gemsBg.gameObject.SetActive(!item.haveEnoughItems && alreadyPlayed);
         }
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()

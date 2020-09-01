@@ -478,6 +478,7 @@ namespace TurboLabz.InstantFramework
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_YOUR_LEAGUE_TEXT = "playerLeagueProfileStripYourLeagueText";
 
         #endregion
 

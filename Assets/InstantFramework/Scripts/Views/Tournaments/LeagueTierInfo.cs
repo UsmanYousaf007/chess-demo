@@ -20,14 +20,11 @@ namespace TurboLabz.InstantFramework
         public Image bgImage;
         public Image chestImage;
         public Image titleTextUnderlayImage;
+        public Image defaultAvatar;
 
         //profile pic
         public Image profilePic;
-        public Image avatarBG;
-        public Image avatarIcon;
-
-        public Sprite whiteAvatar;
-        public Sprite defaultAvatar;
+        public Sprite defaultAvatarSprite;
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -42,52 +39,25 @@ namespace TurboLabz.InstantFramework
             chestImage.sprite = leagueAsset.chestSprite;
             borderImage.color = leagueAsset.borderColor;
             titleTextUnderlayImage.sprite = leagueAsset.textUnderlaySprite;
-            profilePic.sprite = defaultAvatar;
+            defaultAvatar.gameObject.SetActive(false);
+            profilePic.sprite = defaultAvatarSprite;
+            defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }
 
-        public void UpdateView(bool isPlayerLeague, ProfileVO vo)
+        public void UpdateView(bool isPlayerLeague)
         {
-            if(isPlayerLeague)
+            if (isPlayerLeague)
             {
-                SetProfilePic(vo);
                 borderImage.enabled = true;
                 youText.gameObject.SetActive(true);
-            }
-            else {
-                borderImage.enabled = false;
-                youText.gameObject.SetActive(false);
-                profilePic.sprite = defaultAvatar;
-            }
-        }
-
-        private void SetProfilePic(ProfileVO vo)
-        {
-            avatarBG.gameObject.SetActive(false);
-            avatarIcon.gameObject.SetActive(false);
-
-            if (vo.playerPic != null)
-            {
-                profilePic.sprite = vo.playerPic;
+                defaultAvatar.gameObject.SetActive(false);
             }
             else
             {
-                profilePic.sprite = defaultAvatar;
-
-                if (vo.avatarId != null)
-                {
-                    Sprite newSprite = defaultAvatarContainer.GetSprite(vo.avatarId);
-                    if (newSprite != null)
-                    {
-                        avatarIcon.gameObject.SetActive(true);
-                        avatarBG.gameObject.SetActive(true);
-                        avatarIcon.sprite = newSprite;
-                        avatarBG.sprite = whiteAvatar;
-                        avatarBG.color = Colors.Color(vo.avatarColorId);
-                    }
-                }
+                borderImage.enabled = false;
+                youText.gameObject.SetActive(false);
+                defaultAvatar.gameObject.SetActive(true);
             }
-
         }
-
     }
 }

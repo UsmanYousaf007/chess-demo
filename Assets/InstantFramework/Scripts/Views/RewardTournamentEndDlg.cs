@@ -12,10 +12,23 @@ namespace TurboLabz.InstantFramework
     {
         public Text headingText;
 
+        public Text subHeadtingLabel;
+        public Text rankCountText;
+
+        public Text trophiesCountText;
+
         public Image chestImage;
         public Text chestText;
 
         public Image[] itemImages;
         public Text[] itemTexts;
+
+        public void Awake()
+        {
+            for (int i = 0; i < itemImages.Length; i++)
+            {
+                itemImages[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
     }
 }

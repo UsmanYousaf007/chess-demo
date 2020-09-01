@@ -15,5 +15,13 @@ namespace TurboLabz.InstantFramework
 
         public Image[] itemImages;
         public Text[] itemTexts;
+
+        public void Awake()
+        {
+            for (int i = 0; i < itemImages.Length; i++)
+            {
+                itemImages[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
     }
 }

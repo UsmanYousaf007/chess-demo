@@ -95,6 +95,9 @@ namespace TurboLabz.InstantGame
             if (msg.chestType == TournamentConstants.ChestType.EPIC) vo.chestName = "Epic Chest";
             if (msg.chestType == TournamentConstants.ChestType.RARE) vo.chestName = "Rare Chest";
 
+            vo.trophiesCount = msg.trophiesCount;
+            vo.rankCount = msg.rankCount;
+
             ChestIconsContainer container = ChestIconsContainer.Load();
             vo.chestImage = container.GetChest(msg.chestType);
 
