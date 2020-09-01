@@ -92,6 +92,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform inventoryThemesScrollView;
     public RectTransform inventoryTitleBar;
 
+    [Header("Inventory")]
+    public RectTransform inboxItemsContainer;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -205,6 +208,10 @@ public class NotchHandler : MonoBehaviour {
         SetTop(inventoryThemesScrollView, -275f);
         SetBottom(inventoryThemesScrollView, 232f);
         SetY(inventoryTitleBar, -195f);
+
+        //Inbox
+        SetTop(inboxItemsContainer, -175f);
+        SetBottom(inboxItemsContainer, 232f);
     }
 
     void SetY(RectTransform tfm, float y)
