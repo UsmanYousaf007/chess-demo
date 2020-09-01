@@ -32,6 +32,13 @@ namespace TurboLabz.InstantFramework
             appInfoModel.appBackendVersionValid = response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID).Value;
             appInfoModel.contactSupportURL = response.ScriptData.GetString(GSBackendKeys.CONTACT_SUPPORT_URL);
 
+#if UNITY_IOS
+            appInfoModel.storeURL = appInfoModel.iosURL;  
+#elif UNITY_ANDROID
+            appInfoModel.storeURL = appInfoModel.androidURL;
+#endif
+            appInfoModel.isMandatoryUpdate = GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.IS_MANDATORY_UPDATE);
+
             GSData gsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.GAME_SETTINGS);
             FillGameSettingsModel(gsSettingsData);
 

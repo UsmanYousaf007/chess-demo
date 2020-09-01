@@ -49,12 +49,16 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public IAppUpdateService appUpdatesService { get; set; }
 
 
         public override void Execute()
         {
             CommandBegin();
+            string[] vClient = appInfoModel.clientVersion.Split('.');
+            int clientAppVersion = int.Parse(vClient[2]);
 
+            appUpdatesService.Init(clientAppVersion);
             getInitDataSignal.Dispatch(isResume);
 
         }

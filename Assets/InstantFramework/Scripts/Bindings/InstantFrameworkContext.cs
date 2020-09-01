@@ -198,6 +198,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();
             injectionBinder.Bind<UpdateChestInfoDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<LoadRewardDlgViewSignal>().ToSingleton();
+            injectionBinder.Bind<AppUpdateSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -228,6 +229,19 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
             injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();
+
+
+#if !UNITY_EDITOR && UNITY_ANDROID
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceAndroid>().ToSingleton();
+#elif !UNITY_EDITOR && UNITY_IOS
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceIOS>().ToSingleton();
+#else
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceEditor>().ToSingleton();
+            //injectionBinder.Bind<IAppUpdatesService>().To<AppUpdatesServiceIOS>().ToSingleton();
+#endif
+
+
+
 #if UNITY_EDITOR
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsServiceEditor>().ToSingleton();
 #else

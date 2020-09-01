@@ -20,21 +20,34 @@ namespace TurboLabz.InstantFramework
 {
     public class UpdateView : View
     {
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAppUpdateService appUpdatesService { get; set; }
+
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
 
+        // Dispatch Signals
+        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+
         public Text updateLabel;
         public Text updateButtonText;
+        public Text updateLaterButtonText;
         public Button updateButton;
+        public Button updateLaterButton;
         public string updateURL;
+
 
         public void Init()
         {
             updateLabel.text = localizationService.Get(LocalizationKey.UPDATE);
             updateButtonText.text = localizationService.Get(LocalizationKey.UPDATE_BUTTON);
+            updateLaterButtonText.text = localizationService.Get(LocalizationKey.UPDATE_WAIT);
 
             updateButton.onClick.AddListener(OnUpdateButtonClicked);
+            updateLaterButton.onClick.AddListener(OnUpdateLaterButtonClicked);
+
         }
 
         public void SetUpdateURL(string url)
@@ -43,10 +56,28 @@ namespace TurboLabz.InstantFramework
         }
 
 
-        public void Show()
+        public void Show(bool updateAvailable)
         {
-            updateLabel.text = settingsModel.updateMessage;
+            //updateLabel.text = settingsModel.updateMessage;
+            if (updateAvailable)
+            {
+                updateLabel.text = localizationService.Get(LocalizationKey.UPDATE_WAIT);
+                Debug.Log("Update available");
+                updateButton.gameObject.SetActive(true);
+            }
+            //if (appInfoModel.isMandatoryUpdate)
+            //{
+            //    updateButton.gameObject.SetActive(true);
+            //    updateLaterButton.gameObject.SetActive(false);
+            //}
+            //else
+            //{
+            //    updateButton.gameObject.SetActive(true);
+            //    updateLaterButton.gameObject.SetActive(true);
+            //}
+
             gameObject.SetActive(true);
+
         }
 
         public void Hide()
@@ -54,17 +85,28 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(false);
         }
 
+        void OnUpdateLaterButtonClicked()
+        {
+            Debug.Log("Update button clicked");
+            //appUpdatesService.updateLater = true;
+            //appUpdatesService.Terminate();
+            //getInitDataCompleteSignal.Dispatch();
+        }
+
+
         void OnUpdateButtonClicked()
         {
             // TODO: Update this entire view to support multiple platforms
 
-            #if UNITY_ANDROID
-            Application.OpenURL(appInfoModel.androidURL);
-            #elif UNITY_IOS
-            Application.OpenURL(appInfoModel.iosURL);
-            #else
-            LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
-            #endif
-        }
+
+
+//#if UNITY_ANDROID || UNITY_IOS
+//            appUpdatesService.GoToStore(appInfoModel.storeURL);
+//#else
+//             LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
+
+//#endif
+         }
+
     }
 }
