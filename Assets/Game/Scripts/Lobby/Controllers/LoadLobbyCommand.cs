@@ -50,6 +50,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void Execute()
         {
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantGame
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
             updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+            tournamentsModel.StartSchedulingCoroutine();
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {

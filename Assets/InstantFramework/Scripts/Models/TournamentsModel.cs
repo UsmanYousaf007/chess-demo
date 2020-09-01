@@ -46,6 +46,11 @@ namespace TurboLabz.InstantFramework
 
         public void StartSchedulingCoroutine()
         {
+            if (tournamentsScheduleCoroutine != null)
+            {
+                return;
+            }
+
             LogUtil.Log("StartSchedulingCoroutine", "green");
 
             int joinedTournamentsCount = joinedTournaments.Count;
@@ -91,12 +96,17 @@ namespace TurboLabz.InstantFramework
             {
                 tournamentsScheduleCoroutine = routineRunner.StartCoroutine(UpdateTournamentsCoroutine(minTimeLeft + 5));
             }
+            else
+            {
+                UpdateTournaments();
+            }
         }
 
         public void StopScheduledCoroutine()
         {
             LogUtil.Log("StopScheduledCoroutine : ");
             routineRunner.StopCoroutine(tournamentsScheduleCoroutine);
+            tournamentsScheduleCoroutine = null;
         }
 
         public long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds)
@@ -307,6 +317,11 @@ namespace TurboLabz.InstantFramework
             // Dispatch update tournaments signal here
             LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
 
+            UpdateTournaments();
+        }
+
+        private void UpdateTournaments()
+        {
             for (int i = 0; i < joinedTournaments.Count; i++)
             {
                 long timeLeft = CalculateTournamentTimeLeftSeconds(joinedTournaments[i]);
@@ -342,30 +357,6 @@ namespace TurboLabz.InstantFramework
             upcomingTournaments.AddRange(expiredOpenTournaments);
 
             updateTournamentsSignal.Dispatch();
-        }
-
-        private IEnumerator UpdateOpenTournamentsCoroutine(long seconds)
-        {
-            LogUtil.Log("UpdateOpenTournamentsCoroutine::Start : " + seconds, "green");
-
-            yield return new WaitForSecondsRealtime(seconds);
-
-            // Dispatch update tournaments signal here
-            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
-
-            //updateTournamentsSignal.Dispatch();
-        }
-
-        private IEnumerator UpdateUpcomingTournamentsCoroutine(long seconds)
-        {
-            LogUtil.Log("UpdateUpcomingTournamentsCoroutine::Start : " + seconds, "green");
-
-            yield return new WaitForSecondsRealtime(seconds);
-
-            // Dispatch update tournaments signal here
-            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
-
-            //updateTournamentsSignal.Dispatch();
         }
         #endregion
     }

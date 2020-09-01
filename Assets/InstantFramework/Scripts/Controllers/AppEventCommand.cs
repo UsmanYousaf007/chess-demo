@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -61,6 +62,7 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.id != null)
                 {
                     setLocalNotificationNumber();
+                    tournamentsModel.StopScheduledCoroutine();
                 }
             }
             else if (appEvent == AppEvent.ESCAPED)
@@ -105,6 +107,14 @@ namespace TurboLabz.InstantFramework
 
                 firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();
+
+                if (playerModel.id != null)
+                {
+                    if ((matchInfoModel.activeChallengeId != null && chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId)) == false)
+                    {
+                        tournamentsModel.StartSchedulingCoroutine();
+                    }
+                }
             }
         }
 

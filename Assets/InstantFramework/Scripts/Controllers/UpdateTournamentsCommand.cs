@@ -40,6 +40,8 @@ namespace TurboLabz.InstantFramework
             updateTournamentsViewSignal.Dispatch();
             updateTournamentLeaderboardSignal.Dispatch("");
 
+            tournamentsModel.StartSchedulingCoroutine();
+
             Release();
         }
     }

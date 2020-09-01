@@ -124,10 +124,7 @@ namespace TurboLabz.InstantFramework
                     break;
             }
 
-            if (joinedTournament != null)
-            {
-                tournamentModel.StopScheduledCoroutine();
-            }
+            tournamentModel.StopScheduledCoroutine();
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
         }
