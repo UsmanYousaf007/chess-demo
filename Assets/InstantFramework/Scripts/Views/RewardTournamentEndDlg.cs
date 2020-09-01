@@ -23,6 +23,11 @@ namespace TurboLabz.InstantFramework
         public Image[] itemImages;
         public Text[] itemTexts;
 
+        public GameObject chestSection;
+        public GameObject rewardsSection;
+
+        public RectTransform layout;
+
         public void Awake()
         {
             for (int i = 0; i < itemImages.Length; i++)
