@@ -55,7 +55,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateChestInfoDlgViewSignal))]
-        private void UpdateView(TournamentReward reward)
+        public void UpdateView(TournamentReward reward)
         {
             view.UpdateView(reward);
         }
