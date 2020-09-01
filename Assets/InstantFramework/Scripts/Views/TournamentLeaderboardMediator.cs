@@ -91,6 +91,8 @@ namespace TurboLabz.InstantFramework
                 //-- This means that the tournament ended during the match
 
             }
+
+            this.openTournament = null;
         }
 
         [ListensTo(typeof(UpdateLiveTournamentRewardsSuccessSignal))]
@@ -102,6 +104,8 @@ namespace TurboLabz.InstantFramework
                 this.openTournament = openTournament;
                 view.UpdateView(openTournament);
             }
+
+            this.joinedTournament = null;
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
