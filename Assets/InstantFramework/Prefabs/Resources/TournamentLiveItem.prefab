@@ -82,7 +82,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Grand Prize??
+  m_Text: Grand Prize
 --- !u!114 &1014508889311288575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,6 +1164,44 @@ MonoBehaviour:
   grandPrizeTrophiesCountText: {fileID: 8431786151119728429}
   playerRankCountText: {fileID: 6364939500383937197}
   button: {fileID: 4207650039054127917}
+  openTournamentData:
+    shortCode: 
+    name: 
+    type: 
+    active: 0
+    grandPrize:
+      type: 
+      quantity: 0
+      trophies: 0
+      chestType: 
+      gems: 0
+      hints: 0
+      ratingBoosters: 0
+      minRank: 0
+      maxRank: 0
+    firstStartTimeUTC: 0
+    durationMinutes: 0
+    waitTimeMinutes: 0
+    currentStartTimeInSeconds: 0
+  joinedTournamentData:
+    id: 
+    shortCode: 
+    type: 
+    name: 
+    rank: 0
+    grandPrize:
+      type: 
+      quantity: 0
+      trophies: 0
+      chestType: 
+      gems: 0
+      hints: 0
+      ratingBoosters: 0
+      minRank: 0
+      maxRank: 0
+    startTimeUTC: 0
+    durationMinutes: 0
+    currentStartTimeInSeconds: 0
 --- !u!1 &6527182046252181632
 GameObject:
   m_ObjectHideFlags: 0

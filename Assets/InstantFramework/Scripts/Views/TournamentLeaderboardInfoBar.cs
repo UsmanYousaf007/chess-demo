@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,9 +18,15 @@ namespace TurboLabz.InstantFramework
         public Text totalScoreLabel;
         public Text gameModeText;
 
-        public Button rulesButton;
-        public Button totalScoreButton;
-        public Button gameModeButton;
+        public Button rulesTooltipButton;
+        public Button totalScoreTooltipButton;
+        public Button gameModeTooltipButton;
+
+        public GameObject rulesTooltip;
+        public GameObject totalScoresTooltip;
+        public GameObject gameModesTooltip;
+
+        public TMP_Text gameModeTooltipText;
 
         public Text columnHeaderRankLabel;
         public Text columnHeaderScoreLabel;
@@ -32,9 +39,12 @@ namespace TurboLabz.InstantFramework
 
         void Awake()
         {
-            rulesButton.onClick.AddListener(() => rulesButtonClickedSignal.Dispatch());
-            totalScoreButton.onClick.AddListener(() => totalScoreButtonClickedSignal.Dispatch());
-            gameModeButton.onClick.AddListener(() => gameModeButtonClickedSignal.Dispatch());
+            //rulesButton.onClick.AddListener(() => rulesButtonClickedSignal.Dispatch());
+            //totalScoreButton.onClick.AddListener(() => totalScoreButtonClickedSignal.Dispatch());
+            //gameModeButton.onClick.AddListener(() => gameModeButtonClickedSignal.Dispatch());
+            rulesTooltip.SetActive(false);
+            totalScoresTooltip.SetActive(false);
+            gameModesTooltip.SetActive(false);
         }
     }
 }

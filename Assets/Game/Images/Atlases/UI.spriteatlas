@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 21412784
+    totalSpriteSurfaceArea: 21048636
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -265,7 +265,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 501b1de8e0eb246e6a703e52f4cde523, type: 3}
   - {fileID: 21300000, guid: 422753f8dd4c54108a32ce9032cf923a, type: 3}
   - {fileID: 21300000, guid: ebd928f85de154a50839ae2c08f312c3, type: 3}
-  - {fileID: 21300000, guid: 64d410090ea2f4317bb1088c343e708f, type: 3}
   - {fileID: 21300000, guid: 2b0f0109f8bff4f219324a86ff6c3615, type: 3}
   - {fileID: 21300000, guid: 870d4a09b33c6427bbe3e199ff6da15e, type: 3}
   - {fileID: 21300000, guid: 0bc3e21960bb7418ba4b8b315a22cbf4, type: 3}
@@ -299,7 +298,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c287263a1b9254ea8bff5aa4199be697, type: 3}
   - {fileID: 21300000, guid: 6a76183a9dd824b159e789d1d099e1ce, type: 3}
   - {fileID: 21300000, guid: ba9e1a4a49d6446d78db4d0a292d7a57, type: 3}
-  - {fileID: 21300000, guid: 357b625a3a72d4bc7ada1f9381c316e6, type: 3}
   - {fileID: 21300000, guid: b1e2ad5aa306b47de923735f174b606c, type: 3}
   - {fileID: 21300000, guid: be27606a54e8b4e0888bc06622be2604, type: 3}
   - {fileID: 21300000, guid: 6531c66afb50f4ae485a4be398117020, type: 3}
@@ -377,6 +375,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5a63310e10b194ea1ac78aba3516c80c, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: 5b20f01eeb7b64fe88ed883b3a367071, type: 3}
+  - {fileID: 21300000, guid: a3b9a51e2ba7548c38ae7ea9ce4498dc, type: 3}
   - {fileID: 21300000, guid: aa8d803e101f445fba02829cbb98fa20, type: 3}
   - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
   - {fileID: 21300000, guid: 200fb25e4bd2141bbb34a82192f909a6, type: 3}
@@ -620,7 +619,6 @@ SpriteAtlas:
   - SectionMask
   - WaitSpinner
   - UnlockIcon
-  - inboxRef2
   - SubBg
   - RoundEdgesMask
   - LogoShareDailouge
@@ -654,7 +652,6 @@ SpriteAtlas:
   - Smile
   - ChangeThemeIcon
   - CoachBg
-  - inboxRef
   - PlaceHolderDisabled
   - YesSmileyIcon
   - AvatarMask
@@ -732,6 +729,7 @@ SpriteAtlas:
   - ExtraBadge
   - IconFreeCoins
   - minutesGameButtonCommunity
+  - ToolTipRightBubble
   - SettingsIcon
   - DrawAcceptBtn
   - DiscordIcon
