@@ -47,7 +47,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             LeagueProfileStripVO leagueProfileStripVO = new LeagueProfileStripVO();
-            leagueProfileStripVO.playerLeagueTitle = "SILVER";
+            leagueProfileStripVO.playerLeagueTitle = TournamentConstants.LeagueType.DIAMOND;
             leagueProfileStripVO.playerLeagueThumbnailImage = null;
             leagueProfileStripVO.playerRankCount = 5;
             leagueProfileStripVO.playerTrophiesCount = 100;

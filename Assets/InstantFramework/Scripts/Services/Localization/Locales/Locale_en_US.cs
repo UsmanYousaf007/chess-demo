@@ -475,9 +475,10 @@ namespace TurboLabz.InstantFramework
                 #region LeagueProfileStrip
 
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN, "League Ends in"},
-                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TAP, "TAP"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TAP, "Next League"},
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES, "Trophies"},
                 { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_RANK, "Rank"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_YOUR_LEAGUE_TEXT, "Your League"},
 
                 #endregion
 

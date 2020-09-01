@@ -49,7 +49,6 @@ namespace TurboLabz.InstantFramework
         public void OnLeagueProfileClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
-
         }
     }
 }

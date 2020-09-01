@@ -64,16 +64,16 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateLeague(string leagueType, ProfileVO pvo)
+        public void UpdateLeague(string leagueType)
         {
             if (leagues.ContainsKey(leagueType))
             { 
                 foreach (var item in list)
                 {
                     if(item.leagueType == leagueType)
-                        item.UpdateView(true, pvo);
+                        item.UpdateView(true);
                     else
-                        item.UpdateView(false, pvo);
+                        item.UpdateView(false);
                 }
             }
         }

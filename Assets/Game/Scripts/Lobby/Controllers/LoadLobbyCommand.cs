@@ -138,7 +138,7 @@ namespace TurboLabz.InstantGame
             }
 
             updateProfileSignal.Dispatch(pvo);
-            updateLeagueProfileSignal.Dispatch("diamond", pvo);
+            updateLeagueProfileSignal.Dispatch("diamond");
         }
 
         private void DispatchRemoveAdsSignal() 
