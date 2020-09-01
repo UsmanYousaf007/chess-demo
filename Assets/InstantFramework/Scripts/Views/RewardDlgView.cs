@@ -131,7 +131,7 @@ namespace TurboLabz.InstantFramework
 
             p.trophiesCountText.text = vo.trophiesCount.ToString();
 
-        p.chestImage.gameObject.SetActive(vo.chestName != null);
+            p.chestImage.gameObject.SetActive(vo.chestName != null);
             p.chestText.gameObject.SetActive(vo.chestName != null);
             p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
