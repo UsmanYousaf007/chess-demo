@@ -80,6 +80,9 @@ namespace TurboLabz.InstantFramework
             List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
             FillDownloadablesModel(downloadablesData);
 
+            GSData leaguesData = response.ScriptData.GetGSData(GSBackendKeys.LEAGUE_SETTINGS);
+            FillLeaguesModel(leaguesData);
+
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
@@ -630,6 +633,24 @@ namespace TurboLabz.InstantFramework
                 targetList.Add(id, msg);
             }
 
+        }
+
+        private void FillLeaguesModel(GSData leaguesData)
+        {
+            leaguesModel.leagues.Clear();
+
+            foreach (KeyValuePair<string, object> obj in leaguesData.BaseData)
+            {
+                GSData data = (GSData)obj.Value;
+                string id = obj.Key;
+                League league = new League();
+                league.dailyReward = new Dictionary<string, int>();
+
+                GSParser.ParseLeague(league, data);
+                GSParser.LogLeague(league);
+
+                leaguesModel.leagues.Add(id, league);
+            }
         }
 
         private void FillDownloadablesModel(List<GSData> downloadablesData)

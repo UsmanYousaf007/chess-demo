@@ -111,6 +111,8 @@ namespace TurboLabz.InstantFramework
         public const string DOWNALOADABLE_SIZE = "size";
         public const string DOWNLOADABLE_URL = "url";
 
+        // Leagues
+        public const string LEAGUE_SETTINGS = "leagueSettings";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";

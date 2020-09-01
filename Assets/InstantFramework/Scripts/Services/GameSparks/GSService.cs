@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }
