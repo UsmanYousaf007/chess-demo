@@ -80,6 +80,9 @@ namespace TurboLabz.InstantFramework
             List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
             FillDownloadablesModel(downloadablesData);
 
+            GSData leaguesData = response.ScriptData.GetGSData(GSBackendKeys.LEAGUE_SETTINGS);
+            FillLeaguesModel(leaguesData);
+
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
@@ -169,6 +172,8 @@ namespace TurboLabz.InstantFramework
             playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
             playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
+            playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+            playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
@@ -630,6 +635,24 @@ namespace TurboLabz.InstantFramework
                 targetList.Add(id, msg);
             }
 
+        }
+
+        private void FillLeaguesModel(GSData leaguesData)
+        {
+            leaguesModel.leagues.Clear();
+
+            foreach (KeyValuePair<string, object> obj in leaguesData.BaseData)
+            {
+                GSData data = (GSData)obj.Value;
+                string id = obj.Key;
+                League league = new League();
+                league.dailyReward = new Dictionary<string, int>();
+
+                GSParser.ParseLeague(league, data);
+                GSParser.LogLeague(league);
+
+                leaguesModel.leagues.Add(id, league);
+            }
         }
 
         private void FillDownloadablesModel(List<GSData> downloadablesData)

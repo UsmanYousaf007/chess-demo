@@ -393,6 +393,32 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public static void ParseLeague(League league, GSData data)
+        {
+            league.name = data.GetString("name");
+            GSData qualificationData = data.GetGSData("qualification");
+            league.qualifyTrophies = GetSafeInt(qualificationData, "trophies");
+            GSData dailyRewardData = data.GetGSData("dailyReward");
+
+            foreach (KeyValuePair<string, object> obj in dailyRewardData.BaseData)
+            {
+                var count = obj.Value;
+                league.dailyReward.Add(obj.Key, Int32.Parse(count.ToString()));
+            }
+        }
+
+        public static void LogLeague(League league)
+        {
+            LogUtil.Log("********** league.name " + " " + league.name);
+            LogUtil.Log("league.qualifyTrophies " + league.qualifyTrophies);
+            LogUtil.Log("league.dailyReward ");
+
+            foreach (KeyValuePair<string, int> item in league.dailyReward)
+            {
+                LogUtil.Log("league.item " + item.Key + " : " + item.Value);
+            }
+        }
+
         public static void LogPublicProfile(PublicProfile publicProfile)
 		{
 			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
@@ -485,6 +511,9 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("********** playerModel.inventory " + item.Key + " Quantity: " + item.Value);
             }
             LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
+
+            LogUtil.Log("********** playerModel.league " + playerModel.league);
+            LogUtil.Log("********** playerModel.trophies " + playerModel.trophies);
 
             LogUtil.Log("******************** END PLAYER INFO ********************");
         }

@@ -118,6 +118,7 @@ namespace TurboLabz.InstantFramework
             this.liveTournament = null;
             Populate(joinedTournament);
             Sort();
+            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.type} tournament.";
         }
 
         public void UpdateView(LiveTournamentData liveTournament)
@@ -126,6 +127,7 @@ namespace TurboLabz.InstantFramework
             this.joinedTournament = null;
             Populate(liveTournament);
             Sort();
+            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.type} tournament.";
         }
 
         private void Sort()
@@ -184,6 +186,10 @@ namespace TurboLabz.InstantFramework
             item.columnHeaderRankLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK);
             item.columnHeaderScoreLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE);
             item.columnHeaderRewardsLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS);
+
+            infoBar.rulesTooltipButton.onClick.AddListener(OnRulesButtonClicked);
+            infoBar.totalScoreTooltipButton.onClick.AddListener(OnTotalScoresButtonClicked);
+            infoBar.gameModeTooltipButton.onClick.AddListener(OnGameModesButtonClicked);
         }
 
         public void PopulateFooter()
@@ -247,6 +253,21 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             backSignal.Dispatch();
+        }
+
+        void OnRulesButtonClicked()
+        {
+            infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+        }
+
+        void OnTotalScoresButtonClicked()
+        {
+            infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
+        }
+
+        void OnGameModesButtonClicked()
+        {
+            infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
         }
     }
 }
