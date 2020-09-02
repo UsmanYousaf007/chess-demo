@@ -51,9 +51,9 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(UpdateLeagueProfileSignal))]
-        public void UpdateLeague(string leagueType)
+        public void UpdateLeague(string leagueID)
         {
-            view.UpdateLeague(leagueType);
+            view.UpdateLeague(leagueID);
         }
     }
 }

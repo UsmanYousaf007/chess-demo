@@ -10,10 +10,11 @@ namespace TurboLabz.InstantFramework
 {
     public class LeagueTierInfo : MonoBehaviour
     {
-        public string leagueType;
+        public string leagueID;
         public Text titleText;
         public Text tagText;
         public TMP_Text youText;
+        public Text dailyChestText;
 
         public Image borderImage;
         public Image trophyImage;
@@ -41,6 +42,7 @@ namespace TurboLabz.InstantFramework
             titleTextUnderlayImage.sprite = leagueAsset.textUnderlaySprite;
             defaultAvatar.gameObject.SetActive(false);
             profilePic.sprite = defaultAvatarSprite;
+            dailyChestText.text = $"Daily {leagueAsset.typeName} Chest";
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
         }
 

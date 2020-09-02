@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
     public class LeagueProfileStripVO
     {
         public string playerLeagueTitle;
+        public string playerLeagueID;
         public Image playerLeagueThumbnailImage;
         public int playerTrophiesCount;
         public int playerRankCount;

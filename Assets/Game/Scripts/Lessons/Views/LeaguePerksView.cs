@@ -58,19 +58,19 @@ namespace TurboLabz.InstantGame
         {
             foreach(var item in list)
             {
-                LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(item.leagueType);
+                LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(item.leagueID);
                 item.SetLeagueInfo(leagueAssets);
-                leagues.Add(item.leagueType, item);
+                leagues.Add(item.leagueID, item);
             }
         }
 
-        public void UpdateLeague(string leagueType)
+        public void UpdateLeague(string leagueID)
         {
-            if (leagues.ContainsKey(leagueType))
+            if (leagues.ContainsKey(leagueID))
             { 
                 foreach (var item in list)
                 {
-                    if(item.leagueType == leagueType)
+                    if(item.leagueID == leagueID)
                         item.UpdateView(true);
                     else
                         item.UpdateView(false);

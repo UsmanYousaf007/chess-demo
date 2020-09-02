@@ -46,16 +46,6 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            LeagueProfileStripVO leagueProfileStripVO = new LeagueProfileStripVO();
-            leagueProfileStripVO.playerLeagueTitle = TournamentConstants.LeagueType.DIAMOND;
-            leagueProfileStripVO.playerLeagueThumbnailImage = null;
-            leagueProfileStripVO.playerRankCount = 5;
-            leagueProfileStripVO.playerTrophiesCount = 100;
-            leagueProfileStripVO.playerRankStatusImage = null;
-            leagueProfileStripVO.tournamentCountdownTimer = "6d 5m";
-
-            updateLeagueProfileStripSignal.Dispatch(leagueProfileStripVO);
-
             //Sort();
         }
 
@@ -114,6 +104,17 @@ namespace TurboLabz.InstantFramework
         {
             Populate();
             Sort();
+
+            LeagueProfileStripVO leagueProfileStripVO = new LeagueProfileStripVO();
+            leagueProfileStripVO.playerLeagueTitle = TournamentConstants.LeagueType.DIAMOND;
+            leagueProfileStripVO.playerLeagueID = playerModel.league.ToString();
+            leagueProfileStripVO.playerLeagueThumbnailImage = null;
+            leagueProfileStripVO.playerRankCount = 5;
+            leagueProfileStripVO.playerTrophiesCount = playerModel.trophies;
+            leagueProfileStripVO.playerRankStatusImage = null;
+            leagueProfileStripVO.tournamentCountdownTimer = "6d 5m";
+
+            updateLeagueProfileStripSignal.Dispatch(leagueProfileStripVO);
         }
 
         private void Sort()
