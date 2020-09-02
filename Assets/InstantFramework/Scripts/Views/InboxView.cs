@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         public GameObject inBoxBarPrefab;
         public GameObject emptyInBoxStrip;
         public Text emptyInboxLabel;
-
+        public GameObject processing;
         public Text heading;
         public Text stripHeading;
 
@@ -58,12 +58,13 @@ namespace TurboLabz.InstantFramework
 
             bottomNavBackButton.onClick.AddListener(() => bottoNavBackButtonClickedSignal.Dispatch());
 
-            Sort();
+            //Sort();
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            processing.SetActive(true);
         }
 
         public void Hide()
@@ -206,6 +207,7 @@ namespace TurboLabz.InstantFramework
             }
 
             Sort();
+            processing.SetActive(false);
         }
 
         public void RemoveMessage(string messageId)

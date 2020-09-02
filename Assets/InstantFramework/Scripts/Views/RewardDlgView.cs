@@ -79,6 +79,7 @@ namespace TurboLabz.InstantFramework
             p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
 
             p.headingText.text = vo.league;
+            p.leagueGradient.sprite = vo.leagueGradient;
             p.subHeadingText.text = "Daily League Reward!";
             p.buttonText.text = "Collect";
 
@@ -104,6 +105,7 @@ namespace TurboLabz.InstantFramework
             p.buttonText.text = "Got it";
 
             p.leagueTitleText.text = vo.league;
+            p.leagueGradient.sprite = vo.leagueGradient;
             p.rewardsSubHeadingText.text = "Your Daily Perks";
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
