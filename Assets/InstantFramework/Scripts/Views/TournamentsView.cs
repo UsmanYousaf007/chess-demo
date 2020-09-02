@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public GameObject tournamentLiveItemPrefab;
         public GameObject tournamentUpcomingItemPrefab;
         public GameObject sectionTournamentUpcomingItems;
+        public Text upcomingTournamentsText;
 
         // Button click signals
         public Signal<TournamentLiveItem> liveItemClickedSignal = new Signal<TournamentLiveItem>();
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             //Sort();
+            upcomingTournamentsText.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING);
         }
 
         public void Populate()

@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         {
             bg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(liveTournamentData.type);
+            tournamentImage.SetNativeSize();
             countdownTimerText.text = timeLeftText;
         }
     }

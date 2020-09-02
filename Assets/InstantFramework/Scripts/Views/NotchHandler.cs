@@ -92,8 +92,18 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform inventoryThemesScrollView;
     public RectTransform inventoryTitleBar;
 
-    [Header("Inventory")]
+    [Header("Inbox")]
     public RectTransform inboxItemsContainer;
+    public RectTransform inboxBottomNav;
+
+    [Header("League Perks")]
+    public RectTransform leaguePerksTopNav;
+    public RectTransform leaguePerksBottomNav;
+    public RectTransform leaguePerksScrollView;
+
+    [Header("Tournaments")]
+    public RectTransform tournamentsLeagueHeader;
+    public RectTransform tournamentsScrollView;
 
     void Awake()
     {
@@ -212,6 +222,18 @@ public class NotchHandler : MonoBehaviour {
         //Inbox
         SetTop(inboxItemsContainer, -175f);
         SetBottom(inboxItemsContainer, 232f);
+        SetY(inboxBottomNav, 90f);
+
+        //League Perks
+        SetY(leaguePerksTopNav, -170f);
+        SetY(leaguePerksBottomNav, 90f);
+        SetTop(leaguePerksScrollView, -232f);
+        SetBottom(leaguePerksScrollView, 212f);
+
+        //Tournaments
+        SetY(tournamentsLeagueHeader, -380f);
+        SetTop(tournamentsScrollView, -566f);
+        SetBottom(tournamentsScrollView, 236f);
     }
 
     void SetY(RectTransform tfm, float y)

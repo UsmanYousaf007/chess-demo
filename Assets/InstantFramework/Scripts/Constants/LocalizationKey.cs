@@ -491,6 +491,7 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_LIVE_ITEM_HEADING = "tournamentLiveItemHeading";
         public const string TOURNAMENT_LIVE_ITEM_SUB_HEADING = "tournamentLiveItemSubHeading";
         public const string TOURNAMENT_LIVE_ITEM_ENDS_IN = "tournamentLiveItemEndsIn";
+        public const string TOURNAMENT_UPCOMING = "tournamentUpcoming";
 
         public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
         public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";

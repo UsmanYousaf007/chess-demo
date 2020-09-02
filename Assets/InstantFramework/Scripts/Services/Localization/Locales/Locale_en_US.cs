@@ -276,7 +276,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
-                
+
                 { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial."},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
@@ -491,6 +491,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING, "Grand Prize"},
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Score high, Win Big!"},
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_ENDS_IN, "Ends in"},
+                { LocalizationKey.TOURNAMENT_UPCOMING, "UPCOMING TOURNAMENTS"},
 
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},
