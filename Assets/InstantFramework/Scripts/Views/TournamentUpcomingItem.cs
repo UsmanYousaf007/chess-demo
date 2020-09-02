@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         public Button button;
 
         private long timeLeft;
+        private Coroutine routine;
 
         public void Init()
         {
@@ -43,7 +44,12 @@ namespace TurboLabz.InstantFramework
 
             if (timeLeftText.Contains("s") && gameObject.activeInHierarchy)
             {
-                StartCoroutine(CountdownTimer());
+                if (routine != null)
+                {
+                    StopCoroutine(routine);
+                }
+
+                routine = StartCoroutine(CountdownTimer());
             }
         }
 

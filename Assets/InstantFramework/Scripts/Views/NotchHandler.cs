@@ -110,6 +110,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform tournamentsLeaderboardHeader;
     public RectTransform tournamentsLeaderboardFooter;
     public RectTransform tounamentsLeaderboardScrollView;
+    public RectTransform tournamentsLeaderboardNotEnteredBar;
 
     void Awake()
     {
@@ -246,7 +247,8 @@ public class NotchHandler : MonoBehaviour {
         SetY(tournamentsLeaderboardHeader, -177f);
         SetY(tournamentsLeaderboardFooter, 321f);
         SetTop(tounamentsLeaderboardScrollView, -940f);
-        SetBottom(tounamentsLeaderboardScrollView, 430);
+        SetBottom(tounamentsLeaderboardScrollView, 430f);
+        SetY(tournamentsLeaderboardNotEnteredBar, 538f);
     }
 
     void SetY(RectTransform tfm, float y)
