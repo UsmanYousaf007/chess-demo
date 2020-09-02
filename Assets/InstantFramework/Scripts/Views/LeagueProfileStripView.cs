@@ -25,7 +25,8 @@ namespace TurboLabz.InstantFramework
         public Text playerRankCountLabel;
         public Image playerRankStatusImage;
 
-        public RectTransform trophyProgressionBar;
+        public RectTransform trophyProgressionBarFiller;
+        public GameObject trophyProgressionBar;
         public Text playerTrophiesCountLabel;
         private float trophyProgressionBarOriginalWidth;
         public Text yourLeagueText;
@@ -74,7 +75,7 @@ namespace TurboLabz.InstantFramework
             stripButton.onClick.AddListener(OnLeagueProfileButtonClicked);
 
             gameObjectPlayerRank = playerRankStatusImage.gameObject;
-            trophyProgressionBarOriginalWidth = trophyProgressionBar.sizeDelta.x;
+            trophyProgressionBarOriginalWidth = trophyProgressionBarFiller.sizeDelta.x;
         }
 
         public void UpdateView(LeagueProfileStripVO vo)
@@ -96,14 +97,25 @@ namespace TurboLabz.InstantFramework
 
         private void SetupTrophyProgressionBar(int currentTrophies)
         {
-            var currentPoints = currentTrophies;
-            leaguesModel.leagues.TryGetValue(playerModel.league.ToString(), out League value);
-            if (value != null)
+            int league = playerModel.league;
+            if (league < (leaguesModel.leagues.Count - 1))
             {
-                var requiredPoints = value.qualifyTrophies;
-                var barFillPercentage = (float)currentPoints / requiredPoints;
-                trophyProgressionBar.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBar.sizeDelta.y);
-                playerTrophiesCountLabel.text = $"{currentTrophies}/{requiredPoints}";
+                league = playerModel.league + 1;
+                var currentPoints = currentTrophies;
+                leaguesModel.leagues.TryGetValue((league).ToString(), out League value);
+                if (value != null)
+                {
+                    var requiredPoints = value.qualifyTrophies;
+                    var barFillPercentage = (float)currentPoints / requiredPoints;
+                    trophyProgressionBarFiller.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBarFiller.sizeDelta.y);
+                    playerTrophiesCountLabel.text = $"{currentTrophies}/{requiredPoints}";
+                }
+            }
+            else
+            {
+                playerTrophiesCountLabel.text = currentTrophies.ToString();
+                trophyProgressionBar.SetActive(false);
+                nextLeagueText.gameObject.SetActive(false);
             }
         }
 
