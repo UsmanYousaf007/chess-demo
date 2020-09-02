@@ -121,6 +121,7 @@ namespace TurboLabz.Multiplayer
         [HideInInspector] public StoreItem ticketStoreItem;
         [HideInInspector] public bool haveEnoughItems;
         [HideInInspector] public bool haveEnoughGems;
+        [HideInInspector] public bool tournamentEnded;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -620,10 +621,18 @@ namespace TurboLabz.Multiplayer
                 checkMateBonusText.gameObject.SetActive(false);
             }
 
-            tournamentTypeImage.sprite = tournamentsModel.GetStickerSprite(tournamentsModel.currentMatchTournament.type);
+            tournamentTypeImage.sprite = tournamentsModel.GetStickerSprite(tournamentsModel.currentMatchTournamentType);
 
-            long tournamentTimeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournamentsModel.currentMatchTournament);
-            playMatchButton.gameObject.SetActive(tournamentTimeLeft > 0);
+            if (tournamentsModel.currentMatchTournament != null)
+            {
+                long tournamentTimeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournamentsModel.currentMatchTournament);
+                tournamentEnded = tournamentTimeLeft <= 0;
+            }
+            else
+            {
+                tournamentEnded = true;
+            }
+            playMatchButton.gameObject.SetActive(!tournamentEnded);
 
             // Write tickets and gems population logic here
             var itemsOwned = playerModel.GetInventoryItemCount(tournamentMatchResultDialog.ticketsShortCode);

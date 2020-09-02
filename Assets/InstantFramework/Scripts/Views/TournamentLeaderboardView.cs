@@ -48,6 +48,8 @@ namespace TurboLabz.InstantFramework
         private JoinedTournamentData joinedTournament = null;
         private GameObjectsPool barsPool;
 
+        private WaitForSecondsRealtime waitForOneRealSecond;
+
         public void Init()
         {
             barsPool = new GameObjectsPool(tournamentLeaderboardPlayerBarPrefab, 50);
@@ -56,6 +58,8 @@ namespace TurboLabz.InstantFramework
             backButton.onClick.AddListener(OnBackButtonClicked);
             tournamentLeaderboardPlayerEnterBar.SetActive(false);
             PopulateTournamentLeaderboardPlayerEnterBar();
+
+            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
         public void PopulateTournamentLeaderboardPlayerEnterBar()
@@ -301,7 +305,7 @@ namespace TurboLabz.InstantFramework
         {
             while (gameObject.activeInHierarchy)
             {
-                yield return new WaitForSeconds(1);
+                yield return waitForOneRealSecond;
 
                 header.UpdateTime();
             }

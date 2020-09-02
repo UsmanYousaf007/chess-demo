@@ -218,6 +218,7 @@ namespace TurboLabz.Multiplayer
 
             tournamentsModel.StopScheduledCoroutine();
 
+            tournamentsModel.currentMatchTournamentType = tournamentType;
             tournamentsModel.currentMatchTournament = joinedTournament;
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
@@ -228,6 +229,11 @@ namespace TurboLabz.Multiplayer
             OnBackToLobby();
             loadArenaSignal.Dispatch();
             updateBottomNavSignal.Dispatch();
+
+            if (!view.tournamentEnded)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            }
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

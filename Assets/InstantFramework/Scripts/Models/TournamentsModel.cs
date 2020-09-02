@@ -19,12 +19,16 @@ namespace TurboLabz.InstantFramework
         // Coroutine runner
         [Inject] public IRoutineRunner routineRunner { get; set; }
 
+        // Service
+        [Inject] public IBackendService backendService { get; set; }
+
         public DateTime lastFetchedTime { get; set; }
 
         public List<JoinedTournamentData> joinedTournaments { get; set; }
         public List<LiveTournamentData> openTournaments { get; set; }
         public List<LiveTournamentData> upcomingTournaments { get; set; }
 
+        public string currentMatchTournamentType { get; set; }
         public JoinedTournamentData currentMatchTournament { get; set; }
 
         Coroutine tournamentsScheduleCoroutine = null;

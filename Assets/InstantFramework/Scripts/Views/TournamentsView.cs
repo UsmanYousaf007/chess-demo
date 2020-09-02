@@ -46,12 +46,15 @@ namespace TurboLabz.InstantFramework
         private GameObjectsPool liveItemsPool;
         private GameObjectsPool upcomingItemsPool;
 
+        private WaitForSecondsRealtime waitForOneRealSecond;
 
         public void Init()
         {
             upcomingTournamentsText.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING);
             liveItemsPool = new GameObjectsPool(tournamentLiveItemPrefab);
             upcomingItemsPool = new GameObjectsPool(tournamentUpcomingItemPrefab);
+
+            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
         public void Populate()
@@ -212,7 +215,7 @@ namespace TurboLabz.InstantFramework
         {
             while (gameObject.activeInHierarchy)
             {
-                yield return new WaitForSeconds(1);
+                yield return waitForOneRealSecond;
 
                 for (int i = 0; i < tournamentLiveItems.Count; i++)
                 {
