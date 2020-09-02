@@ -27,6 +27,9 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public PlayerProfilePicTappedSignal playerProfilePicTappedSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -41,7 +44,8 @@ namespace TurboLabz.InstantGame
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
-            view.playTournamentButtonClickedSignal.AddListener(OnPlayTournamentButtonClicked);
+            view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
+            view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -86,6 +90,12 @@ namespace TurboLabz.InstantGame
             view.UpdateProfilePic(vo);
         }
 
+        [ListensTo(typeof(UpdatePlayTournamentViewSignal))]
+        public void UpdateTournamentView()
+        {
+            view.UpdateTournamentView();
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -101,16 +111,22 @@ namespace TurboLabz.InstantGame
             playerProfilePicTappedSignal.Dispatch();
         }
 
-        private void OnPlayTournamentButtonClicked()
-        {
-            
-            //TODO dispatch signal to live tournament
-        }
-
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscrionPurchased(StoreItem item)
         {
             view.ShowPremiumBorder(playerModel.HasSubscription());
+        }
+
+        public void OnJoinedTournamentClicked(JoinedTournamentData data)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
+        }
+
+        public void OnOpenTournamentClicked(LiveTournamentData data)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
         }
     }
 }

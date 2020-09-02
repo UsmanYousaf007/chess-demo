@@ -12,7 +12,7 @@ namespace TurboLabz.InstantFramework
     {
         public Text headingText;
         public Text subHeadingText;
-
+        public Image leagueGradient;
         public Image[] itemImages;
         public Text[] itemTexts;
 

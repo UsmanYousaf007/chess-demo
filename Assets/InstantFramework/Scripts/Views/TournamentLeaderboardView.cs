@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         public TournamentLiveItem header;
         public TournamentLeaderboardInfoBar infoBar;
         public TournamentLeaderboardFooter footer;
+        public GameObject tournamentLeaderboardPlayerEnterBar;
 
         // Player bar click signal
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
@@ -44,44 +45,58 @@ namespace TurboLabz.InstantFramework
 
         private LiveTournamentData liveTournament = null;
         private JoinedTournamentData joinedTournament = null;
+        private GameObjectsPool barsPool;
 
         public void Init()
         {
+            barsPool = new GameObjectsPool(tournamentLeaderboardPlayerBarPrefab, 50);
             header.Init();
             PopulateTournamentInfoBar();
             backButton.onClick.AddListener(OnBackButtonClicked);
+            tournamentLeaderboardPlayerEnterBar.SetActive(false);
+            PopulateTournamentLeaderboardPlayerEnterBar();
         }
+
+        public void PopulateTournamentLeaderboardPlayerEnterBar()
+        {
+            TournamentLeaderboardPlayerEnterBar playerEnterBar = tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>();
+            playerEnterBar.bodyText.text = "Enter this Tournament to earn a rank!";
+            playerEnterBar.rankText.text = "?";
+         }
 
         public void Populate(LiveTournamentData liveTournament)
         {
+            ClearBars();
+
             int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
-            if (itemBarsCount < 3)
+            if (itemBarsCount <= 50)
             {
-                for (int i = itemBarsCount; i < 3; i++)
+                for (int i = itemBarsCount; i < 50; i++)
                 {
                     tournamentLeaderboardPlayerBars.Add(AddPlayerBar());
                 }
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
                 PopulateBar(playerBar, i + 1, liveTournament.rewardsDict[i + 1]);
             }
 
-            for (int i = 4; i < itemBarsCount; i++)
-            {
-                var playerBar = tournamentLeaderboardPlayerBars[i];
-                playerBar.gameObject.SetActive(false);
-            }
+            //for (int i = 4; i < itemBarsCount; i++)
+            //{
+            //    var playerBar = tournamentLeaderboardPlayerBars[i];
+            //    playerBar.gameObject.SetActive(false);
+            //}
 
             PopulateTournamentHeader(header, liveTournament);
-
-            // TODO: Disable scroll view here
+            tournamentLeaderboardPlayerEnterBar.SetActive(true);
         }
 
         public void Populate(JoinedTournamentData joinedTournament)
         {
+            ClearBars();
+
             int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
             if (itemBarsCount < joinedTournament.entries.Count)
             {
@@ -99,7 +114,17 @@ namespace TurboLabz.InstantFramework
 
             PopulateTournamentHeader(header, joinedTournament);
             PopulateFooter();
-            // TODO: Enable scrolling here
+            tournamentLeaderboardPlayerEnterBar.SetActive(false);
+        }
+
+        public void ClearBars()
+        {
+            for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
+            {
+                barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
+            }
+
+            tournamentLeaderboardPlayerBars.Clear();
         }
 
         public void Show()
@@ -221,10 +246,11 @@ namespace TurboLabz.InstantFramework
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()
         {
-            GameObject obj = GameObject.Instantiate(tournamentLeaderboardPlayerBarPrefab);
+            GameObject obj = barsPool.GetObject();
             TournamentLeaderboardPlayerBar item = obj.GetComponent<TournamentLeaderboardPlayerBar>();
             item.transform.SetParent(listContainer, false);
             AddPlayerBarListeners(item);
+            item.gameObject.SetActive(true);
             return item;
             
         }

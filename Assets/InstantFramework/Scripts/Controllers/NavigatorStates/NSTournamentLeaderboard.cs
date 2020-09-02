@@ -17,13 +17,17 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW, NavigatorViewId.LOBBY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
                     return new NSArenaView();
+                }
+                else if(viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)

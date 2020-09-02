@@ -30,13 +30,14 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
+
 
         public void Init()
         {
             titleText.text = localizationService.Get(LocalizationKey.LEAGUE_PERKS_TITLE);
             backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
             backButton.onClick.AddListener(OnBackButtonClicked);
-            SetAllLeagueInfo();
         }
 
         public void Show()
@@ -58,19 +59,20 @@ namespace TurboLabz.InstantGame
         {
             foreach(var item in list)
             {
-                LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(item.leagueType);
-                item.SetLeagueInfo(leagueAssets);
-                leagues.Add(item.leagueType, item);
+                LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(item.leagueID);
+                leaguesModel.leagues.TryGetValue(leagueAssets.typeID, out League value);
+                item.SetLeagueInfo(leagueAssets, value);
+                leagues.Add(item.leagueID, item);
             }
         }
 
-        public void UpdateLeague(string leagueType)
+        public void UpdateLeague(string leagueID)
         {
-            if (leagues.ContainsKey(leagueType))
+            if (leagues.ContainsKey(leagueID))
             { 
                 foreach (var item in list)
                 {
-                    if(item.leagueType == leagueType)
+                    if(item.leagueID == leagueID)
                         item.UpdateView(true);
                     else
                         item.UpdateView(false);

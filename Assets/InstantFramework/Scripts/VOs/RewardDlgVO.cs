@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public string tournamentName;
         public string chestName;
         public Sprite chestImage;
+        public Sprite leagueGradient;
 
         public int rankCount;
         public int trophiesCount;

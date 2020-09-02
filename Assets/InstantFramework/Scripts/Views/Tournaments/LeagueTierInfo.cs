@@ -10,10 +10,11 @@ namespace TurboLabz.InstantFramework
 {
     public class LeagueTierInfo : MonoBehaviour
     {
-        public string leagueType;
+        public string leagueID;
         public Text titleText;
         public Text tagText;
         public TMP_Text youText;
+        public Text dailyChestText;
 
         public Image borderImage;
         public Image trophyImage;
@@ -30,10 +31,11 @@ namespace TurboLabz.InstantFramework
 
         LeagueTierIconsContainer.LeagueAsset leagueAsset;
 
-        public void SetLeagueInfo(LeagueTierIconsContainer.LeagueAsset asset)
+        public void SetLeagueInfo(LeagueTierIconsContainer.LeagueAsset asset, League league)
         {
             leagueAsset = asset;
-            titleText.text = leagueAsset.typeName;
+            titleText.text = league.name;
+            //titleText.text = asset.typeName;
             trophyImage.sprite = leagueAsset.trophySprite;
             bgImage.sprite = leagueAsset.bgSprite;
             chestImage.sprite = leagueAsset.chestSprite;
@@ -41,7 +43,11 @@ namespace TurboLabz.InstantFramework
             titleTextUnderlayImage.sprite = leagueAsset.textUnderlaySprite;
             defaultAvatar.gameObject.SetActive(false);
             profilePic.sprite = defaultAvatarSprite;
+            dailyChestText.text = $"Daily {leagueAsset.typeName} Chest";
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
+            borderImage.enabled = false;
+            youText.gameObject.SetActive(false);
+            defaultAvatar.gameObject.SetActive(true);
         }
 
         public void UpdateView(bool isPlayerLeague)

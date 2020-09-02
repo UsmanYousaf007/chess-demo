@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }// Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -79,14 +80,13 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(LeagueProfileStripVO vo)
         {
             playerLeagueThumbnailImage = vo.playerLeagueThumbnailImage;
-            playerTrophiesCountLabel.text = vo.playerTrophiesCount.ToString();
             playerRankCountLabel.text = vo.playerRankCount.ToString();
             playerRankStatusImage = vo.playerRankStatusImage;
             tournamentCountdownTimerLabel.text = vo.tournamentCountdownTimer;
             gameObjectPlayerRank.SetActive(vo.playerRankStatusImage != null);
-            SetupTrophyProgressionBar(vo.playerRankCount);
+            SetupTrophyProgressionBar(vo.playerTrophiesCount);
 
-            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(vo.playerLeagueTitle);
+            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(vo.playerLeagueID);
             playerLeagueBG.sprite = leagueAssets.bgSprite;
             playerLeagueChest.sprite = leagueAssets.chestSprite;
             playerLeagueProfilePicBorder.sprite = leagueAssets.ringSprite;
@@ -96,11 +96,15 @@ namespace TurboLabz.InstantFramework
 
         private void SetupTrophyProgressionBar(int currentTrophies)
         {
-            //var currentPoints = currentTrophies;
-            //var requiredTrophies = get required trophies to advance to the next league;
-            //var barFillPercentage = (float)currentTrophies / requiredTrophies;
-            //trophyProgressionBar.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBar.sizeDelta.y);
-            //playerTrophiesCountLabel.text = $"{currentTrophies}/{requiredTrophies}";
+            var currentPoints = currentTrophies;
+            leaguesModel.leagues.TryGetValue(playerModel.league.ToString(), out League value);
+            if (value != null)
+            {
+                var requiredPoints = value.qualifyTrophies;
+                var barFillPercentage = (float)currentPoints / requiredPoints;
+                trophyProgressionBar.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBar.sizeDelta.y);
+                playerTrophiesCountLabel.text = $"{currentTrophies}/{requiredPoints}";
+            }
         }
 
         public bool IsVisible()

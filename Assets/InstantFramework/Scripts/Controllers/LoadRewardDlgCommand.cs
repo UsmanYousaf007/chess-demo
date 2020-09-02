@@ -68,6 +68,7 @@ namespace TurboLabz.InstantGame
             InboxMessage msg = inboxModel.items[msgId];
 
             vo.league = msg.league;
+            vo.leagueGradient = SpriteBank.container.GetSprite($"{msg.league}Texture");
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;
@@ -78,6 +79,7 @@ namespace TurboLabz.InstantGame
             InboxMessage msg = inboxModel.items[msgId];
 
             vo.league = msg.league;
+            vo.leagueGradient = SpriteBank.container.GetSprite($"{msg.league}Texture");
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;
@@ -99,7 +101,7 @@ namespace TurboLabz.InstantGame
             vo.rankCount = msg.rankCount;
 
             ChestIconsContainer container = ChestIconsContainer.Load();
-            vo.chestImage = container.GetChest(msg.chestType);
+            vo.chestImage = container.GetChest(msg.chestType, true);
 
             AddRewardsToVO(vo, msg.rewards);
 

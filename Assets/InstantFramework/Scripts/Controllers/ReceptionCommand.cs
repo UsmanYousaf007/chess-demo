@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -135,6 +136,7 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.sessionCount++;
             initBackendOnceSignal.Dispatch();
+            setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
             // loadPromotionSingal.Dispatch();
             autoSubscriptionDialogueService.Show();

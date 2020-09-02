@@ -42,8 +42,18 @@ namespace TurboLabz.InstantFramework
 
             profile.SetActive(true);
 
-            ChestIconsContainer container = ChestIconsContainer.Load();
-            chestImage.sprite = container.GetChest(entryReward.chestType);
+            if (entryReward.chestType == null)
+            {
+                chestImage.enabled = false;
+                chestButton.interactable = false;
+            }
+            else
+            {
+                ChestIconsContainer container = ChestIconsContainer.Load();
+                chestImage.sprite = container.GetChest(entryReward.chestType);
+                chestImage.enabled = true;
+                chestButton.interactable = true;
+            }
         }
 
         public void Populate(int rank, TournamentReward entryReward)
@@ -55,8 +65,8 @@ namespace TurboLabz.InstantFramework
 
             playerNameText.gameObject.SetActive(false);
             profile.SetActive(false);
+
             rankIcon.enabled = true;
-            
             if(rank == 1) {
                 rankIcon.color = Colors.GOLD;
             }
@@ -70,8 +80,18 @@ namespace TurboLabz.InstantFramework
                 rankIcon.enabled = false;
             }
 
-            ChestIconsContainer container = ChestIconsContainer.Load();
-            chestImage.sprite = container.GetChest(entryReward.chestType);
+            if (entryReward.chestType == null)
+            {
+                chestImage.enabled = false;
+                chestButton.interactable = false;
+            }
+            else
+            {
+                ChestIconsContainer container = ChestIconsContainer.Load();
+                chestImage.sprite = container.GetChest(entryReward.chestType);
+                chestImage.enabled = true;
+                chestButton.interactable = true;
+            }
         }
     }
 }

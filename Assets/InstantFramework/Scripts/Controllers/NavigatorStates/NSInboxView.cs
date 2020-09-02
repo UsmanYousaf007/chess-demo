@@ -9,7 +9,8 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY,
+                NavigatorViewId.FRIENDS, NavigatorViewId.SHOP, NavigatorViewId.INVENTORY, NavigatorViewId.ARENA_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -17,34 +18,34 @@
                 {
                     return new NSLobby();
                 }
+                if (viewId == NavigatorViewId.FRIENDS)
+                {
+                    return new NSFriends();
+                }
+                if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
+                }
+                if (viewId == NavigatorViewId.INVENTORY)
+                {
+                    return new NSInventory();
+                }
+                if (viewId == NavigatorViewId.ARENA_VIEW)
+                {
+                    return new NSArenaView();
+                }
             }
-            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
             {
-                return new NSLobby();
-            }
-            else if (evt == NavigatorEvent.SHOW_FRIENDS)
-            {
-                return new NSFriends();
-            }
-            else if (evt == NavigatorEvent.SHOW_ARENA)
-            {
-                return new NSArenaView();
-            }
-            else if (evt == NavigatorEvent.SHOW_SHOP)
-            {
-                return new NSShop();
-            }
-            else if (evt == NavigatorEvent.SHOW_INVENTORY)
-            {
-                return new NSInventory();
+                return new NSRewardDlgView();
             }
             else if (evt == NavigatorEvent.SHOW_SETTINGS)
             {
                 return new NSSettings();
             }
-            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
+            else if (evt == NavigatorEvent.SHOW_SHOP)
             {
-                return new NSRewardDlgView();
+                return new NSShop();
             }
 
             return null;

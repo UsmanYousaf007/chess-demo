@@ -176,7 +176,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
     public class LoadRewardDlgViewSignal : Signal<string> { }
-    
+    public class InboxFetchingMessagesSignal : Signal<bool> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -189,6 +189,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateTournamentsViewSignal : Signal { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
+    public class UpdatePlayTournamentViewSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
@@ -201,6 +202,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
     //public class UpdateLeagueProfileSignal : Signal<string, ProfileVO> { }
     public class UpdateLeagueProfileSignal : Signal<string> { }
+    public class SetLeaguesSignal : Signal { }
 
     //Downloadable Content
     public class DownloadableContentEventSignal : Signal<ContentType?, ContentDownloadStatus> { }
