@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
@@ -60,9 +60,9 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
-                if (view.challengeSentDialog.activeSelf) 
+                if (view.challengeSentDialog.activeSelf)
                 {
                     view.HideChallengeSent();
                 }
@@ -79,7 +79,7 @@ namespace TurboLabz.Multiplayer
                 view.HideResultsDialog();
             }
         }
-            
+
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
         {
@@ -156,6 +156,42 @@ namespace TurboLabz.Multiplayer
         }
 
         private void OnPlayTournamentMatchButtonClicked()
+        {
+            view.audioService.PlayStandardClick();
+
+            if (view.haveEnoughItems)
+            {
+                var vo = new VirtualGoodsTransactionVO();
+                vo.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
+                vo.consumeQuantity = 1;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else if (view.haveEnoughGems)
+            {
+                var vo = new VirtualGoodsTransactionVO();
+                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                vo.consumeQuantity = view.ticketStoreItem.currency3Cost;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }            
+        }
+
+        private void OnItemConsumed(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                return;
+            }
+
+            StartMatch();
+        }
+
+        private void StartMatch()
         {
             var joinedTournament = tournamentsModel.currentMatchTournament;
             string tournamentType = joinedTournament.type;

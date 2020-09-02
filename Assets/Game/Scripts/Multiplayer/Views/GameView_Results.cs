@@ -117,11 +117,17 @@ namespace TurboLabz.Multiplayer
         private bool isBoosted;
         private bool tournamentMatch = false;
 
+        // Fore tickets and gems logic for tournament matches
+        [HideInInspector] public StoreItem ticketStoreItem;
+        [HideInInspector] public bool haveEnoughItems;
+        [HideInInspector] public bool haveEnoughGems;
+
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         public void UpdateDialogueType(bool tournamentMatch)
         {
@@ -620,6 +626,14 @@ namespace TurboLabz.Multiplayer
             playMatchButton.gameObject.SetActive(tournamentTimeLeft > 0);
 
             // Write tickets and gems population logic here
+            var itemsOwned = playerModel.GetInventoryItemCount(tournamentMatchResultDialog.ticketsShortCode);
+            ticketStoreItem = storeSettingsModel.items[tournamentMatchResultDialog.ticketsShortCode];
+            haveEnoughItems = itemsOwned > 0;
+            haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
+            youHaveTicketsText.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}/5";
+            tournamentMatchPlayGemsCost.text = ticketStoreItem.currency3Cost.ToString();
+            tournamentMatchPlayGemsBg.sprite = haveEnoughGems ? tournamentMatchResultDialog.enoughGemsSprite : tournamentMatchResultDialog.notEnoughGemsSprite;
+            tournamentMatchPlayGemsBg.gameObject.SetActive(!haveEnoughItems);
         }
 
         private void AnimateResultsDialog()
