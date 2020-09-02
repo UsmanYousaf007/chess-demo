@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
         public void Populate(int rank, TournamentReward entryReward)
         {
             entry = null;
+            this.reward = entryReward;
 
             playerRankCountText.text = rank.ToString();
             trophiesRewardCountText.text = entryReward.trophies.ToString();
