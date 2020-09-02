@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
                 rankIcon.enabled = false;
             }
 
-            if (entryReward.chestType == null)
+            if (entryReward.chestType == "")
             {
                 chestImage.enabled = false;
                 chestButton.interactable = false;
