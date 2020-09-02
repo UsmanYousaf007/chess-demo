@@ -101,6 +101,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_OPPONENT_LEFT, "Opponent Left" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED, "Player Busy" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER, "By Resignation" },
+                { LocalizationKey.GM_RESULT_DIALOG_HEADING_TOURNAMENT_ROUND_SCORE, "Tournament Round Score" },
+                { LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE, " Checkmate Bonus" },
+                { LocalizationKey.GM_RESULT_DIALOG_LABEL_TICKETS_LEFT, "You Have " },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT, "Opponent Resigned" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim Fifty Move Draw?" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim Threefold Repeat Draw?" },
@@ -173,6 +176,7 @@ namespace TurboLabz.InstantFramework
                 #region GameResults
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
+                { LocalizationKey.RESULTS_TOURNAMENT_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
                 { LocalizationKey.RESULTS_RECOVER_RATING_BUTTON, "Recover Rating" },
                 { LocalizationKey.RESULTS_BOOST_RATING_BUTTON, "Boost Rating" },

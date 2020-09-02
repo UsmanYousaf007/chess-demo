@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         public List<LiveTournamentData> openTournaments { get; set; }
         public List<LiveTournamentData> upcomingTournaments { get; set; }
 
+        public string currentMatchTournamentType { get; set; }
+
         Coroutine tournamentsScheduleCoroutine = null;
         
         [PostConstruct]

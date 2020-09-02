@@ -181,6 +181,8 @@ namespace TurboLabz.InstantFramework
 
             tournamentModel.StopScheduledCoroutine();
 
+            tournamentModel.currentMatchTournamentType = tournamentType;
+
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
         }
 

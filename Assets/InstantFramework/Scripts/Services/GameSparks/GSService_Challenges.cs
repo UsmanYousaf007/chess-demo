@@ -143,6 +143,21 @@ namespace TurboLabz.InstantFramework
                 {
                     long elapsedTime = matchData.GetLong(GSBackendKeys.ChallengeData.GAME_END_TIME).Value - matchData.GetLong(GSBackendKeys.ChallengeData.GAME_START_TIME).Value;
                     matchInfoModel.matches[challengeId].gameDurationMs = elapsedTime;
+
+                    // Parsing tournament match result
+                    GSData playerData = matchData.GetGSData(playerModel.id);
+                    if (playerData != null)
+                    {
+                        string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
+                        if (tournamentId != null)
+                        {
+                            int score = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_SCORE);
+                            int checkmateBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_CHECKMATE_BONUS);
+                            matchInfoModel.matches[challengeId].isTournamentMatch = true;
+                            matchInfoModel.matches[challengeId].tournamentMatchScore = score;
+                            matchInfoModel.matches[challengeId].tournamentMatchCheckmateBonus = checkmateBonus;
+                        }
+                    }
                 }
             }
         }

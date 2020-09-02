@@ -78,6 +78,7 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
         {
+            view.UpdateDialogueType(vo.tournamentMatch);
             view.UpdateResultsDialog(vo);
         }
 

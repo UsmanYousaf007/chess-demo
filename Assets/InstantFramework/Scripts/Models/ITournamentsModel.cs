@@ -17,6 +17,8 @@ namespace TurboLabz.InstantFramework
         List<LiveTournamentData> openTournaments { get; set; }
         List<LiveTournamentData> upcomingTournaments { get; set; }
 
+        string currentMatchTournamentType { get; set; }
+
         void StartSchedulingCoroutine();
         void StopScheduledCoroutine();
         long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds);
