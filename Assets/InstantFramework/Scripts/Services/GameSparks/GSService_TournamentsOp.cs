@@ -90,6 +90,16 @@ namespace TurboLabz.InstantFramework
                 playerModelUpdatedSignal.Dispatch(playerModel);
             }
 
+            if (response.ScriptData.ContainsKey("inbox"))
+            {
+                GSData inboxData = response.ScriptData.GetGSData("inbox");
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inboxData);
+                inboxAddMessagesSignal.Dispatch(dict);
+                inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
+            }
+
             GSData joinedTournaments = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENTS);
             if (joinedTournaments != null)
             {
