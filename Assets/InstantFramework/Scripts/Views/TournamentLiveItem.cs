@@ -59,7 +59,7 @@ namespace TurboLabz.InstantFramework
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
 
-            if (timeLeftText.Contains("s"))
+            if (timeLeftText.Contains("s") && gameObject.activeInHierarchy)
             {
                 StartCoroutine(CountdownTimer());
             }
@@ -81,7 +81,7 @@ namespace TurboLabz.InstantFramework
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
 
-            if (timeLeftText.Contains("s"))
+            if (timeLeftText.Contains("s") && gameObject.activeInHierarchy)
             {
                 StartCoroutine(CountdownTimer());
             }

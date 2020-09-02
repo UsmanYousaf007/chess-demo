@@ -105,6 +105,12 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform tournamentsLeagueHeader;
     public RectTransform tournamentsScrollView;
 
+    [Header("Tournaments Leaderboard")]
+    public RectTransform tournamentsLeaderboardBottomNav;
+    public RectTransform tournamentsLeaderboardHeader;
+    public RectTransform tournamentsLeaderboardFooter;
+    public RectTransform tounamentsLeaderboardScrollView;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -234,6 +240,13 @@ public class NotchHandler : MonoBehaviour {
         SetY(tournamentsLeagueHeader, -380f);
         SetTop(tournamentsScrollView, -566f);
         SetBottom(tournamentsScrollView, 236f);
+
+        //Tournaments Leaderboard
+        SetY(tournamentsLeaderboardBottomNav, 90f);
+        SetY(tournamentsLeaderboardHeader, -177f);
+        SetY(tournamentsLeaderboardFooter, 321f);
+        SetTop(tounamentsLeaderboardScrollView, -940f);
+        SetBottom(tounamentsLeaderboardScrollView, 430);
     }
 
     void SetY(RectTransform tfm, float y)
