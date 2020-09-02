@@ -9,6 +9,11 @@ namespace TurboLabz.InstantFramework
 {
     public static class TournamentConstants
     {
+        /// <summary>
+        /// Buffer time to let players join the match if tournamentTimeLeft < findMatchTimeRequired
+        /// </summary>
+        public const int BUFFER_TIME_MINS = 1;
+
         public class ChestType
         {
             public const string EPIC = "epic";

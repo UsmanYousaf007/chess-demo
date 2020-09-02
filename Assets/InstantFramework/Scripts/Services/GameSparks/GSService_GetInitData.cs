@@ -502,7 +502,7 @@ namespace TurboLabz.InstantFramework
             }
 
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
-            joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
+            joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION) - TournamentConstants.BUFFER_TIME_MINS;
 
             return joinedTournament;
         }
