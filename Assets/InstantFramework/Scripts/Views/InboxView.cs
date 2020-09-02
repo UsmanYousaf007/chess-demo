@@ -64,7 +64,6 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             gameObject.SetActive(true);
-            processing.SetActive(true);
         }
 
         public void Hide()

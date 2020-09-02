@@ -39,6 +39,14 @@
             {
                 return new NSRewardDlgView();
             }
+            else if (evt == NavigatorEvent.SHOW_SETTINGS)
+            {
+                return new NSSettings();
+            }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
 
             return null;
         }

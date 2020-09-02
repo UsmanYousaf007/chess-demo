@@ -78,5 +78,11 @@ namespace TurboLabz.InstantFramework
         {
             view.RemoveMessage(messageId);
         }
+
+        [ListensTo(typeof(InboxFetchingMessagesSignal))]
+        public void OnInboxFetchingMessages(bool isFetching)
+        {
+            view.processing.SetActive(isFetching);
+        }
     }
 }
