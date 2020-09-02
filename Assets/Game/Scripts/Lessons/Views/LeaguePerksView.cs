@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
         public Text titleText;
         public Text backButtonText;
         public Button backButton;
+        public ScrollRect scrollRect;
         public List<LeagueTierInfo> list;
         public Dictionary<string ,LeagueTierInfo> leagues = new Dictionary<string, LeagueTierInfo>();
 
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public ILeaguesModel leaguesModel { get; set; }
 
+        private float playerLeague = 0;
 
         public void Init()
         {
@@ -43,6 +45,7 @@ namespace TurboLabz.InstantGame
         public void Show()
         {
             gameObject.SetActive(true);
+            AnimateScrollViewToPlayerLeague();
         }
 
         public void Hide()
@@ -72,12 +75,36 @@ namespace TurboLabz.InstantGame
             { 
                 foreach (var item in list)
                 {
-                    if(item.leagueID == leagueID)
+                    if (item.leagueID == leagueID)
+                    {
+                        playerLeague = float.Parse(item.leagueID);
                         item.UpdateView(true);
+                    }
                     else
+                    {
                         item.UpdateView(false);
+                    }
                 }
             }
+        }
+
+        private void AnimateScrollViewToPlayerLeague()
+        {
+            scrollRect.verticalNormalizedPosition = 1.0f;
+
+            iTween.ValueTo(gameObject,
+             iTween.Hash(
+                 "from", 1.0f,
+                 "to", ((playerLeague + 1) / list.Count) - 0.1f,
+                 "time", 1,
+                 "onupdate", "UpdateScrollView",
+                 "onupdatetarget", gameObject
+             ));
+        }
+
+        private void UpdateScrollView(float value)
+        {
+            scrollRect.verticalNormalizedPosition = value;
         }
     }
 }

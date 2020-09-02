@@ -87,7 +87,12 @@ namespace TurboLabz.InstantFramework
             gameObjectPlayerRank.SetActive(vo.playerRankStatusImage != null);
             SetupTrophyProgressionBar(vo.playerTrophiesCount);
 
-            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(vo.playerLeagueID);
+            SetupLeague(vo.playerLeagueID);
+        }
+
+        private void SetupLeague(string leageueId)
+        {
+            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(leageueId);
             playerLeagueBG.sprite = leagueAssets.bgSprite;
             playerLeagueChest.sprite = leagueAssets.chestSprite;
             playerLeagueProfilePicBorder.sprite = leagueAssets.ringSprite;
@@ -117,6 +122,16 @@ namespace TurboLabz.InstantFramework
                 trophyProgressionBar.SetActive(false);
                 nextLeagueText.gameObject.SetActive(false);
             }
+        }
+
+        public void UpdateLeague(int league)
+        {
+            SetupLeague(league.ToString());
+        }
+
+        public void UpdateTrophies (int trophies)
+        {
+            SetupTrophyProgressionBar(trophies);
         }
 
         public bool IsVisible()

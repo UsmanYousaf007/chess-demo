@@ -78,6 +78,18 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            if (response.ScriptData.ContainsKey("league"))
+            {
+                playerModel.league = response.ScriptData.GetInt("league").Value;
+                playerModelUpdatedSignal.Dispatch(playerModel);
+            }
+
+            if (response.ScriptData.ContainsKey("trophies"))
+            {
+                playerModel.trophies = response.ScriptData.GetInt("trophies").Value;
+                playerModelUpdatedSignal.Dispatch(playerModel);
+            }
+
             GSData joinedTournaments = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENTS);
             if (joinedTournaments != null)
             {

@@ -45,6 +45,16 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public Sprite GetThumb(string tournamentType)
+        {
+            if (assetsDict.ContainsKey(tournamentType))
+            {
+                return assetsDict[tournamentType].thumbSprite;
+            }
+
+            return null;
+        }
+
         public TournamentAsset GetAssets(string tournamentType)
         {
             if (assetsDict.ContainsKey(tournamentType))
@@ -71,6 +81,7 @@ namespace TurboLabz.InstantFramework
             public string type;
             public Sprite stickerSprite;
             public Sprite tileSprite;
+            public Sprite thumbSprite;
         }
 
 #if UNITY_EDITOR
