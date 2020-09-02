@@ -33,6 +33,7 @@ namespace TurboLabz.InstantGame
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
+        [Inject] public UpdatePlayTournamentViewSignal updatePlayTournamentViewSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -81,6 +82,7 @@ namespace TurboLabz.InstantGame
             LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
             updateMenuViewSignal.Dispatch(vo);
+            updatePlayTournamentViewSignal.Dispatch();
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();

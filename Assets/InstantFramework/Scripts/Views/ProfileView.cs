@@ -65,7 +65,8 @@ namespace TurboLabz.InstantGame
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
-        public Signal playTournamentButtonClickedSignal = new Signal();
+        public Signal<JoinedTournamentData> joinedTournamentButtonClickedSignal = new Signal<JoinedTournamentData>();
+        public Signal<LiveTournamentData> openTournamentButtonClickedSignal = new Signal<LiveTournamentData>();
 
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -106,13 +107,6 @@ namespace TurboLabz.InstantGame
             {
                 playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
             }
-
-            if (liveTournamentIcon != null)
-            {
-                LiveTournamentData liveTournamentData = tournamentsModel.GetOpenTournament();
-                liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(liveTournamentData.type);
-            }
-
         }
 
         public void CleanUp()
@@ -125,6 +119,29 @@ namespace TurboLabz.InstantGame
             if (signInWithAppleButton != null)
             {
                 signInWithAppleButton.onClick.RemoveAllListeners();
+            }
+        }
+
+        public void UpdateTournamentView()
+        {
+            if (liveTournamentIcon != null)
+            {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+                if (joinedTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
+                    playTournamentButton.interactable = true;
+                }
+                else if (openTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
+                    playTournamentButton.interactable = true;
+                }
+                else {
+                    liveTournamentIcon.sprite = null;
+                    playTournamentButton.interactable = false;
+                }
             }
         }
 
@@ -387,7 +404,17 @@ namespace TurboLabz.InstantGame
 
         private void OnPlayTournamentButtonClicked()
         {
-            playTournamentButtonClickedSignal.Dispatch();
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+            LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+            if (joinedTournament != null)
+            {
+                joinedTournamentButtonClickedSignal.Dispatch(joinedTournament);
+            }
+            else if (openTournament != null)
+            {
+                openTournamentButtonClickedSignal.Dispatch(openTournament);
+            }
+
         }
     }
 }

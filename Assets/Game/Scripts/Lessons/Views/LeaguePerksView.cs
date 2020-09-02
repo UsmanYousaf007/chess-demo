@@ -30,6 +30,8 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
+
 
         public void Init()
         {
@@ -59,7 +61,8 @@ namespace TurboLabz.InstantGame
             foreach(var item in list)
             {
                 LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(item.leagueID);
-                item.SetLeagueInfo(leagueAssets);
+                leaguesModel.leagues.TryGetValue(leagueAssets.typeID, out League value);
+                item.SetLeagueInfo(leagueAssets, value);
                 leagues.Add(item.leagueID, item);
             }
         }

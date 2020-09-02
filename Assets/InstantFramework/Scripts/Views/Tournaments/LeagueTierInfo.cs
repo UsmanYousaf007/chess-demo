@@ -31,10 +31,11 @@ namespace TurboLabz.InstantFramework
 
         LeagueTierIconsContainer.LeagueAsset leagueAsset;
 
-        public void SetLeagueInfo(LeagueTierIconsContainer.LeagueAsset asset)
+        public void SetLeagueInfo(LeagueTierIconsContainer.LeagueAsset asset, League league)
         {
             leagueAsset = asset;
-            titleText.text = leagueAsset.typeName;
+            //titleText.text = league.name;
+            titleText.text = asset.typeName;
             trophyImage.sprite = leagueAsset.trophySprite;
             bgImage.sprite = leagueAsset.bgSprite;
             chestImage.sprite = leagueAsset.chestSprite;

@@ -189,6 +189,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateTournamentsViewSignal : Signal { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
+    public class UpdatePlayTournamentViewSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
