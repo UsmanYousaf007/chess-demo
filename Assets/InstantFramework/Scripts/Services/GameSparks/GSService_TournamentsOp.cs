@@ -100,6 +100,13 @@ namespace TurboLabz.InstantFramework
                 inboxModel.items = dict;
             }
 
+            if (response.ScriptData.ContainsKey("inboxCount"))
+            {
+                int inboxMessageCount = response.ScriptData.GetInt("inboxCount").Value;
+                inboxModel.inboxMessageCount = inboxMessageCount;
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+            }
+
             GSData joinedTournaments = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENTS);
             if (joinedTournaments != null)
             {
