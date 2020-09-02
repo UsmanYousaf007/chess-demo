@@ -10,7 +10,7 @@
         public override NS HandleEvent(NavigatorEvent evt)
         {
             NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY,
-                NavigatorViewId.FRIENDS, NavigatorViewId.STORE, NavigatorViewId.INVENTORY, NavigatorViewId.ARENA_VIEW);
+                NavigatorViewId.FRIENDS, NavigatorViewId.SHOP, NavigatorViewId.INVENTORY, NavigatorViewId.ARENA_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -22,7 +22,7 @@
                 {
                     return new NSFriends();
                 }
-                if (viewId == NavigatorViewId.STORE)
+                if (viewId == NavigatorViewId.SHOP)
                 {
                     return new NSShop();
                 }
