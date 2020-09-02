@@ -41,7 +41,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(PlayerModelUpdatedSignal))]
-        public void OnPlayerModelUpdated(PlayerModel playerModel)
+        public void OnPlayerModelUpdated(IPlayerModel playerModel)
         {
             view.UpdateLeague(playerModel.league);
             view.UpdateTrophies(playerModel.trophies);
