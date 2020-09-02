@@ -92,7 +92,7 @@ namespace TurboLabz.TLUtils
         {
             if (timer.Days > 7)
             {
-                return $"{timer.Days % 7}w {timer.Days / 7}d";
+                return $"{timer.Days / 7}w {timer.Days % 7}d";
             }
             else if (timer.Days > 0)
             {

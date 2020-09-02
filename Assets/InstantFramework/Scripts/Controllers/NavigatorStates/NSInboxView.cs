@@ -32,7 +32,8 @@
                 }
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
-                    return new NSArenaView();
+                    cmd.loadArenaSignal.Dispatch();
+                    return null;
                 }
                 if (viewId == NavigatorViewId.TOPICS_VIEW)
                 {
@@ -50,6 +51,10 @@
             else if (evt == NavigatorEvent.SHOW_SHOP)
             {
                 return new NSShop();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
             }
 
             return null;

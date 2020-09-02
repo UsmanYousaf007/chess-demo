@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
             profile.SetActive(true);
 
-            if (entryReward.chestType == null)
+            if (entryReward.chestType == null || entryReward.chestType == "")
             {
                 chestImage.enabled = false;
                 chestButton.interactable = false;
@@ -53,6 +53,30 @@ namespace TurboLabz.InstantFramework
                 chestImage.sprite = container.GetChest(entryReward.chestType);
                 chestImage.enabled = true;
                 chestButton.interactable = true;
+            }
+
+            SetRankIcon(tournamentEntry.rank);
+        }
+
+        public void SetRankIcon(int rank)
+        {
+            rankIcon.enabled = true;
+
+            if (rank == 1)
+            {
+                rankIcon.color = Colors.GOLD;
+            }
+            else if (rank == 2)
+            {
+                rankIcon.color = Colors.SILVER;
+            }
+            else if (rank == 3)
+            {
+                rankIcon.color = Colors.BRONZE;
+            }
+            else
+            {
+                rankIcon.enabled = false;
             }
         }
 

@@ -15,7 +15,8 @@
             {
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
-                  return new NSArenaView();
+                    cmd.loadArenaSignal.Dispatch();
+                    return null;
                 }
                  //   return null;
             }
