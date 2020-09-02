@@ -33,11 +33,14 @@ namespace TurboLabz.InstantFramework
         public Text heading;
         public Text stripHeading;
 
+        public Button bottomNavBackButton;
+
         // Player bar click signal
         [HideInInspector]
         public Signal<InboxBar> inBoxBarClickedSignal = new Signal<InboxBar>();
         private Dictionary<string, InboxBar> inBoxBars = new Dictionary<string, InboxBar>();
         private Dictionary<string, Action<InboxMessage>> AddInboxBarFnMap = new Dictionary<string, Action<InboxMessage>>();
+        public Signal bottoNavBackButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -52,6 +55,8 @@ namespace TurboLabz.InstantFramework
             AddInboxBarFnMap.Add("RewardDailySubscription", AddDailySubscriptionRewardBar);
             AddInboxBarFnMap.Add("RewardDailyLeague", AddDailyLeagueRewardBar);
             AddInboxBarFnMap.Add("RewardLeaguePromotion", AddLeaguePromotionRewardBar);
+
+            bottomNavBackButton.onClick.AddListener(() => bottoNavBackButtonClickedSignal.Dispatch());
 
             Sort();
         }

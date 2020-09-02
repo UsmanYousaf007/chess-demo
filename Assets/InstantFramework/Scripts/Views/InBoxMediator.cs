@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 
         // Dispatch signals
-        //[Inject] public InboxMessageCollectSignal inboxMessageCollectSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
 
         // Services
@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
 
             // Button click handlers
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
+            view.bottoNavBackButtonClickedSignal.AddListener(OnBottomNavBackButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -58,6 +59,12 @@ namespace TurboLabz.InstantFramework
         {
             loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
+        }
+
+        public void OnBottomNavBackButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            TLUtils.LogUtil.Log("InBoxMediator::OnBottomNavBackButtonClicked()");
         }
 
         [ListensTo(typeof(InboxAddMessagesSignal))]
