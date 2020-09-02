@@ -42,13 +42,15 @@ namespace TurboLabz.InstantFramework
 
         private List<TournamentLiveItem> tournamentLiveItems = new List<TournamentLiveItem>();
         private List<TournamentUpcomingItem> tournamentUpcomingItems = new List<TournamentUpcomingItem>();
-        //private Dictionary<string, TournamentLiveItem> tournamentLiveItems = new Dictionary<string, TournamentLiveItem>();
-        //private Dictionary<string, TournamentUpcomingItem> tournamentUpcomingItems = new Dictionary<string, TournamentUpcomingItem>();
+        private GameObjectsPool liveItemsPool;
+        private GameObjectsPool upcomingItemsPool;
+
 
         public void Init()
         {
-            //Sort();
             upcomingTournamentsText.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING);
+            liveItemsPool = new GameObjectsPool(tournamentLiveItemPrefab);
+            upcomingItemsPool = new GameObjectsPool(tournamentUpcomingItemPrefab);
         }
 
         public void Populate()
@@ -57,38 +59,31 @@ namespace TurboLabz.InstantFramework
             var openTournaments = tournamentsModel.openTournaments;
             var upcomingTournaments = tournamentsModel.upcomingTournaments;
 
-            // Joined plus open tournaments
-            int totalLiveTournaments = (joinedTournaments.Count + openTournaments.Count);
-            if (tournamentLiveItems.Count < totalLiveTournaments)
+            // Joined tournaments
+            for (int i = 0; i < joinedTournaments.Count; i++)
             {
-                while (tournamentLiveItems.Count < totalLiveTournaments)
-                {
-                    tournamentLiveItems.Add(AddLiveTournamentItemPrefab());
-                }
+                var joinedLiveItem = AddLiveTournamentItemPrefab();
+                joinedLiveItem.gameObject.SetActive(true);
+                PopulateTournamentLiveItem(joinedLiveItem, joinedTournaments[i]);
+                tournamentLiveItems.Add(joinedLiveItem);
             }
 
-            if (tournamentUpcomingItems.Count < upcomingTournaments.Count)
+            // Open tournaments
+            for (int i = 0; i < openTournaments.Count; i++)
             {
-                while (tournamentUpcomingItems.Count < upcomingTournaments.Count)
-                {
-                    tournamentUpcomingItems.Add(AddTournamentUpcomingItemPrefab());
-                }
+                var openedLiveItem = AddLiveTournamentItemPrefab();
+                openedLiveItem.gameObject.SetActive(true);
+                PopulateTournamentLiveItem(openedLiveItem, openTournaments[i]);
+                tournamentLiveItems.Add(openedLiveItem);
             }
 
-            // Populating joined and open tournaments
-            int liveTournamentsCount = 0;
-            for (;  liveTournamentsCount < joinedTournaments.Count; liveTournamentsCount++)
-            {
-                PopulateTournamentLiveItem(tournamentLiveItems[liveTournamentsCount], joinedTournaments[liveTournamentsCount]);
-            }
-            for (; liveTournamentsCount < openTournaments.Count; liveTournamentsCount++)
-            {
-                PopulateTournamentLiveItem(tournamentLiveItems[liveTournamentsCount], openTournaments[liveTournamentsCount]);
-            }
-
+            // Upcoming tournaments
             for (int i = 0; i < upcomingTournaments.Count; i++)
             {
-                PopulateTournamentUpcomingItem(tournamentUpcomingItems[i], upcomingTournaments[i]);
+                var upcomingItem = AddTournamentUpcomingItemPrefab();
+                upcomingItem.gameObject.SetActive(true);
+                PopulateTournamentUpcomingItem(upcomingItem, upcomingTournaments[i]);
+                tournamentUpcomingItems.Add(upcomingItem);
             }
         }
 
@@ -104,6 +99,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView()
         {
+            ClearAllItems();
             Populate();
             Sort();
 
@@ -117,6 +113,22 @@ namespace TurboLabz.InstantFramework
             leagueProfileStripVO.tournamentCountdownTimer = "6d 5m";
 
             updateLeagueProfileStripSignal.Dispatch(leagueProfileStripVO);
+        }
+
+        private void ClearAllItems()
+        {
+            for (int i = 0; i < tournamentLiveItems.Count; i++)
+            {
+                liveItemsPool.ReturnObject(tournamentLiveItems[i].gameObject);
+            }
+
+            for (int i = 0; i < tournamentUpcomingItems.Count; i++)
+            {
+                upcomingItemsPool.ReturnObject(tournamentUpcomingItems[i].gameObject);
+            }
+
+            tournamentLiveItems.Clear();
+            tournamentUpcomingItems.Clear();
         }
 
         private void Sort()
@@ -139,7 +151,7 @@ namespace TurboLabz.InstantFramework
 
         public TournamentLiveItem AddLiveTournamentItemPrefab()
         {
-            GameObject obj = GameObject.Instantiate(tournamentLiveItemPrefab);
+            GameObject obj = liveItemsPool.GetObject();
             obj.transform.SetParent(listContainer, false);
 
             TournamentLiveItem item = obj.GetComponent<TournamentLiveItem>();
@@ -175,7 +187,7 @@ namespace TurboLabz.InstantFramework
 
         public TournamentUpcomingItem AddTournamentUpcomingItemPrefab()
         {
-            GameObject obj = GameObject.Instantiate(tournamentUpcomingItemPrefab);
+            GameObject obj = upcomingItemsPool.GetObject();
             obj.transform.SetParent(listContainer, false);
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
