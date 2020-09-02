@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 22580284
+    totalSpriteSurfaceArea: 22153548
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -120,6 +120,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 72fbb762b56ab41cdba2df3f69743590, type: 3}
   - {fileID: 21300000, guid: d3cbc862f6a594b5682e751029a66f28, type: 3}
   - {fileID: 21300000, guid: 3be2ab62b6ba847b3b1ab019a0365526, type: 3}
+  - {fileID: 21300000, guid: e3e710726bcd44bb7a5b91492e9365b1, type: 3}
   - {fileID: 21300000, guid: 6dae4c92d88944451b1ff66a48387aac, type: 3}
   - {fileID: 21300000, guid: b8f18e92c1067418f8fe7f5ec75c7361, type: 3}
   - {fileID: 21300000, guid: e77981c2bfe8542f7a0ca4b8282043f9, type: 3}
@@ -228,6 +229,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 813eacd64615640f2ae8c6f88f9fe2ba, type: 3}
   - {fileID: 21300000, guid: 8113f6f696144457ab3657b066041428, type: 3}
   - {fileID: 21300000, guid: 37835d07cfad9490192df6a43058e7a0, type: 3}
+  - {fileID: 21300000, guid: c2c88117932ec435abfba81c6ad11aec, type: 3}
   - {fileID: 21300000, guid: 5f83e817a4deb46a0bf3ed3300cd70ac, type: 3}
   - {fileID: 21300000, guid: 2ac17127147914119a2060424bda66ed, type: 3}
   - {fileID: 21300000, guid: 0bd61c37b7c61479592fd591f9be0e22, type: 3}
@@ -270,6 +272,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2b0f0109f8bff4f219324a86ff6c3615, type: 3}
   - {fileID: 21300000, guid: 870d4a09b33c6427bbe3e199ff6da15e, type: 3}
   - {fileID: 21300000, guid: 0bc3e21960bb7418ba4b8b315a22cbf4, type: 3}
+  - {fileID: 21300000, guid: a232841966924425bbb926be22b90760, type: 3}
+  - {fileID: 21300000, guid: 5bb881297d2a441fda1b3d68fc71ff17, type: 3}
   - {fileID: 21300000, guid: 71fd2729b20c347e0972412a2522074d, type: 3}
   - {fileID: 21300000, guid: b8a31b298150a41668804872372e30cb, type: 3}
   - {fileID: 21300000, guid: 43a58039f659f45a98f8dbf7c0f98df4, type: 3}
@@ -365,6 +369,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a297361d0729641f8bbadbed713c5620, type: 3}
   - {fileID: 21300000, guid: 55e8112db80fc4c1498309af96256d00, type: 3}
   - {fileID: 21300000, guid: 382b0c2dd8921456a96fa6d365219817, type: 3}
+  - {fileID: 21300000, guid: 286d073d2b795459cb1f0a0187fcd02f, type: 3}
   - {fileID: 21300000, guid: bd90983d668354b5ea52765ddc077181, type: 3}
   - {fileID: 21300000, guid: 436d793d1b2a0403c8b24ed38680fece, type: 3}
   - {fileID: 21300000, guid: 1532434d8eb3a4c2d8a3207f79079171, type: 3}
@@ -395,7 +400,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2fd6652f3f6134a7480247387aeac435, type: 3}
   - {fileID: 21300000, guid: 438ae17f923eb4e2cac27422a5773ed4, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
-  - {fileID: 21300000, guid: b098478f26d1140cb918bc01073706fd, type: 3}
+  - {fileID: 21300000, guid: ff18038f9ca7d4b008296de189bb3cbf, type: 3}
   - {fileID: 21300000, guid: 8d253e8f995034d13831b33300100be3, type: 3}
   - {fileID: 21300000, guid: e756749fc0a924fa798beebdea4c6337, type: 3}
   - {fileID: 21300000, guid: f814669ff9b9d4fbd8c28b11fe4ac21d, type: 3}
@@ -480,6 +485,7 @@ SpriteAtlas:
   - gameUpdateBg
   - bannerButton
   - SpecialItemGemsBoosterThumb
+  - NavArenaBg
   - ProgressIcon
   - coachStickerBgWhite
   - RaysBg
@@ -588,6 +594,7 @@ SpriteAtlas:
   - ToggleBtnBall
   - f
   - strengthPanelBg
+  - NavInvtBg
   - PlayerOffline
   - LessonTile
   - PatternScrollShadow
@@ -630,6 +637,8 @@ SpriteAtlas:
   - SubBg
   - RoundEdgesMask
   - LogoShareDailouge
+  - NavGamesBg
+  - SunRays
   - SpecialItemTicketThumb
   - BtnGlassHalfBg
   - EpicChestOpen
@@ -725,6 +734,7 @@ SpriteAtlas:
   - AudioOn
   - CheckMatingOppoIcon
   - PlaceHolderEnabled
+  - NavFriendsBg
   - ClassicChess30Icon
   - SpecialItemRatingBoosterThumb
   - ChatIcon
@@ -755,7 +765,7 @@ SpriteAtlas:
   - LiveTag
   - BlueTick
   - InGameChessLogo
-  - arenaref
+  - NavShopBg
   - SpecialPackAllThemesThumb
   - InboxOpen
   - CollectRwdBanner

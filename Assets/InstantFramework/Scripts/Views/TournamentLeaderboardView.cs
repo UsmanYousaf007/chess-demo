@@ -178,27 +178,25 @@ namespace TurboLabz.InstantFramework
         public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
+
             if (timeLeft < 0)
             {
                 timeLeft = 0;
             }
 
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(joinedTournament, timeLeftString);
+            item.UpdateItem(joinedTournament, timeLeft);
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
+
             if (timeLeft < 0)
             {
                 timeLeft = 0;
             }
 
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(liveTournament, timeLeftString);
+            item.UpdateItem(liveTournament, timeLeft);
         }
 
         private void PopulateTournamentInfoBar()

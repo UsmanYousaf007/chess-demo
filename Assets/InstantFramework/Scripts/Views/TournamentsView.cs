@@ -152,27 +152,25 @@ namespace TurboLabz.InstantFramework
         public void PopulateTournamentLiveItem(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
+
             if (timeLeft < 0)
             {
                 timeLeft = 0;
             }
 
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(joinedTournament, timeLeftString);
+            item.UpdateItem(joinedTournament, timeLeft);
         }
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
+
             if (timeLeft < 0)
             {
                 timeLeft = 0;
             }
 
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(liveTournament, timeLeftString);
+            item.UpdateItem(liveTournament, timeLeft);
         }
 
         public TournamentUpcomingItem AddTournamentUpcomingItemPrefab()
@@ -190,9 +188,9 @@ namespace TurboLabz.InstantFramework
         public void PopulateTournamentUpcomingItem(TournamentUpcomingItem item, LiveTournamentData liveTournament)
         {
             long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(liveTournament, timeLeftString);
+            item.UpdateItem(liveTournament, timeLeft);
+            item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
+            item.getNotifiedLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED);
         }
     }
 }

@@ -23,9 +23,10 @@ namespace TurboLabz.InstantFramework
             {
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
-                    return new NSArenaView();
+                    cmd.loadArenaSignal.Dispatch();
+                    return null;
                 }
-                else if(viewId == NavigatorViewId.LOBBY)
+                else if (viewId == NavigatorViewId.LOBBY)
                 {
                     return new NSLobby();
                 }
@@ -69,6 +70,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
             {
                 return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
             }
 
             return null;

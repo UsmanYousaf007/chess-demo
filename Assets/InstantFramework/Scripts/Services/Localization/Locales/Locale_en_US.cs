@@ -491,7 +491,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING, "Grand Prize"},
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Score high, Win Big!"},
                 { LocalizationKey.TOURNAMENT_LIVE_ITEM_ENDS_IN, "Ends in"},
+
                 { LocalizationKey.TOURNAMENT_UPCOMING, "UPCOMING TOURNAMENTS"},
+                { LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN, "Starts in "},
+                { LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED, "Get Notified"},
 
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},

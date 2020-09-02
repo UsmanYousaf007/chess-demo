@@ -3,8 +3,10 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,13 +35,15 @@ namespace TurboLabz.InstantFramework
         [HideInInspector]
         public JoinedTournamentData joinedTournamentData = null;
 
+        private long timeLeft;
+
         public void Init()
         {
             chestIconsContainer = ChestIconsContainer.Load();
             tournamentAssetsContainer = TournamentAssetsContainer.Load();
         }
 
-        public void UpdateItem(LiveTournamentData liveTournamentData, string timeLeftText)
+        public void UpdateItem(LiveTournamentData liveTournamentData, long timeLeft)
         {
             openTournamentData = liveTournamentData;
             joinedTournamentData = null;
@@ -49,11 +53,19 @@ namespace TurboLabz.InstantFramework
             prizeImage.sprite = chestIconsContainer.GetChest(liveTournamentData.grandPrize.chestType);
             playerRankCountText.text = "";
             grandPrizeTrophiesCountText.text = liveTournamentData.grandPrize.trophies.ToString();
-            countdownTimerText.text = timeLeftText;
             liveImage?.gameObject.SetActive(true);
+
+            this.timeLeft = timeLeft;
+            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            countdownTimerText.text = timeLeftText;
+
+            if (timeLeftText.Contains("s"))
+            {
+                StartCoroutine(CountdownTimer());
+            }
         }
 
-        public void UpdateItem(JoinedTournamentData joinedTournamentData, string timeLeftText)
+        public void UpdateItem(JoinedTournamentData joinedTournamentData, long timeLeft)
         {
             openTournamentData = null;
             this.joinedTournamentData = joinedTournamentData;
@@ -63,8 +75,33 @@ namespace TurboLabz.InstantFramework
             prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
             playerRankCountText.text = joinedTournamentData.rank.ToString();
             grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
-            countdownTimerText.text = timeLeftText;
             liveImage?.gameObject.SetActive(false);
+
+            this.timeLeft = timeLeft;
+            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            countdownTimerText.text = timeLeftText;
+
+            if (timeLeftText.Contains("s"))
+            {
+                StartCoroutine(CountdownTimer());
+            }
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            if (gameObject.activeInHierarchy)
+            {
+                yield return new WaitForSeconds(1);
+                timeLeft--;
+                if (timeLeft > 0)
+                {
+                    var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                    countdownTimerText.text = timeLeftText;
+                    StartCoroutine(CountdownTimer());
+                }
+            }
+
+            yield return null;
         }
     }
 }
