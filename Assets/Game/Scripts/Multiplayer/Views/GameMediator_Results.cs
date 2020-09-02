@@ -27,6 +27,9 @@ namespace TurboLabz.Multiplayer
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -45,6 +48,8 @@ namespace TurboLabz.Multiplayer
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
             view.boostRatingSignal.AddListener(OnBoostRating);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
+            view.playTournamentMatchSignal.AddListener(OnPlayTournamentMatchButtonClicked);
+            view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -148,6 +153,45 @@ namespace TurboLabz.Multiplayer
         private void OnNotEnoughItemsToBoost()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        private void OnPlayTournamentMatchButtonClicked()
+        {
+            var joinedTournament = tournamentsModel.currentMatchTournament;
+            string tournamentType = joinedTournament.type;
+            string actionCode;
+
+            switch (tournamentType)
+            {
+                case TournamentConstants.TournamentType.MIN_1:
+                    actionCode = FindMatchAction.ActionCode.Random1.ToString();
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_5:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_10:
+                    actionCode = FindMatchAction.ActionCode.Random10.ToString();
+                    break;
+
+                default:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    break;
+            }
+
+            tournamentsModel.StopScheduledCoroutine();
+
+            tournamentsModel.currentMatchTournament = joinedTournament;
+
+            FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+        }
+
+        private void OnBackToArenaButtonClicked()
+        {
+            OnBackToLobby();
+            loadArenaSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

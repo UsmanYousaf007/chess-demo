@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
         List<LiveTournamentData> openTournaments { get; set; }
         List<LiveTournamentData> upcomingTournaments { get; set; }
 
-        string currentMatchTournamentType { get; set; }
+        JoinedTournamentData currentMatchTournament { get; set; }
 
         void StartSchedulingCoroutine();
         void StopScheduledCoroutine();

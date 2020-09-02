@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
         public List<LiveTournamentData> openTournaments { get; set; }
         public List<LiveTournamentData> upcomingTournaments { get; set; }
 
-        public string currentMatchTournamentType { get; set; }
+        public JoinedTournamentData currentMatchTournament { get; set; }
 
         Coroutine tournamentsScheduleCoroutine = null;
         
@@ -106,9 +106,12 @@ namespace TurboLabz.InstantFramework
 
         public void StopScheduledCoroutine()
         {
-            LogUtil.Log("StopScheduledCoroutine : ");
-            routineRunner.StopCoroutine(tournamentsScheduleCoroutine);
-            tournamentsScheduleCoroutine = null;
+            if (tournamentsScheduleCoroutine != null)
+            {
+                LogUtil.Log("StopScheduledCoroutine : ");
+                routineRunner.StopCoroutine(tournamentsScheduleCoroutine);
+                tournamentsScheduleCoroutine = null;
+            }
         }
 
         public long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds)

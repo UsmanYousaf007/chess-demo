@@ -392,6 +392,8 @@ namespace TurboLabz.InstantFramework
                 tournamentsModel.joinedTournaments.Add(joinedTournament);
             }
 
+            tournamentsModel.currentMatchTournament = joinedTournament;
+
             var openTournament = tournamentsModel.GetOpenTournament(joinedTournament.shortCode);
             if (openTournament != null)
             {

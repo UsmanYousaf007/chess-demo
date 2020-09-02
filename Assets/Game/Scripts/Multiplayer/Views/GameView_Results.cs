@@ -91,6 +91,8 @@ namespace TurboLabz.Multiplayer
         public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
         public Signal refreshLobbySignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
+        public Signal playTournamentMatchSignal = new Signal();
+        public Signal backToArenaSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -612,7 +614,10 @@ namespace TurboLabz.Multiplayer
                 checkMateBonusText.gameObject.SetActive(false);
             }
 
-            tournamentTypeImage.sprite = tournamentsModel.GetStickerSprite(tournamentsModel.currentMatchTournamentType);
+            tournamentTypeImage.sprite = tournamentsModel.GetStickerSprite(tournamentsModel.currentMatchTournament.type);
+
+            long tournamentTimeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournamentsModel.currentMatchTournament);
+            playMatchButton.gameObject.SetActive(tournamentTimeLeft > 0);
 
             // Write tickets and gems population logic here
         }
@@ -783,12 +788,12 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayTournamentMatchButtonClicked()
         {
-
+            playTournamentMatchSignal.Dispatch();
         }
 
         private void OnBackToArenaButtonClicked()
         {
-
+            backToArenaSignal.Dispatch();
         }
 
         private void ToggleBannerSignalFunc()
