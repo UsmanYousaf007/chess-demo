@@ -52,9 +52,11 @@ namespace TurboLabz.InstantFramework
             GSData inBoxMessagesData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.GET);
             if (inBoxMessagesData != null)
             {
-                FillInbox(inboxModel.items, inBoxMessagesData);
-                inboxAddMessagesSignal.Dispatch(inboxModel.items);
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inBoxMessagesData);
+                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
             }
 
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
