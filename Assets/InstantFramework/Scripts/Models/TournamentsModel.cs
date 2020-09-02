@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
 
             if (minTimeLeft > 0)
             {
-                tournamentsScheduleCoroutine = routineRunner.StartCoroutine(UpdateTournamentsCoroutine(minTimeLeft + 5));
+                tournamentsScheduleCoroutine = routineRunner.StartCoroutine(UpdateTournamentsCoroutine(minTimeLeft));
             }
             else
             {

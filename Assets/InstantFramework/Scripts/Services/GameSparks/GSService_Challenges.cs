@@ -384,12 +384,24 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    tournament = joinedTournament;
+                    long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournament);
+                    if (timeLeft <= 0)
+                    {
+                        // Tournament has ended
+                        tournamentsModel.RemoveFromJoinedTournament(tournamentId);
+                        updateTournamentLeaderboardSuccessSignal.Dispatch("");
+                    }
+                    else
+                    {
+                        tournament = joinedTournament;
+                        updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                    }
                 }
             }
             else
             {
                 tournamentsModel.joinedTournaments.Add(joinedTournament);
+                updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
             }
 
             tournamentsModel.currentMatchTournament = joinedTournament;
@@ -401,7 +413,6 @@ namespace TurboLabz.InstantFramework
             }
 
             updateTournamentsViewSignal.Dispatch();
-            updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
         }
     }
 }
