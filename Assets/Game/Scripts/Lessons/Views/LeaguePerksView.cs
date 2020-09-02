@@ -38,7 +38,6 @@ namespace TurboLabz.InstantGame
             titleText.text = localizationService.Get(LocalizationKey.LEAGUE_PERKS_TITLE);
             backButtonText.text = localizationService.Get(LocalizationKey.BACK_TEXT);
             backButton.onClick.AddListener(OnBackButtonClicked);
-            SetAllLeagueInfo();
         }
 
         public void Show()

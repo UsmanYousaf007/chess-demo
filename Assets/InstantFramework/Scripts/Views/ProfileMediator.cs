@@ -111,12 +111,6 @@ namespace TurboLabz.InstantGame
             playerProfilePicTappedSignal.Dispatch();
         }
 
-        private void OnPlayTournamentButtonClicked()
-        {
-            
-            //TODO dispatch signal to live tournament
-        }
-
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscrionPurchased(StoreItem item)
         {

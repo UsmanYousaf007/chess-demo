@@ -55,5 +55,11 @@ namespace TurboLabz.InstantGame
         {
             view.UpdateLeague(leagueID);
         }
+
+        [ListensTo(typeof(SetLeaguesSignal))]
+        public void SetAllLeagues()
+        {
+            view.SetAllLeagueInfo();
+        }
     }
 }
