@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY,
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LOBBY,
                 NavigatorViewId.FRIENDS, NavigatorViewId.SHOP, NavigatorViewId.INVENTORY, NavigatorViewId.ARENA_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
@@ -33,6 +33,10 @@
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
                     return new NSArenaView();
+                }
+                if (viewId == NavigatorViewId.TOPICS_VIEW)
+                {
+                    return new NSLessonTopics();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
