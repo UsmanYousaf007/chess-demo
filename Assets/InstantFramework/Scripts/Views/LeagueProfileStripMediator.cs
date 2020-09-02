@@ -40,6 +40,13 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        public void OnPlayerModelUpdated(PlayerModel playerModel)
+        {
+            view.UpdateLeague(playerModel.league);
+            view.UpdateTrophies(playerModel.trophies);
+        }
+
         [ListensTo(typeof(LeagueProfileStripSetOnClickSignal))]
         public void OnSetStripClickedSignal(Signal signal)
         {
