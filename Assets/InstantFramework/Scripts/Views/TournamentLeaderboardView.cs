@@ -10,6 +10,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -130,11 +131,13 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             gameObject.SetActive(true);
+            StartCoroutine(CountdownTimer());
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+            StopCoroutine(CountdownTimer());
         }
 
         public void UpdateView(JoinedTournamentData joinedTournament)
@@ -292,6 +295,18 @@ namespace TurboLabz.InstantFramework
         void OnGameModesButtonClicked()
         {
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                yield return new WaitForSeconds(1);
+
+                header.UpdateTime();
+            }
+
+            yield return null;
         }
     }
 }

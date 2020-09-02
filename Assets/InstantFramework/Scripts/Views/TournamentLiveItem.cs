@@ -58,11 +58,6 @@ namespace TurboLabz.InstantFramework
             this.timeLeft = timeLeft;
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
-
-            if (timeLeftText.Contains("s"))
-            {
-                StartCoroutine(CountdownTimer());
-            }
         }
 
         public void UpdateItem(JoinedTournamentData joinedTournamentData, long timeLeft)
@@ -80,28 +75,16 @@ namespace TurboLabz.InstantFramework
             this.timeLeft = timeLeft;
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
-
-            if (timeLeftText.Contains("s"))
-            {
-                StartCoroutine(CountdownTimer());
-            }
         }
 
-        IEnumerator CountdownTimer()
+        public void UpdateTime()
         {
-            if (gameObject.activeInHierarchy)
+            if (timeLeft > 0)
             {
-                yield return new WaitForSeconds(1);
                 timeLeft--;
-                if (timeLeft > 0)
-                {
-                    var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                    countdownTimerText.text = timeLeftText;
-                    StartCoroutine(CountdownTimer());
-                }
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                countdownTimerText.text = timeLeftText;
             }
-
-            yield return null;
         }
     }
 }

@@ -10,6 +10,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -90,11 +91,13 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             gameObject.SetActive(true);
+            StartCoroutine(CountdownTimer());
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+            StopCoroutine(CountdownTimer());
         }
 
         public void UpdateView()
@@ -203,6 +206,26 @@ namespace TurboLabz.InstantFramework
             item.UpdateItem(liveTournament, timeLeft);
             item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
             item.getNotifiedLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED);
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                yield return new WaitForSeconds(1);
+
+                for (int i = 0; i < tournamentLiveItems.Count; i++)
+                {
+                    tournamentLiveItems[i].UpdateTime();
+                }
+
+                for (int i = 0; i < tournamentUpcomingItems.Count; i++)
+                {
+                    tournamentUpcomingItems[i].UpdateTime();
+                }
+            }
+
+            yield return null;
         }
     }
 }
