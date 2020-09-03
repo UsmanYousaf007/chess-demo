@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShow(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+            if (viewId == NavigatorViewId.TOURNAMENT_OVER_DLG)
             {
                 view.Show();
             }
@@ -33,7 +33,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHide(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+            if (viewId == NavigatorViewId.TOURNAMENT_OVER_DLG)
             {
                 view.Hide();
             }
