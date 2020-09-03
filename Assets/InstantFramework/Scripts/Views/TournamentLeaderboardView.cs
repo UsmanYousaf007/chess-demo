@@ -11,6 +11,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using System.Collections;
+using TurboLabz.InstantGame;
+using TMPro;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -129,6 +132,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
             {
                 tournamentLeaderboardPlayerBars[i].rankIcon.enabled = false;
+                tournamentLeaderboardPlayerBars[i].playerRankCountText.color = Colors.WHITE;
                 RemovePlayerBarListeners(tournamentLeaderboardPlayerBars[i]);
                 barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
             }
@@ -154,7 +158,8 @@ namespace TurboLabz.InstantFramework
             this.liveTournament = null;
             Populate(joinedTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.type} tournament.";
+            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.name} tournament.";
+            infoBar.gameModeText.text = joinedTournament.name;
         }
 
         public void UpdateView(LiveTournamentData liveTournament)
@@ -163,7 +168,8 @@ namespace TurboLabz.InstantFramework
             this.joinedTournament = null;
             Populate(liveTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.type} tournament.";
+            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
+            infoBar.gameModeText.text = liveTournament.name;
         }
 
         private void Sort()
@@ -227,7 +233,7 @@ namespace TurboLabz.InstantFramework
             ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
             item.haveEnoughItems = itemsOwned > 0;
             item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
-            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}/5";
+            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
             item.enterButtonTicketPlayCountText.text = "1";
@@ -284,19 +290,85 @@ namespace TurboLabz.InstantFramework
             backSignal.Dispatch();
         }
 
+        Coroutine rulesTooltipCR;
         void OnRulesButtonClicked()
         {
+            if (rulesTooltipCR != null)
+            {
+                StopCoroutine(rulesTooltipCR);
+                infoBar.rulesTooltipText.DOKill();
+                infoBar.rulesTooltipBG.DOKill();
+            }
+
             infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+            if (infoBar.rulesTooltip.activeSelf)
+            {
+                rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
+            }
+            else
+            {
+                infoBar.rulesTooltipText.DOFade(1f, 0f);
+                infoBar.rulesTooltipBG.DOFade(1f, 0f);
+            }
         }
 
+        Coroutine totalScoresTooltipCR;
         void OnTotalScoresButtonClicked()
         {
+
+            if (totalScoresTooltipCR != null)
+            {
+                StopCoroutine(totalScoresTooltipCR);
+                infoBar.totalScoresTooltipText.DOKill();
+                infoBar.totalScoresTooltipBG.DOKill();
+            }
+
             infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
+
+            if (infoBar.totalScoresTooltip.activeSelf)
+            {
+                totalScoresTooltipCR = StartCoroutine(FadeOut(infoBar.totalScoresTooltipBG, infoBar.totalScoresTooltipText, 2f, 0f, infoBar.totalScoresTooltip));
+            }
+            else
+            {
+                infoBar.totalScoresTooltipText.DOFade(1f, 0f);
+                infoBar.totalScoresTooltipBG.DOFade(1f, 0f);
+            }
+
         }
 
+        Coroutine gameModesTooltipCR;
         void OnGameModesButtonClicked()
         {
+            if (gameModesTooltipCR != null)
+            {
+                StopCoroutine(gameModesTooltipCR);
+                infoBar.gameModeTooltipText.DOKill();
+                infoBar.gameModeTooltipBG.DOKill();
+            }
+
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+            if (infoBar.gameModesTooltip.activeSelf)
+            {
+                gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));
+            }
+            else
+            {
+                infoBar.gameModeTooltipText.DOFade(1f, 0f);
+                infoBar.gameModeTooltipBG.DOFade(1f, 0f);
+            }
+        }
+
+        IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
+        {
+            yield return new WaitForSeconds(1);
+            image.DOFade(fadeTo, duration);
+            text.DOFade(fadeTo, duration);
+            yield return new WaitForSeconds(duration);
+            image.DOFade(1f, 0f);
+            text.DOFade(1f, 0f);
+            gameObject.SetActive(false);
+            yield return null;
         }
 
         IEnumerator CountdownTimer()

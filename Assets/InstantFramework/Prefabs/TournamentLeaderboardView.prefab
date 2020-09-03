@@ -1795,18 +1795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1945234216797871184}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   ignoreTouchForSeconds: 0.1
@@ -2557,18 +2546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3656227255598622921}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   ignoreTouchForSeconds: 0.1
@@ -3426,18 +3404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5933467870999438882}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   ignoreTouchForSeconds: 0.1
@@ -4472,7 +4439,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1 Min
+  m_Text: Timer?
 --- !u!114 &6530627150110848532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5170,7 +5137,12 @@ MonoBehaviour:
   rulesTooltip: {fileID: 5933467870999438882}
   totalScoresTooltip: {fileID: 1945234216797871184}
   gameModesTooltip: {fileID: 3656227255598622921}
+  rulesTooltipText: {fileID: 2789238825723653141}
+  totalScoresTooltipText: {fileID: 7634296504738708020}
   gameModeTooltipText: {fileID: 8746335009674839674}
+  rulesTooltipBG: {fileID: 2898257635133440701}
+  totalScoresTooltipBG: {fileID: 1680431523918038434}
+  gameModeTooltipBG: {fileID: 3194081653030896457}
   columnHeaderRankLabel: {fileID: 6530627149658791941}
   columnHeaderScoreLabel: {fileID: 6530627150573672669}
   columnHeaderRewardsLabel: {fileID: 6530627149246856853}
