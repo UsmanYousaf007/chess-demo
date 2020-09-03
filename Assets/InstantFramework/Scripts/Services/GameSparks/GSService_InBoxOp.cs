@@ -33,6 +33,49 @@ namespace TurboLabz.InstantFramework
             return new GSInBoxOpRequest(GetRequestContext()).Send("collect", OnInBoxOpSuccess, jsonObj.ToString());
         }
 
+
+        public List<InboxMessage> CheckForNewInboxMessages (Dictionary<string, InboxMessage> dict)
+        {
+            List<InboxMessage> newMsgs = new List<InboxMessage>();
+
+            foreach (KeyValuePair<string, InboxMessage> item in dict)
+            {
+                if (inboxModel.items.ContainsKey(item.Key) == false)
+                {
+                    newMsgs.Add(item.Value);
+                }
+            }
+
+            return newMsgs;
+        }
+
+        public void DispatchInboxNotifications(List<InboxMessage> inboxMsgIds)
+        {
+            for (int i = 0; i < inboxMsgIds.Count; i++)
+            {
+                InboxMessage msg = inboxMsgIds[i];
+                if (msg.type == "RewardTournamentEnd")
+                {
+                    NotificationVO notificationVO;
+
+                    notificationVO.isOpened = false;
+                    notificationVO.title = "Collect your Tournament Prize from your InBox!";
+                    notificationVO.body = "Congrats! Your prize is waiting for you";
+                    notificationVO.senderPlayerId = "undefined";
+                    notificationVO.challengeId = "undefined";
+                    notificationVO.matchGroup = "undefined";
+                    notificationVO.avatarId = "undefined";
+                    notificationVO.avaterBgColorId = "undefined";
+                    notificationVO.profilePicURL = "undefined";
+                    notificationVO.isPremium = false;
+                    notificationVO.timeSent = 0;
+                    notificationVO.actionCode = "undefined";
+
+                    notificationRecievedSignal.Dispatch(notificationVO);
+                }
+            }
+        }
+
         private void OnInBoxOpSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
