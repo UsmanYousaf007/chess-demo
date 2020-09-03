@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector]
         public JoinedTournamentData joinedTournamentData = null;
 
-        private long timeLeft;
+        private long endTimeUTCSeconds;
 
         public void Init()
         {
@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
             tournamentAssetsContainer = TournamentAssetsContainer.Load();
         }
 
-        public void UpdateItem(LiveTournamentData liveTournamentData, long timeLeft)
+        public void UpdateItem(LiveTournamentData liveTournamentData)
         {
             openTournamentData = liveTournamentData;
             joinedTournamentData = null;
@@ -56,7 +56,9 @@ namespace TurboLabz.InstantFramework
             grandPrizeTrophiesCountText.text = liveTournamentData.grandPrize.trophies.ToString();
             liveImage?.gameObject.SetActive(true);
 
-            this.timeLeft = timeLeft;
+            endTimeUTCSeconds = liveTournamentData.concludeTimeUTCSeconds;
+
+            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
 
@@ -66,7 +68,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void UpdateItem(JoinedTournamentData joinedTournamentData, long timeLeft)
+        public void UpdateItem(JoinedTournamentData joinedTournamentData)
         {
             openTournamentData = null;
             this.joinedTournamentData = joinedTournamentData;
@@ -79,7 +81,9 @@ namespace TurboLabz.InstantFramework
             grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
             liveImage?.gameObject.SetActive(false);
 
-            this.timeLeft = timeLeft;
+            endTimeUTCSeconds = joinedTournamentData.concludeTimeUTCSeconds;
+
+            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
             countdownTimerText.text = timeLeftText;
 
@@ -91,6 +95,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateTime()
         {
+            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             if (timeLeft > 0)
             {
                 timeLeft--;

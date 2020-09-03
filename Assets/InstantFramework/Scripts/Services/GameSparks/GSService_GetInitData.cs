@@ -611,7 +611,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 liveTournament.endTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds + durationSeconds;
-                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60) + 5;
             }
 
             return liveTournament;

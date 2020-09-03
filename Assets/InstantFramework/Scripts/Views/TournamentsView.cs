@@ -177,26 +177,12 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
-            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
-
-            if (timeLeft < 0)
-            {
-                timeLeft = 0;
-            }
-
-            item.UpdateItem(joinedTournament, timeLeft);
+            item.UpdateItem(joinedTournament);
         }
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
-            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
-
-            if (timeLeft < 0)
-            {
-                timeLeft = 0;
-            }
-
-            item.UpdateItem(liveTournament, timeLeft);
+            item.UpdateItem(liveTournament);
         }
 
         public TournamentUpcomingItem AddTournamentUpcomingItemPrefab()

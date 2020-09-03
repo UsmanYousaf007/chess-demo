@@ -378,7 +378,7 @@ namespace TurboLabz.InstantFramework
 
                 upcomingTournament.currentStartTimeUTCSeconds = CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
                 upcomingTournament.endTimeUTCSeconds = upcomingTournament.currentStartTimeUTCSeconds + durationSeconds;
-                upcomingTournament.concludeTimeUTCSeconds = upcomingTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                upcomingTournament.concludeTimeUTCSeconds = upcomingTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60) + 5;
 
                 upcomingTournament.concluded = false;
             }
