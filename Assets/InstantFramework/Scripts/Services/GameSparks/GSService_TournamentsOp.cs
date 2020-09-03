@@ -136,7 +136,7 @@ namespace TurboLabz.InstantFramework
                 {
                     if (joinedTournamentsList[i].id == tournamentId)
                     {
-                        joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id);
+                        joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id, joinedTournamentsList[i]);
                     }
                 }
             }
@@ -144,10 +144,23 @@ namespace TurboLabz.InstantFramework
             GSData liveTournamentGSData = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.LIVE_TOURNAMENT);
             if (liveTournamentGSData != null)
             {
-                LiveTournamentData liveTournament = ParseLiveTournament(liveTournamentGSData);
-                liveTournament.lastFetchedTime = DateTime.UtcNow;
+                string shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+                LiveTournamentData openTournament = null;
+                LiveTournamentData upcomingTournament = null;
+                LiveTournamentData liveTournamentData = null;
+                if (shortCode != null)
+                {
+                    openTournament = tournamentsModel.GetOpenTournament(shortCode);
+                    upcomingTournament = tournamentsModel.GetOpenTournament(shortCode);
 
-                tournamentsModel.SetOpenTournament(liveTournament);
+                    liveTournamentData = openTournament != null ? openTournament : upcomingTournament;
+                }
+
+                LiveTournamentData newLiveTournament = ParseLiveTournament(liveTournamentGSData, liveTournamentData);
+            
+                newLiveTournament.lastFetchedTime = DateTime.UtcNow;
+
+                tournamentsModel.SetOpenTournament(newLiveTournament);
             }
         }
     }

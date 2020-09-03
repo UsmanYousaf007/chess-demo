@@ -368,12 +368,14 @@ namespace TurboLabz.InstantFramework
             string tournamentId = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TOURNAMENT_ID);
             GSData tournamentDetailsGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
             JoinedTournamentData joinedTournament = null;
-            if (tournamentDetailsGSData != null)
-            {
-                joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId);
-            }
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
+
+            if (tournamentDetailsGSData != null)
+            {
+                joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId, tournament);
+            }
+
             if (joinedTournament == null)
             {
                 // Tournament has ended
@@ -388,6 +390,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    joinedTournament.locked = true;
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
                 }
 

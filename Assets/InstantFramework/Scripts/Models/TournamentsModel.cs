@@ -66,7 +66,11 @@ namespace TurboLabz.InstantFramework
             {
                 if (joinedTournaments[i].locked == false)
                 {
-                    if (joinedTournaments[i].concluded == false)
+                    if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
+                    {
+                        updateRemote = true;
+                    }
+                    else if (joinedTournaments[i].concluded == false)
                     {
                         if (currentTimeUTCSeconds > joinedTournaments[i].concludeTimeUTCSeconds)
                         {
@@ -76,10 +80,6 @@ namespace TurboLabz.InstantFramework
                         }
                     }
 
-                    if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
-                    {
-                        updateRemote = true;
-                    }
                 }
             }
 
@@ -87,18 +87,17 @@ namespace TurboLabz.InstantFramework
             {
                 for (int i = 0; i < openTournaments.Count; i++)
                 {
-                    if (openTournaments[i].concluded == false)
+                    if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
+                    {
+                        updateLocal = true;
+                    }
+                    else if (openTournaments[i].concluded == false)
                     {
                         if (currentTimeUTCSeconds > openTournaments[i].concludeTimeUTCSeconds)
                         {
                             openTournaments[i].concluded = true;
                             updateLocal = true;
                         }
-                    }
-
-                    if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
-                    {
-                        updateLocal = true;
                     }
                 }
             }
@@ -115,16 +114,15 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (updateLocal)
+            if (updateRemote)
+            {
+                updateTournamentsSignal.Dispatch();
+            }
+            else if (updateLocal)
             {
                 UpdateTournamentsLocal();
                 updateTournamentsViewSignal.Dispatch();
                 updateTournamentLeaderboardView.Dispatch();
-            }
-
-            if (updateRemote)
-            {
-                updateTournamentsSignal.Dispatch();
             }
         }
 

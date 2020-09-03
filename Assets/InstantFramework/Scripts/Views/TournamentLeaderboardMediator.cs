@@ -230,6 +230,8 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);
             analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
+
+            openTournament = null;
         }
 
         public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)

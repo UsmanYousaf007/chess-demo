@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
 
         // dispatch signals
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
-        [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSignal { get; set; }
         [Inject] public TournamentOpFailedSignal opFailedSignal { get; set; }
 
         // services
@@ -42,7 +41,6 @@ namespace TurboLabz.InstantFramework
             }
 
             updateTournamentsViewSignal.Dispatch();
-            updateTournamentLeaderboardSignal.Dispatch("");
 
             Release();
         }

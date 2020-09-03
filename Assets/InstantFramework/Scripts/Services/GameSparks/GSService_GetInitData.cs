@@ -432,23 +432,27 @@ namespace TurboLabz.InstantFramework
 
         private void FillJoinedTournaments(GSData joinedTournaments)
         {
-            tournamentsModel.joinedTournaments.Clear();
-
             if (joinedTournaments != null)
             {
+                List<JoinedTournamentData> joinedTournamentsList = new List<JoinedTournamentData>();
+
                 foreach (KeyValuePair<string, object> pair in joinedTournaments.BaseData)
                 {
-                    var tournamentGSData = pair.Value as GSData;
-                    JoinedTournamentData joinedTournament = ParseJoinedTournament(tournamentGSData, pair.Key);
+                    var joinedTournament = tournamentsModel.GetJoinedTournament(pair.Key);
 
-                    tournamentsModel.joinedTournaments.Add(joinedTournament);
+                    var tournamentGSData = pair.Value as GSData;
+                    JoinedTournamentData newJoinedTournament = ParseJoinedTournament(tournamentGSData, pair.Key, joinedTournament);
+
+                    joinedTournamentsList.Add(newJoinedTournament);
                 }
+
+                tournamentsModel.joinedTournaments = joinedTournamentsList;
             }
         }
 
-        private JoinedTournamentData ParseJoinedTournament(GSData tournamentGSData, string id)
+        private JoinedTournamentData ParseJoinedTournament(GSData tournamentGSData, string id, JoinedTournamentData savedJoinedTournament = null)
         {
-            JoinedTournamentData joinedTournament = new JoinedTournamentData();
+            JoinedTournamentData joinedTournament = savedJoinedTournament == null ? new JoinedTournamentData() : savedJoinedTournament;
             joinedTournament.id = id;
             joinedTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
             joinedTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
@@ -482,7 +486,10 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                joinedTournament.grandPrize = joinedTournament.rewardsDict[1];
+                if (joinedTournament.grandPrize == null)
+                {
+                    joinedTournament.grandPrize = joinedTournament.rewardsDict[1];
+                }
             }
 
             var entries = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.ENTRIES);
@@ -507,7 +514,7 @@ namespace TurboLabz.InstantFramework
             long concludeTimeUTC = joinedTournament.startTimeUTC + (joinedTournament.durationMinutes * 60 * 1000);
             joinedTournament.concludeTimeUTCSeconds = concludeTimeUTC / 1000;
 
-            long endTimeUTC = concludeTimeUTC + ((TournamentConstants.BUFFER_TIME_MINS * 60 + 5) * 1000);
+            long endTimeUTC = concludeTimeUTC + ((TournamentConstants.BUFFER_TIME_MINS * 60) * 1000);
             joinedTournament.endTimeUTCSeconds = endTimeUTC / 1000;
 
             return joinedTournament;
@@ -535,31 +542,47 @@ namespace TurboLabz.InstantFramework
 
         private void FillLiveTournaments(List<GSData> liveTournaments)
         {
-            tournamentsModel.openTournaments.Clear();
-            tournamentsModel.upcomingTournaments.Clear();
-
             if (liveTournaments != null)
             {
+                List<LiveTournamentData> openTournamentsList = new List<LiveTournamentData>();
+                List<LiveTournamentData> upcomingTournamentsList = new List<LiveTournamentData>();
+
                 for (int i = 0; i < liveTournaments.Count; i++)
                 {
                     var tournamentGSData = liveTournaments[i].BaseData[GSBackendKeys.Tournament.TOURNAMENT_KEY] as GSData;
-                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData);
+                    string shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+
+                    LiveTournamentData openTournament = null;
+                    LiveTournamentData upcomingTournament = null;
+                    LiveTournamentData liveTournamentData = null;
+                    if (shortCode != null)
+                    {
+                        openTournament = tournamentsModel.GetOpenTournament(shortCode);
+                        upcomingTournament = tournamentsModel.GetOpenTournament(shortCode);
+
+                        liveTournamentData = openTournament != null ? openTournament : upcomingTournament;
+                    }
+
+                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData, liveTournamentData);
 
                     if (tournamentsModel.isTournamentOpen(liveTournament))
                     {
-                        tournamentsModel.openTournaments.Add(liveTournament);
+                        openTournamentsList.Add(liveTournament);
                     }
                     else
                     {
-                        tournamentsModel.upcomingTournaments.Add(liveTournament);
+                        upcomingTournamentsList.Add(liveTournament);
                     }
                 }
+
+                tournamentsModel.openTournaments = openTournamentsList;
+                tournamentsModel.upcomingTournaments = upcomingTournamentsList;
             }
         }
 
-        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData)
+        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData, LiveTournamentData savedLiveTournamentData = null)
         {
-            LiveTournamentData liveTournament = new LiveTournamentData();
+            LiveTournamentData liveTournament = savedLiveTournamentData == null ? new LiveTournamentData() : savedLiveTournamentData;
 
             liveTournament.shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
             liveTournament.name = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.NAME);

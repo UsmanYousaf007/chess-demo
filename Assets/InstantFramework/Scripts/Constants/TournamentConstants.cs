@@ -12,7 +12,7 @@ namespace TurboLabz.InstantFramework
         /// <summary>
         /// Buffer time to let players join the match if tournamentTimeLeft < findMatchTimeRequired
         /// </summary>
-        public const int BUFFER_TIME_MINS = 1;
+        public const int BUFFER_TIME_MINS = 2;
 
         public class ChestType
         {
