@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         public Button chestButton;
         public Image chestImage;
 
-        public GameObject profile;
+        public DisplayPictureView profile;
 
         [HideInInspector]
         public TournamentEntry entry;
@@ -40,7 +40,8 @@ namespace TurboLabz.InstantFramework
 
             playerScoreCountText.text = entry.score.ToString();
 
-            profile.SetActive(true);
+            profile.gameObject.SetActive(true);
+            profile.UpdateView(entry.publicProfile);
 
             if (entryReward.chestType == null || entryReward.chestType == "")
             {
@@ -92,7 +93,7 @@ namespace TurboLabz.InstantFramework
             trophiesRewardCountText.text = entryReward.trophies.ToString();
 
             playerNameText.gameObject.SetActive(false);
-            profile.SetActive(false);
+            profile.gameObject.SetActive(false);
 
             rankIcon.enabled = true;
             if (rank == 1)

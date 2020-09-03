@@ -77,7 +77,10 @@ namespace TurboLabz.InstantGame
                 {
                     SetProfilePic(vo.pic);
                 }
-                profileName.text = vo.name;
+                if (profileName != null)
+                {
+                    profileName.text = vo.name;
+                }
             }
         }
 
@@ -85,7 +88,10 @@ namespace TurboLabz.InstantGame
         {
             if (vo.isSuccessful)
             {
-                profileName.text = vo.name;
+                if (profileName != null)
+                {
+                    profileName.text = vo.name;
+                }
             }
         }
 
