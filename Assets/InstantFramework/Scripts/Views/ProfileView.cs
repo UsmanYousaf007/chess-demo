@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
         public Text playTournamentButtonLabel;
         public Text tournamentLiveLabel;
         public Image liveTournamentIcon;
+        public GameObject liveTournamentGO;
 
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
@@ -133,15 +134,18 @@ namespace TurboLabz.InstantGame
                 {
                     liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
                     playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
                 }
                 else if (openTournament != null)
                 {
                     liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
                     playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
                 }
                 else {
                     liveTournamentIcon.sprite = null;
                     playTournamentButton.interactable = false;
+                    liveTournamentGO.SetActive(false);
                 }
             }
         }
