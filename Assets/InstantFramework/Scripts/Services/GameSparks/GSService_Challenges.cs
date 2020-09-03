@@ -397,6 +397,11 @@ namespace TurboLabz.InstantFramework
                         updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                     }
                 }
+                else
+                {
+                    tournamentsModel.joinedTournaments.Add(joinedTournament);
+                    updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                }
             }
 
             tournamentsModel.currentMatchTournament = joinedTournament;
