@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnLeagueProfileClicked()
         {
+            analyticsService.Event(AnalyticsEventId.tap_tier_info);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
         }
     }

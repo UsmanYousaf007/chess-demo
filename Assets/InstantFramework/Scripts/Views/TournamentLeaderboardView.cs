@@ -235,6 +235,11 @@ namespace TurboLabz.InstantFramework
             item.ticketPlayButtonGroup.gameObject.SetActive(alreadyPlayed);
             item.gemsBg.sprite = item.haveEnoughGems ? item.haveEnoughGemsSprite : item.notEnoughGemsSprite;
             item.gemsBg.gameObject.SetActive(!item.haveEnoughItems && alreadyPlayed);
+
+            if (alreadyPlayed)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
+            }
         }
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()

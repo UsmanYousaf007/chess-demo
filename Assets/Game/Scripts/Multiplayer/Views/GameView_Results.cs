@@ -643,6 +643,7 @@ namespace TurboLabz.Multiplayer
             tournamentMatchPlayGemsCost.text = ticketStoreItem.currency3Cost.ToString();
             tournamentMatchPlayGemsBg.sprite = haveEnoughGems ? tournamentMatchResultDialog.enoughGemsSprite : tournamentMatchResultDialog.notEnoughGemsSprite;
             tournamentMatchPlayGemsBg.gameObject.SetActive(!haveEnoughItems);
+            analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
         }
 
         private void AnimateResultsDialog()

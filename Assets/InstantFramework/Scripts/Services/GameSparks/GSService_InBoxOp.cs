@@ -10,7 +10,7 @@ using GameSparks.Api.Responses;
 using System.Collections.Generic;
 using strange.extensions.promise.api;
 using SimpleJson2;
-
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -119,17 +119,33 @@ namespace TurboLabz.InstantFramework
                     int qtyInt = Int32.Parse(qtyVar.ToString());
                     TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
 
-                    if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                    if (qtyInt > 0)
                     {
-                        playerModel.gems += qtyInt;
-                    }
-                    else if (playerModel.inventory.ContainsKey(itemShortCode))
-                    {
-                        playerModel.inventory[itemShortCode] += qtyInt;
-                    }
-                    else
-                    {
-                        playerModel.inventory.Add(itemShortCode, qtyInt);
+                        if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                        {
+                            playerModel.gems += qtyInt;
+                        }
+                        else if (playerModel.inventory.ContainsKey(itemShortCode))
+                        {
+                            playerModel.inventory[itemShortCode] += qtyInt;
+                        }
+                        else
+                        {
+                            playerModel.inventory.Add(itemShortCode, qtyInt);
+                        }
+
+                        //Analytics
+                        var item = inboxModel.items[messageId];
+                        var itemType = CollectionsUtil.GetContextFromState(item.type);
+                        itemType = !item.isDaily ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
+                        var itemId = "subscription_daily_ticket";
+                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower() : itemId;
+                        itemId = !string.IsNullOrEmpty(item.tournamentType) ? $"rank{item.rankCount}" : itemId;
+
+                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
+                            CollectionsUtil.GetContextFromString(itemShortCode).ToString(),
+                            qtyInt, itemType, itemId);
+                        //Analyttics end
                     }
                 }
 

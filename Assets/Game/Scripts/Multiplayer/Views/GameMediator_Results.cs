@@ -160,22 +160,23 @@ namespace TurboLabz.Multiplayer
 
             if (view.haveEnoughItems)
             {
-                var vo = new VirtualGoodsTransactionVO();
-                vo.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
-                vo.consumeQuantity = 1;
+                transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
+                transactionVO.consumeQuantity = 1;
                 virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(vo);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
             else if (view.haveEnoughGems)
             {
-                var vo = new VirtualGoodsTransactionVO();
-                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                vo.consumeQuantity = view.ticketStoreItem.currency3Cost;
+                transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
                 virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(vo);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
             else
             {
+                SpotPurchaseMediator.customContext = "tournament_end_card";
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }            
         }
@@ -187,38 +188,47 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            StartMatch();
+            var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
+            analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "end_card");
+            StartMatch(currency);
         }
 
-        private void StartMatch()
+        private void StartMatch(string currency)
         {
             var joinedTournament = tournamentsModel.currentMatchTournament;
             string tournamentType = joinedTournament.type;
             string actionCode;
+            string context;
 
             switch (tournamentType)
             {
                 case TournamentConstants.TournamentType.MIN_1:
                     actionCode = FindMatchAction.ActionCode.Random1.ToString();
+                    context = "1_min_bullet";
                     break;
 
                 case TournamentConstants.TournamentType.MIN_5:
                     actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    context = "5_min_blitz";
                     break;
 
                 case TournamentConstants.TournamentType.MIN_10:
                     actionCode = FindMatchAction.ActionCode.Random10.ToString();
+                    context = "10_min_rapid";
                     break;
 
                 default:
                     actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    context = "5_min_blitz";
                     break;
             }
 
             tournamentsModel.currentMatchTournamentType = tournamentType;
             tournamentsModel.currentMatchTournament = joinedTournament;
-
             joinedTournament.locked = true;
+
+            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.end_game_card);
+            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
         }
