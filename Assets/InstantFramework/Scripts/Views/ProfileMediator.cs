@@ -90,7 +90,7 @@ namespace TurboLabz.InstantGame
             view.UpdateProfilePic(vo);
         }
 
-        [ListensTo(typeof(UpdatePlayTournamentViewSignal))]
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateTournamentView()
         {
             view.UpdateTournamentView();

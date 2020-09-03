@@ -200,7 +200,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<DownloadableContentEventSignal>().ToSingleton();
             injectionBinder.Bind<UpdateChestInfoDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<LoadRewardDlgViewSignal>().ToSingleton();
-            injectionBinder.Bind<UpdatePlayTournamentViewSignal>().ToSingleton();
             injectionBinder.Bind<InboxFetchingMessagesSignal>().ToSingleton();
             injectionBinder.Bind<SetLeaguesSignal>().ToSingleton();
             injectionBinder.Bind<PlayerModelUpdatedSignal>().ToSingleton();
