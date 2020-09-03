@@ -134,11 +134,13 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < tournamentLiveItems.Count; i++)
             {
                 liveItemsPool.ReturnObject(tournamentLiveItems[i].gameObject);
+                tournamentLiveItems[i].button.onClick.RemoveAllListeners();
             }
 
             for (int i = 0; i < tournamentUpcomingItems.Count; i++)
             {
                 upcomingItemsPool.ReturnObject(tournamentUpcomingItems[i].gameObject);
+                tournamentUpcomingItems[i].button.onClick.RemoveAllListeners();
             }
 
             tournamentLiveItems.Clear();

@@ -90,6 +90,7 @@ namespace TurboLabz.InstantFramework
                         if (currentTimeUTCSeconds > openTournaments[i].concludeTimeUTCSeconds)
                         {
                             openTournaments[i].concluded = true;
+                            updateLocal = true;
                         }
                     }
 

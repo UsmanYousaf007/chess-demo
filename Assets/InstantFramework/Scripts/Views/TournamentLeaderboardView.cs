@@ -129,6 +129,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
             {
                 tournamentLeaderboardPlayerBars[i].rankIcon.enabled = false;
+                RemovePlayerBarListeners(tournamentLeaderboardPlayerBars[i]);
                 barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
             }
 
@@ -269,6 +270,12 @@ namespace TurboLabz.InstantFramework
         {
             playerBar.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(playerBar));
             playerBar.chestButton.onClick.AddListener(() => playerBarChestClickSignal.Dispatch(playerBar.reward));
+        }
+
+        private void RemovePlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
+        {
+            playerBar.button.onClick.RemoveAllListeners();
+            playerBar.chestButton.onClick.RemoveAllListeners();
         }
 
         private void OnBackButtonClicked()
