@@ -203,6 +203,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<InboxFetchingMessagesSignal>().ToSingleton();
             injectionBinder.Bind<SetLeaguesSignal>().ToSingleton();
             injectionBinder.Bind<PlayerModelUpdatedSignal>().ToSingleton();
+
             
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -361,6 +362,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<TournamentLeaderboardView>().To<TournamentLeaderboardMediator>();
             mediationBinder.Bind<InboxView>().To<InboxMediator>();
             mediationBinder.Bind<LeaguePerksView>().To<LeaguePerksMediator>();
+            mediationBinder.Bind<TournamentOverDlgView>().To<TournamentOverDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

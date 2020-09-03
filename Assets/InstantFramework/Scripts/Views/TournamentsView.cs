@@ -125,6 +125,8 @@ namespace TurboLabz.InstantFramework
             leagueProfileStripVO.tournamentCountdownTimer = "6d 5m";
 
             updateLeagueProfileStripSignal.Dispatch(leagueProfileStripVO);
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(listContainer.GetComponent<RectTransform>());
         }
 
         private void ClearAllItems()

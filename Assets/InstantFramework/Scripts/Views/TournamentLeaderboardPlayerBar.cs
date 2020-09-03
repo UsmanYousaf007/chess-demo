@@ -65,14 +65,17 @@ namespace TurboLabz.InstantFramework
             if (rank == 1)
             {
                 rankIcon.color = Colors.GOLD;
+                playerRankCountText.color = Colors.GOLD;
             }
             else if (rank == 2)
             {
                 rankIcon.color = Colors.SILVER;
+                playerRankCountText.color = Colors.SILVER;
             }
             else if (rank == 3)
             {
                 rankIcon.color = Colors.BRONZE;
+                playerRankCountText.color = Colors.BRONZE;
             }
             else
             {
@@ -92,16 +95,23 @@ namespace TurboLabz.InstantFramework
             profile.SetActive(false);
 
             rankIcon.enabled = true;
-            if(rank == 1) {
+            if (rank == 1)
+            {
                 rankIcon.color = Colors.GOLD;
+                playerRankCountText.color = Colors.GOLD;
             }
-            else if (rank == 2){
+            else if (rank == 2)
+            {
                 rankIcon.color = Colors.SILVER;
+                playerRankCountText.color = Colors.SILVER;
             }
-            else if (rank == 3){
+            else if (rank == 3)
+            {
                 rankIcon.color = Colors.BRONZE;
+                playerRankCountText.color = Colors.BRONZE;
             }
-            else{
+            else
+            {
                 rankIcon.enabled = false;
             }
 
