@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using System.Collections;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -129,6 +130,7 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
             {
                 tournamentLeaderboardPlayerBars[i].rankIcon.enabled = false;
+                tournamentLeaderboardPlayerBars[i].playerRankCountText.color = Colors.WHITE;
                 RemovePlayerBarListeners(tournamentLeaderboardPlayerBars[i]);
                 barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
             }
