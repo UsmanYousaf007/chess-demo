@@ -75,6 +75,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSArenaView();
             }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG)
+            {
+                return new NSTournamentOverDlg();
+            }
 
             return null;
         }
