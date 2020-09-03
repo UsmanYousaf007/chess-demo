@@ -12,6 +12,8 @@ using UnityEngine.UI;
 using TurboLabz.TLUtils;
 using System.Collections;
 using TurboLabz.InstantGame;
+using TMPro;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -288,19 +290,85 @@ namespace TurboLabz.InstantFramework
             backSignal.Dispatch();
         }
 
+        Coroutine rulesTooltipCR;
         void OnRulesButtonClicked()
         {
+            if (rulesTooltipCR != null)
+            {
+                StopCoroutine(rulesTooltipCR);
+                infoBar.rulesTooltipText.DOKill();
+                infoBar.rulesTooltipBG.DOKill();
+            }
+
             infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+            if (infoBar.rulesTooltip.activeSelf)
+            {
+                rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
+            }
+            else
+            {
+                infoBar.rulesTooltipText.DOFade(1f, 0f);
+                infoBar.rulesTooltipBG.DOFade(1f, 0f);
+            }
         }
 
+        Coroutine totalScoresTooltipCR;
         void OnTotalScoresButtonClicked()
         {
+
+            if (totalScoresTooltipCR != null)
+            {
+                StopCoroutine(totalScoresTooltipCR);
+                infoBar.totalScoresTooltipText.DOKill();
+                infoBar.totalScoresTooltipBG.DOKill();
+            }
+
             infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
+
+            if (infoBar.totalScoresTooltip.activeSelf)
+            {
+                totalScoresTooltipCR = StartCoroutine(FadeOut(infoBar.totalScoresTooltipBG, infoBar.totalScoresTooltipText, 2f, 0f, infoBar.totalScoresTooltip));
+            }
+            else
+            {
+                infoBar.totalScoresTooltipText.DOFade(1f, 0f);
+                infoBar.totalScoresTooltipBG.DOFade(1f, 0f);
+            }
+
         }
 
+        Coroutine gameModesTooltipCR;
         void OnGameModesButtonClicked()
         {
+            if (gameModesTooltipCR != null)
+            {
+                StopCoroutine(gameModesTooltipCR);
+                infoBar.gameModeTooltipText.DOKill();
+                infoBar.gameModeTooltipBG.DOKill();
+            }
+
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+            if (infoBar.gameModesTooltip.activeSelf)
+            {
+                gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));
+            }
+            else
+            {
+                infoBar.gameModeTooltipText.DOFade(1f, 0f);
+                infoBar.gameModeTooltipBG.DOFade(1f, 0f);
+            }
+        }
+
+        IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
+        {
+            yield return new WaitForSeconds(1);
+            image.DOFade(fadeTo, duration);
+            text.DOFade(fadeTo, duration);
+            yield return new WaitForSeconds(duration);
+            image.DOFade(1f, 0f);
+            text.DOFade(1f, 0f);
+            gameObject.SetActive(false);
+            yield return null;
         }
 
         IEnumerator CountdownTimer()

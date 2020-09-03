@@ -26,7 +26,13 @@ namespace TurboLabz.InstantFramework
         public GameObject totalScoresTooltip;
         public GameObject gameModesTooltip;
 
+        public TMP_Text rulesTooltipText;
+        public TMP_Text totalScoresTooltipText;
         public TMP_Text gameModeTooltipText;
+
+        public Image rulesTooltipBG;
+        public Image totalScoresTooltipBG;
+        public Image gameModeTooltipBG;
 
         public Text columnHeaderRankLabel;
         public Text columnHeaderScoreLabel;
