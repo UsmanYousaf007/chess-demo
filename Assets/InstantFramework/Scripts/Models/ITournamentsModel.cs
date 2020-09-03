@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         Sprite GetTileSprite(string tournamentType);
         TournamentAssetsContainer.TournamentAsset GetAllSprites(string tournamentType);
         LeagueTierIconsContainer.LeagueAsset GetLeagueSprites(string leagueType);
+        void LogConcludedJoinedTournaments();
     }
 }
 

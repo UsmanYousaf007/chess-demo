@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
 
         // Service
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public DateTime lastFetchedTime { get; set; }
 
@@ -71,6 +72,7 @@ namespace TurboLabz.InstantFramework
                         {
                             joinedTournaments[i].concluded = true;
                             updateLocal = true;
+                            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
                         }
                     }
 
@@ -390,6 +392,35 @@ namespace TurboLabz.InstantFramework
 
             openTournaments.AddRange(openedUpcomingTournaments);
             upcomingTournaments.AddRange(expiredOpenTournaments);
+        }
+
+        private string GetRankContext(int rank)
+        {
+            if (rank > 25)
+            {
+                return "less_than_25";
+            }
+            else if(rank <= 25 && rank >= 10)
+            {
+                return "25_to_10";
+            }
+            else if (rank <= 9 && rank >= 2)
+            {
+                return "9_to_2";
+            }
+
+            return "1";
+        }
+
+        public void LogConcludedJoinedTournaments()
+        {
+            foreach (var t in joinedTournaments)
+            {
+                if (t.concluded)
+                {
+                    analyticsService.Event($"{AnalyticsEventId.finish_rank}_{t.type.ToLower()}", AnalyticsParameter.context, GetRankContext(t.rank));
+                }
+            }
         }
     }
 

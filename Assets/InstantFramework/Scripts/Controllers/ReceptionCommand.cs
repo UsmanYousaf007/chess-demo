@@ -226,6 +226,8 @@ namespace TurboLabz.InstantFramework
 
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
+
+            tournamentsModel.LogConcludedJoinedTournaments();
             SendDailyAnalytics();
         }
 

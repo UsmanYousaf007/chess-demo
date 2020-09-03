@@ -172,6 +172,7 @@ namespace TurboLabz.InstantFramework
 
             TournamentLiveItem item = obj.GetComponent<TournamentLiveItem>();
             item.Init();
+            item.button.onClick.RemoveAllListeners();
             item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
 
             return item;

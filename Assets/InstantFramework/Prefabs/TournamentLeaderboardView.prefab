@@ -1716,6 +1716,7 @@ GameObject:
   - component: {fileID: 5864980091349336472}
   - component: {fileID: 4859075249410522512}
   - component: {fileID: 1680431523918038434}
+  - component: {fileID: 6691323276306872202}
   m_Layer: 5
   m_Name: Tooltip
   m_TagString: Untagged
@@ -1780,6 +1781,35 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6691323276306872202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945234216797871184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9803ab84f2abd4b1197b7ac4f4f967c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1945234216797871184}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ignoreTouchForSeconds: 0.1
 --- !u!1 &2712429472184235654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2448,6 +2478,7 @@ GameObject:
   - component: {fileID: 5768049084399015634}
   - component: {fileID: 3226618985055186286}
   - component: {fileID: 3194081653030896457}
+  - component: {fileID: 8111200916781708685}
   m_Layer: 5
   m_Name: Tooltip
   m_TagString: Untagged
@@ -2512,6 +2543,35 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8111200916781708685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656227255598622921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9803ab84f2abd4b1197b7ac4f4f967c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3656227255598622921}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ignoreTouchForSeconds: 0.1
 --- !u!1 &3709473529824934894
 GameObject:
   m_ObjectHideFlags: 0
@@ -3067,7 +3127,10 @@ MonoBehaviour:
     firstStartTimeUTC: 0
     durationMinutes: 0
     waitTimeMinutes: 0
-    currentStartTimeInSeconds: 0
+    currentStartTimeUTCSeconds: 0
+    concludeTimeUTCSeconds: 0
+    endTimeUTCSeconds: 0
+    concluded: 0
   joinedTournamentData:
     id: 
     shortCode: 
@@ -3087,6 +3150,10 @@ MonoBehaviour:
     startTimeUTC: 0
     durationMinutes: 0
     currentStartTimeInSeconds: 0
+    concludeTimeUTCSeconds: 0
+    endTimeUTCSeconds: 0
+    locked: 0
+    concluded: 0
 --- !u!1 &5503235414692190204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,6 +3347,7 @@ GameObject:
   - component: {fileID: 7093187528435008062}
   - component: {fileID: 2337316852925566738}
   - component: {fileID: 2898257635133440701}
+  - component: {fileID: 2729331331468265226}
   m_Layer: 5
   m_Name: Tooltip
   m_TagString: Untagged
@@ -3344,6 +3412,35 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &2729331331468265226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5933467870999438882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9803ab84f2abd4b1197b7ac4f4f967c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5933467870999438882}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ignoreTouchForSeconds: 0.1
 --- !u!1 &6188022941464923469
 GameObject:
   m_ObjectHideFlags: 0

@@ -156,9 +156,7 @@ namespace TurboLabz.InstantFramework
         start_tournament,
         tap_notification,
         tournament_start_location,
-        finish_rank_1_min,
-        finish_rank_5_min,
-        finish_rank_10_min,
+        finish_rank,
         current_league
     }
 
