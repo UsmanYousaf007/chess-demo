@@ -233,7 +233,7 @@ namespace TurboLabz.InstantFramework
             ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
             item.haveEnoughItems = itemsOwned > 0;
             item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
-            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}/5";
+            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
             item.enterButtonTicketPlayCountText.text = "1";
