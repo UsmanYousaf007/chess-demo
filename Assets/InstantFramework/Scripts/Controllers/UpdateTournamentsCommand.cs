@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
+            tournamentsModel.locked = true;
+
             backendService.TournamentsOpUpdateTournaments().Then(OnGetComplete);
 
         }
@@ -39,8 +41,6 @@ namespace TurboLabz.InstantFramework
 
             updateTournamentsViewSignal.Dispatch();
             updateTournamentLeaderboardSignal.Dispatch("");
-
-            tournamentsModel.StartSchedulingCoroutine();
 
             Release();
         }

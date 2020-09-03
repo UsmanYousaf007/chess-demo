@@ -52,6 +52,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
 
         public override void Execute()
@@ -109,7 +110,9 @@ namespace TurboLabz.InstantFramework
         private void InitGame()
         {
             DispatchGameSignals();
-            tournamentsModel.StartSchedulingCoroutine();
+            schedulerService.Init();
+            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
+            schedulerService.Start();
             ResumeGame();
         }
 

@@ -504,6 +504,12 @@ namespace TurboLabz.InstantFramework
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
             joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION) - TournamentConstants.BUFFER_TIME_MINS;
 
+            long concludeTimeUTC = joinedTournament.startTimeUTC + (joinedTournament.durationMinutes * 60 * 1000);
+            joinedTournament.concludeTimeUTCSeconds = concludeTimeUTC / 1000;
+
+            long endTimeUTC = concludeTimeUTC + ((TournamentConstants.BUFFER_TIME_MINS * 60 + 5) * 1000);
+            joinedTournament.endTimeUTCSeconds = endTimeUTC / 1000;
+
             return joinedTournament;
         }
 
@@ -594,7 +600,19 @@ namespace TurboLabz.InstantFramework
             long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
             long durationSeconds = liveTournament.durationMinutes * 60;
             long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
-            liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+            liveTournament.currentStartTimeUTCSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            if (currentTimeUTCSeconds < liveTournament.currentStartTimeUTCSeconds)
+            {
+                liveTournament.concludeTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds;
+                liveTournament.endTimeUTCSeconds = liveTournament.concludeTimeUTCSeconds;
+            }
+            else
+            {
+                liveTournament.endTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds + durationSeconds;
+                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+            }
 
             return liveTournament;
         }

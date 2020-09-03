@@ -66,19 +66,25 @@ namespace TurboLabz.InstantFramework
             // Joined tournaments
             for (int i = 0; i < joinedTournaments.Count; i++)
             {
-                var joinedLiveItem = AddLiveTournamentItemPrefab();
-                joinedLiveItem.gameObject.SetActive(true);
-                PopulateTournamentLiveItem(joinedLiveItem, joinedTournaments[i]);
-                tournamentLiveItems.Add(joinedLiveItem);
+                if (joinedTournaments[i].concluded == false)
+                {
+                    var joinedLiveItem = AddLiveTournamentItemPrefab();
+                    joinedLiveItem.gameObject.SetActive(true);
+                    PopulateTournamentLiveItem(joinedLiveItem, joinedTournaments[i]);
+                    tournamentLiveItems.Add(joinedLiveItem);
+                }
             }
 
             // Open tournaments
             for (int i = 0; i < openTournaments.Count; i++)
             {
-                var openedLiveItem = AddLiveTournamentItemPrefab();
-                openedLiveItem.gameObject.SetActive(true);
-                PopulateTournamentLiveItem(openedLiveItem, openTournaments[i]);
-                tournamentLiveItems.Add(openedLiveItem);
+                if (openTournaments[i].concluded == false)
+                {
+                    var openedLiveItem = AddLiveTournamentItemPrefab();
+                    openedLiveItem.gameObject.SetActive(true);
+                    PopulateTournamentLiveItem(openedLiveItem, openTournaments[i]);
+                    tournamentLiveItems.Add(openedLiveItem);
+                }
             }
 
             // Upcoming tournaments

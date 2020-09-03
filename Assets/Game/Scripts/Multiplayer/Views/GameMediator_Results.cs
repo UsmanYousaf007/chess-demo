@@ -30,6 +30,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -91,8 +92,6 @@ namespace TurboLabz.Multiplayer
         {
             cancelHintSignal.Dispatch();
             loadLobbySignal.Dispatch();
-
-            tournamentsModel.StartSchedulingCoroutine();
         }
 
         private void OnResultsDialogClosedSignal()
@@ -216,10 +215,10 @@ namespace TurboLabz.Multiplayer
                     break;
             }
 
-            tournamentsModel.StopScheduledCoroutine();
-
             tournamentsModel.currentMatchTournamentType = tournamentType;
             tournamentsModel.currentMatchTournament = joinedTournament;
+
+            joinedTournament.locked = true;
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
         }
@@ -230,9 +229,12 @@ namespace TurboLabz.Multiplayer
             loadArenaSignal.Dispatch();
             updateBottomNavSignal.Dispatch();
 
+            tournamentsModel.currentMatchTournament.locked = false;
+
             if (!view.tournamentEnded)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                //getJoinedTournamentLeaderboardSignal.Dispatch(tournamentsModel.currentMatchTournament.id, true);
             }
         }
 

@@ -373,43 +373,26 @@ namespace TurboLabz.InstantFramework
                 joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId);
             }
 
+            var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
             if (joinedTournament == null)
             {
                 // Tournament has ended
-                tournamentsModel.RemoveFromJoinedTournament(tournamentId);
-                updateTournamentLeaderboardSuccessSignal.Dispatch("");
+                updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                tournamentsModel.currentMatchTournament = tournament;
             }
             else
             {
-                var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
                 if (tournament != null)
                 {
-                    long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournament);
-                    if (timeLeft <= 0)
-                    {
-                        // Tournament has ended
-                        tournamentsModel.RemoveFromJoinedTournament(tournamentId);
-                        updateTournamentLeaderboardSuccessSignal.Dispatch("");
-                    }
-                    else
-                    {
-                        tournament = joinedTournament;
-                        updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
-                    }
+                    tournament = joinedTournament;
                 }
                 else
                 {
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
-                    updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 }
-            }
 
-            tournamentsModel.currentMatchTournament = joinedTournament;
-
-            var openTournament = tournamentsModel.GetOpenTournament(joinedTournament.shortCode);
-            if (openTournament != null)
-            {
-                tournamentsModel.openTournaments.Remove(openTournament);
+                updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                tournamentsModel.currentMatchTournament = joinedTournament;
             }
 
             updateTournamentsViewSignal.Dispatch();

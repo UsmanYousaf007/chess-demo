@@ -62,7 +62,6 @@ namespace TurboLabz.InstantGame
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
             updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
-            tournamentsModel.StartSchedulingCoroutine();
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {

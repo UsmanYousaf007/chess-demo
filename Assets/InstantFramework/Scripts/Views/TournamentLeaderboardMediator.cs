@@ -86,11 +86,6 @@ namespace TurboLabz.InstantFramework
                 this.joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
             }
-            else
-            {
-                //-- This means that the tournament ended during the match
-
-            }
 
             this.openTournament = null;
         }
@@ -179,10 +174,13 @@ namespace TurboLabz.InstantFramework
                     break;
             }
 
-            tournamentModel.StopScheduledCoroutine();
-
             tournamentModel.currentMatchTournamentType = tournamentType;
             tournamentModel.currentMatchTournament = joinedTournament;
+
+            if (joinedTournament != null)
+            {
+                joinedTournament.locked = true;
+            }
 
             FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
         }

@@ -57,13 +57,6 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
                 hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
-
-                //only schedule local notificaitons once player model is filled with data
-                if (playerModel.id != null)
-                {
-                    setLocalNotificationNumber();
-                    tournamentsModel.StopScheduledCoroutine();
-                }
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
@@ -107,14 +100,6 @@ namespace TurboLabz.InstantFramework
 
                 firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();
-
-                if (playerModel.id != null)
-                {
-                    if ((matchInfoModel.activeChallengeId != null && chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId)) == false)
-                    {
-                        tournamentsModel.StartSchedulingCoroutine();
-                    }
-                }
             }
         }
 

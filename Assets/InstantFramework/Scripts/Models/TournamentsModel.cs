@@ -15,9 +15,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public UpdateTournamentsSignal updateTournamentsSignal { get; set; }
-
-        // Coroutine runner
-        [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
 
         // Service
         [Inject] public IBackendService backendService { get; set; }
@@ -31,7 +29,7 @@ namespace TurboLabz.InstantFramework
         public string currentMatchTournamentType { get; set; }
         public JoinedTournamentData currentMatchTournament { get; set; }
 
-        Coroutine tournamentsScheduleCoroutine = null;
+        public bool locked { get; set; }
         
         [PostConstruct]
         public void PostConstruct()
@@ -50,77 +48,85 @@ namespace TurboLabz.InstantFramework
             upcomingTournaments = new List<LiveTournamentData>();
         }
 
-        public void StartSchedulingCoroutine()
+        public void UpdateSchedule()
         {
-            if (tournamentsScheduleCoroutine != null)
+            if (locked)
             {
                 return;
             }
 
-            LogUtil.Log("StartSchedulingCoroutine", "green");
+            bool updateLocal = false;
+            bool updateRemote = false;
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            int joinedTournamentsCount = joinedTournaments.Count;
-            long minTimeLeft = joinedTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(joinedTournaments[0]) : 0;
-            for (int i = 1; i < joinedTournamentsCount; i++)
+            // When joined tournament ends then we update tournaments on server
+            for (int i = 0; i < joinedTournaments.Count; i++)
             {
-                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(joinedTournaments[i]);
-                if (timeLeftSeconds < minTimeLeft)
+                if (joinedTournaments[i].locked == false)
                 {
-                    minTimeLeft = timeLeftSeconds;
+                    if (joinedTournaments[i].concluded == false)
+                    {
+                        if (currentTimeUTCSeconds > joinedTournaments[i].concludeTimeUTCSeconds)
+                        {
+                            joinedTournaments[i].concluded = true;
+                            updateLocal = true;
+                        }
+                    }
+
+                    if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
+                    {
+                        updateRemote = true;
+                    }
                 }
             }
 
-            int openTournamentsCount = openTournaments.Count;
-            if (minTimeLeft == 0)
+            if (updateLocal == false)
             {
-                minTimeLeft = openTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(openTournaments[0]) : 0;
-            }
-            for (int i = 1; i < openTournamentsCount; i++)
-            {
-                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(openTournaments[i]);
-                if (timeLeftSeconds < minTimeLeft)
+                for (int i = 0; i < openTournaments.Count; i++)
                 {
-                    minTimeLeft = timeLeftSeconds;
+                    if (openTournaments[i].concluded == false)
+                    {
+                        if (currentTimeUTCSeconds > openTournaments[i].concludeTimeUTCSeconds)
+                        {
+                            openTournaments[i].concluded = true;
+                            updateLocal = true;
+                        }
+                    }
+
+                    if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
+                    {
+                        //openTournaments[i].concluded = false;
+                        updateLocal = true;
+                    }
                 }
             }
 
-            int upcomingTournamentsCount = upcomingTournaments.Count;
-            if (minTimeLeft == 0)
+            if (updateLocal == false)
             {
-                minTimeLeft = upcomingTournamentsCount > 0 ? CalculateTournamentTimeLeftSeconds(upcomingTournaments[0]) : 0;
-            }
-            for (int i = 1; i < upcomingTournamentsCount; i++)
-            {
-                long timeLeftSeconds = CalculateTournamentTimeLeftSeconds(upcomingTournaments[i]);
-                if (timeLeftSeconds < minTimeLeft)
+                for (int i = 0; i < upcomingTournaments.Count; i++)
                 {
-                    minTimeLeft = timeLeftSeconds;
+                    if (currentTimeUTCSeconds > upcomingTournaments[i].concludeTimeUTCSeconds)
+                    {
+                        updateLocal = true;
+                        break;
+                    }
                 }
             }
 
-            if (minTimeLeft > 0)
+            if (updateRemote)
             {
-                tournamentsScheduleCoroutine = routineRunner.StartCoroutine(UpdateTournamentsCoroutine(minTimeLeft));
+                updateTournamentsSignal.Dispatch();
             }
-            else
+            else if (updateLocal)
             {
-                UpdateTournaments();
-            }
-        }
-
-        public void StopScheduledCoroutine()
-        {
-            if (tournamentsScheduleCoroutine != null)
-            {
-                LogUtil.Log("StopScheduledCoroutine : ");
-                routineRunner.StopCoroutine(tournamentsScheduleCoroutine);
-                tournamentsScheduleCoroutine = null;
+                UpdateTournamentsLocal();
+                updateTournamentsViewSignal.Dispatch();
             }
         }
 
         public long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds)
         {
-            long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+            long currentTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             long currentStartTimeInSeconds = 0;
 
@@ -148,11 +154,11 @@ namespace TurboLabz.InstantFramework
 
         public bool isTournamentOpen(LiveTournamentData liveTournament)
         {
-            long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+            long currentTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             long durationSeconds = liveTournament.durationMinutes * 60;
-            if (currentTimeSeconds > liveTournament.currentStartTimeInSeconds)
+            if (currentTimeSeconds > liveTournament.currentStartTimeUTCSeconds)
             {
-                if (currentTimeSeconds < (liveTournament.currentStartTimeInSeconds + durationSeconds))
+                if (currentTimeSeconds < (liveTournament.currentStartTimeUTCSeconds + durationSeconds))
                 {
                     return true;
                 }
@@ -165,19 +171,19 @@ namespace TurboLabz.InstantFramework
         {
             long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             long durationSeconds = liveTournament.durationMinutes * 60;
-            if (currentTimeSeconds > liveTournament.currentStartTimeInSeconds)
+            if (currentTimeSeconds > liveTournament.currentStartTimeUTCSeconds)
             {
-                return (liveTournament.currentStartTimeInSeconds + durationSeconds - currentTimeSeconds);
+                return (liveTournament.currentStartTimeUTCSeconds + durationSeconds - currentTimeSeconds);
             }
             else
             {
-                return (liveTournament.currentStartTimeInSeconds - currentTimeSeconds);
+                return (liveTournament.currentStartTimeUTCSeconds - currentTimeSeconds);
             }
         }
 
         public long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament)
         {
-            long currentTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+            long currentTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             long durationSeconds = joinedTournament.durationMinutes * 60;
             long startTime = joinedTournament.startTimeUTC / 1000;
             return (startTime + durationSeconds - currentTimeSeconds);
@@ -316,35 +322,23 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-        #region Scheduling Coroutines
-        private IEnumerator UpdateTournamentsCoroutine(long seconds)
+        private void UpdateTournamentsLocal()
         {
-            LogUtil.Log("UpdateTournamentsCoroutine::Start : " + seconds, "green");
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            yield return new WaitForSecondsRealtime(seconds);
-
-            // Dispatch update tournaments signal here
-            LogUtil.Log("UpdateTournamentsCoroutine::Finish : " + seconds, "green");
-
-            UpdateTournaments();
-        }
-
-        private void UpdateTournaments()
-        {
-            for (int i = 0; i < joinedTournaments.Count; i++)
-            {
-                long timeLeft = CalculateTournamentTimeLeftSeconds(joinedTournaments[i]);
-                if (timeLeft <= 0)
-                {
-                    joinedTournaments.RemoveAt(i);
-                }
-            }
+            //for (int i = joinedTournaments.Count - 1; i >= 0; i--)
+            //{
+            //    bool end = currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds;
+            //    if (end)
+            //    {
+            //        joinedTournaments.RemoveAt(i);
+            //    }
+            //}
 
             List<LiveTournamentData> expiredOpenTournaments = new List<LiveTournamentData>();
-            for (int i = 0; i < openTournaments.Count; i++)
+            for (int i = openTournaments.Count - 1; i >= 0; i--)
             {
-                long timeLeft = CalculateTournamentTimeLeftSeconds(openTournaments[i]);
-                if (timeLeft <= 0)
+                if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
                 {
                     expiredOpenTournaments.Add(openTournaments[i]);
                     openTournaments.RemoveAt(i);
@@ -352,22 +346,46 @@ namespace TurboLabz.InstantFramework
             }
 
             List<LiveTournamentData> openedUpcomingTournaments = new List<LiveTournamentData>();
-            for (int i = 0; i < upcomingTournaments.Count; i++)
+            for (int i = upcomingTournaments.Count - 1; i >= 0; i--)
             {
-                long timeLeft = CalculateTournamentTimeLeftSeconds(upcomingTournaments[i]);
-                if (timeLeft <= 0)
+                bool opened = currentTimeUTCSeconds > upcomingTournaments[i].concludeTimeUTCSeconds;
+                if (opened)
                 {
                     openedUpcomingTournaments.Add(upcomingTournaments[i]);
                     upcomingTournaments.RemoveAt(i);
                 }
             }
 
+            for (int i = 0; i < expiredOpenTournaments.Count; i++)
+            {
+                var expiredTournament = expiredOpenTournaments[i];
+                long waitTimeSeconds = expiredTournament.waitTimeMinutes * 60;
+                long durationSeconds = expiredTournament.durationMinutes * 60;
+                long firstStartTimeSeconds = expiredTournament.firstStartTimeUTC / 1000;
+
+                expiredTournament.currentStartTimeUTCSeconds = CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+                expiredTournament.concludeTimeUTCSeconds = expiredTournament.currentStartTimeUTCSeconds + durationSeconds;
+
+                expiredTournament.concluded = false;
+            }
+
+            for (int i = 0; i < openedUpcomingTournaments.Count; i++)
+            {
+                var upcomingTournament = openedUpcomingTournaments[i];
+                long waitTimeSeconds = upcomingTournament.waitTimeMinutes * 60;
+                long durationSeconds = upcomingTournament.durationMinutes * 60;
+                long firstStartTimeSeconds = upcomingTournament.firstStartTimeUTC / 1000;
+
+                upcomingTournament.currentStartTimeUTCSeconds = CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+                upcomingTournament.endTimeUTCSeconds = upcomingTournament.currentStartTimeUTCSeconds + durationSeconds;
+                upcomingTournament.concludeTimeUTCSeconds = upcomingTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+
+                upcomingTournament.concluded = false;
+            }
+
             openTournaments.AddRange(openedUpcomingTournaments);
             upcomingTournaments.AddRange(expiredOpenTournaments);
-
-            updateTournamentsSignal.Dispatch();
         }
-        #endregion
     }
 
     [Serializable]
@@ -386,6 +404,10 @@ namespace TurboLabz.InstantFramework
 
         public DateTime lastFetchedTime;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
+        public long concludeTimeUTCSeconds;
+        public long endTimeUTCSeconds;
+        public bool locked = false;
+        public bool concluded = false;
     }
 
     [Serializable]
@@ -400,10 +422,12 @@ namespace TurboLabz.InstantFramework
         public int durationMinutes;
         public int waitTimeMinutes;
 
-        public long currentStartTimeInSeconds;
+        public long currentStartTimeUTCSeconds;
         public DateTime lastFetchedTime;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
-
+        public long concludeTimeUTCSeconds;
+        public long endTimeUTCSeconds;
+        public bool concluded = false;
     }
 
     [Serializable]
