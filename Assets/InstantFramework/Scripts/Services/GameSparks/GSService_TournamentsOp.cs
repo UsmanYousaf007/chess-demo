@@ -94,11 +94,11 @@ namespace TurboLabz.InstantFramework
             {
                 GSData inboxData = response.ScriptData.GetGSData("inbox");
                 Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inboxData);
 
                 List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
                 DispatchInboxNotifications(newMsgs);
 
-                FillInbox(dict, inboxData);
                 inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
