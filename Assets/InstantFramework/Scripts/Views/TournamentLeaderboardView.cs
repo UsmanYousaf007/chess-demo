@@ -154,7 +154,8 @@ namespace TurboLabz.InstantFramework
             this.liveTournament = null;
             Populate(joinedTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.type} tournament.";
+            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.name} tournament.";
+            infoBar.gameModeText.text = joinedTournament.name;
         }
 
         public void UpdateView(LiveTournamentData liveTournament)
@@ -163,7 +164,8 @@ namespace TurboLabz.InstantFramework
             this.joinedTournament = null;
             Populate(liveTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.type} tournament.";
+            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
+            infoBar.gameModeText.text = liveTournament.name;
         }
 
         private void Sort()
