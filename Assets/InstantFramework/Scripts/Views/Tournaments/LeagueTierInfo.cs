@@ -34,8 +34,7 @@ namespace TurboLabz.InstantFramework
         public void SetLeagueInfo(LeagueTierIconsContainer.LeagueAsset asset, League league)
         {
             leagueAsset = asset;
-            titleText.text = league.name;
-            //titleText.text = asset.typeName;
+            titleText.text = league.name.ToUpper();
             trophyImage.sprite = leagueAsset.trophySprite;
             bgImage.sprite = leagueAsset.bgSprite;
             chestImage.sprite = leagueAsset.chestSprite;
@@ -43,7 +42,7 @@ namespace TurboLabz.InstantFramework
             titleTextUnderlayImage.sprite = leagueAsset.textUnderlaySprite;
             defaultAvatar.gameObject.SetActive(false);
             profilePic.sprite = defaultAvatarSprite;
-            dailyChestText.text = $"Daily {leagueAsset.typeName} Chest";
+            dailyChestText.text = $"Daily {league.name} Chest";
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
             borderImage.enabled = false;
             youText.gameObject.SetActive(false);

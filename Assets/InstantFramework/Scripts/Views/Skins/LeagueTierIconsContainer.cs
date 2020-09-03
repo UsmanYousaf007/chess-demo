@@ -47,8 +47,8 @@ namespace TurboLabz.InstantFramework
         public class LeagueAsset
         {
             [Header("Type must correspond to the league type values in TournamentConstants.cs")]
-            public string typeID;
             public string typeName;
+            public string typeID;
             public Sprite chestSprite;
             public Sprite trophySprite;
             public Sprite ringSprite;
