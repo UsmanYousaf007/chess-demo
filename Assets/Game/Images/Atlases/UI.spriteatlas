@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 22476073
+    totalSpriteSurfaceArea: 22333641
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -186,7 +186,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7cd7b835ce41444c1b71c2100abd5fab, type: 3}
   - {fileID: 21300000, guid: a89ad835364c247f5824042455f6cf22, type: 3}
   - {fileID: 21300000, guid: 694c0955bbd8940888fe97b5489909ac, type: 3}
-  - {fileID: 21300000, guid: cd105a55bbed4480d80cde3c88a9c22d, type: 3}
   - {fileID: 21300000, guid: 6714a4659eb584a95b6602081d464757, type: 3}
   - {fileID: 21300000, guid: 6a529a65f22b64207bf97b226eb28078, type: 3}
   - {fileID: 21300000, guid: 15a7607564d634b13a36e018e0988616, type: 3}
@@ -405,6 +404,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
   - {fileID: 21300000, guid: c9811a1f242a9421597693e97134c9bc, type: 3}
   - {fileID: 21300000, guid: 2fd6652f3f6134a7480247387aeac435, type: 3}
+  - {fileID: 21300000, guid: f0a77b6fe70a14e5ea78c69417484dc0, type: 3}
   - {fileID: 21300000, guid: 438ae17f923eb4e2cac27422a5773ed4, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
   - {fileID: 21300000, guid: ff18038f9ca7d4b008296de189bb3cbf, type: 3}
@@ -558,7 +558,6 @@ SpriteAtlas:
   - ChatBubbleInGame
   - InventoryIcon
   - profilePattern
-  - leaderboardref
   - SpecialItemHintIcon
   - SpecialBundleWelcomeThumb
   - gameUpdateBannerIcon
@@ -777,6 +776,7 @@ SpriteAtlas:
   - PlayIcon
   - ConnectToFbBg
   - LiveTag
+  - ClockIcon
   - BlueTick
   - InGameChessLogo
   - NavShopBg
