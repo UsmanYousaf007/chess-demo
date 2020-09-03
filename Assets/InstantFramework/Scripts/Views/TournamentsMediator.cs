@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.ARENA_VIEW)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.arena);
             }
         }
 
@@ -78,11 +79,14 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
                 getJoinedTournamentLeaderboardSignal.Dispatch(item.joinedTournamentData.id, true);
             }
+
+            analyticsService.Event(AnalyticsEventId.tap_live_tournament);
         }
 
         public void OnUpcomingItemClicked(TournamentUpcomingItem item)
         {
             TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
+            analyticsService.Event(AnalyticsEventId.tap_notification);
         }
 
         public void OnLeagueProfileStripClicked()

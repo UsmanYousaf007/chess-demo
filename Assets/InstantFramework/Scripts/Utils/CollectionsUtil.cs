@@ -79,6 +79,10 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("LessonsView", "lessons");
             stateToContextMap.Add("Multiplayer", "in_game");
             stateToContextMap.Add("MultiplayerResultsDlg", "end_card");
+            stateToContextMap.Add("RewardDailySubscription", "daily_subscription_reward");
+            stateToContextMap.Add("RewardDailyLeague", "daily_league_reward");
+            stateToContextMap.Add("RewardTournamentEnd", "tournament_reward");
+            stateToContextMap.Add("TournamentLeaderboard", "tournament_main");
         }
 
         private static void CreateStringToContextMap()

@@ -33,6 +33,7 @@ namespace TurboLabz.InstantGame
             if (viewId == NavigatorViewId.LEAGUE_PERKS_VIEW)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.league_perks);
             }
         }
 

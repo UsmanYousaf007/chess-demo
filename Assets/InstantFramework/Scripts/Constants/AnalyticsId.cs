@@ -40,7 +40,11 @@ namespace TurboLabz.InstantFramework
         lessons_topics,
         lessons_play,
         inventory,
-        spot_purchase_dlg
+        spot_purchase_dlg,
+        arena,
+        tournament_leaderboard,
+        inbox,
+        league_perks
     }
 
     public enum AnalyticsEventId
@@ -137,7 +141,25 @@ namespace TurboLabz.InstantFramework
         booster_shown,
         shop_purchase,
         shop_popup_view,
-        shop_popup_purchase
+        shop_popup_purchase,
+
+        //inbox
+        inbox_visits,
+        inbox_tournament_reward_collected,
+        inbox_daily_league_reward_collected,
+        inbox_subscription_reward_collected,
+
+        //tournaments
+        tournament_promo,
+        tap_live_tournament,
+        tap_tier_info,
+        start_tournament,
+        tap_notification,
+        tournament_start_location,
+        finish_rank_1_min,
+        finish_rank_5_min,
+        finish_rank_10_min,
+        current_league
     }
 
     public enum AnalyticsContext
@@ -253,7 +275,11 @@ namespace TurboLabz.InstantFramework
         lobby_subscription_banner,
         ratingBooster,
         gems,
-        ticket
+        ticket,
+
+        //tournament
+        main,
+        end_game_card
     }
 
     public enum AnalyticsParameter

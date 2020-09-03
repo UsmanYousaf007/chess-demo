@@ -56,7 +56,11 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailySubscriptionDlgPrefab(RewardDlgVO vo)
         {
             RewardDailySubscriptionDlg p = activeDlg.GetComponent<RewardDailySubscriptionDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = "Daily Subscription Reward!";
             p.buttonText.text = "Collect";
@@ -76,7 +80,11 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailyLeagueDlgPrefab(RewardDlgVO vo)
         {
             RewardDailyLeagueDlg p = activeDlg.GetComponent<RewardDailyLeagueDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = vo.league;
             p.leagueGradient.sprite = vo.leagueGradient;
@@ -123,7 +131,11 @@ namespace TurboLabz.InstantFramework
         public void InitRewardTournamentEndDlgPrefab(RewardDlgVO vo)
         {
             RewardTournamentEndDlg p = activeDlg.GetComponent<RewardTournamentEndDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_tournament_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = vo.tournamentName + " Reward!";
             p.subHeadtingLabel.text = "Rank Achieved";

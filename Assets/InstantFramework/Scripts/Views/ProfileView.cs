@@ -70,6 +70,7 @@ namespace TurboLabz.InstantGame
 
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
@@ -406,6 +407,7 @@ namespace TurboLabz.InstantGame
         {
             JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
             LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+
             if (joinedTournament != null)
             {
                 joinedTournamentButtonClickedSignal.Dispatch(joinedTournament);
@@ -415,6 +417,7 @@ namespace TurboLabz.InstantGame
                 openTournamentButtonClickedSignal.Dispatch(openTournament);
             }
 
+            analyticsService.Event(AnalyticsEventId.tournament_promo);
         }
     }
 }

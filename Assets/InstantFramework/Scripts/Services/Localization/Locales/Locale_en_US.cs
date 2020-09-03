@@ -298,6 +298,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
                 { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},
+                { LocalizationKey.SPOT_PURCHASE_FINE_PRINT, "*Visit inventory to earn tickets via ads"},
 
                 #endregion
 

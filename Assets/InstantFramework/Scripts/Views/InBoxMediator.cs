@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.INBOX_VIEW)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.inbox);
+                analyticsService.Event(AnalyticsEventId.inbox_visits);
             }
         }
 

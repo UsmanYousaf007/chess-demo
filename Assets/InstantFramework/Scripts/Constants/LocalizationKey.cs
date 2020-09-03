@@ -293,6 +293,7 @@ namespace TurboLabz.InstantFramework
 
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
+        public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
 
         #endregion
 

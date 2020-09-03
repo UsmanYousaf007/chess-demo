@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -218,9 +219,13 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
+            if (leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            {
+                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
+            }
+
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
-
             SendDailyAnalytics();
         }
 
