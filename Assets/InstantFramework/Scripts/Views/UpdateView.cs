@@ -15,6 +15,7 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,31 +24,30 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         [Inject] public ILocalizationService localizationService { get; set; }
-        [Inject] public IAppUpdateService appUpdatesService { get; set; }
+        [Inject] public IAppUpdateService appUpdateService { get; set; }
+
 
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
 
-        // Dispatch Signals
-        [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
-
-        public Text updateLabel;
         public Text updateButtonText;
-        public Text updateLaterButtonText;
         public Button updateButton;
-        public Button updateLaterButton;
+        public Text updateLabel;
+        public Image updateIcon;
         public string updateURL;
 
+        private IRoutineRunner routineRunner;
+        private bool hasAppServiceReturnedResult;
+        private bool isUpdateAvailable;
 
         public void Init()
         {
-            updateLabel.text = localizationService.Get(LocalizationKey.UPDATE);
+            routineRunner = new NormalRoutineRunner();
+            updateLabel.text = localizationService.Get(LocalizationKey.UPDATE_WAIT);
             updateButtonText.text = localizationService.Get(LocalizationKey.UPDATE_BUTTON);
-            updateLaterButtonText.text = localizationService.Get(LocalizationKey.UPDATE_WAIT);
-
             updateButton.onClick.AddListener(OnUpdateButtonClicked);
-            updateLaterButton.onClick.AddListener(OnUpdateLaterButtonClicked);
 
+            routineRunner.StartCoroutine(CheckAppUpdateFlag());
         }
 
         public void SetUpdateURL(string url)
@@ -56,28 +56,29 @@ namespace TurboLabz.InstantFramework
         }
 
 
-        public void Show(bool updateAvailable)
+        public void Show()
         {
-            //updateLabel.text = settingsModel.updateMessage;
-            if (updateAvailable)
+            Debug.Log("UPDATEVIEW Show isUpdateAvailable: "+ isUpdateAvailable.ToString());
+            if (isUpdateAvailable)
             {
-                updateLabel.text = localizationService.Get(LocalizationKey.UPDATE_WAIT);
-                Debug.Log("Update available");
-                updateButton.gameObject.SetActive(true);
+                updateLabel.text = localizationService.Get(LocalizationKey.UPDATE);
+                updateIcon.gameObject.SetActive(true);
+                updateButton.interactable = true;
             }
-            //if (appInfoModel.isMandatoryUpdate)
-            //{
-            //    updateButton.gameObject.SetActive(true);
-            //    updateLaterButton.gameObject.SetActive(false);
-            //}
-            //else
-            //{
-            //    updateButton.gameObject.SetActive(true);
-            //    updateLaterButton.gameObject.SetActive(true);
-            //}
-
+            else
+            {
+                updateButton.interactable = false;
+            }
+            
+            updateButton.gameObject.SetActive(true);
             gameObject.SetActive(true);
 
+        }
+
+        public void SetAppUpdateFlag(bool isUpdateAvailable)
+        {
+            this.isUpdateAvailable = isUpdateAvailable;
+            hasAppServiceReturnedResult = true;
         }
 
         public void Hide()
@@ -85,28 +86,50 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(false);
         }
 
-        void OnUpdateLaterButtonClicked()
-        {
-            Debug.Log("Update button clicked");
-            //appUpdatesService.updateLater = true;
-            //appUpdatesService.Terminate();
-            //getInitDataCompleteSignal.Dispatch();
-        }
-
-
         void OnUpdateButtonClicked()
         {
-            // TODO: Update this entire view to support multiple platforms
+#if UNITY_ANDROID
+            Application.OpenURL(appInfoModel.androidURL);
+#elif UNITY_IOS
+            Application.OpenURL(appInfoModel.iosURL);
+#else
+            LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
+#endif
+        }
 
+        private IEnumerator CheckAppUpdateFlag()
+        {
+            while (!hasAppServiceReturnedResult)
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
+            while (hasAppServiceReturnedResult)
+            {
+                Show();
+                yield break;
+            }
+        }
 
+        //private IEnumerator CheckAppUpdateFlag()
+        //{
+        //    while (!hasAppServiceReturnedResult)
+        //    {
+        //        appUpdateService.CheckForUpdate();
+        //        yield return new WaitForSeconds(1.0f);
 
-//#if UNITY_ANDROID || UNITY_IOS
-//            appUpdatesService.GoToStore(appInfoModel.storeURL);
-//#else
-//             LogUtil.Log("UPDATES NOT SUPPORTED ON THIS PLATFORM.", "red");
+        //    }
+        //    while (hasAppServiceReturnedResult)
+        //    {
+        //        Show();
+        //        if (!isUpdateAvailable)
+        //        {
+        //            appUpdateService.CheckForUpdate();
+        //            yield return new WaitForSeconds(1.0f);
 
-//#endif
-         }
+        //        }
 
+        //        yield break;
+        //    }
+        //}
     }
 }

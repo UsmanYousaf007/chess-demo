@@ -55,10 +55,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             CommandBegin();
-            string[] vClient = appInfoModel.clientVersion.Split('.');
-            int clientAppVersion = int.Parse(vClient[2]);
-
-            appUpdatesService.Init(clientAppVersion);
+            appUpdatesService.Init();
             getInitDataSignal.Dispatch(isResume);
 
         }

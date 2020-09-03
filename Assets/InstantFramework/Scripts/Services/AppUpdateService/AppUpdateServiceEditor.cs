@@ -11,69 +11,37 @@ using UpdateManager;
 
 namespace TurboLabz.InstantFramework
 {
-    public class AppUpdatesServiceEditor : IAppUpdateService
+    public class AppUpdateServiceEditor : IAppUpdateService
     {
-        private bool updateAvailable;
-        private int appVersion;
-        public bool updateLater { get; set; }
+        private IRoutineRunner routineRunner;
+        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
 
-        // Listen to signals
-        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
-        [PostConstruct]
-        public void PostConstruct()
+        public void Init()
         {
-            modelsResetSignal.AddListener(Reset);
-        }
-
-        private void Reset()
-        {
-            updateLater = false;
-        }
-
-        public void Init(int appVersion)
-        {
-            // TODO: implement me 
+            routineRunner = new NormalRoutineRunner();
+            EditorUpdateManager.IsUpdateAvailableOnStore += OnIsUpdateAvailableResult;
         }
 
         public void Terminate()
         {
-            // TODO: implement me
-        }
-
-        public bool IsUpdateAvailable()
-        {
-            return false;
+            EditorUpdateManager.IsUpdateAvailableOnStore -= OnIsUpdateAvailableResult;
         }
 
         public void GoToStore(string url)
         {
-            // TODO: implement me
         }
 
         public void CheckForUpdate()
         {
-            // TODO: implement me
+            routineRunner.StartCoroutine(EditorUpdateManager.CheckForUpdate());
         }
 
-        public void OnUpdateAvailableResult(int availableVersionCode)
-        {
-            // TODO: implement me
-        }
 
         public void OnIsUpdateAvailableResult(bool isUpdateAvailable)
         {
-            this.updateAvailable = isUpdateAvailable;
+            appUpdateSignal.Dispatch(isUpdateAvailable);
 
-        }
-        public void StartUpdate(int availableVersionCode)
-        {
-            // TODO: implement me
-        }
-
-        public void OnUpdateDownloaded()
-        {
-            // TODO: implement me
         }
     }
 }

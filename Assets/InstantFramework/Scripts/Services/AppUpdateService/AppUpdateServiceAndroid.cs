@@ -11,46 +11,23 @@ using UpdateManager;
 
 namespace TurboLabz.InstantFramework
 {
-    public class AppUpdatesServiceAndroid : IAppUpdateService
+    public class AppUpdateServiceAndroid : IAppUpdateService
     {
-        //public bool updateLater { get; set; }
 
         [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
-
-        private bool updateAvailable;
-        private int appVersion;
-        // Listen to signals
-        //[Inject] public ModelsResetSignal modelsResetSignal { get; set; }
-
-        //[PostConstruct]
-        //public void PostConstruct()
-        //{
-        //modelsResetSignal.AddListener(Reset);
-        //}
-
-        //private void Reset()
-        //{
-        //    updateLater = false;
-        //}
-
-
-        public void Init(int appVersion)
+        private IRoutineRunner routineRunner;
+       
+        public void Init()
         {
-            this.appVersion = appVersion;
+            routineRunner = new NormalRoutineRunner();
             AndroidAppUpdateManager.Init();
             AndroidAppUpdateManager.IsUpdateAvailableOnStore += OnIsUpdateAvailableResult;
-            
         }
 
         public void Terminate()
         {
             AndroidAppUpdateManager.IsUpdateAvailableOnStore -= OnIsUpdateAvailableResult;
 
-        }
-
-        public bool IsUpdateAvailable()
-        {
-            return updateAvailable;
         }
 
         public void GoToStore(string url)
@@ -65,24 +42,20 @@ namespace TurboLabz.InstantFramework
 
         public void OnIsUpdateAvailableResult(bool isUpdateAvailable)
         {
-            this.updateAvailable = isUpdateAvailable;
             appUpdateSignal.Dispatch(isUpdateAvailable);
         }
 
         public void StartUpdate(int availableVersionCode)
         {
-            // Start the process of downloading the update
             AndroidAppUpdateManager.StartUpdate();
         }
 
         public void OnUpdateDownloading(long bytesDownloaded, long totalBytesToDownload)
         {
-            //statusText.text = "Downloaded: " + bytesDownloaded.ToString() + " from a total of: " + totalBytesToDownload.ToString();
         }
 
         public void OnUpdateDownloaded()
         {
-            // Update downloaded, install it : )
             AndroidAppUpdateManager.CompleteUpdate();
         }
     }

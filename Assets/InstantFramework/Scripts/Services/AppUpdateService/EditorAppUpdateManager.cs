@@ -5,9 +5,8 @@ using System.Collections;
 
 namespace UpdateManager
 {
-    public static class IOSUpdateManager
+    public static class EditorUpdateManager
     {
-#if !UNITY_EDITOR && (UNITY_IOS)
         // Used to get an event when the update is available
         public static event Action<int> OnUpdateAvailable;
         // Used to receive an event when downloading the event
@@ -18,33 +17,28 @@ namespace UpdateManager
         // Used to get an event when the update is downloaded
         public static event Action OnUpdateDownloaded;
         // Used to know if update is available or not
-        public static event Action<bool> IsUpdateAvailableOnStore;
+        //public static event Action<bool> IsUpdateAvailableOnStore;
+        public static Action<bool> IsUpdateAvailableOnStore;
 
-        [DllImport("__Internal")]
-        private static extern bool IsNewVersionPresent();
-        [DllImport("__Internal")]
-        private static extern void GoToAppStore();
-        [DllImport("__Internal")]
-        private static extern void Init();
 
         public static void Initialize()
         {
-            Init();
+
         }
 
         public static IEnumerator CheckForUpdate()
         {
-            bool updateAvailable = IsNewVersionPresent();
+            Debug.Log("IOSAPPUPDATEMANAGER CheckForUpdate called");
+            bool updateAvailable = false;
+            //bool updateAvailable = true;
+            Debug.Log("IOSAPPUPDATEMANAGER IsNewVersionPresent result: " + updateAvailable.ToString());
             yield return null;
             IsUpdateAvailableOnStore.Invoke(updateAvailable);
-
         }
 
         public static void GoToStore()
         {
-            GoToAppStore();
+            
         }
-#endif
     }
-
 }

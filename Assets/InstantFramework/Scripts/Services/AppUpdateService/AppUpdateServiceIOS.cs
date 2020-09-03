@@ -11,54 +11,38 @@ using UpdateManager;
 
 namespace TurboLabz.InstantFramework
 {
-    public class AppUpdatesServiceIOS : IAppUpdateService
+    public class AppUpdateServiceIOS : IAppUpdateService
     {
         [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
+        private IRoutineRunner routineRunner;
 
-        private bool updateAvailable;
-        private int appVersion;
-        //public bool updateLater { get; set; }
-
-        // Listen to signals
-        //[Inject] public ModelsResetSignal modelsResetSignal { get; set; }
-
-        //[PostConstruct]
-        //public void PostConstruct()
-        //{
-        //    modelsResetSignal.AddListener(Reset);
-        //}
-
-        //private void Reset()
-        //{
-        //    updateLater = false;
-        //}
-
-        public void Init(int appVersion)
+        public void Init()
         {
-            this.appVersion = appVersion;
+#if !UNITY_EDITOR && (UNITY_IOS)
+            routineRunner = new NormalRoutineRunner();
             IOSUpdateManager.Initialize();
             IOSUpdateManager.IsUpdateAvailableOnStore += OnIsUpdateAvailableResult;
+#endif
         }
 
         public void Terminate()
         {
-            IOSUpdateManager.IsUpdateAvailableOnStore -= OnIsUpdateAvailableResult;
+            #if !UNITY_EDITOR && (UNITY_IOS)
+#endif
         }
 
         public void CheckForUpdate()
         {
-            IOSUpdateManager.CheckForUpdate();
+            #if !UNITY_EDITOR && (UNITY_IOS)
+            routineRunner.StartCoroutine(IOSUpdateManager.CheckForUpdate());
+#endif
         }
 
         public void OnIsUpdateAvailableResult(bool isUpdateAvailable)
         {
-            this.updateAvailable = isUpdateAvailable;
+            #if !UNITY_EDITOR && (UNITY_IOS)
             appUpdateSignal.Dispatch(isUpdateAvailable);
-        }
-
-        public bool IsUpdateAvailable()
-        {
-            return updateAvailable;
+#endif
         }
 
         public void GoToStore(string url)
@@ -68,18 +52,16 @@ namespace TurboLabz.InstantFramework
 
         public void StartUpdate(int availableVersionCode)
         {
-            // TODO: implement me
         }
 
         public void OnUpdateDownloaded()
         {
-            // TODO: implement me
         }
 
         public void OnUpdateDownloading(long a, long b)
         {
-            // TODO: implement me
         }
+
     }
 }
 

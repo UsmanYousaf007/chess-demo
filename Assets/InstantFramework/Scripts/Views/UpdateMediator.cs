@@ -10,7 +10,10 @@
 /// @description
 /// [add_description_here]
 
+using System.Collections;
 using strange.extensions.mediation.impl;
+using UnityEngine;
+using UpdateManager;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,6 +22,8 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public UpdateView view { get; set; }
         [Inject] public IAppUpdateService appUpdateService { get; set; }
+
+        
         public override void OnRegister()
         {
             view.Init();
@@ -42,17 +47,16 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(AppUpdateSignal))]
+        public void UpdateAvailable(bool isUpdateAvailable)
+        {
+            view.SetAppUpdateFlag(isUpdateAvailable);
+        }
 
         [ListensTo(typeof(SetUpdateURLSignal))]
         public void OnSetUpdateURL(string url)
         {
             view.SetUpdateURL(url);
-        }
-
-        [ListensTo(typeof(AppUpdateSignal))]
-        public void UpdateAvailable(bool isUpdateAvailable)
-        {
-            view.Show(isUpdateAvailable);
         }
     }
 }

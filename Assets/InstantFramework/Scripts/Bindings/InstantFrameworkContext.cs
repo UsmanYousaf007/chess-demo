@@ -232,12 +232,12 @@ namespace TurboLabz.InstantFramework
 
 
 #if !UNITY_EDITOR && UNITY_ANDROID
-            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceAndroid>().ToSingleton();
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceAndroid>().ToSingleton();
 #elif !UNITY_EDITOR && UNITY_IOS
-            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceIOS>().ToSingleton();
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceIOS>().ToSingleton();
 #else
-            injectionBinder.Bind<IAppUpdateService>().To<AppUpdatesServiceEditor>().ToSingleton();
-            //injectionBinder.Bind<IAppUpdatesService>().To<AppUpdatesServiceIOS>().ToSingleton();
+            injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceEditor>().ToSingleton();
+            
 #endif
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UpdateManager
@@ -16,9 +17,9 @@ namespace UpdateManager
         // Used to get an event when the update is downloaded
         public static event Action OnUpdateDownloaded;
         // Used to know if update is available or not
-        public static event Action<bool> IsUpdateAvailableOnStore;
+        public static Action<bool> IsUpdateAvailableOnStore;
         #endregion
-
+        
         //public static AndroidUpdateManager Instance { get; private set; }
 
         public static bool isInDebugMode = false;
@@ -45,10 +46,10 @@ namespace UpdateManager
             // To set the priority for an update, use inAppUpdatePriority field under Edits.tracks.releases in the Google Play Developer API.
             public void onUpdate(int availableVersionCode, bool isUpdateAvailable, bool isUpdateTypeAllowed, int versionStalenessDays, int updatePriority)
             {
-                //if (isUpdateAvailable && isUpdateTypeAllowed)
                 {
                     if (IsUpdateAvailableOnStore != null)
                     {
+                        Debug.Log("AndroidAppUpdateManager OnUpdate availableVersionCode: " + availableVersionCode.ToString() + ",isUpdateAvailable: " + isUpdateAvailable.ToString());
                         IsUpdateAvailableOnStore.Invoke(isUpdateAvailable);
                     }
                 }
