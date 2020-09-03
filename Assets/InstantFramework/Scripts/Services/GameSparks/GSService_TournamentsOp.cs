@@ -149,8 +149,6 @@ namespace TurboLabz.InstantFramework
 
                 tournamentsModel.SetOpenTournament(liveTournament);
             }
-
-            tournamentsModel.locked = false;
         }
     }
 

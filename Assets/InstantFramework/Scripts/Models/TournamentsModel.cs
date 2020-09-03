@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public UpdateTournamentsSignal updateTournamentsSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
 
         // Service
         [Inject] public IBackendService backendService { get; set; }
@@ -29,7 +30,7 @@ namespace TurboLabz.InstantFramework
         public string currentMatchTournamentType { get; set; }
         public JoinedTournamentData currentMatchTournament { get; set; }
 
-        public bool locked { get; set; }
+        public bool updating { get; set; }
         
         [PostConstruct]
         public void PostConstruct()
@@ -50,7 +51,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateSchedule()
         {
-            if (locked)
+            if (updating)
             {
                 return;
             }
@@ -89,13 +90,11 @@ namespace TurboLabz.InstantFramework
                         if (currentTimeUTCSeconds > openTournaments[i].concludeTimeUTCSeconds)
                         {
                             openTournaments[i].concluded = true;
-                            updateLocal = true;
                         }
                     }
 
                     if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
                     {
-                        //openTournaments[i].concluded = false;
                         updateLocal = true;
                     }
                 }
@@ -113,14 +112,16 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (updateRemote)
-            {
-                updateTournamentsSignal.Dispatch();
-            }
-            else if (updateLocal)
+            if (updateLocal)
             {
                 UpdateTournamentsLocal();
                 updateTournamentsViewSignal.Dispatch();
+                updateTournamentLeaderboardView.Dispatch();
+            }
+
+            if (updateRemote)
+            {
+                updateTournamentsSignal.Dispatch();
             }
         }
 
@@ -165,6 +166,18 @@ namespace TurboLabz.InstantFramework
             }
 
             return false;
+        }
+
+        public bool HasTournamentEnded(JoinedTournamentData joinedTournament)
+        {
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            return currentTimeUTCSeconds > joinedTournament.concludeTimeUTCSeconds;
+        }
+
+        public bool HasTournamentEnded(LiveTournamentData liveTournament)
+        {
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            return currentTimeUTCSeconds > liveTournament.concludeTimeUTCSeconds;
         }
 
         public long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament)
@@ -325,15 +338,6 @@ namespace TurboLabz.InstantFramework
         private void UpdateTournamentsLocal()
         {
             long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-            //for (int i = joinedTournaments.Count - 1; i >= 0; i--)
-            //{
-            //    bool end = currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds;
-            //    if (end)
-            //    {
-            //        joinedTournaments.RemoveAt(i);
-            //    }
-            //}
 
             List<LiveTournamentData> expiredOpenTournaments = new List<LiveTournamentData>();
             for (int i = openTournaments.Count - 1; i >= 0; i--)

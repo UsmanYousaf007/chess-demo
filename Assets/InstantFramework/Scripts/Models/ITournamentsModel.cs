@@ -20,9 +20,11 @@ namespace TurboLabz.InstantFramework
         string currentMatchTournamentType { get; set; }
         JoinedTournamentData currentMatchTournament { get; set; }
 
-        bool locked { get; set; }
+        bool updating { get; set; }
 
         void UpdateSchedule();
+        bool HasTournamentEnded(JoinedTournamentData joinedTournament);
+        bool HasTournamentEnded(LiveTournamentData liveTournament);
         long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds);
         long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament);
         long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament);

@@ -12,7 +12,9 @@ namespace TurboLabz.InstantFramework
     public class TournamentOverDlgMediator : Mediator
     {
         [Inject] public TournamentOverDlgView view { get; set; }
+
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public TournamentOverDialogClosedSignal backClickSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -43,6 +45,7 @@ namespace TurboLabz.InstantFramework
         {
             TLUtils.LogUtil.Log("TournamentOverDlgVMediator::OnButtonClicked()");
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            backClickSignal.Dispatch();
         }
     }
 }

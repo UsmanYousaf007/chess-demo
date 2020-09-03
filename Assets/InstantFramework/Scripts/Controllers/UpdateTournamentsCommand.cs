@@ -26,7 +26,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            tournamentsModel.locked = true;
+            tournamentsModel.updating = true;
 
             backendService.TournamentsOpUpdateTournaments().Then(OnGetComplete);
 
@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnGetComplete(BackendResult result)
         {
+            tournamentsModel.updating = false;
+
             if (result != BackendResult.SUCCESS)
             {
                 opFailedSignal.Dispatch();

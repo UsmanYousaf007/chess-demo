@@ -24,6 +24,8 @@ namespace TurboLabz.InstantFramework
             if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
             {
                 Retain();
+
+                tournamentsModel.updating = true;
                 backendService.TournamentsOpGetAllTournaments().Then(OnComplete);
             }
             else
@@ -34,6 +36,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnComplete(BackendResult result)
         {
+            tournamentsModel.updating = false;
+
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);

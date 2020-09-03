@@ -75,6 +75,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
         public void UpdateJoinedTournamentView(string tournamentId)
         {
+            this.openTournament = null;
+
             if (tournamentId == "" && this.joinedTournament != null)
             {
                 tournamentId = this.joinedTournament.id;
@@ -85,22 +87,55 @@ namespace TurboLabz.InstantFramework
             {
                 this.joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
-            }
 
-            this.openTournament = null;
+                if (tournamentModel.HasTournamentEnded(joinedTournament) == true)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
+            }
         }
 
         [ListensTo(typeof(UpdateLiveTournamentRewardsSuccessSignal))]
         public void UpdateLiveTournamentView(string tournamentShortCode)
         {
+            this.joinedTournament = null;
+
             var openTournament = tournamentModel.GetOpenTournament(tournamentShortCode);
             if (openTournament != null)
             {
                 this.openTournament = openTournament;
                 view.UpdateView(openTournament);
-            }
 
-            this.joinedTournament = null;
+                if (tournamentModel.HasTournamentEnded(openTournament) == true)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
+            }
+        }
+
+        [ListensTo(typeof(UpdateTournamentLeaderboardViewSignal))]
+        public void UpdateLiveTournamentView()
+        {
+            if (openTournament != null)
+            {
+                if (tournamentModel.HasTournamentEnded(openTournament) == true)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
+            }
+            else if (joinedTournament != null)
+            {
+                if (tournamentModel.HasTournamentEnded(joinedTournament) == true)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
+            }
+        }
+
+        [ListensTo(typeof(TournamentOverDialogClosedSignal))]
+        public void OnTournamentOverDialogClosed()
+        {
+            OnBackPressed();
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
@@ -213,6 +248,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnBackPressed()
         {
+            if (joinedTournament != null)
+            {
+                joinedTournament.locked = false;
+                joinedTournament = null;
+            }
+
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }

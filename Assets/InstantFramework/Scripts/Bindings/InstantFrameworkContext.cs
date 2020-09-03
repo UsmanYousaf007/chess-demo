@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<TournamentOpFailedSignal>().ToSingleton();
             injectionBinder.Bind<GetTournamentsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentLeaderboardSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTournamentLeaderboardViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLiveTournamentRewardsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
@@ -203,8 +204,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<InboxFetchingMessagesSignal>().ToSingleton();
             injectionBinder.Bind<SetLeaguesSignal>().ToSingleton();
             injectionBinder.Bind<PlayerModelUpdatedSignal>().ToSingleton();
+            injectionBinder.Bind<TournamentOverDialogClosedSignal>().ToSingleton();
 
-            
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
             mediationBinder.Bind<SplashView>().To<SplashMediator>();
