@@ -30,6 +30,8 @@ namespace TurboLabz.InstantGame
         [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -125,8 +127,16 @@ namespace TurboLabz.InstantGame
 
         public void OnOpenTournamentClicked(LiveTournamentData data)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
-            fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
+            if (data.concluded)
+            {
+                loadArenaSignal.Dispatch();
+                updateBottomNavSignal.Dispatch();
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
+            }
         }
     }
 }

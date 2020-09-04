@@ -509,13 +509,11 @@ namespace TurboLabz.InstantFramework
             }
 
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
-            joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION) - TournamentConstants.BUFFER_TIME_MINS;
+            joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
 
             long concludeTimeUTC = joinedTournament.startTimeUTC + (joinedTournament.durationMinutes * 60 * 1000);
             joinedTournament.concludeTimeUTCSeconds = concludeTimeUTC / 1000;
-
-            long endTimeUTC = concludeTimeUTC + ((TournamentConstants.BUFFER_TIME_MINS * 60) * 1000);
-            joinedTournament.endTimeUTCSeconds = endTimeUTC / 1000;
+            joinedTournament.endTimeUTCSeconds = joinedTournament.concludeTimeUTCSeconds;
 
             return joinedTournament;
         }
@@ -630,11 +628,13 @@ namespace TurboLabz.InstantFramework
             {
                 liveTournament.concludeTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds;
                 liveTournament.endTimeUTCSeconds = liveTournament.concludeTimeUTCSeconds;
+                liveTournament.concluded = false;
             }
             else
             {
                 liveTournament.endTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds + durationSeconds;
-                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60) + 5;
+                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                liveTournament.concluded = currentTimeUTCSeconds > liveTournament.concludeTimeUTCSeconds;
             }
 
             return liveTournament;

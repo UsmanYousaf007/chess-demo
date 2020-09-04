@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         public Image bg;
         public Image liveImage;
+        public Image entriesClosedImage;
         public Text headingLabel;
         public Text subHeadingLabel;
         public Image tournamentImage;
@@ -54,9 +55,12 @@ namespace TurboLabz.InstantFramework
             prizeImage.sprite = chestIconsContainer.GetChest(liveTournamentData.grandPrize.chestType);
             playerRankCountText.text = "";
             grandPrizeTrophiesCountText.text = liveTournamentData.grandPrize.trophies.ToString();
-            liveImage?.gameObject.SetActive(true);
+            liveImage?.gameObject.SetActive(!liveTournamentData.concluded);
+            entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
+            if (button != null)
+                button.enabled = !liveTournamentData.concluded;
 
-            endTimeUTCSeconds = liveTournamentData.concludeTimeUTCSeconds;
+            endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds;
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
@@ -80,8 +84,11 @@ namespace TurboLabz.InstantFramework
             playerRankCountText.text = joinedTournamentData.rank.ToString();
             grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
             liveImage?.gameObject.SetActive(false);
+            entriesClosedImage?.gameObject.SetActive(false);
+            if (button != null)
+                button.enabled = true;
 
-            endTimeUTCSeconds = joinedTournamentData.concludeTimeUTCSeconds;
+            endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));

@@ -70,15 +70,15 @@ namespace TurboLabz.InstantFramework
                     {
                         updateRemote = true;
                     }
-                    else if (joinedTournaments[i].concluded == false)
-                    {
-                        if (currentTimeUTCSeconds > joinedTournaments[i].concludeTimeUTCSeconds)
-                        {
-                            joinedTournaments[i].concluded = true;
-                            updateLocal = true;
-                            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
-                        }
-                    }
+                    //else if (joinedTournaments[i].concluded == false)
+                    //{
+                    //    if (currentTimeUTCSeconds > joinedTournaments[i].concludeTimeUTCSeconds)
+                    //    {
+                    //        joinedTournaments[i].concluded = true;
+                    //        updateLocal = true;
+                    //        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+                    //    }
+                    //}
 
                 }
             }
@@ -370,6 +370,7 @@ namespace TurboLabz.InstantFramework
 
                 expiredTournament.currentStartTimeUTCSeconds = CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
                 expiredTournament.concludeTimeUTCSeconds = expiredTournament.currentStartTimeUTCSeconds + durationSeconds;
+                expiredTournament.endTimeUTCSeconds = expiredTournament.concludeTimeUTCSeconds;
 
                 expiredTournament.concluded = false;
             }
@@ -383,7 +384,7 @@ namespace TurboLabz.InstantFramework
 
                 upcomingTournament.currentStartTimeUTCSeconds = CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
                 upcomingTournament.endTimeUTCSeconds = upcomingTournament.currentStartTimeUTCSeconds + durationSeconds;
-                upcomingTournament.concludeTimeUTCSeconds = upcomingTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60) + 5;
+                upcomingTournament.concludeTimeUTCSeconds = upcomingTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
 
                 upcomingTournament.concluded = false;
             }
