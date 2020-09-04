@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_ARENA);
             var diffInSeconds = (DateTime.UtcNow - tournamentsModel.lastFetchedTime).TotalSeconds;
-            if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+            if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME && tournamentsModel.updating == false)
             {
                 Retain();
 

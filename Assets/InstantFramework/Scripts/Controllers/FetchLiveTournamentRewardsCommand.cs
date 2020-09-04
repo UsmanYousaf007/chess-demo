@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
             LiveTournamentData openTournament = tournamentsModel.GetOpenTournament(tournamentShortCode);
             if (openTournament != null)
             {
-                var lastFetchedTimeDelta = (DateTime.UtcNow - openTournament.lastFetchedTime).TotalSeconds;
+                var lastFetchedTimeDelta = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - openTournament.lastFetchedTimeUTCSeconds;
                 if (lastFetchedTimeDelta >= GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
                 {
                     backendService.TournamentsOpGetLiveRewards(tournamentShortCode).Then(OnGetComplete);

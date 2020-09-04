@@ -371,9 +371,10 @@ namespace TurboLabz.InstantFramework
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
 
-            if (tournamentDetailsGSData != null)
+            if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {
                 joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId, tournament);
+                joinedTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             }
 
             if (joinedTournament == null)
@@ -386,7 +387,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (tournament != null)
                 {
-                    tournament = joinedTournament;
+                    tournamentsModel.SetJoinedTournament(joinedTournament);
                 }
                 else
                 {

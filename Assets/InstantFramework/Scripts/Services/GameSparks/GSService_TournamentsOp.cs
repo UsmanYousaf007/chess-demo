@@ -137,6 +137,7 @@ namespace TurboLabz.InstantFramework
                     if (joinedTournamentsList[i].id == tournamentId)
                     {
                         joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id, joinedTournamentsList[i]);
+                        joinedTournamentsList[i].lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     }
                 }
             }
@@ -158,7 +159,7 @@ namespace TurboLabz.InstantFramework
 
                 LiveTournamentData newLiveTournament = ParseLiveTournament(liveTournamentGSData, liveTournamentData);
             
-                newLiveTournament.lastFetchedTime = DateTime.UtcNow;
+                newLiveTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
                 tournamentsModel.SetOpenTournament(newLiveTournament);
             }

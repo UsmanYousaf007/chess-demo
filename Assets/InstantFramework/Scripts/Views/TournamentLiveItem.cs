@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
             if (button != null)
                 button.enabled = !liveTournamentData.concluded;
 
-            endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds;
+            endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
@@ -108,6 +108,10 @@ namespace TurboLabz.InstantFramework
                 timeLeft--;
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
                 countdownTimerText.text = timeLeftText;
+            }
+            else
+            {
+                countdownTimerText.text = "0:00";
             }
         }
     }

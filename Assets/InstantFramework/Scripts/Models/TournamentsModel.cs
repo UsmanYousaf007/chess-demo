@@ -69,16 +69,8 @@ namespace TurboLabz.InstantFramework
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
                         updateRemote = true;
+                        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
                     }
-                    //else if (joinedTournaments[i].concluded == false)
-                    //{
-                    //    if (currentTimeUTCSeconds > joinedTournaments[i].concludeTimeUTCSeconds)
-                    //    {
-                    //        joinedTournaments[i].concluded = true;
-                    //        updateLocal = true;
-                    //        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
-                    //    }
-                    //}
 
                 }
             }
@@ -116,8 +108,11 @@ namespace TurboLabz.InstantFramework
 
             if (updateRemote)
             {
-                updateTournamentsSignal.Dispatch();
+                UpdateTournamentsLocal();
+                updateTournamentsViewSignal.Dispatch();
                 updateTournamentLeaderboardView.Dispatch();
+
+                updateTournamentsSignal.Dispatch();
             }
             else if (updateLocal)
             {
@@ -251,6 +246,17 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public void SetJoinedTournament(JoinedTournamentData joinedTournament)
+        {
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                if (joinedTournaments[i].id == joinedTournament.id)
+                {
+                    joinedTournaments[i] = joinedTournament;
+                }
+            }
+        }
+
         public LiveTournamentData GetUpcomingTournament(string shortCode)
         {
             for (int i = 0; i < upcomingTournaments.Count; i++)
@@ -341,6 +347,26 @@ namespace TurboLabz.InstantFramework
         {
             long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
+            List<LiveTournamentData> finishedTournaments = new List<LiveTournamentData>();
+
+            for (int i = joinedTournaments.Count - 1; i >= 0; i--)
+            {
+                if (joinedTournaments[i].locked == false)
+                {
+                    if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
+                    {
+
+                        LiveTournamentData upcomingTournament = new LiveTournamentData(joinedTournaments[i]);
+                        finishedTournaments.Add(upcomingTournament);
+
+                        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+
+                        joinedTournaments.RemoveAt(i);
+                    }
+
+                }
+            }
+
             List<LiveTournamentData> expiredOpenTournaments = new List<LiveTournamentData>();
             for (int i = openTournaments.Count - 1; i >= 0; i--)
             {
@@ -392,6 +418,7 @@ namespace TurboLabz.InstantFramework
 
             openTournaments.AddRange(openedUpcomingTournaments);
             upcomingTournaments.AddRange(expiredOpenTournaments);
+            upcomingTournaments.AddRange(finishedTournaments);
         }
 
         private string GetRankContext(int rank)
@@ -438,7 +465,7 @@ namespace TurboLabz.InstantFramework
         public long currentStartTimeInSeconds;
         public List<TournamentEntry> entries = new List<TournamentEntry>();
 
-        public DateTime lastFetchedTime;
+        public long lastFetchedTimeUTCSeconds;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
         public long concludeTimeUTCSeconds;
         public long endTimeUTCSeconds;
@@ -459,11 +486,37 @@ namespace TurboLabz.InstantFramework
         public int waitTimeMinutes;
 
         public long currentStartTimeUTCSeconds;
-        public DateTime lastFetchedTime;
+        public long lastFetchedTimeUTCSeconds;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
         public long concludeTimeUTCSeconds;
         public long endTimeUTCSeconds;
         public bool concluded = false;
+
+        public LiveTournamentData() { }
+
+        public LiveTournamentData(JoinedTournamentData joinedTournament)
+        {
+            long gapTimeSeconds = joinedTournament.endTimeUTCSeconds - joinedTournament.currentStartTimeInSeconds;
+            joinedTournament.currentStartTimeInSeconds += gapTimeSeconds;
+            joinedTournament.endTimeUTCSeconds = joinedTournament.currentStartTimeInSeconds + gapTimeSeconds;
+
+            shortCode = joinedTournament.shortCode;
+            name = joinedTournament.name;
+            type = joinedTournament.type;
+            active = true;
+            grandPrize = joinedTournament.grandPrize;
+            firstStartTimeUTC = joinedTournament.currentStartTimeInSeconds;
+            durationMinutes = joinedTournament.durationMinutes;
+
+            currentStartTimeUTCSeconds = joinedTournament.currentStartTimeInSeconds + gapTimeSeconds;
+            endTimeUTCSeconds = currentStartTimeUTCSeconds + gapTimeSeconds;
+            concludeTimeUTCSeconds = endTimeUTCSeconds;
+            waitTimeMinutes = (int)(endTimeUTCSeconds - (durationMinutes * 60)) / 60;
+
+            lastFetchedTimeUTCSeconds = joinedTournament.lastFetchedTimeUTCSeconds;
+            rewardsDict = joinedTournament.rewardsDict;
+            concluded = false;
+        }
     }
 
     [Serializable]

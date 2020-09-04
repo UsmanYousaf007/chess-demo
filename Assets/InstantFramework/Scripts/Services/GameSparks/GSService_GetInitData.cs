@@ -446,6 +446,8 @@ namespace TurboLabz.InstantFramework
                     joinedTournamentsList.Add(newJoinedTournament);
                 }
 
+                joinedTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
+
                 tournamentsModel.joinedTournaments = joinedTournamentsList;
             }
         }
@@ -572,6 +574,9 @@ namespace TurboLabz.InstantFramework
                         upcomingTournamentsList.Add(liveTournament);
                     }
                 }
+
+                openTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
+                upcomingTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
 
                 tournamentsModel.openTournaments = openTournamentsList;
                 tournamentsModel.upcomingTournaments = upcomingTournamentsList;
