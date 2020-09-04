@@ -325,6 +325,17 @@ namespace TurboLabz.InstantFramework
             analyticsEvent = null;
         }
 
+        public void LogAppsFlyerMonetizationEvent(string name, int cents)
+        {
+            analyticsEvent = new Dictionary<string, object>();
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
+            analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, cents);
+            analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, cents);
+            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.APPS_FLYER);
+            analyticsEvent = null;
+        }
+
+
         public string GetAppsFlyerId()
         {
             return string.IsNullOrEmpty(HAnalyticsAppsFlyer.UserId) ? string.Empty : HAnalyticsAppsFlyer.UserId;
