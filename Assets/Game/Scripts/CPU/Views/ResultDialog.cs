@@ -59,5 +59,11 @@ public class ResultDialog : MonoBehaviour
     public Text tournamentMatchPlayGemsCost;
     public Image tournamentMatchPlayGemsBg;
     public string ticketsShortCode;
+    public RectTransform ratingsHorizontalLayoutRT;
+
+    public void ForceLayoutUpdate()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(ratingsHorizontalLayoutRT);
+    }
 
 }

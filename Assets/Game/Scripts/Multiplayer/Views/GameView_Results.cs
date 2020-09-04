@@ -634,6 +634,8 @@ namespace TurboLabz.Multiplayer
             }
             playMatchButton.gameObject.SetActive(!tournamentEnded);
 
+            tournamentMatchResultDialog.ForceLayoutUpdate();
+
             // Write tickets and gems population logic here
             var itemsOwned = playerModel.GetInventoryItemCount(tournamentMatchResultDialog.ticketsShortCode);
             ticketStoreItem = storeSettingsModel.items[tournamentMatchResultDialog.ticketsShortCode];
