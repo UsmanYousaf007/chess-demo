@@ -69,7 +69,7 @@ public class DisplayPictureView : MonoBehaviour
 
         UpdateOnlineStatus(vo.isOnline, vo.isActive);
     }
-
+    
     public void ShowPremiumBorder(bool show)
     {
         premiumBorder.SetActive(show);
@@ -86,5 +86,14 @@ public class DisplayPictureView : MonoBehaviour
         {
             onlineStatus.sprite = isOnline ? online : offline;
         }
+    }
+
+    public void SetProfilePicture(Sprite picture)
+    {
+        profilePic.sprite = picture;
+        hasProfilePicBorder.SetActive(true);
+        noProfilePicBorder.SetActive(false);
+        avatarBG.gameObject.SetActive(false);
+        avatarIcon.gameObject.SetActive(false);
     }
 }

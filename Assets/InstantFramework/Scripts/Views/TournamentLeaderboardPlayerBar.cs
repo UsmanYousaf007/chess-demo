@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
         [HideInInspector]
         public TournamentReward reward;
 
-        public void Populate(TournamentEntry tournamentEntry, TournamentReward entryReward)
+        public void Populate(TournamentEntry tournamentEntry, TournamentReward entryReward, bool isPlayer)
         {
             entry = tournamentEntry;
             this.reward = entryReward;
@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
             playerRankCountText.text = tournamentEntry.rank.ToString();
             trophiesRewardCountText.text = entryReward.trophies.ToString();
 
-            playerNameText.text = entry.publicProfile.name;
+            playerNameText.text = !isPlayer ? entry.publicProfile.name : "You";
             playerNameText.gameObject.SetActive(true);
 
             playerScoreCountText.text = entry.score.ToString();

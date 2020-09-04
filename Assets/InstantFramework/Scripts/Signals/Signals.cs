@@ -178,7 +178,8 @@ namespace TurboLabz.InstantFramework
     public class LoadRewardDlgViewSignal : Signal<string> { }
     public class InboxFetchingMessagesSignal : Signal<bool> { }
     public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
-
+    public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
+    public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

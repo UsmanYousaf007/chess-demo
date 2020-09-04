@@ -14,6 +14,7 @@ using System.Collections;
 using TurboLabz.InstantGame;
 using TMPro;
 using DG.Tweening;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,12 +38,14 @@ namespace TurboLabz.InstantFramework
         public TournamentLeaderboardInfoBar infoBar;
         public TournamentLeaderboardFooter footer;
         public GameObject tournamentLeaderboardPlayerEnterBar;
+        public ScrollRect scrollView;
 
         // Player bar click signal
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
         public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
         public StoreItem ticketStoreItem;
+        public Signal<GetProfilePictureVO> loadPictureSignal = new Signal<GetProfilePictureVO>();
 
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
@@ -190,6 +193,8 @@ namespace TurboLabz.InstantFramework
             {
                 tournamentLeaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
+
+            scrollView.verticalNormalizedPosition = 1;
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
@@ -262,8 +267,22 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, TournamentReward reward)
         {
-            playerBar.Populate(entry, reward);
+            playerBar.Populate(entry, reward, entry.publicProfile.playerId.Equals(playerModel.id));
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
+
+            var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
+                || !string.IsNullOrEmpty(entry.publicProfile.facebookUserId))
+                && entry.publicProfile.profilePicture == null;
+
+            if (loadPicture)
+            {
+                var loadPicVO = new GetProfilePictureVO();
+                loadPicVO.playerId = entry.publicProfile.playerId;
+                loadPicVO.uploadedPicId = entry.publicProfile.uploadedPicId;
+                loadPicVO.facebookUserId = entry.publicProfile.facebookUserId;
+                loadPicVO.saveOnDisk = false;
+                loadPictureSignal.Dispatch(loadPicVO);
+            }
         }
 
         private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, int rank, TournamentReward reward)
@@ -381,6 +400,18 @@ namespace TurboLabz.InstantFramework
             }
 
             yield return null;
+        }
+
+        public void UpdatePicture(string playerId, Sprite picture)
+        {
+            var playerBar = (from bar in tournamentLeaderboardPlayerBars
+                             where bar.profile.playerId.Equals(playerId)
+                             select bar).FirstOrDefault();
+
+            if (playerBar != null)
+            {
+                playerBar.profile.SetProfilePicture(picture);
+            }
         }
     }
 }
