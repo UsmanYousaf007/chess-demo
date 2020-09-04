@@ -32,14 +32,8 @@ namespace TurboLabz.InstantGame
 			}
 
             //appsflyer
-            var purchaseEvent = new Dictionary<string, object>();
-            purchaseEvent.Add(AFInAppEvents.CURRENCY, item.remoteProductCurrencyCode);
-            purchaseEvent.Add(AFInAppEvents.REVENUE, item.productPrice.ToString());
-            purchaseEvent.Add(AFInAppEvents.QUANTITY, item.maxQuantity.ToString());
-            purchaseEvent.Add(AFInAppEvents.CONTENT_ID, item.remoteProductId);
-
 #if !UNITY_EDITOR
-            appsFlyerService.TrackRichEvent(AFInAppEvents.PURCHASE, purchaseEvent);
+            appsFlyerService.TrackMonetizationEvent(AFInAppEvents.PURCHASE, item.currency1Cost);
 #endif
 
             var afEvent = "succ_annual_subs";
