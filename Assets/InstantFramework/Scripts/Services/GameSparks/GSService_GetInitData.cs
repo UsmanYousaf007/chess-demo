@@ -642,6 +642,8 @@ namespace TurboLabz.InstantFramework
                 liveTournament.concluded = currentTimeUTCSeconds > liveTournament.concludeTimeUTCSeconds;
             }
 
+            liveTournament.joined = false;
+
             return liveTournament;
         }
 

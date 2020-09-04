@@ -63,10 +63,18 @@ namespace TurboLabz.InstantFramework
             endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            string timeLeftText;
+            if (timeLeft > 0)
+            {
+                timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            }
+            else
+            {
+                timeLeftText = "0:00";
+            }
             countdownTimerText.text = timeLeftText;
 
-            if(infoBg != null)
+            if (infoBg != null)
             {
                 infoBg.color = tournamentAssetsContainer.GetColor(liveTournamentData.type);
             }
@@ -91,7 +99,15 @@ namespace TurboLabz.InstantFramework
             endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            string timeLeftText;
+            if (timeLeft > 0)
+            {
+                timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            }
+            else
+            {
+                timeLeftText = "0:00";
+            }
             countdownTimerText.text = timeLeftText;
 
             if (infoBg != null)

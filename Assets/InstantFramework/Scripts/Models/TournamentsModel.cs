@@ -79,6 +79,11 @@ namespace TurboLabz.InstantFramework
             {
                 for (int i = 0; i < openTournaments.Count; i++)
                 {
+                    if (openTournaments[i].joined)
+                    {
+                        updateLocal = true;
+                    }
+
                     if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
                     {
                         updateLocal = true;
@@ -355,7 +360,6 @@ namespace TurboLabz.InstantFramework
                 {
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
-
                         LiveTournamentData upcomingTournament = new LiveTournamentData(joinedTournaments[i]);
                         finishedTournaments.Add(upcomingTournament);
 
@@ -372,7 +376,11 @@ namespace TurboLabz.InstantFramework
             {
                 if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)
                 {
-                    expiredOpenTournaments.Add(openTournaments[i]);
+                    if (openTournaments[i].joined == false)
+                    {
+                        expiredOpenTournaments.Add(openTournaments[i]);
+                    }
+
                     openTournaments.RemoveAt(i);
                 }
             }
@@ -491,6 +499,7 @@ namespace TurboLabz.InstantFramework
         public long concludeTimeUTCSeconds;
         public long endTimeUTCSeconds;
         public bool concluded = false;
+        public bool joined = false;
 
         public LiveTournamentData() { }
 
@@ -516,8 +525,9 @@ namespace TurboLabz.InstantFramework
             lastFetchedTimeUTCSeconds = joinedTournament.lastFetchedTimeUTCSeconds;
             rewardsDict = joinedTournament.rewardsDict;
             concluded = false;
-        }
+            joined = false;
     }
+}
 
     [Serializable]
     public class TournamentReward

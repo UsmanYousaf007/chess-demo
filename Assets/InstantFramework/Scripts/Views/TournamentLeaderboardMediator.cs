@@ -59,10 +59,6 @@ namespace TurboLabz.InstantFramework
             {
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.tournament_leaderboard);
-                if (joinedTournament == null && openTournament == null)
-                {
-                    // Show tournament end dialogue here, and then fetch Inbox.
-                }
             }
         }
 
@@ -225,6 +221,11 @@ namespace TurboLabz.InstantFramework
             if (joinedTournament != null)
             {
                 joinedTournament.locked = true;
+            }
+
+            if (openTournament != null)
+            {
+                openTournament.joined = true;
             }
 
             analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);

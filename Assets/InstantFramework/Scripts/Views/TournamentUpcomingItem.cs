@@ -50,6 +50,10 @@ namespace TurboLabz.InstantFramework
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
                 countdownTimerText.text = timeLeftText;
             }
+            else
+            {
+                countdownTimerText.text = "0:00";
+            }
         }
     }
 }
