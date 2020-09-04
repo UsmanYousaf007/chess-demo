@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public DisplayPictureView profile;
         public GameObject playerPanel;
+        public SkinLink skinLink;
 
         [HideInInspector]
         public TournamentEntry entry;
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantFramework
             }
 
             SetRankIcon(tournamentEntry.rank);
+            skinLink.InitPrefabSkin();
         }
 
         public void SetRankIcon(int rank)
@@ -130,6 +132,8 @@ namespace TurboLabz.InstantFramework
                 chestImage.enabled = true;
                 chestButton.interactable = true;
             }
+
+            skinLink.InitPrefabSkin();
         }
     }
 }

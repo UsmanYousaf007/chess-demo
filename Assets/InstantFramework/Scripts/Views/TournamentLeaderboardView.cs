@@ -75,6 +75,7 @@ namespace TurboLabz.InstantFramework
             TournamentLeaderboardPlayerEnterBar playerEnterBar = tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>();
             playerEnterBar.bodyText.text = "Enter this Tournament to earn a rank!";
             playerEnterBar.rankText.text = "?";
+            playerEnterBar.skinLink.InitPrefabSkin();
          }
 
         public void Populate(LiveTournamentData liveTournament)
@@ -175,6 +176,7 @@ namespace TurboLabz.InstantFramework
             Sort();
             infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
             infoBar.gameModeText.text = liveTournament.name;
+            fixedPlayerBar.gameObject.SetActive(false);
         }
 
         private void Sort()
@@ -282,7 +284,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    fixedPlayerStripEnabler.transformToEnable.gameObject.SetActive(false);
+                    fixedPlayerBar.gameObject.SetActive(false);
                 }
             }
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);

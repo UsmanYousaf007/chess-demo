@@ -12,5 +12,6 @@ namespace TurboLabz.InstantFramework
         public Text bodyText;
         public Text rankText;
         public GameObject profile;
+        public SkinLink skinLink;
     }
 }
