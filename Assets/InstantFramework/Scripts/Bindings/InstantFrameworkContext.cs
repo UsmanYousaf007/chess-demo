@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<UploadFileSignal>().To<UploadProfilePicCommand>();
             commandBinder.Bind<VirtualGoodsTransactionSignal>().To<VirtualGoodsTransactionCommand>();
             commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
+            commandBinder.Bind<GetProfilePictureSignal>().To<GetProfilePictureCommand>();
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
@@ -286,6 +287,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<LeagueProfileStripSetOnClickSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
+            injectionBinder.Bind<ProfilePictureLoadedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

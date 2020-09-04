@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -48,6 +49,7 @@ namespace TurboLabz.InstantFramework
             view.infoBar.rulesButtonClickedSignal.AddListener(OnRulesButtonClicked);
             view.infoBar.totalScoreButtonClickedSignal.AddListener(OnTotalScoreButtonClicked);
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
+            view.loadPictureSignal.AddListener(OnLoadPicture);
             view.backSignal.AddListener(OnBackPressed);
 
         }
@@ -269,6 +271,17 @@ namespace TurboLabz.InstantFramework
             }
 
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnLoadPicture(GetProfilePictureVO vo)
+        {
+            getProfilePictureSignal.Dispatch(vo);
+        }
+
+        [ListensTo(typeof(ProfilePictureLoadedSignal))]
+        public void OnPictureLoaded(string playerId, Sprite picture)
+        {
+            view.UpdatePicture(playerId, picture);
         }
     }
 }
