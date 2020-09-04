@@ -639,7 +639,7 @@ namespace TurboLabz.Multiplayer
             ticketStoreItem = storeSettingsModel.items[tournamentMatchResultDialog.ticketsShortCode];
             haveEnoughItems = itemsOwned > 0;
             haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
-            youHaveTicketsText.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}/5";
+            youHaveTicketsText.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
             tournamentMatchPlayGemsCost.text = ticketStoreItem.currency3Cost.ToString();
             tournamentMatchPlayGemsBg.sprite = haveEnoughGems ? tournamentMatchResultDialog.enoughGemsSprite : tournamentMatchResultDialog.notEnoughGemsSprite;
             tournamentMatchPlayGemsBg.gameObject.SetActive(!haveEnoughItems);
