@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public TournamentLeaderboardInfoBar infoBar;
         public TournamentLeaderboardFooter footer;
         public GameObject tournamentLeaderboardPlayerEnterBar;
+        public ScrollRect scrollView;
 
         // Player bar click signal
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
@@ -192,6 +193,8 @@ namespace TurboLabz.InstantFramework
             {
                 tournamentLeaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
+
+            scrollView.verticalNormalizedPosition = 1;
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
@@ -264,7 +267,7 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, TournamentReward reward)
         {
-            playerBar.Populate(entry, reward);
+            playerBar.Populate(entry, reward, entry.publicProfile.playerId.Equals(playerModel.id));
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
 
             var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
