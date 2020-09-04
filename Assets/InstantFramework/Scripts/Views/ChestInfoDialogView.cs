@@ -29,6 +29,8 @@ namespace TurboLabz.InstantGame
         public TMP_Text gemsCount2;
         public TMP_Text hintsCount2;
 
+        public Image chestImage;
+
         public GameObject middleSectionWithTwoItems;
         public GameObject middleSectionWithThreeItems;
 
@@ -64,18 +66,25 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(TournamentReward reward)
         {
-            if(reward.ratingBoosters > 0)
+            ChestIconsContainer container = ChestIconsContainer.Load();
+            chestImage.sprite = container.GetChest(reward.chestType);
+
+            if (reward.chestType == TournamentConstants.ChestType.COMMON) titleText.text = "Arena Common Chest";
+            if (reward.chestType == TournamentConstants.ChestType.EPIC) titleText.text = "Arena Epic Chest";
+            if (reward.chestType == TournamentConstants.ChestType.RARE) titleText.text = "Arena Rare Chest";
+
+            if (reward.ratingBoosters > 0)
             {
-                gemsCount.text = reward.gems.ToString();
-                hintsCount.text = reward.hints.ToString();
-                ratingBoostersCount.text = reward.ratingBoosters.ToString();
+                gemsCount.text = "x" + reward.gems.ToString();
+                hintsCount.text = "x" + reward.hints.ToString();
+                ratingBoostersCount.text = "x" + reward.ratingBoosters.ToString();
                 middleSectionWithTwoItems.SetActive(false);
                 middleSectionWithThreeItems.SetActive(true);
             }
             else
             {
-                gemsCount2.text = reward.gems.ToString();
-                hintsCount2.text = reward.hints.ToString();
+                gemsCount2.text = "x" + reward.gems.ToString();
+                hintsCount2.text = "x" + reward.hints.ToString();
                 middleSectionWithTwoItems.SetActive(true);
                 middleSectionWithThreeItems.SetActive(false);
             }
