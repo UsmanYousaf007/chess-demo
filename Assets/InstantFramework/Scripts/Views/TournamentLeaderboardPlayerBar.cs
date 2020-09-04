@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public Image chestImage;
 
         public DisplayPictureView profile;
+        public GameObject playerPanel;
 
         [HideInInspector]
         public TournamentEntry entry;
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
 
             playerNameText.text = !isPlayer ? entry.publicProfile.name : "You";
             playerNameText.gameObject.SetActive(true);
+            playerPanel.SetActive(isPlayer);
 
             playerScoreCountText.text = entry.score.ToString();
 
