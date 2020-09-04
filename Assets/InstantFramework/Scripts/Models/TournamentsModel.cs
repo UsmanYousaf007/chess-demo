@@ -117,6 +117,7 @@ namespace TurboLabz.InstantFramework
             if (updateRemote)
             {
                 updateTournamentsSignal.Dispatch();
+                updateTournamentLeaderboardView.Dispatch();
             }
             else if (updateLocal)
             {
