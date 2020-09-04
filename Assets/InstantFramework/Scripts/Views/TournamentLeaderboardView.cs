@@ -75,7 +75,6 @@ namespace TurboLabz.InstantFramework
             TournamentLeaderboardPlayerEnterBar playerEnterBar = tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>();
             playerEnterBar.bodyText.text = "Enter this Tournament to earn a rank!";
             playerEnterBar.rankText.text = "?";
-            playerEnterBar.skinLink.InitPrefabSkin();
          }
 
         public void Populate(LiveTournamentData liveTournament)
@@ -105,6 +104,7 @@ namespace TurboLabz.InstantFramework
 
             PopulateTournamentHeader(header, liveTournament);
             footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
+            tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>().skinLink.InitPrefabSkin();
             tournamentLeaderboardPlayerEnterBar.SetActive(true);
         }
 
