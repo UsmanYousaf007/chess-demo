@@ -23,6 +23,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
@@ -80,6 +81,7 @@ namespace TurboLabz.Multiplayer
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
             coachVO.analyticsService = analyticsService;
+            coachVO.downloadablesModel = downloadablesModel;
 
             if (isLongPlay)
             {

@@ -121,6 +121,7 @@ namespace TurboLabz.Multiplayer
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
             coachVO.analyticsService = analyticsService;
+            coachVO.downloadablesModel = downloadablesModel;
 
             if (vo.piece.Contains("captured"))
             {
