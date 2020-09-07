@@ -286,6 +286,7 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnGameModeButtonClicked()");
         }
 
+        [ListensTo(typeof(UnlockCurrentJoinedTournamentSignal))]
         public void UnlockTournament()
         {
             if (joinedTournament != null)
