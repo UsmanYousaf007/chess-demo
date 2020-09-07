@@ -196,10 +196,6 @@ namespace TurboLabz.InstantFramework
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
         private StoreIconsContainer iconsContainer;
 
-        [Header("Rating boost")]
-        public RectTransform ratingBoost;
-        public TextMeshProUGUI textRatingBoost;
-
         public void Init()
         {
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
@@ -858,6 +854,7 @@ namespace TurboLabz.InstantFramework
             chooseComputerDifficultyDlg.SetActive(false);
             coachTrainingDailogue.GetComponent<CoachTrainingView>().Close();
             strengthTrainingDailogue.GetComponent<StrengthTrainingView>().Close();
+            ratingBoost.gameObject.SetActive(false);
         }
 
         public void Hide()
@@ -1541,13 +1538,6 @@ namespace TurboLabz.InstantFramework
         public void AdSkippedDailogueCloseButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-        }
-
-        public void RatingBoostAnimation(int ratingBoostVal)
-        {
-            textRatingBoost.text = "+" + ratingBoostVal;
-            ratingBoost.gameObject.SetActive(true);
-            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
     }
 }
