@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
 
         //power_ups
         power_ups_used,
+        booster_used,
 
         //lessons
         all_lessons_complete,
