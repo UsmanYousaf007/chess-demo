@@ -24,19 +24,23 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public Transform listContainer;
+        public GameObject inBoxBarContainer;
         public GameObject sectionHeader;
         public GameObject inBoxBarPrefab;
         public GameObject emptyInBoxStrip;
         public Text emptyInboxLabel;
-
+        public GameObject processing;
         public Text heading;
         public Text stripHeading;
+
+        public Button bottomNavBackButton;
 
         // Player bar click signal
         [HideInInspector]
         public Signal<InboxBar> inBoxBarClickedSignal = new Signal<InboxBar>();
         private Dictionary<string, InboxBar> inBoxBars = new Dictionary<string, InboxBar>();
         private Dictionary<string, Action<InboxMessage>> AddInboxBarFnMap = new Dictionary<string, Action<InboxMessage>>();
+        public Signal bottoNavBackButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -44,7 +48,7 @@ namespace TurboLabz.InstantFramework
             stripHeading.text = localizationService.Get(LocalizationKey.INBOX_SECTION_HEADER_REWARDS);
             emptyInboxLabel.text = localizationService.Get(LocalizationKey.INBOX_EMPTY_INBOX_LABEL);
 
-            sectionHeader.gameObject.SetActive(false);
+            inBoxBarContainer.gameObject.SetActive(false);
             emptyInBoxStrip.gameObject.SetActive(false);
 
             AddInboxBarFnMap.Add("RewardTournamentEnd", AddTournamentRewardBar);
@@ -52,7 +56,9 @@ namespace TurboLabz.InstantFramework
             AddInboxBarFnMap.Add("RewardDailyLeague", AddDailyLeagueRewardBar);
             AddInboxBarFnMap.Add("RewardLeaguePromotion", AddLeaguePromotionRewardBar);
 
-            Sort();
+            bottomNavBackButton.onClick.AddListener(() => bottoNavBackButtonClickedSignal.Dispatch());
+
+            //Sort();
         }
 
         public void Show()
@@ -75,7 +81,7 @@ namespace TurboLabz.InstantFramework
                 items.Add(item.Value);
             }
 
-            sectionHeader.gameObject.SetActive(items.Count > 0);
+            inBoxBarContainer.gameObject.SetActive(items.Count > 0);
             emptyInBoxStrip.gameObject.SetActive(items.Count == 0);
 
             items.Sort((x, y) => x.timeStamp > y.timeStamp ? -1 : ((x.timeStamp < y.timeStamp) ? 1 : 0));
@@ -97,17 +103,19 @@ namespace TurboLabz.InstantFramework
 
             item.timeStamp = 0;
 
-            item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetTile(msg.tournamentType);
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetThumb(msg.tournamentType);
+            item.headingText.text = "Tournament Rewards";
+            item.subHeadingText.text = "Completed " + DateTimeOffset.FromUnixTimeMilliseconds(msg.timeStamp).LocalDateTime.ToShortDateString();
             item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -119,16 +127,18 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
 
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Daily Subscription Rewards";
+            item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("SubscriptionSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -140,16 +150,18 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
 
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Daily League Rewards";
+            item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("RankSticker");
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "Collect";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -161,16 +173,18 @@ namespace TurboLabz.InstantFramework
             item.timeStamp = 0;
             
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
-            item.headingText.text = msg.heading;
-            item.subHeadingText.text = msg.subHeading;
+            item.headingText.text = "Congratulations!";
+            item.subHeadingText.text = "You've been Promoted!";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("LeaguePromotionSticker");
             
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 
+            item.buttonText.text = "View";
             item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
 
             item.transform.SetParent(listContainer, false);
+            item.skinLink.InitPrefabSkin();
             inBoxBars.Add(item.msgId, item);
         }
 
@@ -192,6 +206,7 @@ namespace TurboLabz.InstantFramework
             }
 
             Sort();
+            processing.SetActive(false);
         }
 
         public void RemoveMessage(string messageId)

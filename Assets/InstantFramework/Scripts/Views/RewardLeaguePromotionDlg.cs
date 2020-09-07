@@ -12,11 +12,19 @@ namespace TurboLabz.InstantFramework
     {
         public Text headingText;
         public Text subHeadingText;
-
+        public Image leagueGradient;
         public Text leagueTitleText;
         public Text rewardsSubHeadingText;
 
         public Image[] itemImages;
         public Text[] itemTexts;
+
+        public void Awake()
+        {
+            for (int i = 0; i < itemImages.Length; i++)
+            {
+                itemImages[i].transform.parent.gameObject.SetActive(false);
+            }
+        }
     }
 }

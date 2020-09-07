@@ -21,9 +21,11 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_ARENA);
             var diffInSeconds = (DateTime.UtcNow - tournamentsModel.lastFetchedTime).TotalSeconds;
-            if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+            if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME && tournamentsModel.updating == false)
             {
                 Retain();
+
+                tournamentsModel.updating = true;
                 backendService.TournamentsOpGetAllTournaments().Then(OnComplete);
             }
             else
@@ -34,6 +36,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnComplete(BackendResult result)
         {
+            tournamentsModel.updating = false;
+
             if (result != BackendResult.SUCCESS && result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);

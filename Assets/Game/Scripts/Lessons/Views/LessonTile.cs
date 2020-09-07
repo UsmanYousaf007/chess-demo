@@ -25,6 +25,11 @@ public class LessonTile : MonoBehaviour
     [HideInInspector] public bool haveEnoughItemsToUnlock;
     [HideInInspector] public bool haveEnoughGemsToUnlock;
 
+    private void OnEnable()
+    {
+        unlockedAnimation.gameObject.SetActive(false);
+    }
+
     public void Init(VideoLessonVO vo)
     {
         this.vo = vo;

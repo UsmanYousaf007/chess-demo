@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LeagueProfileStripView view { get; set; }
 
         // Dispatch signals
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            view.leagueProfileClickedSignal.AddListener(OnLeagueProfileClicked);
         }
 
         [ListensTo(typeof(UpdateLeagueProfileStripSignal))]
@@ -38,10 +40,23 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        public void OnPlayerModelUpdated(IPlayerModel playerModel)
+        {
+            view.UpdateLeague(playerModel.league);
+            view.UpdateTrophies(playerModel.trophies);
+        }
+
         [ListensTo(typeof(LeagueProfileStripSetOnClickSignal))]
         public void OnSetStripClickedSignal(Signal signal)
         {
             view.SetStripClickedSignal(signal);
+        }
+
+        public void OnLeagueProfileClicked()
+        {
+            analyticsService.Event(AnalyticsEventId.tap_tier_info);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
         }
     }
 }

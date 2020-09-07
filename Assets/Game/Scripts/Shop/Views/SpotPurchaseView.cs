@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         public Button close;
         public GameObject uiBlocker;
         public GameObject processing;
+        public Text finePrint;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         {
             title.text = localizationService.Get(LocalizationKey.SPOT_PURHCASE_TITLE);
             subTitle.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_SUB_TITLE);
+            finePrint.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_FINE_PRINT);
             close.onClick.AddListener(OnCloseButtonClicked);
         }
 

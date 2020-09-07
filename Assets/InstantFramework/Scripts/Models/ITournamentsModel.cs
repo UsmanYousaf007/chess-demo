@@ -17,15 +17,25 @@ namespace TurboLabz.InstantFramework
         List<LiveTournamentData> openTournaments { get; set; }
         List<LiveTournamentData> upcomingTournaments { get; set; }
 
+        string currentMatchTournamentType { get; set; }
+        JoinedTournamentData currentMatchTournament { get; set; }
+
+        bool updating { get; set; }
+
+        void UpdateSchedule();
+        bool HasTournamentEnded(JoinedTournamentData joinedTournament);
+        bool HasTournamentEnded(LiveTournamentData liveTournament);
         long CalculateCurrentStartTime(long waitTimeSeconds, long durationSeconds, long firstStartTimeSeconds);
         long CalculateTournamentTimeLeftSeconds(JoinedTournamentData joinedTournament);
         long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament);
         bool isTournamentOpen(LiveTournamentData liveTournament);
         void SetOpenTournament(LiveTournamentData openTournament);
+        bool RemoveFromJoinedTournament(string tournamentId);
         LiveTournamentData GetOpenTournament();
         LiveTournamentData GetOpenTournament(string shortCode);
         JoinedTournamentData GetJoinedTournament();
         JoinedTournamentData GetJoinedTournament(string tournamentId);
+        void SetJoinedTournament(JoinedTournamentData joinedTournament);
         LiveTournamentData GetUpcomingTournament(string shortCode);
         TournamentReward GetTournamentGrandPrize(string id);
         Sprite GetLiveTournamentSticker();
@@ -33,6 +43,8 @@ namespace TurboLabz.InstantFramework
         Sprite GetStickerSprite(string tournamentType);
         Sprite GetTileSprite(string tournamentType);
         TournamentAssetsContainer.TournamentAsset GetAllSprites(string tournamentType);
+        LeagueTierIconsContainer.LeagueAsset GetLeagueSprites(string leagueType);
+        void LogConcludedJoinedTournaments();
     }
 }
 

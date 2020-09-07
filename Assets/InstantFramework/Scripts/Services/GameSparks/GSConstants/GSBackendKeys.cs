@@ -112,6 +112,8 @@ namespace TurboLabz.InstantFramework
         public const string DOWNALOADABLE_SIZE = "size";
         public const string DOWNLOADABLE_URL = "url";
 
+        // Leagues
+        public const string LEAGUE_SETTINGS = "leagueSettings";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
@@ -412,6 +414,8 @@ namespace TurboLabz.InstantFramework
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
             public const string REWARDS = "rewards";
+            public const string TOURNAMENT_MATCH_SCORE = "tournamentScore";
+            public const string TOURNAMENT_MATCH_CHECKMATE_BONUS = "checkmateBonus";
         }
 
         public static class TournamentReward
@@ -503,6 +507,8 @@ namespace TurboLabz.InstantFramework
             public const string UPLOADED_PIC_ID = "uploadedPicId";
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
             public const string GEMS = "gems";
+            public const string TROPHIES = "trophies";
+            public const string LEAGUE = "league";
         }
 
         public static class Match

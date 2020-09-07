@@ -176,18 +176,24 @@ namespace TurboLabz.InstantFramework
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
     public class LoadRewardDlgViewSignal : Signal<string> { }
-    
-
+    public class InboxFetchingMessagesSignal : Signal<bool> { }
+    public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
+    public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
+    public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }
     public class GetTournamentsSuccessSignal : Signal { }
+    public class UpdateTournamentsSignal : Signal { }
     public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
     public class FetchLiveTournamentRewardsSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardPartialSignal : Signal<string> { }
     public class UpdateTournamentLeaderboardSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardViewSignal : Signal { }
     public class UpdateTournamentsViewSignal : Signal { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
+    public class UnlockCurrentJoinedTournamentSignal : Signal { }
 
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
@@ -198,6 +204,9 @@ namespace TurboLabz.InstantFramework
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
     public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
+    //public class UpdateLeagueProfileSignal : Signal<string, ProfileVO> { }
+    public class UpdateLeagueProfileSignal : Signal<string> { }
+    public class SetLeaguesSignal : Signal { }
 
     //Downloadable Content
     public class DownloadableContentEventSignal : Signal<ContentType?, ContentDownloadStatus> { }

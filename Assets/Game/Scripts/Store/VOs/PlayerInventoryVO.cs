@@ -13,5 +13,6 @@ namespace TurboLabz.InstantFramework
         public int hindsightCount;
         public long coinCount;
         public long gemsCount;
+        public bool allLessonsUnlocked;
     }
 }

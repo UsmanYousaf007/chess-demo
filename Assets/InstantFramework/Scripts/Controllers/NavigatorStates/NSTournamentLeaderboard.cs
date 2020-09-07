@@ -17,13 +17,18 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW, NavigatorViewId.LOBBY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
                 if (viewId == NavigatorViewId.ARENA_VIEW)
                 {
-                    return new NSArenaView();
+                    cmd.loadArenaSignal.Dispatch();
+                    return null;
+                }
+                else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_PROFILE_DLG)
@@ -57,6 +62,22 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_CHEST_INFO_DLG)
             {
                 return new NSChestInfoDlgView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW)
+            {
+                return new NSLeaguePerksView();
+            }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG)
+            {
+                return new NSTournamentOverDlg();
             }
 
             return null;

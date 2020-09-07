@@ -16,8 +16,8 @@ namespace TurboLabz.InstantFramework
         const string ASSET_NAME = "ChestIcons";
         public ChestIcon [] icons;
 
-        private Dictionary<string, Sprite> iconsDict;
-
+        private Dictionary<string, ChestIcon> iconsDict;
+       
         public static ChestIconsContainer Load()
         {
             ChestIconsContainer chestIconsContainer = Resources.Load(ASSET_NAME) as ChestIconsContainer;
@@ -25,11 +25,16 @@ namespace TurboLabz.InstantFramework
             return chestIconsContainer;
         }
 
-        public Sprite GetChest(string chestType)
+        public Sprite GetChest(string chestType, bool isUnlocked = false)
         {
             if (iconsDict.ContainsKey(chestType))
             {
-                return iconsDict[chestType];
+                if (isUnlocked)
+                {
+                    return iconsDict[chestType].iconUnlockedSprite;
+                }
+
+                return iconsDict[chestType].iconSprite;
             }
 
             return null;
@@ -37,10 +42,10 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateDict ()
         {
-            iconsDict = new Dictionary<string, Sprite>(icons.Length + 1);
+            iconsDict = new Dictionary<string, ChestIcon>(icons.Length + 1);
             for (int i = 0; i < icons.Length; i++)
             {
-                iconsDict.Add(icons[i].chestType, icons[i].iconSprite);
+                iconsDict.Add(icons[i].chestType, icons[i]);
             }
         }
 
@@ -50,6 +55,7 @@ namespace TurboLabz.InstantFramework
             [Header("Chest Type must correspond to the chest type values in TournamentConstants.cs")]
             public string chestType;
             public Sprite iconSprite;
+            public Sprite iconUnlockedSprite;
         }
 
 #if UNITY_EDITOR

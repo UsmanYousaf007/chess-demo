@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -41,6 +42,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
+
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -49,8 +53,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
         [Inject] public IAppUpdateService appUpdatesService { get; set; }
-
 
         public override void Execute()
         {
@@ -107,6 +111,9 @@ namespace TurboLabz.InstantFramework
         private void InitGame()
         {
             DispatchGameSignals();
+            schedulerService.Init();
+            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
+            schedulerService.Start();
             ResumeGame();
         }
 
@@ -133,6 +140,7 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.sessionCount++;
             initBackendOnceSignal.Dispatch();
+            setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
             // loadPromotionSingal.Dispatch();
             autoSubscriptionDialogueService.Show();
@@ -211,9 +219,15 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
+            if (leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            {
+                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
+            }
+
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
 
+            tournamentsModel.LogConcludedJoinedTournaments();
             SendDailyAnalytics();
         }
 

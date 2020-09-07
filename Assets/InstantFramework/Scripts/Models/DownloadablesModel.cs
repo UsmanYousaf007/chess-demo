@@ -40,7 +40,12 @@ namespace TurboLabz.InstantFramework
 
         public Dictionary<string, DownloadableItem> downloadableItems { get; set; }
 
-        private const string VERSION_CACHE_FILENAME = "downloadables_versioncache";
+#if UNITY_ANDROID
+        private const string VERSION_CACHE_FILENAME = "downloadables_versioncache_andriod";
+#elif UNITY_IOS
+        private const string VERSION_CACHE_FILENAME = "downloadables_versioncache_ios";
+#endif
+
         private Dictionary<string, DownloadableItem> versionCache;
 
         [PostConstruct]

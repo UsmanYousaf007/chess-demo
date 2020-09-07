@@ -87,6 +87,9 @@ namespace TurboLabz.InstantFramework
             List<GSData> downloadablesData = response.ScriptData.GetGSDataList(GSBackendKeys.DOWNLOADBLES);
             FillDownloadablesModel(downloadablesData);
 
+            GSData leaguesData = response.ScriptData.GetGSData(GSBackendKeys.LEAGUE_SETTINGS);
+            FillLeaguesModel(leaguesData);
+
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
@@ -176,6 +179,8 @@ namespace TurboLabz.InstantFramework
             playerModel.cpuPowerupUsedCount = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.CPU_POWERUP_USED_COUNT).Value;
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
             playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
+            playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+            playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
@@ -434,23 +439,29 @@ namespace TurboLabz.InstantFramework
 
         private void FillJoinedTournaments(GSData joinedTournaments)
         {
-            tournamentsModel.joinedTournaments.Clear();
-
             if (joinedTournaments != null)
             {
+                List<JoinedTournamentData> joinedTournamentsList = new List<JoinedTournamentData>();
+
                 foreach (KeyValuePair<string, object> pair in joinedTournaments.BaseData)
                 {
-                    var tournamentGSData = pair.Value as GSData;
-                    JoinedTournamentData joinedTournament = ParseJoinedTournament(tournamentGSData, pair.Key);
+                    var joinedTournament = tournamentsModel.GetJoinedTournament(pair.Key);
 
-                    tournamentsModel.joinedTournaments.Add(joinedTournament);
+                    var tournamentGSData = pair.Value as GSData;
+                    JoinedTournamentData newJoinedTournament = ParseJoinedTournament(tournamentGSData, pair.Key, joinedTournament);
+
+                    joinedTournamentsList.Add(newJoinedTournament);
                 }
+
+                joinedTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
+
+                tournamentsModel.joinedTournaments = joinedTournamentsList;
             }
         }
 
-        private JoinedTournamentData ParseJoinedTournament(GSData tournamentGSData, string id)
+        private JoinedTournamentData ParseJoinedTournament(GSData tournamentGSData, string id, JoinedTournamentData savedJoinedTournament = null)
         {
-            JoinedTournamentData joinedTournament = new JoinedTournamentData();
+            JoinedTournamentData joinedTournament = savedJoinedTournament == null ? new JoinedTournamentData() : savedJoinedTournament;
             joinedTournament.id = id;
             joinedTournament.shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
             joinedTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
@@ -484,7 +495,10 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
-                joinedTournament.grandPrize = joinedTournament.rewardsDict[1];
+                if (joinedTournament.grandPrize == null)
+                {
+                    joinedTournament.grandPrize = joinedTournament.rewardsDict[1];
+                }
             }
 
             var entries = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.ENTRIES);
@@ -505,6 +519,10 @@ namespace TurboLabz.InstantFramework
 
             joinedTournament.startTimeUTC = GSParser.GetSafeLong(tournamentGSData, GSBackendKeys.Tournament.START_TIME);
             joinedTournament.durationMinutes = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.DURATION);
+
+            long concludeTimeUTC = joinedTournament.startTimeUTC + (joinedTournament.durationMinutes * 60 * 1000);
+            joinedTournament.concludeTimeUTCSeconds = concludeTimeUTC / 1000;
+            joinedTournament.endTimeUTCSeconds = joinedTournament.concludeTimeUTCSeconds;
 
             return joinedTournament;
         }
@@ -531,31 +549,50 @@ namespace TurboLabz.InstantFramework
 
         private void FillLiveTournaments(List<GSData> liveTournaments)
         {
-            tournamentsModel.openTournaments.Clear();
-            tournamentsModel.upcomingTournaments.Clear();
-
             if (liveTournaments != null)
             {
+                List<LiveTournamentData> openTournamentsList = new List<LiveTournamentData>();
+                List<LiveTournamentData> upcomingTournamentsList = new List<LiveTournamentData>();
+
                 for (int i = 0; i < liveTournaments.Count; i++)
                 {
                     var tournamentGSData = liveTournaments[i].BaseData[GSBackendKeys.Tournament.TOURNAMENT_KEY] as GSData;
-                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData);
+                    string shortCode = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+
+                    LiveTournamentData openTournament = null;
+                    LiveTournamentData upcomingTournament = null;
+                    LiveTournamentData liveTournamentData = null;
+                    if (shortCode != null)
+                    {
+                        openTournament = tournamentsModel.GetOpenTournament(shortCode);
+                        upcomingTournament = tournamentsModel.GetOpenTournament(shortCode);
+
+                        liveTournamentData = openTournament != null ? openTournament : upcomingTournament;
+                    }
+
+                    LiveTournamentData liveTournament = ParseLiveTournament(tournamentGSData, liveTournamentData);
 
                     if (tournamentsModel.isTournamentOpen(liveTournament))
                     {
-                        tournamentsModel.openTournaments.Add(liveTournament);
+                        openTournamentsList.Add(liveTournament);
                     }
                     else
                     {
-                        tournamentsModel.upcomingTournaments.Add(liveTournament);
+                        upcomingTournamentsList.Add(liveTournament);
                     }
                 }
+
+                openTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
+                upcomingTournamentsList.Sort((x, y) => x.endTimeUTCSeconds.CompareTo(y.endTimeUTCSeconds));
+
+                tournamentsModel.openTournaments = openTournamentsList;
+                tournamentsModel.upcomingTournaments = upcomingTournamentsList;
             }
         }
 
-        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData)
+        private LiveTournamentData ParseLiveTournament(GSData liveTournamentGSData, LiveTournamentData savedLiveTournamentData = null)
         {
-            LiveTournamentData liveTournament = new LiveTournamentData();
+            LiveTournamentData liveTournament = savedLiveTournamentData == null ? new LiveTournamentData() : savedLiveTournamentData;
 
             liveTournament.shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
             liveTournament.name = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.NAME);
@@ -596,7 +633,23 @@ namespace TurboLabz.InstantFramework
             long waitTimeSeconds = liveTournament.waitTimeMinutes * 60;
             long durationSeconds = liveTournament.durationMinutes * 60;
             long firstStartTimeSeconds = liveTournament.firstStartTimeUTC / 1000;
-            liveTournament.currentStartTimeInSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+            liveTournament.currentStartTimeUTCSeconds = tournamentsModel.CalculateCurrentStartTime(waitTimeSeconds, durationSeconds, firstStartTimeSeconds);
+
+            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            if (currentTimeUTCSeconds < liveTournament.currentStartTimeUTCSeconds)
+            {
+                liveTournament.concludeTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds;
+                liveTournament.endTimeUTCSeconds = liveTournament.concludeTimeUTCSeconds;
+                liveTournament.concluded = false;
+            }
+            else
+            {
+                liveTournament.endTimeUTCSeconds = liveTournament.currentStartTimeUTCSeconds + durationSeconds;
+                liveTournament.concludeTimeUTCSeconds = liveTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                liveTournament.concluded = currentTimeUTCSeconds > liveTournament.concludeTimeUTCSeconds;
+            }
+
+            liveTournament.joined = false;
 
             return liveTournament;
         }
@@ -637,6 +690,24 @@ namespace TurboLabz.InstantFramework
                 targetList.Add(id, msg);
             }
 
+        }
+
+        private void FillLeaguesModel(GSData leaguesData)
+        {
+            leaguesModel.leagues.Clear();
+
+            foreach (KeyValuePair<string, object> obj in leaguesData.BaseData)
+            {
+                GSData data = (GSData)obj.Value;
+                string id = obj.Key;
+                League league = new League();
+                league.dailyReward = new Dictionary<string, int>();
+
+                GSParser.ParseLeague(league, data);
+                GSParser.LogLeague(league);
+
+                leaguesModel.leagues.Add(id, league);
+            }
         }
 
         private void FillDownloadablesModel(List<GSData> downloadablesData)

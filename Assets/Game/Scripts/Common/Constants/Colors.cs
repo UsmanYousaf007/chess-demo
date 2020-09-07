@@ -31,8 +31,10 @@ namespace TurboLabz.InstantGame
         public static readonly Color GREEN_DIM = new Color(148f / 255f, 207f / 255f, 96f / 255f, 1f);
         public static readonly Color BLACK = new Color(0f, 0f, 0f, 1f);
         public static readonly Color BLACK_DIM = new Color(0f, 0f, 0f, 50f/255f);
-
         public static readonly Color GLASS_GREEN = new Color(198f / 255f, 1f, 74f / 255f);
+        public static readonly Color GOLD = new Color(235f / 255f, 168f / 255f, 61f / 255f, 1f);
+        public static readonly Color SILVER = new Color(183f / 255f, 183f / 255f, 183f / 255f, 1f);
+        public static readonly Color BRONZE = new Color(151f / 255f, 97f / 255f, 65f / 255f, 1f);
 
         public static readonly Color DISABLED_WHITE = new Color(1f, 1f, 1f, 50f/255f);
         public static readonly Color TRANSPARENT = new Color(1f, 1f, 1f, 0f);

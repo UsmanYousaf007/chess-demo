@@ -10,6 +10,11 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using System.Collections;
+using TurboLabz.InstantGame;
+using TMPro;
+using DG.Tweening;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         public Button backButton;
@@ -31,59 +37,93 @@ namespace TurboLabz.InstantFramework
         public TournamentLiveItem header;
         public TournamentLeaderboardInfoBar infoBar;
         public TournamentLeaderboardFooter footer;
+        public GameObject tournamentLeaderboardPlayerEnterBar;
+        public ScrollRect scrollView;
+        public TournamentLeaderboardPlayerBar fixedPlayerBar;
+        public PlayerStripOverlayCollisionDetection fixedPlayerStripEnabler;
 
         // Player bar click signal
-        [HideInInspector]
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
         public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
+        public StoreItem ticketStoreItem;
+        public Signal<GetProfilePictureVO> loadPictureSignal = new Signal<GetProfilePictureVO>();
 
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
 
         private LiveTournamentData liveTournament = null;
         private JoinedTournamentData joinedTournament = null;
+        private GameObjectsPool barsPool;
+        private TournamentAssetsContainer tournamentAssetsContainer;
+        private WaitForSecondsRealtime waitForOneRealSecond;
 
         public void Init()
         {
+            barsPool = new GameObjectsPool(tournamentLeaderboardPlayerBarPrefab, 50);
             header.Init();
-
             PopulateTournamentInfoBar();
-            PopulateFooter();
-
             backButton.onClick.AddListener(OnBackButtonClicked);
+            tournamentLeaderboardPlayerEnterBar.SetActive(false);
+            PopulateTournamentLeaderboardPlayerEnterBar();
+            tournamentAssetsContainer = TournamentAssetsContainer.Load();
+            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
-        public void Populate(LiveTournamentData liveTournament)
+        public void PopulateTournamentLeaderboardPlayerEnterBar()
         {
+            TournamentLeaderboardPlayerEnterBar playerEnterBar = tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>();
+            playerEnterBar.bodyText.text = "Enter this Tournament to earn a rank!";
+            playerEnterBar.rankText.text = "?";
+         }
+
+        public void PopulateHeaderAndFooter(LiveTournamentData liveTournament)
+        {
+            PopulateTournamentHeader(header, liveTournament);
+            footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
+            tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>().skinLink.InitPrefabSkin();
+            tournamentLeaderboardPlayerEnterBar.SetActive(true);
+
+            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
+            infoBar.gameModeText.text = liveTournament.name;
+            DisableFixedPlayerBar();
+        }
+
+        public void PopulateEntries(LiveTournamentData liveTournament)
+        {
+            ClearBars();
+
             int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
-            if (itemBarsCount < 3)
+            if (itemBarsCount <= 50)
             {
-                for (int i = itemBarsCount; i < 3; i++)
+                for (int i = itemBarsCount; i < 50; i++)
                 {
                     tournamentLeaderboardPlayerBars.Add(AddPlayerBar());
                 }
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var playerBar = tournamentLeaderboardPlayerBars[i];
                 PopulateBar(playerBar, i + 1, liveTournament.rewardsDict[i + 1]);
             }
-
-            for (int i = 4; i < itemBarsCount; i++)
-            {
-                var playerBar = tournamentLeaderboardPlayerBars[i];
-                playerBar.gameObject.SetActive(false);
-            }
-
-            PopulateTournamentHeader(header, liveTournament);
-
-            // TODO: Disable scroll view here
         }
 
-        public void Populate(JoinedTournamentData joinedTournament)
+        public void PopulateHeaderAndFooter(JoinedTournamentData joinedTournament)
         {
+            PopulateTournamentHeader(header, joinedTournament);
+            PopulateFooter();
+            footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);
+            tournamentLeaderboardPlayerEnterBar.SetActive(false);
+
+            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.name} tournament.";
+            infoBar.gameModeText.text = joinedTournament.name;
+        }
+
+        public void PopulateEntries(JoinedTournamentData joinedTournament)
+        {
+            ClearBars();
+
             int itemBarsCount = tournamentLeaderboardPlayerBars.Count;
             if (itemBarsCount < joinedTournament.entries.Count)
             {
@@ -98,34 +138,55 @@ namespace TurboLabz.InstantFramework
                 var playerBar = tournamentLeaderboardPlayerBars[i];
                 PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i+1) ? joinedTournament.rewardsDict[i + 1] : null);
             }
+        }
 
-            PopulateTournamentHeader(header, joinedTournament);
+        public void ClearBars()
+        {
+            for (int i = 0; i < tournamentLeaderboardPlayerBars.Count; i++)
+            {
+                tournamentLeaderboardPlayerBars[i].rankIcon.enabled = false;
+                tournamentLeaderboardPlayerBars[i].playerRankCountText.color = Colors.WHITE;
+                RemovePlayerBarListeners(tournamentLeaderboardPlayerBars[i]);
+                barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
+            }
 
-            // TODO: Enable scrolling here
+            tournamentLeaderboardPlayerBars.Clear();
+        }
+
+        public void DisableFixedPlayerBar()
+        {
+            fixedPlayerBar.gameObject.SetActive(false);
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            StartCoroutine(CountdownTimer());
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+            StopCoroutine(CountdownTimer());
         }
 
         public void UpdateView(JoinedTournamentData joinedTournament)
         {
             this.joinedTournament = joinedTournament;
-            Populate(joinedTournament);
+            this.liveTournament = null;
+            PopulateEntries(joinedTournament);
+            PopulateHeaderAndFooter(joinedTournament);
             Sort();
         }
 
         public void UpdateView(LiveTournamentData liveTournament)
         {
             this.liveTournament = liveTournament;
-            Populate(liveTournament);
+            this.joinedTournament = null;
+            PopulateEntries(liveTournament);
+            PopulateHeaderAndFooter(liveTournament);
             Sort();
+            
         }
 
         private void Sort()
@@ -146,32 +207,18 @@ namespace TurboLabz.InstantFramework
             {
                 tournamentLeaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
+
+            scrollView.verticalNormalizedPosition = 1;
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
-            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(joinedTournament);
-            if (timeLeft < 0)
-            {
-                timeLeft = 0;
-            }
-
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(joinedTournament, timeLeftString);
+            item.UpdateItem(joinedTournament);
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
-            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
-            if (timeLeft < 0)
-            {
-                timeLeft = 0;
-            }
-
-            string timeLeftString = TimeUtil.FormatPlayerClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-
-            item.UpdateItem(liveTournament, timeLeftString);
+            item.UpdateItem(liveTournament);
         }
 
         private void PopulateTournamentInfoBar()
@@ -184,46 +231,92 @@ namespace TurboLabz.InstantFramework
             item.columnHeaderRankLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK);
             item.columnHeaderScoreLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE);
             item.columnHeaderRewardsLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS);
+
+            infoBar.rulesTooltipButton.onClick.AddListener(OnRulesButtonClicked);
+            infoBar.totalScoreTooltipButton.onClick.AddListener(OnTotalScoresButtonClicked);
+            infoBar.gameModeTooltipButton.onClick.AddListener(OnGameModesButtonClicked);
         }
 
-        private void PopulateFooter()
+        public void PopulateFooter()
         {
             TournamentLeaderboardFooter item = footer;
 
-            item.bg.sprite = Resources.Load("AM.png") as Sprite;
+            if (!storeSettingsModel.items.ContainsKey(item.itemToConsumeShortCode))
+            {
+                return;
+            }
 
-            item.youHaveLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE);
+            var itemsOwned = playerModel.GetInventoryItemCount(item.itemToConsumeShortCode);
+            var alreadyPlayed = joinedTournament != null;
+
+            ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
+            item.haveEnoughItems = itemsOwned > 0;
+            item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
+            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
+            item.enterButtonTicketPlayCountText.text = "1";
+            item.gemsCost.text = ticketStoreItem.currency3Cost.ToString();
+            item.enterButtonFreePlayLabel.gameObject.SetActive(!alreadyPlayed);
+            item.ticketPlayButtonGroup.gameObject.SetActive(alreadyPlayed);
+            item.gemsBg.sprite = item.haveEnoughGems ? item.haveEnoughGemsSprite : item.notEnoughGemsSprite;
+            item.gemsBg.gameObject.SetActive(!item.haveEnoughItems && alreadyPlayed);
 
-            item.ticketsCountText.text = "3/5";
-            item.enterButtonTicketPlayCountText.text = "12";
-
-            item.freePlayButtonGroup.gameObject.SetActive(false);
-            item.ticketPlayButtonGroup.gameObject.SetActive(true);
+            if (alreadyPlayed)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
+            }
         }
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()
         {
-            GameObject obj = GameObject.Instantiate(tournamentLeaderboardPlayerBarPrefab);
+            GameObject obj = barsPool.GetObject();
             TournamentLeaderboardPlayerBar item = obj.GetComponent<TournamentLeaderboardPlayerBar>();
             item.transform.SetParent(listContainer, false);
             AddPlayerBarListeners(item);
+            item.gameObject.SetActive(true);
             return item;
             
         }
 
         private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, TournamentEntry entry, TournamentReward reward)
         {
-            playerBar.Populate(entry, reward);
+            var isPlayerStrip = entry.publicProfile.playerId.Equals(playerModel.id);
+            playerBar.Populate(entry, reward, isPlayerStrip);
 
+            if (isPlayerStrip)
+            {
+                fixedPlayerBar.Populate(entry, reward, isPlayerStrip);
+
+                if (entry.rank > 3)
+                {
+                    fixedPlayerStripEnabler.EnableTransform();
+                }
+                else
+                {
+                    DisableFixedPlayerBar();
+                }
+            }
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
+
+            var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
+                || !string.IsNullOrEmpty(entry.publicProfile.facebookUserId))
+                && entry.publicProfile.profilePicture == null;
+
+            if (loadPicture)
+            {
+                var loadPicVO = new GetProfilePictureVO();
+                loadPicVO.playerId = entry.publicProfile.playerId;
+                loadPicVO.uploadedPicId = entry.publicProfile.uploadedPicId;
+                loadPicVO.facebookUserId = entry.publicProfile.facebookUserId;
+                loadPicVO.saveOnDisk = false;
+                loadPictureSignal.Dispatch(loadPicVO);
+            }
         }
 
         private void PopulateBar(TournamentLeaderboardPlayerBar playerBar, int rank, TournamentReward reward)
         {
             playerBar.Populate(rank, reward);
-
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);
         }
 
@@ -233,10 +326,126 @@ namespace TurboLabz.InstantFramework
             playerBar.chestButton.onClick.AddListener(() => playerBarChestClickSignal.Dispatch(playerBar.reward));
         }
 
+        private void RemovePlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
+        {
+            playerBar.button.onClick.RemoveAllListeners();
+            playerBar.chestButton.onClick.RemoveAllListeners();
+        }
+
         private void OnBackButtonClicked()
         {
             audioService.PlayStandardClick();
             backSignal.Dispatch();
+        }
+
+        Coroutine rulesTooltipCR;
+        void OnRulesButtonClicked()
+        {
+            if (rulesTooltipCR != null)
+            {
+                StopCoroutine(rulesTooltipCR);
+                infoBar.rulesTooltipText.DOKill();
+                infoBar.rulesTooltipBG.DOKill();
+            }
+
+            infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+            if (infoBar.rulesTooltip.activeSelf)
+            {
+                rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
+            }
+            else
+            {
+                infoBar.rulesTooltipText.DOFade(1f, 0f);
+                infoBar.rulesTooltipBG.DOFade(1f, 0f);
+            }
+        }
+
+        Coroutine totalScoresTooltipCR;
+        void OnTotalScoresButtonClicked()
+        {
+
+            if (totalScoresTooltipCR != null)
+            {
+                StopCoroutine(totalScoresTooltipCR);
+                infoBar.totalScoresTooltipText.DOKill();
+                infoBar.totalScoresTooltipBG.DOKill();
+            }
+
+            infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
+
+            if (infoBar.totalScoresTooltip.activeSelf)
+            {
+                totalScoresTooltipCR = StartCoroutine(FadeOut(infoBar.totalScoresTooltipBG, infoBar.totalScoresTooltipText, 2f, 0f, infoBar.totalScoresTooltip));
+            }
+            else
+            {
+                infoBar.totalScoresTooltipText.DOFade(1f, 0f);
+                infoBar.totalScoresTooltipBG.DOFade(1f, 0f);
+            }
+
+        }
+
+        Coroutine gameModesTooltipCR;
+        void OnGameModesButtonClicked()
+        {
+            if (gameModesTooltipCR != null)
+            {
+                StopCoroutine(gameModesTooltipCR);
+                infoBar.gameModeTooltipText.DOKill();
+                infoBar.gameModeTooltipBG.DOKill();
+            }
+
+            infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+            if (infoBar.gameModesTooltip.activeSelf)
+            {
+                gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));
+            }
+            else
+            {
+                infoBar.gameModeTooltipText.DOFade(1f, 0f);
+                infoBar.gameModeTooltipBG.DOFade(1f, 0f);
+            }
+        }
+
+        IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
+        {
+            yield return new WaitForSeconds(1);
+            image.DOFade(fadeTo, duration);
+            text.DOFade(fadeTo, duration);
+            yield return new WaitForSeconds(duration);
+            image.DOFade(1f, 0f);
+            text.DOFade(1f, 0f);
+            gameObject.SetActive(false);
+            yield return null;
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                yield return waitForOneRealSecond;
+
+                header.UpdateTime();
+            }
+
+            yield return null;
+        }
+
+        public void UpdatePicture(string playerId, Sprite picture)
+        {
+            var playerBar = (from bar in tournamentLeaderboardPlayerBars
+                             where bar.profile.playerId.Equals(playerId)
+                             select bar).FirstOrDefault();
+
+            if (playerBar != null)
+            {
+                playerBar.profile.SetProfilePicture(picture);
+            }
+
+            if (playerId.Equals(fixedPlayerBar.profile.playerId))
+            {
+                fixedPlayerBar.profile.SetProfilePicture(picture);
+            }
         }
     }
 }

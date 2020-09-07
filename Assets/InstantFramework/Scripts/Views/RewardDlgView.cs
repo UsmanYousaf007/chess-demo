@@ -56,7 +56,11 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailySubscriptionDlgPrefab(RewardDlgVO vo)
         {
             RewardDailySubscriptionDlg p = activeDlg.GetComponent<RewardDailySubscriptionDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = "Daily Subscription Reward!";
             p.buttonText.text = "Collect";
@@ -68,7 +72,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -76,9 +80,14 @@ namespace TurboLabz.InstantFramework
         public void InitRewardDailyLeagueDlgPrefab(RewardDlgVO vo)
         {
             RewardDailyLeagueDlg p = activeDlg.GetComponent<RewardDailyLeagueDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = vo.league;
+            p.leagueGradient.sprite = vo.leagueGradient;
             p.subHeadingText.text = "Daily League Reward!";
             p.buttonText.text = "Collect";
 
@@ -89,7 +98,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -104,6 +113,7 @@ namespace TurboLabz.InstantFramework
             p.buttonText.text = "Got it";
 
             p.leagueTitleText.text = vo.league;
+            p.leagueGradient.sprite = vo.leagueGradient;
             p.rewardsSubHeadingText.text = "Your Daily Perks";
 
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
@@ -113,7 +123,7 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
                 }
             }
         }
@@ -121,16 +131,21 @@ namespace TurboLabz.InstantFramework
         public void InitRewardTournamentEndDlgPrefab(RewardDlgVO vo)
         {
             RewardTournamentEndDlg p = activeDlg.GetComponent<RewardTournamentEndDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                analyticsService.Event(AnalyticsEventId.inbox_tournament_reward_collected);
+                buttonClickedSignal.Dispatch(vo.msgId);
+            });
 
             p.headingText.text = vo.tournamentName + " Reward!";
-            p.buttonText.text = "Collect";
-
-            p.chestImage.gameObject.SetActive(vo.chestName != null);
-            p.chestText.gameObject.SetActive(vo.chestName != null);
+            p.subHeadtingLabel.text = "Rank Achieved";
+            p.rankCountText.text = vo.rankCount.ToString();
+            p.trophiesCountText.text = vo.trophiesCount.ToString();
             p.chestImage.sprite = vo.chestImage;
             p.chestText.text = vo.chestName;
+            p.chestSection.SetActive(vo.chestName != null);
 
+            int rewardCount = 0;
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
                 int qty = vo.GetRewardItemQty(i);
@@ -138,9 +153,14 @@ namespace TurboLabz.InstantFramework
                 if (qty > 0)
                 {
                     p.itemImages[i].sprite = vo.GetRewardImage(i);
-                    p.itemTexts[i].text = vo.GetRewardItemQty(i).ToString();
+                    p.itemTexts[i].text = $"x{qty}";
+                    rewardCount++;
                 }
             }
+
+            p.rewardsSection.SetActive(rewardCount > 0);
+            p.buttonText.text = p.chestSection.activeSelf || p.rewardsSection.activeSelf ? "Collect" : "Ok";
+            LayoutRebuilder.ForceRebuildLayoutImmediate(p.layout);
         }
 
         public void OnUpdate(RewardDlgVO vo)

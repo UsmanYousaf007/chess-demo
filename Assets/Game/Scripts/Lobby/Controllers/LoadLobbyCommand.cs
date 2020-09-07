@@ -32,6 +32,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
+        [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -50,6 +51,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void Execute()
         {
@@ -137,6 +139,7 @@ namespace TurboLabz.InstantGame
             }
 
             updateProfileSignal.Dispatch(pvo);
+            updateLeagueProfileSignal.Dispatch(playerModel.league.ToString());
         }
 
         private void DispatchRemoveAdsSignal() 

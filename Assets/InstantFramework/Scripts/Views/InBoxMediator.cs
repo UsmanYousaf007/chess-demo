@@ -18,12 +18,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 
         // Dispatch signals
-        //[Inject] public InboxMessageCollectSignal inboxMessageCollectSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
             // Button click handlers
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
+            view.bottoNavBackButtonClickedSignal.AddListener(OnBottomNavBackButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -42,6 +44,8 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.INBOX_VIEW)
             {
                 view.Show();
+                analyticsService.ScreenVisit(AnalyticsScreen.inbox);
+                analyticsService.Event(AnalyticsEventId.inbox_visits);
             }
         }
 
@@ -60,6 +64,14 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
         }
 
+        public void OnBottomNavBackButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            audioService.PlayStandardClick();
+
+            TLUtils.LogUtil.Log("InBoxMediator::OnBottomNavBackButtonClicked()");
+        }
+
         [ListensTo(typeof(InboxAddMessagesSignal))]
         public void OnInboxAddMessages(Dictionary<string, InboxMessage> messages)
         {
@@ -70,6 +82,12 @@ namespace TurboLabz.InstantFramework
         public void OnInboxRemoveMessage(string messageId)
         {
             view.RemoveMessage(messageId);
+        }
+
+        [ListensTo(typeof(InboxFetchingMessagesSignal))]
+        public void OnInboxFetchingMessages(bool isFetching)
+        {
+            view.processing.SetActive(isFetching);
         }
     }
 }

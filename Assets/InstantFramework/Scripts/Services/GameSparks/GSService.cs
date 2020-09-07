@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSuccessSignal { get; set; }
+        [Inject] public PlayerModelUpdatedSignal playerModelUpdatedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -51,6 +52,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Services
         [Inject] public IStoreService storeService { get; set; }

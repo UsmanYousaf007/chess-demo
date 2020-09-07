@@ -42,6 +42,8 @@ namespace TurboLabz.InstantFramework
         public AnalyticsContext adContext { get; set; }
         public string uploadedPicId { get; set; }
         public long gems { get; set; }
+        public int trophies { get; set; }
+        public int league { get; set; }
 
         public string name
         {
@@ -116,6 +118,8 @@ namespace TurboLabz.InstantFramework
             renewDate = "";
             subscriptionType = "";
             gems = 0;
+            trophies = 0;
+            league = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -226,7 +230,7 @@ namespace TurboLabz.InstantFramework
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;
             playerInventoryVO.gemsCount = gems;
-
+            playerInventoryVO.allLessonsUnlocked = OwnsAllLessons();
             return playerInventoryVO;
         }
 

@@ -10,7 +10,7 @@ using GameSparks.Api.Responses;
 using System.Collections.Generic;
 using strange.extensions.promise.api;
 using SimpleJson2;
-
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -33,6 +33,49 @@ namespace TurboLabz.InstantFramework
             return new GSInBoxOpRequest(GetRequestContext()).Send("collect", OnInBoxOpSuccess, jsonObj.ToString());
         }
 
+
+        public List<InboxMessage> CheckForNewInboxMessages (Dictionary<string, InboxMessage> dict)
+        {
+            List<InboxMessage> newMsgs = new List<InboxMessage>();
+
+            foreach (KeyValuePair<string, InboxMessage> item in dict)
+            {
+                if (inboxModel.items.ContainsKey(item.Key) == false)
+                {
+                    newMsgs.Add(item.Value);
+                }
+            }
+
+            return newMsgs;
+        }
+
+        public void DispatchInboxNotifications(List<InboxMessage> inboxMsgIds)
+        {
+            for (int i = 0; i < inboxMsgIds.Count; i++)
+            {
+                InboxMessage msg = inboxMsgIds[i];
+                if (msg.type == "RewardTournamentEnd")
+                {
+                    NotificationVO notificationVO;
+
+                    notificationVO.isOpened = false;
+                    notificationVO.title = "Collect your Tournament Prize from your InBox!";
+                    notificationVO.body = "Congrats! Your prize is waiting for you";
+                    notificationVO.senderPlayerId = "undefined";
+                    notificationVO.challengeId = "undefined";
+                    notificationVO.matchGroup = "undefined";
+                    notificationVO.avatarId = "undefined";
+                    notificationVO.avaterBgColorId = "undefined";
+                    notificationVO.profilePicURL = "undefined";
+                    notificationVO.isPremium = false;
+                    notificationVO.timeSent = 0;
+                    notificationVO.actionCode = "undefined";
+
+                    notificationRecievedSignal.Dispatch(notificationVO);
+                }
+            }
+        }
+
         private void OnInBoxOpSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
@@ -52,9 +95,11 @@ namespace TurboLabz.InstantFramework
             GSData inBoxMessagesData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.GET);
             if (inBoxMessagesData != null)
             {
-                FillInbox(inboxModel.items, inBoxMessagesData);
-                inboxAddMessagesSignal.Dispatch(inboxModel.items);
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inBoxMessagesData);
+                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
             }
 
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
@@ -73,6 +118,35 @@ namespace TurboLabz.InstantFramework
                     var qtyVar = obj.Value;
                     int qtyInt = Int32.Parse(qtyVar.ToString());
                     TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
+
+                    if (qtyInt > 0)
+                    {
+                        if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                        {
+                            playerModel.gems += qtyInt;
+                        }
+                        else if (playerModel.inventory.ContainsKey(itemShortCode))
+                        {
+                            playerModel.inventory[itemShortCode] += qtyInt;
+                        }
+                        else
+                        {
+                            playerModel.inventory.Add(itemShortCode, qtyInt);
+                        }
+
+                        //Analytics
+                        var item = inboxModel.items[messageId];
+                        var itemType = CollectionsUtil.GetContextFromState(item.type);
+                        itemType = !item.isDaily ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
+                        var itemId = "subscription_daily_ticket";
+                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower() : itemId;
+                        itemId = !string.IsNullOrEmpty(item.tournamentType) ? $"rank{item.rankCount}" : itemId;
+
+                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
+                            CollectionsUtil.GetContextFromString(itemShortCode).ToString(),
+                            qtyInt, itemType, itemId);
+                        //Analyttics end
+                    }
                 }
 
                 if (messageId != null)
@@ -81,7 +155,8 @@ namespace TurboLabz.InstantFramework
                     inboxRemoveMessagesSignal.Dispatch(messageId);
                     //inboxAddMessagesSignal.Dispatch(inboxModel.items);
                 }
-                
+
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
 
             if (response.ScriptData.ContainsKey("count"))

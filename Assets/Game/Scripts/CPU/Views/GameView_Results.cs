@@ -202,7 +202,7 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-            ShowViewBoardResultsPanel(false);
+            ShowViewBoardResultsPanel(false);   
             showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
             appInfoModel.gameMode = GameMode.NONE;
         }
@@ -481,7 +481,7 @@ namespace TurboLabz.CPU
         private void OnResultsBoostRatingButtonClicked()
         {
             audioService.PlayStandardClick();
-            resultsBoostRatingTooltip.SetActive(true);
+            resultsBoostRatingTooltip?.SetActive(true);
             //ResultAdsVO vo = new ResultAdsVO();
             //vo.adsType = AdType.RewardedVideo;
             //vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
@@ -547,7 +547,7 @@ namespace TurboLabz.CPU
         private void SetupRatingBoostButton()
         {
             var c = resultsBoostRatingAdTVImage.color;
-            resultsBoostRatingTooltip.SetActive(false);
+            resultsBoostRatingTooltip?.SetActive(false);
             resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
             c = resultsBoostRatingAdTVImage.color;
             c.a = Colors.DISABLED_TEXT_ALPHA;

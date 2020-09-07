@@ -2,7 +2,9 @@
 /// @copyright Copyright (C) Turbo Labz 2020 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-/// 
+///
+
+using System;
 using strange.extensions.command.impl;
 
 namespace TurboLabz.InstantFramework
@@ -16,6 +18,10 @@ namespace TurboLabz.InstantFramework
         // dispatch signals
         [Inject] public UpdateTournamentLeaderboardSignal getLeaderboardSuccessSignal { get; set; }
         [Inject] public TournamentOpFailedSignal opFailedSignal { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+
+        // Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -24,13 +30,31 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
 
-            backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament(tournamentId);
+            if (joinedTournament != null)
+            {
+                var lastFetchedTimeDelta = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - joinedTournament.lastFetchedTimeUTCSeconds;
+                if (lastFetchedTimeDelta >= GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+                {
+                    backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
+                }
+                else
+                {
+                    getLeaderboardSuccessSignal.Dispatch(tournamentId);
+                }
+            }
+            else
+            {
+                OnGetComplete(BackendResult.TOURNAMENTS_OP_FAILED);
+            }
+
         }
 
         private void OnGetComplete(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
+                updateTournamentsViewSignal.Dispatch();
                 getLeaderboardSuccessSignal.Dispatch(tournamentId);
             }
             else

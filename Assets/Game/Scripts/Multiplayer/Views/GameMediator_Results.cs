@@ -25,8 +25,16 @@ namespace TurboLabz.Multiplayer
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public CancelHintSingal cancelHintSignal { get; set; }       
+        [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
+
+        // Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -42,6 +50,8 @@ namespace TurboLabz.Multiplayer
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
             view.boostRatingSignal.AddListener(OnBoostRating);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
+            view.playTournamentMatchSignal.AddListener(OnPlayTournamentMatchButtonClicked);
+            view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -52,9 +62,9 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowResultsView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
-                if (view.challengeSentDialog.activeSelf) 
+                if (view.challengeSentDialog.activeSelf)
                 {
                     view.HideChallengeSent();
                 }
@@ -71,10 +81,11 @@ namespace TurboLabz.Multiplayer
                 view.HideResultsDialog();
             }
         }
-            
+
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
         {
+            view.UpdateDialogueType(vo.tournamentMatch);
             view.UpdateResultsDialog(vo);
         }
 
@@ -142,6 +153,99 @@ namespace TurboLabz.Multiplayer
         private void OnNotEnoughItemsToBoost()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        private void OnPlayTournamentMatchButtonClicked()
+        {
+            view.audioService.PlayStandardClick();
+
+            if (view.haveEnoughItems)
+            {
+                transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
+                transactionVO.consumeQuantity = 1;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            }
+            else if (view.haveEnoughGems)
+            {
+                transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            }
+            else
+            {
+                SpotPurchaseMediator.customContext = "tournament_end_card";
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }            
+        }
+
+        private void OnItemConsumed(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                return;
+            }
+
+            var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
+            analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "end_card");
+            StartMatch(currency);
+        }
+
+        private void StartMatch(string currency)
+        {
+            var joinedTournament = tournamentsModel.currentMatchTournament;
+            string tournamentType = joinedTournament.type;
+            string actionCode;
+            string context;
+
+            switch (tournamentType)
+            {
+                case TournamentConstants.TournamentType.MIN_1:
+                    actionCode = FindMatchAction.ActionCode.Random1.ToString();
+                    context = "1_min_bullet";
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_5:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    context = "5_min_blitz";
+                    break;
+
+                case TournamentConstants.TournamentType.MIN_10:
+                    actionCode = FindMatchAction.ActionCode.Random10.ToString();
+                    context = "10_min_rapid";
+                    break;
+
+                default:
+                    actionCode = FindMatchAction.ActionCode.Random.ToString();
+                    context = "5_min_blitz";
+                    break;
+            }
+
+            tournamentsModel.currentMatchTournamentType = tournamentType;
+            tournamentsModel.currentMatchTournament = joinedTournament;
+            joinedTournament.locked = true;
+
+            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.end_game_card);
+            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
+
+            FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+        }
+
+        private void OnBackToArenaButtonClicked()
+        {
+            OnBackToLobby();
+            loadArenaSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
+
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            if (view.tournamentEnded)
+            {
+                updateTournamentLeaderboardView.Dispatch();
+                //getJoinedTournamentLeaderboardSignal.Dispatch(tournamentsModel.currentMatchTournament.id, true);
+            }
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

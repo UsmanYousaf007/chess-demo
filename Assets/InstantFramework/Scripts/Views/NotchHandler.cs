@@ -92,6 +92,26 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform inventoryThemesScrollView;
     public RectTransform inventoryTitleBar;
 
+    [Header("Inbox")]
+    public RectTransform inboxItemsContainer;
+    public RectTransform inboxBottomNav;
+
+    [Header("League Perks")]
+    public RectTransform leaguePerksTopNav;
+    public RectTransform leaguePerksBottomNav;
+    public RectTransform leaguePerksScrollView;
+
+    [Header("Tournaments")]
+    public RectTransform tournamentsLeagueHeader;
+    public RectTransform tournamentsScrollView;
+
+    [Header("Tournaments Leaderboard")]
+    public RectTransform tournamentsLeaderboardBottomNav;
+    public RectTransform tournamentsLeaderboardHeader;
+    public RectTransform tournamentsLeaderboardFooter;
+    public RectTransform tounamentsLeaderboardScrollView;
+    public RectTransform tournamentsLeaderboardNotEnteredBar;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -205,6 +225,31 @@ public class NotchHandler : MonoBehaviour {
         SetTop(inventoryThemesScrollView, -275f);
         SetBottom(inventoryThemesScrollView, 232f);
         SetY(inventoryTitleBar, -195f);
+
+        //Inbox
+        SetTop(inboxItemsContainer, -175f);
+        SetBottom(inboxItemsContainer, 232f);
+        SetY(inboxBottomNav, 90f);
+
+        //League Perks
+        SetY(leaguePerksTopNav, -170f);
+        SetY(leaguePerksBottomNav, 90f);
+        SetTop(leaguePerksScrollView, -232f);
+        SetBottom(leaguePerksScrollView, 212f);
+
+        //Tournaments
+        SetY(tournamentsLeagueHeader, -380f);
+        SetTop(tournamentsScrollView, -566f);
+        SetBottom(tournamentsScrollView, 236f);
+        tournamentsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+
+        //Tournaments Leaderboard
+        SetY(tournamentsLeaderboardBottomNav, 90f);
+        SetY(tournamentsLeaderboardHeader, -177f);
+        SetY(tournamentsLeaderboardFooter, 321f);
+        SetTop(tounamentsLeaderboardScrollView, -940f);
+        SetBottom(tounamentsLeaderboardScrollView, 430f);
+        SetY(tournamentsLeaderboardNotEnteredBar, 538f);
     }
 
     void SetY(RectTransform tfm, float y)

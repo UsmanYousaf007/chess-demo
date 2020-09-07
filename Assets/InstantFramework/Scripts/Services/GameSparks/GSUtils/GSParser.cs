@@ -383,11 +383,39 @@ namespace TurboLabz.InstantFramework
             msg.tournamentType = GetSafeString(data, "tournamentType");
             msg.league = GetSafeString(data, "league");
             msg.startTime = GetSafeLong(data, "startTime");
+            msg.rankCount = GetSafeInt(data, "rank");
+            msg.trophiesCount = GetSafeInt(data, "trophies");
 
             GSData rewardsData = data.GetGSData("reward");
             if (rewardsData != null)
             { 
                 ParseIboxMessageRewards(rewardsData, msg.rewards);
+            }
+        }
+
+        public static void ParseLeague(League league, GSData data)
+        {
+            league.name = data.GetString("name");
+            GSData qualificationData = data.GetGSData("qualification");
+            league.qualifyTrophies = GetSafeInt(qualificationData, "trophies");
+            GSData dailyRewardData = data.GetGSData("dailyReward");
+
+            foreach (KeyValuePair<string, object> obj in dailyRewardData.BaseData)
+            {
+                var count = obj.Value;
+                league.dailyReward.Add(obj.Key, Int32.Parse(count.ToString()));
+            }
+        }
+
+        public static void LogLeague(League league)
+        {
+            LogUtil.Log("********** league.name " + " " + league.name);
+            LogUtil.Log("league.qualifyTrophies " + league.qualifyTrophies);
+            LogUtil.Log("league.dailyReward ");
+
+            foreach (KeyValuePair<string, int> item in league.dailyReward)
+            {
+                LogUtil.Log("league.item " + item.Key + " : " + item.Value);
             }
         }
 
@@ -426,6 +454,8 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("heading = " + msg.heading);
             TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
             TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+            TLUtils.LogUtil.Log("rankCount = " + msg.rankCount);
+            TLUtils.LogUtil.Log("trophiesCount = " + msg.trophiesCount);
 
             TLUtils.LogUtil.Log("rewards:");
             foreach (KeyValuePair<string, int> item in msg.rewards)
@@ -481,6 +511,9 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("********** playerModel.inventory " + item.Key + " Quantity: " + item.Value);
             }
             LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
+
+            LogUtil.Log("********** playerModel.league " + playerModel.league);
+            LogUtil.Log("********** playerModel.trophies " + playerModel.trophies);
 
             LogUtil.Log("******************** END PLAYER INFO ********************");
         }

@@ -45,6 +45,8 @@ namespace TurboLabz.InstantFramework
         public string chestType;
         public string league;
         public Dictionary<string, int> rewards;
+        public int trophiesCount;
+        public int rankCount;
         public long startTime;
 
         public InboxMessage()
@@ -58,6 +60,9 @@ namespace TurboLabz.InstantFramework
             chestType = null;
             league = null;
             rewards = new Dictionary<string, int>();
+            trophiesCount = 0;
+            rankCount = 0;
+            startTime = 0;
         }
     }
 }

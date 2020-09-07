@@ -143,6 +143,21 @@ namespace TurboLabz.InstantFramework
                 {
                     long elapsedTime = matchData.GetLong(GSBackendKeys.ChallengeData.GAME_END_TIME).Value - matchData.GetLong(GSBackendKeys.ChallengeData.GAME_START_TIME).Value;
                     matchInfoModel.matches[challengeId].gameDurationMs = elapsedTime;
+
+                    // Parsing tournament match result
+                    GSData playerData = matchData.GetGSData(playerModel.id);
+                    if (playerData != null)
+                    {
+                        string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
+                        if (string.IsNullOrEmpty(tournamentId) == false)
+                        {
+                            int score = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_SCORE);
+                            int checkmateBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_CHECKMATE_BONUS);
+                            matchInfoModel.matches[challengeId].isTournamentMatch = true;
+                            matchInfoModel.matches[challengeId].tournamentMatchScore = score;
+                            matchInfoModel.matches[challengeId].tournamentMatchCheckmateBonus = checkmateBonus;
+                        }
+                    }
                 }
             }
         }
@@ -353,37 +368,38 @@ namespace TurboLabz.InstantFramework
             string tournamentId = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TOURNAMENT_ID);
             GSData tournamentDetailsGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
             JoinedTournamentData joinedTournament = null;
-            if (tournamentDetailsGSData != null)
-            {
-                joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId);
-            }
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
-            if (tournament != null)
+
+            if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {
-                if (joinedTournament == null)
-                {
-                    // Tournament has ended
-                    // Go to tournaments view instead of tournament leaderboards view
-                }
-                else
-                {
-                    tournament = joinedTournament;
-                }
+                joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId, tournament);
+                joinedTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            }
+
+            if (joinedTournament == null)
+            {
+                // Tournament has ended
+                updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                tournamentsModel.currentMatchTournament = tournament;
             }
             else
             {
-                tournamentsModel.joinedTournaments.Add(joinedTournament);
-            }
+                if (tournament != null)
+                {
+                    tournamentsModel.SetJoinedTournament(joinedTournament);
+                }
+                else
+                {
+                    joinedTournament.locked = true;
+                    tournamentsModel.joinedTournaments.Add(joinedTournament);
+                }
 
-            var openTournament = tournamentsModel.GetOpenTournament(joinedTournament.shortCode);
-            if (openTournament != null)
-            {
-                tournamentsModel.openTournaments.Remove(openTournament);
+                updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
+                tournamentsModel.currentMatchTournament = joinedTournament;
             }
 
             updateTournamentsViewSignal.Dispatch();
-            updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
         }
     }
 }

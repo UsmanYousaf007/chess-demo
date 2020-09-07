@@ -57,6 +57,11 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getLiveTournamentRewards", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        public IPromise<BackendResult> TournamentsOpUpdateTournaments()
+        {
+            return new GSTournamentsOpRequest(GetRequestContext()).Send("updateTournaments", OnTournamentsOpSuccess);
+        }
+
         private void OnTournamentsOpSuccess(object r, Action<object> a)
         {
             LogEventResponse response = (LogEventResponse)r;
@@ -71,6 +76,39 @@ namespace TurboLabz.InstantFramework
             {
                 // We can dispatch error signal here
                 return;
+            }
+
+            if (response.ScriptData.ContainsKey("league"))
+            {
+                playerModel.league = response.ScriptData.GetInt("league").Value;
+                playerModelUpdatedSignal.Dispatch(playerModel);
+            }
+
+            if (response.ScriptData.ContainsKey("trophies"))
+            {
+                playerModel.trophies = response.ScriptData.GetInt("trophies").Value;
+                playerModelUpdatedSignal.Dispatch(playerModel);
+            }
+
+            if (response.ScriptData.ContainsKey("inbox"))
+            {
+                GSData inboxData = response.ScriptData.GetGSData("inbox");
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inboxData);
+
+                List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
+                DispatchInboxNotifications(newMsgs);
+
+                inboxAddMessagesSignal.Dispatch(dict);
+                inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
+            }
+
+            if (response.ScriptData.ContainsKey("inboxCount"))
+            {
+                int inboxMessageCount = response.ScriptData.GetInt("inboxCount").Value;
+                inboxModel.inboxMessageCount = inboxMessageCount;
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
             }
 
             GSData joinedTournaments = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENTS);
@@ -90,14 +128,16 @@ namespace TurboLabz.InstantFramework
             GSData tournament = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.TOURNAMENT);
             if (tournament != null)
             {
-                string tournamentShortCode = GSParser.GetSafeString(tournament, GSBackendKeys.Tournament.SHORT_CODE);
+                string tournamentId = GSParser.GetSafeString(tournament, GSBackendKeys.Tournament.TOURNAMENT_ID);
+                GSData tournamentGSData = tournament.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
 
                 List <JoinedTournamentData> joinedTournamentsList = tournamentsModel.joinedTournaments;
                 for (int i = 0; i < joinedTournamentsList.Count; i++)
                 {
-                    if (joinedTournamentsList[i].shortCode == tournamentShortCode)
+                    if (joinedTournamentsList[i].id == tournamentId)
                     {
-                        joinedTournamentsList[i] = ParseJoinedTournament(tournament, joinedTournamentsList[i].id);
+                        joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id, joinedTournamentsList[i]);
+                        joinedTournamentsList[i].lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     }
                 }
             }
@@ -105,10 +145,23 @@ namespace TurboLabz.InstantFramework
             GSData liveTournamentGSData = response.ScriptData.GetGSData(GSBackendKeys.TournamentsOp.LIVE_TOURNAMENT);
             if (liveTournamentGSData != null)
             {
-                LiveTournamentData liveTournament = ParseLiveTournament(liveTournamentGSData);
-                liveTournament.lastFetchedTime = DateTime.UtcNow;
+                string shortCode = GSParser.GetSafeString(liveTournamentGSData, GSBackendKeys.Tournament.SHORT_CODE);
+                LiveTournamentData openTournament = null;
+                LiveTournamentData upcomingTournament = null;
+                LiveTournamentData liveTournamentData = null;
+                if (shortCode != null)
+                {
+                    openTournament = tournamentsModel.GetOpenTournament(shortCode);
+                    upcomingTournament = tournamentsModel.GetOpenTournament(shortCode);
 
-                tournamentsModel.SetOpenTournament(liveTournament);
+                    liveTournamentData = openTournament != null ? openTournament : upcomingTournament;
+                }
+
+                LiveTournamentData newLiveTournament = ParseLiveTournament(liveTournamentGSData, liveTournamentData);
+            
+                newLiveTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                tournamentsModel.SetOpenTournament(newLiveTournament);
             }
         }
     }

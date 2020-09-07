@@ -11,6 +11,7 @@ public struct StrengthVO
     public IAudioService audioService;
     public IAnalyticsService analyticsService;
     public AnalyticsContext analyticsContext;
+    public IDownloadablesModel downloadablesModel;
     public string pieceName;
     public string activeSkinId;
 }

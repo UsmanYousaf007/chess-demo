@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         void LogAdImpressionEvent(PaidEventData data);
 
         void LogAppsFlyerEvent(string name, Dictionary<string, object> eventData);
+        void LogAppsFlyerMonetizationEvent(string name, int cents);
         string GetAppsFlyerId();
     }
 }

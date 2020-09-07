@@ -67,11 +67,12 @@ namespace TurboLabz.InstantGame
         public void Hide()
         {
             gameObject.SetActive(false);
-            ClearView();
         }
 
         public void UpdateView(TopicsViewVO vo)
         {
+            ClearView();
+
             nextLessonSection.SetActive(!vo.allLessonsWatched);
             lessonsCompletedSection.SetActive(vo.allLessonsWatched);
             lessonVO = vo.nextLesson;

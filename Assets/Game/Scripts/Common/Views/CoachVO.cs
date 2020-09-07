@@ -13,4 +13,5 @@ public struct CoachVO
     public IAudioService audioService;
     public IAnalyticsService analyticsService;
     public AnalyticsContext analyticsContext;
+    public IDownloadablesModel downloadablesModel;
 }

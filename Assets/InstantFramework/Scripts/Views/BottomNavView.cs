@@ -40,11 +40,11 @@ namespace TurboLabz.InstantFramework
         public Text shopLabel;
         public Text arenaLabel;
 
-        public Image homeIcon;
-        public Image friendsIcon;
-        public Image inventoryIcon;
-        public Image shopIcon;
-        public Image arenaIcon;
+        public GameObject homeSelected;
+        public GameObject friendsSelected;
+        public GameObject inventorySelected;
+        public GameObject shopSelected;
+        public GameObject arenaSelected;
 
         public Button homeButton;
         public Button friendsButton;
@@ -99,54 +99,44 @@ namespace TurboLabz.InstantFramework
         void UpdateButtons()
         {
             homeButton.interactable = true;
-            //homeIcon.color = Colors.WHITE_100;
-            homeLabel.enabled = false;
+            homeSelected.SetActive(false);
 
             friendsButton.interactable = true;
-            //friendsIcon.color = Colors.WHITE_100;
-            friendsLabel.enabled = false;
+            friendsSelected.SetActive(false);
 
             inventoryButton.interactable = true;
-            //inventoryIcon.color = Colors.WHITE_100;
-            inventoryLabel.enabled = false;
+            inventorySelected.SetActive(false);
 
             shopButton.interactable = true;
-            //shopIcon.color = Colors.WHITE_100;
-            shopLabel.enabled = false;
+            shopSelected.SetActive(false);
 
             arenaButton.interactable = true;
-            //arenaIcon.color = Colors.WHITE_100;
-            arenaLabel.enabled = false;
+            arenaSelected.SetActive(false);
 
             if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
-                //homeIcon.color = Colors.YELLOW;
-                homeLabel.enabled = true;
+                homeSelected.SetActive(true);
             }
             else if (buttonId == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
-                //friendsIcon.color = Colors.YELLOW;
-                friendsLabel.enabled = true;
+                friendsSelected.SetActive(true);
             }
             else if (buttonId == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
-                //inventoryIcon.color = Colors.YELLOW;
-                inventoryLabel.enabled = true;
+                inventorySelected.SetActive(true);
             }
             else if (buttonId == ButtonId.Shop)
             {
                 shopButton.interactable = false;
-                //shopIcon.color = Colors.YELLOW;
-                shopLabel.enabled = true;
+                shopSelected.SetActive(true);
             }
             else if (buttonId == ButtonId.Arena)
             {
                 arenaButton.interactable = false;
-                //arenaIcon.color = Colors.YELLOW;
-                arenaLabel.enabled = true;
+                arenaSelected.SetActive(true);
             }
         }
 

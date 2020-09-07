@@ -60,10 +60,14 @@ namespace TurboLabz.InstantFramework
 
         public void OnDownloadContentComplete(BackendResult result, AssetBundle bundle)
         {
+            TLUtils.LogUtil.Log("DownloadablesService::OnDownloadContentComplete() ==> result:" + result, "cyan");
+
             if (result == BackendResult.SUCCESS)
             {
                 downloadablesModel.downloadableItems[shortCode].bundle = bundle;
                 downloadablesModel.MarkUpdated(shortCode);
+
+                TLUtils.LogUtil.Log("DownloadablesService::OnDownloadContentComplete() ==> bundle:" + bundle.name, "cyan");
             }
 
             onDownloadContentCompleteCB?.Invoke(result, bundle);

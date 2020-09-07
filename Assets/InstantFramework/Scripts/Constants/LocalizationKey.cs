@@ -86,6 +86,9 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_REASON_PLAYER_DECLINED = "gmPlayerDeclined";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER = "gmResultDialogReasonResignationPlayer";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT = "gmResultDialogReasonResignationOpponent";
+        public const string GM_RESULT_DIALOG_HEADING_TOURNAMENT_ROUND_SCORE = "gmResultDialogHeadingTournamentRoundScore";
+        public const string GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE = "gmResultDialogBonusTournamentRoundScore";
+        public const string GM_RESULT_DIALOG_LABEL_TICKETS_LEFT = "gmResultDialogLabelTicketsLeft";
         public const string GM_DRAW_DIALOG_HEADING = "gmDrawDialogHeading";
         public const string GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE = "gmDrawDialogClaimByFiftyMoveRule";
         public const string GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE = "gmDrawDialogClaimByThreefoldRepeatRule";
@@ -169,6 +172,7 @@ namespace TurboLabz.InstantFramework
         #region GameResults
 
         public const string RESULTS_CLOSE_BUTTON = "resultsCloseButton";
+        public const string RESULTS_TOURNAMENT_CLOSE_BUTTON = "resultsTournamentCloseButton";
         public const string RESULTS_COLLECT_REWARD_BUTTON = "resultsCollectRewardButton";
         public const string RESULTS_BOOST_RATING_BUTTON = "resultsBoostRatingButton";
         public const string RESULTS_RECOVER_RATING_BUTTON = "resultsRecoverRatingButton";
@@ -290,6 +294,7 @@ namespace TurboLabz.InstantFramework
 
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
+        public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
 
         #endregion
 
@@ -479,6 +484,7 @@ namespace TurboLabz.InstantFramework
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
         public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_YOUR_LEAGUE_TEXT = "playerLeagueProfileStripYourLeagueText";
 
         #endregion
 
@@ -487,6 +493,10 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_LIVE_ITEM_HEADING = "tournamentLiveItemHeading";
         public const string TOURNAMENT_LIVE_ITEM_SUB_HEADING = "tournamentLiveItemSubHeading";
         public const string TOURNAMENT_LIVE_ITEM_ENDS_IN = "tournamentLiveItemEndsIn";
+
+        public const string TOURNAMENT_UPCOMING = "tournamentUpcoming";
+        public const string TOURNAMENT_UPCOMING_STARTS_IN = "tournamentUpcomingStartsIn";
+        public const string TOURNAMENT_UPCOMING_GET_NOTIFIED = "tournamentUpcomingGetNotified";
 
         public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
         public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";
@@ -510,6 +520,12 @@ namespace TurboLabz.InstantFramework
         public const string INBOX_HEADING = "inBoxHeading";
         public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
         public const string INBOX_EMPTY_INBOX_LABEL = "inBoxEmptyInboxLabel";
+
+        #endregion
+
+        #region LeaguePerks
+
+        public const string LEAGUE_PERKS_TITLE = "leaguePerksTitle";
 
         #endregion
     }
