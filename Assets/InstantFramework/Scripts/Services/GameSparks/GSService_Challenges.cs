@@ -149,7 +149,7 @@ namespace TurboLabz.InstantFramework
                     if (playerData != null)
                     {
                         string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
-                        if (tournamentId != null)
+                        if (string.IsNullOrEmpty(tournamentId) == false)
                         {
                             int score = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_SCORE);
                             int checkmateBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_CHECKMATE_BONUS);
