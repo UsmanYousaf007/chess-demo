@@ -230,7 +230,7 @@ namespace TurboLabz.InstantFramework
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;
             playerInventoryVO.gemsCount = gems;
-
+            playerInventoryVO.allLessonsUnlocked = OwnsAllLessons();
             return playerInventoryVO;
         }
 
