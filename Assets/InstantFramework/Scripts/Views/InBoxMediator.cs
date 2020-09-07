@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -66,6 +67,8 @@ namespace TurboLabz.InstantFramework
         public void OnBottomNavBackButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            audioService.PlayStandardClick();
+
             TLUtils.LogUtil.Log("InBoxMediator::OnBottomNavBackButtonClicked()");
         }
 

@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -298,6 +299,7 @@ namespace TurboLabz.InstantFramework
         {
             UnlockTournament();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            audioService.PlayStandardClick();
         }
 
         private void OnLoadPicture(GetProfilePictureVO vo)
