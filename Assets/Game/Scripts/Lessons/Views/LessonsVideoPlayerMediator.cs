@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
+        // Listeners
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
+
         private bool videoPaused = false;
         private bool buffering = false;
         private string videoId = string.Empty;
@@ -236,6 +239,8 @@ namespace TurboLabz.InstantFramework
             else if (nextVideo.isLocked)
             {
                 setSubscriptionContext.Dispatch($"lessons_{nextVideo.section.ToLower().Replace(' ', '_')}");
+                videoPlaybackService.Pause();
+                subscriptionDlgClosedSignal.AddOnce(OnSubscriptionDlgClosed);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
             }
             else
@@ -255,6 +260,14 @@ namespace TurboLabz.InstantFramework
                (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
             {
                 nextVideo.isLocked = false;
+            }
+        }
+
+        private void OnSubscriptionDlgClosed()
+        {
+            if (!videoPaused)
+            {
+                PlayVideo();
             }
         }
     }

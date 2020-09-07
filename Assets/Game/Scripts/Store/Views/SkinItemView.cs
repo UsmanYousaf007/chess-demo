@@ -46,6 +46,12 @@ public class SkinItemView : View
     private bool haveEnoughItemsToUnlock;
     private bool haveEnoughGemsToUnlock;
 
+    private void OnEnable()
+    {
+        base.OnEnable();
+        unlockedAnimation.gameObject.SetActive(false);
+    }
+
     public void Init(string key)
     {
         this.key = key;
