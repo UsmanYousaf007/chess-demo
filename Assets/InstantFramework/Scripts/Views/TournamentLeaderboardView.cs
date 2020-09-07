@@ -77,7 +77,19 @@ namespace TurboLabz.InstantFramework
             playerEnterBar.rankText.text = "?";
          }
 
-        public void Populate(LiveTournamentData liveTournament)
+        public void PopulateHeaderAndFooter(LiveTournamentData liveTournament)
+        {
+            PopulateTournamentHeader(header, liveTournament);
+            footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
+            tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>().skinLink.InitPrefabSkin();
+            tournamentLeaderboardPlayerEnterBar.SetActive(true);
+
+            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
+            infoBar.gameModeText.text = liveTournament.name;
+            DisableFixedPlayerBar();
+        }
+
+        public void PopulateEntries(LiveTournamentData liveTournament)
         {
             ClearBars();
 
@@ -95,20 +107,20 @@ namespace TurboLabz.InstantFramework
                 var playerBar = tournamentLeaderboardPlayerBars[i];
                 PopulateBar(playerBar, i + 1, liveTournament.rewardsDict[i + 1]);
             }
-
-            //for (int i = 4; i < itemBarsCount; i++)
-            //{
-            //    var playerBar = tournamentLeaderboardPlayerBars[i];
-            //    playerBar.gameObject.SetActive(false);
-            //}
-
-            PopulateTournamentHeader(header, liveTournament);
-            footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
-            tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>().skinLink.InitPrefabSkin();
-            tournamentLeaderboardPlayerEnterBar.SetActive(true);
         }
 
-        public void Populate(JoinedTournamentData joinedTournament)
+        public void PopulateHeaderAndFooter(JoinedTournamentData joinedTournament)
+        {
+            PopulateTournamentHeader(header, joinedTournament);
+            PopulateFooter();
+            footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);
+            tournamentLeaderboardPlayerEnterBar.SetActive(false);
+
+            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.name} tournament.";
+            infoBar.gameModeText.text = joinedTournament.name;
+        }
+
+        public void PopulateEntries(JoinedTournamentData joinedTournament)
         {
             ClearBars();
 
@@ -126,11 +138,6 @@ namespace TurboLabz.InstantFramework
                 var playerBar = tournamentLeaderboardPlayerBars[i];
                 PopulateBar(playerBar, joinedTournament.entries[i], joinedTournament.rewardsDict.ContainsKey(i+1) ? joinedTournament.rewardsDict[i + 1] : null);
             }
-
-            PopulateTournamentHeader(header, joinedTournament);
-            PopulateFooter();
-            footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);
-            tournamentLeaderboardPlayerEnterBar.SetActive(false);
         }
 
         public void ClearBars()
@@ -144,6 +151,11 @@ namespace TurboLabz.InstantFramework
             }
 
             tournamentLeaderboardPlayerBars.Clear();
+        }
+
+        public void DisableFixedPlayerBar()
+        {
+            fixedPlayerBar.gameObject.SetActive(false);
         }
 
         public void Show()
@@ -162,21 +174,19 @@ namespace TurboLabz.InstantFramework
         {
             this.joinedTournament = joinedTournament;
             this.liveTournament = null;
-            Populate(joinedTournament);
+            PopulateEntries(joinedTournament);
+            PopulateHeaderAndFooter(joinedTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {joinedTournament.name} tournament.";
-            infoBar.gameModeText.text = joinedTournament.name;
         }
 
         public void UpdateView(LiveTournamentData liveTournament)
         {
             this.liveTournament = liveTournament;
             this.joinedTournament = null;
-            Populate(liveTournament);
+            PopulateEntries(liveTournament);
+            PopulateHeaderAndFooter(liveTournament);
             Sort();
-            infoBar.gameModeTooltipText.text = $"This is a {liveTournament.name} tournament.";
-            infoBar.gameModeText.text = liveTournament.name;
-            fixedPlayerBar.gameObject.SetActive(false);
+            
         }
 
         private void Sort()
@@ -284,7 +294,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    fixedPlayerBar.gameObject.SetActive(false);
+                    DisableFixedPlayerBar();
                 }
             }
             //tournamentLeaderboardPlayerBars.Add(item.name + tournamentLeaderboardPlayerBars.Count.ToString(), item);

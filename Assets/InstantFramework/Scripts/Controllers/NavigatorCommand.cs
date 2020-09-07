@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
         [Inject] public LoadLessonsViewSignal loadLessonsViewSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UnlockCurrentJoinedTournamentSignal unlockCurrentJoinedTournamentSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }

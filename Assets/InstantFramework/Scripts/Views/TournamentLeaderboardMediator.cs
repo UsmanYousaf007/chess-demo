@@ -73,8 +73,37 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(UpdateTournamentLeaderboardPartialSignal))]
+        public void UpdateTournamentViewPartial(string tournamentId)
+        {
+            view.ClearBars();
+            view.DisableFixedPlayerBar();
+
+            var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
+            if (joinedTournament != null)
+            {
+                this.openTournament = null;
+
+                view.PopulateHeaderAndFooter(joinedTournament);
+                this.joinedTournament = joinedTournament;
+
+                return;
+            }
+
+            var openTournament = tournamentModel.GetOpenTournament(tournamentId);
+            if (openTournament != null)
+            {
+                this.joinedTournament = null;
+
+                view.PopulateHeaderAndFooter(openTournament);
+                this.openTournament = openTournament;
+
+                return;
+            }
+        }
+
         [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
-        public void UpdateJoinedTournamentView(string tournamentId)
+        public void UpdateJoinedTournamentViewEntries(string tournamentId)
         {
             this.openTournament = null;
 
@@ -97,7 +126,7 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateLiveTournamentRewardsSuccessSignal))]
-        public void UpdateLiveTournamentView(string tournamentShortCode)
+        public void UpdateLiveTournamentViewEntries(string tournamentShortCode)
         {
             this.joinedTournament = null;
 
@@ -133,12 +162,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(TournamentOverDialogClosedSignal))]
-        public void OnTournamentOverDialogClosed()
-        {
-            OnBackPressed();
-        }
-
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnInventoryUpdated(PlayerInventoryVO inventory)
         {
@@ -147,7 +170,6 @@ namespace TurboLabz.InstantFramework
 
         public void OnEnterButtonClicked()
         {
-            TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnEnterButtonClicked()");
             view.audioService.PlayStandardClick();
 
             if (joinedTournament == null)
@@ -263,14 +285,18 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("TournamentLeaderboardMediator::OnGameModeButtonClicked()");
         }
 
-        private void OnBackPressed()
+        public void UnlockTournament()
         {
             if (joinedTournament != null)
             {
                 joinedTournament.locked = false;
                 joinedTournament = null;
             }
+        }
 
+        private void OnBackPressed()
+        {
+            UnlockTournament();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
