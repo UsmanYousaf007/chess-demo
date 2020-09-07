@@ -133,12 +133,14 @@ namespace TurboLabz.InstantGame
                 if (joinedTournament != null)
                 {
                     liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
+                    liveTournamentIcon.SetNativeSize();
                     playTournamentButton.interactable = true;
                     liveTournamentGO.SetActive(true);
                 }
                 else if (openTournament != null)
                 {
                     liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
+                    liveTournamentIcon.SetNativeSize();
                     playTournamentButton.interactable = true;
                     liveTournamentGO.SetActive(true);
                 }
