@@ -96,6 +96,14 @@ namespace TurboLabz.InstantFramework
 
             // Save the sprite atlas to disk
             SpriteAtlas spriteAtlas = new SpriteAtlas();
+            spriteAtlas.SetPackingSettings(
+                new SpriteAtlasPackingSettings
+                {
+                    enableRotation = false,
+                    enableTightPacking = true,
+                    padding = 4
+                });
+
             SpriteAtlasExtensions.Add(spriteAtlas, sprites.ToArray());
             AssetDatabase.CreateAsset(spriteAtlas, ATLAS_PATH + skinName + ".spriteatlas");
             AssetDatabase.SaveAssets();
