@@ -29,12 +29,13 @@ namespace TurboLabz.CPU
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
-
+        
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
 
         [Inject] public IPlayerModel playerModel { get; set; }
-
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        
         [Header("Main View")]
         public Camera chessboardCamera;
         public GameObject uiBlocker;
