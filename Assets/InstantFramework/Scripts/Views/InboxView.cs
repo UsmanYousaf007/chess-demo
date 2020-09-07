@@ -56,7 +56,11 @@ namespace TurboLabz.InstantFramework
             AddInboxBarFnMap.Add("RewardDailyLeague", AddDailyLeagueRewardBar);
             AddInboxBarFnMap.Add("RewardLeaguePromotion", AddLeaguePromotionRewardBar);
 
-            bottomNavBackButton.onClick.AddListener(() => bottoNavBackButtonClickedSignal.Dispatch());
+            bottomNavBackButton.onClick.AddListener(() =>
+            {
+                bottoNavBackButtonClickedSignal.Dispatch();
+                audioService.PlayStandardClick();
+            });
 
             //Sort();
         }
@@ -112,7 +116,11 @@ namespace TurboLabz.InstantFramework
             item.msgId = msg.id;
 
             item.buttonText.text = "Collect";
-            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                inBoxBarClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             item.transform.SetParent(listContainer, false);
             item.skinLink.InitPrefabSkin();
@@ -135,7 +143,11 @@ namespace TurboLabz.InstantFramework
             item.msgId = msg.id;
 
             item.buttonText.text = "Collect";
-            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                inBoxBarClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             item.transform.SetParent(listContainer, false);
             item.skinLink.InitPrefabSkin();
@@ -158,7 +170,11 @@ namespace TurboLabz.InstantFramework
             item.msgId = msg.id;
 
             item.buttonText.text = "Collect";
-            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                inBoxBarClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             item.transform.SetParent(listContainer, false);
             item.skinLink.InitPrefabSkin();
@@ -181,7 +197,11 @@ namespace TurboLabz.InstantFramework
             item.msgId = msg.id;
 
             item.buttonText.text = "View";
-            item.button.onClick.AddListener(() => inBoxBarClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                inBoxBarClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             item.transform.SetParent(listContainer, false);
             item.skinLink.InitPrefabSkin();

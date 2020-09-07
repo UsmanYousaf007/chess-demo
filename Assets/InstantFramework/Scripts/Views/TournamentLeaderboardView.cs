@@ -52,8 +52,8 @@ namespace TurboLabz.InstantFramework
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
 
-        private LiveTournamentData liveTournament = null;
-        private JoinedTournamentData joinedTournament = null;
+        private LiveTournamentData _liveTournament = null;
+        private JoinedTournamentData _joinedTournament = null;
         private GameObjectsPool barsPool;
         private TournamentAssetsContainer tournamentAssetsContainer;
         private WaitForSecondsRealtime waitForOneRealSecond;
@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
         public void PopulateHeaderAndFooter(LiveTournamentData liveTournament)
         {
             PopulateTournamentHeader(header, liveTournament);
+            PopulateFooter(false);
             footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
             tournamentLeaderboardPlayerEnterBar.GetComponent<TournamentLeaderboardPlayerEnterBar>().skinLink.InitPrefabSkin();
             tournamentLeaderboardPlayerEnterBar.SetActive(true);
@@ -112,7 +113,7 @@ namespace TurboLabz.InstantFramework
         public void PopulateHeaderAndFooter(JoinedTournamentData joinedTournament)
         {
             PopulateTournamentHeader(header, joinedTournament);
-            PopulateFooter();
+            PopulateFooter(true);
             footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);
             tournamentLeaderboardPlayerEnterBar.SetActive(false);
 
@@ -172,8 +173,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(JoinedTournamentData joinedTournament)
         {
-            this.joinedTournament = joinedTournament;
-            this.liveTournament = null;
+            this._joinedTournament = joinedTournament;
+            this._liveTournament = null;
             PopulateEntries(joinedTournament);
             PopulateHeaderAndFooter(joinedTournament);
             Sort();
@@ -181,8 +182,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(LiveTournamentData liveTournament)
         {
-            this.liveTournament = liveTournament;
-            this.joinedTournament = null;
+            this._liveTournament = liveTournament;
+            this._joinedTournament = null;
             PopulateEntries(liveTournament);
             PopulateHeaderAndFooter(liveTournament);
             Sort();
@@ -237,7 +238,13 @@ namespace TurboLabz.InstantFramework
             infoBar.gameModeTooltipButton.onClick.AddListener(OnGameModesButtonClicked);
         }
 
-        public void PopulateFooter()
+        public void UpdateTickets()
+        {
+            bool isJoined = _joinedTournament != null;
+            PopulateFooter(isJoined);
+        }
+
+        public void PopulateFooter(bool isJoined)
         {
             TournamentLeaderboardFooter item = footer;
 
@@ -247,7 +254,7 @@ namespace TurboLabz.InstantFramework
             }
 
             var itemsOwned = playerModel.GetInventoryItemCount(item.itemToConsumeShortCode);
-            var alreadyPlayed = joinedTournament != null;
+            var alreadyPlayed = isJoined;
 
             ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
             item.haveEnoughItems = itemsOwned > 0;
@@ -322,8 +329,17 @@ namespace TurboLabz.InstantFramework
 
         private void AddPlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
         {
-            playerBar.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(playerBar));
-            playerBar.chestButton.onClick.AddListener(() => playerBarChestClickSignal.Dispatch(playerBar.reward));
+            playerBar.button.onClick.AddListener(() =>
+            {
+                playerBarClickedSignal.Dispatch(playerBar);
+                audioService.PlayStandardClick();
+            });
+
+            playerBar.chestButton.onClick.AddListener(() =>
+            {
+                playerBarChestClickSignal.Dispatch(playerBar.reward);
+                audioService.PlayStandardClick();
+            });
         }
 
         private void RemovePlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
@@ -348,7 +364,9 @@ namespace TurboLabz.InstantFramework
                 infoBar.rulesTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+
             if (infoBar.rulesTooltip.activeSelf)
             {
                 rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
@@ -371,6 +389,7 @@ namespace TurboLabz.InstantFramework
                 infoBar.totalScoresTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
 
             if (infoBar.totalScoresTooltip.activeSelf)
@@ -395,7 +414,9 @@ namespace TurboLabz.InstantFramework
                 infoBar.gameModeTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+
             if (infoBar.gameModesTooltip.activeSelf)
             {
                 gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));

@@ -155,6 +155,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnLeagueProfileButtonClicked()
         {
+            audioService.PlayStandardClick();
             leagueProfileClickedSignal.Dispatch();
         }
        

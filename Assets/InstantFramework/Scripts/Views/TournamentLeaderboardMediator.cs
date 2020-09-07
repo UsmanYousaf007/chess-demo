@@ -166,7 +166,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnInventoryUpdated(PlayerInventoryVO inventory)
         {
-            view.PopulateFooter();
+            view.UpdateTickets();
         }
 
         public void OnEnterButtonClicked()
