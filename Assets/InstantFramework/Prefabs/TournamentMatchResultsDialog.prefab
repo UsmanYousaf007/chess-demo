@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 397350670}
   - component: {fileID: 397350669}
   m_Layer: 5
-  m_Name: BackToArenaButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1084,7 +1084,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Back to Arena
+  m_Text: Continue
 --- !u!114 &470716854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3261,7 +3261,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -21.6}
-  m_SizeDelta: {x: -116, y: 2}
+  m_SizeDelta: {x: -196, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2100732542
 CanvasRenderer:
