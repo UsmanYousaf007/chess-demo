@@ -91,7 +91,7 @@ namespace TurboLabz.InstantFramework
             prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
             playerRankCountText.text = joinedTournamentData.rank.ToString();
             grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
-            liveImage?.gameObject.SetActive(false);
+            liveImage?.gameObject.SetActive(true);
             entriesClosedImage?.gameObject.SetActive(false);
             if (button != null)
                 button.enabled = true;
