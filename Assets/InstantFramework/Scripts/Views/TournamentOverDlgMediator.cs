@@ -15,6 +15,9 @@ namespace TurboLabz.InstantFramework
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
+        // Services
+        [Inject] public IAudioService audioService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -42,6 +45,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnButtonClicked()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }

@@ -60,6 +60,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
+                audioService.PlayStandardClick();
             });
 
             p.headingText.text = "Daily Subscription Reward!";
@@ -84,6 +85,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
+                audioService.PlayStandardClick();
             });
 
             p.headingText.text = vo.league;
@@ -106,7 +108,11 @@ namespace TurboLabz.InstantFramework
         public void InitRewardLeaguePromotionDlgPrefab(RewardDlgVO vo)
         {
             RewardLeaguePromotionDlg p = activeDlg.GetComponent<RewardLeaguePromotionDlg>();
-            p.button.onClick.AddListener(() => buttonClickedSignal.Dispatch(vo.msgId));
+            p.button.onClick.AddListener(() =>
+            {
+                buttonClickedSignal.Dispatch(vo.msgId);
+                audioService.PlayStandardClick();
+            });
 
             p.headingText.text = "Congratulations!";
             p.subHeadingText.text = "You have been promoted!";
@@ -135,6 +141,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_tournament_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
+                audioService.PlayStandardClick();
             });
 
             p.headingText.text = vo.tournamentName + " Reward!";

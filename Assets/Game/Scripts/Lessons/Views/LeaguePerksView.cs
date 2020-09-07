@@ -55,6 +55,7 @@ namespace TurboLabz.InstantGame
 
         private void OnBackButtonClicked()
         {
+            audioService.PlayStandardClick();
             OnBackButtonClickedSignal.Dispatch();
         }
 

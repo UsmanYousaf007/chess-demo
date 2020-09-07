@@ -322,8 +322,17 @@ namespace TurboLabz.InstantFramework
 
         private void AddPlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
         {
-            playerBar.button.onClick.AddListener(() => playerBarClickedSignal.Dispatch(playerBar));
-            playerBar.chestButton.onClick.AddListener(() => playerBarChestClickSignal.Dispatch(playerBar.reward));
+            playerBar.button.onClick.AddListener(() =>
+            {
+                playerBarClickedSignal.Dispatch(playerBar);
+                audioService.PlayStandardClick();
+            });
+
+            playerBar.chestButton.onClick.AddListener(() =>
+            {
+                playerBarChestClickSignal.Dispatch(playerBar.reward);
+                audioService.PlayStandardClick();
+            });
         }
 
         private void RemovePlayerBarListeners(TournamentLeaderboardPlayerBar playerBar)
@@ -348,7 +357,9 @@ namespace TurboLabz.InstantFramework
                 infoBar.rulesTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
+
             if (infoBar.rulesTooltip.activeSelf)
             {
                 rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
@@ -371,6 +382,7 @@ namespace TurboLabz.InstantFramework
                 infoBar.totalScoresTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
 
             if (infoBar.totalScoresTooltip.activeSelf)
@@ -395,7 +407,9 @@ namespace TurboLabz.InstantFramework
                 infoBar.gameModeTooltipBG.DOKill();
             }
 
+            audioService.PlayStandardClick();
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
+
             if (infoBar.gameModesTooltip.activeSelf)
             {
                 gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));

@@ -166,8 +166,11 @@ namespace TurboLabz.InstantFramework
 
             TournamentLiveItem item = obj.GetComponent<TournamentLiveItem>();
             item.Init();
-            item.button.onClick.RemoveAllListeners();
-            item.button.onClick.AddListener(() => liveItemClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                liveItemClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             return item;
         }
@@ -189,7 +192,11 @@ namespace TurboLabz.InstantFramework
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
             item.Init();
-            item.button.onClick.AddListener(() => upcomingItemClickedSignal.Dispatch(item));
+            item.button.onClick.AddListener(() =>
+            {
+                upcomingItemClickedSignal.Dispatch(item);
+                audioService.PlayStandardClick();
+            });
 
             return item;
         }
