@@ -86,7 +86,7 @@ namespace TurboLabz.InstantFramework
             hash = Hash128.Compute(lastModifiedTime.ToString());
 
             var www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
-            string name = Application.companyName + "//" + Application.productName + "//" + "downlooadables//" + shortCode;
+            string name = Application.companyName + "//" + Application.productName + "//" + "downloadables//" + shortCode;
             www.downloadHandler = new DownloadHandlerAssetBundle(url, name, hash, 0);
 
             yield return www.SendWebRequest();
