@@ -13,9 +13,10 @@ namespace TurboLabz.InstantFramework
 {
     public class AppUpdateServiceAndroid : IAppUpdateService
     {
-
-        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
         private IRoutineRunner routineRunner;
+
+        //Signals
+        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
        
         public void Init()
         {

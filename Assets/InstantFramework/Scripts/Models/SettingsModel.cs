@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
 
         public int maxCommunityMatches { get; set; }
         public bool maintenanceFlag { get; set; }
+        public bool appUpdateFlag { get; set; }
         public string updateMessage { get; set; }
         public string maintenanceMessage { get; set; }
         public string minimumClientVersion { get; set; }
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
 
             maxCommunityMatches = 6;
             maintenanceFlag = false;
+            appUpdateFlag = false;
             updateMessage = "";
             maintenanceMessage = "";
             minimumClientVersion = "";

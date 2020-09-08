@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.UPDATE) 
             {
-                appUpdateService.CheckForUpdate();
+                view.Show();
             }
         }
 

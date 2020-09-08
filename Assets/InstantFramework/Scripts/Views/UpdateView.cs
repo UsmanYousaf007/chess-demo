@@ -55,10 +55,14 @@ namespace TurboLabz.InstantFramework
             updateURL = url;
         }
 
-
         public void Show()
         {
-            Debug.Log("UPDATEVIEW Show isUpdateAvailable: "+ isUpdateAvailable.ToString());
+            gameObject.SetActive(true);
+        }
+
+        public void SetUpdateButton()
+        {
+            Debug.Log("UPDATEVIEW Show isUpdateAvailable: " + isUpdateAvailable.ToString());
             if (isUpdateAvailable)
             {
                 updateLabel.text = localizationService.Get(LocalizationKey.UPDATE);
@@ -69,10 +73,8 @@ namespace TurboLabz.InstantFramework
             {
                 updateButton.interactable = false;
             }
-            
-            updateButton.gameObject.SetActive(true);
-            gameObject.SetActive(true);
 
+            updateButton.gameObject.SetActive(true);
         }
 
         public void SetAppUpdateFlag(bool isUpdateAvailable)
@@ -105,31 +107,10 @@ namespace TurboLabz.InstantFramework
             }
             while (hasAppServiceReturnedResult)
             {
-                Show();
+                SetUpdateButton();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
                 yield break;
             }
         }
-
-        //private IEnumerator CheckAppUpdateFlag()
-        //{
-        //    while (!hasAppServiceReturnedResult)
-        //    {
-        //        appUpdateService.CheckForUpdate();
-        //        yield return new WaitForSeconds(1.0f);
-
-        //    }
-        //    while (hasAppServiceReturnedResult)
-        //    {
-        //        Show();
-        //        if (!isUpdateAvailable)
-        //        {
-        //            appUpdateService.CheckForUpdate();
-        //            yield return new WaitForSeconds(1.0f);
-
-        //        }
-
-        //        yield break;
-        //    }
-        //}
     }
 }

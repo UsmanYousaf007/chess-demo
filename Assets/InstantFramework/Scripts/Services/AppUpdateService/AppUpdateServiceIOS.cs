@@ -13,8 +13,10 @@ namespace TurboLabz.InstantFramework
 {
     public class AppUpdateServiceIOS : IAppUpdateService
     {
-        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
         private IRoutineRunner routineRunner;
+
+        //Signals
+        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
 
         public void Init()
         {
@@ -40,7 +42,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnIsUpdateAvailableResult(bool isUpdateAvailable)
         {
-            #if !UNITY_EDITOR && (UNITY_IOS)
+#if !UNITY_EDITOR && (UNITY_IOS)
             appUpdateSignal.Dispatch(isUpdateAvailable);
 #endif
         }
