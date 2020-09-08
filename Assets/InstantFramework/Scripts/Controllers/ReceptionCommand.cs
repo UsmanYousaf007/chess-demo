@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
+        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -54,14 +55,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
         [Inject] public ISchedulerService schedulerService { get; set; }
-
+        [Inject] public IAppUpdateService appUpdateService { get; set; }
 
         public override void Execute()
         {
             CommandBegin();
-
             getInitDataSignal.Dispatch(isResume);
-
         }
 
         private void OnGetInitDataFailed(BackendResult result)
@@ -79,7 +78,14 @@ namespace TurboLabz.InstantFramework
             if (!appInfoModel.appBackendVersionValid)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
+                if (settingsModel.appUpdateFlag)
+                {
+                    appUpdateService.Init();
+                }
+                else
+                {
+                    appUpdateSignal.Dispatch(true);
+                }
                 CommandEnd();
                 return;
             }

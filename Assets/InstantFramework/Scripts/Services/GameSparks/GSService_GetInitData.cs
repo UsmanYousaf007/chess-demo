@@ -32,6 +32,13 @@ namespace TurboLabz.InstantFramework
             appInfoModel.appBackendVersionValid = response.ScriptData.GetBoolean(GSBackendKeys.APP_VERSION_VALID).Value;
             appInfoModel.contactSupportURL = response.ScriptData.GetString(GSBackendKeys.CONTACT_SUPPORT_URL);
 
+#if UNITY_IOS
+            appInfoModel.storeURL = appInfoModel.iosURL;  
+#elif UNITY_ANDROID
+            appInfoModel.storeURL = appInfoModel.androidURL;
+#endif
+            appInfoModel.isMandatoryUpdate = GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.IS_MANDATORY_UPDATE);
+
             GSData gsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.GAME_SETTINGS);
             FillGameSettingsModel(gsSettingsData);
 
@@ -249,6 +256,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maxCommunityMatches = gsSettingsData.GetInt(GSBackendKeys.MAX_COMMUNITY_MATECHES).Value;
             settingsModel.hintsAllowedPerGame = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.HINTS_ALLOWED);
             settingsModel.maintenanceFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_FLAG).Value;
+            settingsModel.appUpdateFlag = GSParser.GetSafeBool(gsSettingsData, GSBackendKeys.APP_UPDATE_FLAG);
             settingsModel.updateMessage = gsSettingsData.GetString(GSBackendKeys.UPDATE_MESSAGE);
             settingsModel.maintenanceMessage = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_MESSAGE);
             settingsModel.maintenanceWarningFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;

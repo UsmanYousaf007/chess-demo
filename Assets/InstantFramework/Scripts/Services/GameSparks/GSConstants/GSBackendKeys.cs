@@ -39,6 +39,8 @@ namespace TurboLabz.InstantFramework
         public const string STORE_IOS = "ios";
         public const string STORE_ANDROID = "android";
         public const string CONTACT_SUPPORT_URL = "contactSupportURL";
+        public const string IS_MANDATORY_UPDATE = "isMandatoryUpdate";
+        public const string APP_UPDATE_FLAG = "appUpdateFlag";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";

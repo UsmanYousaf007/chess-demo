@@ -210,4 +210,7 @@ namespace TurboLabz.InstantFramework
 
     //Downloadable Content
     public class DownloadableContentEventSignal : Signal<ContentType?, ContentDownloadStatus> { }
+
+    //App Updates
+    public class AppUpdateSignal : Signal<bool> { }
 }
