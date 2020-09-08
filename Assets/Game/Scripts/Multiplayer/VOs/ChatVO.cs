@@ -24,5 +24,7 @@ namespace TurboLabz.Multiplayer
         public bool isChatEnabled;
         public bool isPlayerPremium;
         public bool isOpponentPremium;
+        public Sprite playerLeagueBorder;
+        public Sprite opponentLeagueBorder;
     }
 }

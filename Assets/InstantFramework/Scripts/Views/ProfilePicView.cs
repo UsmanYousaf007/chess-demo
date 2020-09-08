@@ -31,10 +31,11 @@ namespace TurboLabz.InstantGame
         public Image profilePic;
         public Image avatarBG;
         public Image avatarIcon;
-        
-        public GameObject noProfilePicBorder;
-        public GameObject hasProfilePicBorder;
-        public GameObject premiumBorder;
+        public Image leagueBorder;
+
+        //public GameObject noProfilePicBorder;
+        //public GameObject hasProfilePicBorder;
+        //public GameObject premiumBorder;
 
         private string playerId;
         private SpritesContainer defaultAvatarContainer;
@@ -119,8 +120,8 @@ namespace TurboLabz.InstantGame
         private void SetProfilePic(Sprite sprite)
         {
             Debug.Log("OnProfilePicUpdate SetProfilePic");
-            noProfilePicBorder.SetActive(false);
-            hasProfilePicBorder.SetActive(false);
+            //noProfilePicBorder.SetActive(false);
+            //hasProfilePicBorder.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
             avatarBG.gameObject.SetActive(false);
             profilePic.color = Color.white;
@@ -128,27 +129,33 @@ namespace TurboLabz.InstantGame
             if (sprite == null)
             {
                 profilePic.sprite = defaultAvatar;
-                noProfilePicBorder.SetActive(true);
+                //noProfilePicBorder.SetActive(true);
             }
             else
             {
                 profilePic.sprite = sprite;
-                hasProfilePicBorder.SetActive(true);
+                //hasProfilePicBorder.SetActive(true);
             }
         }
 
         private void SetProfilePic(ProfileVO vo)
         {
-            noProfilePicBorder.SetActive(false);
-            hasProfilePicBorder.SetActive(false);
+            //noProfilePicBorder.SetActive(false);
+            //hasProfilePicBorder.SetActive(false);
             avatarBG.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
             ShowPremiumBorder(vo.isPremium);
 
+            if (leagueBorder != null)
+            {
+                leagueBorder.gameObject.SetActive(vo.leagueBorder != null);
+                leagueBorder.sprite = vo.leagueBorder;
+            }
+
             if (vo.playerPic != null)
             {
                 profilePic.sprite = vo.playerPic;
-                hasProfilePicBorder.SetActive(true);
+                //hasProfilePicBorder.SetActive(true);
             }
             else
             {
@@ -167,7 +174,7 @@ namespace TurboLabz.InstantGame
                     }
                 }
 
-                noProfilePicBorder.SetActive(true);
+                //noProfilePicBorder.SetActive(true);
             }
 
         }
@@ -179,7 +186,7 @@ namespace TurboLabz.InstantGame
 
         public void ShowPremiumBorder(bool show)
         {
-            premiumBorder.SetActive(show);
+            //premiumBorder.SetActive(show);
         }
     }
 }

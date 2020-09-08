@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         public Image chestImage;
         public Image titleTextUnderlayImage;
         public Image defaultAvatar;
+        public Image picBorder;
 
         //profile pic
         public Image profilePic;
@@ -47,6 +48,7 @@ namespace TurboLabz.InstantFramework
             borderImage.enabled = false;
             youText.gameObject.SetActive(false);
             defaultAvatar.gameObject.SetActive(true);
+            picBorder.sprite = leagueAsset.ringSprite;
         }
 
         public void UpdateView(bool isPlayerLeague)

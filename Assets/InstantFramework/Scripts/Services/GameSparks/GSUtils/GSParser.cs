@@ -317,6 +317,7 @@ namespace TurboLabz.InstantFramework
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
             publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
             publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
+            publicProfile.league = GetSafeInt(publicProfileData, GSBackendKeys.PublicProfile.LEAGUE);
            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;

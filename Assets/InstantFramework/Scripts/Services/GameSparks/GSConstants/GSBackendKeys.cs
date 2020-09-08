@@ -473,6 +473,7 @@ namespace TurboLabz.InstantFramework
             public const string TOTAL_GAMES_WON = "totalGamesWon";
             public const string TOTAL_GAMES_LOST = "totalGamesLost";
             public const string IS_SUBSCRIBER = "isSubscriber";
+            public const string LEAGUE = "league";
         }
 
         public static class  PlayerDetails

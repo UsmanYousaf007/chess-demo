@@ -359,6 +359,9 @@ namespace TurboLabz.InstantFramework
             friend.publicProfile = new PublicProfile();
             GSParser.ParseFriend(friend, friendData, friendId);
 
+            var leagueAssets = tournamentsModel.GetLeagueSprites(friend.publicProfile.league.ToString());
+            friend.publicProfile.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+
             return friend;
         }
 

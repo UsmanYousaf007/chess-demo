@@ -162,6 +162,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? (bool)message.Data.GetBoolean("isSubscriber") : false;
                 notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
                 notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data.GetString("actionCode") : "undefined";
+                notificationVO.league = message.Data.ContainsKey("league") == true ? (int)message.Data.GetInt("league") : 0;
 
                 if (notificationVO.title != "unassigned")
                 {
@@ -198,6 +199,7 @@ namespace TurboLabz.InstantFramework
                 notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data.GetString("creationTimestamp")) : 0;
                 notificationVO.isOpened = false;
                 notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data.GetString("actionCode") : "undefined";
+                notificationVO.league = message.Data.ContainsKey("league") == true ? (int)message.Data.GetInt("league") : 0;
 
                 notificationRecievedSignal.Dispatch(notificationVO);
             } 

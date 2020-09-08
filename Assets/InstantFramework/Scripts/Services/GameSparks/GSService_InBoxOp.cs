@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
                     notificationVO.isPremium = false;
                     notificationVO.timeSent = 0;
                     notificationVO.actionCode = "undefined";
+                    notificationVO.league = -1;
 
                     notificationRecievedSignal.Dispatch(notificationVO);
                 }

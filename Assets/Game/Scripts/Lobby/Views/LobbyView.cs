@@ -600,7 +600,10 @@ namespace TurboLabz.InstantFramework
                     barData.avatarIcon.sprite = defaultAvatarContainer.GetSprite(publicProfile.avatarId);
                 }
             }
-            barData.premiumBorder.SetActive(publicProfile.isSubscriber);
+
+            barData.leagueBorder.gameObject.SetActive(publicProfile.leagueBorder != null);
+            barData.leagueBorder.sprite = publicProfile.leagueBorder;
+            //barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -1154,7 +1157,9 @@ namespace TurboLabz.InstantFramework
             SetToggleRankButtonState(startGameConfirmationDlg.toggleRankButtonState);
 
             startGameConfirmationDlg.playerId = bar.friendInfo.playerId;
-            startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
+            //startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
+            startGameConfirmationDlg.leagueBorder.gameObject.SetActive(bar.leagueBorder.gameObject.activeSelf);
+            startGameConfirmationDlg.leagueBorder.sprite = bar.leagueBorder.sprite;
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }

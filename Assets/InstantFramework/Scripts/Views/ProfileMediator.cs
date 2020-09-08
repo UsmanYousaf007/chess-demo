@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -113,11 +114,18 @@ namespace TurboLabz.InstantGame
             playerProfilePicTappedSignal.Dispatch();
         }
 
-        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-        public void OnSubscrionPurchased(StoreItem item)
+        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        public void OnPlayerModelUpdated(IPlayerModel playerModel)
         {
-            view.ShowPremiumBorder(playerModel.HasSubscription());
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            view.SetLeagueBorder(leagueAssets != null ? leagueAssets.ringSprite : null);
         }
+
+        //[ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        //public void OnSubscrionPurchased(StoreItem item)
+        //{
+        //    view.ShowPremiumBorder(playerModel.HasSubscription());
+        //}
 
         public void OnJoinedTournamentClicked(JoinedTournamentData data)
         {

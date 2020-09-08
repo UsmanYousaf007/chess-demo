@@ -96,7 +96,6 @@ namespace TurboLabz.InstantFramework
             playerLeagueBG.sprite = leagueAssets.bgSprite;
             playerLeagueChest.sprite = leagueAssets.chestSprite;
             playerLeagueProfilePicBorder.sprite = leagueAssets.ringSprite;
-            playerLeagueProfilePicBorder.SetNativeSize();
             playerLeagueTitleLabel.text = leagueAssets.typeName;
             playerLeagueTitleUnderlayImage.sprite = leagueAssets.textUnderlaySprite;
         }

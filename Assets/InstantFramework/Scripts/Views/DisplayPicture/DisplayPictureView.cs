@@ -12,10 +12,11 @@ public class DisplayPictureView : MonoBehaviour
     public Image profilePic;
     public Image avatarBG;
     public Image avatarIcon;
+    public Image leagueBorder;
 
-    public GameObject noProfilePicBorder;
-    public GameObject hasProfilePicBorder;
-    public GameObject premiumBorder;
+    //public GameObject noProfilePicBorder;
+    //public GameObject hasProfilePicBorder;
+    //public GameObject premiumBorder;
 
     public Image onlineStatus;
     public Sprite online;
@@ -30,21 +31,24 @@ public class DisplayPictureView : MonoBehaviour
     public void UpdateView(PublicProfile vo)
     {
         playerId = vo.playerId;
-        SetProfilePic(vo);
+        SetProfilePic(vo) ;
     }
 
     private void SetProfilePic(PublicProfile vo)
     {
-        noProfilePicBorder.SetActive(false);
-        hasProfilePicBorder.SetActive(false);
+        //noProfilePicBorder.SetActive(false);
+        //hasProfilePicBorder.SetActive(false);
         avatarBG.gameObject.SetActive(false);
         avatarIcon.gameObject.SetActive(false);
         ShowPremiumBorder(vo.isSubscriber);
 
+        this.leagueBorder.gameObject.SetActive(vo.leagueBorder != null);
+        this.leagueBorder.sprite = vo.leagueBorder;
+
         if (vo.profilePicture != null)
         {
             profilePic.sprite = vo.profilePicture;
-            hasProfilePicBorder.SetActive(true);
+            //hasProfilePicBorder.SetActive(true);
         }
         else
         {
@@ -64,7 +68,7 @@ public class DisplayPictureView : MonoBehaviour
                 }
             }
 
-            noProfilePicBorder.SetActive(true);
+            //noProfilePicBorder.SetActive(true);
         }
 
         UpdateOnlineStatus(vo.isOnline, vo.isActive);
@@ -72,7 +76,7 @@ public class DisplayPictureView : MonoBehaviour
     
     public void ShowPremiumBorder(bool show)
     {
-        premiumBorder.SetActive(show);
+        //premiumBorder.SetActive(show);
     }
 
     public void UpdateOnlineStatus(bool isOnline, bool isActive)
@@ -91,8 +95,8 @@ public class DisplayPictureView : MonoBehaviour
     public void SetProfilePicture(Sprite picture)
     {
         profilePic.sprite = picture;
-        hasProfilePicBorder.SetActive(true);
-        noProfilePicBorder.SetActive(false);
+        //hasProfilePicBorder.SetActive(true);
+        //noProfilePicBorder.SetActive(false);
         avatarBG.gameObject.SetActive(false);
         avatarIcon.gameObject.SetActive(false);
     }

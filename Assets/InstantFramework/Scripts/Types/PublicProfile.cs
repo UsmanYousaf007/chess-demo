@@ -24,6 +24,9 @@ namespace TurboLabz.InstantFramework
         public string creationDateShort;
         public bool isSubscriber;
         public string uploadedPicId;
+        public int league;
+        public Sprite leagueBorder;
+
         public string name
         {
             get

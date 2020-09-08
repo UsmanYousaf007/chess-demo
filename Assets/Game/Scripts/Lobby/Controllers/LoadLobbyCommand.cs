@@ -133,6 +133,9 @@ namespace TurboLabz.InstantGame
             pvo.avatarColorId = playerModel.avatarBgColorId;
             pvo.isPremium = playerModel.HasSubscription();
 
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
                 pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);

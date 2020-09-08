@@ -49,6 +49,7 @@ namespace TurboLabz.InstantGame
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;
         public GameObject premiumBorder;
+        public Image leagueBorder;
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
@@ -358,7 +359,8 @@ namespace TurboLabz.InstantGame
             hasProfilePicBorder.SetActive(false);
             avatarBG.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
-            ShowPremiumBorder(vo.isPremium);
+            ShowPremiumBorder(false);
+            SetLeagueBorder(vo.leagueBorder);
 
             if (vo.playerPic != null)
             {
@@ -424,6 +426,12 @@ namespace TurboLabz.InstantGame
             }
 
             analyticsService.Event(AnalyticsEventId.tournament_promo);
+        }
+
+        public void SetLeagueBorder(Sprite border)
+        {
+            leagueBorder.gameObject.SetActive(border != null);
+            leagueBorder.sprite = border;
         }
     }
 }
