@@ -147,6 +147,7 @@ namespace TurboLabz.InstantFramework
             {
                 tournamentLeaderboardPlayerBars[i].rankIcon.enabled = false;
                 tournamentLeaderboardPlayerBars[i].playerRankCountText.color = Colors.WHITE;
+                tournamentLeaderboardPlayerBars[i].playerPanel.SetActive(false);
                 RemovePlayerBarListeners(tournamentLeaderboardPlayerBars[i]);
                 barsPool.ReturnObject(tournamentLeaderboardPlayerBars[i].gameObject);
             }
