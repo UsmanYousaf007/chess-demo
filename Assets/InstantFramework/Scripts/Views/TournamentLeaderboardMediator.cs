@@ -123,6 +123,10 @@ namespace TurboLabz.InstantFramework
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
+                else
+                {
+                    joinedTournament.locked = false;
+                }
             }
         }
 
