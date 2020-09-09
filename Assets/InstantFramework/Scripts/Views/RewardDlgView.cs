@@ -122,6 +122,8 @@ namespace TurboLabz.InstantFramework
             p.leagueGradient.sprite = vo.leagueGradient;
             p.rewardsSubHeadingText.text = "Your Daily Perks";
 
+            p.playerPic.UpdateView(vo.playerProfile);
+
             for (int i = 0; i < vo.GetRewardItemsCount(); i++)
             {
                 int qty = vo.GetRewardItemQty(i);

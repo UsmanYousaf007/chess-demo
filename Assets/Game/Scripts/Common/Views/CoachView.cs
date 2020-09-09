@@ -48,7 +48,7 @@ public class CoachView : MonoBehaviour
     const float HIDE_TOOL_TIP_AFTER = 2.7f;
     const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
     const float PIXELS_TO_MOVE = 150.0f;
-    const float IGNORE_CLOSE_DURATION = 1.7f;
+    const float IGNORE_CLOSE_DURATION = 0.1f;
     readonly Vector3 CLOSE_BUTTON_SCALE = new Vector3(2.0f, 2.0f, 1.0f);
 
     private float timeAtAnalyzing = 0;

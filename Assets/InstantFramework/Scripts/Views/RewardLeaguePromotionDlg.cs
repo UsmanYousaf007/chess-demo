@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ namespace TurboLabz.InstantFramework
 
         public Image[] itemImages;
         public Text[] itemTexts;
+
+        public ProfilePicView playerPic;
 
         public void Awake()
         {

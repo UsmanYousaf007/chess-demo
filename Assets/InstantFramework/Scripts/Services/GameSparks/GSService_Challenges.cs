@@ -256,6 +256,11 @@ namespace TurboLabz.InstantFramework
                 opponentPublicProfile.creationDateShort = creationDateTime.ToLocalTime().ToString("d MMM yyyy");
                 opponentPublicProfile.lastSeenDateTime = DateTime.UtcNow.AddMinutes(UnityEngine.Random.Range(10, 10000) * -1);
                 opponentPublicProfile.lastSeen = opponentPublicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
+
+                //Assigning same league as player's
+                var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+                opponentPublicProfile.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+                opponentPublicProfile.league = playerModel.league;
             }
             else
             {

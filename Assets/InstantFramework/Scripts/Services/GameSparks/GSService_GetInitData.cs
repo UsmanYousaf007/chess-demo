@@ -512,11 +512,18 @@ namespace TurboLabz.InstantFramework
                 joinedTournament.entries = tournamentEntries;
 
                 var playerId = playerModel.id;
+
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
                     if (tournamentEntries[i].publicProfile.playerId == playerId)
                     {
                         joinedTournament.rank = tournamentEntries[i].rank;
+                    }
+
+                    if (tournamentEntries[i].publicProfile.leagueBorder == null)
+                    {
+                        var leagueAssets = tournamentsModel.GetLeagueSprites(tournamentEntries[i].publicProfile.league.ToString());
+                        tournamentEntries[i].publicProfile.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
                     }
                 }
             }
