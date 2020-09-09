@@ -16,6 +16,8 @@ namespace TurboLabz.InstantGame
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -56,7 +58,6 @@ namespace TurboLabz.InstantGame
         {
             RewardDlgVO vo = new RewardDlgVO("RewardDailySubscription");
             InboxMessage msg = inboxModel.items[msgId];
-
             
             AddRewardsToVO(vo, msg.rewards);
 
@@ -66,9 +67,11 @@ namespace TurboLabz.InstantGame
         {
             RewardDlgVO vo = new RewardDlgVO("RewardDailyLeague");
             InboxMessage msg = inboxModel.items[msgId];
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
 
             vo.league = msg.league;
-            vo.leagueGradient = SpriteBank.container.GetSprite($"{msg.league}Texture");
+            vo.leagueGradient = leagueAssets.textUnderlaySprite;
+
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;
@@ -77,9 +80,15 @@ namespace TurboLabz.InstantGame
         {
             RewardDlgVO vo = new RewardDlgVO("RewardLeaguePromotion");
             InboxMessage msg = inboxModel.items[msgId];
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
 
             vo.league = msg.league;
-            vo.leagueGradient = SpriteBank.container.GetSprite($"{msg.league}Texture");
+            vo.leagueGradient = leagueAssets.textUnderlaySprite;
+            vo.playerProfile = new ProfileVO();
+            vo.playerProfile.playerPic = picsModel.GetPlayerPic(playerModel.id);
+            vo.playerProfile.avatarColorId = playerModel.avatarBgColorId;
+            vo.playerProfile.leagueBorder = leagueAssets.ringSprite;
+
             AddRewardsToVO(vo, msg.rewards);
 
             return vo;

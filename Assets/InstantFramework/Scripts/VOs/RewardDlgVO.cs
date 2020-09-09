@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         public int rankCount;
         public int trophiesCount;
 
+        public ProfileVO playerProfile;
+
         public RewardDlgVO(string typeId)
         {
             type = typeId;
