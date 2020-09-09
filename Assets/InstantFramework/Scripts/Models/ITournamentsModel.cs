@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         bool isTournamentOpen(LiveTournamentData liveTournament);
         void SetOpenTournament(LiveTournamentData openTournament);
         bool RemoveFromJoinedTournament(string tournamentId);
+        bool RemoveFromOpenTournament(string shortCode);
         LiveTournamentData GetOpenTournament();
         LiveTournamentData GetOpenTournament(string shortCode);
         JoinedTournamentData GetJoinedTournament();

@@ -289,6 +289,20 @@ namespace TurboLabz.InstantFramework
             return false;
         }
 
+        public bool RemoveFromOpenTournament(string shortCode)
+        {
+            for (int i = 0; i < openTournaments.Count; i++)
+            {
+                if (openTournaments[i].shortCode == shortCode)
+                {
+                    openTournaments.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public Sprite GetLiveTournamentSticker()
         {
             var joinedTournament = GetJoinedTournament();

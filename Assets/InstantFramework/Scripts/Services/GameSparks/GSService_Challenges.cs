@@ -393,6 +393,7 @@ namespace TurboLabz.InstantFramework
                 {
                     joinedTournament.locked = true;
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
+                    tournamentsModel.RemoveFromOpenTournament(joinedTournament.shortCode);
                 }
 
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
