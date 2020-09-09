@@ -124,5 +124,17 @@ namespace TurboLabz.Chess
             lastDequeuedMethod.promise = null;
             lastDequeuedMethod = null;
         }
+
+        private void GetHint()
+        {
+            var selectedMove = aiSearchResultMovesList[0];
+            var from = chessService.GetFileRankLocation(selectedMove[0], selectedMove[1]);
+            var to = chessService.GetFileRankLocation(selectedMove[2], selectedMove[3]);
+            var piece = chessService.GetPieceAtLocation(from);
+            var pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
+            lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
+            lastDequeuedMethod.promise = null;
+            lastDequeuedMethod = null;
+        }
     }
 }

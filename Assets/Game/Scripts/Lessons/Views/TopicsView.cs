@@ -20,6 +20,7 @@ namespace TurboLabz.InstantGame
         public Transform categoryContainer;
         public GameObject topicCategory;
         public GameObject topicTile;
+        public GameObject gridRow;
         public Text backButtonLabel;
         public Button backButton;
         public GameObject processing;
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantGame
 
         private GameObjectsPool categoryPool;
         private GameObjectsPool topicTilePool;
+        private GameObjectsPool gridRowPool;
         private VideoLessonVO lessonVO;
 
         public Signal<VideoLessonVO> nextLessonSignal = new Signal<VideoLessonVO>();
@@ -44,6 +46,7 @@ namespace TurboLabz.InstantGame
         {
             categoryPool = new GameObjectsPool(topicCategory);
             topicTilePool = new GameObjectsPool(topicTile);
+            gridRowPool = new GameObjectsPool(gridRow);
 
             foreach (var nextLessonButton in nextLessonButtons)
             {
@@ -64,11 +67,12 @@ namespace TurboLabz.InstantGame
         public void Hide()
         {
             gameObject.SetActive(false);
-            ClearView();
         }
 
         public void UpdateView(TopicsViewVO vo)
         {
+            ClearView();
+
             nextLessonSection.SetActive(!vo.allLessonsWatched);
             lessonsCompletedSection.SetActive(vo.allLessonsWatched);
             lessonVO = vo.nextLesson;
@@ -84,7 +88,7 @@ namespace TurboLabz.InstantGame
             {
                 var sectionObj = categoryPool.GetObject();
                 sectionObj.transform.SetParent(categoryContainer, false);
-                sectionObj.GetComponent<TopicCategory>().Init(section.Key, section.Value, topicTilePool, loadTopicSignal);
+                sectionObj.GetComponent<TopicCategory>().Init(section.Key, section.Value, gridRowPool, topicTilePool, loadTopicSignal);
                 sectionObj.SetActive(true);
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(categoryContainer.GetComponent<RectTransform>());

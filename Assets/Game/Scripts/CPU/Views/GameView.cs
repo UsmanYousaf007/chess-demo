@@ -29,18 +29,20 @@ namespace TurboLabz.CPU
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
-
+        
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
 
         [Inject] public IPlayerModel playerModel { get; set; }
-
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        
         [Header("Main View")]
         public Camera chessboardCamera;
         public GameObject uiBlocker;
         public GameObject chessboardBlocker;
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
+        public GameObject logo;
 
         private bool menuButtonWasActive;
 
@@ -61,8 +63,9 @@ namespace TurboLabz.CPU
             OnParentShowHindsight();
             OnParentShowStep();
             OnParentShowAdBanner();
+            OnParentShowSpecialHint();
             EnableSafeButton();
-
+            OnShowLogo();
             showAdOnBack = false;
         }
 
@@ -139,6 +142,11 @@ namespace TurboLabz.CPU
             {
                 EnableMenuButton();
             }
+        }
+
+        private void OnShowLogo()
+        {
+            logo.SetActive(playerModel.HasRemoveAds());
         }
     }
 }

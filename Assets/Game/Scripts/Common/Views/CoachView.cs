@@ -108,7 +108,14 @@ public class CoachView : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
+
+        var container = SkinContainer.LoadSkin(coachVO.activeSkinId);
+        if (container == null)
+        {
+            AssetBundle bundle = coachVO.downloadablesModel.downloadableItems[coachVO.activeSkinId].bundle;
+            container = bundle.LoadAsset<SkinContainer>(coachVO.activeSkinId);
+        }
+        stickerPieceIcon.sprite = container.GetSprite(coachVO.pieceName);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(
@@ -123,7 +130,7 @@ public class CoachView : MonoBehaviour
         var positionVector = directionVector.y > 0 ? downPosition : upPosition;
         parentPanel.position = positionVector;
 
-        Invoke("OnCompleteStickerAnimation", 0.8f);
+        //Invoke("OnCompleteStickerAnimation", 0.8f);
 
         FadeIn();
     }

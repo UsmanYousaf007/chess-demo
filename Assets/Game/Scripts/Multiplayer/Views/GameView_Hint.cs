@@ -88,6 +88,7 @@ namespace TurboLabz.Multiplayer
                 strengthVO.analyticsService = analyticsService;
                 strengthVO.activeSkinId = vo.skinId;
                 strengthVO.pieceName = vo.piece;
+                strengthVO.downloadablesModel = downloadablesModel;
 
                 if (isLongPlay)
                 {

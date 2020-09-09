@@ -23,7 +23,9 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -31,22 +33,53 @@ namespace TurboLabz.InstantFramework
 
             view.homeButtonClickedSignal.AddListener(OnHomeButtonClicked);
             view.friendsButtonClickedSignal.AddListener(OnFriendsButtonClicked);
+            view.inventoryButtonClickedSignal.AddListener(OnInventoryButtonClicked);
+            view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
+            view.arenaButtonClickedSignal.AddListener(OnArenaButtonClicked);
         }
 
         public override void OnRemove()
         {
             view.homeButtonClickedSignal.RemoveAllListeners();
             view.friendsButtonClickedSignal.RemoveAllListeners();
+            view.inventoryButtonClickedSignal.RemoveAllListeners();
+            view.shopButtonClickedSignal.RemoveAllListeners();
         }
 
         void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
         }
 
         void OnFriendsButtonClicked()
         {
             loadFriendsSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
+        }
+
+        void OnArenaButtonClicked()
+        {
+            loadArenaSignal.Dispatch();
+            updateBottomNavSignal.Dispatch();
+        }
+
+        void OnInventoryButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch();
+        }
+
+        void OnShopButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            updateBottomNavSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(UpdateBottomNavSignal))]
+        public void OnUpdateView()
+        {
+            view.UpdateAlerts();
         }
     }
 }

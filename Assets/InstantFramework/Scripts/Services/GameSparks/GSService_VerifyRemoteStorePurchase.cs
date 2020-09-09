@@ -33,6 +33,10 @@ namespace TurboLabz.InstantFramework
         {
             var res = response.ScriptData.GetGSData("remotePurchase");
 
+            // Process gems
+            int? gems = res.GetInt(GSBackendKeys.PlayerDetails.GEMS);
+            playerModel.gems += gems != null ? gems.Value : 0;
+
             // Process goods
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)
@@ -60,6 +64,27 @@ namespace TurboLabz.InstantFramework
 
                 updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[shopItemId]);
             }
+
+            // Process bundled goods
+            IList<GSData> bundledGoods = res.GetGSDataList("bundledGoods");
+            if (bundledGoods != null)
+            {
+                foreach (GSData item in bundledGoods)
+                {
+                    string shortCode = item.GetString("shortCode");
+                    int qty = item.GetInt("qty").Value;
+                    if (playerModel.inventory.ContainsKey(shortCode))
+                    {
+                        playerModel.inventory[shortCode] = playerModel.inventory[shortCode] + qty;
+                    }
+                    else
+                    {
+                        playerModel.inventory.Add(shortCode, qty);
+                    }
+                }
+            }
+
+            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
         }
     }
 

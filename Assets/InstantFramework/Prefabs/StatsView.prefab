@@ -905,11 +905,11 @@ RectTransform:
   - {fileID: 1300161158810272935}
   - {fileID: 1300161157990880920}
   m_Father: {fileID: 1300161157041932454}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -144}
+  m_AnchoredPosition: {x: -4, y: -156}
   m_SizeDelta: {x: 77.67, y: 44.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300161156909828942
@@ -1131,6 +1131,7 @@ RectTransform:
   - {fileID: 1300161157320622881}
   - {fileID: 1300161158042491287}
   - {fileID: 5942058796662145663}
+  - {fileID: 4105651525535056733}
   - {fileID: 6059201035133691114}
   - {fileID: 1363365325489525192}
   - {fileID: 1300161156909828937}
@@ -1271,7 +1272,7 @@ RectTransform:
   m_Children:
   - {fileID: 1300161157334542001}
   m_Father: {fileID: 1300161157041932454}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2930,6 +2931,11 @@ MonoBehaviour:
   facebookConnectAnim: {fileID: 1300161156909828936}
   signInWithAppleButton: {fileID: 3809014839955377688}
   signInWithAppleLabel: {fileID: 7561734146723128989}
+  playTournamentButton: {fileID: 0}
+  playTournamentButtonLabel: {fileID: 0}
+  tournamentLiveLabel: {fileID: 0}
+  liveTournamentIcon: {fileID: 0}
+  liveTournamentGO: {fileID: 0}
   defaultAvatar: {fileID: 21300000, guid: 10c69bb4ef11a4d1b9effcf56a81ec5e, type: 3}
   whiteAvatar: {fileID: 21300000, guid: fb85629f2573e4fa88c0e0e5d9496c27, type: 3}
   profilePic: {fileID: 1300161157177079437}
@@ -2939,9 +2945,13 @@ MonoBehaviour:
   noProfilePicBorder: {fileID: 1300161157320622880}
   hasProfilePicBorder: {fileID: 1300161158042491286}
   premiumBorder: {fileID: 5723896815987180013}
+  leagueBorder: {fileID: 6080459847165216761}
   eloScoreLabel: {fileID: 1300161158644412695}
   eloScoreValue: {fileID: 1300161157505489006}
   playerFlag: {fileID: 1300161158807869806}
+  fbBtnPos: {fileID: 0}
+  avatarContainer: {fileID: 0}
+  avatarContainerRef: {fileID: 0}
   profilePicButton: {fileID: 1200782218067656339}
 --- !u!1 &1300161157760857033
 GameObject:
@@ -7589,6 +7599,80 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1999107150954459600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4105651525535056733}
+  - component: {fileID: 2797825264830329274}
+  - component: {fileID: 6080459847165216761}
+  m_Layer: 5
+  m_Name: LeagueBorder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4105651525535056733
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999107150954459600}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1300161157041932454}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -3.0000305, y: -25.000122}
+  m_SizeDelta: {x: 230, y: 240}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2797825264830329274
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999107150954459600}
+  m_CullTransparentMesh: 0
+--- !u!114 &6080459847165216761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999107150954459600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: ddb4ed6bcf6df4c3f9529cbecbb3c235, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
 --- !u!1 &2503114372193484350
 GameObject:
   m_ObjectHideFlags: 0
@@ -8863,7 +8947,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1300161157041932454}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9981,7 +10065,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1300161157041932454}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10087,7 +10171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2219521925524038404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10467,7 +10551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1578710623160128917
 RectTransform:
   m_ObjectHideFlags: 0

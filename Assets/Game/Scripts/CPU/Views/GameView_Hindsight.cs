@@ -25,7 +25,6 @@ namespace TurboLabz.CPU
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
-
         [Header("Hindsight")]
         public GameObject hindsightFromIndicator;
         public GameObject hindsightToIndicator;
@@ -86,8 +85,9 @@ namespace TurboLabz.CPU
             coachVO.audioService = audioService;
             coachVO.analyticsService = analyticsService;
             coachVO.analyticsContext = AnalyticsContext.computer_match;
-
-                if (vo.piece.Contains("captured"))
+            coachVO.downloadablesModel = downloadablesModel;
+            
+            if (vo.piece.Contains("captured"))
             {
                 coachVO.pieceName = string.Format("{0}{1}", vo.piece[0], LastOpponentCapturedPiece.ToLower());
             }

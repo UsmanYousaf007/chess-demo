@@ -27,7 +27,8 @@ public class ChatBubble : MonoBehaviour
     public Image avatarBg;
     public Image avatarIcon;
     public Text timer;
-    public GameObject premiumBorder;
+    //public GameObject premiumBorder;
+    public Image leagueBorder;
 
     Image bgImage;
     Coroutine fadeRoutine;

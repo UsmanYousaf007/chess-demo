@@ -8,12 +8,14 @@ using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using UnityEngine;
 using ArabicSupport;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
     public class PlayerModel : IPlayerModel
     {
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         public string id { get; set; }
         public long creationDate { get; set; }
@@ -39,6 +41,9 @@ namespace TurboLabz.InstantFramework
         public string subscriptionType { get; set; }
         public AnalyticsContext adContext { get; set; }
         public string uploadedPicId { get; set; }
+        public long gems { get; set; }
+        public int trophies { get; set; }
+        public int league { get; set; }
 
         public string name
         {
@@ -112,6 +117,9 @@ namespace TurboLabz.InstantFramework
             subscriptionExipryTimeStamp = 0;
             renewDate = "";
             subscriptionType = "";
+            gems = 0;
+            trophies = 0;
+            league = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -175,13 +183,13 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel)
+        public bool HasRemoveAds(IAdsSettingsModel adsSettingsModel = null)
         {
             //return OwnsVGood(GSBackendKeys.SHOP_ITEM_FEATURE_REMOVE_ADS_PERM) ||
             //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
             //        (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
 
-            return HasSubscription();
+            return HasSubscription() || OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK);
         }
 
         public bool HasSubscription()
@@ -221,7 +229,8 @@ namespace TurboLabz.InstantFramework
             playerInventoryVO.hintCount = PowerUpHintCount;
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;
-
+            playerInventoryVO.gemsCount = gems;
+            playerInventoryVO.allLessonsUnlocked = OwnsAllLessons();
             return playerInventoryVO;
         }
 
@@ -322,6 +331,63 @@ namespace TurboLabz.InstantFramework
             }
 
             return 0f;
+        }
+
+        public int GetInventoryItemCount(string key)
+        {
+            return OwnsVGood(key) ? inventory[key] : 0;
+        }
+
+        public bool OwnsAllLessons()
+        {
+            if (HasSubscription())
+            {
+                return true;
+            }
+
+            if (OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
+            {
+                return true;
+            }
+
+            var lessons = storeSettingsModel.lists[GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG];
+            int count = 0;
+
+            foreach (var lesson in lessons)
+            {
+                if(OwnsVGood(lesson.key))
+                {
+                    count++;
+                }
+            }
+
+            return count == lessons.Count;
+        }
+
+        public bool OwnsAllThemes()
+        {
+            if (HasSubscription())
+            {
+                return true;
+            }
+
+            if (OwnsVGood(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
+            {
+                return true;
+            }
+
+            var themes = storeSettingsModel.lists[GSBackendKeys.ShopItem.SKIN_SHOP_TAG];
+            int count = 0;
+
+            foreach (var theme in themes)
+            {
+                if (OwnsVGood(theme.key))
+                {
+                    count++;
+                }
+            }
+
+            return count == themes.Count;
         }
     }
 }

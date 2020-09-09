@@ -2,25 +2,26 @@
 {
     public class LobbyPromotionKeys
     {
-        public const string COACH_BANNER = "CoachBanner";
-        public const string STRENGTH_BANNER = "StrengthBanner";
-        public const string ULTIMATE_BANNER = "UltimateBanner";
+        public const string THEMES_BANNER = "ThemesBanner";
+        public const string LESSONS_BANNER = "LessonsBanner";
         public const string ADS_BANNER = "AdsBanner";
-        public const string COACH_PURCHASE = "CoachPurchase";
-        public const string STRENGTH_PURCHASE = "StrengthPurchase";
         public const string GAME_UPDATE_BANNER = "GameUpdateBanner";
         public const string SUBSCRIPTION_BANNER = "SubscriptionBanner";
+        public const string REWARDS_BANNER = "RewardsBanner";
 
         public static bool Contains(string key)
         {
-            if (key.Equals(COACH_BANNER)
-                || key.Equals(STRENGTH_BANNER)
-                || key.Equals(ULTIMATE_BANNER)
+            if (string.IsNullOrEmpty(key))
+            {
+                return false;
+            }
+
+            if (key.Equals(THEMES_BANNER)
+                || key.Equals(LESSONS_BANNER)
                 || key.Equals(ADS_BANNER)
-                || key.Equals(COACH_PURCHASE)
-                || key.Equals(STRENGTH_PURCHASE)
                 || key.Equals(GAME_UPDATE_BANNER)
                 || key.Equals(SUBSCRIPTION_BANNER)
+                || key.Equals(REWARDS_BANNER)
                 )
             {
                 return true;

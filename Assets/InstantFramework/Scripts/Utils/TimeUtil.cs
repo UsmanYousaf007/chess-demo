@@ -88,6 +88,48 @@ namespace TurboLabz.TLUtils
             return string.Format("{0:00}:{1:00}", Mathf.FloorToInt((float)timer.TotalMinutes), timer.Seconds);
         }
 
+        public static string FormatTournamentClock(TimeSpan timer)
+        {
+            if (timer.Days > 7)
+            {
+                if (timer.Days % 7 == 0)
+                {
+                    return $"{timer.Days / 7}w";
+                }
+
+                return $"{timer.Days / 7}w {timer.Days % 7}d";
+            }
+            else if (timer.Days > 0)
+            {
+                if (timer.Hours == 0)
+                {
+                    return $"{timer.Days}d";
+                }
+
+                return $"{timer.Days}d {timer.Hours}h";
+            }
+            else if (timer.Hours > 0)
+            {
+                if (timer.Minutes == 0)
+                {
+                    return $"{timer.Hours}h";
+                }
+
+                return $"{timer.Hours}h {timer.Minutes}m";
+            }
+            else if (timer.Minutes > 0)
+            {
+                if (timer.Seconds == 0)
+                {
+                    return $"{timer.Minutes}m";
+                }
+
+                return $"{timer.Minutes}m {timer.Seconds}s";
+            }
+
+            return $"{timer.Seconds}s";
+        }
+
         public static string MillisecondsToMinutesAndSeconds(TimeSpan timer)
         {
             // TODO: localize clock

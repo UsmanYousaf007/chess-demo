@@ -87,7 +87,16 @@ public class StrengthAnim : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = strengthVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        stickerPieceIcon.sprite = SkinContainer.LoadSkin(strengthVO.activeSkinId).GetSprite(strengthVO.pieceName);
+
+        var container = SkinContainer.LoadSkin(strengthVO.activeSkinId);
+        if (container == null)
+        {
+            AssetBundle bundle = strengthVO.downloadablesModel.downloadableItems[strengthVO.activeSkinId].bundle;
+            container = bundle.LoadAsset<SkinContainer>(strengthVO.activeSkinId);
+        }
+        stickerPieceIcon.sprite = container.GetSprite(strengthVO.pieceName);
+
+        //stickerPieceIcon.sprite = SkinContainer.LoadSkin(strengthVO.activeSkinId).GetSprite(strengthVO.pieceName);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(

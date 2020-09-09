@@ -33,6 +33,13 @@ namespace TurboLabz.InstantGame
         public GameObject facebookConnectAnim;
         public Button signInWithAppleButton;
         public Text signInWithAppleLabel;
+
+        public Button playTournamentButton;
+        public Text playTournamentButtonLabel;
+        public Text tournamentLiveLabel;
+        public Image liveTournamentIcon;
+        public GameObject liveTournamentGO;
+
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
         public Image profilePic;
@@ -42,20 +49,38 @@ namespace TurboLabz.InstantGame
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;
         public GameObject premiumBorder;
+        public Image leagueBorder;
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
         private string playerId;
-        private SpritesContainer defaultAvatarContainer; 
+        private SpritesContainer defaultAvatarContainer;
+
+        public RectTransform fbBtnPos;
+
+        public RectTransform avatarContainer;
+        Transform avatarContainerStartRef;
+        public RectTransform avatarContainerRef;
 
         public Button profilePicButton;
         
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
-        
+        public Signal<JoinedTournamentData> joinedTournamentButtonClickedSignal = new Signal<JoinedTournamentData>();
+        public Signal<LiveTournamentData> openTournamentButtonClickedSignal = new Signal<LiveTournamentData>();
+
+        //Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public void Init()
         {
+            if(avatarContainer != null)
+            {
+                avatarContainerStartRef = avatarContainer;
+            }
+
             if (facebookButton != null)
             {
                 facebookButton.onClick.AddListener(OnFacebookButtonClicked);
@@ -70,6 +95,21 @@ namespace TurboLabz.InstantGame
             profilePicButton.onClick.AddListener(OnProfilePicButtonClicked);
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
+
+            if (playTournamentButtonLabel != null)
+            {
+                playTournamentButtonLabel.text = localizationService.Get(LocalizationKey.PLAY_TOURNAMENT);
+            }
+
+            if (tournamentLiveLabel != null)
+            {
+                tournamentLiveLabel.text = localizationService.Get(LocalizationKey.LIVE_TEXT);
+            }
+
+            if (playTournamentButton != null)
+            {
+                playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
+            }
         }
 
         public void CleanUp()
@@ -82,6 +122,34 @@ namespace TurboLabz.InstantGame
             if (signInWithAppleButton != null)
             {
                 signInWithAppleButton.onClick.RemoveAllListeners();
+            }
+        }
+
+        public void UpdateTournamentView()
+        {
+            if (liveTournamentIcon != null)
+            {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+                if (joinedTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
+                    liveTournamentIcon.SetNativeSize();
+                    playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
+                }
+                else if (openTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
+                    liveTournamentIcon.SetNativeSize();
+                    playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
+                }
+                else {
+                    liveTournamentIcon.sprite = null;
+                    playTournamentButton.interactable = false;
+                    liveTournamentGO.SetActive(false);
+                }
             }
         }
 
@@ -106,14 +174,20 @@ namespace TurboLabz.InstantGame
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             if (facebookButton != null)
             {
-                facebookButton.gameObject.SetActive(showLoginButton);
+                //facebookButton.gameObject.SetActive(showLoginButton);
                 facebookConnectAnim.SetActive(false);
             }
 
-            if (signInWithAppleButton != null)
+            ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
+
+            /*if (signInWithAppleButton != null)
             {
                 signInWithAppleButton.gameObject.SetActive(vo.isAppleSignInSupported && showLoginButton);
-            }
+                if(!signInWithAppleButton.IsActive() && fbBtnPos != null)
+                {
+                    facebookButton.transform.localPosition = fbBtnPos.localPosition;
+                }
+            }*/
         }
 
         public void FacebookAuthResult(AuthFacebookResultVO vo)
@@ -127,7 +201,7 @@ namespace TurboLabz.InstantGame
                 profileName.text = vo.name;
                 eloScoreValue.text = vo.rating.ToString();
 
-                if (facebookButton != null)
+                /*if (facebookButton != null)
                 {
                     facebookButton.gameObject.SetActive(false);
                 }
@@ -135,7 +209,10 @@ namespace TurboLabz.InstantGame
                 if (signInWithAppleButton != null)
                 {
                     signInWithAppleButton.gameObject.SetActive(false);
-                }
+                }*/
+
+                ChangeSocialAccountButtonsState(false, false);
+
             }
 
             if (facebookConnectAnim != null)
@@ -150,7 +227,7 @@ namespace TurboLabz.InstantGame
             {
                 profileName.text = vo.name;
 
-                if (facebookButton != null)
+                /*if (facebookButton != null)
                 {
                     facebookButton.gameObject.SetActive(false);
                 }
@@ -158,7 +235,9 @@ namespace TurboLabz.InstantGame
                 if (signInWithAppleButton != null)
                 {
                     signInWithAppleButton.gameObject.SetActive(false);
-                }
+                }*/
+
+                ChangeSocialAccountButtonsState(false, false);
             }
 
             if (facebookConnectAnim != null)
@@ -169,7 +248,7 @@ namespace TurboLabz.InstantGame
 
         public void SignOutSocialAccount()
         {
-            if (facebookButton != null)
+            /*if (facebookButton != null)
             {
                 facebookButton.gameObject.SetActive(true);
             }
@@ -177,6 +256,40 @@ namespace TurboLabz.InstantGame
             if (signInWithAppleButton != null)
             {
                 signInWithAppleButton.gameObject.SetActive(true);
+            }*/
+
+            ChangeSocialAccountButtonsState(true, true);
+        }
+
+        void ChangeSocialAccountButtonsState(bool showFBLoginButton, bool showSignInWithAppleButton)
+        {
+            if (facebookButton != null)
+            {
+                facebookButton.gameObject.SetActive(showFBLoginButton);
+            }
+
+            if (signInWithAppleButton != null)
+            {
+                signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
+            }
+
+            if (avatarContainer && avatarContainerRef)
+            {
+                if (!showFBLoginButton && !showSignInWithAppleButton)
+                {
+                    avatarContainer.localScale = avatarContainerRef.localScale;
+                    avatarContainer.localPosition = avatarContainerRef.localPosition;
+                }
+                else
+                {
+                    avatarContainer.localScale = new Vector3(1, 1, 1);
+                    avatarContainer.localPosition = avatarContainerStartRef.localPosition;
+                }
+            }
+
+            if (!showSignInWithAppleButton && fbBtnPos != null)
+            {
+                facebookButton.transform.localPosition = fbBtnPos.localPosition;
             }
         }
 
@@ -246,7 +359,8 @@ namespace TurboLabz.InstantGame
             hasProfilePicBorder.SetActive(false);
             avatarBG.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
-            ShowPremiumBorder(vo.isPremium);
+            ShowPremiumBorder(false);
+            SetLeagueBorder(vo.leagueBorder);
 
             if (vo.playerPic != null)
             {
@@ -295,6 +409,29 @@ namespace TurboLabz.InstantGame
         public void ShowPremiumBorder(bool show)
         {
             premiumBorder.SetActive(show);
+        }
+
+        private void OnPlayTournamentButtonClicked()
+        {
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+            LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+
+            if (joinedTournament != null)
+            {
+                joinedTournamentButtonClickedSignal.Dispatch(joinedTournament);
+            }
+            else if (openTournament != null)
+            {
+                openTournamentButtonClickedSignal.Dispatch(openTournament);
+            }
+
+            analyticsService.Event(AnalyticsEventId.tournament_promo);
+        }
+
+        public void SetLeagueBorder(Sprite border)
+        {
+            leagueBorder.gameObject.SetActive(border != null);
+            leagueBorder.sprite = border;
         }
     }
 }

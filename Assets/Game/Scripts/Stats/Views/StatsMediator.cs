@@ -37,9 +37,8 @@ namespace TurboLabz.InstantGame
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IPhotoService photoPickerService { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
-
+        [Inject] public IDownloadablesService downloadablesService { get; set; }
         
-
         public override void OnRegister()
         {
             view.Init();
@@ -52,6 +51,8 @@ namespace TurboLabz.InstantGame
 
             view.openPhotoSettingsBtn.onClick.AddListener(OnOpenSettingsBtnClicked);
             view.profilePicBtn.onClick.AddListener(OnUploadProfilPicBtnClicked);
+
+
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -129,7 +130,6 @@ namespace TurboLabz.InstantGame
                 view.CloseProfilePicDialog();
                 view.OpenSettingsDialog();
             }
-
         }
 
         void OnChoosePhotoBtnClicked()

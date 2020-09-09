@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
+using UnityEngine.UI;
 
 public class NotchHandler : MonoBehaviour {
 
@@ -83,6 +84,34 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform lessonVideoPlayerTopBar;
     public RectTransform lessonVideoPlayerBottomNav;
 
+    [Header("Shop")]
+    public RectTransform shopScrollView;
+
+    [Header("Inventory")]
+    public RectTransform inventorySpecialItemsScrollView;
+    public RectTransform inventoryThemesScrollView;
+    public RectTransform inventoryTitleBar;
+
+    [Header("Inbox")]
+    public RectTransform inboxItemsContainer;
+    public RectTransform inboxBottomNav;
+
+    [Header("League Perks")]
+    public RectTransform leaguePerksTopNav;
+    public RectTransform leaguePerksBottomNav;
+    public RectTransform leaguePerksScrollView;
+
+    [Header("Tournaments")]
+    public RectTransform tournamentsLeagueHeader;
+    public RectTransform tournamentsScrollView;
+
+    [Header("Tournaments Leaderboard")]
+    public RectTransform tournamentsLeaderboardBottomNav;
+    public RectTransform tournamentsLeaderboardHeader;
+    public RectTransform tournamentsLeaderboardFooter;
+    public RectTransform tounamentsLeaderboardScrollView;
+    public RectTransform tournamentsLeaderboardNotEnteredBar;
+
     void Awake()
     {
         notchOverlay.SetActive(false);
@@ -107,10 +136,10 @@ public class NotchHandler : MonoBehaviour {
         }
 
         // LOBBY
-        SetY(lobbyScrollView, -85f - 100f);
+        SetY(lobbyScrollView, -240f);
         SetTop(lobbyViewPort, 9f);
         SetBottom(lobbyViewPort, 128f + 100f);
-        SetY(lobbyScrollViewPivotForBanner, -318);
+        SetY(lobbyScrollViewPivotForBanner, -373);
         lobbyView.setScorllViewportBottomTo = 361;
         SetY(lobbyScrollViewTopShadow, -2);
 
@@ -184,6 +213,43 @@ public class NotchHandler : MonoBehaviour {
         SetBottom(lessonsScrollView, 212f);
         SetY(lessonVideoPlayerTopBar, -113f);
         SetY(lessonVideoPlayerBottomNav, 91f);
+
+        //Shop
+        SetTop(shopScrollView, -177f);
+        SetBottom(shopScrollView, 232f);
+        shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+
+        //Inventory
+        SetTop(inventorySpecialItemsScrollView, -275f);
+        SetBottom(inventorySpecialItemsScrollView, 232f);
+        SetTop(inventoryThemesScrollView, -275f);
+        SetBottom(inventoryThemesScrollView, 232f);
+        SetY(inventoryTitleBar, -195f);
+
+        //Inbox
+        SetTop(inboxItemsContainer, -175f);
+        SetBottom(inboxItemsContainer, 232f);
+        SetY(inboxBottomNav, 90f);
+
+        //League Perks
+        SetY(leaguePerksTopNav, -170f);
+        SetY(leaguePerksBottomNav, 90f);
+        SetTop(leaguePerksScrollView, -232f);
+        SetBottom(leaguePerksScrollView, 212f);
+
+        //Tournaments
+        SetY(tournamentsLeagueHeader, -380f);
+        SetTop(tournamentsScrollView, -566f);
+        SetBottom(tournamentsScrollView, 236f);
+        tournamentsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+
+        //Tournaments Leaderboard
+        SetY(tournamentsLeaderboardBottomNav, 90f);
+        SetY(tournamentsLeaderboardHeader, -177f);
+        SetY(tournamentsLeaderboardFooter, 321f);
+        SetTop(tounamentsLeaderboardScrollView, -940f);
+        SetBottom(tounamentsLeaderboardScrollView, 430f);
+        SetY(tournamentsLeaderboardNotEnteredBar, 538f);
     }
 
     void SetY(RectTransform tfm, float y)

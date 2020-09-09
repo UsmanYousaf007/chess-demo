@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -48,6 +49,9 @@ namespace TurboLabz.InstantFramework
             vo.player.avatarColorId = playerModel.avatarBgColorId;
             vo.player.isPremium = playerModel.HasSubscription();
 
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            vo.player.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+
             vo.opponent.playerId = null;
 
             if (actionData.action != FindMatchAction.ActionCode.Random.ToString() && actionData.action != FindMatchAction.ActionCode.RandomLong.ToString()
@@ -64,6 +68,7 @@ namespace TurboLabz.InstantFramework
                     vo.opponent.avatarId = friend.publicProfile.avatarId;
                     vo.opponent.avatarColorId = friend.publicProfile.avatarBgColorId;
                     vo.opponent.isPremium = friend.publicProfile.isSubscriber;
+                    vo.opponent.leagueBorder = friend.publicProfile.leagueBorder;
                 }
                 else
                 {

@@ -45,6 +45,7 @@ namespace TurboLabz.InstantGame
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -169,8 +170,13 @@ namespace TurboLabz.InstantGame
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             notification.avatarBg.sprite = notification.defaultAvatar;
-            notification.premiumBorder.SetActive(notificationVO.isPremium);
+            //notification.premiumBorder.SetActive(notificationVO.isPremium);
             notification.senderPic.gameObject.SetActive(false);
+
+            var leagueAssets = tournamentsModel.GetLeagueSprites(notificationVO.league.ToString());
+            var leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+            notification.leagueBorder.gameObject.SetActive(leagueBorder != null);
+            notification.leagueBorder.sprite = leagueBorder;
 
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
