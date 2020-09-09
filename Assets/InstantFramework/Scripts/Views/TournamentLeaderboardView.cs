@@ -216,11 +216,13 @@ namespace TurboLabz.InstantFramework
         public void PopulateTournamentHeader(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
             item.UpdateItem(joinedTournament);
+            item.liveImage?.gameObject.SetActive(false);
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
             item.UpdateItem(liveTournament);
+            item.liveImage?.gameObject.SetActive(true);
         }
 
         private void PopulateTournamentInfoBar()
