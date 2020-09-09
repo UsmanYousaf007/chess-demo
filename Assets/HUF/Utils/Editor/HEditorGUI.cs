@@ -10,7 +10,7 @@ namespace HUF.Utils.Editor
         
         private static Texture2D cachedBanner = null;
         
-        public static Color BrandColor => new Color( 238f / 255f, 48f / 255f, 56f / 255f );
+        public static Color BrandColor { get; } = new Color( 238f / 255f, 48f / 255f, 56f / 255f );
 
         public static class Res
         {

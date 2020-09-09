@@ -11,8 +11,6 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
     [CreateAssetMenu( menuName = "HUF/Ads/AdMobProviderConfig", fileName = "AdMobProviderConfig" )]
     public class AdMobProviderConfig : AdsProviderConfig
     {
-        [SerializeField] bool iOSPauseAppDuringAdPlay = true;
-
         [Header( "Optional Adapters" )]
         [AndroidManifest( Tag = "meta-data", Attribute = "android:value", ValueToReplace = "APP_LOVIN_SDK_KEY" )]
         [SerializeField] string appLovinSdkKey =

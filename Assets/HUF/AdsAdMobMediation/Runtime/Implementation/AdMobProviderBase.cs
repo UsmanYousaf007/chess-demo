@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Api.Mediation.AdColony;
 using GoogleMobileAds.Api.Mediation.AppLovin;
 using GoogleMobileAds.Api.Mediation.Chartboost;
 using GoogleMobileAds.Api.Mediation.Fyber;
-//using GoogleMobileAds.Api.Mediation.InMobi;
+using GoogleMobileAds.Api.Mediation.InMobi;
 using GoogleMobileAds.Api.Mediation.Tapjoy;
 using GoogleMobileAds.Api.Mediation.UnityAds;
-//using GoogleMobileAds.Api.Mediation.Vungle;
+using GoogleMobileAds.Api.Mediation.Vungle;
 using GoogleMobileAdsMediationTestSuite.Api;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -21,7 +19,6 @@ using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
-using PresageLib;
 
 #if !UNITY_EDITOR && (UNITY_IPHONE || UNITY_IOS)
 using UnityEngine.iOS;
@@ -78,15 +75,6 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
             if ( !Config.MoPubAppId.IsNullOrEmpty() )
                 GoogleMobileAds.Api.Mediation.MoPub.MoPub.Initialize( Config.MoPubAppId );
 
-            if ( !Config.OguryAppId.IsNullOrEmpty() )
-            {
-#if UNITY_ANDROID
-                Presage.Initialize( Config.OguryAppId );
-#elif UNITY_IOS
-                PresageIos.Initialize(Config.OguryAppId);
-#endif
-            }
-
             return true;
         }
 
@@ -122,7 +110,7 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
 
         public void CollectSensitiveData( bool consentStatus )
         {
-            //SetConsentVungle( consentStatus );
+            SetConsentVungle( consentStatus );
             SetConsentInMobi( consentStatus );
             AppLovin.SetHasUserConsent( consentStatus );
             GoogleMobileAds.Api.Mediation.IronSource.IronSource.SetConsent( consentStatus );
@@ -141,18 +129,18 @@ namespace HUF.AdsAdMobMediation.Runtime.Implementation
 #endif*/
         }
 
-        /*void SetConsentVungle( bool consentStatus )
+        void SetConsentVungle( bool consentStatus )
         {
             var consent = consentStatus ? VungleConsent.ACCEPTED : VungleConsent.DENIED;
             Vungle.UpdateConsentStatus( consent, VUNGLE_CONSENT_VERSION );
-        }*/
+        }
 
         void SetConsentInMobi( bool consentStatus )
         {
             Dictionary<string, string> consentObject = new Dictionary<string, string>();
             consentObject.Add( "gdpr_consent_available", consentStatus ? "true" : "false" );
             consentObject.Add( "gdpr", consentStatus ? "1" : "0" );
-            //InMobi.UpdateGDPRConsent( consentObject );
+            InMobi.UpdateGDPRConsent( consentObject );
         }
 
         internal AdRequest CreateRequest()

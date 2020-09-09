@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:91915cfe02f055f98ec3a80a183a434058b20d91877e29830295b862e613e0cb
-size 601
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a187246822bbb47529482707f3e0eff8, type: 3}
+  m_Name: GoogleMobileAdsSettings
+  m_EditorClassIdentifier: 
+  isAdManagerEnabled: 1
+  isAdMobEnabled: 1
+  adMobAndroidAppId: ca-app-pub-1220882738324941~8401474674
+  adMobIOSAppId: ca-app-pub-1220882738324941~4042216746
+  delayAppMeasurementInit: 1

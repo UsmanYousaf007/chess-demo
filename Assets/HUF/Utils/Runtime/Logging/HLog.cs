@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
@@ -17,6 +18,8 @@ namespace HUF.Utils.Runtime.Logging
 {
     public static class HLog
     {
+        static bool canLogOnProd = !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
+        static bool canLogTime = Config != null && Config.ShowTimeInNativeLogs;
         static HLogConfig config;
 
         static HLogConfig Config
@@ -31,27 +34,27 @@ namespace HUF.Utils.Runtime.Logging
                 return config;
             }
         }
-        
+
 #if UNITY_EDITOR
         public static void RefreshConfig()
         {
             config = null;
             config = GetLogConfig();
         }
-        
+
         static HLogConfig GetLogConfig()
         {
             var files = AssetDatabase.FindAssets( $"t:{nameof(HLogConfig)}" );
 
             if ( files.Length == 0 )
                 return null;
-            
+
             var configPath = files.Select( AssetDatabase.GUIDToAssetPath )
                 .FirstOrDefault( s => s.Contains( "Resources/HUFConfigs/" ) );
 
             if ( configPath.IsNullOrEmpty() )
                 return null;
-            
+
             return AssetDatabase.LoadAssetAtPath<HLogConfig>( configPath );
         }
 #endif
@@ -59,6 +62,7 @@ namespace HUF.Utils.Runtime.Logging
         /// <summary>
         /// Logs message in console
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogError(
             HLogPrefix prefixSource,
             string message )
@@ -69,6 +73,7 @@ namespace HUF.Utils.Runtime.Logging
         /// <summary>
         /// Logs message in console
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogWarning(
             HLogPrefix prefixSource,
             string message )
@@ -79,16 +84,18 @@ namespace HUF.Utils.Runtime.Logging
         /// <summary>
         /// Logs message that is not filtered out like HBI id but only on debug 
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogImportant(
             HLogPrefix prefixSource,
             string message )
         {
             Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild );
         }
-        
+
         /// <summary>
         /// Logs message that is not filtered out like Ads adapters status
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogAlways(
             HLogPrefix prefixSource,
             string message )
@@ -99,6 +106,7 @@ namespace HUF.Utils.Runtime.Logging
         /// <summary>
         /// Logs message in console when build is set to DEBUG
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Log(
             HLogPrefix prefixSource,
             string message,
@@ -108,7 +116,7 @@ namespace HUF.Utils.Runtime.Logging
         {
             if ( type == LogType.Log && !isNotFiltered )
             {
-                if ( ( Debug.isDebugBuild || !CanLogOnProd() ) && Config == null )
+                if ( ( Debug.isDebugBuild || !canLogOnProd ) && Config == null )
                     return;
 
                 if ( Config.IsFilteringLogs && !Regex.IsMatch( prefixSource.Prefix,
@@ -138,6 +146,7 @@ namespace HUF.Utils.Runtime.Logging
         /// <summary>
         /// Generates log message formatted in HUF manner
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static string FormatMessage( string prefix, string message, LogType type )
         {
 #if UNITY_EDITOR
@@ -151,15 +160,13 @@ namespace HUF.Utils.Runtime.Logging
                     return $"<color=\"#6f8a91\"><b>[{prefix}]</b></color> {message}";
             }
 #else
-            return $"[{prefix}] {message}";
+            return $"{( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : "" )}" +
+                   $"[{prefix}] {message}";
 #endif
         }
-
-        static bool CanLogOnProd()
-        {
-            return !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
-        }
         
+        
+
 #if UNITY_IOS && !UNITY_EDITOR
         [DllImport("__Internal")]
         static extern void HUFiOSSendNativeLog(string message);

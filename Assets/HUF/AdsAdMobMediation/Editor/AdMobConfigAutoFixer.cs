@@ -46,7 +46,7 @@ namespace HUF.AdsAdMobMediation.Editor
             settingsInstance.IsAdMobEnabled = true;
             settingsInstance.DelayAppMeasurementInit = true;
             EditorUtility.SetDirty( settingsInstance );
-            settingsInstance.WriteSettingsToFile();
+            AssetDatabase.SaveAssets();
         }
     }
 }

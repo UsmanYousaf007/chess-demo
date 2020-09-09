@@ -1,7 +1,7 @@
 ## Internal SDK
-- Google Mobile Ads Unity Mediation - v5.2.0
-- Google Play services - v19.2.0
-- Google Mobile Ads iOS SDK - v7.60.0
+- Google Mobile Ads Unity Mediation - v5.3.0
+- Google Play services - v19.3.0
+- Google Mobile Ads iOS SDK - v7.63.0
 
 - AdColony Unity Adapter - v2.0.3
 - AdColony Native Adapter (Android) - v4.1.4.1
@@ -9,11 +9,11 @@
 - AdColony Native Adapter (iOS) - v4.1.5.0
 - AdColony SDK (iOS) - v4.1.5
 
-- AppLovin Unity Adapter - v4.5.8
-- AppLovin Native Adapter (Android) - v9.12.8.0
-- AppLovin SDK (Android) - v9.12.8
-- AppLovin Native Adapter (iOS) - v6.12.8.0
-- AppLovin SDK (iOS) - v6.12.8
+- AppLovin Unity Adapter - v4.6.0
+- AppLovin Native Adapter (Android) - v9.13.0.0
+- AppLovin SDK (Android) - v9.13.0
+- AppLovin Native Adapter (iOS) - v6.13.0.0
+- AppLovin SDK (iOS) - v7.61.0
 
 - Chartboost Unity Adapter - v3.0.1
 - Chartboost Native Adapter (Android) - v8.0.3.1
@@ -21,17 +21,23 @@
 - Chartboost Native Adapter (iOS) - v8.1.0.1
 - Chartboost SDK (iOS) - v8.1.0
 
-- Facebook Unity Adapter - v2.10.0
-- Facebook Native Adapter (Android) - v5.9.1.0
-- Facebook SDK - v5.9.1
-- Facebook Native Adapter (iOS) - v5.9.0.1
-- FAN SDK - v5.9.0
+- Facebook Unity Adapter - v2.11.0
+- Facebook Native Adapter (Android) - v5.10.0.0
+- Facebook SDK - v5.10.0
+- Facebook Native Adapter (iOS) - v5.10.0.0
+- FAN SDK - v5.10.0
 
 - Fyber Unity Adapter - v1.2.3
 - Fyber Native Adapter (Android) - v7.5.4.0
-- Fyber SDK (Android) - v 7.5.4
+- Fyber SDK (Android) - v7.5.4
 - Fyber Native Adapter (iOS) - v7.5.6.0
 - Fyber Marketplace SDK (iOS) - v7.5.6
+
+- InMobi Unity Adapter - v3.0.3
+- InMobi Native Adapter (Android) - v9.0.7.1
+- InMobi SDK (Android) - v9.0.7
+- InMobi Native Adapter (iOS) - v9.0.7.2
+- InMobi SDK (iOS) - v9.0.7
 
 - IronSource Unity Adapter - v1.9.0
 - IronSource Native Adapter (Android) - v6.17.0.0
@@ -39,17 +45,17 @@
 - IronSource Native Adapter (iOS) - v6.16.3.0
 - IronSource SDK (iOS) - v6.16.3
 
-- MoPub Unity Adapter - v2.12.0
-- MoPub Native Adapter (Android) - v5.13.0.0
-- MoPub SDK (Android) - v5.13.0
-- MoPub Native Adapter (iOS) - v5.13.0.0
-- MoPub SDK (iOS) - v5.13.0
+- MoPub Unity Adapter - v2.12.1
+- MoPub Native Adapter (Android) - v5.13.1.0
+- MoPub SDK (Android) - v5.13.1
+- MoPub Native Adapter (iOS) - v5.13.1.0
+- MoPub SDK (iOS) - v5.13.1
 
-- Tapjoy Unity Adapter - v2.4.2
-- Tapjoy Native Adapter (Android) - v12.4.2.1
-- Tapjoy SDK (Android) - v12.4.2
-- Tapjoy Native Adapter (iOS) - v12.4.2.1
-- Tapjoy SDK (iOS) - v12.4.2
+- Tapjoy Unity Adapter - v2.5.1
+- Tapjoy Native Adapter (Android) - v12.6.1.0
+- Tapjoy SDK (Android) - v12.6.1
+- Tapjoy Native Adapter (iOS) - v12.6.1.0
+- Tapjoy SDK (iOS) - v12.6.1
 
 - Unity Ads Unity Adapter - v2.4.6
 - Unity Ads Native Adapter (Android) - v3.4.6.1
@@ -57,39 +63,54 @@
 - Unity Ads Native Adapter (iOS) - v3.4.6.0
 - Unity Ads SDK (iOS) - v3.4.6
 
+<!--- For now removed because it is crashing on unity 2019.4
 - VerizonMedia Unity Adapter - v1.4.0
 - VerizonMedia Native Adapter (Android) - v1.6.0.0
 - VerizonMedia SDK (Android) - v1.6.0
 - VerizonMedia Native Adapter (iOS) - v1.6.0.0
 - VerizonMedia SDK (iOS) - v1.6.0
+--->
 
-<!--- For now removed until 6.7 version
-- Vungle Unity Adapter - v3.3.0
-- Vungle Native Adapter (Android) - v6.5.3.0
-- Vvungle SDK (Android) - v6.5.3
-- Vungle Native Adapter (iOS) - v6.5.3.0
-- Vungle SDK (iOS) - v6.5.3
- --->
-
-- Ogury Native Adapter (iOS) - v03.02.2020
-- Ogury SDK (iOS) - v1.0.8
-- Ogury Native Adapter (Android) - v4.1.2
-- Ogury SDK (Android) - v5.1.0
-
-<!--- For now removed 
-- Mintegral Native Adapter (iOS) - v5.8.8
-- Mintegral SDK (iOS) - v6.3.2
-- Mintegral Native Adapter (Android) - v2.2.7
-- Mintegral SDK (Android) - v9.8.0
- --->
-
-- InMobi Unity Adapter - v3.0.2
-- InMobi Native Adapter (Android) - v9.0.7.0
-- InMobi SDK (Android) - v9.0.7
-- InMobi Native Adapter (iOS) - v9.0.7.0
-- InMobi SDK (iOS) - v9.0.7
+- Vungle Unity Adapter - v3.4.0
+- Vungle Native Adapter (Android) - v6.7.0.0
+- Vvungle SDK (Android) - v6.7.0
+- Vungle Native Adapter (iOS) - v6.7.0.0
+- Vungle SDK (iOS) - v6.7.0
 
 - Mediation Test Suite Unity - v1.4.0
+
+## [2.4.1] - 2020-08-20
+### Added
+- Documentation
+- missing MoPub activity in manifest
+
+## [2.4.0] - 2020-08-01
+### Updated
+- Google Mobile Ads Unity Mediation - v5.3.0
+- AppLovin Adapter - v4.6.0
+- Facebook Adapter - v2.11.0
+- InMobi Adapter - v3.0.3
+- MoPub Adapter - v2.12.1
+- Tapjoy Adapter - v2.5.1
+- Vungle Adapter - v3.4.0
+
+### Removed
+- Verizon adapter because of crashing on unity 2019.3+ on iOS 13+
+- Ogury adapter
+
+### Required when conflict with AppsFlyer
+Add this snippet to an `application` section of the `Assets/Plugins/Android/AndroidManifest.xml` file.
+
+```
+tools:replace="android:fullBackupContent" android:fullBackupContent="@xml/appsflyer_backup_rules"
+```
+
+If there is not `tools` in  section `manifest xmlns` add:
+
+```
+xmlns:tools="http://schemas.android.com/tools"
+```
+
 
 ## [2.3.0] - 2020-07-10
 ### Added
@@ -106,7 +127,7 @@
 - **Minimum IOS target: 10**
 
 ### Required
-Add this snippet to an `android` section of the `Assets/Plugins/Android/mainTemplate.gradle` file.
+Add this snippet to an `application` section of the `Assets/Plugins/Android/mainTemplate.gradle` file.
 
 ```
 configurations{

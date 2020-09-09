@@ -17,10 +17,15 @@ namespace HUF.AdsAdMobMediation.Runtime.API
         static AdMobProviderBase baseProvider;
         static AdMobBannerProvider bannerProvider;
 
+        /// <summary>
+        /// Raised after an ad is shown. Returns revenue data that should be sent to analytics services.
+        /// </summary>
+        [PublicAPI]
         public static event UnityAction<PaidEventData> OnPaidEvent;
 
         /// <summary>
-        /// Use this method to initialize AdMob manually
+        /// Initialize the service.
+        /// Should be called only if the AutoInit option is disabled.
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -61,8 +66,8 @@ namespace HUF.AdsAdMobMediation.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to show Admob's Mediation test suite </para>
-        /// It's useful to check if all Ad networks in mediation were setup correctly
+        /// Shows Admob's Mediation test suite.
+        /// It's useful to check all the ad networks integration.
         /// </summary>
         [PublicAPI]
         public static void ShowTestSuite()
@@ -73,12 +78,12 @@ namespace HUF.AdsAdMobMediation.Runtime.API
             }
             else
             {
-                HLog.LogError( logPrefix, "AdMob is not initialized yet, can't show test suite" );
+                HLog.LogError( logPrefix, "The AdMob is not initialized yet, can't show test suite" );
             }
         }
 
         /// <summary>
-        /// Use this to enable test mode for current device. Called automatically for debug builds.
+        /// Enables a test mode for current device. Called automatically for debug builds.
         /// </summary>
         [PublicAPI]
         public static void EnableTestMode()
@@ -89,28 +94,28 @@ namespace HUF.AdsAdMobMediation.Runtime.API
             }
             else
             {
-                HLog.LogError(logPrefix, "AdMob is not initialized yet, can't enable test mode");
+                HLog.LogError(logPrefix, "The AdMob is not initialized yet, can't enable test mode");
             }
         }
         
         /// <summary>
-        /// Use this to set banner size to be later shown by HAds.Banner.Show()
+        /// Sets the next shown banner size.
         /// </summary>
-        /// <param name="size">GoogleMobileAds.Api.AdSize object. Use one of the predefined ones: <para />
-        /// AdSize.Banner - 320 x 50 <para />
-        /// AdSize.Smart - depending on screen height Screen width x 32|50|90 <para />
-        /// AdSize.MediumRectangle - 300 x 250 <para />
-        /// AdSize.IABBanner - 468 x 60 <para />
-        /// AdSize.Leaderboard - 728 x 90 <para />
-        /// Not supported yet: AdSize.LargeBanner - 320 x 100 <para />
-        /// By default it's set to AdSize.Smart</param>
-        /// <returns>Return TRUE if operation is finished with success. FALSE otherwise. </returns>
+        /// <param name="size">GoogleMobileAds.Api.AdSize object (in dp; density-independent pixels):<para />
+        /// <para> AdSize.Banner - 320 x 50 <para />
+        /// <para> AdSize.Smart - depending on screen height Screen width x 32|50|90 <para />
+        /// <para> AdSize.MediumRectangle - 300 x 250 <para />
+        /// <para> AdSize.IABBanner - 468 x 60 <para />
+        /// <para> AdSize.Leaderboard - 728 x 90 <para />
+        /// <para> AdSize.LargeBanner - 320 x 100 <para />
+        /// The default setup is AdSize.Smart</param>
+        /// <returns>Returns true if operation finished with success.</returns>
         [PublicAPI]
         public static bool SetBannerSize( AdMobBannerAdSize size )
         {
             if ( bannerProvider == null )
             {
-                HLog.LogWarning( logPrefix, "Can't SetBannerSize(), banner ads provider is not initialized" );
+                HLog.LogWarning( logPrefix, "Can't set banner size, the banner ads provider is not initialized" );
                 return false;
             }
 

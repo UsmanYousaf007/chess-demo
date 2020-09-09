@@ -1,3 +1,4 @@
+using System;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
@@ -7,25 +8,25 @@ namespace HUF.Ads.Runtime.API
     public class HBanner
     {
         /// <summary>
-        /// This callback is called immediately after banner is shown on the screen.
+        /// Raised immediately after a banner is shown on the screen.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IBannerCallbackData> OnShown;
 
         /// <summary>
-        /// This callback is called when banner failed to load and show.
+        /// Raised when a banner fails to load and show.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IBannerCallbackData> OnFailed;
 
         /// <summary>
-        /// This callback is called after user clicks on a banner.
+        /// Raised after a user clicks on a banner.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IBannerCallbackData> OnClicked;
         
         /// <summary>
-        /// This callback is called immediately after banner is hide from screen.
+        /// Raised immediately after a banner is hidden from the screen.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IBannerCallbackData> OnHidden;
@@ -38,8 +39,8 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to register your banner ad provider. <para />
-        /// Could be used to add own Provider implementation.
+        /// Registers a banner ad provider. <para />
+        /// Can be used to add own Provider implementation.
         /// </summary>
         /// <param name="provider">Banner ad provider</param>
         [PublicAPI]
@@ -62,14 +63,14 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to show ad banner.
-        /// First Placement with the "Banner" type found in the Config will be used
+        /// Shows a banner ad.
+        /// First Placement with the "Banner" type found in the Config will be used.
         /// </summary>
-        /// <param name="position">Optional parameter with position on screen where banner will be displayed. <para />
-        /// By default is set as BannerPosition.BottomCenter.</param>
-        /// <returns>Return TRUE if show operation is finished with success. <para />
-        /// This does not indicate that banner is shown. <para />
-        /// Use <see cref="OnShown"/> to indicate presence of the banner.</returns>
+        /// <param name="position">An optional parameter with an on-screen position where the banner should be displayed. <para />
+        /// By default it is set to BannerPosition.BottomCenter.</param>
+        /// <returns>Returns TRUE if a show operation is successful. <para />
+        /// This does not indicate that the banner is shown.
+        /// Subscribe to <see cref="OnShown"/> event to confirm presence of the banner.</returns>
         [PublicAPI]
         public bool Show(BannerPosition position = BannerPosition.BottomCenter)
         {
@@ -77,14 +78,14 @@ namespace HUF.Ads.Runtime.API
         }
         
         /// <summary>
-        /// Use this to show ad banner with given placement id
+        /// Shows ad banner with a given placement ID.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
-        /// <param name="position">Optional parameter with position on screen where banner will be displayed. <para />
-        /// By default is set as BannerPosition.BottomCenter.</param>
-        /// <returns>Return TRUE if show operation is finished with success. <para />
-        /// This does not indicate that banner is shown. <para />
-        /// Use <see cref="OnShown"/> to indicate presence of the banner.</returns>
+        /// <param name="placementId">The placement ID</param>
+        /// <param name="position">An optional parameter with an on-screen position where the banner should be displayed. <para />
+        /// By default it is set to BannerPosition.BottomCenter.</param>
+        /// <returns>Returns TRUE if a show operation is successful. <para />
+        /// This does not indicate that the banner is shown.
+        /// Subscribe to <see cref="OnShown"/> event to confirm presence of the banner.</returns>
         [PublicAPI]
         public bool Show(string placementId, BannerPosition position = BannerPosition.BottomCenter)
         {
@@ -92,8 +93,8 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to hide ad banner
-        /// Use <see cref="OnHidden"/> to indicate that banner is hidden.
+        /// Hides the banner ad.
+        /// Subscribe to <see cref="OnHidden"/> event to confirm presence of the banner.
         /// </summary>
         [PublicAPI]
         public void Hide()
@@ -102,11 +103,22 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Call this function to get current banner ad provider name.
+        /// Gets a current banner ad Mediator name.
         /// </summary>
         /// <returns>Banner ad provider name</returns>
         [PublicAPI]
+        [Obsolete("Use `GetAdMediatorName` instead.")]
         public string GetAdProviderName()
+        {
+            return GetAdMediatorName();
+        }
+
+        /// <summary>
+        /// Gets a current banner ad Mediator name.
+        /// </summary>
+        /// <returns>Banner ad provider name</returns>
+        [PublicAPI]
+        public string GetAdMediatorName()
         {
             return service?.BannerAdProvider == null ? "UNKNOWN" : service.BannerAdProvider.ProviderId;
         }

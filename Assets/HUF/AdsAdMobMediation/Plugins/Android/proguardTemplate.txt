@@ -90,31 +90,11 @@
 # Support for Huuuge Ads
 -keep class com.huuuge.** { *; }
 
-
 # Support for Yandex
 -keep class com.yandex.** { *; }
 
-# Support for Mintegral
--keepattributes Signature   
--keepattributes *Annotation*   
--keep class com.mintegral.** {*; }  
--keep interface com.mintegral.** {*; }  
--keep interface androidx.** { *; }
--keep class androidx.** { *; }
--keep public class * extends androidx.** { *; }
--dontwarn com.mintegral.**   
--keep class **.R$* { public static final int mintegral*; }
--keep class com.alphab.** {*; }
--keep interface com.alphab.** {*; }
-
 # Support for Verizon
 -keep class com.verizon.** { *; }
-
-# Support for Ogury
--keep class com.ogury.** { *; }
--keep class io.presage.** { *; }
--keep interface com.ogury.** { *; }
--keep interface io.presage.** { *; }
 
 # Support for Fyber
 -keep class com.fyber.** { *; }

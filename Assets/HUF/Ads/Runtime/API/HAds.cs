@@ -33,17 +33,17 @@ namespace HUF.Ads.Runtime.API
         public static event UnityAction OnAdsServiceInitialized;
 
         /// <summary>
-        /// Provides access to Banner ads API - show ad, subscribe for events etc
+        /// Provides access to Banner ads API - show ad, subscribe for events, etc.
         /// </summary>
         [PublicAPI] public static HBanner Banner => banner ?? (banner = new HBanner(Service));
 
         /// <summary>
-        /// Provides access to Interstitial ads API - show ad, subscribe for events etc
+        /// Provides access to Interstitial ads API - show ad, subscribe for events, etc.
         /// </summary>
         [PublicAPI] public static HInterstitial Interstitial => interstitial ?? (interstitial = new HInterstitial(Service));
 
         /// <summary>
-        /// Provides access to Rewarded ads API - show ad, subscribe for events etc
+        /// Provides access to Rewarded ads API - show ad, subscribe for events, etc.
         /// </summary>
         [PublicAPI] public static HRewarded Rewarded => rewarded ?? (rewarded = new HRewarded(Service));
 
@@ -55,6 +55,7 @@ namespace HUF.Ads.Runtime.API
                 {
                     service = new AdsService();
                     service.RegisterToInitializationEvent(AdsServiceInitialized);
+                    
                 }
 
                 return service;
@@ -64,7 +65,7 @@ namespace HUF.Ads.Runtime.API
         static void AdsServiceInitialized()
         {
             OnAdsServiceInitialized.Dispatch();
-            bool? consent = GetGDPRConsent();
+            bool? consent = HasPersonalizedAdConsent();
 
             if (consent.HasValue)
             {
@@ -79,7 +80,7 @@ namespace HUF.Ads.Runtime.API
         [PublicAPI]
         public static void CollectSensitiveData(bool consentStatus)
         {
-            bool? previousValue = GetGDPRConsent();
+            bool? previousValue = HasPersonalizedAdConsent();
             HPlayerPrefs.SetBool(ADS_CONSENT_SENSITIVE_DATA, consentStatus);
             Service.CollectSensitiveData(consentStatus);
 
@@ -91,10 +92,21 @@ namespace HUF.Ads.Runtime.API
 
         /// <summary>
         /// Returns consent for gathering user data during ad display.
-        /// <returns>If no consent is set returns null. Returns consent value otherwise </returns>
+        /// <returns>If no consent is set returns null. Returns consent value otherwise. </returns>
         /// </summary>
         [PublicAPI]
+        [Obsolete("Use `HasPersonalizedAdConsent` instead.")]
         public static bool? GetGDPRConsent()
+        {
+            return HasPersonalizedAdConsent();
+        }
+
+        /// <summary>
+        /// Returns consent set for ads mediation to show (or not) personalized ads.
+        /// <returns>If no consent is set returns null. Returns consent value otherwise. </returns>
+        /// </summary>
+        [PublicAPI]
+        public static bool? HasPersonalizedAdConsent()
         {
             if (!HPlayerPrefs.HasKey(ADS_CONSENT_SENSITIVE_DATA))
             {
@@ -104,6 +116,10 @@ namespace HUF.Ads.Runtime.API
             return HPlayerPrefs.GetBool(ADS_CONSENT_SENSITIVE_DATA);
         }
 
+        // <summary>
+        /// Sets consent for gathering user data during ad display.
+        /// </summary>
+        /// <param name="consentStatus">Status of consent</param>
         [PublicAPI]
         [Obsolete("Use `CollectSensitiveData` instead.")]
         public static void SetConsent(bool consentStatus)
@@ -111,6 +127,10 @@ namespace HUF.Ads.Runtime.API
             CollectSensitiveData(consentStatus);
         }
 
+        /// <summary>
+        /// Checks the service initialization status
+        /// </summary>
+        /// <returns>Service initialization status</returns>
         [PublicAPI]
         public static bool IsAdsServiceInitialized()
         {
