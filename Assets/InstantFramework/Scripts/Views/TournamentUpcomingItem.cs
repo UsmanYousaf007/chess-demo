@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         public Text getNotifiedLabel;
         public Button button;
 
-        private long timeLeft;
+        private long currentStartTimeUTCSeconds;
 
         public void Init()
         {
@@ -32,18 +32,30 @@ namespace TurboLabz.InstantFramework
             TournamentAssetsContainer.Load();
         }
 
-        public void UpdateItem(LiveTournamentData liveTournamentData, long timeLeft)
+        public void UpdateItem(LiveTournamentData liveTournamentData)
         {
             bg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(liveTournamentData.type);
             tournamentImage.SetNativeSize();
-            this.timeLeft = timeLeft;
-            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+
+            currentStartTimeUTCSeconds = liveTournamentData.currentStartTimeUTCSeconds;
+
+            long timeLeft = currentStartTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            string timeLeftText;
+            if (timeLeft > 0)
+            {
+                timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            }
+            else
+            {
+                timeLeftText = "0:00";
+            }
             countdownTimerText.text = timeLeftText;
         }
 
         public void UpdateTime()
         {
+            long timeLeft = currentStartTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             if (timeLeft > 0)
             {
                 timeLeft--;

@@ -203,8 +203,7 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentUpcomingItem(TournamentUpcomingItem item, LiveTournamentData liveTournament)
         {
-            long timeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(liveTournament);
-            item.UpdateItem(liveTournament, timeLeft);
+            item.UpdateItem(liveTournament);
             item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
             item.getNotifiedLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED);
         }
