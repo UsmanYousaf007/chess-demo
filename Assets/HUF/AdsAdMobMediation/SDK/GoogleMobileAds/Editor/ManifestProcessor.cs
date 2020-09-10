@@ -37,7 +37,7 @@ public class ManifestProcessor : IPreprocessBuild
     public void OnPreprocessBuild(BuildTarget target, string path)
 #endif
     {
-       /* string manifestPath = Path.Combine(
+        string manifestPath = Path.Combine(
                 Application.dataPath, "HUF/AdsAdMobMediation/SDK/GoogleMobileAds/Plugins/Android/GoogleMobileAdsPlugin.androidlib/AndroidManifest.xml");
 
         XDocument manifest = null;
@@ -143,7 +143,6 @@ public class ManifestProcessor : IPreprocessBuild
         }
 
         elemManifest.Save(manifestPath);
-       */
     }
 
     private XElement CreateMetaElement(string name, object value)
