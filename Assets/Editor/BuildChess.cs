@@ -327,7 +327,6 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
 
-        OnCreateManifestFiles();
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
 #endif
@@ -361,6 +360,7 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
+        OnCreateManifestFiles();
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
         ProcessBuild(buildPlayerOptions);
