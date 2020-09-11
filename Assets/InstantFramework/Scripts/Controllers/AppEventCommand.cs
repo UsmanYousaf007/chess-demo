@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -56,12 +57,6 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
                 hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
-
-                //only schedule local notificaitons once player model is filled with data
-                if (playerModel.id != null)
-                {
-                    setLocalNotificationNumber();
-                }
             }
             else if (appEvent == AppEvent.ESCAPED)
             {

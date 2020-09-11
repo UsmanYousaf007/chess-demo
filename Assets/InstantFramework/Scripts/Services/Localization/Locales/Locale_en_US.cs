@@ -32,7 +32,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.UPDATE_BUTTON, "UPDATE" },
                 { LocalizationKey.CHECK_INTERNET_CONNECTION, "Please check your internet connection." },
                 { LocalizationKey.SESSION_TERMINATED, "You have been signed out of your Chess Stars account because your account is signed in on another device." },
-                
+                { LocalizationKey.UPDATE_WAIT, "Please wait...\n\n"+
+                    "The update will be available shortly" },
+
 
 
                 #endregion
@@ -78,6 +80,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.ELO_SCORE, "Rating" },
                 { LocalizationKey.FACEBOOK_LOGIN, "Login" },
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
+                { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
+                { LocalizationKey.LIVE_TEXT, "LIVE" },
                 { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
 
                 #endregion
@@ -99,6 +103,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_OPPONENT_LEFT, "Opponent Left" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED, "Player Busy" },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER, "By Resignation" },
+                { LocalizationKey.GM_RESULT_DIALOG_HEADING_TOURNAMENT_ROUND_SCORE, "Tournament Round Score" },
+                { LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE, " Checkmate Bonus" },
+                { LocalizationKey.GM_RESULT_DIALOG_LABEL_TICKETS_LEFT, "You Have " },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT, "Opponent Resigned" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim Fifty Move Draw?" },
                 { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim Threefold Repeat Draw?" },
@@ -171,6 +178,7 @@ namespace TurboLabz.InstantFramework
                 #region GameResults
 
                 { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
+                { LocalizationKey.RESULTS_TOURNAMENT_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
                 { LocalizationKey.RESULTS_RECOVER_RATING_BUTTON, "Recover Rating" },
                 { LocalizationKey.RESULTS_BOOST_RATING_BUTTON, "Boost Rating" },
@@ -270,7 +278,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
-                
+
                 { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE, "Start 3 Days Free Trial."},
                 { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
@@ -292,6 +300,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
                 { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},
+                { LocalizationKey.SPOT_PURCHASE_FINE_PRINT, "*Visit inventory to earn tickets via ads"},
 
                 #endregion
 
@@ -353,6 +362,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_SHOP, "Shop" },
                 { LocalizationKey.NAV_FRIENDS, "Friends" },
                 { LocalizationKey.NAV_INVENTORY, "Inventory" },
+                { LocalizationKey.NAV_ARENA, "Arena" },
 
                 #endregion
 
@@ -467,7 +477,59 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUB_SWITCH_ANNUAL_BTN, "Switch to Yearly"},
 
                 #endregion
-            };
+
+
+                #region LeagueProfileStrip
+
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN, "League Ends in"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TAP, "Next League"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES, "Trophies"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_RANK, "Rank"},
+                { LocalizationKey.PLAYER_LEAGUE_PROFILE_STRIP_YOUR_LEAGUE_TEXT, "Your League"},
+
+                #endregion
+
+                #region TournamentItem
+
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_HEADING, "Grand Prize"},
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_SUB_HEADING, "Score high, Win Big!"},
+                { LocalizationKey.TOURNAMENT_LIVE_ITEM_ENDS_IN, "Ends in"},
+
+                { LocalizationKey.TOURNAMENT_UPCOMING, "UPCOMING TOURNAMENTS"},
+                { LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN, "Starts in "},
+                { LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED, "Get Notified"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK, "Rank"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE, "Player Score"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS, "Rewards"},
+
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE, "You have"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY, "Free Play"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY, "Play"},
+
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE, "Arena Epic Chest"},
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION, "This Chest Contains:"},
+                { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT, "Got it"},
+
+                #endregion
+
+                #region InBox
+
+                { LocalizationKey.INBOX_HEADING, "Inbox"},
+                { LocalizationKey.INBOX_SECTION_HEADER_REWARDS, "Rewards"},
+                { LocalizationKey.INBOX_EMPTY_INBOX_LABEL, "There are no messages or rewards to collect"},
+
+                #endregion
+
+                #region LeaguePerks
+
+                { LocalizationKey.LEAGUE_PERKS_TITLE, "League Perks"},
+
+                #endregion
+    };
         }
     }
 }

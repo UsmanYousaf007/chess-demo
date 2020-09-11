@@ -29,5 +29,10 @@ namespace TurboLabz.Multiplayer
         public string opponentName;
         public string challengeId;
         public StoreItem ratingBoostStoreItem;
+
+        // Fields for tournament match result dialogue
+        public bool tournamentMatch;
+        public int tournamentMatchScore;
+        public int checkmateBonus;
     }
 }

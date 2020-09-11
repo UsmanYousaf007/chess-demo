@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         public bool isAutoSubscriptionDlgShown { get; set; }
         public bool isResumeGS { get; set; }
         public bool isVideoLoading { get; set; }
+        public bool isMandatoryUpdate { get; set; }
+        public string storeURL { get; set; }
 
         public string privacyPolicyURL
         {
@@ -95,6 +97,9 @@ namespace TurboLabz.InstantFramework
             internalAdType = InternalAdType.NONE;
             isAutoSubscriptionDlgShown = false;
             isVideoLoading = false;
+            isMandatoryUpdate = false;
+            storeURL = "";
+
         }
     }
 }

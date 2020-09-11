@@ -120,6 +120,14 @@ namespace TurboLabz.InstantFramework
             {
                 cameFromScreen = "shop";
             }
+            else if (pState.GetType() == typeof(NSInventory))
+            {
+                cameFromScreen = "inventory";
+            }
+            else if (pState.GetType() == typeof(NSSpotPurchase))
+            {
+                cameFromScreen = "shop_popup";
+            }
             else if (pState.GetType() == typeof(NSCPUResultsDlg) || pState.GetType() == typeof(NSMultiplayerResultsDlg))
             {
                 if (metaDataModel.appInfo.internalAdType == InternalAdType.FORCED_ON_WIN)
@@ -132,6 +140,8 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            var cents = item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG) ? item.currency1Payout : item.currency1Cost;
+
             if (result == BackendResult.PURCHASE_ATTEMPT)
             {
                 eventName = "attempt";
@@ -143,8 +153,8 @@ namespace TurboLabz.InstantFramework
                 if (isSubscriptionItem)
                 {
                     analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
-                    GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
                 }
+                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", cents, item.kind, item.displayName, "default");
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
@@ -160,13 +170,13 @@ namespace TurboLabz.InstantFramework
 
             if (eventName.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen,
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
 
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, item.currency1Cost, "iap_purchase", productName, cameFromScreen);
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen);
             }
         }
 

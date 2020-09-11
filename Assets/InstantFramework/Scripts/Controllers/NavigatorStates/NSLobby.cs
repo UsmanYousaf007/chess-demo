@@ -97,6 +97,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
             else if (evt == NavigatorEvent.SHOW_SHOP)
             {
                 return new NSShop();
@@ -104,6 +108,14 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_INVENTORY)
             {
                 return new NSInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            {
+                return new NSTournamentLeaderboard();
             }
 
             return null;

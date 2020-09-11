@@ -128,7 +128,10 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-			promise.Dispatch(true);
+            if (promise != null)
+            {
+                promise.Dispatch(true);
+            }
 		}
 
 		public void OnInitializeFailed(InitializationFailureReason error)
@@ -511,6 +514,11 @@ namespace TurboLabz.InstantFramework
         private void LogAutoRenewEvent(string name, string productId)
         {
             var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(productId)];
+
+            if (!item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
+            {
+                return;
+            }
 
             if (name.Equals("failed"))
             {

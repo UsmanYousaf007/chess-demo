@@ -3,8 +3,10 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -25,6 +27,9 @@ namespace TurboLabz.InstantGame
 
         //Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
+
+        private VirtualGoodsTransactionVO transactionVO;
 
         public override void OnRegister()
         {
@@ -58,6 +63,11 @@ namespace TurboLabz.InstantGame
         public void OnUpdateView(LessonsViewVO vo)
         {
             view.UpdateView(vo);
+
+            if (vo.showBanner)
+            {
+                analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.unlock_all_lessons);
+            }
         }
 
         [ListensTo(typeof(VideoEventSignal))]
@@ -110,21 +120,21 @@ namespace TurboLabz.InstantGame
         {
             view.audioService.PlayStandardClick();
 
-            var vo = new VirtualGoodsTransactionVO();
-            vo.buyItemShortCode = lesson.vo.videoId;
-            vo.buyQuantity = 1;
+            transactionVO = new VirtualGoodsTransactionVO();
+            transactionVO.buyItemShortCode = lesson.vo.videoId;
+            transactionVO.buyQuantity = 1;
 
             if (lesson.haveEnoughItemsToUnlock)
             {
-                vo.consumeItemShortCode = lesson.vo.unlockItem.key;
-                vo.consumeQuantity = 1;
-                virtualGoodsTransactionSignal.Dispatch(vo);
+                transactionVO.consumeItemShortCode = lesson.vo.unlockItem.key;
+                transactionVO.consumeQuantity = 1;
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
             else if (lesson.haveEnoughGemsToUnlock)
             {
-                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                vo.consumeQuantity = lesson.vo.unlockItem.currency3Cost;
-                virtualGoodsTransactionSignal.Dispatch(vo);
+                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                transactionVO.consumeQuantity = lesson.vo.unlockItem.currency3Cost;
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
             else
             {
@@ -140,6 +150,11 @@ namespace TurboLabz.InstantGame
             {
                 view.lessonsBanner.gameObject.SetActive(false);
                 view.UnlockLessons();
+
+                if (item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
+                {
+                    analyticsService.Event(AnalyticsEventId.banner_purchased, AnalyticsContext.unlock_all_lessons);
+                }
             }
         }
 
@@ -149,6 +164,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 view.UpdateLessons();
+                view.lessonsBanner.gameObject.SetActive(!inventory.allLessonsUnlocked);
             }
         }
 
@@ -158,12 +174,20 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 view.UnlockLesson(itemShortCode);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "lesson_unlocked", $"lesson_{lessonsModel.lessonsMapping.IndexOf(itemShortCode)}");
             }
         }
 
         private void OnUnlockAllLessons()
         {
+            analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.unlock_all_lessons);
             purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessing(bool blocker, bool processing)
+        {
+            view.processing.SetActive(blocker);
         }
     }
 }

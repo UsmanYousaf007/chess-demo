@@ -214,7 +214,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortFriendsSignal))]
         public void OnSortFriends()
         {
-            
+
             view.SortFriends();
         }
 
@@ -278,6 +278,8 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
+
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -338,7 +340,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.HasSubscription()) 
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd(actionCode))
                 {
@@ -352,7 +354,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-             }
+            }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
@@ -443,7 +445,7 @@ namespace TurboLabz.InstantFramework
                     return;
                 }
             }
-            
+
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
@@ -545,11 +547,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        //[ListensTo(typeof(RatingBoostAnimSignal))]
-        //public void OnRatingBoostAnimation(int ratingBoost)
-        //{
-        //    view.RatingBoostAnimation(ratingBoost);
-        //}
+        [ListensTo(typeof(RatingBoostAnimSignal))]
+        public void OnRatingBoostAnimation(int ratingBoost)
+        {
+            view.RatingBoostAnimation(ratingBoost);
+        }
     }
 }
 

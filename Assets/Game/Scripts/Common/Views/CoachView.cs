@@ -48,7 +48,7 @@ public class CoachView : MonoBehaviour
     const float HIDE_TOOL_TIP_AFTER = 2.7f;
     const float CLOSE_BUTTON_SCALE_DURATION = 1.0f;
     const float PIXELS_TO_MOVE = 150.0f;
-    const float IGNORE_CLOSE_DURATION = 1.7f;
+    const float IGNORE_CLOSE_DURATION = 0.1f;
     readonly Vector3 CLOSE_BUTTON_SCALE = new Vector3(2.0f, 2.0f, 1.0f);
 
     private float timeAtAnalyzing = 0;
@@ -108,7 +108,14 @@ public class CoachView : MonoBehaviour
         arrowHead.transform.SetAsFirstSibling();
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
-        stickerPieceIcon.sprite = SkinContainer.LoadSkin(coachVO.activeSkinId).GetSprite(coachVO.pieceName);
+
+        var container = SkinContainer.LoadSkin(coachVO.activeSkinId);
+        if (container == null)
+        {
+            AssetBundle bundle = coachVO.downloadablesModel.downloadableItems[coachVO.activeSkinId].bundle;
+            container = bundle.LoadAsset<SkinContainer>(coachVO.activeSkinId);
+        }
+        stickerPieceIcon.sprite = container.GetSprite(coachVO.pieceName);
 
         iTween.MoveTo(stickerBg.gameObject,
             iTween.Hash(

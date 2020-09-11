@@ -36,7 +36,8 @@ namespace TurboLabz.InstantGame
         public Text profileName;
         public GameObject noProfilePicBorder;
         public GameObject hasProfilePicBorder;
-        public GameObject premiumBorder;
+        //public GameObject premiumBorder;
+        public Image leagueBorder;
         public Text eloScoreLabel;
         public Text eloScoreValue;
         public Image playerFlag;
@@ -120,7 +121,10 @@ namespace TurboLabz.InstantGame
             hasProfilePicBorder.SetActive(false);
             avatarBg.gameObject.SetActive(false);
             avatarIcon.gameObject.SetActive(false);
-            premiumBorder.gameObject.SetActive(vo.isPremium);
+            //premiumBorder.gameObject.SetActive(vo.isPremium);
+            leagueBorder.gameObject.SetActive(vo.leagueBorder != null);
+            leagueBorder.sprite = vo.leagueBorder;
+
             if (vo.playerPic != null)
             {
                 profilePic.sprite = vo.playerPic;

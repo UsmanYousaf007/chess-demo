@@ -15,7 +15,7 @@ public class ThemeSelectionView : View
     public Image scrollDownArrow;
     public Button scrollDownButton;
     public ScrollRect scrollRect;
-
+    public GameObject uiBlockerThemeDownload;
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IPlayerModel playerModel { get; set; }
@@ -96,6 +96,16 @@ public class ThemeSelectionView : View
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void ShowThemeDownloadBlocker()
+    {
+        uiBlockerThemeDownload.SetActive(true);
+    }
+
+    public void HideThemeDownloadBlocker()
+    {
+        uiBlockerThemeDownload.SetActive(false);
     }
 
     private void SetupSkinMenuItems()

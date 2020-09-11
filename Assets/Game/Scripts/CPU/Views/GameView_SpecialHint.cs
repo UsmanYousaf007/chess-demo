@@ -53,6 +53,11 @@ namespace TurboLabz.CPU
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             SetupSpecialHintButton();
             ToggleSpecialHintButton(vo.isPlayerTurn);
+
+            if (canUseSpecialHint)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.hint);
+            }
         }
 
         public void UpdateSpecialHintButton(int usedCount)
@@ -120,6 +125,7 @@ namespace TurboLabz.CPU
             coachVO.isBestMove = vo.didPlayerMadeBestMove;
             coachVO.audioService = audioService;
             coachVO.analyticsService = analyticsService;
+            coachVO.downloadablesModel = downloadablesModel;
 
             if (vo.piece.Contains("captured"))
             {
@@ -144,8 +150,15 @@ namespace TurboLabz.CPU
 
                 if (haveEnoughHints)
                 {
-                    transactionVO.consumeItemShortCode = specialHintShortCode;
-                    transactionVO.consumeQuantity = 1;
+                    if (playerModel.HasSubscription())
+                    {
+                        transactionVO.consumeItemShortCode = "premium";
+                    }
+                    else
+                    {
+                        transactionVO.consumeItemShortCode = specialHintShortCode;
+                        transactionVO.consumeQuantity = 1;
+                    }
                     ProcessHint(transactionVO);
                 }
                 else if (haveEnoughGemsForHint)

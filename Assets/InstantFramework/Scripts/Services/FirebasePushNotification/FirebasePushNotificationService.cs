@@ -119,6 +119,7 @@ namespace TurboLabz.InstantFramework
             notificationVO.isPremium = message.Data.ContainsKey("isSubscriber") == true ? bool.Parse(message.Data["isSubscriber"]) : false;
             notificationVO.timeSent = message.Data.ContainsKey("creationTimestamp") == true ? long.Parse(message.Data["creationTimestamp"]) : 0;
             notificationVO.actionCode = message.Data.ContainsKey("actionCode") == true ? message.Data["actionCode"] : "undefined";
+            notificationVO.league = message.Data.ContainsKey("league") == true ? int.Parse(message.Data["league"]) : 0;
 
             notificationRecievedSignal.Dispatch(notificationVO);
         }

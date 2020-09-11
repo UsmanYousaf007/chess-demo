@@ -1,4 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -61,6 +62,12 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
                 updateShopBundlePurchasedViewSignal.Dispatch(item);
             }
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessing(bool blocker, bool processing)
+        {
+            view.ShowProcessing(blocker, processing);
         }
     }
 }

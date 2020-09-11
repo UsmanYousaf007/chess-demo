@@ -73,6 +73,13 @@ namespace TurboLabz.InstantFramework
         LESSONS_VIEW,
         SHOP,
         SHOP_BUNDLE_PURCHASED,
-        INVENTORY
+        INVENTORY,
+        ARENA_VIEW,
+        TOURNAMENT_LEADERBOARD_VIEW,
+        INBOX_VIEW,
+        REWARD_DLG,
+        CHEST_INFO_DLG,
+        LEAGUE_PERKS_VIEW,
+        TOURNAMENT_OVER_DLG
     }
 }

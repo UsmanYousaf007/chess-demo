@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public InitBackendOnceSignal initBackendOnceSignal { get; set; }
-        [Inject] public GetInitDataSignal getInitDataSignal  { get; set; }
+        [Inject] public GetInitDataSignal getInitDataSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
@@ -28,7 +28,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
+        [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -38,22 +42,25 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
+        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDialogueService { get; set; }
         [Inject] public IPushNotificationService pushNotificationService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public IProfilePicService profilePicService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
+        [Inject] public IAppUpdateService appUpdateService { get; set; }
 
         public override void Execute()
         {
             CommandBegin();
-
             getInitDataSignal.Dispatch(isResume);
-
         }
 
         private void OnGetInitDataFailed(BackendResult result)
@@ -68,15 +75,22 @@ namespace TurboLabz.InstantFramework
         private void OnGetInitDataComplete()
         {
             // Check version information. Prompt the player if an update is needed.
-            if (appInfoModel.appBackendVersionValid == false)
+            if (!appInfoModel.appBackendVersionValid)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: VERSION MISMATCH", "red");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_UPDATE);
+                if (settingsModel.appUpdateFlag)
+                {
+                    appUpdateService.Init();
+                }
+                else
+                {
+                    appUpdateSignal.Dispatch(true);
+                }
                 CommandEnd();
                 return;
             }
 
-            if (settingsModel.maintenanceFlag == true)
+            if (settingsModel.maintenanceFlag)
             {
                 TurboLabz.TLUtils.LogUtil.Log("ERROR: GAME  MAINTENENCE ON", "red");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MAINTENANCE_SCREEN);
@@ -84,23 +98,67 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (!isResume)
+            if (!isResume && IsSkinDownloadRequired(playerModel.activeSkinId))
             {
-                preferencesModel.sessionCount++;
-                initBackendOnceSignal.Dispatch();
-                loadLobbySignal.Dispatch();
-                autoSubscriptionDailogueService.Show();
-                pushNotificationService.Init();
-                refreshFriendsSignal.Dispatch();
-                refreshCommunitySignal.Dispatch(true);
-                SendAnalytics();
+                downloadablesModel.Get(playerModel.activeSkinId, OnSkinDownloadComplete);
             }
 
+            else if (!isResume)
+            {
+                InitGame();
+            }
+
+            else
+            {
+                ResumeGame();
+            }
+        }
+
+        private void InitGame()
+        {
+            DispatchGameSignals();
+            schedulerService.Init();
+            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
+            schedulerService.Start();
+            ResumeGame();
+        }
+
+        private void ResumeGame()
+        {
             pauseNotificationsSignal.Dispatch(false);
-
-
             bool picWait = false;
+            UpdateProfilePic(ref picWait);
+            ConcludeCommand(picWait);
+        }
 
+        private void OnSkinDownloadComplete(BackendResult result, AssetBundle bundle)
+        {
+            InitGame();
+        }
+
+        private bool IsSkinDownloadRequired(string skinId)
+        {
+            return (downloadablesModel.downloadableItems.ContainsKey(skinId)
+            && downloadablesModel.GetBundleFromVersionCache(skinId) == null);
+        }
+
+        private void DispatchGameSignals()
+        {
+            preferencesModel.sessionCount++;
+            initBackendOnceSignal.Dispatch();
+            setLeaguesSignal.Dispatch();
+            loadLobbySignal.Dispatch();
+            // loadPromotionSingal.Dispatch();
+            autoSubscriptionDialogueService.Show();
+            pushNotificationService.Init();
+            refreshFriendsSignal.Dispatch();
+            refreshCommunitySignal.Dispatch(true);
+            updateTournamentsViewSignal.Dispatch();
+            SendAnalytics();
+        }
+
+        private void UpdateProfilePic(ref bool picWait)
+        {
             // Finally update profile pic. Must be last operation
             if (string.IsNullOrEmpty(playerModel.uploadedPicId) && facebookService.isLoggedIn())
             {
@@ -112,7 +170,10 @@ namespace TurboLabz.InstantFramework
                 picWait = true;
                 profilePicService.GetProfilePic(playerModel.id, playerModel.uploadedPicId).Then(OnGetProfilePic);
             }
+        }
 
+        private void ConcludeCommand(bool picWait)
+        {
             // If there is no waiting for profile pic download then end this command
             // Otherwise remove init data comlete and fail handlers but retain the command for pic download response
             if (!picWait)
@@ -164,9 +225,15 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
+            if (leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            {
+                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
+            }
+
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
 
+            tournamentsModel.LogConcludedJoinedTournaments();
             SendDailyAnalytics();
         }
 

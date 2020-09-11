@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         public float discountPercentage;
         public Text discountAmount;
         public Text discountValue;
+        public bool isSpot;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;

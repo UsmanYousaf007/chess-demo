@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
             HAdsManager.ShowAd(PLACEMENT_ID_REWARDED, OnRewardedEnded);
-            analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.rewarded);
+            analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "rewarded_result_2xcoins", HAds.Rewarded.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
             return adEndedPromise;
@@ -99,7 +99,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardedClicked(IAdCallbackData data)
         {
-            analyticsService.Event(AnalyticsEventId.ad_clicked, AnalyticsContext.rewarded);
+            analyticsService.Event(AnalyticsEventId.ad_clicked, playerModel.adContext);
         }
 
         private void OnInterstitialClicked(IAdCallbackData data)
@@ -122,12 +122,12 @@ namespace TurboLabz.InstantFramework
 
             if (!availableFlag)
             {
-                analyticsService.Event(AnalyticsEventId.ad_not_available, AnalyticsContext.rewarded);
-                playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
+                analyticsService.Event(AnalyticsEventId.ad_not_available, playerModel.adContext);
+                //playerModel.adContext = AnalyticsContext.interstitial_rewarded_failed_replacement;
             }
             else if (!isNotCapped)
             {
-                analyticsService.Event(AnalyticsEventId.ad_cap_reached, AnalyticsContext.rewarded);
+                analyticsService.Event(AnalyticsEventId.ad_cap_reached, playerModel.adContext);
                 playerModel.adContext = AnalyticsContext.interstitial_rewarded_capped_replacement;
             }
 
@@ -195,17 +195,17 @@ namespace TurboLabz.InstantFramework
             switch (data.Result)
             {
                 case AdResult.Completed:
-                    analyticsService.Event(AnalyticsEventId.ad_completed, AnalyticsContext.rewarded);
+                    analyticsService.Event(AnalyticsEventId.ad_completed, playerModel.adContext);
                     adEndedPromise.Dispatch(AdsResult.FINISHED);
                     break;
 
                 case AdResult.Skipped:
-                    analyticsService.Event(AnalyticsEventId.ad_skipped, AnalyticsContext.rewarded);
+                    analyticsService.Event(AnalyticsEventId.ad_skipped, playerModel.adContext);
                     adEndedPromise.Dispatch(AdsResult.SKIPPED);
                     break;
 
                 case AdResult.Failed:
-                    analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.rewarded);
+                    analyticsService.Event(AnalyticsEventId.ad_failed, playerModel.adContext);
                     adEndedPromise.Dispatch(AdsResult.FAILED);
                     break;
             }

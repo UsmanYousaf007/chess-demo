@@ -22,10 +22,12 @@ namespace TurboLabz.InstantFramework
         public SkinItemView[] skinMenuItems;
         public Button themesBanner;
         public GameObject themesAlert;
+        public GameObject processing;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models 
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -38,6 +40,8 @@ namespace TurboLabz.InstantFramework
 
         [HideInInspector] public string originalSkinId;
 
+        private bool isThemeBannerShown;
+
         public void Init()
         {
             specialItem.title.text = localizationService.Get(LocalizationKey.INVENTORY_SPECIAL_ITEMS);
@@ -45,11 +49,11 @@ namespace TurboLabz.InstantFramework
             specialItem.button.onClick.AddListener(OnClickSpecialItems);
             themes.button.onClick.AddListener(OnClickThemes);
             themesBanner.onClick.AddListener(OnThemesBannerClicked);
-            SetupTab(specialItem, themes);
         }
 
         public void Show()
         {
+            SetupTab(specialItem, themes);
             gameObject.SetActive(true);
             originalSkinId = playerModel.activeSkinId;
             themesAlert.SetActive(!preferencesModel.themesTabVisited);
@@ -69,8 +73,14 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                themesBanner.gameObject.SetActive(!playerModel.OwnsAllThemes());
+                isThemeBannerShown = !playerModel.OwnsAllThemes();
+                ShowThemeBanner(isThemeBannerShown);
             }
+        }
+
+        public void ShowProcessing(bool show)
+        {
+            processing.SetActive(show);
         }
 
         private void OnClickSpecialItems()
@@ -87,6 +97,11 @@ namespace TurboLabz.InstantFramework
             preferencesModel.themesTabVisited = true;
             themesAlert.SetActive(false);
             SetupTab(themes, specialItem);
+
+            if (isThemeBannerShown)
+            {
+                analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.unlock_all_themes);
+            }
         }
 
         private void SetupTab(InventoryTab newTab, InventoryTab oldTab)
@@ -117,6 +132,11 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             unlockAllThemesSignal.Dispatch();
+        }
+
+        public void ShowThemeBanner(bool show)
+        {
+            themesBanner.gameObject.SetActive(show);
         }
     }
 }

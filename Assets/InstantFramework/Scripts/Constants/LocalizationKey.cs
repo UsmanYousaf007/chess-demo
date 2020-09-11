@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         public const string RECONNECTING = "reconnecting";
         public const string UPDATE = "update";
         public const string UPDATE_BUTTON = "updateButton";
+        public const string UPDATE_WAIT = "updateAvailable";
         public const string CHECK_INTERNET_CONNECTION = "checkInternetConnection";
         public const string SESSION_TERMINATED = "SESSION_TERMINATED";
 
@@ -40,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public const string ACCEPT_TEXT = "acceptText";
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
+        public const string LIVE_TEXT = "liveText";
 
         #endregion
 
@@ -48,6 +50,7 @@ namespace TurboLabz.InstantFramework
         public const string ELO_SCORE = "eloScore";
         public const string FACEBOOK_LOGIN = "facebookLogin";
         public const string SIGN_IN = "signIn";
+        public const string PLAY_TOURNAMENT = "playTournament";
         public const string REMOVE_ADS = "removeAds";
         public const string FREE_NO_ADS_PERIOD = "freeNoAdsPeriod";
         public const string FREE_NO_ADS_MINUTES = "freeNoAdsMinutes";
@@ -83,6 +86,9 @@ namespace TurboLabz.InstantFramework
         public const string GM_RESULT_DIALOG_REASON_PLAYER_DECLINED = "gmPlayerDeclined";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER = "gmResultDialogReasonResignationPlayer";
         public const string GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT = "gmResultDialogReasonResignationOpponent";
+        public const string GM_RESULT_DIALOG_HEADING_TOURNAMENT_ROUND_SCORE = "gmResultDialogHeadingTournamentRoundScore";
+        public const string GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE = "gmResultDialogBonusTournamentRoundScore";
+        public const string GM_RESULT_DIALOG_LABEL_TICKETS_LEFT = "gmResultDialogLabelTicketsLeft";
         public const string GM_DRAW_DIALOG_HEADING = "gmDrawDialogHeading";
         public const string GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE = "gmDrawDialogClaimByFiftyMoveRule";
         public const string GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE = "gmDrawDialogClaimByThreefoldRepeatRule";
@@ -166,6 +172,7 @@ namespace TurboLabz.InstantFramework
         #region GameResults
 
         public const string RESULTS_CLOSE_BUTTON = "resultsCloseButton";
+        public const string RESULTS_TOURNAMENT_CLOSE_BUTTON = "resultsTournamentCloseButton";
         public const string RESULTS_COLLECT_REWARD_BUTTON = "resultsCollectRewardButton";
         public const string RESULTS_BOOST_RATING_BUTTON = "resultsBoostRatingButton";
         public const string RESULTS_RECOVER_RATING_BUTTON = "resultsRecoverRatingButton";
@@ -287,6 +294,7 @@ namespace TurboLabz.InstantFramework
 
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
+        public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
 
         #endregion
 
@@ -354,6 +362,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_SHOP = "navShop";
         public const string NAV_FRIENDS = "navFriends";
         public const string NAV_INVENTORY = "navInventory";
+        public const string NAV_ARENA = "navArena";
 
         #endregion
 
@@ -466,6 +475,57 @@ namespace TurboLabz.InstantFramework
         public const string SUB_SWITCH_ANNUAL = "subSwitchAnnual";
         public const string SUB_SWITCH_MONTHLY_BTN = "subSwitchMonthlyBtn";
         public const string SUB_SWITCH_ANNUAL_BTN = "subSwitchAnnualBtn";
+
+        #endregion
+
+        #region PlayerLeagueProfileStrip
+
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_ENDS_IN = "leagueEndsInLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TAP = "tapLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_TROPHIES = "trophiesLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_RANK = "rankLabel";
+        public const string PLAYER_LEAGUE_PROFILE_STRIP_YOUR_LEAGUE_TEXT = "playerLeagueProfileStripYourLeagueText";
+
+        #endregion
+
+        #region TournamentItem
+
+        public const string TOURNAMENT_LIVE_ITEM_HEADING = "tournamentLiveItemHeading";
+        public const string TOURNAMENT_LIVE_ITEM_SUB_HEADING = "tournamentLiveItemSubHeading";
+        public const string TOURNAMENT_LIVE_ITEM_ENDS_IN = "tournamentLiveItemEndsIn";
+
+        public const string TOURNAMENT_UPCOMING = "tournamentUpcoming";
+        public const string TOURNAMENT_UPCOMING_STARTS_IN = "tournamentUpcomingStartsIn";
+        public const string TOURNAMENT_UPCOMING_GET_NOTIFIED = "tournamentUpcomingGetNotified";
+
+        public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
+        public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";
+
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK = "tournamentLeaderboardColumnHeaderRank";
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE = "tournamentLeaderboardColumnHeaderPlayerScore";
+        public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_REWARDS = "tournamentLeaderboardColumnHeaderRewards";
+
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE = "tournamentLeaderboardFooterYouHave";
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY = "tournamentLeaderboardFreePlay";
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY = "tournamentLeaderboardFooterTicketPlay";
+
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE = "tournamentChestContentDialogueTitle";
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION = "tournamentChestContentDialogueDescriptiion";
+        public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT = "tournamentChestContentDialogueOkayButtonText";
+
+        #endregion
+
+        #region InBox
+
+        public const string INBOX_HEADING = "inBoxHeading";
+        public const string INBOX_SECTION_HEADER_REWARDS = "inBoxSectionHeaderRewards";
+        public const string INBOX_EMPTY_INBOX_LABEL = "inBoxEmptyInboxLabel";
+
+        #endregion
+
+        #region LeaguePerks
+
+        public const string LEAGUE_PERKS_TITLE = "leaguePerksTitle";
 
         #endregion
     }

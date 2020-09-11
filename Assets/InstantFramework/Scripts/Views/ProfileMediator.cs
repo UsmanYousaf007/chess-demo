@@ -27,12 +27,18 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public PlayerProfilePicTappedSignal playerProfilePicTappedSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -41,6 +47,8 @@ namespace TurboLabz.InstantGame
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
+            view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
+            view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -85,6 +93,12 @@ namespace TurboLabz.InstantGame
             view.UpdateProfilePic(vo);
         }
 
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateTournamentView()
+        {
+            view.UpdateTournamentView();
+        }
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -100,10 +114,37 @@ namespace TurboLabz.InstantGame
             playerProfilePicTappedSignal.Dispatch();
         }
 
-        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-        public void OnSubscrionPurchased(StoreItem item)
+        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        public void OnPlayerModelUpdated(IPlayerModel playerModel)
         {
-            view.ShowPremiumBorder(playerModel.HasSubscription());
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            view.SetLeagueBorder(leagueAssets != null ? leagueAssets.ringSprite : null);
+        }
+
+        //[ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        //public void OnSubscrionPurchased(StoreItem item)
+        //{
+        //    view.ShowPremiumBorder(playerModel.HasSubscription());
+        //}
+
+        public void OnJoinedTournamentClicked(JoinedTournamentData data)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
+        }
+
+        public void OnOpenTournamentClicked(LiveTournamentData data)
+        {
+            if (data.concluded)
+            {
+                loadArenaSignal.Dispatch();
+                updateBottomNavSignal.Dispatch();
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
+            }
         }
     }
 }

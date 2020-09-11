@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using strange.extensions.command.impl;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -18,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -28,6 +30,10 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            var adContext = CollectionsUtil.GetContextFromString(vo.itemPointsKey);
+            playerModel.adContext = adContext;
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
+
             if (!adsService.IsRewardedVideoAvailable())
             {
                 inventoryVideoResultSignal.Dispatch(InventoryVideoResult.NOT_AVAILABLE, vo.itemKey);
@@ -71,6 +77,8 @@ namespace TurboLabz.InstantFramework
                 virtualGoodBoughtSignal.AddOnce(OnPointAdded);
                 virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
+
+            analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, CollectionsUtil.GetContextFromString(vo.itemKey));
         }
 
         private void OnItemUnlocked(string item)

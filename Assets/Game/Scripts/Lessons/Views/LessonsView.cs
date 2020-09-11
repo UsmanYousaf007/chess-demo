@@ -44,6 +44,7 @@ namespace TurboLabz.InstantGame
         //Services
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
@@ -169,6 +170,7 @@ namespace TurboLabz.InstantGame
             if (lesson != null)
             {
                 lesson.Unlock();
+                analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
         }

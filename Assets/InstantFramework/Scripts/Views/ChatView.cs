@@ -46,7 +46,8 @@ namespace TurboLabz.InstantFramework
         public Button minimizeChatBtn;
         public Text inputFieldDefaultText;
         public Image inputFieldIcon;
-        public GameObject premiumBorder;
+        //public GameObject premiumBorder;
+        public Image leagueBorder;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -75,8 +76,10 @@ namespace TurboLabz.InstantFramework
         private Sprite opponentAvatarIconSprite;
         private Color opponentAvatarBGColor;
         private bool inGame;
-        private bool isPlayerPremium;
-        private bool isOpponentPremium;
+        //private bool isPlayerPremium;
+        //private bool isOpponentPremium;
+        private Sprite playerLeagueBorder;
+        private Sprite opponentLeagueBorder;
 
         public void Init()
         {
@@ -121,9 +124,12 @@ namespace TurboLabz.InstantFramework
             hasUnreadMessages = vo.hasUnreadMessages;
             clearUnreadMessagesSignal.Dispatch(vo.opponentId);
             minimizeChatBtn.gameObject.SetActive(vo.inGame);
-            premiumBorder.SetActive(vo.isOpponentPremium);
-            isOpponentPremium = vo.isOpponentPremium;
-            isPlayerPremium = vo.isPlayerPremium;
+            //premiumBorder.SetActive(vo.isOpponentPremium);
+            //isOpponentPremium = vo.isOpponentPremium;
+            //isPlayerPremium = vo.isPlayerPremium;
+            SetLeagueBorder(leagueBorder, vo.opponentLeagueBorder);
+            playerLeagueBorder = vo.playerLeagueBorder;
+            opponentLeagueBorder = vo.opponentLeagueBorder;
 
             if (!vo.isOnline && vo.isActive)
             {
@@ -332,7 +338,8 @@ namespace TurboLabz.InstantFramework
 
                 bubble.avatarBg.gameObject.SetActive(false);
                 bubble.avatarIcon.gameObject.SetActive(false);
-                bubble.premiumBorder.SetActive(isPlayerPremium);
+                //bubble.premiumBorder.SetActive(isPlayerPremium);
+                SetLeagueBorder(bubble.leagueBorder, playerLeagueBorder);
 
                 if (playerProfilePic != null)
                 {
@@ -364,7 +371,8 @@ namespace TurboLabz.InstantFramework
 
                 bubble.avatarBg.gameObject.SetActive(false);
                 bubble.avatarIcon.gameObject.SetActive(false);
-                bubble.premiumBorder.SetActive(isOpponentPremium);
+                //bubble.premiumBorder.SetActive(isOpponentPremium);
+                SetLeagueBorder(bubble.leagueBorder, opponentLeagueBorder);
 
                 if (opponentProfilePic != null)
                 {
@@ -451,6 +459,12 @@ namespace TurboLabz.InstantFramework
                 }
             }
             return false;
+        }
+
+        private void SetLeagueBorder(Image border, Sprite borderSprite)
+        {
+            border.gameObject.SetActive(borderSprite != null);
+            border.sprite = borderSprite;
         }
     }
 }

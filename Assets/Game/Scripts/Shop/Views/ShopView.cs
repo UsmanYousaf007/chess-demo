@@ -20,6 +20,8 @@ namespace TurboLabz.InstantFramework
         public Text ownedText;
         public GameObject loading;
         public RectTransform layout;
+        public GameObject uiBlocker;
+        public GameObject processing;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -30,6 +32,8 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
+
+        private bool isSubscriber;
 
         public void Init()
         {
@@ -63,7 +67,7 @@ namespace TurboLabz.InstantFramework
 
         public void SetSubscriptionOwnedStatus()
         {
-            var isSubscriber = playerModel.HasSubscription();
+            isSubscriber = playerModel.HasSubscription();
             owned.SetActive(isSubscriber);
             subscriptionButton.gameObject.SetActive(!isSubscriber);
         }
@@ -78,7 +82,19 @@ namespace TurboLabz.InstantFramework
         private void OnSubscirptionButtonClicked()
         {
             audioService.PlayStandardClick();
+
+            if (isSubscriber)
+            {
+                return;
+            }
+
             subscriptionButtonClickedSignal.Dispatch();
+        }
+
+        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
+        {
+            uiBlocker.SetActive(showUiBlocked);
+            processing.SetActive(showProcessing);
         }
     }
 }

@@ -30,7 +30,8 @@ namespace TurboLabz.InstantFramework
         public Text oppLastSeen;
         public Text oppCountry;
         public Text oppWinPercentage;
-        public GameObject premiumBorder;
+        //public GameObject premiumBorder;
+        public Image leagueBorder;
 
         [Header("Confirm Dialog")]
         public GameObject confirmDialog;
@@ -165,7 +166,9 @@ namespace TurboLabz.InstantFramework
 
             opponentAvatarBG.gameObject.SetActive(false);
             opponentAvatarIcon.gameObject.SetActive(false);
-            premiumBorder.gameObject.SetActive(vo.isOpponentPremium);
+            //premiumBorder.gameObject.SetActive(vo.isOpponentPremium);
+            leagueBorder.gameObject.SetActive(vo.opponentLeagueBorder != null);
+            leagueBorder.sprite = vo.opponentLeagueBorder;
 
             if (vo.oppProfilePic != null)
             {

@@ -1,5 +1,7 @@
-﻿using TurboLabz.Chess;
+﻿using GameAnalyticsSDK;
+using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.CPU
 {
@@ -14,6 +16,11 @@ namespace TurboLabz.CPU
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
 
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        private VirtualGoodsTransactionVO transactionVO;
+
         private void OnRegisterSpecialHint()
         {
             view.InitSpecialHint();
@@ -23,8 +30,17 @@ namespace TurboLabz.CPU
 
         private void OnGetSpecialHint(VirtualGoodsTransactionVO vo)
         {
-            virtualGoodsTransactionResultSignal.AddOnce(OnSpecialHintConsumed);
-            virtualGoodsTransactionSignal.Dispatch(vo);
+            transactionVO = vo;
+
+            if (vo.consumeItemShortCode.Equals("premium"))
+            {
+                OnSpecialHintConsumed(BackendResult.SUCCESS);
+            }
+            else
+            {
+                virtualGoodsTransactionResultSignal.AddOnce(OnSpecialHintConsumed);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
         }
 
         private void OnSpecialHintConsumed(BackendResult result)
@@ -34,6 +50,11 @@ namespace TurboLabz.CPU
                 preferencesModel.cpuPowerUpsUsedCount++;
                 view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount);
                 getHintSignal.Dispatch(true);
+
+                if (!transactionVO.consumeItemShortCode.Equals("premium"))
+                {
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "hint");
+                }
             }
             else
             {

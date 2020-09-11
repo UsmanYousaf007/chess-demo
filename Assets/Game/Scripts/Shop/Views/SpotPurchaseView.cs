@@ -1,5 +1,6 @@
 ﻿using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace TurboLabz.InstantFramework
@@ -9,6 +10,9 @@ namespace TurboLabz.InstantFramework
         public Text title;
         public Text subTitle;
         public Button close;
+        public GameObject uiBlocker;
+        public GameObject processing;
+        public Text finePrint;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -21,6 +25,7 @@ namespace TurboLabz.InstantFramework
         {
             title.text = localizationService.Get(LocalizationKey.SPOT_PURHCASE_TITLE);
             subTitle.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_SUB_TITLE);
+            finePrint.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_FINE_PRINT);
             close.onClick.AddListener(OnCloseButtonClicked);
         }
 
@@ -38,6 +43,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             closeDlgSignal.Dispatch();
+        }
+
+        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
+        {
+            uiBlocker.SetActive(showUiBlocked);
+            processing.SetActive(showProcessing);
         }
     }
 }

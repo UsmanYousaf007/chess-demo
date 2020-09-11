@@ -25,7 +25,9 @@ namespace TurboLabz.Multiplayer
         public Button declinedLobbyButton;
         public Text declinedLobbyButtonLabel;
 
-		[Header("Results Dialog")]
+        [Header("Results Dialog")]
+        public ResultDialog defaultResultDialog;
+        public ResultDialog tournamentMatchResultDialog;
         public GameObject resultsDialog;
         public Image resultsGameImage;
         public Sprite winSprite;
@@ -40,6 +42,7 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsBoostRatingButton;
         public Text resultsBoostRatingButtonLabel;
+        public Text resultsRatingBoostedLabel;
         public Image resultsBoostRatingAdTVImage;
         public Text resultsBoostRatingAddedCount;
         public GameObject resultsBoostRatingToolTip;
@@ -55,7 +58,7 @@ namespace TurboLabz.Multiplayer
         public Image resultsAdTVImage;
 
         public Button resultsViewBoardButton;
-        public Text resultsViewBoardButtonLabel;  
+        public Text resultsViewBoardButtonLabel;
 
         public Button resultsSkipRewardButton;
         public Text resultsSkipRewardButtonLabel;
@@ -69,6 +72,17 @@ namespace TurboLabz.Multiplayer
 
         public ViewBoardResults viewBoardResultPanel;
 
+        // Tournament Match fields
+        public Image tournamentTypeImage;
+        public Text roundScoreHeading;
+        public Text roundScoreText;
+        public Text checkMateBonusText;
+        public Button playMatchButton;
+        public Text youHaveTicketsText;
+        public Button backToArenaButton;
+        public Text tournamentMatchPlayGemsCost;
+        public Image tournamentMatchPlayGemsBg;
+
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal resultsDialogClosedSignal = new Signal();
@@ -77,6 +91,8 @@ namespace TurboLabz.Multiplayer
         public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
         public Signal refreshLobbySignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
+        public Signal playTournamentMatchSignal = new Signal();
+        public Signal backToArenaSignal = new Signal();
 
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
@@ -98,45 +114,159 @@ namespace TurboLabz.Multiplayer
         private StoreItem ratingBoosterStoreItem;
         private bool haveEnoughGemsForRatingBooster;
         private bool haveEnoughRatingBoosters;
+        private bool isBoosted;
+        private bool tournamentMatch = false;
+
+        // Fore tickets and gems logic for tournament matches
+        [HideInInspector] public StoreItem ticketStoreItem;
+        [HideInInspector] public bool haveEnoughItems;
+        [HideInInspector] public bool haveEnoughGems;
+        [HideInInspector] public bool tournamentEnded;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+
+        public void UpdateDialogueType(bool tournamentMatch)
+        {
+            tournamentMatchResultDialog.gameObject.SetActive(tournamentMatch);
+            defaultResultDialog.gameObject.SetActive(!tournamentMatch);
+
+            ResultDialog currentResultDialog = tournamentMatch ? tournamentMatchResultDialog : defaultResultDialog;
+
+            resultsDialog = currentResultDialog.gameObject;
+            resultsGameImage = currentResultDialog.resultsGameImage;
+            winSprite = currentResultDialog.winSprite;
+            defeatSprite = currentResultDialog.defeatSprite;
+            drawSprite = currentResultDialog.drawSprite;
+            resultsGameResultLabel = currentResultDialog.resultsGameResultLabel;
+            resultsGameResultReasonLabel = currentResultDialog.resultsGameResultReasonLabel;
+            resultsFriendlyLabel = currentResultDialog.resultsFriendlyLabel;
+
+            resultsRatingValueLabel = currentResultDialog.resultsRatingValueLabel;
+            resultsRatingChangeLabel = currentResultDialog.resultsRatingChangeLabel;
+
+            resultsBoostRatingButton = currentResultDialog.resultsBoostRatingButton;
+            resultsBoostRatingButtonLabel = currentResultDialog.resultsBoostRatingButtonLabel;
+            resultsRatingBoostedLabel = currentResultDialog.resultsRatingBoostedLabel;
+            resultsBoostRatingAdTVImage = currentResultDialog.resultsBoostRatingAdTVImage;
+            resultsBoostRatingAddedCount = currentResultDialog.resultsBoostRatingAddedCount;
+            resultsBoostRatingToolTip = currentResultDialog.resultsBoostRatingToolTip;
+            resultsBoostRatingToolTipText = currentResultDialog.resultsBoostRatingToolTipText;
+            resultsBoostRatingGemsCost = currentResultDialog.resultsBoostRatingGemsCost;
+            resultsBoostRatingGemsBg = currentResultDialog.resultsBoostRatingGemsBg;
+            enoughGemsSprite = currentResultDialog.enoughGemsSprite;
+            notEnoughGemsSprite = currentResultDialog.notEnoughGemsSprite;
+            resultsBoostRatingShortCode = currentResultDialog.resultsBoostRatingShortCode;
+
+            resultsCollectRewardButton = currentResultDialog.resultsCollectRewardButton;
+            resultsCollectRewardButtonLabel = currentResultDialog.resultsCollectRewardButtonLabel;
+            resultsAdTVImage = currentResultDialog.resultsAdTVImage;
+
+            resultsViewBoardButton = currentResultDialog.resultsViewBoardButton;
+            resultsViewBoardButtonLabel = currentResultDialog.resultsViewBoardButtonLabel;
+
+            resultsSkipRewardButton = currentResultDialog.resultsSkipRewardButton;
+            resultsSkipRewardButtonLabel = currentResultDialog.resultsSkipRewardButtonLabel;
+
+            showCrossPromoButton = currentResultDialog.showCrossPromoButton;
+
+            rewardBar = currentResultDialog.rewardBar;
+            earnRewardsText = currentResultDialog.earnRewardsText;
+            earnRewardsSection = currentResultDialog.earnRewardsSection;
+            dailogueBg = currentResultDialog.dailogueBg;
+
+            viewBoardResultPanel = currentResultDialog.viewBoardResultPanel;
+
+            // Tournament dialog fields
+            tournamentTypeImage = currentResultDialog.tournamentTypeImage;
+        
+            roundScoreHeading = currentResultDialog.roundScoreHeading;
+            roundScoreText = currentResultDialog.roundScoreText;
+            checkMateBonusText = currentResultDialog.checkMateBonusText;
+            playMatchButton = currentResultDialog.playMatchButton;
+            youHaveTicketsText = currentResultDialog.youHaveTicketsText;
+            backToArenaButton = currentResultDialog.backToArenaButton;
+            tournamentMatchPlayGemsCost = currentResultDialog.tournamentMatchPlayGemsCost;
+            tournamentMatchPlayGemsBg = currentResultDialog.tournamentMatchPlayGemsBg;
+
+            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+
+            if (rewardBar != null)
+                rewardBarOriginalWidth = rewardBar.sizeDelta.x;
+
+            originalColor = resultsBoostRatingAddedCount.color;
+        }
 
         public void InitResults()
         {
-            // Button listeners
-            resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
-            resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            // Declined dialog
             declinedLobbyButton.onClick.AddListener(OnResultsDeclinedButtonClicked);
-            resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
-            resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
-
-            // Text Labels
-            resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
-            resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
-            resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
-            resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
-
             declinedHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DECLINED);
             declinedReason.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_PLAYER_DECLINED);
             declinedLobbyButtonLabel.text = localizationService.Get(LocalizationKey.LONG_PLAY_RESULTS_BACK);
-            earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
-
-            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
-            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
-            originalColor = resultsBoostRatingAddedCount.color;
+
+            Init(defaultResultDialog);
+            Init(tournamentMatchResultDialog);
+
+            defaultResultDialog.resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
+            tournamentMatchResultDialog.resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_TOURNAMENT_CLOSE_BUTTON);
+
+            // Tournament Match Dialog specific
+            tournamentMatchResultDialog.playMatchButton?.onClick.AddListener(OnPlayTournamentMatchButtonClicked);
+            tournamentMatchResultDialog.backToArenaButton?.onClick.AddListener(OnBackToArenaButtonClicked);
+            tournamentMatchResultDialog.roundScoreHeading.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_TOURNAMENT_ROUND_SCORE);
+            //roundScoreText = currentResultDialog.roundScoreText;
+            //checkMateBonusText = currentResultDialog.checkMateBonusText;
+            //youHaveTicketsText = currentResultDialog.youHaveTicketsText;
+        }
+
+        private void Init(ResultDialog resultDialog)
+        {
+            resultDialog.resultsBoostRatingButton?.onClick.AddListener(OnResultsBoostRatingButtonClicked);
+            resultDialog.resultsCollectRewardButton?.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            resultDialog.resultsViewBoardButton?.onClick.AddListener(OnResultsClosed);
+            resultDialog.resultsSkipRewardButton?.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            resultDialog.showCrossPromoButton?.onClick.AddListener(OnCrossPromoButtonClicked);
+
+            // Text Labels
+            if (resultDialog.resultsCollectRewardButtonLabel != null)
+                resultDialog.resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
+
+            if (resultDialog.resultsFriendlyLabel != null)
+                resultDialog.resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
+
+
+            if (resultDialog.resultsSkipRewardButtonLabel != null)
+                resultDialog.resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
+
+            if (resultDialog.earnRewardsText != null)
+                resultDialog.earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+
+            if (resultDialog.resultsRatingBoostedLabel != null)
+                resultDialog.resultsRatingBoostedLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
         }
 
         public void CleanupResults()
         {
-            resultsCollectRewardButton.onClick.RemoveAllListeners();
             declinedLobbyButton.onClick.RemoveAllListeners();
-            resultsViewBoardButton.onClick.RemoveAllListeners();
-            resultsSkipRewardButton.onClick.RemoveAllListeners();
+
+            Cleanup(defaultResultDialog);
+            Cleanup(tournamentMatchResultDialog);
+
+            tournamentMatchResultDialog.playMatchButton.onClick.RemoveAllListeners();
+            tournamentMatchResultDialog.backToArenaButton.onClick.RemoveAllListeners();
+        }
+
+        private void Cleanup(ResultDialog resultDialog)
+        {
+            resultDialog.resultsCollectRewardButton.onClick.RemoveAllListeners();
+            resultDialog.resultsViewBoardButton.onClick.RemoveAllListeners();
+            resultDialog.resultsSkipRewardButton.onClick.RemoveAllListeners();
         }
 
         private void EnableRewarededVideoButton(bool enable)
@@ -224,13 +354,13 @@ namespace TurboLabz.Multiplayer
 
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
         {
-            resultsFriendlyLabel.gameObject.SetActive(false);
+            resultsFriendlyLabel?.gameObject.SetActive(false);
             resultsRatingValueLabel.gameObject.SetActive(false);
             resultsRatingChangeLabel.gameObject.SetActive(false);
 
             if (!isRanked)
             {
-                resultsFriendlyLabel.gameObject.SetActive(true);
+                resultsFriendlyLabel?.gameObject.SetActive(true);
                 //EnableRewarededVideoButton(false);
                 SetupRatingBoostButton(false);
                 return;
@@ -355,7 +485,8 @@ namespace TurboLabz.Multiplayer
                 resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
                 resultsGameResultLabel.color = Colors.YELLOW_DIM;
                 viewBoardResultPanel.result.text = "Drawn";
-                resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
+                if (resultsBoostRatingButtonLabel != null)
+                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
             }
             else
             {
@@ -365,7 +496,8 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
                     resultsGameResultLabel.color = Colors.GREEN_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", playerName);
-                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
+                if (resultsBoostRatingButtonLabel != null)
+                        resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
                 }
                 else
                 {
@@ -381,14 +513,19 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
                     resultsGameResultLabel.color = Colors.RED_DIM;
                     viewBoardResultPanel.result.text = string.Format("{0} won", opponentName);
-                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{ratingBoost}";
+                if (resultsBoostRatingButtonLabel != null)
+                        resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{ratingBoost}";
                 }
             }
-            resultsGameImage.SetNativeSize();
+
+            if (!tournamentMatch)
+                resultsGameImage.SetNativeSize();
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
         {
+            tournamentMatch = vo.tournamentMatch;
+
             DisableInteraction();
 
             if (vo.reason == GameEndReason.DECLINED)
@@ -441,15 +578,74 @@ namespace TurboLabz.Multiplayer
             collectRewardType = vo.playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             challengeId = vo.challengeId;
 
-            dailogueBg.enabled = false;
-            earnRewardsSection.SetActive(!playerModel.HasSubscription());
-            dailogueBg.enabled = true;
-
-            var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
-            rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
-
             ratingBoosterStoreItem = vo.ratingBoostStoreItem;
+            isBoosted = false;
             SetupBoostPrice();
+
+            // Tournament fields
+            if (vo.tournamentMatch)
+            {
+                PopulateTournamentMatchFields(vo);
+            }
+            else
+            {
+                dailogueBg.enabled = false;
+                earnRewardsSection.SetActive(!playerModel.HasSubscription());
+                dailogueBg.enabled = true;
+
+                var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
+                rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
+
+                resultsBoostRatingButtonLabel.gameObject.SetActive(true);
+                resultsRatingBoostedLabel.gameObject.SetActive(false);
+            }
+
+            if (isRankedGame && !isDraw)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.rating_booster);
+            }
+        }
+
+        private void PopulateTournamentMatchFields(ResultsVO vo)
+        {
+            roundScoreText.text = vo.tournamentMatchScore.ToString();
+            if (vo.checkmateBonus > 0)
+            {
+                checkMateBonusText.text = "(" + vo.checkmateBonus.ToString()
+                                            + localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE) + ")";
+
+                checkMateBonusText.gameObject.SetActive(true);
+            }
+            else
+            {
+                checkMateBonusText.gameObject.SetActive(false);
+            }
+
+            tournamentTypeImage.sprite = tournamentsModel.GetStickerSprite(tournamentsModel.currentMatchTournamentType);
+
+            if (tournamentsModel.currentMatchTournament != null)
+            {
+                long tournamentTimeLeft = tournamentsModel.CalculateTournamentTimeLeftSeconds(tournamentsModel.currentMatchTournament);
+                tournamentEnded = tournamentTimeLeft <= 0;
+            }
+            else
+            {
+                tournamentEnded = true;
+            }
+            playMatchButton.gameObject.SetActive(!tournamentEnded);
+
+            tournamentMatchResultDialog.ForceLayoutUpdate();
+
+            // Write tickets and gems population logic here
+            var itemsOwned = playerModel.GetInventoryItemCount(tournamentMatchResultDialog.ticketsShortCode);
+            ticketStoreItem = storeSettingsModel.items[tournamentMatchResultDialog.ticketsShortCode];
+            haveEnoughItems = itemsOwned > 0;
+            haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
+            youHaveTicketsText.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
+            tournamentMatchPlayGemsCost.text = ticketStoreItem.currency3Cost.ToString();
+            tournamentMatchPlayGemsBg.sprite = haveEnoughGems ? tournamentMatchResultDialog.enoughGemsSprite : tournamentMatchResultDialog.notEnoughGemsSprite;
+            tournamentMatchPlayGemsBg.gameObject.SetActive(!haveEnoughItems);
+            analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
         }
 
         private void AnimateResultsDialog()
@@ -509,13 +705,19 @@ namespace TurboLabz.Multiplayer
 
             if (!isRankedGame)
             {
-                resultsBoostRatingToolTip.SetActive(true);
-                resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
+                if (resultsBoostRatingToolTip != null)
+                {
+                    resultsBoostRatingToolTip.SetActive(true);
+                    resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
+                }
             }
             else if (isDraw)
             {
-                resultsBoostRatingToolTip.SetActive(true);
-                resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_DRAW);
+                if (resultsBoostRatingToolTip != null)
+                {
+                    resultsBoostRatingToolTip.SetActive(true);
+                    resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_DRAW);
+                }
             }
             else
             {
@@ -543,9 +745,17 @@ namespace TurboLabz.Multiplayer
         private void BoostRating(VirtualGoodsTransactionVO transactionVO)
         {
             boostRatingSignal.Dispatch(challengeId, transactionVO);
-            resultsBoostRatingButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
+            if (resultsBoostRatingButtonLabel != null)
+                resultsBoostRatingButtonLabel.gameObject.SetActive(false);
+
+            if (resultsRatingBoostedLabel != null)
+                resultsRatingBoostedLabel.gameObject.SetActive(true);
+
             SetupRatingBoostButton(false);
             resultsBoostRatingButton.interactable = false;
+            if (resultsBoostRatingGemsBg != null)
+                resultsBoostRatingGemsBg.gameObject.SetActive(false);
+            isBoosted = true;
         }
 
         private void OnResultsDeclinedButtonClicked()
@@ -602,6 +812,16 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        private void OnPlayTournamentMatchButtonClicked()
+        {
+            playTournamentMatchSignal.Dispatch();
+        }
+
+        private void OnBackToArenaButtonClicked()
+        {
+            backToArenaSignal.Dispatch();
+        }
+
         private void ToggleBannerSignalFunc()
         {
             appInfoModel.internalAdType = InternalAdType.NONE;
@@ -610,23 +830,46 @@ namespace TurboLabz.Multiplayer
 
         private void SetupRatingBoostButton(bool enable)
         {
-            var c = resultsBoostRatingAdTVImage.color;
-            resultsBoostRatingToolTip.gameObject.SetActive(false);
+            Color c;
+            if (resultsBoostRatingAdTVImage != null)
+                c = resultsBoostRatingAdTVImage.color;
+            else
+                c = Color.white;
+
+            if (resultsBoostRatingToolTip != null)
+                resultsBoostRatingToolTip.gameObject.SetActive(false);
+
             resultsBoostRatingButton.interactable = true;
 
             if (enable)
             {
-                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
-                c.a = Colors.FULL_ALPHA;
-                resultsBoostRatingAdTVImage.color = c;
+                if (resultsBoostRatingButtonLabel != null)
+                    resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
+
+
+                if (resultsRatingBoostedLabel != null)
+                    resultsRatingBoostedLabel.color = Colors.ColorAlpha(Colors.BLACK, Colors.ENABLED_TEXT_ALPHA);
+
+                if (resultsBoostRatingAdTVImage != null)
+                {
+                    c.a = Colors.FULL_ALPHA;
+                    resultsBoostRatingAdTVImage.color = c;
+                }
+
                 resultsBoostRatingButton.GetComponent<Image>().color = c;
             }
             else
             {
-                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
-                c = resultsBoostRatingAdTVImage.color;
+                if (resultsBoostRatingButtonLabel != null)
+                    resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+
+                if (resultsRatingBoostedLabel != null)
+                    resultsRatingBoostedLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+
                 c.a = Colors.DISABLED_TEXT_ALPHA;
-                resultsBoostRatingAdTVImage.color = c;
+                if (resultsBoostRatingAdTVImage != null)
+                    resultsBoostRatingAdTVImage.color = c;
+
                 resultsBoostRatingButton.GetComponent<Image>().color = c;
             }
         }
@@ -660,11 +903,18 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            resultsBoostRatingGemsCost.text = ratingBoosterStoreItem.currency3Cost.ToString();
             haveEnoughRatingBoosters = playerModel.GetInventoryItemCount(resultsBoostRatingShortCode) > 0;
             haveEnoughGemsForRatingBooster = playerModel.gems >= ratingBoosterStoreItem.currency3Cost;
-            resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
-            resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters);
+
+            if (resultsBoostRatingGemsCost != null)
+            {
+                resultsBoostRatingGemsCost.text = ratingBoosterStoreItem.currency3Cost.ToString();
+            }
+            if (resultsBoostRatingGemsBg != null)
+            {
+                resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
+                resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters && !isBoosted);
+            }
         }
     }
 }

@@ -31,6 +31,8 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
         [Inject] public UpdateRemoveAdsSignal updateRemoveAdsDisplaySignal { get; set; }
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
+        [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
+        [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -48,6 +50,8 @@ namespace TurboLabz.InstantGame
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void Execute()
         {
@@ -56,6 +60,7 @@ namespace TurboLabz.InstantGame
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
+            updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {
@@ -128,12 +133,16 @@ namespace TurboLabz.InstantGame
             pvo.avatarColorId = playerModel.avatarBgColorId;
             pvo.isPremium = playerModel.HasSubscription();
 
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
                 pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
             }
 
             updateProfileSignal.Dispatch(pvo);
+            updateLeagueProfileSignal.Dispatch(playerModel.league.ToString());
         }
 
         private void DispatchRemoveAdsSignal() 

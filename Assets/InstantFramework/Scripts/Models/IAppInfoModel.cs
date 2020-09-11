@@ -28,6 +28,9 @@ namespace TurboLabz.InstantFramework
         bool isAutoSubscriptionDlgShown { get; set; }
         bool isResumeGS { get; set; }
         bool isVideoLoading { get; set; }
+        bool isMandatoryUpdate { get; set; }
+        string storeURL { get; set; }
+
     }
 
     public enum DisconnectStates

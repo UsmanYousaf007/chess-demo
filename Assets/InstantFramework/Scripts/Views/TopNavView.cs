@@ -19,12 +19,16 @@ namespace TurboLabz.InstantFramework
         public Button supportButton;
         public Button settingsButton;
         public Button addGemsButton;
+        public Button inboxButton;
         public Text gemsCount;
         public Text boughtGemsCount;
+        public Text messagesCount;
+        public Image inboxNotification;
 
         public Signal settingsButtonClickedSignal = new Signal();
         public Signal supportButtonClicked = new Signal();
         public Signal addGemsButtonClickedSignal = new Signal();
+        public Signal inboxButtonClickedSignal = new Signal();
 
         private Color originalColor;
 
@@ -33,6 +37,7 @@ namespace TurboLabz.InstantFramework
             supportButton.onClick.AddListener(OnSupportButtonClicked);
             settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             addGemsButton.onClick.AddListener(OnAddGemsButtonClicked);
+            inboxButton.onClick.AddListener(OnInboxButtonClicked);
 
             if (boughtGemsCount != null)
             {
@@ -59,6 +64,12 @@ namespace TurboLabz.InstantFramework
             addGemsButtonClickedSignal.Dispatch();
         }
 
+        private void OnInboxButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            inboxButtonClickedSignal.Dispatch();
+        }
+
         public void UpdateGemsCount(long gems)
         {
             if (boughtGemsCount != null && gameObject.activeInHierarchy)
@@ -71,6 +82,21 @@ namespace TurboLabz.InstantFramework
             }
 
             gemsCount.text = gems.ToString();
+        }
+
+        public void UpdateMessagesCount(long messages)
+        {
+            if (messages > 0)
+            {
+                messagesCount.text = messages.ToString();
+                messagesCount.enabled = true;
+                inboxNotification.enabled = true;
+            }
+            else
+            {
+                inboxNotification.enabled = false;
+                messagesCount.enabled = false;
+            }
         }
 
         private void OnFadeComplete(long gems)

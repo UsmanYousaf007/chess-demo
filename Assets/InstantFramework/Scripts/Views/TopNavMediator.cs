@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         //Services
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
@@ -27,6 +28,7 @@ namespace TurboLabz.InstantFramework
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
             view.supportButtonClicked.AddListener(OnSupportButtonClicked);
             view.addGemsButtonClickedSignal.AddListener(OnAddGemsButtonClicked);
+            view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
         }
 
         public override void OnRemove()
@@ -53,10 +55,21 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
         }
 
+        private void OnInboxButtonClicked()
+        {
+            loadInboxSignal.Dispatch();
+        }
+
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnGemsUpdated(PlayerInventoryVO inventory)
         {
             view.UpdateGemsCount(inventory.gemsCount);
+        }
+
+        [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]
+        public void OnMessagesUpdated(long messagesCount)
+        {
+            view.UpdateMessagesCount(messagesCount);
         }
     }
 }

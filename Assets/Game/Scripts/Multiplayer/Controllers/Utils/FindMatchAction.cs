@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
             public string avatarBgColor;
             public NotificationStatus notificationStatus;
             public string acceptActionCode;
+            public string tournamentId;
         }
 
         public const string ACTION_RANDOM = "Random";
@@ -58,13 +59,14 @@ namespace TurboLabz.InstantFramework
             actionData.isRanked = true;
         }
 
-        static public void Random(FindMatchSignal signal, string actionCode)
+        static public void Random(FindMatchSignal signal, string actionCode, string tournamentId = "")
         {
             Reset();
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = false;
             actionData.action = actionCode;
             actionData.notificationStatus = NotificationStatus.None;
+            actionData.tournamentId = tournamentId;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 

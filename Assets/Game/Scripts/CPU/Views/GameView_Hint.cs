@@ -19,6 +19,7 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
+        
         public Signal hintClickedSignal = new Signal();
 
         [Header("Hint")]
@@ -88,6 +89,7 @@ namespace TurboLabz.CPU
             strengthVO.analyticsContext = AnalyticsContext.computer_match;
             strengthVO.activeSkinId = vo.skinId;
             strengthVO.pieceName = vo.piece;
+            strengthVO.downloadablesModel = downloadablesModel;
 
             if (vo.piece.Contains("captured"))
             {

@@ -36,6 +36,8 @@ namespace TurboLabz.InstantFramework
         AnalyticsContext adContext { get; set; }
         string uploadedPicId { get; set; }
         long gems { get; set; }
+        int trophies { get; set; }
+        int league { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -64,7 +66,7 @@ namespace TurboLabz.InstantFramework
         int PowerUpHindsightCount { get; }
         int PowerUpSafeMoveCount { get; }
 
-        bool HasRemoveAds(IAdsSettingsModel adsSettingsModel);
+        bool HasRemoveAds(IAdsSettingsModel adsSettingsModel = null);
         bool HasAdsFreePeriod(IAdsSettingsModel adsSettingsModel);
         PlayerInventoryVO GetPlayerInventory();
 

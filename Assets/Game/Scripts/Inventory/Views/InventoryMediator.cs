@@ -1,4 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -47,6 +48,26 @@ namespace TurboLabz.InstantFramework
             view.OnStoreAvailable(isAvailable);
         }
 
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && status.Equals(ContentDownloadStatus.Started))
+            {
+                view.ShowProcessing(true);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && !status.Equals(ContentDownloadStatus.Started))
+            {
+                view.ShowProcessing(false);
+            }
+        }
+
         private void OnApplyTheme()
         {
             if (view.HasSkinChanged())
@@ -59,7 +80,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnUnlockAllThemes()
         {
+            analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.unlock_all_themes);
             purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
+        }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            if (view.playerModel.OwnsAllThemes())
+            {
+                view.ShowThemeBanner(false);
+            }
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
@@ -67,8 +98,19 @@ namespace TurboLabz.InstantFramework
         {
             if (item.key.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
             {
-                view.themesBanner.gameObject.SetActive(false);
+                view.ShowThemeBanner(false);
+
+                if (view.isActiveAndEnabled)
+                {
+                    analyticsService.Event(AnalyticsEventId.banner_purchased, AnalyticsContext.unlock_all_themes);
+                }
             }
+        }
+
+        [ListensTo(typeof(ShowProcessingSignal))]
+        public void OnShowProcessing(bool blocker, bool processing)
+        {
+            view.ShowProcessing(blocker);
         }
     }
 }
