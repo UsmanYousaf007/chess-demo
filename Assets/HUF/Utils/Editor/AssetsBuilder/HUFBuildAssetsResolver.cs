@@ -55,7 +55,7 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
         [PostProcessBuild( 1000 )]
         public static void PostProcessBuildAttribute( BuildTarget target, string pathToBuiltProject )
         {
-            RunHUFBuildAssetsReverter();
+            //RunHUFBuildAssetsReverter();
             Application.logMessageReceived -= OnLogMessageReceived;
         }
 
