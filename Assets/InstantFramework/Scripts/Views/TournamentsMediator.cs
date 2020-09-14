@@ -24,9 +24,11 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
 
         private Signal onLeagueProfileStripClickedSignal = new Signal();
 
@@ -86,10 +88,29 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.tap_live_tournament);
         }
 
-        public void OnUpcomingItemClicked(TournamentUpcomingItem item)
+        public void OnUpcomingItemClicked(LiveTournamentData item)
         {
             TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
             analyticsService.Event(AnalyticsEventId.tap_notification);
+
+            var tenMinInMilliseconds = 10 * 60 * 1000;
+
+            if (((item.currentStartTimeUTCSeconds * 1000) - backendService.serverClock.currentTimestamp) > tenMinInMilliseconds)
+            {
+                var reminder = new Notification();
+                reminder.title = $"{item.name} {view.localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_TITLE)}";
+                reminder.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_BODY);
+                reminder.timestamp = (item.currentStartTimeUTCSeconds * 1000) - tenMinInMilliseconds;
+                reminder.sender = $"{item.type}_upcoming";
+                notificationsModel.RegisterNotification(reminder);
+            }
+
+            var notification = new Notification();
+            notification.title = $"{item.name} {view.localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE)}";
+            notification.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_BODY);
+            notification.timestamp = item.currentStartTimeUTCSeconds * 1000;
+            notification.sender = $"{item.type}_upcoming";
+            notificationsModel.RegisterNotification(notification);
         }
 
         public void OnLeagueProfileStripClicked()

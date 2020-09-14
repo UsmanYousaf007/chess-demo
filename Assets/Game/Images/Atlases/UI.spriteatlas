@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 22333641
+    totalSpriteSurfaceArea: 22864970
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -102,6 +102,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8bccfab19c807492194b5d766acf6189, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: 7c4600c189b3f4458b5e558d650067d6, type: 3}
+  - {fileID: 21300000, guid: bedb98c1d9fdd4f98b3c6b93009437f2, type: 3}
   - {fileID: 21300000, guid: ee4815e1410c2421eb48e1d0984d2387, type: 3}
   - {fileID: 21300000, guid: e11025e1aefde4498b9318a5413c36ea, type: 3}
   - {fileID: 21300000, guid: d3533fe10e8a44bdf9cc4b3724dcb451, type: 3}
@@ -195,6 +196,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: be9073951a17546719abdc72a0a52d7b, type: 3}
   - {fileID: 21300000, guid: 28c69a9538e174c8488a8e1abad2ccfc, type: 3}
   - {fileID: 21300000, guid: 4f15f8a5743c049c7b28f9cc99822634, type: 3}
+  - {fileID: 21300000, guid: 90444cb5b856f434a84a62da3682d1fc, type: 3}
   - {fileID: 21300000, guid: 7abe9db59236b42f5af130549728159e, type: 3}
   - {fileID: 21300000, guid: 1a5312c5c60814719bb8b7f01c49f1c8, type: 3}
   - {fileID: 21300000, guid: 5aa51dc51bcd644f8b6311661fd10b6a, type: 3}
@@ -241,6 +243,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 04485b871853d4d84a2c48c7db84f512, type: 3}
   - {fileID: 21300000, guid: 4d5e18970713043c59a4d099e83de649, type: 3}
   - {fileID: 21300000, guid: d07e9d9700d034f22b39d9341c8cf676, type: 3}
+  - {fileID: 21300000, guid: d28b67a7995b8441699e44ecc04c6b36, type: 3}
   - {fileID: 21300000, guid: 5cd776b7c834e4d6a9b442bc43b65ea4, type: 3}
   - {fileID: 21300000, guid: c61a4dc7ab53f4f4698ee4dbdd4aeb5e, type: 3}
   - {fileID: 21300000, guid: 3e2bd7d70ca8a4521876c4f3e2d2e162, type: 3}
@@ -474,6 +477,7 @@ SpriteAtlas:
   - OnboardingCoach
   - PossibleMovesIndicator
   - GDPRStandardDlg
+  - 5MinBlitzNotification
   - CrossPromoIcon
   - NoStar
   - UnlockAllThemesBanner
@@ -567,6 +571,7 @@ SpriteAtlas:
   - BlockPlayersPopup
   - SpecialPackRemoveAdsThumb
   - RadioBtnCircle
+  - 1MinBulletNotification
   - friendStripGlow
   - SubTitleBanner
   - GemPack3000Icon
@@ -613,6 +618,7 @@ SpriteAtlas:
   - Error
   - InboxIcon
   - TimeBtnInnerSeparation
+  - 10MinRapidNotification
   - OnboardingMoveMeter
   - CommonChestOpen
   - SubIcon

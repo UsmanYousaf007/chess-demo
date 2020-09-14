@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:508330effa8875b6006bfb6cf0af729d01f7a712ac26037ded72373de4f3eef4
-size 523
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69bdcc4368a04b10a918a8150060e075, type: 3}
+  m_Name: FirebaseRemoteConfigsConfig
+  m_EditorClassIdentifier: 
+  configId: FirebaseRemoteConfigsConfig
+  autoInit: 0
+  enableInEditor: 1
+  cacheExpirationInSeconds: 3600

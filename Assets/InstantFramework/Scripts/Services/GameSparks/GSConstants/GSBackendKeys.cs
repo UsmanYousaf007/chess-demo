@@ -51,6 +51,7 @@ namespace TurboLabz.InstantFramework
         public const string MAX_COMMUNITY_MATECHES = "maxCommunityMatches";
         public const string PREMIUM = "premium";
         public const string HINTS_ALLOWED = "hintsAllowedPerGame";
+        public const string DAILY_NOTIFICATION_DEADLINE_HOUR = "dailyNotificationDeadlineHour";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";

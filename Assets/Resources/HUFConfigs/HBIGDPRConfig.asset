@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5ad005c4e44482f71a79d4ebdc43e1e33129d953866ca87413ec82fddb136e41
-size 664
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27703383e042ea4e9848aaff1cac6b1, type: 3}
+  m_Name: HBIGDPRConfig
+  m_EditorClassIdentifier: 
+  configId: GDPRConfig
+  autoInit: 0
+  prefab: {fileID: 6461981786959110272, guid: a1558749d188b430eb162dc347394ee6, type: 3}
+  gdprCustomPlayerPrefsKey: HUF_GDPR_PolicyAccepted
+  personalizedAdsCustomPlayerPrefsKey: 
+  destroyOnAccept: 1
+  enableCountryCheck: 0
+  defaultPersonalizedAdsValue: 0
+  showForCountries: AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PT,RO,SK,SI,ES,SE,GB,GF,GP,MQ,ME,YT,RE,MF,GI,AX,PM,GL,BL,SX,AW,CW,WF,PF,NC,TF,AI,BM,IO,VG,KY,FK,MS,PN,SH,GS,TC,AD,LI,MC,SM,VA,JE,GG,GI,CH,PL
+  enableTranslation: 1

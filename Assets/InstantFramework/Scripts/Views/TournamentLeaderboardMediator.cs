@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -179,6 +180,13 @@ namespace TurboLabz.InstantFramework
 
             if (joinedTournament == null)
             {
+                var notification = new Notification();
+                notification.title = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_TITLE);
+                notification.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY);
+                notification.timestamp = openTournament.endTimeUTCSeconds * 1000;
+                notification.sender = openTournament.type;
+                notificationsModel.RegisterNotification(notification);
+
                 StartTournament("free");
             }
             else if (view.footer.haveEnoughItems)

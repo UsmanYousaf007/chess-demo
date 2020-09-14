@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dd55c62a655061f38424dbdf12e42e55a079e4593cf358ad77c895a54ad1490d
-size 523
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b22ad600e404bd1914f0850f4b3ddb2, type: 3}
+  m_Name: AppsFlyerAnalyticsConfig
+  m_EditorClassIdentifier: 
+  configId: AppsFlyerAnalyticsConfig
+  autoInit: 0
+  devKey: xPcmC6rPafKmCueR3W68Mk
+  iTunesAppId: 1386718098

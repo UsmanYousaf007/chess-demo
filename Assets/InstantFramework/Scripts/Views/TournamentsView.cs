@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
 
         // Dispatch Signal
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -39,7 +40,7 @@ namespace TurboLabz.InstantFramework
 
         // Button click signals
         public Signal<TournamentLiveItem> liveItemClickedSignal = new Signal<TournamentLiveItem>();
-        public Signal<TournamentUpcomingItem> upcomingItemClickedSignal = new Signal<TournamentUpcomingItem>();
+        public Signal<LiveTournamentData> upcomingItemClickedSignal = new Signal<LiveTournamentData>();
 
         private List<TournamentLiveItem> tournamentLiveItems = new List<TournamentLiveItem>();
         private List<TournamentUpcomingItem> tournamentUpcomingItems = new List<TournamentUpcomingItem>();
@@ -192,20 +193,30 @@ namespace TurboLabz.InstantFramework
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
             item.Init();
-            item.button.onClick.AddListener(() =>
-            {
-                upcomingItemClickedSignal.Dispatch(item);
-                audioService.PlayStandardClick();
-            });
 
             return item;
         }
 
         public void PopulateTournamentUpcomingItem(TournamentUpcomingItem item, LiveTournamentData liveTournament)
         {
+            var getNotified = notificationsModel.IsNotificationRegistered($"{liveTournament.name} {localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE)}");
+
             item.UpdateItem(liveTournament);
             item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
+            item.notificationEnabledText.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_NOTICATION_ENABLED);
             item.getNotifiedLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED);
+
+            item.button.gameObject.SetActive(!getNotified);
+            item.notificationEnabledText.gameObject.SetActive(false);
+
+            item.button.onClick.AddListener(() =>
+            {
+                upcomingItemClickedSignal.Dispatch(liveTournament);
+                item.button.gameObject.SetActive(false);
+                item.notificationEnabledText.gameObject.SetActive(true);
+                item.DisableNotificationEnabledText();
+                audioService.PlayStandardClick();
+            });
         }
 
         IEnumerator CountdownTimer()

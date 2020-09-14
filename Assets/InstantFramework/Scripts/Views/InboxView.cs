@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
             item.headingText.text = "Tournament Rewards";
             item.subHeadingText.text = "Completed " + DateTimeOffset.FromUnixTimeMilliseconds(msg.timeStamp).LocalDateTime.ToShortDateString();
             item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
+            item.thumbnail.preserveAspect = true;
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -138,6 +139,7 @@ namespace TurboLabz.InstantFramework
             item.headingText.text = "Daily Subscription Rewards";
             item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("SubscriptionSticker");
+            item.thumbnail.preserveAspect = false;
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -165,6 +167,7 @@ namespace TurboLabz.InstantFramework
             item.headingText.text = "Daily League Rewards";
             item.subHeadingText.text = "Collect Now";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("RankSticker");
+            item.thumbnail.preserveAspect = false;
 
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
@@ -192,7 +195,8 @@ namespace TurboLabz.InstantFramework
             item.headingText.text = "Congratulations!";
             item.subHeadingText.text = "You've been Promoted!";
             item.thumbnail.sprite = SpriteBank.container.GetSprite("LeaguePromotionSticker");
-            
+            item.thumbnail.preserveAspect = false;
+
             item.timeStamp = msg.timeStamp;
             item.msgId = msg.id;
 

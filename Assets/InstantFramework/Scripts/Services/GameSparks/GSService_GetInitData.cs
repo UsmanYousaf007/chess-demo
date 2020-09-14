@@ -262,6 +262,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.maintenanceWarningFlag = gsSettingsData.GetBoolean(GSBackendKeys.MAINTENANCE_WARNING_FLAG).Value;
             settingsModel.maintenanceWarningMessege = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
             settingsModel.maintenanceWarningBgColor = gsSettingsData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
+            settingsModel.dailyNotificationDeadlineHour = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.DAILY_NOTIFICATION_DEADLINE_HOUR);
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {

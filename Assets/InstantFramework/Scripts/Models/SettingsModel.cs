@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public int maxLongMatchCountPremium { get; set; }
         public int maxFriendsCountPremium { get; set; }
         public int hintsAllowedPerGame { get; set; }
+        public int dailyNotificationDeadlineHour { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
 
@@ -55,6 +56,7 @@ namespace TurboLabz.InstantFramework
             maxLongMatchCountPremium = 0;
             maxFriendsCountPremium = 0;
             hintsAllowedPerGame = 0;
+            dailyNotificationDeadlineHour = 0;
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
         }
