@@ -49,7 +49,7 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
         public void OnPreprocessBuild( BuildReport report )
         {
             Application.logMessageReceived += OnLogMessageReceived;
-            RunHUFBuildAssetsResolver();
+            //RunHUFBuildAssetsResolver();
         }
 
         [PostProcessBuild( 1000 )]
