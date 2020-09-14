@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:156aa4669eae8fa205a051220258e86dfad7c5074c73ccfdfd0cfb0d3005f916
-size 542
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06153289dbb26d49858595f456d8687, type: 3}
+  m_Name: AdsManagerConfig
+  m_EditorClassIdentifier: 
+  configId: AdsManagerConfig
+  autoInit: 0
+  fetchShortTimes: 3
+  delayBetweenFetchShort: 0
+  delayBetweenFetchLong: 30
+  adsProvider: 0

@@ -66,6 +66,10 @@
             {
                 return new NSInboxView();
             }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
 
             return null;
         }

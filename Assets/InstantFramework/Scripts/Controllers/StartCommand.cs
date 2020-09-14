@@ -39,7 +39,9 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
-		bool gameSparksAvailable = false;
+        [Inject] public INotificationsModel notificationsModel { get; set; }
+
+        bool gameSparksAvailable = false;
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;

@@ -32,7 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public TurboLabz.CPU.ICPUGameModel cPUGameModel { get; set; }
 
-
         // Todo: Move this to the game folder
         [Inject] public IChessboardModel chessboardModel { get; set; }
 

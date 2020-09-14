@@ -498,6 +498,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_UPCOMING, "UPCOMING TOURNAMENTS"},
                 { LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN, "Starts in "},
                 { LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED, "Get Notified"},
+                { LocalizationKey.TOURNAMENT_UPCOMING_NOTICATION_ENABLED, "Thanks! we'll let you know."},
 
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},
@@ -528,6 +529,22 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.LEAGUE_PERKS_TITLE, "League Perks"},
 
+                #endregion
+
+                #region Notifications
+
+                { LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_TITLE, "is about to start!"},
+                { LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_BODY, "Get in early to win big."},
+                { LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE, "has started!"},
+                { LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_BODY, "Get on NOW to win big"},
+
+                { LocalizationKey.NOTIFICATION_TOURNAMENT_END_TITLE, "Collect your Tournament Prize!"},
+                { LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY, "Congrats, your prize is waiting for you."},
+                { LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE, "Collect your League Rewards!"},
+                { LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY, "Your daily league reward is waiting for you."},
+                { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE, "Collect your Subscription Rewards!"},
+                { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_BODY, "Your daily subscription reward is waiting for you."},
+               
                 #endregion
     };
         }

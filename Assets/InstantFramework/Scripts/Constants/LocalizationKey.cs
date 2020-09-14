@@ -497,6 +497,7 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_UPCOMING = "tournamentUpcoming";
         public const string TOURNAMENT_UPCOMING_STARTS_IN = "tournamentUpcomingStartsIn";
         public const string TOURNAMENT_UPCOMING_GET_NOTIFIED = "tournamentUpcomingGetNotified";
+        public const string TOURNAMENT_UPCOMING_NOTICATION_ENABLED = "tournamentUpcomingNotificationEnabled";
 
         public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
         public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";
@@ -526,6 +527,21 @@ namespace TurboLabz.InstantFramework
         #region LeaguePerks
 
         public const string LEAGUE_PERKS_TITLE = "leaguePerksTitle";
+
+        #endregion
+
+        #region
+
+        public const string NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_TITLE = "notificationUpcomingTournamentReminderTitle";
+        public const string NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE = "notifcationUpcomingTournamentStartedTitle";
+        public const string NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_BODY = "notificationUpcomingTournamentReminderBody";
+        public const string NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_BODY = "notifcationUpcomingTournamentStartedBody";
+        public const string NOTIFICATION_TOURNAMENT_END_TITLE = "notificationTournamentEndTitle";
+        public const string NOTIFICATION_TOURNAMENT_END_BODY = "notificationTournamentEndBody";
+        public const string NOTIFICATION_DAILY_REWARD_TITLE = "notificationDailyRewardTitle";
+        public const string NOTIFICATION_SUBSCRIPTION_REWARD_TITLE = "notificationSubscriptionRewardTitle";
+        public const string NOTIFICATION_DAILY_REWARD_BODY = "notificationDailyRewardBody";
+        public const string NOTIFICATION_SUBSCRIPTION_REWARD_BODY = "notificationSubscriptionRewardBody";
 
         #endregion
     }

@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
             public Sprite tileSprite;
             public Sprite thumbSprite;
             public Color solidColor;
+            public Sprite notificationSprite;
         }
 
 #if UNITY_EDITOR

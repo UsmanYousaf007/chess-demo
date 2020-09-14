@@ -22,6 +22,13 @@ public class Notification : MonoBehaviour
     public Button acceptQuickMatchButton;
     public Text acceptQuickMatchButtonText;
 
+    public Button fullButton;
+    public Image icon;
+    public Image bgOverlay;
+    public GameObject playerObj;
+    public Sprite subsriptionAvatar;
+    public Sprite leagueAvatar;
+
     private void OnEnable()
     {
         iTween.MoveFrom(gameObject,

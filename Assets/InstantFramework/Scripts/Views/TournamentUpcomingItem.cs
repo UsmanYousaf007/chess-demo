@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public Text countdownTimerText;
         public Text getNotifiedLabel;
         public Button button;
+        public Text notificationEnabledText;
 
         private long currentStartTimeUTCSeconds;
 
@@ -66,6 +67,17 @@ namespace TurboLabz.InstantFramework
             {
                 countdownTimerText.text = "0:00";
             }
+        }
+
+        public void DisableNotificationEnabledText()
+        {
+            StartCoroutine(DisableNotificationEnabledTextWithDelay());
+        }
+
+        private IEnumerator DisableNotificationEnabledTextWithDelay()
+        {
+            yield return new WaitForSeconds(2.3f);
+            notificationEnabledText.gameObject.SetActive(false);
         }
     }
 }

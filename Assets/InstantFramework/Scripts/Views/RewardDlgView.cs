@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         public GameObject rewardDailySubscriptionDlgPrefab;
         public GameObject rewardDailyLeagueDlgPrefab;
@@ -61,6 +64,20 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
                 audioService.PlayStandardClick();
+
+                var notification = new Notification();
+                notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE);
+                notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_BODY);
+                notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
+                notification.sender = "subscription";
+                notificationsModel.RegisterNotification(notification);
+
+                var reminder = new Notification();
+                reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+                reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+                reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
+                notification.sender = "subscription";
+                notificationsModel.RegisterNotification(reminder);
             });
 
             p.headingText.text = "Daily Subscription Reward!";
@@ -86,6 +103,22 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
                 audioService.PlayStandardClick();
+
+                var notification = new Notification();
+                notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+                notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+                notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
+                notification.sender = "league";
+                notificationsModel.RegisterNotification(notification);
+
+                LogUtil.Log(DateTime.Today.ToString());
+
+                var reminder = new Notification();
+                reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+                reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+                reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
+                notification.sender = "league";
+                notificationsModel.RegisterNotification(reminder);
             });
 
             p.headingText.text = vo.league;
