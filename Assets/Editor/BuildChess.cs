@@ -126,7 +126,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.buildApkPerCpuArchitecture = false;
         PlayerSettings.Android.disableDepthAndStencilBuffers = false;
         PlayerSettings.Android.forceInternetPermission = true;
-        PlayerSettings.Android.forceSDCardPermission = false;
+        PlayerSettings.Android.forceSDCardPermission = true;
         //PlayerSettings.Android.licenseVerification = false; // readonly
         PlayerSettings.Android.maxAspectRatio = 3;
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
