@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
     public class SkinRefs : View 
     {
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
-
+        private const string DEFAULT_SKIN_ID = "SkinSlate";
         public Signal refreshSkinLinksSignal = new Signal();
 
         private string currentSkinId;
@@ -66,6 +66,14 @@ namespace TurboLabz.InstantFramework
                 downloadablesModel.PreloadFromCache(newSkinId, true);
                 currentSkinId = newSkinId;
             }
+
+            else
+            {
+                SkinContainer container = SkinContainer.LoadSkin(DEFAULT_SKIN_ID);
+                LoadTransform(container);
+                currentSkinId = DEFAULT_SKIN_ID;
+            }
+
             refreshSkinLinksSignal.Dispatch();
         }
 
