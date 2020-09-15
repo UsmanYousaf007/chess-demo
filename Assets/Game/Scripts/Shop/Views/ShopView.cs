@@ -7,6 +7,7 @@ namespace TurboLabz.InstantFramework
 {
     public class ShopView : View
     {
+        public Text bundleHeading;
         public Text specialPacksHeading;
         public Text gemPacksHeading;
         public string welcomePackShortCode;
@@ -37,6 +38,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            bundleHeading.text = localizationService.Get(LocalizationKey.SHOP_SAVER_BUNDLES);
             specialPacksHeading.text = localizationService.Get(LocalizationKey.SHOP_SPECIAL_PACKS);
             gemPacksHeading.text = localizationService.Get(LocalizationKey.SHOP_GEM_PACKS);
             subscriptionButtonText.text = localizationService.Get(LocalizationKey.UPGRADE_TEXT);

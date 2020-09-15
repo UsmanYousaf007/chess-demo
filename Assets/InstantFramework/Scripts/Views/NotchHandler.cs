@@ -241,9 +241,9 @@ public class NotchHandler : MonoBehaviour {
         SetBottom(leaguePerksScrollView, 212f);
 
         //Tournaments
-        SetY(tournamentsLeagueHeader, -380f);
-        SetTop(tournamentsScrollView, -566f);
-        SetBottom(tournamentsScrollView, 236f);
+        SetY(tournamentsLeagueHeader, -330f);
+        SetTop(tournamentsScrollView, -418f);
+        SetBottom(tournamentsScrollView, 235f);
         tournamentsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
         //Tournaments Leaderboard

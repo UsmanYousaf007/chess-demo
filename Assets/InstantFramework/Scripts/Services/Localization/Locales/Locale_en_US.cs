@@ -284,6 +284,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.PROMOTION_DLG_PRICE, "Then (price) per month"},
                 { LocalizationKey.PROMOTION_DLG_PURCHASE_BUTTON, "Subscribe Now"},
 
+                { LocalizationKey.SHOP_SAVER_BUNDLES, "SAVER BUNDLES"},
                 { LocalizationKey.SHOP_SPECIAL_PACKS, "SPECIAL PACKS"},
                 { LocalizationKey.SHOP_GEM_PACKS, "GEM PACKS"},
                 { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "All Packs\nPremium Upgrade!"},

@@ -278,6 +278,7 @@ namespace TurboLabz.InstantFramework
         public const string PROMOTION_DLG_PRICE = "promotionDlgPrice";
         public const string PROMOTION_DLG_PURCHASE = "promotionDlgPurchase";
 
+        public const string SHOP_SAVER_BUNDLES = "shopSaverBundles";
         public const string SHOP_SPECIAL_PACKS = "shopSpecailPacks";
         public const string SHOP_GEM_PACKS = "shopGemPacks";
         public const string SHOP_SUBSCRIPTION_STRIP = "shopSubscriptionStrip";

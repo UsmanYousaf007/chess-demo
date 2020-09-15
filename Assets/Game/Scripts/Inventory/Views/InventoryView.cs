@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public Button themesBanner;
         public GameObject themesAlert;
         public GameObject processing;
+        public Text heading;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            heading.text = localizationService.Get(LocalizationKey.NAV_INVENTORY).ToUpper();
             specialItem.title.text = localizationService.Get(LocalizationKey.INVENTORY_SPECIAL_ITEMS);
             themes.title.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
             specialItem.button.onClick.AddListener(OnClickSpecialItems);
