@@ -291,6 +291,8 @@ namespace TurboLabz.InstantFramework
         public const string INVENTORY_SUBSCIRPTION_ENABLE = "inventorySubscriptionEnabled";
         public const string INVENTORY_OR = "inventoryOr";
         public const string INVENTORY_UNLIMITED = "inventoryLimited";
+        public const string INVENTORY_GET_MORE = "inventoryGetMore";
+        public const string INVENTORY_YOU_OWN = "inventoryYouOwn";
 
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";

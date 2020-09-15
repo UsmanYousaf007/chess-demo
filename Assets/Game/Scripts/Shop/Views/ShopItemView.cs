@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         public Text discountAmount;
         public Text discountValue;
         public bool isSpot;
+        public bool loadThumbnail = true;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -84,9 +85,13 @@ namespace TurboLabz.InstantFramework
                 title.text = isGems ? storeItem.displayName.Split(' ')[0] : storeItem.displayName;
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
-                thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
                 buyButton.onClick.AddListener(OnBuyButtonClicked);
                 thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
+
+                if (loadThumbnail)
+                {
+                    thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
+                }
 
                 if (isBundle && storeItem.bundledItems != null)
                 {

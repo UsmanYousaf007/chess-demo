@@ -47,11 +47,14 @@ namespace TurboLabz.InstantFramework
         {
             if (!localDataService.FileExists(NOTIFICATIONS_FILE))
             {
+                LogUtil.Log($"NOTIFICATION READING file not found", "red");
                 return;
             }
 
             try
             {
+                LogUtil.Log($"NOTIFICATION READING STARTED", "red");
+
                 ILocalDataReader reader = localDataService.OpenReader(NOTIFICATIONS_FILE);
 
                 if (reader.HasKey(NOTITICATIONS_DATA))
@@ -60,10 +63,14 @@ namespace TurboLabz.InstantFramework
                 }
 
                 reader.Close();
+                LogUtil.Log($"NOTIFICATION READING ENDED", "red");
+
             }
             catch
             {
                 localDataService.DeleteFile(NOTIFICATIONS_FILE);
+                LogUtil.Log($"NOTIFICATION READING FAILED", "red");
+
             }
 
             //Clear all registered notifications
@@ -107,12 +114,16 @@ namespace TurboLabz.InstantFramework
 
             try
             {
+                LogUtil.Log($"NOTIFICATION WRITING STARTED", "red");
                 ILocalDataWriter writer = localDataService.OpenWriter(NOTIFICATIONS_FILE);
                 writer.WriteList(NOTITICATIONS_DATA, registeredNotifications);
                 writer.Close();
+                LogUtil.Log($"NOTIFICATION WRITING ENDED", "red");
             }
-            catch
+            catch(Exception e)
             {
+                LogUtil.Log($"NOTIFICATION WRITING FAILED {e.Message}", "red");
+
                 if (localDataService.FileExists(NOTIFICATIONS_FILE))
                 {
                     localDataService.DeleteFile(NOTIFICATIONS_FILE);

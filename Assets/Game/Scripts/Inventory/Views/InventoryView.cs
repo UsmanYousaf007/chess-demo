@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
             public Text title;
             public Image selected;
             public GameObject tab;
+            public Image unSelected;
         }
 
         public InventoryTab specialItem;
@@ -110,6 +111,8 @@ namespace TurboLabz.InstantFramework
             oldTab.selected.enabled = false;
             newTab.tab.SetActive(true);
             oldTab.tab.SetActive(false);
+            newTab.unSelected.enabled = false;
+            oldTab.unSelected.enabled = true;
         }
 
         private void SetupSkinItems()

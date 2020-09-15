@@ -425,7 +425,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ea3040e5f6b5543db8ecbfe19e650df7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9856092db98f4ca286349116bc42a6b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -460,9 +460,16 @@ MonoBehaviour:
   checkOwned: 1
   owned: {fileID: 5284103667782567951}
   ownedText: {fileID: 529902706966080459}
+  thumbnailButton: {fileID: 610977551513289614}
   isGems: 0
   isBundle: 0
-  thumbnailButton: {fileID: 610977551513289614}
+  showDiscount: 0
+  discountObj: {fileID: 0}
+  discountPercentage: 0
+  discountAmount: {fileID: 0}
+  discountValue: {fileID: 0}
+  isSpot: 0
+  loadThumbnail: 0
 --- !u!114 &610977551513289614
 MonoBehaviour:
   m_ObjectHideFlags: 0

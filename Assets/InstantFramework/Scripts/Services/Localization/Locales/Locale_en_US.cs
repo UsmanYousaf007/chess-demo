@@ -294,9 +294,11 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.INVENTORY_ITEM_UNLOCK, "Unlock"},
                 { LocalizationKey.INVENTORY_WATCH_AD, "Watch Ad"},
                 { LocalizationKey.INVENTORY_TOOL_TIP, "Video will be available soon"},
-                { LocalizationKey.INVENTORY_SUBSCIRPTION_ENABLE, "Subscription Enabled"},
+                { LocalizationKey.INVENTORY_SUBSCIRPTION_ENABLE, "Unlimited with your subscription"},
                 { LocalizationKey.INVENTORY_OR, "Or"},
                 { LocalizationKey.INVENTORY_UNLIMITED, "Unlimited"},
+                { LocalizationKey.INVENTORY_GET_MORE, "Get More"},
+                { LocalizationKey.INVENTORY_YOU_OWN, "You Own"},
 
                 { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
                 { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},

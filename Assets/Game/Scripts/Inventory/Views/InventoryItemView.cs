@@ -20,7 +20,6 @@ namespace TurboLabz.InstantFramework
         public Button buyButton;
         public Text price;
         public Text count;
-        public Image thumbnail;
         public GameObject toolTip;
         public Text toolTipText;
         public Sprite enoughGems;
@@ -32,13 +31,12 @@ namespace TurboLabz.InstantFramework
         public Text buyTitle;
         public Text orLabel;
         public Text subscriptionLabel;
-        public Image ownedBg;
-        public Color ownedBgColor;
         public GameObject subscribersObj;
         public GameObject nonSubscribersObj;
+        public Text unlimitedText;
+        public Text youOwnText;
 
         private static StoreIconsContainer iconsContainer;
-        private static StoreThumbsContainer thumbsContainer;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -75,11 +73,6 @@ namespace TurboLabz.InstantFramework
                 iconsContainer = StoreIconsContainer.Load();
             }
 
-            if (thumbsContainer == null)
-            {
-                thumbsContainer = StoreThumbsContainer.Load();
-            }
-
             if (!skipIconLoading)
             {
                 icon.sprite = iconsContainer.GetSprite(shortCode);
@@ -92,17 +85,17 @@ namespace TurboLabz.InstantFramework
 
             originalColor = addedCount.color;
             rewardBarOriginalWidth = rewardedVideoProgressBar.sizeDelta.x;
-            thumbnail.sprite = thumbsContainer.GetSprite(shortCode);
-            ownedBg.color = ownedBg.color;
 
             buyButton.onClick.AddListener(OnBuyButtonClicked);
             watchAdButton.onClick.AddListener(OnWatchAdButtonClicked);
 
             watchAdText.text = localizationService.Get(LocalizationKey.INVENTORY_WATCH_AD);
             toolTipText.text = localizationService.Get(LocalizationKey.INVENTORY_TOOL_TIP);
-            buyTitle.text = localizationService.Get(LocalizationKey.STORE_CONFIRM_DLG_TITLE_BUY);
+            buyTitle.text = localizationService.Get(LocalizationKey.INVENTORY_GET_MORE);
             orLabel.text = localizationService.Get(LocalizationKey.INVENTORY_OR);
             subscriptionLabel.text = localizationService.Get(LocalizationKey.INVENTORY_SUBSCIRPTION_ENABLE);
+            youOwnText.text = localizationService.Get(LocalizationKey.INVENTORY_YOU_OWN);
+            unlimitedText.text = localizationService.Get(LocalizationKey.INVENTORY_UNLIMITED);
         }
 
         public void OnStoreAvailable(bool available)
@@ -133,7 +126,6 @@ namespace TurboLabz.InstantFramework
                     var isSubscriber = playerModel.HasSubscription();
                     subscribersObj.SetActive(isSubscriber);
                     nonSubscribersObj.SetActive(!isSubscriber);
-                    count.text = isSubscriber ? localizationService.Get(LocalizationKey.INVENTORY_UNLIMITED) : count.text;
                 }
             }
         }
