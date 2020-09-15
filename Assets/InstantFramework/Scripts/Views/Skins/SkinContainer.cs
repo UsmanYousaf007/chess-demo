@@ -53,8 +53,8 @@ namespace TurboLabz.InstantFramework
         const string SKINS_PATH = "Assets/Game/Images/Skins/";
         const string ATLAS_PATH = "Assets/Game/Images/Atlases/";
 
-        const string ATLAS_PATH_BUNDLE = "Bundles/Atlases/";
-        const string ASSET_PATH_BUNDLE = "Bundles/Resouorces/";
+        const string ATLAS_PATH_BUNDLE = "Bundles/Skins/Atlases/";
+        const string ASSET_PATH_BUNDLE = "Bundles/Skins/Resouorces/";
 
         [MenuItem("Assets/Create/Turbolabz/Chess Skin")]
         public static void CreateAsset()
