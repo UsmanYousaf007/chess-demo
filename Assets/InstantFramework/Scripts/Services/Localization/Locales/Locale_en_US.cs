@@ -359,12 +359,12 @@ namespace TurboLabz.InstantFramework
 
                 #region Bottom Nav
 
-                { LocalizationKey.NAV_HOME, "Games" },
+                { LocalizationKey.NAV_HOME, "GAMRES" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
-                { LocalizationKey.NAV_SHOP, "Shop" },
-                { LocalizationKey.NAV_FRIENDS, "Friends" },
-                { LocalizationKey.NAV_INVENTORY, "Inventory" },
-                { LocalizationKey.NAV_ARENA, "Arena" },
+                { LocalizationKey.NAV_SHOP, "SHOP" },
+                { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
+                { LocalizationKey.NAV_INVENTORY, "INVENTORY" },
+                { LocalizationKey.NAV_ARENA, "TOURNAMENT" },
 
                 #endregion
 

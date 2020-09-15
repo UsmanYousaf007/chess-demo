@@ -8,7 +8,7 @@ using System.Collections;
 using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -27,6 +27,9 @@ namespace TurboLabz.InstantFramework
 
         public SkinLink skinLink;
         public Image thumbnailBg;
+        public GameObject startsInPanel;
+        public Transform startsInPanelPos;
+        private Vector3 startsInPanelDefaultPos;
 
         private long currentStartTimeUTCSeconds;
 
@@ -34,9 +37,10 @@ namespace TurboLabz.InstantFramework
         {
             ChestIconsContainer.Load();
             TournamentAssetsContainer.Load();
+            startsInPanelDefaultPos = startsInPanel.transform.localPosition;
         }
 
-        public void UpdateItem(LiveTournamentData liveTournamentData)
+        public void UpdateItem(LiveTournamentData liveTournamentData, bool getNotified)
         {
             skinLink.InitPrefabSkin();
             thumbnailBg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
@@ -56,6 +60,17 @@ namespace TurboLabz.InstantFramework
                 timeLeftText = "0:00";
             }
             countdownTimerText.text = timeLeftText;
+
+            button.gameObject.SetActive(!getNotified);
+            if (getNotified)
+            {
+                startsInPanel.transform.localPosition = startsInPanelPos.localPosition;
+                startsInPanel.transform.localScale = startsInPanelPos.localScale;
+            }else
+            {
+                startsInPanel.transform.localPosition = startsInPanelDefaultPos;
+                startsInPanel.transform.localScale = new Vector3(1f,1f,1f);
+            }
         }
 
         public void UpdateTime()
@@ -81,7 +96,17 @@ namespace TurboLabz.InstantFramework
         private IEnumerator DisableNotificationEnabledTextWithDelay()
         {
             yield return new WaitForSeconds(2.3f);
+            notificationEnabledText.DOFade(0, 1);
+            yield return new WaitForSeconds(1f);
             notificationEnabledText.gameObject.SetActive(false);
+            iTween.MoveTo(startsInPanel,
+            iTween.Hash(
+               "position", startsInPanelPos.position,
+               "time", 0.4f));
+            iTween.ScaleTo(startsInPanel,
+            iTween.Hash(
+                "scale", startsInPanelPos.localScale,
+                "time", 0.4f));
         }
     }
 }

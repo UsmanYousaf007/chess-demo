@@ -201,12 +201,11 @@ namespace TurboLabz.InstantFramework
         {
             var getNotified = notificationsModel.IsNotificationRegistered($"{liveTournament.name} {localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE)}");
 
-            item.UpdateItem(liveTournament);
+            item.UpdateItem(liveTournament, getNotified);
             item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
             item.notificationEnabledText.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_NOTICATION_ENABLED);
             item.getNotifiedLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_GET_NOTIFIED);
 
-            item.button.gameObject.SetActive(!getNotified);
             item.notificationEnabledText.gameObject.SetActive(false);
 
             item.button.onClick.AddListener(() =>
