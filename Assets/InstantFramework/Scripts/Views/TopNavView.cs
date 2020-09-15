@@ -19,18 +19,27 @@ namespace TurboLabz.InstantFramework
         public Button supportButton;
         public Button settingsButton;
         public Button addGemsButton;
+        public Button addCollectilesButton;
         public Button inboxButton;
         public Text gemsCount;
         public Text boughtGemsCount;
         public Text messagesCount;
         public Image inboxNotification;
 
+        public Text ticketsCount;
+        public Text ratingBoostersCount;
+        public Text hintsCount;
+        public Text keysCount;
+
         public Signal settingsButtonClickedSignal = new Signal();
         public Signal supportButtonClicked = new Signal();
         public Signal addGemsButtonClickedSignal = new Signal();
         public Signal inboxButtonClickedSignal = new Signal();
+        public Signal addCollectilesButtonClickedSignal = new Signal();
 
         private Color originalColor;
+
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public void Init()
         {
@@ -38,6 +47,7 @@ namespace TurboLabz.InstantFramework
             settingsButton.onClick.AddListener(OnSettingsButtonClicked);
             addGemsButton.onClick.AddListener(OnAddGemsButtonClicked);
             inboxButton.onClick.AddListener(OnInboxButtonClicked);
+            addCollectilesButton.onClick.AddListener(OnAddCollectiblesButtonClicked);
 
             if (boughtGemsCount != null)
             {
@@ -68,6 +78,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             inboxButtonClickedSignal.Dispatch();
+        }
+
+        private void OnAddCollectiblesButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            addCollectilesButtonClickedSignal.Dispatch();
         }
 
         public void UpdateGemsCount(long gems)
@@ -103,6 +119,29 @@ namespace TurboLabz.InstantFramework
         {
             boughtGemsCount.color = originalColor;
             boughtGemsCount.gameObject.SetActive(false);
+        }
+
+        public void UpdateCollectiblesCount()
+        {
+            ticketsCount.text = playerModel.GetInventoryItemCount("SpecialItemTicket").ToString();
+            ratingBoostersCount.text = playerModel.GetInventoryItemCount("SpecialItemRatingBooster").ToString();
+            keysCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
+            hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
+        }
+
+        public void UpdateRatingBoostersCount(long count)
+        {
+            ratingBoostersCount.text = count.ToString();
+        }
+
+        public void UpdateKeysCount(long count)
+        {
+            keysCount.text = count.ToString();
+        }
+
+        public void UpdateHintsCount(long count)
+        {
+            hintsCount.text = count.ToString();
         }
     }
 }
