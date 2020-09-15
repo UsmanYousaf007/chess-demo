@@ -25,6 +25,9 @@ namespace TurboLabz.InstantFramework
         public Button button;
         public Text notificationEnabledText;
 
+        public SkinLink skinLink;
+        public Image thumbnailBg;
+
         private long currentStartTimeUTCSeconds;
 
         public void Init()
@@ -35,7 +38,8 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateItem(LiveTournamentData liveTournamentData)
         {
-            bg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
+            skinLink.InitPrefabSkin();
+            thumbnailBg.sprite = tournamentAssetsContainer.GetTile(liveTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(liveTournamentData.type);
             tournamentImage.SetNativeSize();
 
