@@ -18,6 +18,7 @@ using System.Collections;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantGame;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -33,6 +34,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public ButtonId buttonId;
+
+        public Image selectedImage;
 
         public Text homeLabel;
         public Text friendsLabel;
@@ -82,7 +85,7 @@ namespace TurboLabz.InstantFramework
             shopButton.onClick.AddListener(ShopButtonClicked);
             arenaButton.onClick.AddListener(ArenaButtonClicked);
 
-            UpdateButtons();
+            UpdateButtons(BottomNavView.ButtonId.Home);
         }
 
         private void OnEnable()
@@ -96,47 +99,68 @@ namespace TurboLabz.InstantFramework
             inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
-        void UpdateButtons()
+        public void UpdateButtons(ButtonId buttonID)
         {
             homeButton.interactable = true;
             homeSelected.SetActive(false);
+            homeLabel.color = Colors.WHITE_150;
 
             friendsButton.interactable = true;
             friendsSelected.SetActive(false);
+            friendsLabel.color = Colors.WHITE_150;
 
             inventoryButton.interactable = true;
             inventorySelected.SetActive(false);
+            inventoryLabel.color = Colors.WHITE_150;
 
             shopButton.interactable = true;
             shopSelected.SetActive(false);
+            shopLabel.color = Colors.WHITE_150;
 
             arenaButton.interactable = true;
             arenaSelected.SetActive(false);
+            arenaLabel.color = Colors.WHITE_150;
 
-            if (buttonId == ButtonId.Home)
+            if (buttonID == ButtonId.Home)
             {
                 homeButton.interactable = false;
-                homeSelected.SetActive(true);
+                //homeSelected.SetActive(true);
+                homeLabel.color = Colors.YELLOW;
+                //selectedImage.DOGoto(homeSelected.transform.position);
+                iTween.MoveTo(selectedImage.gameObject,
+                iTween.Hash("position", homeSelected.transform.position, "time", 0.4f));
             }
-            else if (buttonId == ButtonId.Friends)
+            else if (buttonID == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
-                friendsSelected.SetActive(true);
+                //friendsSelected.SetActive(true);
+                friendsLabel.color = Colors.YELLOW;
+                iTween.MoveTo(selectedImage.gameObject,
+                iTween.Hash("position", friendsSelected.transform.position, "time", 0.4f));
             }
-            else if (buttonId == ButtonId.Inventory)
+            else if (buttonID == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
-                inventorySelected.SetActive(true);
+                //inventorySelected.SetActive(true);
+                inventoryLabel.color = Colors.YELLOW;
+                iTween.MoveTo(selectedImage.gameObject,
+                iTween.Hash("position", inventorySelected.transform.position, "time", 0.4f));
             }
-            else if (buttonId == ButtonId.Shop)
+            else if (buttonID == ButtonId.Shop)
             {
                 shopButton.interactable = false;
-                shopSelected.SetActive(true);
+                //shopSelected.SetActive(true);
+                shopLabel.color = Colors.YELLOW;
+                iTween.MoveTo(selectedImage.gameObject,
+                iTween.Hash("position", shopSelected.transform.position, "time", 0.4f));
             }
-            else if (buttonId == ButtonId.Arena)
+            else if (buttonID == ButtonId.Arena)
             {
                 arenaButton.interactable = false;
-                arenaSelected.SetActive(true);
+                //arenaSelected.SetActive(true);
+                arenaLabel.color = Colors.YELLOW;
+                iTween.MoveTo(selectedImage.gameObject,
+                iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
             }
         }
 
@@ -170,6 +194,11 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             preferencesModel.shopTabVisited = true;
             shopButtonClickedSignal.Dispatch();
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
         }
     }
 }

@@ -49,37 +49,44 @@ namespace TurboLabz.InstantFramework
         void OnHomeButtonClicked()
         {
             loadLobbySignal.Dispatch();
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Home);
         }
 
         void OnFriendsButtonClicked()
         {
             loadFriendsSignal.Dispatch();
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Friends);
         }
 
         void OnArenaButtonClicked()
         {
             loadArenaSignal.Dispatch();
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
         }
 
         void OnInventoryButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
         }
 
         void OnShopButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
         [ListensTo(typeof(UpdateBottomNavSignal))]
-        public void OnUpdateView()
+        public void OnUpdateView(BottomNavView.ButtonId buttonID)
         {
             view.UpdateAlerts();
+            view.UpdateButtons(buttonID);
+        }
+
+        [ListensTo(typeof(ShowBottomNavSignal))]
+        public void OnShowView()
+        {
+            view.Show();
         }
     }
 }

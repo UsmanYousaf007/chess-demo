@@ -138,7 +138,7 @@ namespace TurboLabz.InstantGame
             if (data.concluded)
             {
                 loadArenaSignal.Dispatch();
-                updateBottomNavSignal.Dispatch();
+                updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
             }
             else
             {

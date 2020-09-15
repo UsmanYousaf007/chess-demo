@@ -169,7 +169,7 @@ namespace TurboLabz.InstantFramework
     public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
-    public class UpdateBottomNavSignal : Signal { }
+    public class UpdateBottomNavSignal : Signal<BottomNavView.ButtonId> { }
     public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
     public class LoadInboxSignal : Signal { }
@@ -180,6 +180,7 @@ namespace TurboLabz.InstantFramework
     public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
     public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
     public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
+    public class ShowBottomNavSignal : Signal { }
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

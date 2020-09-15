@@ -238,7 +238,7 @@ namespace TurboLabz.Multiplayer
         {
             OnBackToLobby();
             loadArenaSignal.Dispatch();
-            updateBottomNavSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
             if (view.tournamentEnded)
