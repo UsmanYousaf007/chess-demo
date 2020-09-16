@@ -44,7 +44,7 @@ namespace TurboLabz.InstantFramework
         public string gameEndReason { get; set; }
         public bool isTournamentMatch { get; set; }
         public int tournamentMatchScore { get; set; }
-        public int tournamentMatchCheckmateBonus { get; set; }
+        public int tournamentMatchWinTimeBonus { get; set; }
 
         public bool isBotMatch
         {
@@ -80,7 +80,7 @@ namespace TurboLabz.InstantFramework
             isThirtyMinGame = false;
             isTournamentMatch = false;
             tournamentMatchScore = 0;
-            tournamentMatchCheckmateBonus = 0;
+            tournamentMatchWinTimeBonus = 0;
     }
     }
 

@@ -152,10 +152,10 @@ namespace TurboLabz.InstantFramework
                         if (string.IsNullOrEmpty(tournamentId) == false)
                         {
                             int score = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_SCORE);
-                            int checkmateBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_CHECKMATE_BONUS);
+                            int winTimeBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_WIN_TIME_BONUS);
                             matchInfoModel.matches[challengeId].isTournamentMatch = true;
                             matchInfoModel.matches[challengeId].tournamentMatchScore = score;
-                            matchInfoModel.matches[challengeId].tournamentMatchCheckmateBonus = checkmateBonus;
+                            matchInfoModel.matches[challengeId].tournamentMatchWinTimeBonus = winTimeBonus;
                         }
                     }
                 }

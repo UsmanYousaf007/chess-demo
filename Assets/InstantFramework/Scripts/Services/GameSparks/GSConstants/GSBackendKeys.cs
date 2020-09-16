@@ -417,7 +417,7 @@ namespace TurboLabz.InstantFramework
             public const string SCORE = "score";
             public const string REWARDS = "rewards";
             public const string TOURNAMENT_MATCH_SCORE = "tournamentScore";
-            public const string TOURNAMENT_MATCH_CHECKMATE_BONUS = "checkmateBonus";
+            public const string TOURNAMENT_MATCH_WIN_TIME_BONUS = "winTimeBonus";
         }
 
         public static class TournamentReward
