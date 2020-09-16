@@ -510,12 +510,18 @@ namespace TurboLabz.InstantFramework
             if (entries != null)
             {
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
+
+                // Sort entries on score here
+                tournamentEntries.Sort((x, y) =>
+                    y.score.CompareTo(x.score));
+
                 joinedTournament.entries = tournamentEntries;
 
                 var playerId = playerModel.id;
 
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
+                    tournamentEntries[i].rank = i + 1;
                     if (tournamentEntries[i].publicProfile.playerId == playerId)
                     {
                         joinedTournament.rank = tournamentEntries[i].rank;
