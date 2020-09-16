@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
-                    playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
+                    //playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
 
                     var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
-                playerProfile.transform.localPosition = playerProfileOriginalPosition;
+                //playerProfile.transform.localPosition = playerProfileOriginalPosition;
             }
         }
 

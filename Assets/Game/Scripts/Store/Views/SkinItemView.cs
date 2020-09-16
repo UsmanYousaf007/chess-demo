@@ -7,6 +7,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using System.Collections;
 
+[CLSCompliant(false)]
 public class SkinItemView : View
 {
     //Models 

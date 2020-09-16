@@ -17,6 +17,7 @@ using System;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class StatsView : View
     {
         // Services
@@ -139,6 +140,20 @@ namespace TurboLabz.InstantGame
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
         }
 
+        public void Show()
+        {
+            showBottomNavSignal.Dispatch(false);
+            gameObject.SetActive(true);
+            playerProfileNameInputField.transform.gameObject.SetActive(false);
+            nameConfirmDlg.SetActive(false);
+            nameEditBtn.gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
         public void closeSettingsDlgBtnClicked()
         {
             openSettingsDlg.SetActive(false);
@@ -173,20 +188,6 @@ namespace TurboLabz.InstantGame
             playerTag.text = vo.tag;
             country.text = Flags.GetCountry(vo.country);
             playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
-        }
-
-        public void Show()
-        {
-            showBottomNavSignal.Dispatch(false);
-            gameObject.SetActive(true);
-            playerProfileNameInputField.transform.gameObject.SetActive(false);
-            nameConfirmDlg.SetActive(false);
-            nameEditBtn.gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         private void nameEditBtnClicked()

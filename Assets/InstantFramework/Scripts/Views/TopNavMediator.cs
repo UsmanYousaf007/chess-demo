@@ -6,9 +6,11 @@
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using UnityEngine;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class TopNavMediator : Mediator
     {
         // View injection

@@ -6,6 +6,7 @@ using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class InventoryView : View
     {
         [Serializable]

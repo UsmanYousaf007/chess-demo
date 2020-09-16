@@ -19,9 +19,11 @@ using TurboLabz.TLUtils;
 using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
+using System;
 
 namespace TurboLabz.CPU
 {
+    [CLSCompliant(false)]
     public partial class GameView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }

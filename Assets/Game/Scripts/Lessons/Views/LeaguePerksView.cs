@@ -10,9 +10,11 @@ using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class LeaguePerksView : View
     {
         // Services

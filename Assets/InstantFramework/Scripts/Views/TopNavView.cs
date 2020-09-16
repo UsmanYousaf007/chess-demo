@@ -8,9 +8,11 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using DG.Tweening;
 using UnityEngine;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class TopNavView : View
     {
         // Services

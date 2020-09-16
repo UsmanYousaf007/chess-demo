@@ -229,6 +229,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ConfirmDlgView>().To<ConfirmDlgMediator>();
             mediationBinder.Bind<RewardDlgView>().To<RewardDlgMediator>();
             mediationBinder.Bind<ProfilePicView>().To<ProfilePicMediator>();
+            mediationBinder.Bind<SocialConnectionView>().To<SocialConnectionMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

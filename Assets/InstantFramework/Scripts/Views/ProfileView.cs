@@ -24,22 +24,10 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class ProfileView : View
     {
-        [Inject] public ILocalizationService localizationService { get; set; }
-
-        public Button facebookButton;
-        public Text facebookButtonLabel;
-        public GameObject facebookConnectAnim;
-        public Button signInWithAppleButton;
-        public Text signInWithAppleLabel;
-
-        public Button playTournamentButton;
-        public Text playTournamentButtonLabel;
-        public Text tournamentLiveLabel;
-        public Image liveTournamentIcon;
-        public GameObject liveTournamentGO;
-
+        [Header("Profile Section")]
         public Sprite defaultAvatar;
         public Sprite whiteAvatar;
         public Image profilePic;
@@ -55,15 +43,44 @@ namespace TurboLabz.InstantGame
         public Image playerFlag;
         private string playerId;
         private SpritesContainer defaultAvatarContainer;
-
-        public RectTransform fbBtnPos;
-
         public RectTransform avatarContainer;
         Transform avatarContainerStartRef;
         public RectTransform avatarContainerRef;
-
         public Button profilePicButton;
-        
+
+        [Header("Tournaments Section")]
+        public Button playTournamentButton;
+        public Text playTournamentButtonLabel;
+        public Text tournamentLiveLabel;
+        public Image liveTournamentIcon;
+        public GameObject liveTournamentGO;
+
+        [Header("Social Connection Section")]
+        public Button socialConnectionButton;
+        public Text socialConnectionButtonLabel;
+        public Image facebookIcon;
+        public Image appleIcon;
+
+        public RectTransform fbBtnPos;
+        public Button facebookButton;
+        public Text facebookButtonLabel;
+        public GameObject facebookConnectAnim;
+        public Button signInWithAppleButton;
+        public Text signInWithAppleLabel;
+
+        [Header("Themes Section")]
+        public Button changeThemesButton;
+        public Image themesIcon;
+
+        [Header("Inbox Section")]
+        public Button inboxButton;
+        public Text messagesCount;
+        public Image inboxNotification;
+
+        //Signals
+        public Signal inboxButtonClickedSignal = new Signal();
+        public Signal changeThemesButtonClickedSignal = new Signal();
+        public Signal socialConnectionButtonClickedSignal = new Signal();
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
@@ -73,12 +90,24 @@ namespace TurboLabz.InstantGame
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+
+        // Services
+        [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
+
+        private static StoreIconsContainer iconsContainer;
 
         public void Init()
         {
             if(avatarContainer != null)
             {
                 avatarContainerStartRef = avatarContainer;
+            }
+
+            if (iconsContainer == null)
+            {
+                iconsContainer = StoreIconsContainer.Load();
             }
 
             if (facebookButton != null)
@@ -110,6 +139,32 @@ namespace TurboLabz.InstantGame
             {
                 playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
             }
+
+            if (inboxButton != null)
+            {
+                inboxButton.onClick.AddListener(OnInboxButtonClicked);
+            }
+
+            if(changeThemesButton != null)
+            {
+                changeThemesButton.onClick.AddListener(OnClickedChangeThemesButton);
+            }
+
+            if(socialConnectionButton != null)
+            {
+                socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
+            }
+        }
+
+        public void Show()
+        {
+            UpdateThemeIcon();
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         public void CleanUp()
@@ -155,7 +210,7 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(ProfileVO vo)
         {
-            if (facebookButtonLabel != null)
+            /*if (facebookButtonLabel != null)
             {
                 facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
             }
@@ -163,7 +218,7 @@ namespace TurboLabz.InstantGame
             if (signInWithAppleLabel != null)
             {
                 signInWithAppleLabel.text = localizationService.Get(LocalizationKey.SIGN_IN);
-            }
+            }*/
 
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
@@ -179,15 +234,6 @@ namespace TurboLabz.InstantGame
             }
 
             ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
-
-            /*if (signInWithAppleButton != null)
-            {
-                signInWithAppleButton.gameObject.SetActive(vo.isAppleSignInSupported && showLoginButton);
-                if(!signInWithAppleButton.IsActive() && fbBtnPos != null)
-                {
-                    facebookButton.transform.localPosition = fbBtnPos.localPosition;
-                }
-            }*/
         }
 
         public void FacebookAuthResult(AuthFacebookResultVO vo)
@@ -200,19 +246,7 @@ namespace TurboLabz.InstantGame
                 }
                 profileName.text = vo.name;
                 eloScoreValue.text = vo.rating.ToString();
-
-                /*if (facebookButton != null)
-                {
-                    facebookButton.gameObject.SetActive(false);
-                }
-
-                if (signInWithAppleButton != null)
-                {
-                    signInWithAppleButton.gameObject.SetActive(false);
-                }*/
-
                 ChangeSocialAccountButtonsState(false, false);
-
             }
 
             if (facebookConnectAnim != null)
@@ -226,17 +260,6 @@ namespace TurboLabz.InstantGame
             if (vo.isSuccessful)
             {
                 profileName.text = vo.name;
-
-                /*if (facebookButton != null)
-                {
-                    facebookButton.gameObject.SetActive(false);
-                }
-
-                if (signInWithAppleButton != null)
-                {
-                    signInWithAppleButton.gameObject.SetActive(false);
-                }*/
-
                 ChangeSocialAccountButtonsState(false, false);
             }
 
@@ -248,32 +271,24 @@ namespace TurboLabz.InstantGame
 
         public void SignOutSocialAccount()
         {
-            /*if (facebookButton != null)
-            {
-                facebookButton.gameObject.SetActive(true);
-            }
-
-            if (signInWithAppleButton != null)
-            {
-                signInWithAppleButton.gameObject.SetActive(true);
-            }*/
-
             ChangeSocialAccountButtonsState(true, true);
         }
 
         void ChangeSocialAccountButtonsState(bool showFBLoginButton, bool showSignInWithAppleButton)
         {
-            if (facebookButton != null)
+            if (facebookIcon != null)
             {
-                facebookButton.gameObject.SetActive(showFBLoginButton);
+                //facebookButton.gameObject.SetActive(showFBLoginButton);
+                facebookIcon.enabled = showFBLoginButton;
             }
 
-            if (signInWithAppleButton != null)
+            if (appleIcon != null)
             {
-                signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
+                //signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
+                appleIcon.enabled = showSignInWithAppleButton;
             }
 
-            if (avatarContainer && avatarContainerRef)
+            /*if (avatarContainer && avatarContainerRef)
             {
                 if (!showFBLoginButton && !showSignInWithAppleButton)
                 {
@@ -285,11 +300,24 @@ namespace TurboLabz.InstantGame
                     avatarContainer.localScale = new Vector3(1, 1, 1);
                     avatarContainer.localPosition = avatarContainerStartRef.localPosition;
                 }
-            }
+            }*/
 
-            if (!showSignInWithAppleButton && fbBtnPos != null)
+            /*if (!showSignInWithAppleButton && fbBtnPos != null)
             {
                 facebookButton.transform.localPosition = fbBtnPos.localPosition;
+            }*/
+
+            if (socialConnectionButton != null)
+            {
+                if (!showSignInWithAppleButton)
+                {
+                    facebookIcon.transform.localPosition = fbBtnPos.localPosition;
+                    socialConnectionButton.onClick.AddListener(OnFacebookButtonClicked);
+                }
+                else
+                {
+                    socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
+                }
             }
         }
 
@@ -298,19 +326,9 @@ namespace TurboLabz.InstantGame
             eloScoreValue.text = vo.playerEloScore.ToString();
         }
 
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
-
         public void ToggleFacebookButton(bool toggle)
         {
-            if (facebookButton != null)
+            /*if (facebookButton != null)
             {
                 facebookButton.interactable = toggle;
             }
@@ -318,6 +336,11 @@ namespace TurboLabz.InstantGame
             if (signInWithAppleButton != null)
             {
                 signInWithAppleButton.interactable = toggle;
+            }*/
+
+            if (socialConnectionButton != null)
+            {
+                socialConnectionButton.interactable = toggle;
             }
         }
 
@@ -432,6 +455,50 @@ namespace TurboLabz.InstantGame
         {
             leagueBorder.gameObject.SetActive(border != null);
             leagueBorder.sprite = border;
+        }
+
+        private void OnInboxButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            inboxButtonClickedSignal.Dispatch();
+        }
+
+        public void UpdateMessagesCount(long messages)
+        {
+            if (messagesCount != null)
+            {
+                if (messages > 0)
+                {
+                    messagesCount.text = messages.ToString();
+                    messagesCount.enabled = true;
+                    inboxNotification.enabled = true;
+                }
+                else
+                {
+                    inboxNotification.enabled = false;
+                    messagesCount.enabled = false;
+                }
+            }
+        }
+
+        public void UpdateThemeIcon()
+        {
+            if (themesIcon != null)
+            {
+                themesIcon.sprite = iconsContainer.GetSprite(playerModel.activeSkinId);
+            }
+        }
+
+        private void OnClickedChangeThemesButton()
+        {
+            audioService.PlayStandardClick();
+            changeThemesButtonClickedSignal.Dispatch();
+        }
+
+        private void OnClickedSocialConnectionButton()
+        {
+            audioService.PlayStandardClick();
+            socialConnectionButtonClickedSignal.Dispatch();
         }
     }
 }

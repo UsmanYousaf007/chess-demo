@@ -18,9 +18,11 @@ using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TurboLabz.CPU;
+using System;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class ProfileMediator : Mediator
     {
         // Dispatch signals
@@ -32,6 +34,7 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -49,6 +52,9 @@ namespace TurboLabz.InstantGame
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
             view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
             view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
+            view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
+            view.changeThemesButtonClickedSignal.AddListener(OnChangeThemesButtonClicked);
+            view.socialConnectionButtonClickedSignal.AddListener(OnSocialConnectionButtonClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -145,6 +151,27 @@ namespace TurboLabz.InstantGame
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
                 fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
             }
+        }
+
+        private void OnInboxButtonClicked()
+        {
+            loadInboxSignal.Dispatch();
+        }
+
+        [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]
+        public void OnMessagesUpdated(long messagesCount)
+        {
+            view.UpdateMessagesCount(messagesCount);
+        }
+
+        void OnChangeThemesButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+        }
+
+        void OnSocialConnectionButtonClicked()
+        {
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
         }
     }
 }

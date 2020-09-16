@@ -17,6 +17,7 @@ using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public partial class LobbyView : View
     {
         private const long RECENTLY_COMPLETED_THRESHOLD_DAYS = 2;
