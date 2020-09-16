@@ -5,6 +5,7 @@ public class FullScreenTap : MonoBehaviour
 {
     public UnityEvent action;
     public float ignoreTouchForSeconds = 0.1f;
+    public bool useMouseUp = false;
 
     private float timeAtStart;
 
@@ -22,7 +23,14 @@ public class FullScreenTap : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButton(0))
+        if (useMouseUp)
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                action.Invoke();
+            }
+        }
+        else if (Input.GetMouseButton(0))
         {
             action.Invoke();
         }
