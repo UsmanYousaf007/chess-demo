@@ -611,7 +611,7 @@ namespace TurboLabz.Multiplayer
             roundScoreText.text = vo.tournamentMatchScore.ToString();
             if (vo.winTimeBonus > 0)
             {
-                checkMateBonusText.text = "(" + vo.winTimeBonus.ToString()
+                checkMateBonusText.text = "(+" + vo.winTimeBonus.ToString()
                                             + localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE) + ")";
 
                 checkMateBonusText.gameObject.SetActive(true);
