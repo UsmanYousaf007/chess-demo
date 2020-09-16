@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal applyThemeSignal = new Signal();
         public Signal unlockAllThemesSignal = new Signal();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         [HideInInspector] public string originalSkinId;
 
@@ -56,6 +57,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(true);
             SetupTab(specialItem, themes);
             gameObject.SetActive(true);
             originalSkinId = playerModel.activeSkinId;

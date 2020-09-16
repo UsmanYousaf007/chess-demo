@@ -180,7 +180,7 @@ namespace TurboLabz.InstantFramework
     public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
     public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
     public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
-    public class ShowBottomNavSignal : Signal { }
+    public class ShowBottomNavSignal : Signal<bool> { }
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

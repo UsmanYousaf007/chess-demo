@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         public Button backButton;
 
@@ -162,6 +163,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             StartCoroutine(CountdownTimer());
         }

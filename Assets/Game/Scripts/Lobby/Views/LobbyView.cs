@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RemoveRecentlyPlayedSignal removeRecentlyPlayedSignal { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -850,6 +851,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
             startGameConfirmationDlg.gameObject.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);

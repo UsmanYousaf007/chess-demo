@@ -26,6 +26,8 @@ namespace TurboLabz.InstantFramework
         public Signal<string> onSubmitSearchSignal = new Signal<string>();
         public Signal<string> onUnblockButtonPressedSignal = new Signal<string>();
 
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
+
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -47,6 +49,7 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             ResetSearch();
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             processing.SetActive(true);
         }

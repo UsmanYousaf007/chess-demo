@@ -73,6 +73,8 @@ namespace TurboLabz.InstantFramework
         public Signal restorePurchaseButtonClickedSignal = new Signal();
         public Signal applySettingsSignal = new Signal();
 
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
+
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -244,6 +246,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
         }
 

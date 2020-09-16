@@ -28,6 +28,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         public Text onlineTitle;
         public Text onlineWinPct;
@@ -176,6 +177,7 @@ namespace TurboLabz.InstantGame
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             playerProfileNameInputField.transform.gameObject.SetActive(false);
             nameConfirmDlg.SetActive(false);

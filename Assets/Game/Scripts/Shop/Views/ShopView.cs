@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         private bool isSubscriber;
 
@@ -50,6 +51,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
             LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
         }

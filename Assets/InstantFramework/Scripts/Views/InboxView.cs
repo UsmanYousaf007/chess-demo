@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         public Transform listContainer;
         public GameObject inBoxBarContainer;
@@ -67,6 +68,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
         }
 

@@ -84,9 +84,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(ShowBottomNavSignal))]
-        public void OnShowView()
+        public void OnShowView(bool value)
         {
-            view.Show();
+            view.Show(value);
         }
     }
 }

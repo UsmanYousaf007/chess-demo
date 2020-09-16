@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signal
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateLeagueProfileStripSignal updateLeagueProfileStripSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         public Transform listContainer;
         public GameObject tournamentLiveItemPrefab;
@@ -94,6 +95,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
             StartCoroutine(CountdownTimer());
         }

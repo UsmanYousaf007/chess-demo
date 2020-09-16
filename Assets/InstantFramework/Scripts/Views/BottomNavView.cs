@@ -196,9 +196,9 @@ namespace TurboLabz.InstantFramework
             shopButtonClickedSignal.Dispatch();
         }
 
-        public void Show()
+        public void Show(bool value)
         {
-            gameObject.SetActive(true);
+            gameObject.SetActive(value);
         }
     }
 }

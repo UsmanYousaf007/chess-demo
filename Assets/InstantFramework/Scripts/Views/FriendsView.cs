@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SearchFriendSignal searchFriendSignal { get; set; }
         [Inject] public FriendBarBusySignal friendBarBusySignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         private SpritesContainer defaultAvatarContainer;
 
@@ -884,7 +885,8 @@ namespace TurboLabz.InstantFramework
             {
                 facebookLoginRewardText.text = localizationService.Get(LocalizationKey.FACEBBOK_LOGIN_REWARD_TEXT, rewardsSettingsModel.facebookConnectReward);
             }
-            
+
+            showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
             startGameConfirmationDlg.gameObject.SetActive(false);
             removeCommunityFriendDlg.SetActive(false);

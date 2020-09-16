@@ -21,6 +21,7 @@ namespace TurboLabz.InstantGame
 
         // Dispatch Signal
         public Signal OnBackButtonClickedSignal = new Signal();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         public Text titleText;
         public Text backButtonText;
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantGame
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             AnimateScrollViewToPlayerLeague();
         }
