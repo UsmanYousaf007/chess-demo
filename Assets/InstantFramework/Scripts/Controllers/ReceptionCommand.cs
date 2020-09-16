@@ -30,7 +30,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
-        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
         [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
 
@@ -153,7 +152,6 @@ namespace TurboLabz.InstantFramework
             pushNotificationService.Init();
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
-            updateTournamentsViewSignal.Dispatch();
             SendAnalytics();
         }
 

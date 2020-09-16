@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -62,6 +63,8 @@ namespace TurboLabz.InstantFramework
                 model.adsSettings = adsSettingsModel;
                 model.rewardsSettings = rewardsSettingsModel;
                 model.settingsModel = settingsModel;
+
+                updateTournamentsViewSignal.Dispatch();
 
                 if (playerModel.subscriptionExipryTimeStamp == 0)
                 {
