@@ -103,62 +103,61 @@ namespace TurboLabz.InstantFramework
         {
             homeButton.interactable = true;
             homeSelected.SetActive(false);
-            homeLabel.color = Colors.WHITE_150;
+            homeLabel.enabled = true;
 
             friendsButton.interactable = true;
             friendsSelected.SetActive(false);
-            friendsLabel.color = Colors.WHITE_150;
+            friendsLabel.enabled = true;
 
             inventoryButton.interactable = true;
             inventorySelected.SetActive(false);
-            inventoryLabel.color = Colors.WHITE_150;
+            inventoryLabel.enabled = true;
 
             shopButton.interactable = true;
             shopSelected.SetActive(false);
-            shopLabel.color = Colors.WHITE_150;
+            shopLabel.enabled = true;
 
             arenaButton.interactable = true;
             arenaSelected.SetActive(false);
-            arenaLabel.color = Colors.WHITE_150;
+            arenaLabel.enabled = true;
 
             if (buttonID == ButtonId.Home)
             {
                 homeButton.interactable = false;
-                //homeSelected.SetActive(true);
-                homeLabel.color = Colors.YELLOW;
-                //selectedImage.DOGoto(homeSelected.transform.position);
+                homeSelected.SetActive(true);
+                homeLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
                 iTween.Hash("position", homeSelected.transform.position, "time", 0.4f));
             }
             else if (buttonID == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
-                //friendsSelected.SetActive(true);
-                friendsLabel.color = Colors.YELLOW;
+                friendsSelected.SetActive(true);
+                friendsLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
                 iTween.Hash("position", friendsSelected.transform.position, "time", 0.4f));
             }
             else if (buttonID == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
-                //inventorySelected.SetActive(true);
-                inventoryLabel.color = Colors.YELLOW;
+                inventorySelected.SetActive(true);
+                inventoryLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
                 iTween.Hash("position", inventorySelected.transform.position, "time", 0.4f));
             }
             else if (buttonID == ButtonId.Shop)
             {
                 shopButton.interactable = false;
-                //shopSelected.SetActive(true);
-                shopLabel.color = Colors.YELLOW;
+                shopSelected.SetActive(true);
+                shopLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
                 iTween.Hash("position", shopSelected.transform.position, "time", 0.4f));
             }
             else if (buttonID == ButtonId.Arena)
             {
                 arenaButton.interactable = false;
-                //arenaSelected.SetActive(true);
-                arenaLabel.color = Colors.YELLOW;
+                arenaSelected.SetActive(true);
+                arenaLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
                 iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
             }

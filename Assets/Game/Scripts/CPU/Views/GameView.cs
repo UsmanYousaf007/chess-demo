@@ -32,6 +32,7 @@ namespace TurboLabz.CPU
         
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
@@ -48,6 +49,7 @@ namespace TurboLabz.CPU
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             OnParentShowResults();
             OnParentShowPromotions();

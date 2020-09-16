@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
         public Signal PauseVideoSignal = new Signal();
         public Signal SeekStartedVideoSignal = new Signal();
         public Signal<float> SeekEndVideoSignal = new Signal<float>();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         private bool paused = false;
         private SeekSlider seekSlider;
@@ -70,6 +71,7 @@ namespace TurboLabz.InstantGame
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             UpdateView();
         }
