@@ -10,17 +10,17 @@
 /// @description
 /// [add_description_here]
 
-using UnityEngine;
-
 using strange.extensions.mediation.impl;
 
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 using TurboLabz.TLUtils;
 using TurboLabz.CPU;
+using System;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class SocialConnectionDlgMediator : Mediator
     {
         // Dispatch signals

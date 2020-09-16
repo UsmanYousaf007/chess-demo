@@ -12,6 +12,7 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class TournamentUpcomingItem : MonoBehaviour
     {
         [SerializeField] private ChestIconsContainer chestIconsContainer;
@@ -90,11 +91,14 @@ namespace TurboLabz.InstantFramework
 
         public void DisableNotificationEnabledText()
         {
+            notificationEnabledText.DOFade(0, 0f);
+            notificationEnabledText.gameObject.SetActive(true);
             StartCoroutine(DisableNotificationEnabledTextWithDelay());
         }
 
         private IEnumerator DisableNotificationEnabledTextWithDelay()
         {
+            notificationEnabledText.DOFade(0.75f, 0.5f);
             yield return new WaitForSeconds(2.3f);
             notificationEnabledText.DOFade(0, 1);
             yield return new WaitForSeconds(1f);
@@ -114,6 +118,7 @@ namespace TurboLabz.InstantFramework
             button.gameObject.SetActive(true);
             startsInPanel.transform.localPosition = startsInPanelDefaultPos;
             startsInPanel.transform.localScale = new Vector3(1f, 1f, 1f);
+            notificationEnabledText.DOFade(0.75f, 0);
         }
     }
 }

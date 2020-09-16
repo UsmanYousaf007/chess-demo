@@ -216,7 +216,6 @@ namespace TurboLabz.InstantFramework
             {
                 upcomingItemClickedSignal.Dispatch(liveTournament);
                 item.button.gameObject.SetActive(false);
-                item.notificationEnabledText.gameObject.SetActive(true);
                 item.DisableNotificationEnabledText();
                 audioService.PlayStandardClick();
             });

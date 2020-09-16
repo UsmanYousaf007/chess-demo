@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using DG.Tweening;
+using System;
 
+[CLSCompliant(false)]
 public class FadeInFadeOut : MonoBehaviour
 {
-    public Image uiObj;
+    public Image uiElement;
 
     [Tooltip("Color to fade to")]
     [SerializeField]
-    private Color EndColor = Color.white;
+    private Color EndColor = Color.clear;
 
     [Tooltip("Color to fade from")]
     [SerializeField]
-    private Color StartColor = Color.clear;
+    private Color StartColor = Color.white;
 
     public float time = 6f;
 
@@ -21,21 +24,26 @@ public class FadeInFadeOut : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        FadeIn();
+        if (uiElement == null)
+        {
+            uiElement = gameObject.GetComponent<Image>();
+        }
+        StartCoroutine(DoAnimate());
     }
 
-    public void updateColor(float val)
+    IEnumerator DoAnimate()
     {
-        uiObj.color = ((1f - val) * StartColor) + (val * EndColor);
-    }
+        while (true)
+        {
+            uiElement.color = StartColor;
+            uiElement.DOFade(0f, time);
 
-    public void FadeIn()
-    {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1f, "to", 0f, "delay", 0f, "time", time, "onupdate", "updateColor", "oncomplete", "FadeOut"));
-    }
+            yield return new WaitForSeconds(6f);
 
-    public void FadeOut()
-    {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0f, "to", 1f, "delay", 0f, "time", time, "onupdate", "updateColor", "oncomplete", "FadeIn"));
+            uiElement.color = EndColor;
+            uiElement.DOFade(1f, time);
+
+            yield return new WaitForSeconds(6f);
+        }
     }
 }
