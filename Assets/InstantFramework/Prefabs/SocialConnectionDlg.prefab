@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 6775241636524681991}
   - component: {fileID: 6775241636524681993}
   - component: {fileID: 6775241636524681990}
-  - component: {fileID: 1609263470396216523}
+  - component: {fileID: 8589030766762229424}
   m_Layer: 5
   m_Name: SocialConnectionDlg
   m_TagString: Untagged
@@ -609,7 +609,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &1609263470396216523
+--- !u!114 &8589030766762229424
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -618,16 +618,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6775241636524681988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfc19bc642d024e998293518b41cc795, type: 3}
+  m_Script: {fileID: 11500000, guid: a0f8cda93834048dab3497a6c2d35c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fbBtnPos: {fileID: 0}
-  facebookButton: {fileID: 2445223621345021655}
-  facebookButtonLabel: {fileID: 9171863598534672460}
-  facebookConnectAnim: {fileID: 8729719867343664361}
-  signInWithAppleButton: {fileID: 3946986549030865217}
-  signInWithAppleLabel: {fileID: 1941890829969396153}
-  label: {fileID: 3194400422486724897}
+  closeButton: {fileID: 2478558793859837380}
 --- !u!1 &6775241636781948891
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,6 +634,7 @@ GameObject:
   - component: {fileID: 6775241636781948895}
   - component: {fileID: 6775241636781948892}
   - component: {fileID: 6775241636781948893}
+  - component: {fileID: 3672071453634203995}
   m_Layer: 5
   m_Name: DialogBg
   m_TagString: Untagged
@@ -723,6 +718,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceImage: {fileID: 0}
+--- !u!114 &3672071453634203995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775241636781948891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc19bc642d024e998293518b41cc795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fbBtnPos: {fileID: 0}
+  facebookButton: {fileID: 2445223621345021655}
+  facebookButtonLabel: {fileID: 9171863598534672460}
+  facebookConnectAnim: {fileID: 8729719867343664361}
+  signInWithAppleButton: {fileID: 3946986549030865217}
+  signInWithAppleLabel: {fileID: 1941890829969396153}
+  label: {fileID: 3194400422486724897}
 --- !u!1 &6864674093688316942
 GameObject:
   m_ObjectHideFlags: 0

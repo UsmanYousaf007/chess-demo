@@ -171,7 +171,7 @@ namespace TurboLabz.InstantGame
 
         void OnSocialConnectionButtonClicked()
         {
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SOCIAL_CONNECTION_DLG);
         }
     }
 }
