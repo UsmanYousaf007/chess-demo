@@ -33,6 +33,6 @@ namespace TurboLabz.Multiplayer
         // Fields for tournament match result dialogue
         public bool tournamentMatch;
         public int tournamentMatchScore;
-        public int checkmateBonus;
+        public int winTimeBonus;
     }
 }

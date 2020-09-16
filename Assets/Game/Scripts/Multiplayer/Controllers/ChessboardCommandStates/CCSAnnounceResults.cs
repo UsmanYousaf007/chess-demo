@@ -33,7 +33,7 @@ namespace TurboLabz.Multiplayer
             vo.ratingBoostStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER];
             vo.tournamentMatch = cmd.matchInfoModel.activeMatch.isTournamentMatch;
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
-            vo.checkmateBonus = cmd.matchInfoModel.activeMatch.tournamentMatchCheckmateBonus;
+            vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;

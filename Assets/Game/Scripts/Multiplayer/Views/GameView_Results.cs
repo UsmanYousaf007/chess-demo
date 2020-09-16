@@ -609,9 +609,9 @@ namespace TurboLabz.Multiplayer
         private void PopulateTournamentMatchFields(ResultsVO vo)
         {
             roundScoreText.text = vo.tournamentMatchScore.ToString();
-            if (vo.checkmateBonus > 0)
+            if (vo.winTimeBonus > 0)
             {
-                checkMateBonusText.text = "(" + vo.checkmateBonus.ToString()
+                checkMateBonusText.text = "(" + vo.winTimeBonus.ToString()
                                             + localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE) + ")";
 
                 checkMateBonusText.gameObject.SetActive(true);
