@@ -108,5 +108,12 @@ namespace TurboLabz.InstantFramework
                 "scale", startsInPanelPos.localScale,
                 "time", 0.4f));
         }
+
+        public void Reset()
+        {
+            button.gameObject.SetActive(true);
+            startsInPanel.transform.localPosition = startsInPanelDefaultPos;
+            startsInPanel.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 }

@@ -14,6 +14,7 @@ using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class TournamentsView : View
     {
         // Services
@@ -194,7 +195,8 @@ namespace TurboLabz.InstantFramework
             obj.transform.SetParent(listContainer, false);
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
-            item.Init();
+            //item.Init();
+            item.Reset();
 
             return item;
         }
