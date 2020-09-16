@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
         [Inject] public ClosePromotionDlgSignal closePromotionDlgSignal { get; set; }
+        [Inject] public AppResumedSignal appResumedSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -100,6 +101,7 @@ namespace TurboLabz.InstantFramework
 
                 firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();
+                appResumedSignal.Dispatch();
             }
         }
 

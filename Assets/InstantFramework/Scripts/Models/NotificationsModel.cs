@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
+        [Inject] public AppResumedSignal appResumedSignal { get; set; }
 
         //Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
             modelsResetSignal.AddListener(Reset);
             modelsLoadFromDiskSignal.AddListener(LoadFromDisk);
             modelsSaveToDiskSignal.AddListener(SaveToDisk);
+            appResumedSignal.AddListener(LoadFromDisk);
         }
 
         // Constants
@@ -47,14 +49,11 @@ namespace TurboLabz.InstantFramework
         {
             if (!localDataService.FileExists(NOTIFICATIONS_FILE))
             {
-                LogUtil.Log($"NOTIFICATION READING file not found", "red");
                 return;
             }
 
             try
             {
-                LogUtil.Log($"NOTIFICATION READING STARTED", "red");
-
                 ILocalDataReader reader = localDataService.OpenReader(NOTIFICATIONS_FILE);
 
                 if (reader.HasKey(NOTITICATIONS_DATA))
@@ -63,14 +62,10 @@ namespace TurboLabz.InstantFramework
                 }
 
                 reader.Close();
-                LogUtil.Log($"NOTIFICATION READING ENDED", "red");
-
             }
             catch
             {
                 localDataService.DeleteFile(NOTIFICATIONS_FILE);
-                LogUtil.Log($"NOTIFICATION READING FAILED", "red");
-
             }
 
             //Clear all registered notifications
@@ -114,16 +109,12 @@ namespace TurboLabz.InstantFramework
 
             try
             {
-                LogUtil.Log($"NOTIFICATION WRITING STARTED", "red");
                 ILocalDataWriter writer = localDataService.OpenWriter(NOTIFICATIONS_FILE);
                 writer.WriteList(NOTITICATIONS_DATA, registeredNotifications);
                 writer.Close();
-                LogUtil.Log($"NOTIFICATION WRITING ENDED", "red");
             }
             catch(Exception e)
             {
-                LogUtil.Log($"NOTIFICATION WRITING FAILED {e.Message}", "red");
-
                 if (localDataService.FileExists(NOTIFICATIONS_FILE))
                 {
                     localDataService.DeleteFile(NOTIFICATIONS_FILE);
@@ -145,10 +136,7 @@ namespace TurboLabz.InstantFramework
 
         private IEnumerator ScheduleInGameNotification(Notification notification, int delayInSeconds)
         {
-            LogUtil.Log($"NOTIFICATION title {notification.title} STARTED", "red");
-            LogUtil.Log($"NOTIFICATION timestamp {notification.timestamp}", "red");
             yield return new WaitForSeconds(delayInSeconds);
-            LogUtil.Log($"NOTIFICATION title {notification.title} ENDED", "red");
             DisplayInGameNotification(notification);
         }
 

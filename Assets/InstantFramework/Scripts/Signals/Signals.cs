@@ -181,6 +181,8 @@ namespace TurboLabz.InstantFramework
     public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
     public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
     public class ShowBottomNavSignal : Signal<bool> { }
+    public class AppResumedSignal : Signal { }
+
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }
