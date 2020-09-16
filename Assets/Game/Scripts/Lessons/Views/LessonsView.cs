@@ -40,6 +40,7 @@ namespace TurboLabz.InstantGame
         public Signal<LessonTile> playVideoSingal = new Signal<LessonTile>();
         public Signal<LessonTile> unlockVideoSingal = new Signal<LessonTile>();
         public Signal unlockAllLessonsSignal = new Signal();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -58,6 +59,7 @@ namespace TurboLabz.InstantGame
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
         }
 

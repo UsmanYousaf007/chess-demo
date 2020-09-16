@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
         public Signal<VideoLessonVO> nextLessonSignal = new Signal<VideoLessonVO>();
         public Signal backSignal = new Signal();
         public Signal<TopicVO> loadTopicSignal = new Signal<TopicVO>();
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -61,6 +62,7 @@ namespace TurboLabz.InstantGame
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
         }
 
