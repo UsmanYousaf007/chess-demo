@@ -24567,6 +24567,10 @@ MonoBehaviour:
   tournamentLiveLabel: {fileID: 0}
   liveTournamentIcon: {fileID: 0}
   liveTournamentGO: {fileID: 0}
+  socialConnectionButton: {fileID: 0}
+  socialConnectionButtonLabel: {fileID: 0}
+  facebookIcon: {fileID: 0}
+  appleIcon: {fileID: 0}
   fbBtnPos: {fileID: 0}
   facebookButton: {fileID: 0}
   facebookButtonLabel: {fileID: 0}
@@ -35765,6 +35769,10 @@ MonoBehaviour:
   tournamentLiveLabel: {fileID: 0}
   liveTournamentIcon: {fileID: 0}
   liveTournamentGO: {fileID: 0}
+  socialConnectionButton: {fileID: 0}
+  socialConnectionButtonLabel: {fileID: 0}
+  facebookIcon: {fileID: 0}
+  appleIcon: {fileID: 0}
   fbBtnPos: {fileID: 0}
   facebookButton: {fileID: 0}
   facebookButtonLabel: {fileID: 0}
@@ -78369,12 +78377,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1450800370}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1450800372 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8829770178525540161, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1450800370}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1450807654
 GameObject:
   m_ObjectHideFlags: 0
@@ -94242,12 +94244,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!224 &1744748723 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1300161158790692917, guid: 3b61f72c037234d6ba533cb9f20f20bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1450800370}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1745228906
 GameObject:
   m_ObjectHideFlags: 0
@@ -105372,8 +105368,8 @@ MonoBehaviour:
   lobbyScrollViewPivotForBanner: {fileID: 0}
   lobbyView: {fileID: 0}
   lobbyScrollViewTopShadow: {fileID: 0}
-  profileFacebookButton: {fileID: 1744748723}
-  profileSiwaButton: {fileID: 1450800372}
+  profileFacebookButton: {fileID: 0}
+  profileSiwaButton: {fileID: 0}
   profileCenterContent: {fileID: 152747280}
   friendsScrollView: {fileID: 1684146533}
   friendsViewPort: {fileID: 1674480800}
@@ -105765,6 +105761,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -110.1001
       objectReference: {fileID: 0}
+    - target: {fileID: 7763882204446455236, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -78.6001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464176559523239435, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f, type: 3}
 --- !u!224 &1902988838 stripped
