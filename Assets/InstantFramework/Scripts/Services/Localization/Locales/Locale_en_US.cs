@@ -360,7 +360,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Bottom Nav
 
-                { LocalizationKey.NAV_HOME, "GAMRES" },
+                { LocalizationKey.NAV_HOME, "GAMES" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "SHOP" },
                 { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
