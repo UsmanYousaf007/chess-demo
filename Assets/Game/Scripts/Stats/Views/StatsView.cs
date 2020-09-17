@@ -22,6 +22,7 @@ namespace TurboLabz.InstantGame
     {
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Scene references
         //Models
@@ -69,10 +70,15 @@ namespace TurboLabz.InstantGame
         public Text copiedToClipboardText;
         public Texture2D logo;
 
+        public Button supportButton;
+        public Button settingsButton;
+
         public GameObject uiBlocker;
         public GameObject processingUi;
  
         public Signal restorePurchasesSignal = new Signal();
+        public Signal settingsButtonClickedSignal = new Signal();
+        public Signal supportButtonClicked = new Signal();
 
         [Header("Name Confirm Dialog")]
         public GameObject nameConfirmDlg;
@@ -132,6 +138,9 @@ namespace TurboLabz.InstantGame
             closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
             closeSettingsDlgBtn.onClick.AddListener(closeSettingsDlgBtnClicked);
 
+            supportButton.onClick.AddListener(OnSupportButtonClicked);
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = noStar;
@@ -157,6 +166,18 @@ namespace TurboLabz.InstantGame
         public void closeSettingsDlgBtnClicked()
         {
             openSettingsDlg.SetActive(false);
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            supportButtonClicked.Dispatch();
+        }
+
+        private void OnSettingsButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            settingsButtonClickedSignal.Dispatch();
         }
 
         public void UpdateView(StatsVO vo)
