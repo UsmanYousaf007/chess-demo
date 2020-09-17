@@ -608,10 +608,11 @@ namespace TurboLabz.Multiplayer
 
         private void PopulateTournamentMatchFields(ResultsVO vo)
         {
-            roundScoreText.text = vo.tournamentMatchScore.ToString();
+            int totalScore = vo.tournamentMatchScore + vo.winTimeBonus;
+            roundScoreText.text = totalScore.ToString();
             if (vo.winTimeBonus > 0)
             {
-                checkMateBonusText.text = "(+" + vo.winTimeBonus.ToString()
+                checkMateBonusText.text = "(Includes +" + vo.winTimeBonus.ToString()
                                             + localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE) + ")";
 
                 checkMateBonusText.gameObject.SetActive(true);
