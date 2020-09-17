@@ -20,6 +20,8 @@ namespace TurboLabz.CPU
         public Text specialHintTooltipText;
         public Sprite enoughGemsSprite;
         public Sprite notEnoughGemsSprite;
+        public Text specialHintCountText;
+        public GameObject specialHintCountContainer;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -53,8 +55,9 @@ namespace TurboLabz.CPU
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             SetupSpecialHintButton();
             ToggleSpecialHintButton(vo.isPlayerTurn);
+            specialHintTooltipText.text = $"*Only {hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
 
-            if (canUseSpecialHint)
+            if (canUseSpecialHint && !playerModel.HasSubscription())
             {
                 analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.hint);
             }
@@ -73,12 +76,16 @@ namespace TurboLabz.CPU
                 return;
             }
 
+            var hintCount = playerModel.GetInventoryItemCount(specialHintShortCode);
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = playerModel.GetInventoryItemCount(specialHintShortCode) > 0 || playerModel.HasSubscription();
+            haveEnoughHints =  hintCount > 0 || playerModel.HasSubscription();
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
-            specialHintGemsBg.gameObject.SetActive(!haveEnoughHints);
+            specialHintGemsBg.gameObject.SetActive(false);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
+            specialHintToolTip.SetActive(!canUseSpecialHint);
+            specialHintCountText.text = hintCount.ToString();
+            specialHintCountContainer.SetActive(!playerModel.HasSubscription());
         }
 
         public void ToggleSpecialHintButton(bool on)
@@ -161,21 +168,16 @@ namespace TurboLabz.CPU
                     }
                     ProcessHint(transactionVO);
                 }
-                else if (haveEnoughGemsForHint)
-                {
-                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
-                    ProcessHint(transactionVO);
-                }
-                else
-                {
-                    notEnoughGemsSignal.Dispatch();
-                }
-            }
-            else
-            {
-                specialHintTooltipText.text = $"{hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
-                specialHintToolTip.SetActive(true);
+                //else if (haveEnoughGemsForHint)
+                //{
+                //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                //    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
+                //    ProcessHint(transactionVO);
+                //}
+                //else
+                //{
+                //    notEnoughGemsSignal.Dispatch();
+                //}
             }
         }
 

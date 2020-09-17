@@ -103,13 +103,20 @@ namespace TurboLabz.InstantGame
                  "to", ((playerLeague + 1) / list.Count) - 0.1f,
                  "time", 1,
                  "onupdate", "UpdateScrollView",
-                 "onupdatetarget", gameObject
+                 "onupdatetarget", gameObject,
+                 "oncomplete", "OnAnimationComplete",
+                 "oncompletetarget", gameObject
              ));
         }
 
         private void UpdateScrollView(float value)
         {
             scrollRect.verticalNormalizedPosition = value;
+        }
+
+        private void OnAnimationComplete()
+        {
+            scrollRect.verticalNormalizedPosition = playerLeague == 0 ? 0 : playerLeague == list.Count - 1 ? 1 : scrollRect.verticalNormalizedPosition;
         }
     }
 }

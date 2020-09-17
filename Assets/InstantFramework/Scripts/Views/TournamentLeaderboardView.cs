@@ -272,7 +272,7 @@ namespace TurboLabz.InstantFramework
             item.enterButtonFreePlayLabel.gameObject.SetActive(!alreadyPlayed);
             item.ticketPlayButtonGroup.gameObject.SetActive(alreadyPlayed);
             item.gemsBg.sprite = item.haveEnoughGems ? item.haveEnoughGemsSprite : item.notEnoughGemsSprite;
-            item.gemsBg.gameObject.SetActive(!item.haveEnoughItems && alreadyPlayed);
+            item.gemsBg.gameObject.SetActive(false);
 
             if (alreadyPlayed)
             {

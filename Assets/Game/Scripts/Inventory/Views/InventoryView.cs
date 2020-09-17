@@ -107,6 +107,7 @@ namespace TurboLabz.InstantFramework
             if (isThemeBannerShown)
             {
                 analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.unlock_all_themes);
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
             }
         }
 

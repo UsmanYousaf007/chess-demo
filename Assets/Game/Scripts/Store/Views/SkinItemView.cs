@@ -20,7 +20,7 @@ public class SkinItemView : View
 
     public Signal<string> setSkinSignal = new Signal<string>();
     public Signal<VirtualGoodsTransactionVO> unlockItemSignal = new Signal<VirtualGoodsTransactionVO>();
-    public Signal notEnoughCurrencyToUnlockSignal = new Signal();
+    public Signal<VirtualGoodsTransactionVO> notEnoughCurrencyToUnlockSignal = new Signal<VirtualGoodsTransactionVO>();
     public string Key { get { return key; } }
 
     public Image thumbnail;
@@ -110,7 +110,7 @@ public class SkinItemView : View
         haveEnoughItemsToUnlock = playerModel.GetInventoryItemCount(unlockItemKey) > 0;
         haveEnoughGemsToUnlock = playerModel.gems >= unlockItem.currency3Cost;
         requiredGems.text = unlockItem.currency3Cost.ToString();
-        notEnoughUnlockItems.gameObject.SetActive(!haveEnoughItemsToUnlock);
+        notEnoughUnlockItems.gameObject.SetActive(false);
         notEnoughUnlockItems.sprite = haveEnoughGemsToUnlock ? enoughGems : notEnoughGems;
     }
 
@@ -128,22 +128,22 @@ public class SkinItemView : View
         var vo = new VirtualGoodsTransactionVO();
         vo.buyItemShortCode = key;
         vo.buyQuantity = 1;
+        vo.consumeItemShortCode = unlockItemKey;
+        vo.consumeQuantity = 1;
 
         if (haveEnoughItemsToUnlock)
         {
-            vo.consumeItemShortCode = unlockItemKey;
-            vo.consumeQuantity = 1;
             unlockItemSignal.Dispatch(vo);
         }
-        else if (haveEnoughGemsToUnlock)
-        {
-            vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-            vo.consumeQuantity = unlockItem.currency3Cost;
-            unlockItemSignal.Dispatch(vo);
-        }
+        //else if (haveEnoughGemsToUnlock)
+        //{
+        //    vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+        //    vo.consumeQuantity = unlockItem.currency3Cost;
+        //    unlockItemSignal.Dispatch(vo);
+        //}
         else
         {
-            notEnoughCurrencyToUnlockSignal.Dispatch();
+            notEnoughCurrencyToUnlockSignal.Dispatch(vo);
         }
     }
 

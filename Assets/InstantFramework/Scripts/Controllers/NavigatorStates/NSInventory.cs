@@ -57,6 +57,10 @@
             {
                 return new NSInboxView();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
+            {
+                return new NSSpotInventory();
+            }
 
             return null;
         }

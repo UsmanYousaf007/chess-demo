@@ -1,15 +1,15 @@
 ﻿namespace TurboLabz.InstantFramework
 {
-    public class NSSpotPurchase : NS
+    public class NSSpotInventory : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.SPOT_PURCHASE_DLG);
+            ShowDialog(NavigatorViewId.SPOT_INVENTORY_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG,
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW,
                 NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
@@ -30,7 +30,7 @@
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
                 {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_INVENTORY_DLG);
                     return new NSMultiplayerResultsDlg();
                 }
                 else if (viewId == NavigatorViewId.LESSONS_VIEW)
@@ -40,11 +40,6 @@
                 else if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
                 {
                     return new NSTournamentLeaderboard();
-                }
-                else if (viewId == NavigatorViewId.SPOT_INVENTORY_DLG)
-                {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
-                    return new NSSpotInventory();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
@@ -63,12 +58,13 @@
             {
                 return new NSArenaView();
             }
-            else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
             {
-                return new NSConfirmDlg();
+                return new NSSpotPurchase();
             }
 
             return null;
+
         }
     }
 }

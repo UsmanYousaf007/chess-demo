@@ -12,6 +12,7 @@ public class SkinItemMediator : Mediator
     [Inject] public SetSkinSignal setSkinSignal { get; set; }
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+    [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
 
     //Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -36,10 +37,15 @@ public class SkinItemMediator : Mediator
         virtualGoodsTransactionSignal.Dispatch(vo);
     }
 
-    private void OnNotEnoughCurrency()
+    private void OnNotEnoughCurrency(VirtualGoodsTransactionVO vo)
     {
-        SpotPurchaseMediator.customContext = "themes";
-        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        transactionVO = vo;
+        //SpotPurchaseMediator.customContext = "themes";
+        //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        var spotInventoryParams = new LoadSpotInventoryParams();
+        spotInventoryParams.itemShortCode = view.unlockItemKey;
+        spotInventoryParams.itemToUnclockShortCode = view.Key;
+        loadSpotInventorySignal.Dispatch(spotInventoryParams);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
@@ -73,6 +79,15 @@ public class SkinItemMediator : Mediator
         {
             view.PlayAnimation();
             analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "theme_unlocked", itemShortCode);
+        }
+    }
+
+    [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
+    public void OnSpotInventoryPurchaseCompleted(string key)
+    {
+        if (key.Equals(view.Key))
+        {
+            virtualGoodsTransactionSignal.Dispatch(transactionVO);
         }
     }
 }

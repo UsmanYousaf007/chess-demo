@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
         public void OnItemPurchased(StoreItem item, PurchaseResult result)
         {
-            if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode))
+            if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode) && view.gameObject.activeInHierarchy)
             {
                 view.PlayAnimation();
                 var itemId = item.displayName.Replace(' ', '_').ToLower();
@@ -76,12 +76,26 @@ namespace TurboLabz.InstantFramework
                         break;
 
                     case InventoryVideoResult.SUCCESS:
-                        view.OnRewardedPointAdded();
+                        if (view.gameObject.activeInHierarchy)
+                        {
+                            view.OnRewardedPointAdded();
+                        }
+                        else
+                        {
+                            view.SetupRewardBar();
+                        }
                         break;
 
                     case InventoryVideoResult.ITEM_UNLOCKED:
-                        analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
-                        view.OnItemUnclocked();
+                        if (view.gameObject.activeInHierarchy)
+                        {
+                            analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
+                            view.OnItemUnclocked();
+                        }
+                        else
+                        {
+                            view.SetupRewardBar();
+                        }
                         break;
                 }
             }

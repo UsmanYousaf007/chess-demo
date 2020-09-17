@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
+        [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -39,6 +40,7 @@ namespace TurboLabz.InstantFramework
         private LiveTournamentData openTournament = null;
         private JoinedTournamentData joinedTournament = null;
         private VirtualGoodsTransactionVO transactionVO;
+        private bool haveNotEnoughTicketsToPlay = false;
 
         public override void OnRegister()
         {
@@ -189,26 +191,36 @@ namespace TurboLabz.InstantFramework
 
                 StartTournament("free");
             }
-            else if (view.footer.haveEnoughItems)
+            else 
             {
                 transactionVO = new VirtualGoodsTransactionVO();
                 transactionVO.consumeItemShortCode = view.footer.itemToConsumeShortCode;
                 transactionVO.consumeQuantity = 1;
-                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+
+                if (view.footer.haveEnoughItems)
+                {
+                    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                    virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                }
+                else
+                {
+                    //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+                    haveNotEnoughTicketsToPlay = true;
+                    var spotInventoryParams = new LoadSpotInventoryParams();
+                    spotInventoryParams.itemShortCode = view.footer.itemToConsumeShortCode;
+                    spotInventoryParams.itemToUnclockShortCode = "tournament";
+                    loadSpotInventorySignal.Dispatch(spotInventoryParams);
+                }
             }
-            else if (view.footer.haveEnoughGems)
-            {
-                transactionVO = new VirtualGoodsTransactionVO();
-                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
-                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            }
-            else
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-            }
+            //else if (view.footer.haveEnoughGems)
+            //{
+            //    transactionVO = new VirtualGoodsTransactionVO();
+            //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+            //    transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
+            //    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+            //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            //}
+            
         }
 
         private void OnItemConsumed(BackendResult result)
@@ -324,6 +336,17 @@ namespace TurboLabz.InstantFramework
         public void OnPictureLoaded(string playerId, Sprite picture)
         {
             view.UpdatePicture(playerId, picture);
+        }
+
+        [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
+        public void OnSpotInventoryPurchaseCompleted(string key)
+        {
+            if (view.isActiveAndEnabled && key.Equals("tournament"))
+            {
+                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            }
         }
     }
 }

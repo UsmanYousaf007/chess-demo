@@ -52,6 +52,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSpotPurchase();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
+            {
+                return new NSSpotInventory();
+            }
 
             return null;
         }

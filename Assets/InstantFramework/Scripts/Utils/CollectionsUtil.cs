@@ -99,6 +99,14 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("gems", AnalyticsContext.gems);
             stringToContextMap.Add("SpecialItemTicket", AnalyticsContext.ticket);
             stringToContextMap.Add("SpecialItemTicketPoints", AnalyticsContext.rewarded_tickets);
+            stringToContextMap.Add("SpecialItemRatingBoosterPointsPopup", AnalyticsContext.rewarded_rating_booster_popup);
+            stringToContextMap.Add("SpecialItemHintPointsPopup", AnalyticsContext.rewarded_hints_popup);
+            stringToContextMap.Add("SpecialItemKeyPointsPopup", AnalyticsContext.rewarded_keys_popup);
+            stringToContextMap.Add("SpecialItemTicketPointsPopup", AnalyticsContext.rewarded_tickets_popup);
+            stringToContextMap.Add("SpecialItemRatingBoosterPopup", AnalyticsContext.popup_rating_booster);
+            stringToContextMap.Add("SpecialItemHintPopup", AnalyticsContext.popup_hint);
+            stringToContextMap.Add("SpecialItemKeyPopup", AnalyticsContext.popup_key);
+            stringToContextMap.Add("SpecialItemTicketPopup", AnalyticsContext.popup_ticket);
         }
     }
 }

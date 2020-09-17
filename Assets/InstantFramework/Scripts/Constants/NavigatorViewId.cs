@@ -81,6 +81,7 @@ namespace TurboLabz.InstantFramework
         CHEST_INFO_DLG,
         LEAGUE_PERKS_VIEW,
         TOURNAMENT_OVER_DLG,
-        SOCIAL_CONNECTION_DLG
+        SOCIAL_CONNECTION_DLG,
+        SPOT_INVENTORY_DLG
     }
 }

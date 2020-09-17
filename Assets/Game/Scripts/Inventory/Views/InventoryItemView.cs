@@ -66,6 +66,14 @@ namespace TurboLabz.InstantFramework
             rewardBarParticleSystem.Stop();
         }
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            iTween.Stop(gameObject);
+            SetupRewardBar();
+            count.text = playerModel.GetInventoryItemCount(shortCode).ToString();
+        }
+
         public void Init()
         {
             if (iconsContainer == null)
@@ -112,7 +120,7 @@ namespace TurboLabz.InstantFramework
 
             if (!isInitlialised)
             {
-                title.text = storeItem.displayName;
+                title.text = $"{storeItem.displayName}s";
                 description.text = storeItem.description;
                 SetupPriceAndCount();
                 SetupRewardBar();
@@ -161,7 +169,7 @@ namespace TurboLabz.InstantFramework
             buyButton.image.sprite = haveEnoughGems ? enoughGems : notEnoughGems;
         }
 
-        private void SetupRewardBar()
+        public void SetupRewardBar()
         {
             var currentPoints = playerModel.GetInventoryItemCount(itemPointsShortCode);
             var requiredPoints = settingsModel.GetInventorySpecialItemsRewardedVideoCost(shortCode);
@@ -183,6 +191,7 @@ namespace TurboLabz.InstantFramework
             addedCount.gameObject.SetActive(true);
             addedAnimation = DOTween.ToAlpha(() => addedCount.color, x => addedCount.color = x, 0.0f, 3.0f).OnComplete(OnFadeComplete);
             addedCount.transform.DOMoveY(addedCount.transform.position.y + 100, 3.0f);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
         }
 
         private void OnFadeComplete()
@@ -245,7 +254,6 @@ namespace TurboLabz.InstantFramework
                 isItemUnlockedByVideo = false;
                 SetupRewardBar();
                 PlayAnimation();
-                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
                 count.text = playerModel.GetInventoryItemCount(shortCode).ToString();
             }
         }

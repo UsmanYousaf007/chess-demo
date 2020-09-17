@@ -90,7 +90,7 @@ namespace TurboLabz.Multiplayer
         public Signal backToLobbySignal = new Signal();
         public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
         public Signal refreshLobbySignal = new Signal();
-        public Signal notEnoughGemsSignal = new Signal();
+        public Signal<VirtualGoodsTransactionVO> notEnoughGemsSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal playTournamentMatchSignal = new Signal();
         public Signal backToArenaSignal = new Signal();
 
@@ -645,7 +645,7 @@ namespace TurboLabz.Multiplayer
             youHaveTicketsText.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
             tournamentMatchPlayGemsCost.text = ticketStoreItem.currency3Cost.ToString();
             tournamentMatchPlayGemsBg.sprite = haveEnoughGems ? tournamentMatchResultDialog.enoughGemsSprite : tournamentMatchResultDialog.notEnoughGemsSprite;
-            tournamentMatchPlayGemsBg.gameObject.SetActive(!haveEnoughItems);
+            tournamentMatchPlayGemsBg.gameObject.SetActive(false);
             analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
         }
 
@@ -723,27 +723,27 @@ namespace TurboLabz.Multiplayer
             else
             {
                 var transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = resultsBoostRatingShortCode;
+                transactionVO.consumeQuantity = 1;
 
                 if (haveEnoughRatingBoosters)
                 {
-                    transactionVO.consumeItemShortCode = resultsBoostRatingShortCode;
-                    transactionVO.consumeQuantity = 1;
                     BoostRating(transactionVO);
                 }
-                else if (haveEnoughGemsForRatingBooster)
-                {
-                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                    transactionVO.consumeQuantity = ratingBoosterStoreItem.currency3Cost;
-                    BoostRating(transactionVO);
-                }
+                //else if (haveEnoughGemsForRatingBooster)
+                //{
+                //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                //    transactionVO.consumeQuantity = ratingBoosterStoreItem.currency3Cost;
+                //    BoostRating(transactionVO);
+                //}
                 else
                 {
-                    notEnoughGemsSignal.Dispatch();
+                    notEnoughGemsSignal.Dispatch(transactionVO);
                 }
             }
         }
 
-        private void BoostRating(VirtualGoodsTransactionVO transactionVO)
+        public void BoostRating(VirtualGoodsTransactionVO transactionVO)
         {
             boostRatingSignal.Dispatch(challengeId, transactionVO);
             if (resultsBoostRatingButtonLabel != null)
@@ -914,7 +914,7 @@ namespace TurboLabz.Multiplayer
             if (resultsBoostRatingGemsBg != null)
             {
                 resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
-                resultsBoostRatingGemsBg.gameObject.SetActive(!haveEnoughRatingBoosters && !isBoosted);
+                resultsBoostRatingGemsBg.gameObject.SetActive(false);
             }
         }
     }

@@ -9,27 +9,32 @@ namespace HUF.NotificationsUnity.Runtime.API
 {
     public static class HNotificationsUnity
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void AutoInit()
-        {
-            if (ShouldAutoInit())
-                Init();
-        }
+        /// <summary>
+        /// Returns whether Unity Local Notifications is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized { private set; get; }
 
         /// <summary>
-        /// Initializes Unity Local Notifications service.
+        /// Initializes Unity Local Notifications.
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
+            if ( IsInitialized )
+                return;
+
             var notifications = new UnityLocalNotificationsWrapper();
-            HNotifications.Local.RegisterService(notifications);
+            HNotifications.Local.RegisterService( notifications );
+            IsInitialized = true;
         }
 
-        static bool ShouldAutoInit()
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        static void AutoInit()
         {
-            return HConfigs.HasConfig<UnityNotificationsConfig>() &&
-                   HConfigs.GetConfig<UnityNotificationsConfig>().AutoInit;
+            if ( HConfigs.HasConfig<UnityNotificationsConfig>() &&
+                 HConfigs.GetConfig<UnityNotificationsConfig>().AutoInit )
+                Init();
         }
     }
 }

@@ -118,7 +118,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_WIFI_RECONNECTING, "Reconnecting..." },
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
-                { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints allowed per game"},
+                { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints can be used in a game."},
 
                 #endregion
 
@@ -305,6 +305,9 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SPOT_PURHCASE_TITLE, "Low On Gems?"},
                 { LocalizationKey.SPOT_PURCHASE_SUB_TITLE, "Purchase a Gem Pack to Continue!"},
                 { LocalizationKey.SPOT_PURCHASE_FINE_PRINT, "*Visit inventory to earn tickets via ads"},
+
+                { LocalizationKey.SPOT_INVENTORY_TITLE, "Low On"},
+                { LocalizationKey.SPOT_INVENTORY_SUB_TITLE, "Purchase with Gems or watch an Ad!"},
 
                 #endregion
 

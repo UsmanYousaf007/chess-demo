@@ -44,7 +44,8 @@ namespace TurboLabz.InstantFramework
         arena,
         tournament_leaderboard,
         inbox,
-        league_perks
+        league_perks,
+        spot_inventory_dlg
     }
 
     public enum AnalyticsEventId
@@ -275,6 +276,14 @@ namespace TurboLabz.InstantFramework
         ratingBooster,
         gems,
         ticket,
+        popup_rating_booster,
+        popup_hint,
+        popup_key,
+        popup_ticket,
+        rewarded_rating_booster_popup,
+        rewarded_hints_popup,
+        rewarded_keys_popup,
+        rewarded_tickets_popup,
 
         //tournament
         main,

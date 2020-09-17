@@ -23,7 +23,7 @@ namespace HUF.NotificationsUnity.Runtime.Implementation.Android
         {
             var channelName = UnityNotificationsConfig.DEFAULT_CHANNEL_NAME;
             var channelDesc = UnityNotificationsConfig.DEFAULT_CHANNEL_DESC;
-            var channelImportance = Importance.Default;
+            var channelImportance = NotificationImportance.Default;
             var config = HConfigs.GetConfig<UnityNotificationsConfig>();
             if ( config == null )
             {
@@ -39,7 +39,7 @@ namespace HUF.NotificationsUnity.Runtime.Implementation.Android
             CreateNotificationsChannel(DEFAULT_NOTIFICATION_CHANNEL, channelName, channelDesc, channelImportance);
         }
 
-        void CreateNotificationsChannel( string id, string name, string description, Importance importance )
+        void CreateNotificationsChannel( string id, string name, string description, NotificationImportance importance )
         {
             try
             {
@@ -47,7 +47,7 @@ namespace HUF.NotificationsUnity.Runtime.Implementation.Android
                 {
                     Id = id,
                     Name = name,
-                    Importance = importance,
+                    Importance = importance.Convert(),
                     Description = description
                 };
                 AndroidNotificationCenter.RegisterNotificationChannel( notificationChannel );

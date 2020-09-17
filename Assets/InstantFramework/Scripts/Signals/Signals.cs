@@ -182,6 +182,9 @@ namespace TurboLabz.InstantFramework
     public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
     public class ShowBottomNavSignal : Signal<bool> { }
     public class AppResumedSignal : Signal { }
+    public class LoadSpotInventorySignal : Signal<LoadSpotInventoryParams> { }
+    public class UpdateSpotInventoryViewSignal : Signal<SpotInventoryVO> { }
+    public class SpotInventoryPurchaseCompletedSignal : Signal<string> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

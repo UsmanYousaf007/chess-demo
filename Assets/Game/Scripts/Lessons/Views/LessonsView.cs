@@ -10,6 +10,8 @@ using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using GameAnalyticsSDK;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantGame
 {
@@ -104,6 +106,11 @@ namespace TurboLabz.InstantGame
                 }
             }
 
+            if (vo.showBanner)
+            {
+                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
+            }
+
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }
 
@@ -163,7 +170,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UnlockLesson(string lessonId)
+        public void UnlockLesson(string lessonId, VirtualGoodsTransactionVO transactionVO)
         {
             var lesson = (from lessonTile in lessonTiles
                           where lessonTile.vo.videoId.Equals(lessonId)
@@ -174,6 +181,7 @@ namespace TurboLabz.InstantGame
                 lesson.Unlock();
                 analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
             }
         }
 

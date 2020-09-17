@@ -30,7 +30,8 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            var adContext = CollectionsUtil.GetContextFromString(vo.itemPointsKey);
+            var itemPointsKey = vo.isPopup ? $"{vo.itemPointsKey}Popup" : vo.itemPointsKey;
+            var adContext = CollectionsUtil.GetContextFromString(itemPointsKey);
             playerModel.adContext = adContext;
             analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
 
@@ -78,7 +79,8 @@ namespace TurboLabz.InstantFramework
                 virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
 
-            analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, CollectionsUtil.GetContextFromString(vo.itemKey));
+            var itemKey = vo.isPopup ? $"{vo.itemKey}Popup" : vo.itemKey;
+            analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, CollectionsUtil.GetContextFromString(itemKey));
         }
 
         private void OnItemUnlocked(string item)

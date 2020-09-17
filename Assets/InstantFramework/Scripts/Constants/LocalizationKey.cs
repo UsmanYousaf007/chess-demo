@@ -300,6 +300,9 @@ namespace TurboLabz.InstantFramework
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
         public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
 
+        public const string SPOT_INVENTORY_TITLE = "spotInventoryTitle";
+        public const string SPOT_INVENTORY_SUB_TITLE = "spotInventorySubtitle";
+
         #endregion
 
         #region Friends

@@ -73,6 +73,7 @@ namespace TurboLabz.InstantFramework
         SHOW_REWARD_DLG,
         SHOW_LEAGUE_PERKS_VIEW,
         SHOW_TOURNAMENT_OVER_DLG,
-        SHOW_SOCIAL_CONNECTION_DLG
+        SHOW_SOCIAL_CONNECTION_DLG,
+        SHOW_SPOT_INVENTORY
     }
 }

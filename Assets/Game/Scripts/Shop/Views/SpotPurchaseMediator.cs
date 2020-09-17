@@ -39,7 +39,7 @@ namespace TurboLabz.InstantFramework
                     CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_dlg);
                 analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, $"{cameFromScreen}_gems");
-                view.finePrint.enabled = cameFromScreen.Contains("tournament");
+                //view.finePrint.enabled = cameFromScreen.Contains("tournament");
             }
         }
 

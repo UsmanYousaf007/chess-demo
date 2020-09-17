@@ -23,14 +23,14 @@ namespace HUF.NotificationsUnity.Runtime.Wrappers
             service.Dispose();
         }
 
-        public string ScheduleNotification(NotificationData notificationData)
+        public string ScheduleNotification( NotificationData notificationData )
         {
-            return service.ScheduleNotification(notificationData);
+            return service.ScheduleNotification( notificationData );
         }
 
-        public void ClearScheduledNotification(string notificationId)
+        public void ClearScheduledNotification( string notificationId )
         {
-            service.ClearScheduledNotification(notificationId);
+            service.ClearScheduledNotification( notificationId );
         }
 
         public void ClearAllNotifications()

@@ -51,6 +51,10 @@
             {
                 return new NSArenaView();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
+            {
+                return new NSSpotInventory();
+            }
 
             return null;
         }

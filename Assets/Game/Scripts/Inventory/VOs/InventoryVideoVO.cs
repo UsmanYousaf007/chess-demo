@@ -4,5 +4,6 @@
     {
         public string itemKey;
         public string itemPointsKey;
+        public bool isPopup;
     }
 }

@@ -190,7 +190,6 @@ namespace TurboLabz.InstantFramework
             {
                 purchaseResultSignal.Dispatch(item, PurchaseResult.PURCHASE_SUCCESS);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
 
             Release();

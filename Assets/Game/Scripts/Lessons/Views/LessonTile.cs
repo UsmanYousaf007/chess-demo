@@ -66,7 +66,7 @@ public class LessonTile : MonoBehaviour
         haveEnoughItemsToUnlock = vo.playerModel.GetInventoryItemCount(vo.unlockItem.key) > 0;
         haveEnoughGemsToUnlock = vo.playerModel.gems >= vo.unlockItem.currency3Cost;
         requiredGems.text = vo.unlockItem.currency3Cost.ToString();
-        notEnoughUnlockItems.gameObject.SetActive(!haveEnoughItemsToUnlock);
+        notEnoughUnlockItems.gameObject.SetActive(false);
         notEnoughUnlockItems.sprite = haveEnoughGemsToUnlock ? enoughGems : notEnoughGems;
     }
 
