@@ -46,7 +46,6 @@ namespace TurboLabz.InstantGame
         public override void OnRegister()
         {
             view.Init();
-            view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.shareBtn.onClick.AddListener(OnShareScreenClicked);
 
@@ -58,6 +57,8 @@ namespace TurboLabz.InstantGame
 
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
             view.supportButtonClicked.AddListener(OnSupportButtonClicked);
+
+            view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -100,6 +101,9 @@ namespace TurboLabz.InstantGame
         void OnRestorePurchases()
         {
             restorePurchasesSignal.Dispatch();
+#if UNITY_IOS
+            hAnalyticsService.LogEvent("clicked", "settings", "", "restore_ios_iap");
+#endif
         }
 
         void OnBackButtonClicked()

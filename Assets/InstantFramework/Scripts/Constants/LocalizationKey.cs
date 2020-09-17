@@ -272,6 +272,7 @@ namespace TurboLabz.InstantFramework
         public const string SUBSCRIPTION_DLG_PURCHASE_BUTTON = "subscriptionDlgPurchaseButton";
         public const string SUBSCRIPTION_DLG_FREE_TRIAL = "subscriptionDlgFreeTrial";
         public const string SUBSCRIPTION_DLG_PRICE = "subscriptionDlgPrice";
+        public const string SUBSCRIPTION_DLG_TERMS_AND_SERVICES = "subscriptionDlgTermsAndServices";
 
         public const string PROMOTON_DLG_TITLE = "promotionDlgTitle";
         public const string PROMOTION_DLG_PURCHASE_BUTTON = "promotionDlgPurchaseButton";

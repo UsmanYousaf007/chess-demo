@@ -23,14 +23,18 @@ namespace TurboLabz.InstantGame
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Scene references
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
+
+        public Text appVersion;
 
         public Text onlineTitle;
         public Text onlineWinPct;
@@ -76,7 +80,6 @@ namespace TurboLabz.InstantGame
         public GameObject uiBlocker;
         public GameObject processingUi;
  
-        public Signal restorePurchasesSignal = new Signal();
         public Signal settingsButtonClickedSignal = new Signal();
         public Signal supportButtonClicked = new Signal();
 
@@ -104,6 +107,18 @@ namespace TurboLabz.InstantGame
         public Text openSettingsBtnText;
         public Text openSettingsDlgTitleText;
         public Text openSettingsDlgSubheadingText;
+
+        [Header("Links")]
+        public Button restorePurchaseBtn;
+        public Text restorePurchaseText;
+
+        public Button termsOfUseBtn;
+        public Text termsOfUseText;
+
+        public Button privacyPolicyBtn;
+        public Text privacyPolicyText;
+
+        public Signal restorePurchaseButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -147,6 +162,16 @@ namespace TurboLabz.InstantGame
             }
 
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
+
+            restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+            termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_AND_SERVICES);
+            privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
+
+            restorePurchaseBtn.onClick.AddListener(OnRestorePurchaseButtonClicked);
+            termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
+            privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
+
+            appVersion.text = "v" + Application.version;
         }
 
         public void Show()
@@ -317,6 +342,26 @@ namespace TurboLabz.InstantGame
         {
             processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        void OnRestorePurchaseButtonClicked()
+        {
+            restorePurchaseButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
+        }
+
+        void OnTermsOfUseButtonClicked()
+        {
+            hAnalyticsService.LogEvent("terms_clicked", "settings", "", "terms");
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+        }
+
+        void OnPrivacyPolicyButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "settings", "", "privacy_policy");
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
         }
     }
 }
