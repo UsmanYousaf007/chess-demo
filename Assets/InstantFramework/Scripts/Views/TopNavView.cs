@@ -127,8 +127,8 @@ namespace TurboLabz.InstantFramework
         {
             ticketsCount.text = playerModel.GetInventoryItemCount("SpecialItemTicket").ToString();
             ratingBoostersCount.text = playerModel.GetInventoryItemCount("SpecialItemRatingBooster").ToString();
-            keysCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
-            hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
+            keysCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
+            hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
         }
 
         public void UpdateRatingBoostersCount(long count)
