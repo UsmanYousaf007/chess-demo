@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         //Services
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
@@ -56,11 +57,13 @@ namespace TurboLabz.InstantFramework
         private void OnAddGemsButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
         private void OnAddCollectiblesButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
         }
 
         private void OnInboxButtonClicked()
