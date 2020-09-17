@@ -417,7 +417,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLessonsViewSignal>().ToSingleton();
             injectionBinder.Bind<RatingBoostAnimSignal>().ToSingleton();
             injectionBinder.Bind<ShowBottomNavSignal>().ToSingleton();
-            
+            injectionBinder.Bind<ShowThemesInventoryTabSignal>().ToSingleton();
+
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();
             injectionBinder.Bind<IPicsModel>().To<PicsModel>().ToSingleton();

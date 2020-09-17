@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
             applyThemeSignal.Dispatch();
         }
 
-        private void OnClickThemes()
+        public void OnClickThemes()
         {
             audioService.PlayStandardClick();
             originalSkinId = playerModel.activeSkinId;

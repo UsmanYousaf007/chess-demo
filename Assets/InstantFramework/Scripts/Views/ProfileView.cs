@@ -91,6 +91,7 @@ namespace TurboLabz.InstantGame
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }

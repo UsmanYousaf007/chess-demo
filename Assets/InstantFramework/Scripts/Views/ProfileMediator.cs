@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public ShowThemesInventoryTabSignal showThemesInventoryTabSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -167,6 +168,8 @@ namespace TurboLabz.InstantGame
         void OnChangeThemesButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
+            showThemesInventoryTabSignal.Dispatch();
         }
 
         void OnSocialConnectionButtonClicked()

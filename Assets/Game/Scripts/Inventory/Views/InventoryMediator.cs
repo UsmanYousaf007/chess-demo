@@ -112,5 +112,11 @@ namespace TurboLabz.InstantFramework
         {
             view.ShowProcessing(blocker);
         }
+
+        [ListensTo(typeof(ShowThemesInventoryTabSignal))]
+        public void OnShowThemesInventoryTab()
+        {
+            view.OnClickThemes();
+        }
     }
 }
