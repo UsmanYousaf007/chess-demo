@@ -20,9 +20,9 @@ namespace TurboLabz.InstantFramework
         public Transform movePlayerProfileToPivot;
 
         private GameObject spawnedBanner;
-        private Vector3 scrollViewOrignalPosition;
+        public Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
-        private float scrollViewportOrginalBottom;
+        public float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
         private IAPBanner iapBanner;
         private Vector3 playerProfileOriginalPosition;
@@ -51,7 +51,6 @@ namespace TurboLabz.InstantFramework
                     scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
                     scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
                     scrollRect.verticalNormalizedPosition = 1;
-                    //playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
 
                     var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
@@ -70,7 +69,6 @@ namespace TurboLabz.InstantFramework
             {
                 scrollRect.transform.localPosition = scrollViewOrignalPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
-                //playerProfile.transform.localPosition = playerProfileOriginalPosition;
             }
         }
 
