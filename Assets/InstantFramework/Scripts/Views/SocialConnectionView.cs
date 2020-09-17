@@ -83,14 +83,10 @@ namespace TurboLabz.InstantGame
             facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
             signInWithAppleLabel.text = localizationService.Get(LocalizationKey.SIGN_IN);
 
-            //profileName.text = vo.playerName;
-            //eloScoreValue.text = vo.eloScore.ToString();
-            //playerFlag.sprite = Flags.GetFlag(vo.countryId);
-            //playerId = vo.playerId;
-            //SetProfilePic(vo);
-
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             facebookConnectAnim.SetActive(false);
+
+            label.enabled = vo.isAppleSignInSupported;
 
             ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
         }
@@ -99,12 +95,6 @@ namespace TurboLabz.InstantGame
         {
             if (vo.isSuccessful)
             {
-                if (vo.pic != null)
-                {
-                    //SetProfilePic(vo.pic);
-                }
-                //profileName.text = vo.name;
-                //eloScoreValue.text = vo.rating.ToString();
                 ChangeSocialAccountButtonsState(false, false);
             }
 
@@ -115,7 +105,6 @@ namespace TurboLabz.InstantGame
         {
             if (vo.isSuccessful)
             {
-                //profileName.text = vo.name;
                 ChangeSocialAccountButtonsState(false, false);
             }
 
@@ -127,15 +116,10 @@ namespace TurboLabz.InstantGame
             ChangeSocialAccountButtonsState(true, true);
         }
 
-        void ChangeSocialAccountButtonsState(bool showFBLoginButton, bool showSignInWithAppleButton)
+        void ChangeSocialAccountButtonsState(bool LoginButton, bool showSignInWithAppleButton)
         {
-            facebookButton.gameObject.SetActive(showFBLoginButton);
+            facebookButton.gameObject.SetActive(LoginButton);
             signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
-
-            /*if (!showSignInWithAppleButton && fbBtnPos != null)
-            {
-                facebookButton.transform.localPosition = fbBtnPos.localPosition;
-            }*/
         }
 
         public void ToggleFacebookButton(bool toggle)
