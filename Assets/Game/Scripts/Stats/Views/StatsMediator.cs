@@ -28,6 +28,9 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
         [Inject] public UploadFileSignal uploadFileSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+
         // View injection
         [Inject] public StatsView view { get; set; }
         //Model injection
@@ -38,7 +41,8 @@ namespace TurboLabz.InstantGame
         [Inject] public IPhotoService photoPickerService { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesService downloadablesService { get; set; }
-        
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -52,7 +56,8 @@ namespace TurboLabz.InstantGame
             view.openPhotoSettingsBtn.onClick.AddListener(OnOpenSettingsBtnClicked);
             view.profilePicBtn.onClick.AddListener(OnUploadProfilPicBtnClicked);
 
-
+            view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
+            view.supportButtonClicked.AddListener(OnSupportButtonClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -72,6 +77,18 @@ namespace TurboLabz.InstantGame
             {
                 view.Hide();
             }
+        }
+
+        private void OnSettingsButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
+            hAnalyticsService.LogEvent("clicked", "menu", "", "settings");
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "menu", "", "support");
+            contactSupportSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdateStatsSignal))]

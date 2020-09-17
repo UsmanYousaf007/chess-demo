@@ -622,7 +622,7 @@ RectTransform:
   m_GameObject: {fileID: 1066827854140854362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 8440770265316172783}
   m_Father: {fileID: 1300161157663403295}
@@ -6252,6 +6252,8 @@ MonoBehaviour:
   copiedToClipboardBg: {fileID: 2731534253021720530}
   copiedToClipboardText: {fileID: 6159811577106599673}
   logo: {fileID: 2800000, guid: 0bc3e21960bb7418ba4b8b315a22cbf4, type: 3}
+  supportButton: {fileID: 2420874743267810665}
+  settingsButton: {fileID: 4770276929851191955}
   uiBlocker: {fileID: 2741004794506577588}
   processingUi: {fileID: 4028133588288694958}
   nameConfirmDlg: {fileID: 6302970792728511624}

@@ -211,16 +211,6 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(ProfileVO vo)
         {
-            /*if (facebookButtonLabel != null)
-            {
-                facebookButtonLabel.text = localizationService.Get(LocalizationKey.FACEBOOK_LOGIN);
-            }
-
-            if (signInWithAppleLabel != null)
-            {
-                signInWithAppleLabel.text = localizationService.Get(LocalizationKey.SIGN_IN);
-            }*/
-
             profileName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
@@ -230,7 +220,6 @@ namespace TurboLabz.InstantGame
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             if (facebookButton != null)
             {
-                //facebookButton.gameObject.SetActive(showLoginButton);
                 facebookConnectAnim.SetActive(false);
             }
 
@@ -279,34 +268,13 @@ namespace TurboLabz.InstantGame
         {
             if (facebookIcon != null)
             {
-                //facebookButton.gameObject.SetActive(showFBLoginButton);
                 facebookIcon.enabled = showFBLoginButton;
             }
 
             if (appleIcon != null)
             {
-                //signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
                 appleIcon.enabled = showSignInWithAppleButton;
             }
-
-            /*if (avatarContainer && avatarContainerRef)
-            {
-                if (!showFBLoginButton && !showSignInWithAppleButton)
-                {
-                    avatarContainer.localScale = avatarContainerRef.localScale;
-                    avatarContainer.localPosition = avatarContainerRef.localPosition;
-                }
-                else
-                {
-                    avatarContainer.localScale = new Vector3(1, 1, 1);
-                    avatarContainer.localPosition = avatarContainerStartRef.localPosition;
-                }
-            }*/
-
-            /*if (!showSignInWithAppleButton && fbBtnPos != null)
-            {
-                facebookButton.transform.localPosition = fbBtnPos.localPosition;
-            }*/
 
             if (socialConnectionButton != null)
             {
@@ -319,6 +287,7 @@ namespace TurboLabz.InstantGame
                 {
                     socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
                 }
+                socialConnectionButton.gameObject.SetActive(showFBLoginButton);
             }
         }
 
@@ -329,15 +298,6 @@ namespace TurboLabz.InstantGame
 
         public void ToggleFacebookButton(bool toggle)
         {
-            /*if (facebookButton != null)
-            {
-                facebookButton.interactable = toggle;
-            }
-
-            if (signInWithAppleButton != null)
-            {
-                signInWithAppleButton.interactable = toggle;
-            }*/
 
             if (socialConnectionButton != null)
             {
