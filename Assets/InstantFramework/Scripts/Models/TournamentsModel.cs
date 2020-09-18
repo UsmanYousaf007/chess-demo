@@ -113,11 +113,12 @@ namespace TurboLabz.InstantFramework
 
             if (updateRemote)
             {
+                // Signal for update tournaments on server call. This needs to be called before tournaments are updated locally.
+                updateTournamentsSignal.Dispatch();
+
                 UpdateTournamentsLocal();
                 updateTournamentsViewSignal.Dispatch();
                 updateTournamentLeaderboardView.Dispatch();
-
-                updateTournamentsSignal.Dispatch();
             }
             else if (updateLocal)
             {
@@ -269,6 +270,19 @@ namespace TurboLabz.InstantFramework
                 if (upcomingTournaments[i].shortCode == shortCode)
                 {
                     return upcomingTournaments[i];
+                }
+            }
+
+            return null;
+        }
+
+        public string GetEndedTournamentId()
+        {
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                if (joinedTournaments[i].ended)
+                {
+                    return joinedTournaments[i].id;
                 }
             }
 
@@ -465,7 +479,7 @@ namespace TurboLabz.InstantFramework
         {
             foreach (var t in joinedTournaments)
             {
-                if (t.concluded)
+                if (t.ended)
                 {
                     analyticsService.Event($"{AnalyticsEventId.finish_rank}_{t.type.ToLower()}", AnalyticsParameter.context, GetRankContext(t.rank));
                 }
@@ -492,7 +506,7 @@ namespace TurboLabz.InstantFramework
         public long concludeTimeUTCSeconds;
         public long endTimeUTCSeconds;
         public bool locked = false;
-        public bool concluded = false;
+        public bool ended = false;
     }
 
     [Serializable]

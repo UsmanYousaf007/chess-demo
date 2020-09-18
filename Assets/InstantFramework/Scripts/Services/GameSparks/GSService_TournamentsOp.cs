@@ -57,9 +57,16 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getLiveTournamentRewards", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
-        public IPromise<BackendResult> TournamentsOpUpdateTournaments()
+        public IPromise<BackendResult> TournamentsOpUpdateTournaments(string endedTournamentId = null)
         {
-            return new GSTournamentsOpRequest(GetRequestContext()).Send("updateTournaments", OnTournamentsOpSuccess);
+            JsonObject jsonObj = null;
+            if (string.IsNullOrEmpty(endedTournamentId) == false)
+            {
+                jsonObj = new JsonObject();
+                jsonObj.Add("concludedTournamentId", endedTournamentId);
+            }
+
+            return new GSTournamentsOpRequest(GetRequestContext()).Send("updateTournaments", OnTournamentsOpSuccess, jsonObj != null ? jsonObj.ToString() : null);
         }
 
         private void OnTournamentsOpSuccess(object r, Action<object> a)

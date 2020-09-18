@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
 
             tournamentsModel.updating = true;
 
-            backendService.TournamentsOpUpdateTournaments().Then(OnGetComplete);
+            backendService.TournamentsOpUpdateTournaments(tournamentsModel.GetEndedTournamentId()).Then(OnGetComplete);
 
         }
 

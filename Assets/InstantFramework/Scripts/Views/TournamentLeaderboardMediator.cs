@@ -37,8 +37,8 @@ namespace TurboLabz.InstantFramework
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
-        private LiveTournamentData openTournament = null;
-        private JoinedTournamentData joinedTournament = null;
+        private LiveTournamentData _openTournament = null;
+        private JoinedTournamentData _joinedTournament = null;
         private VirtualGoodsTransactionVO transactionVO;
         private bool haveNotEnoughTicketsToPlay = false;
 
@@ -86,10 +86,10 @@ namespace TurboLabz.InstantFramework
             var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
             if (joinedTournament != null)
             {
-                this.openTournament = null;
+                this._openTournament = null;
 
                 view.PopulateHeaderAndFooter(joinedTournament);
-                this.joinedTournament = joinedTournament;
+                this._joinedTournament = joinedTournament;
 
                 return;
             }
@@ -97,10 +97,10 @@ namespace TurboLabz.InstantFramework
             var openTournament = tournamentModel.GetOpenTournament(tournamentId);
             if (openTournament != null)
             {
-                this.joinedTournament = null;
+                this._joinedTournament = null;
 
                 view.PopulateHeaderAndFooter(openTournament);
-                this.openTournament = openTournament;
+                this._openTournament = openTournament;
 
                 return;
             }
@@ -109,21 +109,22 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
         public void UpdateJoinedTournamentViewEntries(string tournamentId)
         {
-            this.openTournament = null;
+            this._openTournament = null;
 
-            if (tournamentId == "" && this.joinedTournament != null)
+            if (tournamentId == "" && this._joinedTournament != null)
             {
-                tournamentId = this.joinedTournament.id;
+                tournamentId = this._joinedTournament.id;
             }
 
             var joinedTournament = tournamentModel.GetJoinedTournament(tournamentId);
             if (joinedTournament != null)
             {
-                this.joinedTournament = joinedTournament;
+                this._joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
 
                 if (tournamentModel.HasTournamentEnded(joinedTournament) == true)
                 {
+                    joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
                 else
@@ -136,12 +137,12 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateLiveTournamentRewardsSuccessSignal))]
         public void UpdateLiveTournamentViewEntries(string tournamentShortCode)
         {
-            this.joinedTournament = null;
+            this._joinedTournament = null;
 
             var openTournament = tournamentModel.GetOpenTournament(tournamentShortCode);
             if (openTournament != null)
             {
-                this.openTournament = openTournament;
+                this._openTournament = openTournament;
                 view.UpdateView(openTournament);
 
                 if (tournamentModel.HasTournamentEnded(openTournament) == true)
@@ -154,17 +155,18 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardViewSignal))]
         public void UpdateLiveTournamentView()
         {
-            if (openTournament != null)
+            if (_openTournament != null)
             {
-                if (tournamentModel.HasTournamentEnded(openTournament) == true)
+                if (tournamentModel.HasTournamentEnded(_openTournament) == true)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
             }
-            else if (joinedTournament != null)
+            else if (_joinedTournament != null)
             {
-                if (tournamentModel.HasTournamentEnded(joinedTournament) == true)
+                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true)
                 {
+                    _joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
             }
@@ -180,13 +182,13 @@ namespace TurboLabz.InstantFramework
         {
             view.audioService.PlayStandardClick();
 
-            if (joinedTournament == null)
+            if (_joinedTournament == null)
             {
                 var notification = new Notification();
                 notification.title = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_TITLE);
                 notification.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY);
-                notification.timestamp = openTournament.endTimeUTCSeconds * 1000;
-                notification.sender = openTournament.type;
+                notification.timestamp = _openTournament.endTimeUTCSeconds * 1000;
+                notification.sender = _openTournament.type;
                 notificationsModel.RegisterNotification(notification);
 
                 StartTournament("free");
@@ -237,7 +239,7 @@ namespace TurboLabz.InstantFramework
 
         private void StartTournament(string currency)
         {
-            string tournamentType = joinedTournament != null ? joinedTournament.type : openTournament.type;
+            string tournamentType = _joinedTournament != null ? _joinedTournament.type : _openTournament.type;
             string actionCode;
             string context;
 
@@ -265,23 +267,23 @@ namespace TurboLabz.InstantFramework
             }
 
             tournamentModel.currentMatchTournamentType = tournamentType;
-            tournamentModel.currentMatchTournament = joinedTournament;
+            tournamentModel.currentMatchTournament = _joinedTournament;
 
-            if (joinedTournament != null)
+            if (_joinedTournament != null)
             {
-                joinedTournament.locked = true;
+                _joinedTournament.locked = true;
             }
 
-            if (openTournament != null)
+            if (_openTournament != null)
             {
-                openTournament.joined = true;
+                _openTournament.joined = true;
             }
 
             analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);
             analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
-            FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament != null ? joinedTournament.id : openTournament.shortCode);
+            FindMatchAction.Random(findMatchSignal, actionCode, _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode);
 
-            openTournament = null;
+            _openTournament = null;
         }
 
         public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)
@@ -313,10 +315,10 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UnlockCurrentJoinedTournamentSignal))]
         public void UnlockTournament()
         {
-            if (joinedTournament != null)
+            if (_joinedTournament != null)
             {
-                joinedTournament.locked = false;
-                joinedTournament = null;
+                _joinedTournament.locked = false;
+                _joinedTournament = null;
             }
         }
 
