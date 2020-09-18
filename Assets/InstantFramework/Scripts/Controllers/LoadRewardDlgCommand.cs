@@ -31,6 +31,11 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            if (inboxModel.items.ContainsKey(inboxMessageId) == false)
+            {
+                return;
+            }
+
             InboxMessage msg = inboxModel.items[inboxMessageId];
             RewardDlgVO vo = null;
 

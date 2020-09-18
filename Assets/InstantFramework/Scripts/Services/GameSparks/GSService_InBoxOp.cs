@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> InBoxOpCollect(string messageId)
         {
+            inboxModel.items.Remove(messageId);
+
             JsonObject jsonObj = new JsonObject();
             jsonObj.Add("messageId", messageId);
 
@@ -152,7 +154,7 @@ namespace TurboLabz.InstantFramework
 
                 if (messageId != null)
                 {
-                    inboxModel.items.Remove(messageId);
+                    //inboxModel.items.Remove(messageId);
                     inboxRemoveMessagesSignal.Dispatch(messageId);
                     //inboxAddMessagesSignal.Dispatch(inboxModel.items);
                 }
