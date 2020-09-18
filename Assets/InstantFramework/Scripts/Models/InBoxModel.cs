@@ -26,6 +26,19 @@ namespace TurboLabz.InstantFramework
             modelsResetSignal.AddListener(Reset);
         }
 
+        public InboxMessage GetTournamentRewardMessage(string tournamentId)
+        {
+            foreach (InboxMessage msg in items.Values)
+            {
+                if (msg.tournamentId == tournamentId)
+                {
+                    return msg;
+                }
+            }
+
+            return null;
+        }
+
         private void Reset()
         {
             lastFetchedTime = DateTime.MinValue;

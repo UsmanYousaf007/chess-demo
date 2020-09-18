@@ -9,10 +9,16 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INBOX_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.INBOX_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
+                cmd.hideViewSignal.Dispatch(NavigatorViewId.REWARD_DLG);
+                if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+                {
+                    return new NSTournamentLeaderboard();
+
+                }
                 if (viewId == NavigatorViewId.INBOX_VIEW)
                 {
                     return new NSInboxView();

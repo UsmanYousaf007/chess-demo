@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentModel { get; set; }
         [Inject] public INotificationsModel notificationsModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -46,6 +47,7 @@ namespace TurboLabz.InstantFramework
         private VirtualGoodsTransactionVO transactionVO;
         private bool haveNotEnoughTicketsToPlay = false;
         private string rewardMessageId = null;
+        private bool goBackToArena = false;
 
         public override void OnRegister()
         {
@@ -88,6 +90,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardPartialSignal))]
         public void UpdateTournamentViewPartial(string tournamentId)
         {
+            goBackToArena = false;
+
             view.ClearBars();
             view.DisableFixedPlayerBar();
 
@@ -128,7 +132,6 @@ namespace TurboLabz.InstantFramework
             if (joinedTournament != null)
             {
                 this._joinedTournament = joinedTournament;
-                view.UpdateView(joinedTournament);
 
                 if (tournamentModel.HasTournamentEnded(joinedTournament) == true && joinedTournament.locked == true)
                 {
@@ -139,6 +142,8 @@ namespace TurboLabz.InstantFramework
                 {
                     joinedTournament.locked = false;
                 }
+
+                view.UpdateView(joinedTournament);
             }
         }
 
@@ -151,12 +156,13 @@ namespace TurboLabz.InstantFramework
             if (openTournament != null)
             {
                 this._openTournament = openTournament;
-                view.UpdateView(openTournament);
 
                 if (tournamentModel.HasTournamentEnded(openTournament) == true)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
+
+                view.UpdateView(openTournament);
             }
         }
 
@@ -170,6 +176,7 @@ namespace TurboLabz.InstantFramework
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
+                view.UpdateView(_openTournament);
                 _joinedTournament = null;
             }
             else if (_joinedTournament != null)
@@ -180,6 +187,7 @@ namespace TurboLabz.InstantFramework
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
+                view.UpdateView(_joinedTournament);
                 _openTournament = null;
             }
         }
@@ -250,14 +258,41 @@ namespace TurboLabz.InstantFramework
 
             if (rewardMessageId != null)
             {
+                goBackToArena = false;
                 loadRewardDlgViewSignal.Dispatch(rewardMessageId, onRewardDlgClosedSignal);
+            }
+            else
+            {
+                goBackToArena = true;
+
+                rewardMessageId = inboxModel.GetTournamentRewardMessage(_joinedTournament.id)?.id;
+                if (rewardMessageId != null)
+                {
+                    loadRewardDlgViewSignal.Dispatch(rewardMessageId, onRewardDlgClosedSignal);
+                }
             }
         }
 
         private void OnRewardClosed()
         {
             loadInboxSignal.Dispatch();
-            OnBackPressed();
+            UnlockTournament();
+
+            if (goBackToArena)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                audioService.PlayStandardClick();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_ARENA);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                audioService.PlayStandardClick();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INBOX);
+            }
+
+            rewardMessageId = null;
+            goBackToArena = false;
         }
 
         private void OnItemConsumed(BackendResult result)
