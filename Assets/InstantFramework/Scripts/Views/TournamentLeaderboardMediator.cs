@@ -144,6 +144,8 @@ namespace TurboLabz.InstantFramework
                     joinedTournament.locked = false;
                 }
 
+                view.backButton.transform.parent.gameObject.SetActive(!joinedTournament.ended);
+               
                 view.UpdateView(joinedTournament);
             }
         }
@@ -163,6 +165,8 @@ namespace TurboLabz.InstantFramework
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
+                view.backButton.transform.parent.gameObject.SetActive(true);
+
                 view.UpdateView(openTournament);
             }
         }
@@ -177,6 +181,8 @@ namespace TurboLabz.InstantFramework
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
+                view.backButton.transform.parent.gameObject.SetActive(true);
+
                 view.UpdateView(_openTournament);
                 _joinedTournament = null;
             }
@@ -187,6 +193,8 @@ namespace TurboLabz.InstantFramework
                     _joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
+
+                view.backButton.transform.parent.gameObject.SetActive(!_joinedTournament.ended);
 
                 view.UpdateView(_joinedTournament);
                 _openTournament = null;

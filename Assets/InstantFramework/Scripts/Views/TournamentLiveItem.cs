@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         public Image bg;
         public Image liveImage;
+        public Text liveImageText;
         public Image entriesClosedImage;
         public Text headingLabel;
         public Text subHeadingLabel;
@@ -64,6 +65,10 @@ namespace TurboLabz.InstantFramework
             playerRankCountText.text = "";
             grandPrizeTrophiesCountText.text = liveTournamentData.grandPrize.trophies.ToString();
             liveImage?.gameObject.SetActive(!liveTournamentData.concluded);
+            if (liveImageText != null)
+            {
+                liveImageText.text = "LIVE";
+            }
             entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
             if (button != null)
                 button.enabled = !liveTournamentData.concluded;
@@ -136,6 +141,11 @@ namespace TurboLabz.InstantFramework
             string timeLeftText;
             if (joinedTournamentData.ended == false)
             {
+                if (liveImageText != null)
+                {
+                    liveImageText.text = "JOINED";
+                }
+
                 endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;
 
                 long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();

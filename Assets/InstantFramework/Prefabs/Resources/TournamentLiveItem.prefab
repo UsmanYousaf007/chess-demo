@@ -258,8 +258,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.5, y: 11.7}
-  m_SizeDelta: {x: 188, y: 56.5}
+  m_AnchoredPosition: {x: 10.5, y: 11.700001}
+  m_SizeDelta: {x: 137.53, y: 56.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5677107035558876222
 CanvasRenderer:
@@ -293,7 +293,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 28942cad5eb19471f854ded142325af7, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 45
     m_Alignment: 4
@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiObj: {fileID: 1513696007619576062}
+  uiElement: {fileID: 0}
   EndColor: {r: 1, g: 1, b: 1, a: 1}
   StartColor: {r: 1, g: 1, b: 1, a: 0}
   time: 6
@@ -724,7 +724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiObj: {fileID: 633340782437843035}
+  uiElement: {fileID: 0}
   EndColor: {r: 1, g: 1, b: 1, a: 1}
   StartColor: {r: 1, g: 1, b: 1, a: 0}
   time: 6
@@ -1428,6 +1428,7 @@ MonoBehaviour:
     type: 2}
   bg: {fileID: 2468226113098471911}
   liveImage: {fileID: 1658102490447829773}
+  liveImageText: {fileID: 741513091544668549}
   entriesClosedImage: {fileID: 4468382424944753274}
   headingLabel: {fileID: 1636750212188300010}
   subHeadingLabel: {fileID: 7802494602442471505}
@@ -1437,6 +1438,9 @@ MonoBehaviour:
   infoBg: {fileID: 0}
   grandPrizeTrophiesCountText: {fileID: 8431786151119728429}
   playerRankCountText: {fileID: 6364939500383937197}
+  resultsTournamentImage: {fileID: 0}
+  resultsYourRankLabel: {fileID: 0}
+  resultsYourRankText: {fileID: 0}
   button: {fileID: 4207650039054127917}
   openTournamentData:
     shortCode: 
@@ -1485,7 +1489,7 @@ MonoBehaviour:
     concludeTimeUTCSeconds: 0
     endTimeUTCSeconds: 0
     locked: 0
-    concluded: 0
+    ended: 0
 --- !u!1 &6527182046252181632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,7 +2264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e29b319d313b467a90210723c04b507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiObj: {fileID: 2706872141626229440}
+  uiElement: {fileID: 0}
   EndColor: {r: 1, g: 1, b: 1, a: 1}
   StartColor: {r: 1, g: 1, b: 1, a: 0}
   time: 6

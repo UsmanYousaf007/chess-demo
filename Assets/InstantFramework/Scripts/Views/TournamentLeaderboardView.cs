@@ -138,7 +138,7 @@ namespace TurboLabz.InstantFramework
             EnableGroupLive(!joinedTournament.ended);
 
             PopulateTournamentHeader(header, joinedTournament);
-            PopulateFooter(true);
+            PopulateFooter(true, joinedTournament.ended);
             footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);
             tournamentLeaderboardPlayerEnterBar.SetActive(false);
 
@@ -251,6 +251,10 @@ namespace TurboLabz.InstantFramework
         {
             item.UpdateItem(liveTournament);
             item.liveImage?.gameObject.SetActive(true);
+            if (item.liveImageText != null)
+            {
+                item.liveImageText.text = "LIVE";
+            }
         }
 
         private void PopulateTournamentInfoBar()
@@ -275,7 +279,7 @@ namespace TurboLabz.InstantFramework
             PopulateFooter(isJoined);
         }
 
-        public void PopulateFooter(bool isJoined)
+        public void PopulateFooter(bool isJoined, bool ended = false)
         {
             TournamentLeaderboardFooter item = footer;
 
@@ -290,7 +294,17 @@ namespace TurboLabz.InstantFramework
             ticketStoreItem = storeSettingsModel.items[item.itemToConsumeShortCode];
             item.haveEnoughItems = itemsOwned > 0;
             item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
-            item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
+
+            if (isJoined && ended)
+            {
+                item.youHaveLabel.transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
+                item.youHaveLabel.transform.parent.gameObject.SetActive(true);
+            }
+
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
             item.enterButtonTicketPlayCountText.text = "1";

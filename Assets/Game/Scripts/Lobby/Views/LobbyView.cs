@@ -61,6 +61,7 @@ namespace TurboLabz.InstantFramework
         public Text tournamentLiveLabel;
         public Image liveTournamentIcon;
         public GameObject liveTournamentGO;
+        public Text liveTournamentGOText;
         public Image chestIcon;
         public Text trophiesCount;
         public Text countDowntimer;
@@ -515,66 +516,68 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateTournamentView()
         {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+            LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
 
-                if (joinedTournament != null && !joinedTournament.ended)
+            if (joinedTournament != null && !joinedTournament.ended)
+            {
+                liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
+                liveTournamentIcon.SetNativeSize();
+                playTournamentButton.interactable = true;
+                liveTournamentGO.SetActive(true);
+                liveTournamentGOText.text = "JOINED";
+                tournamentSectionEmptySpace.SetActive(true);
+                chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).chestType);
+                trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
+                tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
+
+                endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
+
+                long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                string timeLeftText;
+                if (timeLeft > 0)
                 {
-                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
-                    liveTournamentIcon.SetNativeSize();
-                    playTournamentButton.interactable = true;
-                    liveTournamentGO.SetActive(true);
-                    tournamentSectionEmptySpace.SetActive(true);
-                    chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).chestType);
-                    trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
-                    tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
-
-                    endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
-
-                    long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                    string timeLeftText;
-                    if (timeLeft > 0)
-                    {
-                        timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                    }
-                    else
-                    {
-                        timeLeftText = "0:00";
-                    }
-                    countDowntimer.text = timeLeftText;
-                }
-                else if (openTournament != null && !openTournament.concluded)
-                {
-                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
-                    liveTournamentIcon.SetNativeSize();
-                    playTournamentButton.interactable = true;
-                    liveTournamentGO.SetActive(true);
-                    tournamentSectionEmptySpace.SetActive(true);
-                    chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).chestType);
-                    trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).trophies.ToString();
-                    tournamentBG.color = tournamentAssetsContainer.GetSolidColor(openTournament.type);
-
-                    endTimeUTCSeconds = openTournament.concludeTimeUTCSeconds;
-
-                    long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                    string timeLeftText;
-                    if (timeLeft > 0)
-                    {
-                        timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                    }
-                    else
-                    {
-                        timeLeftText = "0:00";
-                    }
-                    countDowntimer.text = timeLeftText;
+                    timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
                 }
                 else
                 {
-                    liveTournamentIcon.sprite = null;
-                    playTournamentButton.interactable = false;
-                    liveTournamentGO.SetActive(false);
-                    tournamentSectionEmptySpace.SetActive(false);
-                }         
+                    timeLeftText = "0:00";
+                }
+                countDowntimer.text = timeLeftText;
+            }
+            else if (openTournament != null && !openTournament.concluded)
+            {
+                liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
+                liveTournamentIcon.SetNativeSize();
+                playTournamentButton.interactable = true;
+                liveTournamentGO.SetActive(true);
+                liveTournamentGOText.text = "LIVE";
+                tournamentSectionEmptySpace.SetActive(true);
+                chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).chestType);
+                trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).trophies.ToString();
+                tournamentBG.color = tournamentAssetsContainer.GetSolidColor(openTournament.type);
+
+                endTimeUTCSeconds = openTournament.concludeTimeUTCSeconds;
+
+                long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                string timeLeftText;
+                if (timeLeft > 0)
+                {
+                    timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                }
+                else
+                {
+                    timeLeftText = "0:00";
+                }
+                countDowntimer.text = timeLeftText;
+            }
+            else
+            {
+                liveTournamentIcon.sprite = null;
+                playTournamentButton.interactable = false;
+                liveTournamentGO.SetActive(false);
+                tournamentSectionEmptySpace.SetActive(false);
+            }       
         }
 
         public void UpdateTime()
