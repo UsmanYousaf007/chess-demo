@@ -205,7 +205,7 @@ public static class NativeGallery
 		{
 			NGPermissionCallbackAndroid nativeCallback = new NGPermissionCallbackAndroid( threadLock );
 
-			AJC.CallStatic( "RequestPermission", Context, nativeCallback, readPermissionOnly, PlayerPrefs.GetInt( "NativeGalleryPermission", (int) Permission.ShouldAsk ) );
+			AJC.CallStatic( "RequestPermission", Context, nativeCallback, readPermissionOnly, (int) Permission.ShouldAsk );
 
 			if( nativeCallback.Result == -1 )
 				System.Threading.Monitor.Wait( threadLock );
