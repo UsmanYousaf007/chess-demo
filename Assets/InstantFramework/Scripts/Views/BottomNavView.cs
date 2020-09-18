@@ -88,7 +88,7 @@ namespace TurboLabz.InstantFramework
             inventoryButton.onClick.AddListener(InventoryButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
             arenaButton.onClick.AddListener(ArenaButtonClicked);
-            //UpdateButtons(BottomNavView.ButtonId.Home);
+            UpdateButtons();
         }
 
         IEnumerator WaitUntilEndOfFrame()
@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForEndOfFrame();
             selectedImage.rectTransform.sizeDelta = new Vector2(homeButton.GetComponent<RectTransform>().rect.width, homeButton.GetComponent<RectTransform>().rect.height);
             onStart = true;
-            UpdateButtons(BottomNavView.ButtonId.Home);
+            //UpdateButtons();
         }
 
         private void SetSelectedImageStartingPos()
@@ -106,12 +106,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnEnable()
         {
-            if (!onStart)
-            {
-                selectedImage.enabled = false;
-                StartCoroutine(WaitUntilEndOfFrame());
-            }
+            //if (!onStart)
+            //{
+            //    StartCoroutine(WaitUntilEndOfFrame());
+            //}
             UpdateAlerts();
+            //UpdateButtons();
         }
 
         public void UpdateAlerts()
@@ -120,10 +120,15 @@ namespace TurboLabz.InstantFramework
             inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
-        public void UpdateButtons(ButtonId buttonID)
+        public void UpdateButtonID(ButtonId btnID)
         {
-            if (!onStart)
-                return;
+            buttonId = btnID;
+        }
+
+        public void UpdateButtons()
+        {
+            //if (!onStart)
+            //    return;
 
             homeButton.interactable = true;
             homeSelected.SetActive(false);
@@ -145,45 +150,45 @@ namespace TurboLabz.InstantFramework
             arenaSelected.SetActive(false);
             arenaLabel.enabled = true;
 
-            if (buttonID == ButtonId.Home)
+            if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
                 homeSelected.SetActive(true);
                 homeLabel.enabled = false;
-                iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", homeSelected.transform.position, "time", 0.4f, "oncomplete", "SetSelectedImageStartingPos", "oncompletetarget", this.gameObject));
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", homeSelected.transform.position, "time", 0.4f, "oncomplete", "SetSelectedImageStartingPos", "oncompletetarget", this.gameObject));
             }
-            else if (buttonID == ButtonId.Friends)
+            else if (buttonId == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
                 friendsSelected.SetActive(true);
                 friendsLabel.enabled = false;
-                iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", friendsSelected.transform.position, "time", 0.4f));
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", friendsSelected.transform.position, "time", 0.4f));
             }
-            else if (buttonID == ButtonId.Inventory)
+            else if (buttonId == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
                 inventorySelected.SetActive(true);
                 inventoryLabel.enabled = false;
-                iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", inventorySelected.transform.position, "time", 0.4f));
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", inventorySelected.transform.position, "time", 0.4f));
             }
-            else if (buttonID == ButtonId.Shop)
+            else if (buttonId == ButtonId.Shop)
             {
                 shopButton.interactable = false;
                 shopSelected.SetActive(true);
                 shopLabel.enabled = false;
-                iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", shopSelected.transform.position, "time", 0.4f));
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", shopSelected.transform.position, "time", 0.4f));
             }
-            else if (buttonID == ButtonId.Arena)
+            else if (buttonId == ButtonId.Arena)
             {
                 arenaButton.interactable = false;
                 arenaSelected.SetActive(true);
                 arenaLabel.enabled = false;
-                iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
             }
         }
 
