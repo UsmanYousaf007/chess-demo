@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
 
         public override void Execute()
         {
@@ -65,6 +66,7 @@ namespace TurboLabz.InstantFramework
                 model.settingsModel = settingsModel;
 
                 updateTournamentsViewSignal.Dispatch();
+                toggleLeaderboardViewNavButtons.Dispatch(true);
 
                 if (playerModel.subscriptionExipryTimeStamp == 0)
                 {

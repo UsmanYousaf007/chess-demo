@@ -32,6 +32,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
+        [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
 
         // Models

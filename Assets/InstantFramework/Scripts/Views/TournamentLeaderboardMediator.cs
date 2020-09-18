@@ -91,6 +91,8 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentLeaderboardPartialSignal))]
         public void UpdateTournamentViewPartial(string tournamentId)
         {
+            view.EnableNavButtons(true);
+
             goBackToArena = false;
 
             view.ClearBars();
@@ -145,7 +147,7 @@ namespace TurboLabz.InstantFramework
                 }
 
                 view.backButton.transform.parent.gameObject.SetActive(!joinedTournament.ended);
-               
+
                 view.UpdateView(joinedTournament);
             }
         }
@@ -169,6 +171,12 @@ namespace TurboLabz.InstantFramework
 
                 view.UpdateView(openTournament);
             }
+        }
+
+        [ListensTo(typeof(ToggleLeaderboardViewNavButtons))]
+        public void OnToggleLeaderboardViewNavButtons(bool enable)
+        {
+            view.EnableNavButtons(enable);
         }
 
         [ListensTo(typeof(UpdateTournamentLeaderboardViewSignal))]
@@ -358,10 +366,12 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
             FindMatchAction.Random(findMatchSignal, actionCode, _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode);
 
+            view.EnableNavButtons(false);
+
             if (_openTournament != null)
             {
                 _openTournament.joined = true;
-                _openTournament = null;
+                //_openTournament = null;
             }
         }
 

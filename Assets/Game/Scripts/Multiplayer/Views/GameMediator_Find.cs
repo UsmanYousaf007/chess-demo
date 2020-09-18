@@ -34,6 +34,8 @@ namespace TurboLabz.Multiplayer
         {
             if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
             {
+                toggleLeaderboardViewNavButtons.Dispatch(true);
+
                 view.ShowFind();
                 pauseNotificationsSignal.Dispatch(true);
                 view.FindMatchTimeoutEnable(true, 30);

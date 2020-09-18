@@ -520,5 +520,11 @@ namespace TurboLabz.InstantFramework
                 fixedPlayerBar.profile.SetProfilePicture(picture);
             }
         }
+
+        public void EnableNavButtons(bool enable)
+        {
+            backButton.interactable = enable;
+            footer.enterButton.interactable = enable;
+        }
     }
 }
