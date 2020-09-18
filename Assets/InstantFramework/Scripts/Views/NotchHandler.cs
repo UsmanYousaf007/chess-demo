@@ -9,6 +9,7 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Navs")]
     public RectTransform[] topNavs;
+    public RectTransform[] secondTierTopNavs;
     public RectTransform[] botNavs;
 
     [Header("Lobby")]
@@ -129,11 +130,17 @@ public class NotchHandler : MonoBehaviour {
         // TOP NAVS
         foreach (RectTransform tfm in topNavs)
         {
-            SetY(tfm, -131f);
+            SetY(tfm, -175f);
         }
+
+        foreach (RectTransform tfm in secondTierTopNavs)
+        {
+            SetY(tfm, -321f);
+        }
+
         foreach (RectTransform tfm in botNavs)
         {
-            SetY(tfm, 166f);
+            SetY(tfm, 19f);
         }
 
         // LOBBY
@@ -145,9 +152,9 @@ public class NotchHandler : MonoBehaviour {
         SetY(lobbyScrollViewTopShadow, -2);
 
         // PROFILE
-        SetY(profileFacebookButton, -270f);
-        SetY(profileSiwaButton, -270f);
-        SetY(profileCenterContent, -66f);
+        //SetY(profileFacebookButton, -270f);
+        //SetY(profileSiwaButton, -270f);
+        //SetY(profileCenterContent, -66f);
 
         // FRIENDS
         SetY(friendsScrollView, -31f - 100f);
