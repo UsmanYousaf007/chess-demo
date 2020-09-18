@@ -189,6 +189,7 @@ namespace TurboLabz.InstantFramework
                 notification.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY);
                 notification.timestamp = _openTournament.endTimeUTCSeconds * 1000;
                 notification.sender = _openTournament.type;
+                notification.showInGame = false;
                 notificationsModel.RegisterNotification(notification);
 
                 StartTournament("free");

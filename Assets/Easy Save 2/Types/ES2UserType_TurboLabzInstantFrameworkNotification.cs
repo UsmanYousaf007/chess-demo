@@ -13,6 +13,7 @@ public class ES2UserType_TurboLabzInstantFrameworkNotification : ES2Type
 		writer.Write(data.body);
 		writer.Write(data.timestamp);
 		writer.Write(data.sender);
+		writer.Write(data.showInGame);
 
 	}
 	
@@ -31,6 +32,7 @@ public class ES2UserType_TurboLabzInstantFrameworkNotification : ES2Type
 		data.body = reader.Read<System.String>();
 		data.timestamp = reader.Read<System.Int64>();
 		data.sender = reader.Read<System.String>();
+		data.showInGame = reader.Read<System.Boolean>();
 
 	}
 	

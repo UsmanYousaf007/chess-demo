@@ -130,6 +130,11 @@ namespace TurboLabz.InstantFramework
 
         private void ScheduleInGameNotification(Notification notification)
         {
+            if (!notification.showInGame)
+            {
+                return;
+            }
+
             var delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp) / 1000;
             routineRunner.StartCoroutine(ScheduleInGameNotification(notification, delayInSeconds));
         }
@@ -179,5 +184,6 @@ namespace TurboLabz.InstantFramework
         public string body;
         public long timestamp;
         public string sender;
+        public bool showInGame = true;
     }
 }

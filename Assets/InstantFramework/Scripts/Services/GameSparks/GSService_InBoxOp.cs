@@ -59,9 +59,9 @@ namespace TurboLabz.InstantFramework
                     NotificationVO notificationVO;
 
                     notificationVO.isOpened = false;
-                    notificationVO.title = "Collect your Tournament Prize from your InBox!";
-                    notificationVO.body = "Congrats! Your prize is waiting for you";
-                    notificationVO.senderPlayerId = "undefined";
+                    notificationVO.title = localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_TITLE);
+                    notificationVO.body = localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY);
+                    notificationVO.senderPlayerId = msg.tournamentType;
                     notificationVO.challengeId = "undefined";
                     notificationVO.matchGroup = "undefined";
                     notificationVO.avatarId = "undefined";

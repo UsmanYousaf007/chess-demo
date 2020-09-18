@@ -104,7 +104,7 @@ namespace TurboLabz.InstantFramework
                 FillInbox(dict, inboxData);
 
                 List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
-                //DispatchInboxNotifications(newMsgs);
+                DispatchInboxNotifications(newMsgs);
 
                 inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;

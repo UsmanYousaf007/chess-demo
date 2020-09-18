@@ -62,6 +62,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }
