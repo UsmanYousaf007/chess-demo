@@ -514,8 +514,6 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateTournamentView()
         {
-            if (liveTournamentIcon != null)
-            {
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
                 LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
 
@@ -543,7 +541,7 @@ namespace TurboLabz.InstantFramework
                     }
                     countDowntimer.text = timeLeftText;
                 }
-                else if (openTournament != null)
+                else if (openTournament != null && !openTournament.concluded)
                 {
                     liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
                     liveTournamentIcon.SetNativeSize();
@@ -572,8 +570,7 @@ namespace TurboLabz.InstantFramework
                     liveTournamentIcon.sprite = null;
                     playTournamentButton.interactable = false;
                     liveTournamentGO.SetActive(false);
-                }
-            }
+                }         
         }
 
         public void UpdateTime()
