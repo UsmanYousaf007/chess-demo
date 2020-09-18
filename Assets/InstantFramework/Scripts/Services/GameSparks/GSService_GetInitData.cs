@@ -93,6 +93,9 @@ namespace TurboLabz.InstantFramework
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+            GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
+            PopulateInboxModel(inBoxMessagesData);
+
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
@@ -221,6 +224,18 @@ namespace TurboLabz.InstantFramework
 
             GSParser.LogPlayerInfo(playerModel);
             GSParser.LogFriends("friends", playerModel.friends);
+        }
+
+        private void PopulateInboxModel(GSData inBoxMessagesData)
+        {
+            if (inBoxMessagesData != null)
+            {
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inBoxMessagesData);
+                inboxAddMessagesSignal.Dispatch(dict);
+                inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
+            }
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)
