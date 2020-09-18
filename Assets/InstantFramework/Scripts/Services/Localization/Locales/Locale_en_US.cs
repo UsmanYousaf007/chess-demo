@@ -509,6 +509,7 @@ namespace TurboLabz.InstantFramework
 
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_RULES, "Rules"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_TOTAL_SCORE, "Total Score"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_YOUR_RANK, "Your Rank"},
 
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK, "Rank"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE, "Player Score"},
@@ -517,6 +518,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE, "You have"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY, "Free Play"},
                 { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY, "Play"},
+                { LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_COLLECT_REWARDS, "Collect Rewards"},
 
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE, "Arena Epic Chest"},
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION, "This Chest Contains:"},

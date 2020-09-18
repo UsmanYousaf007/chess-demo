@@ -25,8 +25,11 @@ namespace TurboLabz.InstantFramework
         public Image gemsBg;
         public Sprite haveEnoughGemsSprite;
         public Sprite notEnoughGemsSprite;
+        public Button resultsContinueButton;
+        public Text resultsContinueButtonLabel;
 
         public Signal enterButtonClickedSignal = new Signal();
+        public Signal resultsContinueButtonClickedSignal = new Signal();
 
         [HideInInspector] public bool haveEnoughItems;
         [HideInInspector] public bool haveEnoughGems;
@@ -34,7 +37,7 @@ namespace TurboLabz.InstantFramework
         private void Awake()
         {
             enterButton.onClick.AddListener(() => enterButtonClickedSignal.Dispatch());
+            resultsContinueButton.onClick.AddListener(() => resultsContinueButtonClickedSignal.Dispatch());
         }
-
     }
 }

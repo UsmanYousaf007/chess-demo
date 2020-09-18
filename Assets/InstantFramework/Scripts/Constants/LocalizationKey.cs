@@ -508,6 +508,7 @@ namespace TurboLabz.InstantFramework
 
         public const string TOURNAMENT_LEADERBOARD_RULES = "tournamentLeaderboardRules";
         public const string TOURNAMENT_LEADERBOARD_TOTAL_SCORE = "tournamentLeaderboardTotalScore";
+        public const string TOURNAMENT_LEADERBOARD_YOUR_RANK = "tournamentLeaderboardYourRank";
 
         public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_RANK = "tournamentLeaderboardColumnHeaderRank";
         public const string TOURNAMENT_LEADERBOARD_COLUMN_HEADER_TOTAL_PLAYER_SCORE = "tournamentLeaderboardColumnHeaderPlayerScore";
@@ -516,6 +517,7 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE = "tournamentLeaderboardFooterYouHave";
         public const string TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY = "tournamentLeaderboardFreePlay";
         public const string TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY = "tournamentLeaderboardFooterTicketPlay";
+        public const string TOURNAMENT_LEADERBOARD_FOOTER_COLLECT_REWARDS = "tournamentLeaderboardFooterCollectRewards";
 
         public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_TITLE = "tournamentChestContentDialogueTitle";
         public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION = "tournamentChestContentDialogueDescriptiion";
