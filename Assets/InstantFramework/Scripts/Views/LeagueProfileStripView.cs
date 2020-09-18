@@ -9,9 +9,11 @@ using UnityEngine;
 using strange.extensions.signal.impl;
 using System;
 using TurboLabz.InstantGame;
+using TMPro;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant (false)]
     public class LeagueProfileStripView : View
     {
         [Header("Player Info")]
@@ -27,7 +29,8 @@ namespace TurboLabz.InstantFramework
 
         public RectTransform trophyProgressionBarFiller;
         public GameObject trophyProgressionBar;
-        public Text playerTrophiesCountLabel;
+        //public Text playerTrophiesCountLabel;
+        public TMP_Text playerTrophiesCountLabel;
         private float trophyProgressionBarOriginalWidth;
         public Text yourLeagueText;
         public Text nextLeagueText;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
@@ -57,7 +57,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
         {
             var mediator = isAlternativeMediation ? mediation.AdsMediation : adsManagerConfig.AdsProvider;
 
-            return mediator == AdsMediator.Ironsource ||
+            return mediator == AdsMediator.IronSource ||
                    mediator == AdsMediator.UnityAds ||
                    mediator == AdsMediator.Chartboost;
         }
@@ -160,6 +160,12 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
         public string GetMainPlacementId( string placementId )
         {
+            if ( placementId == null )
+            {
+                HLog.LogError( logPrefix, "Tried to get mainPlacementId using null placementId" );
+                return string.Empty;
+            }
+
             if ( ads.ContainsKey( placementId ) )
                 return placementId;
 
@@ -176,6 +182,9 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
         public bool CanShowAd( string placementId, bool checkAlternative = false )
         {
+            if ( placementId == null )
+                return false;
+
             string mainPlacement = GetMainPlacementId( placementId );
             return ads.ContainsKey( mainPlacement ) && ads[mainPlacement].IsReady();
         }
@@ -184,7 +193,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
         {
             HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
 
-            if ( placementId == null || !CanShowAd( placementId ) )
+            if ( !CanShowAd( placementId ) )
             {
                 resultCallback.Dispatch( new AdManagerCallback( mediation.MediationId,
                     placementId,
@@ -201,7 +210,6 @@ namespace HUFEXT.AdsManager.Runtime.Service
         {
             Mediation.SetBannerPosition( position );
         }
-        
 
         public void HideBanner( string placementId )
         {
@@ -226,7 +234,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
             SetBannerPosition( position );
             HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
 
-            if ( placementId == null || !CanShowAd( placementId ) )
+            if ( !CanShowAd( placementId ) )
             {
                 return;
             }
@@ -243,7 +251,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
 
             bannerAd.ShowBannerPersistent( placementId );
         }
-        
+
         public void RemoveFromRewardedAdQueue( string placementId )
         {
             rewardedAdsQueue.Remove( placementId );

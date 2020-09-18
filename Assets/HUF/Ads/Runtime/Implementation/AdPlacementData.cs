@@ -7,13 +7,13 @@ namespace HUF.Ads.Runtime.Implementation
     public class AdPlacementData
     {
         #pragma warning disable 0649
-        [SerializeField] ApplicationIdentifier appId;
         [SerializeField] string placementId;
+        [SerializeField] ApplicationIdentifier appId;
         [SerializeField] PlacementType placementType;
         #pragma warning restore 0649
 
-        public string AppId => appId.Value;
         public string PlacementId => placementId;
+        public string AppId => appId.Value;
         public PlacementType PlacementType => placementType;
     }
 }

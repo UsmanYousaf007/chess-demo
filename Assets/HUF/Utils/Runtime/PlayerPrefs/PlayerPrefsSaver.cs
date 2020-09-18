@@ -10,92 +10,100 @@ namespace HUF.Utils.Runtime.PlayerPrefs
         readonly BlowFish encryption;
         bool EncryptionEnabled => encryption != null;
 
-        public PlayerPrefsSaver(BlowFish encryption = null)
+        public PlayerPrefsSaver( BlowFish encryption = null )
         {
             this.encryption = encryption;
         }
 
-        public bool HasKey(string key)
+        public bool HasKey( string key )
         {
-            return HPlayerPrefs.HasKey(key);
+            return HPlayerPrefs.HasKey( key );
         }
 
-        public bool GetBool(string key, bool defaultValue)
+        public bool GetBool( string key, bool defaultValue )
         {
-            if (EncryptionEnabled)
+            if ( EncryptionEnabled )
             {
-                var encryptedBool = HPlayerPrefs.GetString(key);
-                if (bool.TryParse(encryption.Decrypt_ECB(encryptedBool), out var result))
+                var encryptedBool = HPlayerPrefs.GetString( key );
+
+                if ( bool.TryParse( encryption.Decrypt_ECB( encryptedBool ), out var result ) )
                     return result;
 
                 return defaultValue;
             }
 
-            return HPlayerPrefs.GetBool(key, defaultValue);
+            return HPlayerPrefs.GetBool( key, defaultValue );
         }
 
-        public void SetBool(string key, bool value = false)
+        public void SetBool( string key, bool value = false )
         {
-            if (!TrySetEncryptedValue(key, value.ToString()))
-                HPlayerPrefs.SetBool(key, value);
+            if ( !TrySetEncryptedValue( key, value.ToString() ) )
+                HPlayerPrefs.SetBool( key, value );
         }
 
-        bool TrySetEncryptedValue(string key, string value)
+        bool TrySetEncryptedValue( string key, string value )
         {
-            if (!EncryptionEnabled)
+            if ( !EncryptionEnabled )
                 return false;
-            var encryptedValue = encryption.Encrypt_ECB(value);
-            HPlayerPrefs.SetString(key, encryptedValue);
+
+            var encryptedValue = encryption.Encrypt_ECB( value );
+            HPlayerPrefs.SetString( key, encryptedValue );
             return true;
         }
 
-        public int GetInt(string key, int defaultValue = 0)
+        public int GetInt( string key, int defaultValue = 0 )
         {
-            if (EncryptionEnabled)
+            if ( EncryptionEnabled )
             {
-                var encryptedInt = HPlayerPrefs.GetString(key);
-                if (int.TryParse(encryption.Decrypt_ECB(encryptedInt), out var result))
+                var encryptedInt = HPlayerPrefs.GetString( key );
+
+                if ( int.TryParse( encryption.Decrypt_ECB( encryptedInt ), out var result ) )
                     return result;
 
                 return defaultValue;
             }
 
-            return HPlayerPrefs.GetInt(key, defaultValue);
+            return HPlayerPrefs.GetInt( key, defaultValue );
         }
 
-        public void SetInt(string key, int value)
+        public void SetInt( string key, int value )
         {
-            if (!TrySetEncryptedValue(key, value.ToString()))
-                HPlayerPrefs.SetInt(key, value);
+            if ( !TrySetEncryptedValue( key, value.ToString() ) )
+                HPlayerPrefs.SetInt( key, value );
         }
 
-        public long GetLong(string key, long defaultValue = 0L)
+        public long GetLong( string key, long defaultValue = 0L )
         {
-            if (EncryptionEnabled)
+            if ( EncryptionEnabled )
             {
-                var encryptedLong = HPlayerPrefs.GetString(key);
-                if (long.TryParse(encryption.Decrypt_ECB(encryptedLong), out var result))
+                var encryptedLong = HPlayerPrefs.GetString( key );
+
+                if ( long.TryParse( encryption.Decrypt_ECB( encryptedLong ), out var result ) )
                     return result;
 
                 return defaultValue;
             }
 
-            return HPlayerPrefs.GetLong(key, defaultValue);
+            return HPlayerPrefs.GetLong( key, defaultValue );
         }
 
-        public void SetLong(string key, long value)
+        public void SetLong( string key, long value )
         {
-            if (!TrySetEncryptedValue(key, value.ToString()))
-                HPlayerPrefs.SetLong(key, value);
+            if ( !TrySetEncryptedValue( key, value.ToString() ) )
+                HPlayerPrefs.SetLong( key, value );
         }
 
-        public float GetFloat(string key, float defaultValue = 0.0f)
+        public float GetFloat( string key, float defaultValue = 0.0f )
         {
-            if (EncryptionEnabled)
+            if ( EncryptionEnabled )
             {
-                var encryptedFloat = HPlayerPrefs.GetString(key, defaultValue.ToString(CultureInfo.InvariantCulture));
-                if (float.TryParse(encryption.Decrypt_ECB(encryptedFloat), NumberStyles.Float,
-                    CultureInfo.InvariantCulture, out var result))
+                var encryptedFloat =
+                    HPlayerPrefs.GetString( key, defaultValue.ToString( CultureInfo.InvariantCulture ) );
+
+                if ( float.TryParse( encryption.Decrypt_ECB( encryptedFloat ),
+                    NumberStyles.Float,
+                    CultureInfo.InvariantCulture,
+                    out var result ) )
                 {
                     return result;
                 }
@@ -103,54 +111,57 @@ namespace HUF.Utils.Runtime.PlayerPrefs
                 return defaultValue;
             }
 
-            return HPlayerPrefs.GetFloat(key, defaultValue);
+            return HPlayerPrefs.GetFloat( key, defaultValue );
         }
 
-        public void SetFloat(string key, float value)
+        public void SetFloat( string key, float value )
         {
-            if (!TrySetEncryptedValue(key, value.ToString(CultureInfo.InvariantCulture)))
-                HPlayerPrefs.SetFloat(key, value);
+            if ( !TrySetEncryptedValue( key, value.ToString( CultureInfo.InvariantCulture ) ) )
+                HPlayerPrefs.SetFloat( key, value );
         }
 
-        public string GetString(string key, string defaultValue)
+        public string GetString( string key, string defaultValue )
         {
-            if (EncryptionEnabled)
-                return encryption.Decrypt_ECB(HPlayerPrefs.GetString(key));
+            if ( !HPlayerPrefs.HasKey( key ) )
+                return defaultValue;
 
-            return HPlayerPrefs.GetString(key, defaultValue);
+            return EncryptionEnabled
+                ? encryption.Decrypt_ECB( HPlayerPrefs.GetString( key ) )
+                : HPlayerPrefs.GetString( key );
         }
 
-        public void SetString(string key, string value)
+        public void SetString( string key, string value )
         {
-            if (!TrySetEncryptedValue(key, value))
-                HPlayerPrefs.SetString(key, value);
+            if ( !TrySetEncryptedValue( key, value ) )
+                HPlayerPrefs.SetString( key, value );
         }
 
-        public T GetCustom<T>(string key, T defaultValue)
+        public T GetCustom<T>( string key, T defaultValue )
         {
             try
             {
-                if (EncryptionEnabled)
+                if ( EncryptionEnabled )
                 {
-                    var decryptedValue = encryption.Decrypt_ECB(HPlayerPrefs.GetString(key));
-                    return JsonUtility.FromJson<T>(decryptedValue);
+                    var decryptedValue = encryption.Decrypt_ECB( HPlayerPrefs.GetString( key ) );
+                    return JsonUtility.FromJson<T>( decryptedValue );
                 }
 
-                return JsonUtility.FromJson<T>(HPlayerPrefs.GetString(key));
+                return JsonUtility.FromJson<T>( HPlayerPrefs.GetString( key ) );
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
-                Debug.LogWarning(e);
+                Debug.LogWarning( e );
                 return defaultValue;
             }
         }
 
-        public void SetCustom<T>(string key, T value)
+        public void SetCustom<T>( string key, T value )
         {
-            var json = JsonUtility.ToJson(value);
-            if (EncryptionEnabled)
-                json = encryption.Encrypt_ECB(json);
-            HPlayerPrefs.SetString(key, json);
+            var json = JsonUtility.ToJson( value );
+
+            if ( EncryptionEnabled )
+                json = encryption.Encrypt_ECB( json );
+            HPlayerPrefs.SetString( key, json );
         }
     }
 }

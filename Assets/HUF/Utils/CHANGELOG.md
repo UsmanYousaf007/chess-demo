@@ -1,14 +1,69 @@
+## [3.0.1] - 2020-08-27
+### Fixed
+- Prevented NREs during configs loading
+
+## [3.0.0] - 2020-08-20
+### Changed
+- Looking for `PurposeStringConfig`  in HUFConfigs folder only
+- HLogs and correct namespace for `iOSMissingPurposeStringFixer`
+
+##### **Important**: `PurposeStringConfig` must be moved to HUFConfigs folder.
+
+## [2.9.0] - 2020-08-21
+### Added
+- CanvasBlockerPanel
+
+
+## [2.8.0] - 2020-08-06
+### Added
+- CanvasBlocker and DebugButtonsScreen
+
+
+## [2.7.9] - 2020-08-06
+### Added
+- PostProcessBuildNumbers
+
+
+## [2.7.8] - 2020-07-29
+### Added
+- Possibility to show log time on device using showTimeInNativeLogs
+- New class HideFilesDuringBuild to hide files/directories during build process
+
+
+## [2.7.7] - 2020-07-27
+### Fixed
+- Fixed not passing default value in PlayerPrefsSaver
+
+
+## [2.7.6] - 2020-07-16
+### Fixed
+- Double slashes in Unity 2019.3+ Fixer
+
+
+## [2.7.5] - 2020-07-09
+### Added
+- Abstract config removes object references when copying to json or applying it.
+
+
+## [2.7.4] - 2020-07-06
+### Fix
+- Fix secure arrays getting values
+
+
 ## [2.7.3] - 2020-07-02
 ### Fix
 - Fix build process on iOS 2019.3+
+
 
 ## [2.7.2] - 2020-07-02
 ### Fix
 - Fix build process on iOS
 
+
 ## [2.7.1] - 2020-06-26
 ### Added
 - unity 2019.3+ project fixer
+
 
 ## [2.7.0] - 2020-06-17
 ### Added

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HUF.Utils.Editor.Configs
 {
-    [CustomEditor( typeof( AbstractConfig ), true )]
+    [CustomEditor( typeof(AbstractConfig), true )]
     public class AbstractConfigEditor : UnityEditor.Editor
     {
         bool showConfigEditor = true;
@@ -24,6 +24,7 @@ namespace HUF.Utils.Editor.Configs
                         image = HEditorGUI.Res.WindowIcon
                     };
                 }
+
                 return headerContent;
             }
         }
@@ -41,6 +42,7 @@ namespace HUF.Utils.Editor.Configs
                         tooltip = "Copy config values to clipboard."
                     };
                 }
+
                 return copyConfigContent;
             }
         }
@@ -58,21 +60,24 @@ namespace HUF.Utils.Editor.Configs
                         tooltip = "Replace config values with values from clipboard."
                     };
                 }
+
                 return applyConfigContent;
             }
         }
 
         public override void OnInspectorGUI()
         {
-            using( new GUILayout.VerticalScope( EditorStyles.helpBox ) )
+            using ( new GUILayout.VerticalScope( EditorStyles.helpBox ) )
             {
                 DrawHeaderPanel();
+
                 if ( showConfigEditor )
                 {
                     HEditorGUI.HorizontalSeparator();
                     OnConfigGUI();
                 }
             }
+
             EditorGUILayout.Space();
             base.OnInspectorGUI();
         }
@@ -83,7 +88,8 @@ namespace HUF.Utils.Editor.Configs
             {
                 if ( GUILayout.Button( CopyConfigContent, GUILayout.Height( 22f ) ) )
                 {
-                    var configData = JsonUtility.ToJson( serializedObject.targetObject );
+                    var configData =
+                        AbstractConfig.RemoveObjectReferences( JsonUtility.ToJson( serializedObject.targetObject ) );
                     GUIUtility.systemCopyBuffer = configData;
                     Debug.Log( "Config copied to clipboard: " + configData );
                 }
@@ -104,10 +110,11 @@ namespace HUF.Utils.Editor.Configs
 
         void DrawHeaderPanel()
         {
-            using( new GUILayout.HorizontalScope() )
+            using ( new GUILayout.HorizontalScope() )
             {
                 EditorGUILayout.LabelField( HeaderContent, EditorStyles.boldLabel );
                 GUILayout.FlexibleSpace();
+
                 if ( GUILayout.Button( showConfigEditor ? "Hide" : "Show", EditorStyles.miniButton ) )
                 {
                     showConfigEditor = !showConfigEditor;

@@ -1,3 +1,5 @@
+using System;
+using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
@@ -7,21 +9,20 @@ namespace HUF.Ads.Runtime.API
     public class HInterstitial
     {
         /// <summary>
-        /// This callback is called after interstitial ad has finished or been interrupted by user.
+        /// Raised after an interstitial ad finishes or gets interrupted.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnEnded;
 
         /// <summary>
-        /// This callback is called when user clicks an interstitial ad.
+        /// Raised when user clicks an interstitial ad.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnClicked;
 
         /// <summary>
-        /// This callback is called when interstitial ad is ready to be displayed.
-        /// It will be triggered as a response to <see cref="Fetch"/> method.
-        /// If fetching was successful, then callback is called with AdResult.Completed, if failed - AdResult.Failed
+        /// Raised when an interstitial ad is ready to be displayed, with <see cref="AdResult"/>.
+        /// It is triggered as a response to <see cref="Fetch"/> method.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnFetched;
@@ -34,8 +35,8 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to register your interstitial ad provider. <para />
-        /// Could be used to add own Provider implementation.
+        /// Registers an interstitial ad provider.<para />
+        /// Can be used to add own Provider implementation.
         /// </summary>
         /// <param name="provider">Interstitial ad provider</param>
         [PublicAPI]
@@ -57,10 +58,10 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to show interstitial ad.
-        /// First Placement with the "Interstitial" type found in the Config will be used
+        /// Shows an interstitial ad.
+        /// First Placement with the "Interstitial" type found in the Config will be used.
         /// </summary>
-        /// <returns>Whether ad shown operation has started successfully or not</returns>
+        /// <returns>Whether ad shown operation has started successfully.</returns>
         [PublicAPI]
         public bool TryShow()
         {
@@ -68,10 +69,10 @@ namespace HUF.Ads.Runtime.API
         }
         
         /// <summary>
-        /// Use this to show interstitial ad with given placement id
+        /// Shows an interstitial ad with a given placement ID.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
-        /// <returns>Whether ad shown operation has started successfully or not</returns>
+        /// <param name="placementId">The placement ID.</param>
+        /// <returns>Whether ad shown operation has started successfully.</returns>
         [PublicAPI]
         public bool TryShow(string placementId)
         {
@@ -79,10 +80,10 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to check whether your interstitial ad is ready to play or not.
-        /// First Placement with the "Interstitial" type found in the Config will be used
+        /// Checks whether an interstitial ad is ready to play.
+        /// First Placement with the "Interstitial" type found in the Config will be used.
         /// </summary>
-        /// <returns>Status of ad</returns>
+        /// <returns>Status of an ad.</returns>
         [PublicAPI]
         public bool IsReady()
         {
@@ -90,10 +91,10 @@ namespace HUF.Ads.Runtime.API
         }
         
         /// <summary>
-        /// Use this to check whether the interstitial ad with given placement id is ready to play or not
+        /// Checks whether the interstitial ad with a given placement ID is ready to play.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
-        /// <returns>Status of ad</returns>
+        /// <param name="placementId">The placement ID.</param>
+        /// <returns>Status of ad.</returns>
         [PublicAPI]
         public bool IsReady(string placementId)
         {
@@ -101,9 +102,9 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to fetch interstitial ad.
-        /// First Placement with the "Interstitial" type found in the Config will be used
-        /// Although fetch might not be required by some Ads implementations we highly recommend to do so
+        /// Fetches an interstitial ad.
+        /// First Placement with the "Interstitial" type found in the Config will be used.
+        /// Although a fetch might not be required by some Ad implementations it is highly recommend.
         /// </summary>
         [PublicAPI]
         public void Fetch()
@@ -112,10 +113,10 @@ namespace HUF.Ads.Runtime.API
         }
         
         /// <summary>
-        /// Use this to fetch interstitial ad with given placement id
-        /// Although fetch might not be required by some Ads implementations we highly recommend to do so
+        /// Fetches an interstitial ad with a given placement ID.
+        /// Although a fetch might not be required by some Ad implementations it is highly recommend.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
+        /// <param name="placementId">The placement ID.</param>
         [PublicAPI]
         public void Fetch(string placementId)
         {
@@ -123,15 +124,25 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Call this function to get current Interstitial ad provider name.
+        /// Gets the current interstitial ad mediator name.
         /// </summary>
-        /// <returns>Interstitial ad provider name</returns>
+        /// <returns>The interstitial ad mediator name</returns>
         [PublicAPI]
+        [Obsolete("Use `GetAdMediatorName` instead.")]
         public string GetAdProviderName()
         {
             return service.InterstitialAdProvider.ProviderId;
         }
 
+        /// <summary>
+        /// Gets the current interstitial ad mediator name.
+        /// </summary>
+        /// <returns>The interstitial ad mediator name</returns>
+        [PublicAPI]
+        public string GetAdMediatorName()
+        {
+            return service?.BannerAdProvider == null ? "UNKNOWN" : service.BannerAdProvider.ProviderId;
+        }
         void AdEnded(IAdCallbackData data)
         {
             OnEnded.Dispatch(data);

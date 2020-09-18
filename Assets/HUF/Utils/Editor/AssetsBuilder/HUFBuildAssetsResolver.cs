@@ -40,19 +40,22 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
             {
                 OnBuildError.Dispatch();
                 Application.logMessageReceived -= OnLogMessageReceived;
+#if UNITY_ANDROID
+                RunHUFBuildAssetsReverter();
+#endif
             }
         }
 
         public void OnPreprocessBuild( BuildReport report )
         {
             Application.logMessageReceived += OnLogMessageReceived;
-            //RunHUFBuildAssetsResolver();
+            RunHUFBuildAssetsResolver();
         }
 
         [PostProcessBuild( 1000 )]
         public static void PostProcessBuildAttribute( BuildTarget target, string pathToBuiltProject )
         {
-            //RunHUFBuildAssetsReverter();
+            RunHUFBuildAssetsReverter();
             Application.logMessageReceived -= OnLogMessageReceived;
         }
 

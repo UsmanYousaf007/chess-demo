@@ -83,7 +83,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use this to chcek if an add is loaded and ready to show. (Banners are always ready to show).
+        /// Use this to check if an ad is loaded and ready to show. (Banners are always ready to show).
         /// </summary>
         /// <param name="placementId">Ad placement id</param>
         /// <returns>Ad status if it is ready to show</returns>
@@ -131,7 +131,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to set default banner position. it apply to all new banners and not destroy/move old ones.
+        /// Use to set default banner position. It applies to all new banners and doesn't destroy/move old ones.
         /// </summary>
         /// <param name="position">new position</param>
         /// <returns>if ads manager is not initialized it will return false</returns>
@@ -187,7 +187,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// Use to show first banner ad from config on specific position - will apply to all
         /// new banners like SetNewBannerPosition.
         /// </summary>
-        /// <param name="resultCallback">Did banner show correct</param>
+        /// <param name="resultCallback">Did banner show correctly</param>
         /// <param name="position">New position</param>
         public static void ShowBanner( UnityAction<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
@@ -206,7 +206,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// Use to show banner ad on specific position  - will apply to all new banners like SetNewBannerPosition.
         /// </summary>
         /// /// <param name="placementId">Ad placement id</param>
-        /// <param name="resultCallback">Did banner show correct</param>
+        /// <param name="resultCallback">Did banner show correctly</param>
         /// <param name="position">New position</param>
         [PublicAPI]
         public static void ShowBanner(
@@ -230,8 +230,8 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to force ads manager to try show banner constantly (if show will fail then ads manager
-        /// will continue to fetch and show banner) until HideBanner function will be not called.
+        /// Use to force ads manager to try showing banner constantly (if show fails then ads manager
+        /// will continue to fetch and banner ads) until HideBanner function is called.
         /// </summary>
         /// <param name="placementId">Ad placement id</param>
         /// <param name="position">New position</param>

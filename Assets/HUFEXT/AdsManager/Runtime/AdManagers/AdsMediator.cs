@@ -6,7 +6,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         AdMob,
         AppLovinMax,
         Chartboost,
-        Ironsource,
+        IronSource,
         Mopub,
         UnityAds,
         HuuugeAds,

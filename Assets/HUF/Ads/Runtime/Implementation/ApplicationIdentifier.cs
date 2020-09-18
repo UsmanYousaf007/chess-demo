@@ -10,8 +10,8 @@ namespace HUF.Ads.Runtime.Implementation
     {
         static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(ApplicationIdentifier) );
 #pragma warning disable 0649
-        [SerializeField] string iOSAppId;
         [SerializeField] string androidAppId;
+        [SerializeField] string iOSAppId;
 #pragma warning restore 0649
 
         public string Value
@@ -29,8 +29,8 @@ namespace HUF.Ads.Runtime.Implementation
             }
         }
 #if UNITY_EDITOR
-        public string EditoriOSAppId => iOSAppId;
         public string EditorAndroidAppId => androidAppId;
+        public string EditoriOSAppId => iOSAppId;
 #endif
     }
 }
