@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
         public Text trophiesCount;
         public Text countDowntimer;
         public Image tournamentBG;
+        public GameObject tournamentSectionEmptySpace;
         private long endTimeUTCSeconds;
         private WaitForSecondsRealtime waitForOneRealSecond;
 
@@ -523,6 +524,7 @@ namespace TurboLabz.InstantFramework
                     liveTournamentIcon.SetNativeSize();
                     playTournamentButton.interactable = true;
                     liveTournamentGO.SetActive(true);
+                    tournamentSectionEmptySpace.SetActive(true);
                     chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).chestType);
                     trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
                     tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
@@ -547,6 +549,7 @@ namespace TurboLabz.InstantFramework
                     liveTournamentIcon.SetNativeSize();
                     playTournamentButton.interactable = true;
                     liveTournamentGO.SetActive(true);
+                    tournamentSectionEmptySpace.SetActive(true);
                     chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).chestType);
                     trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).trophies.ToString();
                     tournamentBG.color = tournamentAssetsContainer.GetSolidColor(openTournament.type);
@@ -570,6 +573,7 @@ namespace TurboLabz.InstantFramework
                     liveTournamentIcon.sprite = null;
                     playTournamentButton.interactable = false;
                     liveTournamentGO.SetActive(false);
+                    tournamentSectionEmptySpace.SetActive(false);
                 }         
         }
 

@@ -390,6 +390,7 @@ namespace TurboLabz.InstantFramework
             viewButton.onClick.RemoveAllListeners();
             unreadChat.onClick.RemoveAllListeners();
             removeCommunityFriendButton.onClick.RemoveAllListeners();
+            unreadChat.gameObject.SetActive(false);
         }
     }
 }
