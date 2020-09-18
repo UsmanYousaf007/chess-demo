@@ -77,7 +77,8 @@ namespace TurboLabz.InstantFramework
                 startsInPanel.transform.localScale = startsInPanelPos.localScale;
             }else
             {
-                startsInPanel.transform.localPosition = startsInPanelDefaultPos;
+                //startsInPanel.transform.localPosition = startsInPanelDefaultPos;
+                startsInPanel.transform.localPosition = Vector3.zero;
                 startsInPanel.transform.localScale = new Vector3(1f,1f,1f);
             }
         }
