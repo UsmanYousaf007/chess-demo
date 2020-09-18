@@ -6,5 +6,6 @@
         public bool isAvailable;
         public int hintsAllowedPerGame;
         public bool isPlayerTurn;
+        public int hintCount;
     }
 }

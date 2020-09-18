@@ -40,6 +40,7 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU_RESULTS_DLG) 
             {
                 view.ShowResultsDialog();
+                view.OnParentHideAdBanner();
             }
         }
 

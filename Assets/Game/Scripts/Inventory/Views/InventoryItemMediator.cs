@@ -72,7 +72,10 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case InventoryVideoResult.NOT_AVAILABLE:
-                        view.ShowTooltip();
+                        if (view.gameObject.activeInHierarchy)
+                        {
+                            view.ShowTooltip();
+                        }
                         break;
 
                     case InventoryVideoResult.SUCCESS:

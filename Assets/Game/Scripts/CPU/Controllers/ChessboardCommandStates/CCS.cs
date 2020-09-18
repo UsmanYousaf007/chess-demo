@@ -120,6 +120,7 @@ namespace TurboLabz.CPU
             specialHintVO.isAvailable = cmd.preferencesModel.cpuPowerUpsUsedCount < cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
             specialHintVO.hintsAllowedPerGame = cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
             specialHintVO.isPlayerTurn = isPlayerTurn;
+            specialHintVO.hintCount = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT);
             cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
         }
 

@@ -18,7 +18,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowInventoryRewardedVideoSignal showInventoryRewardedVideoSignal { get; set; }
         [Inject] public SpotInventoryPurchaseCompletedSignal spotInventoryPurchaseCompletedSignal { get; set; }
 
+        //Models
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+
         private string itemToUnlockShortCode;
+        private string cameFromScreen;
+        public static string customContext = string.Empty;
 
         public override void OnRegister()
         {
@@ -35,6 +40,9 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SPOT_INVENTORY_DLG)
             {
                 view.Show();
+                cameFromScreen = navigatorModel.previousState.ToString();
+                cameFromScreen = !string.IsNullOrEmpty(customContext) ? customContext :
+                    CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_inventory_dlg);
             }
         }
@@ -72,6 +80,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotEnoughCurrency()
         {
+            SpotPurchaseMediator.customContext = cameFromScreen;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 

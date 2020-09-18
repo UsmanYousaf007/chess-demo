@@ -134,6 +134,7 @@ namespace TurboLabz.Multiplayer
                 specialHintVO.specialHintStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT];
                 specialHintVO.isAvailable = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount < cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
                 specialHintVO.hintsAllowedPerGame = cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
+                specialHintVO.hintCount = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT);
                 cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
             }
                 
