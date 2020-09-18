@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -29,6 +30,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
+        private  Signal onRewardDlgClosedSignal = new Signal();
+
         public override void OnRegister()
         {
             view.Init();
@@ -36,6 +39,8 @@ namespace TurboLabz.InstantFramework
             // Button click handlers
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
             view.bottoNavBackButtonClickedSignal.AddListener(OnBottomNavBackButtonClicked);
+
+            onRewardDlgClosedSignal.AddListener(OnRewardDlgClosed);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -60,7 +65,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnInBoxBarClicked(InboxBar inboxBar)
         {
-            loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
+            loadRewardDlgViewSignal.Dispatch(inboxBar.msgId, onRewardDlgClosedSignal);
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
         }
 
@@ -88,6 +93,12 @@ namespace TurboLabz.InstantFramework
         public void OnInboxFetchingMessages(bool isFetching)
         {
             view.processing.SetActive(isFetching);
+        }
+
+        public void OnRewardDlgClosed()
+        {
+            TLUtils.LogUtil.Log("InBoxMediator::OnRewardDlgClosed()");
+            loadInboxSignal.Dispatch();
         }
     }
 }

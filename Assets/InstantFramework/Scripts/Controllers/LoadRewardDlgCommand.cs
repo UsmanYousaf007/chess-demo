@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using strange.extensions.command.impl;
+using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ namespace TurboLabz.InstantGame
     {
         // Parameters
         [Inject] public string inboxMessageId { get; set; }
+        [Inject] public Signal onCloseSignal { get; set; }
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
@@ -50,6 +52,7 @@ namespace TurboLabz.InstantGame
             }
 
             vo.msgId = inboxMessageId;
+            vo.onCloseSignal = onCloseSignal;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG);
             updateRewardDlgViewSignal.Dispatch(vo);
         }

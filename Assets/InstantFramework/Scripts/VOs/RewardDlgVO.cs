@@ -1,7 +1,9 @@
 ﻿
 using System.Collections.Generic;
+using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+
 /// @license Propriety <http://license.url>
 /// @copyright Copyright (C) Turbo Labz 2018 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
@@ -27,6 +29,8 @@ namespace TurboLabz.InstantFramework
         public int trophiesCount;
 
         public ProfileVO playerProfile;
+
+        public Signal onCloseSignal;
 
         public RewardDlgVO(string typeId)
         {
