@@ -88,24 +88,47 @@ namespace TurboLabz.InstantFramework
             bg.sprite = tournamentAssetsContainer.GetTile(joinedTournamentData.type);
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(joinedTournamentData.type);
             tournamentImage.SetNativeSize();
-            prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
-            playerRankCountText.text = joinedTournamentData.rank.ToString();
-            grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
-            liveImage?.gameObject.SetActive(true);
-            entriesClosedImage?.gameObject.SetActive(false);
-            if (button != null)
-                button.enabled = true;
 
-            endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;
-
-            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            string timeLeftText;
-            if (timeLeft > 0)
+            if (joinedTournamentData.grandPrize != null)
             {
-                timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
+                prizeImage.gameObject.SetActive(true);
+                grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
+                grandPrizeTrophiesCountText.gameObject.SetActive(true);
             }
             else
             {
+                prizeImage.gameObject.SetActive(false);
+                grandPrizeTrophiesCountText.gameObject.SetActive(false);
+            }
+
+            playerRankCountText.text = joinedTournamentData.rank.ToString();
+
+            liveImage?.gameObject.SetActive(true);
+            entriesClosedImage?.gameObject.SetActive(false);
+            if (button != null)
+            {
+                button.enabled = true;
+            }
+
+            string timeLeftText;
+            if (joinedTournamentData.ended == false)
+            {
+                endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;
+
+                long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                if (timeLeft > 0)
+                {
+                    timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                }
+                else
+                {
+                    timeLeftText = "0:00";
+                }
+            }
+            else
+            {
+                endTimeUTCSeconds = 0;
                 timeLeftText = "0:00";
             }
             countdownTimerText.text = timeLeftText;

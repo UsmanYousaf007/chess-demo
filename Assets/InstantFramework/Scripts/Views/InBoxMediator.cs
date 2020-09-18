@@ -20,6 +20,8 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -28,6 +30,8 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -60,7 +64,32 @@ namespace TurboLabz.InstantFramework
 
         public void OnInBoxBarClicked(InboxBar inboxBar)
         {
-            loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
+            InboxMessage msg = inboxModel.items[inboxBar.msgId];
+            if (msg.type == "RewardTournamentEnd" && msg.tournamentId != "unassigned")
+            {
+                // Create joined tournament here and add it to tournaments model joined list.
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament(msg.tournamentId);
+                if (joinedTournament == null)
+                {
+                    JoinedTournamentData newJoinedTournament = new JoinedTournamentData();
+                    newJoinedTournament.id = msg.tournamentId;
+                    newJoinedTournament.type = msg.tournamentType;
+                    newJoinedTournament.rank = msg.rankCount;
+                    newJoinedTournament.ended = true;
+
+                    tournamentsModel.joinedTournaments.Add(newJoinedTournament);
+                    joinedTournament = newJoinedTournament;
+                }
+
+                updateTournamentLeaderboardPartialSignal.Dispatch(joinedTournament.id);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                getJoinedTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+            }
+            else
+            {
+                loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
+            }
+
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
         }
 

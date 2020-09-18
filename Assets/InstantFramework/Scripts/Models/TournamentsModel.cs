@@ -64,14 +64,13 @@ namespace TurboLabz.InstantFramework
             // When joined tournament ends then we update tournaments on server
             for (int i = 0; i < joinedTournaments.Count; i++)
             {
-                if (joinedTournaments[i].locked == false)
+                if (joinedTournaments[i].locked == false && joinedTournaments[i].ended == false)
                 {
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
                         updateRemote = true;
                         analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
                     }
-
                 }
             }
 
@@ -388,10 +387,13 @@ namespace TurboLabz.InstantFramework
                 {
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
-                        LiveTournamentData upcomingTournament = new LiveTournamentData(joinedTournaments[i]);
-                        finishedTournaments.Add(upcomingTournament);
+                        if (joinedTournaments[i].ended == false)
+                        {
+                            LiveTournamentData upcomingTournament = new LiveTournamentData(joinedTournaments[i]);
+                            finishedTournaments.Add(upcomingTournament);
 
-                        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+                            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+                        }
 
                         joinedTournaments.RemoveAt(i);
                     }

@@ -20,10 +20,12 @@ namespace TurboLabz.InstantFramework
             {
                 if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
                 {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.TOURNAMENT_OVER_DLG);
-                    cmd.unlockCurrentJoinedTournamentSignal.Dispatch();
-                    cmd.loadArenaSignal.Dispatch();
-                    return new NSArenaView();
+                    //cmd.hideViewSignal.Dispatch(NavigatorViewId.TOURNAMENT_OVER_DLG);
+                    //cmd.unlockCurrentJoinedTournamentSignal.Dispatch();
+                    //cmd.loadArenaSignal.Dispatch();
+                    //return new NSArenaView();
+
+                    return new NSTournamentLeaderboard();
                 }
             }
 

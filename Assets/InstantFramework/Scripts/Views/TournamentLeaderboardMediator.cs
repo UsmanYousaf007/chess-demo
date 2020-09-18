@@ -122,7 +122,7 @@ namespace TurboLabz.InstantFramework
                 this._joinedTournament = joinedTournament;
                 view.UpdateView(joinedTournament);
 
-                if (tournamentModel.HasTournamentEnded(joinedTournament) == true)
+                if (tournamentModel.HasTournamentEnded(joinedTournament) == true && joinedTournament.locked == true)
                 {
                     joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
@@ -164,7 +164,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (_joinedTournament != null)
             {
-                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true)
+                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true && _joinedTournament.locked == false)
                 {
                     _joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);

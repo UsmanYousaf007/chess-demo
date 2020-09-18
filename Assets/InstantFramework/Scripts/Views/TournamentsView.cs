@@ -69,10 +69,13 @@ namespace TurboLabz.InstantFramework
             // Joined tournaments
             for (int i = 0; i < joinedTournaments.Count; i++)
             {
-                var joinedLiveItem = AddLiveTournamentItemPrefab();
-                joinedLiveItem.gameObject.SetActive(true);
-                PopulateTournamentLiveItem(joinedLiveItem, joinedTournaments[i]);
-                tournamentLiveItems.Add(joinedLiveItem);
+                if (joinedTournaments[i].ended == false)
+                {
+                    var joinedLiveItem = AddLiveTournamentItemPrefab();
+                    joinedLiveItem.gameObject.SetActive(true);
+                    PopulateTournamentLiveItem(joinedLiveItem, joinedTournaments[i]);
+                    tournamentLiveItems.Add(joinedLiveItem);
+                }
             }
 
             // Open tournaments
