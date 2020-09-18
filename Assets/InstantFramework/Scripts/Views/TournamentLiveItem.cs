@@ -50,6 +50,10 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateItem(LiveTournamentData liveTournamentData)
         {
+            EnableResultsGroup(false);
+            prizeImage.gameObject.SetActive(true);
+            grandPrizeTrophiesCountText.gameObject.SetActive(true);
+
             openTournamentData = liveTournamentData;
             joinedTournamentData = null;
 
@@ -93,17 +97,31 @@ namespace TurboLabz.InstantFramework
             tournamentImage.sprite = tournamentAssetsContainer.GetSticker(joinedTournamentData.type);
             tournamentImage.SetNativeSize();
 
-            if (joinedTournamentData.grandPrize != null)
+            if (joinedTournamentData.ended == false)
             {
                 prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
-                prizeImage.gameObject.SetActive(true);
                 grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
+
+                prizeImage.gameObject.SetActive(true);
                 grandPrizeTrophiesCountText.gameObject.SetActive(true);
+
+                EnableResultsGroup(false);
             }
             else
             {
                 prizeImage.gameObject.SetActive(false);
                 grandPrizeTrophiesCountText.gameObject.SetActive(false);
+
+                if (resultsTournamentImage != null)
+                {
+                    resultsTournamentImage.sprite = tournamentImage.sprite;
+                }
+                if (resultsYourRankText != null)
+                {
+                    resultsYourRankText.text = playerRankCountText.text;
+                }
+
+                EnableResultsGroup(true);
             }
 
             playerRankCountText.text = joinedTournamentData.rank.ToString();
@@ -141,9 +159,12 @@ namespace TurboLabz.InstantFramework
             {
                 infoBg.color = tournamentAssetsContainer.GetColor(joinedTournamentData.type);
             }
+        }
 
-            resultsTournamentImage.sprite = tournamentImage.sprite;
-            resultsYourRankText.text = playerRankCountText.text;
+        private void EnableResultsGroup(bool enable)
+        {
+            resultsTournamentImage?.gameObject.SetActive(enable);
+            resultsYourRankText?.gameObject.SetActive(enable);
         }
 
         public void UpdateTime()

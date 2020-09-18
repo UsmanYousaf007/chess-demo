@@ -76,11 +76,12 @@ namespace TurboLabz.InstantFramework
 
             if (updateLocal == false)
             {
-                for (int i = 0; i < openTournaments.Count; i++)
+                for (int i = openTournaments.Count - 1; i >= 0; i--)
                 {
-                    if (openTournaments[i].joined)
+                    if (openTournaments[i].joined == true)
                     {
-                        updateLocal = true;
+                        openTournaments.RemoveAt(i);
+                        continue;
                     }
 
                     if (currentTimeUTCSeconds > openTournaments[i].endTimeUTCSeconds)

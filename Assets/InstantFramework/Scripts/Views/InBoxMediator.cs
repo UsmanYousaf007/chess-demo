@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public OnTournamentEndRewardViewClickedSignal tournamentEndRewardClickedSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -88,6 +89,7 @@ namespace TurboLabz.InstantFramework
 
                 updateTournamentLeaderboardPartialSignal.Dispatch(joinedTournament.id);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                tournamentEndRewardClickedSignal.Dispatch(inboxBar.msgId);
                 getJoinedTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
             }
             else

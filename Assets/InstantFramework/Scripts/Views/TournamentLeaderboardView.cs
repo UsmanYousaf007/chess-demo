@@ -98,6 +98,9 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateHeaderAndFooter(LiveTournamentData liveTournament)
         {
+            EnableGroupResults(false);
+            EnableGroupLive(true);
+
             PopulateTournamentHeader(header, liveTournament);
             PopulateFooter(false);
             footer.bg.color = tournamentAssetsContainer.GetColor(liveTournament.type);
@@ -131,6 +134,9 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateHeaderAndFooter(JoinedTournamentData joinedTournament)
         {
+            EnableGroupResults(joinedTournament.ended);
+            EnableGroupLive(!joinedTournament.ended);
+
             PopulateTournamentHeader(header, joinedTournament);
             PopulateFooter(true);
             footer.bg.color = tournamentAssetsContainer.GetColor(joinedTournament.type);

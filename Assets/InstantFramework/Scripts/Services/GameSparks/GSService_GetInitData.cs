@@ -512,8 +512,8 @@ namespace TurboLabz.InstantFramework
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
                 // Sort entries on score here
-                tournamentEntries.Sort((x, y) =>
-                    y.score.CompareTo(x.score));
+                //tournamentEntries.Sort((x, y) =>
+                //    y.score.CompareTo(x.score));
 
                 joinedTournament.entries = tournamentEntries;
 

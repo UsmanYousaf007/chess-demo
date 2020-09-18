@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
+        [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -37,10 +39,13 @@ namespace TurboLabz.InstantFramework
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
+        private Signal onRewardDlgClosedSignal = new Signal();
+
         private LiveTournamentData _openTournament = null;
         private JoinedTournamentData _joinedTournament = null;
         private VirtualGoodsTransactionVO transactionVO;
         private bool haveNotEnoughTicketsToPlay = false;
+        private string rewardMessageId = null;
 
         public override void OnRegister()
         {
@@ -50,11 +55,14 @@ namespace TurboLabz.InstantFramework
             view.playerBarClickedSignal.AddListener(OnPlayerBarClicked);
             view.playerBarChestClickSignal.AddListener(OnPlayerBarChestClicked);
             view.footer.enterButtonClickedSignal.AddListener(OnEnterButtonClicked);
+            view.footer.resultsContinueButtonClickedSignal.AddListener(OnCollectRewardButtonClicked);
             view.infoBar.rulesButtonClickedSignal.AddListener(OnRulesButtonClicked);
             view.infoBar.totalScoreButtonClickedSignal.AddListener(OnTotalScoreButtonClicked);
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
             view.loadPictureSignal.AddListener(OnLoadPicture);
             view.backSignal.AddListener(OnBackPressed);
+
+            onRewardDlgClosedSignal.AddListener(OnRewardClosed);
 
         }
 
@@ -161,14 +169,18 @@ namespace TurboLabz.InstantFramework
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
+
+                _joinedTournament = null;
             }
             else if (_joinedTournament != null)
             {
-                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true && _joinedTournament.locked == false)
+                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true && _joinedTournament.locked == false && _joinedTournament.ended == false)
                 {
                     _joinedTournament.ended = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
+
+                _openTournament = null;
             }
         }
 
@@ -176,6 +188,12 @@ namespace TurboLabz.InstantFramework
         public void OnInventoryUpdated(PlayerInventoryVO inventory)
         {
             view.UpdateTickets();
+        }
+
+        [ListensTo(typeof(OnTournamentEndRewardViewClickedSignal))]
+        public void OnTournamentRewardViewClicked(string messageId)
+        {
+            rewardMessageId = messageId;
         }
 
         public void OnEnterButtonClicked()
@@ -224,6 +242,22 @@ namespace TurboLabz.InstantFramework
             //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
             //}
             
+        }
+
+        private void OnCollectRewardButtonClicked()
+        {
+            view.audioService.PlayStandardClick();
+
+            if (rewardMessageId != null)
+            {
+                loadRewardDlgViewSignal.Dispatch(rewardMessageId, onRewardDlgClosedSignal);
+            }
+        }
+
+        private void OnRewardClosed()
+        {
+            loadInboxSignal.Dispatch();
+            OnBackPressed();
         }
 
         private void OnItemConsumed(BackendResult result)
@@ -275,16 +309,15 @@ namespace TurboLabz.InstantFramework
                 _joinedTournament.locked = true;
             }
 
-            if (_openTournament != null)
-            {
-                _openTournament.joined = true;
-            }
-
             analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);
             analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
             FindMatchAction.Random(findMatchSignal, actionCode, _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode);
 
-            _openTournament = null;
+            if (_openTournament != null)
+            {
+                _openTournament.joined = true;
+                _openTournament = null;
+            }
         }
 
         public void OnPlayerBarClicked(TournamentLeaderboardPlayerBar playerBar)
@@ -321,6 +354,8 @@ namespace TurboLabz.InstantFramework
                 _joinedTournament.locked = false;
                 _joinedTournament = null;
             }
+
+            _openTournament = null;
         }
 
         private void OnBackPressed()
