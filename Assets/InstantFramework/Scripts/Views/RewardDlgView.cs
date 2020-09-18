@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
-                audioService.PlayStandardClick();
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
 
                 var notification = new Notification();
                 notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE);
@@ -102,7 +102,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
-                audioService.PlayStandardClick();
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
 
                 var notification = new Notification();
                 notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
@@ -176,7 +176,7 @@ namespace TurboLabz.InstantFramework
             {
                 analyticsService.Event(AnalyticsEventId.inbox_tournament_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
-                audioService.PlayStandardClick();
+                audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             });
 
             p.headingText.text = vo.tournamentName + " Reward";

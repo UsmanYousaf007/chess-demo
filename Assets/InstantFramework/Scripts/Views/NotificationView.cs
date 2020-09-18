@@ -334,7 +334,7 @@ namespace TurboLabz.InstantGame
                         notification.icon.gameObject.SetActive(true);
                         notification.fullButton.onClick.AddListener(LoadArena);
                     }
-                    else
+                    else if(notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
                     {
                         if (notificationVO.senderPlayerId.Equals("league"))
                         {

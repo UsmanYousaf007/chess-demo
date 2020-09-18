@@ -802,15 +802,18 @@ namespace TurboLabz.Multiplayer
 
         private void OnCrossPromoButtonClicked()
         {
-            toggleBannerSignal.Dispatch(false);
+            //toggleBannerSignal.Dispatch(false);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
           
-            IPromise promise = HCrossPromo.OpenPanel();
-            if (promise != null)
-            {
-                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
-                promise.Then(ToggleBannerSignalFunc);
-            }
+            //IPromise promise =
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+
+            //if (promise != null)
+            //{
+            //    appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+            //    promise.Then(ToggleBannerSignalFunc);
+            //}
         }
 
         private void OnPlayTournamentMatchButtonClicked()
