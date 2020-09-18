@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
@@ -172,11 +173,14 @@ namespace TurboLabz.InstantFramework
         public void InitRewardTournamentEndDlgPrefab(RewardDlgVO vo)
         {
             RewardTournamentEndDlg p = activeDlg.GetComponent<RewardTournamentEndDlg>();
+            p.button.enabled = true;
             p.button.onClick.AddListener(() =>
             {
                 analyticsService.Event(AnalyticsEventId.inbox_tournament_reward_collected);
-                buttonClickedSignal.Dispatch(vo.msgId);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+                p.PlayParticleAnimation();
+                StartCoroutine(TournamentRewardAnimationEnded(vo.msgId));
+                p.button.enabled = false;
             });
 
             p.headingText.text = vo.tournamentName + " Reward";
@@ -226,6 +230,12 @@ namespace TurboLabz.InstantFramework
             activeDlg.transform.SetParent(this.transform, false);
                 
             initFnMap[vo.type].Invoke(vo);
+        }
+
+        private IEnumerator TournamentRewardAnimationEnded(string msgId)
+        {
+            yield return new WaitForSeconds(1.3f);
+            buttonClickedSignal.Dispatch(msgId);
         }
     }
 }
