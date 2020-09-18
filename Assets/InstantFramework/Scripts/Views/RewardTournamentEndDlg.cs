@@ -28,6 +28,22 @@ namespace TurboLabz.InstantFramework
         public GameObject rewardsSection;
 
         public RectTransform layout;
+        public GameObject particleSystem;
+
+        public void OnEnable()
+        {
+            particleSystem.SetActive(false);
+        }
+
+        public void OnDisable()
+        {
+            particleSystem.SetActive(false);
+        }
+
+        public void PlayParticleAnimation()
+        {
+            particleSystem.SetActive(true);
+        }
 
         public void Awake()
         {
