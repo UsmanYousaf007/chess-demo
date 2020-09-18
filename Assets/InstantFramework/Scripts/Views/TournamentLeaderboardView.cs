@@ -295,15 +295,15 @@ namespace TurboLabz.InstantFramework
             item.haveEnoughItems = itemsOwned > 0;
             item.haveEnoughGems = playerModel.gems >= ticketStoreItem.currency3Cost;
 
-            if (isJoined && ended)
-            {
-                item.youHaveLabel.transform.parent.gameObject.SetActive(false);
-            }
-            else
-            {
-                item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
-                item.youHaveLabel.transform.parent.gameObject.SetActive(true);
-            }
+            //if (isJoined && ended)
+            //{
+            //    item.youHaveLabel.transform.parent.gameObject.SetActive(false);
+            //}
+            //else
+            //{
+            //    item.youHaveLabel.text = $"{localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_YOU_HAVE)} {itemsOwned}";
+            //    item.youHaveLabel.transform.parent.gameObject.SetActive(true);
+            //}
 
             item.enterButtonFreePlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_FREE_PLAY);
             item.enterButtonTicketPlayLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_TICKET_PLAY);
