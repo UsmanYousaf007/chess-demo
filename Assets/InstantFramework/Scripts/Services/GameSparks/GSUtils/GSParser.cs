@@ -382,6 +382,7 @@ namespace TurboLabz.InstantFramework
             msg.timeStamp = GetSafeLong(data, "time");
             msg.chestType = GetSafeString(data, "chestType");
             msg.tournamentType = GetSafeString(data, "tournamentType");
+            msg.tournamentId = GetSafeString(data, "tournamentId");
             msg.league = GetSafeString(data, "league");
             msg.startTime = GetSafeLong(data, "startTime");
             msg.rankCount = GetSafeInt(data, "rank");
