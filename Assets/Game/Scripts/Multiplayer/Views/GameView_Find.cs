@@ -143,6 +143,7 @@ namespace TurboLabz.Multiplayer
             }
 
             OnParentHideAdBanner();
+            ResetCapturedPieces();
         }
 
         public void HideFind()
