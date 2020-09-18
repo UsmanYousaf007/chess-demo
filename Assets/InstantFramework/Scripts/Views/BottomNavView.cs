@@ -58,6 +58,8 @@ namespace TurboLabz.InstantFramework
         public GameObject shopAlert;
         public GameObject inventoryAlert;
 
+        public RectTransform selectedRT;
+
         public Signal homeButtonClickedSignal = new Signal();
         public Signal friendsButtonClickedSignal = new Signal();
         public Signal inventoryButtonClickedSignal = new Signal();
@@ -70,6 +72,8 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+
+        bool onStart;
 
         public void Init()
         {
@@ -84,12 +88,29 @@ namespace TurboLabz.InstantFramework
             inventoryButton.onClick.AddListener(InventoryButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
             arenaButton.onClick.AddListener(ArenaButtonClicked);
+            //UpdateButtons(BottomNavView.ButtonId.Home);
+        }
 
+        IEnumerator WaitUntilEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            selectedImage.rectTransform.sizeDelta = new Vector2(homeButton.GetComponent<RectTransform>().rect.width, homeButton.GetComponent<RectTransform>().rect.height);
+            onStart = true;
             UpdateButtons(BottomNavView.ButtonId.Home);
+        }
+
+        private void SetSelectedImageStartingPos()
+        {
+            selectedImage.enabled = true;
         }
 
         private void OnEnable()
         {
+            if (!onStart)
+            {
+                selectedImage.enabled = false;
+                StartCoroutine(WaitUntilEndOfFrame());
+            }
             UpdateAlerts();
         }
 
@@ -101,6 +122,9 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateButtons(ButtonId buttonID)
         {
+            if (!onStart)
+                return;
+
             homeButton.interactable = true;
             homeSelected.SetActive(false);
             homeLabel.enabled = true;
@@ -127,7 +151,7 @@ namespace TurboLabz.InstantFramework
                 homeSelected.SetActive(true);
                 homeLabel.enabled = false;
                 iTween.MoveTo(selectedImage.gameObject,
-                iTween.Hash("position", homeSelected.transform.position, "time", 0.4f));
+                iTween.Hash("position", homeSelected.transform.position, "time", 0.4f, "oncomplete", "SetSelectedImageStartingPos", "oncompletetarget", this.gameObject));
             }
             else if (buttonID == ButtonId.Friends)
             {
