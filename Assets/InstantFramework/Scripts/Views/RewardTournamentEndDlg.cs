@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         public Text rankCountText;
 
         public Text trophiesCountText;
+        public Text trophiesAlreadyAdded;
 
         public Image chestImage;
         public Text chestText;
