@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSuccessSignal { get; set; }
         [Inject] public PlayerModelUpdatedSignal playerModelUpdatedSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -63,6 +64,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IBackendService backendService { get; set; } // Temp fix for beta. Remove this later
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

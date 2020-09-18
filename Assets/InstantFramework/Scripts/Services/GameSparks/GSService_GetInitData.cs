@@ -472,6 +472,7 @@ namespace TurboLabz.InstantFramework
             joinedTournament.type = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.TYPE);
             joinedTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
             joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
+            //joinedTournament.ended = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.CONCLUDED);
 
             var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
             if (grandPrizeGSData != null)

@@ -387,6 +387,8 @@ namespace TurboLabz.InstantFramework
                 // Tournament has ended
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = tournament;
+
+                loadInboxSignal.Dispatch();
             }
             else
             {
@@ -399,6 +401,12 @@ namespace TurboLabz.InstantFramework
                     joinedTournament.locked = true;
                     tournamentsModel.joinedTournaments.Add(joinedTournament);
                     tournamentsModel.RemoveFromOpenTournament(joinedTournament.shortCode);
+                }
+
+                if (tournamentsModel.HasTournamentEnded(joinedTournament))
+                {
+                    backendService.InBoxOpGet();
+                    //loadInboxSignal.Dispatch();
                 }
 
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);

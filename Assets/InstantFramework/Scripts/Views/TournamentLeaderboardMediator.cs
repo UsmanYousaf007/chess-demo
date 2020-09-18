@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -283,6 +284,7 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
                 audioService.PlayStandardClick();
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_ARENA);
+                updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
             }
             else
             {

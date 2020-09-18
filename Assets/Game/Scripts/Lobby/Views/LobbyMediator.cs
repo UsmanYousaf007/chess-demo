@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -569,6 +570,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnJoinedTournamentClicked(JoinedTournamentData data)
         {
+            updateTournamentLeaderboardPartialSignal.Dispatch(data.id);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
             getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
         }
@@ -582,6 +584,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                updateTournamentLeaderboardPartialSignal.Dispatch(data.shortCode);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
                 fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
             }

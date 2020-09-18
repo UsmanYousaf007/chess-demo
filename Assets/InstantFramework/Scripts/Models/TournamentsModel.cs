@@ -236,7 +236,15 @@ namespace TurboLabz.InstantFramework
 
         public JoinedTournamentData GetJoinedTournament()
         {
-            return joinedTournaments.Count > 0 ? joinedTournaments[0] : null;
+            for (int i = 0; i < joinedTournaments.Count; i++)
+            {
+                if (joinedTournaments[i].ended == false)
+                {
+                    return joinedTournaments[i];
+                }
+            }
+
+            return null;
         }
 
         public JoinedTournamentData GetJoinedTournament(string tournamentId)

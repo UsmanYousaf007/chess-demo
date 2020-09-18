@@ -527,7 +527,7 @@ namespace TurboLabz.InstantFramework
                     trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
                     tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
 
-                    endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                    endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
 
                     long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     string timeLeftText;
@@ -551,7 +551,7 @@ namespace TurboLabz.InstantFramework
                     trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).trophies.ToString();
                     tournamentBG.color = tournamentAssetsContainer.GetSolidColor(openTournament.type);
 
-                    endTimeUTCSeconds = openTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+                    endTimeUTCSeconds = openTournament.concludeTimeUTCSeconds;
 
                     long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                     string timeLeftText;
