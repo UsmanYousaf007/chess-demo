@@ -1,3 +1,4 @@
+using System;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine.Events;
@@ -7,22 +8,21 @@ namespace HUF.Ads.Runtime.API
     public class HRewarded
     {
         /// <summary>
-        /// This callback is called after rewarded ad has finished or been interrupted by user. <para />
-        /// Reward should be given only when result of IAdCallbackData is set as AdResult.Completed
+        /// Raised after a rewarded ad finishes or gets interrupted.<para />
+        /// A reward should be given only when the result of <see cref="IAdCallbackData"/> is <see cref="AdResult.Completed"/>.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnEnded;
 
         /// <summary>
-        /// This callback is called when user clicks an rewarded ad.
+        /// Raised when user clicks a rewarded ad.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnClicked;
 
         /// <summary>
-        /// This callback is called when rewarded ad is ready to be displayed.
-        /// It will be triggered as a response to <see cref="Fetch"/> method.
-        /// If fetching was successful, then callback is called with AdResult.Completed, if failed - AdResult.Failed 
+        /// Raised when a rewarded ad has been loaded, with <see cref="AdResult"/>.
+        /// It is triggered as a response to <see cref="Fetch"/> method.
         /// </summary>
         [PublicAPI]
         public event UnityAction<IAdCallbackData> OnFetched;
@@ -35,8 +35,8 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to register your rewarded ad provider. <para />
-        /// Could be used to add own Provider implementation.
+        /// Registers a rewarded ad provider.<para />
+        /// Can be used to add own Provider implementation.
         /// </summary>
         /// <param name="provider">Rewarded ad provider</param>
         [PublicAPI]
@@ -57,10 +57,10 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to show rewarded ad.
-        /// First Placement with the "Rewarded" type found in the Config will be used
+        /// Shows a rewarded ad.
+        /// First Placement with the "Rewarded" type found in the Config will be used.
         /// </summary>
-        /// <returns>Whether ad shown operation has started successfully or not</returns>
+        /// <returns>Whether ad shown operation has started successfully.</returns>
         [PublicAPI]
         public bool TryShow()
         {
@@ -68,10 +68,10 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to show rewarded ad with given placement id
+        /// Shows a rewarded ad.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
-        /// <returns>Whether ad shown operation has started successfully or not</returns>
+        /// <param name="placementId">The placement ID./param>
+        /// <returns>Whether ad shown operation has started successfully</returns>
         [PublicAPI]
         public bool TryShow( string placementId )
         {
@@ -79,7 +79,7 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to check whether rewarded ad is ready to play or not.
+        /// Checks whether a rewarded ad is ready to play.
         /// First Placement with the "Rewarded" type found in the Config will be used
         /// </summary>
         /// <returns>Status of ad</returns>
@@ -90,9 +90,9 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to check whether a rewarded ad with given placement id is ready to play or not.
+        /// Checks whether a rewarded ad with a given placement ID is ready to play
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
+        /// <param name="placementId">The placement ID.</param>
         /// <returns>Status of ad</returns>
         [PublicAPI]
         public bool IsReady( string placementId )
@@ -101,9 +101,9 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to fetch rewarded ad.
-        /// First Placement with the "Rewarded" type found in the Config will be used
-        /// Although fetch might not be required by some Ads implementations we highly recommend to do so
+        /// Fetches a rewarded ad.
+        /// First Placement with the "Rewarded" type found in the Config will be used.
+        /// Although a fetch might not be required by some Ad implementations it is highly recommend.
         /// </summary>
         [PublicAPI]
         public void Fetch()
@@ -112,10 +112,10 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Use this to fetch rewarded ad with given placement id
-        /// Although fetch might not be required by some Ads implementations we highly recommend to do so
+        /// Fetches a rewarded ad with a given placement ID.
+        /// Although a fetch might not be required by some Ad implementations it is highly recommend.
         /// </summary>
-        /// <param name="placementId">Your placement id</param>
+        /// <param name="placementId">The placement ID.</param>
         [PublicAPI]
         public void Fetch( string placementId )
         {
@@ -123,13 +123,24 @@ namespace HUF.Ads.Runtime.API
         }
 
         /// <summary>
-        /// Call this function to get current Rewarded ad provider name.
+        /// Gets the current rewarded ad mediator name.
         /// </summary>
-        /// <returns>Rewarded ad provider name</returns>
+        /// <returns>The rewarded ad mediator name</returns>
         [PublicAPI]
+        [Obsolete("Use `GetAdMediatorName` instead.")]
         public string GetAdProviderName()
         {
             return service.RewardedAdProvider.ProviderId;
+        }
+
+        /// <summary>
+        /// Gets the current rewarded ad mediator name.
+        /// </summary>
+        /// <returns>The rewarded ad mediator name</returns>
+        [PublicAPI]
+        public string GetAdMediatorName()
+        {
+            return service?.BannerAdProvider == null ? "UNKNOWN" : service.BannerAdProvider.ProviderId;
         }
 
         void AdEnded( IAdCallbackData data )

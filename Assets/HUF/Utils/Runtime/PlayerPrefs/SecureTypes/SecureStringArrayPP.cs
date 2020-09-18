@@ -24,7 +24,7 @@ namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes
                 
                 for (int i = 0; i < outputValues.Length; i++)
                 {
-                    outputValues[i] = SecurePPHelper.EncryptString(outputValues[i], encryption);
+                    outputValues[i] = SecurePPHelper.DecryptString(outputValues[i], encryption);
                 }
                 return outputValues;
             }
@@ -36,7 +36,7 @@ namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes
                 string[] inputValues = value;
                 for (int i = 0; i < inputValues.Length; i++)
                 {
-                    inputValues[i] = SecurePPHelper.DecryptString(inputValues[i], encryption);
+                    inputValues[i] = SecurePPHelper.EncryptString(inputValues[i], encryption);
                 }
                 pref.Value = inputValues;
             }

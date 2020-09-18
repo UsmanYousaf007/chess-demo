@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Attributes;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -35,7 +36,7 @@ namespace HUF.Utils.Runtime.Configs.API
             }
         }
 
-        public void ApplyJson(string json)
+        public void ApplyJson( string json )
         {
             if ( string.IsNullOrEmpty( json ) )
             {
@@ -44,22 +45,37 @@ namespace HUF.Utils.Runtime.Configs.API
 
             try
             {
-                JsonUtility.FromJsonOverwrite( json, this );
+                JsonUtility.FromJsonOverwrite( RemoveObjectReferences( json ), this );
                 HLog.Log( logPrefix, $"Json applied to config: {configId}." );
-
                 ValidateConfig();
-                OnChanged.Dispatch(this);
+                OnChanged.Dispatch( this );
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 HLog.LogError( logPrefix, $"Problem with parsing Json for config {GetType().Name} type\n{e.Message}" );
             }
         }
 
-        public virtual void ValidateConfig()
+        public static string RemoveObjectReferences( string json )
         {
+            if ( !json.Contains( "\"instanceID\"" ) )
+            {
+                return json;
+            }
 
+            json = Regex.Replace( json, ",\"\\w+\":{\"instanceID\":\\w+}", string.Empty );
+
+            if ( !json.Contains( string.Empty ) )
+                return json;
+
+            //check for array with objects 
+            json = Regex.Replace( json, ",{\"instanceID\":\\w+}", string.Empty );
+            json = Regex.Replace( json, "{\"instanceID\":\\w+}", string.Empty );
+            json = Regex.Replace( json, ",\"\\w+\":" + @"\[\]", string.Empty );
+            return json;
         }
+
+        public virtual void ValidateConfig() { }
 
 #if UNITY_EDITOR
         public virtual bool IsEditorConfigValid()
@@ -84,6 +100,7 @@ namespace HUF.Utils.Runtime.Configs.API
         public void OnPreprocessBuild( BuildReport report )
         {
             const string SELFCHECK_FAIL = "Config's self check failed";
+
             if ( !IsEditorConfigValid() )
             {
                 HLog.LogError( new HLogPrefix( logPrefix, configId ), SELFCHECK_FAIL );
@@ -107,7 +124,10 @@ namespace HUF.Utils.Runtime.Configs.API
                 OnPreprocessBuild( null );
                 HLog.Log( new HLogPrefix( logPrefix, configId ), "Config valid" );
             }
-            catch ( Exception e ) { }
+            catch ( Exception e )
+            {
+                HLog.LogError( new HLogPrefix( logPrefix, configId ), $"Config Validation failed with: {e}" );
+            }
         }
 #endif
     }
