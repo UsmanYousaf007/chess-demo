@@ -125,10 +125,20 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateCollectiblesCount()
         {
-            ticketsCount.text = playerModel.GetInventoryItemCount("SpecialItemTicket").ToString();
-            ratingBoostersCount.text = playerModel.GetInventoryItemCount("SpecialItemRatingBooster").ToString();
-            keysCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
-            hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
+            if (!playerModel.HasSubscription()) {
+                ticketsCount.text = playerModel.GetInventoryItemCount("SpecialItemTicket").ToString();
+                ratingBoostersCount.text = playerModel.GetInventoryItemCount("SpecialItemRatingBooster").ToString();
+                keysCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
+                hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
+            }
+            else
+            {
+                ticketsCount.text = "∞";
+                ratingBoostersCount.text = "∞";
+                keysCount.text = "∞";
+                hintsCount.text = "∞";
+            }
+    
         }
 
         public void UpdateRatingBoostersCount(long count)
