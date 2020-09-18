@@ -931,7 +931,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 8e89e5ce5e9234b23acfe6f8843eaa62, type: 3}
+    m_Font: {fileID: 12800000, guid: 0f6a69eb4bdad4cc888afe8cc43d4850, type: 3}
     m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
@@ -1137,6 +1137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerProfilePic
       objectReference: {fileID: 0}
+    - target: {fileID: 5016095306862191003, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: leagueBorder
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6665650889358244020, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1241,11 +1246,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5016095306862191003, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: leagueBorder
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8754006656353162124, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}

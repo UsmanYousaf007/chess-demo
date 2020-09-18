@@ -92,7 +92,17 @@ namespace TurboLabz.InstantGame
                 var lessonTile = lesson.GetComponent<LessonTile>();
                 lessonTile.Init(lessonVO);
                 lessonTile.button.onClick.RemoveAllListeners();
-                lessonTile.button.onClick.AddListener(() => playVideoSingal.Dispatch(lessonTile));
+                lessonTile.button.onClick.AddListener(() =>
+                {
+                    if (lessonVO.isLocked)
+                    {
+                        unlockVideoSingal.Dispatch(lessonTile);
+                    }
+                    else
+                    {
+                        playVideoSingal.Dispatch(lessonTile);
+                    }
+                });
                 lessonTile.unlockBtn.onClick.RemoveAllListeners();
                 lessonTile.unlockBtn.onClick.AddListener(() => unlockVideoSingal.Dispatch(lessonTile));
                 lesson.transform.SetParent(lessonContainer.transform, false);

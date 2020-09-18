@@ -29,6 +29,10 @@ namespace TurboLabz.InstantFramework
         public Text grandPrizeTrophiesCountText;
         public Text playerRankCountText;
 
+        public Image resultsTournamentImage;
+        public Text resultsYourRankLabel;
+        public Text resultsYourRankText;
+
         public Button button;
 
         [HideInInspector]
@@ -137,6 +141,9 @@ namespace TurboLabz.InstantFramework
             {
                 infoBg.color = tournamentAssetsContainer.GetColor(joinedTournamentData.type);
             }
+
+            resultsTournamentImage.sprite = tournamentImage.sprite;
+            resultsYourRankText.text = playerRankCountText.text;
         }
 
         public void UpdateTime()

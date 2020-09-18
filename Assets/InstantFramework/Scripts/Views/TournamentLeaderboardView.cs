@@ -43,6 +43,9 @@ namespace TurboLabz.InstantFramework
         public TournamentLeaderboardPlayerBar fixedPlayerBar;
         public PlayerStripOverlayCollisionDetection fixedPlayerStripEnabler;
 
+        public GameObject liveGroup;
+        public GameObject resultsGroup;
+
         // Player bar click signal
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
@@ -69,6 +72,21 @@ namespace TurboLabz.InstantFramework
             PopulateTournamentLeaderboardPlayerEnterBar();
             tournamentAssetsContainer = TournamentAssetsContainer.Load();
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
+
+            EnableGroupLive(true);
+            EnableGroupResults(false);
+        }
+
+        private void EnableGroupLive(bool enable)
+        {
+            liveGroup.SetActive(enable);
+            footer.enterButton.gameObject.SetActive(enable);
+        }
+
+        private void EnableGroupResults(bool enable)
+        {
+            resultsGroup.SetActive(enable);
+            footer.resultsContinueButton.gameObject.SetActive(enable);
         }
 
         public void PopulateTournamentLeaderboardPlayerEnterBar()
@@ -219,6 +237,8 @@ namespace TurboLabz.InstantFramework
         {
             item.UpdateItem(joinedTournament);
             item.liveImage?.gameObject.SetActive(false);
+
+            item.resultsYourRankLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_YOUR_RANK);
         }
 
         public void PopulateTournamentHeader(TournamentLiveItem item, LiveTournamentData liveTournament)
@@ -273,6 +293,7 @@ namespace TurboLabz.InstantFramework
             item.ticketPlayButtonGroup.gameObject.SetActive(alreadyPlayed);
             item.gemsBg.sprite = item.haveEnoughGems ? item.haveEnoughGemsSprite : item.notEnoughGemsSprite;
             item.gemsBg.gameObject.SetActive(false);
+            item.resultsContinueButtonLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_COLLECT_REWARDS);
 
             if (alreadyPlayed)
             {

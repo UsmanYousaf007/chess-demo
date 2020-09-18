@@ -175,7 +175,7 @@ namespace TurboLabz.InstantFramework
     public class LoadInboxSignal : Signal { }
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
-    public class LoadRewardDlgViewSignal : Signal<string> { }
+    public class LoadRewardDlgViewSignal : Signal<string, Signal> { }
     public class InboxFetchingMessagesSignal : Signal<bool> { }
     public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
     public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }

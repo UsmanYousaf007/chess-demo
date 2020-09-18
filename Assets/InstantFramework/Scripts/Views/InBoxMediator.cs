@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -33,6 +34,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
+        private  Signal onRewardDlgClosedSignal = new Signal();
+
         public override void OnRegister()
         {
             view.Init();
@@ -40,6 +43,8 @@ namespace TurboLabz.InstantFramework
             // Button click handlers
             view.inBoxBarClickedSignal.AddListener(OnInBoxBarClicked);
             view.bottoNavBackButtonClickedSignal.AddListener(OnBottomNavBackButtonClicked);
+
+            onRewardDlgClosedSignal.AddListener(OnRewardDlgClosed);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -87,7 +92,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                loadRewardDlgViewSignal.Dispatch(inboxBar.msgId);
+                loadRewardDlgViewSignal.Dispatch(inboxBar.msgId, onRewardDlgClosedSignal);
             }
 
             TLUtils.LogUtil.Log("InBoxMediator::OnInBoxBarClicked() ==>" + inboxBar.GetType().ToString());
@@ -117,6 +122,12 @@ namespace TurboLabz.InstantFramework
         public void OnInboxFetchingMessages(bool isFetching)
         {
             view.processing.SetActive(isFetching);
+        }
+
+        public void OnRewardDlgClosed()
+        {
+            TLUtils.LogUtil.Log("InBoxMediator::OnRewardDlgClosed()");
+            loadInboxSignal.Dispatch();
         }
     }
 }

@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
                 }
                 view.FlashClocks(false);
                 view.ShowResultsDialog();
+                view.OnParentHideAdBanner();
             }
         }
 
@@ -187,6 +188,7 @@ namespace TurboLabz.Multiplayer
                 //SpotPurchaseMediator.customContext = "tournament_end_card";
                 //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
 
+                SpotInventoryMediator.customContext = "tournament_end_card";
                 var spotInventoryParams = new LoadSpotInventoryParams();
                 spotInventoryParams.itemShortCode = transactionVO.consumeItemShortCode;
                 spotInventoryParams.itemToUnclockShortCode = transactionVO.consumeItemShortCode;

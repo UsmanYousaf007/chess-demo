@@ -28,6 +28,7 @@ namespace TurboLabz.CPU
         private bool canUseSpecialHint;
         private StoreItem hintsStoreItem;
         private int hintsAllowedPerGame;
+        private int hintCount;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal notEnoughGemsSignal = new Signal();
@@ -53,9 +54,11 @@ namespace TurboLabz.CPU
             hintsStoreItem = vo.specialHintStoreItem;
             canUseSpecialHint = vo.isAvailable;
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
+            hintCount = vo.hintCount;
             SetupSpecialHintButton();
             ToggleSpecialHintButton(vo.isPlayerTurn);
             specialHintTooltipText.text = $"*Only {hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
+            specialHintToolTip.SetActive(!canUseSpecialHint);
 
             if (canUseSpecialHint && !playerModel.HasSubscription())
             {
@@ -65,6 +68,7 @@ namespace TurboLabz.CPU
 
         public void UpdateSpecialHintButton(int usedCount)
         {
+            hintCount--;
             canUseSpecialHint = usedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
@@ -76,14 +80,13 @@ namespace TurboLabz.CPU
                 return;
             }
 
-            var hintCount = playerModel.GetInventoryItemCount(specialHintShortCode);
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
             haveEnoughHints =  hintCount > 0 || playerModel.HasSubscription();
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
             specialHintGemsBg.gameObject.SetActive(false);
-            specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
-            specialHintToolTip.SetActive(!canUseSpecialHint);
+            specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint && haveEnoughHints ? 1 : 0.5f);
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint && haveEnoughHints ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialHintCountContainer.SetActive(!playerModel.HasSubscription());
         }
@@ -140,6 +143,7 @@ namespace TurboLabz.CPU
             }
 
             specialHintView.Show(coachVO);
+            specialHintToolTip.SetActive(!canUseSpecialHint);
         }
 
         public void CancelSpecialHint()

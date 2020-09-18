@@ -445,7 +445,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 353}
+  m_SizeDelta: {x: 316, y: 353}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8624784119045981334
 CanvasRenderer:
@@ -518,6 +518,8 @@ MonoBehaviour:
   discountPercentage: 0
   discountAmount: {fileID: 9038410551472998637}
   discountValue: {fileID: 6530121667745006013}
+  isSpot: 0
+  loadThumbnail: 1
 --- !u!114 &7363716956059276386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 76, y: -88.5}
+  m_AnchoredPosition: {x: 69, y: -88.5}
   m_SizeDelta: {x: 84, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8624784119519562126
@@ -703,13 +705,13 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 28942cad5eb19471f854ded142325af7, type: 3}
+    m_Font: {fileID: 12800000, guid: 11baf4b87a60d4bd09b6cb3128f59de2, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 35
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -782,19 +784,19 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 28942cad5eb19471f854ded142325af7, type: 3}
-    m_FontSize: 45
+    m_Font: {fileID: 12800000, guid: 2858f50c58f1a4aaaa54b8fdeac2e711, type: 3}
+    m_FontSize: 41
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 3
-    m_MaxSize: 45
-    m_Alignment: 4
+    m_MaxSize: 41
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 265
+  m_Text: 6250
 --- !u!1 &8624784119779087770
 GameObject:
   m_ObjectHideFlags: 0

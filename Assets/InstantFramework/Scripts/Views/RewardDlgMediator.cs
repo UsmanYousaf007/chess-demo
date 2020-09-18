@@ -25,7 +25,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+
+        private Signal _onCloseSignal;
 
         public override void OnRegister()
         {
@@ -55,6 +56,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateRewardDlgViewSignal))]
         public void OnUpdate(RewardDlgVO vo)
         {
+            _onCloseSignal = vo.onCloseSignal;
             view.OnUpdate(vo);
         }
 
@@ -62,9 +64,8 @@ namespace TurboLabz.InstantFramework
         {
             TLUtils.LogUtil.Log("RewardDlgMediator::OnButtonClicked()");
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            loadInboxSignal.Dispatch();
-
             backendService.InBoxOpCollect(msgId);
+            _onCloseSignal?.Dispatch();
         }
     }
 }
