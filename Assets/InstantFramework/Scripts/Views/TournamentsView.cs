@@ -198,8 +198,8 @@ namespace TurboLabz.InstantFramework
             obj.transform.SetParent(listContainer, false);
 
             TournamentUpcomingItem item = obj.GetComponent<TournamentUpcomingItem>();
-            //item.Init();
-            item.Reset();
+            item.Init();
+            //item.Reset();
 
             return item;
         }

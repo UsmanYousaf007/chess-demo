@@ -34,11 +34,19 @@ namespace TurboLabz.InstantFramework
 
         private long currentStartTimeUTCSeconds;
 
-        public void Init()
+        private void Start()
         {
             ChestIconsContainer.Load();
             TournamentAssetsContainer.Load();
             startsInPanelDefaultPos = startsInPanel.transform.localPosition;
+        }
+
+        public void Init()
+        {
+            button.gameObject.SetActive(true);
+            startsInPanel.transform.localPosition = startsInPanelDefaultPos;
+            startsInPanel.transform.localScale = new Vector3(1f, 1f, 1f);
+            notificationEnabledText.DOFade(0.75f, 0);
         }
 
         public void UpdateItem(LiveTournamentData liveTournamentData, bool getNotified)
