@@ -11,6 +11,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform[] topNavs;
     public RectTransform[] secondTierTopNavs;
     public RectTransform[] botNavs;
+    public RectTransform mainBottomNav;
 
     [Header("Lobby")]
     public RectTransform lobbyScrollView;
@@ -143,6 +144,8 @@ public class NotchHandler : MonoBehaviour {
             SetY(tfm, 19f);
         }
 
+        SetY(mainBottomNav, 167f);
+        
         // LOBBY
         SetY(lobbyScrollView, -240f);
         SetTop(lobbyViewPort, 9f);

@@ -24420,15 +24420,6 @@ MonoBehaviour:
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
   profilePicButton: {fileID: 580990691}
-  playTournamentButton: {fileID: 0}
-  playTournamentButtonLabel: {fileID: 0}
-  tournamentLiveLabel: {fileID: 0}
-  liveTournamentIcon: {fileID: 0}
-  liveTournamentGO: {fileID: 0}
-  chestIcon: {fileID: 0}
-  trophiesCount: {fileID: 0}
-  countDowntimer: {fileID: 0}
-  tournamentBG: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
@@ -35424,15 +35415,6 @@ MonoBehaviour:
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
   profilePicButton: {fileID: 48075371}
-  playTournamentButton: {fileID: 0}
-  playTournamentButtonLabel: {fileID: 0}
-  tournamentLiveLabel: {fileID: 0}
-  liveTournamentIcon: {fileID: 0}
-  liveTournamentGO: {fileID: 0}
-  chestIcon: {fileID: 0}
-  trophiesCount: {fileID: 0}
-  countDowntimer: {fileID: 0}
-  tournamentBG: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
@@ -105184,7 +105166,7 @@ MonoBehaviour:
   - {fileID: 1902988845}
   - {fileID: 1577020451322261213}
   botNavs:
-  - {fileID: 112423222}
+  - {fileID: 7495359645106730181}
   - {fileID: 7495359645106730182}
   - {fileID: 431902463}
   - {fileID: 1215151230}
@@ -105197,7 +105179,7 @@ MonoBehaviour:
   - {fileID: 147702469}
   - {fileID: 2008947623}
   - {fileID: 112423223}
-  - {fileID: 7495359645106730181}
+  mainBottomNav: {fileID: 112423222}
   lobbyScrollView: {fileID: 1902988843}
   lobbyViewPort: {fileID: 1902988842}
   lobbyScrollViewPivotForBanner: {fileID: 1902988841}
