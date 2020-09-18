@@ -373,6 +373,11 @@ namespace TurboLabz.InstantFramework
             return leagueTierIconsContainer.GetAssets(leagueType);
         }
 
+        public Color GetColorCode(string tournamentType)
+        {
+            return tournamentAssetsContainer.GetSolidColor(tournamentType);
+        }
+
         #endregion
 
         private void UpdateTournamentsLocal()

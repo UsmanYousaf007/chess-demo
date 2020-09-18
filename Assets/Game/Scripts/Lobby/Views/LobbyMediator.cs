@@ -49,6 +49,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -84,6 +88,8 @@ namespace TurboLabz.InstantFramework
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.showChatSignal.AddListener(OnShowChat);
+            view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
+            view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -552,6 +558,36 @@ namespace TurboLabz.InstantFramework
         {
             view.RatingBoostAnimation(ratingBoost);
         }
+
+        #region Tournament
+
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateTournamentView()
+        {
+            view.UpdateTournamentView();
+        }
+
+        public void OnJoinedTournamentClicked(JoinedTournamentData data)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
+        }
+
+        public void OnOpenTournamentClicked(LiveTournamentData data)
+        {
+            if (data.concluded)
+            {
+                loadArenaSignal.Dispatch();
+                updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
+            }
+        }
+
+        #endregion
     }
 }
 

@@ -40,6 +40,8 @@ namespace TurboLabz.InstantGame
         public Image leagueBorder;
         public Text eloScoreLabel;
         public Text eloScoreValue;
+        public Text playerLeagueLabel;
+        public Image playerLeagueLabelBG;
         public Image playerFlag;
         private string playerId;
         private SpritesContainer defaultAvatarContainer;
@@ -48,18 +50,19 @@ namespace TurboLabz.InstantGame
         public RectTransform avatarContainerRef;
         public Button profilePicButton;
 
-        [Header("Tournaments Section")]
-        public Button playTournamentButton;
-        public Text playTournamentButtonLabel;
-        public Text tournamentLiveLabel;
-        public Image liveTournamentIcon;
-        public GameObject liveTournamentGO;
-
         [Header("Social Connection Section")]
         public Button socialConnectionButton;
         public Text socialConnectionButtonLabel;
         public Image facebookIcon;
         public Image appleIcon;
+
+        [Header("Invite Section")]
+        public Text inviteFriendsLobbyText;
+        public Button inviteFriendLobbyButton;
+        public GameObject inviteFriendsDlg;
+        public Button inviteFriendsCloseBtn;
+        public Button inviteFriendsBtn;
+        public Text inviteFriendTitleText;
 
         public RectTransform fbBtnPos;
         public Button facebookButton;
@@ -84,8 +87,8 @@ namespace TurboLabz.InstantGame
         public Signal facebookButtonClickedSignal = new Signal();
         public Signal profilePicButtonClickedSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
-        public Signal<JoinedTournamentData> joinedTournamentButtonClickedSignal = new Signal<JoinedTournamentData>();
-        public Signal<LiveTournamentData> openTournamentButtonClickedSignal = new Signal<LiveTournamentData>();
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        public Signal inviteFriendSignal = new Signal();
 
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -98,6 +101,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAudioService audioService { get; set; }
 
         private static StoreIconsContainer iconsContainer;
+        private ChestIconsContainer chestIconsContainer;
 
         public void Init()
         {
@@ -109,6 +113,11 @@ namespace TurboLabz.InstantGame
             if (iconsContainer == null)
             {
                 iconsContainer = StoreIconsContainer.Load();
+            }
+
+            if (chestIconsContainer == null)
+            {
+                chestIconsContainer = ChestIconsContainer.Load();
             }
 
             if (facebookButton != null)
@@ -126,21 +135,6 @@ namespace TurboLabz.InstantGame
             eloScoreLabel.text = localizationService.Get(LocalizationKey.ELO_SCORE);
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
 
-            if (playTournamentButtonLabel != null)
-            {
-                playTournamentButtonLabel.text = localizationService.Get(LocalizationKey.PLAY_TOURNAMENT);
-            }
-
-            if (tournamentLiveLabel != null)
-            {
-                tournamentLiveLabel.text = localizationService.Get(LocalizationKey.LIVE_TEXT);
-            }
-
-            if (playTournamentButton != null)
-            {
-                playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
-            }
-
             if (inboxButton != null)
             {
                 inboxButton.onClick.AddListener(OnInboxButtonClicked);
@@ -154,6 +148,17 @@ namespace TurboLabz.InstantGame
             if(socialConnectionButton != null)
             {
                 socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
+            }
+
+
+            if (inviteFriendsDlg != null)
+            {
+                inviteFriendsLobbyText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_BUTTON_TEXT);
+                inviteFriendLobbyButton.onClick.AddListener(OnDefaultInviteFriendsButtonClicked);
+
+                inviteFriendTitleText.text = localizationService.Get(LocalizationKey.FRIENDS_INVITE_TITLE_TEXT);
+                inviteFriendsCloseBtn.onClick.AddListener(InviteFriendDialogCloseButtonClicked);
+                inviteFriendsBtn.onClick.AddListener(InviteFriendDialogButtonClicked);
             }
         }
 
@@ -181,33 +186,28 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateTournamentView()
+        #region InviteFriendDialog
+        private void OnDefaultInviteFriendsButtonClicked()
         {
-            if (liveTournamentIcon != null)
-            {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
-                if (joinedTournament != null)
-                {
-                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
-                    liveTournamentIcon.SetNativeSize();
-                    playTournamentButton.interactable = true;
-                    liveTournamentGO.SetActive(true);
-                }
-                else if (openTournament != null)
-                {
-                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
-                    liveTournamentIcon.SetNativeSize();
-                    playTournamentButton.interactable = true;
-                    liveTournamentGO.SetActive(true);
-                }
-                else {
-                    liveTournamentIcon.sprite = null;
-                    playTournamentButton.interactable = false;
-                    liveTournamentGO.SetActive(false);
-                }
-            }
+            inviteFriendsDlg.SetActive(true);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVITE_DLG);
         }
+        private void InviteFriendDialogCloseButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void InviteFriendDialogButtonClicked()
+        {
+            inviteFriendSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        public void HideInviteDlg()
+        {
+            inviteFriendsDlg.SetActive(false);
+        }
+        #endregion
 
         public void UpdateView(ProfileVO vo)
         {
@@ -215,6 +215,17 @@ namespace TurboLabz.InstantGame
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
             playerId = vo.playerId;
+
+            if (playerLeagueLabel != null && playerLeagueLabelBG != null)
+            { 
+                LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+                if (leagueAssets != null)
+                {
+                    playerLeagueLabel.text = leagueAssets.typeName;
+                    playerLeagueLabelBG.sprite = leagueAssets.textUnderlaySprite;
+                }
+            }
+
             SetProfilePic(vo);
 
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
@@ -287,7 +298,14 @@ namespace TurboLabz.InstantGame
                 {
                     socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
                 }
-                socialConnectionButton.gameObject.SetActive(showFBLoginButton);
+                if (showFBLoginButton)
+                {
+                    socialConnectionButton.gameObject.SetActive(true);
+                }else
+                {
+                    socialConnectionButton.gameObject.SetActive(false);
+                    inviteFriendLobbyButton.gameObject.SetActive(true);
+                }
             }
         }
 
@@ -393,23 +411,6 @@ namespace TurboLabz.InstantGame
         public void ShowPremiumBorder(bool show)
         {
             premiumBorder.SetActive(show);
-        }
-
-        private void OnPlayTournamentButtonClicked()
-        {
-            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-            LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
-
-            if (joinedTournament != null)
-            {
-                joinedTournamentButtonClickedSignal.Dispatch(joinedTournament);
-            }
-            else if (openTournament != null)
-            {
-                openTournamentButtonClickedSignal.Dispatch(openTournament);
-            }
-
-            analyticsService.Event(AnalyticsEventId.tournament_promo);
         }
 
         public void SetLeagueBorder(Sprite border)
