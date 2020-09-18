@@ -387,22 +387,24 @@ namespace TurboLabz.InstantFramework
             backSignal.Dispatch();
         }
 
-        Coroutine rulesTooltipCR;
+        Coroutine tooltipCR;
         void OnRulesButtonClicked()
         {
-            if (rulesTooltipCR != null)
+            if (tooltipCR != null)
             {
-                StopCoroutine(rulesTooltipCR);
+                StopCoroutine(tooltipCR);
                 infoBar.rulesTooltipText.DOKill();
                 infoBar.rulesTooltipBG.DOKill();
             }
+            infoBar.gameModesTooltip.SetActive(false);
+            infoBar.totalScoresTooltip.SetActive(false);
 
             audioService.PlayStandardClick();
             infoBar.rulesTooltip.SetActive(!infoBar.rulesTooltip.activeSelf);
 
             if (infoBar.rulesTooltip.activeSelf)
             {
-                rulesTooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
+                tooltipCR = StartCoroutine(FadeOut(infoBar.rulesTooltipBG, infoBar.rulesTooltipText, 2f, 0f, infoBar.rulesTooltip));
             }
             else
             {
@@ -411,23 +413,24 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        Coroutine totalScoresTooltipCR;
         void OnTotalScoresButtonClicked()
         {
-
-            if (totalScoresTooltipCR != null)
+            if (tooltipCR != null)
             {
-                StopCoroutine(totalScoresTooltipCR);
+                StopCoroutine(tooltipCR);
                 infoBar.totalScoresTooltipText.DOKill();
                 infoBar.totalScoresTooltipBG.DOKill();
             }
+
+            infoBar.gameModesTooltip.SetActive(false);
+            infoBar.rulesTooltip.SetActive(false);
 
             audioService.PlayStandardClick();
             infoBar.totalScoresTooltip.SetActive(!infoBar.totalScoresTooltip.activeSelf);
 
             if (infoBar.totalScoresTooltip.activeSelf)
             {
-                totalScoresTooltipCR = StartCoroutine(FadeOut(infoBar.totalScoresTooltipBG, infoBar.totalScoresTooltipText, 2f, 0f, infoBar.totalScoresTooltip));
+                tooltipCR = StartCoroutine(FadeOut(infoBar.totalScoresTooltipBG, infoBar.totalScoresTooltipText, 2f, 0f, infoBar.totalScoresTooltip));
             }
             else
             {
@@ -437,22 +440,24 @@ namespace TurboLabz.InstantFramework
 
         }
 
-        Coroutine gameModesTooltipCR;
         void OnGameModesButtonClicked()
         {
-            if (gameModesTooltipCR != null)
+            if (tooltipCR != null)
             {
-                StopCoroutine(gameModesTooltipCR);
+                StopCoroutine(tooltipCR);
                 infoBar.gameModeTooltipText.DOKill();
                 infoBar.gameModeTooltipBG.DOKill();
             }
+
+            infoBar.totalScoresTooltip.SetActive(false);
+            infoBar.rulesTooltip.SetActive(false);
 
             audioService.PlayStandardClick();
             infoBar.gameModesTooltip.SetActive(!infoBar.gameModesTooltip.activeSelf);
 
             if (infoBar.gameModesTooltip.activeSelf)
             {
-                gameModesTooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));
+                tooltipCR = StartCoroutine(FadeOut(infoBar.gameModeTooltipBG, infoBar.gameModeTooltipText, 2f, 0f, infoBar.gameModesTooltip));
             }
             else
             {
@@ -463,7 +468,7 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(6);
             image.DOFade(fadeTo, duration);
             text.DOFade(fadeTo, duration);
             yield return new WaitForSeconds(duration);
