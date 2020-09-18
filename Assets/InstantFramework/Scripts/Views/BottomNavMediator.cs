@@ -80,10 +80,11 @@ namespace TurboLabz.InstantFramework
         public void OnUpdateView(BottomNavView.ButtonId buttonID)
         {
             view.UpdateAlerts();
-            view.UpdateButtons(buttonID);
+            //view.UpdateButtons();
+            //view.UpdateButtonID(buttonID);
         }
 
-        [ListensTo(typeof(ShowBottomNavSignal))]
+        //[ListensTo(typeof(ShowBottomNavSignal))]
         public void OnShowView(bool value)
         {
             view.Show(value);
