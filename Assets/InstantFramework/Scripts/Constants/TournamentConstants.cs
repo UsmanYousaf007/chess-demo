@@ -28,6 +28,13 @@ namespace TurboLabz.InstantFramework
             public const string MIN_10 = "10Min";
         }
 
+        public class TournamentName
+        {
+            public const string MIN_1 = "1 Min Bullet";
+            public const string MIN_5 = "5 Min Blitz";
+            public const string MIN_10 = "10 Min Rapid";
+        }
+
         public class LeagueType
         {
             public const string DIAMOND = "diamond";

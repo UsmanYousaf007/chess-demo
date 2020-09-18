@@ -121,7 +121,7 @@ namespace TurboLabz.InstantFramework
                 notificationsModel.RegisterNotification(reminder);
             });
 
-            p.headingText.text = vo.league;
+            p.headingText.text = vo.league.ToUpper();
             p.leagueGradient.sprite = vo.leagueGradient;
             p.subHeadingText.text = "Daily League Reward!";
             p.buttonText.text = "Collect";
@@ -151,7 +151,7 @@ namespace TurboLabz.InstantFramework
             p.subHeadingText.text = "You have been promoted!";
             p.buttonText.text = "Got it";
 
-            p.leagueTitleText.text = vo.league;
+            p.leagueTitleText.text = vo.league.ToUpper();
             p.leagueGradient.sprite = vo.leagueGradient;
             p.rewardsSubHeadingText.text = "Your Daily Perks";
 
@@ -179,7 +179,7 @@ namespace TurboLabz.InstantFramework
                 audioService.PlayStandardClick();
             });
 
-            p.headingText.text = vo.tournamentName + " Reward!";
+            p.headingText.text = vo.tournamentName + " Reward";
             p.subHeadtingLabel.text = "Rank Achieved";
             p.rankCountText.text = vo.rankCount.ToString();
             p.trophiesCountText.text = vo.trophiesCount.ToString();

@@ -98,9 +98,9 @@ namespace TurboLabz.InstantGame
             RewardDlgVO vo = new RewardDlgVO("RewardTournamentEnd");
             InboxMessage msg = inboxModel.items[msgId];
 
-            if (msg.tournamentType == TournamentConstants.TournamentType.MIN_1) vo.tournamentName = TournamentConstants.TournamentType.MIN_1;
-            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_5) vo.tournamentName = TournamentConstants.TournamentType.MIN_5;
-            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_10) vo.tournamentName = TournamentConstants.TournamentType.MIN_10;
+            if (msg.tournamentType == TournamentConstants.TournamentType.MIN_1) vo.tournamentName = TournamentConstants.TournamentName.MIN_1;
+            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_5) vo.tournamentName = TournamentConstants.TournamentName.MIN_5;
+            else if (msg.tournamentType == TournamentConstants.TournamentType.MIN_10) vo.tournamentName = TournamentConstants.TournamentName.MIN_10;
 
             if (msg.chestType == TournamentConstants.ChestType.COMMON) vo.chestName = "Common Chest";
             if (msg.chestType == TournamentConstants.ChestType.EPIC) vo.chestName = "Epic Chest";

@@ -2956,6 +2956,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6152886760575892294}
     m_Modifications:
+    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_Name
+      value: InventoryItem
+      objectReference: {fileID: 0}
     - target: {fileID: 8267565966825160137, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3060,11 +3065,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_Name
-      value: InventoryItem
       objectReference: {fileID: 0}
     - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -3252,6 +3252,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6152886760575892294}
     m_Modifications:
+    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_Name
+      value: InventoryItem
+      objectReference: {fileID: 0}
     - target: {fileID: 8267565966825160137, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3356,11 +3361,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_Name
-      value: InventoryItem
       objectReference: {fileID: 0}
     - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -3538,6 +3538,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6152886760575892294}
     m_Modifications:
+    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_Name
+      value: InventoryItem (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8267565966825160137, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3643,10 +3648,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
-      propertyPath: m_Name
-      value: InventoryItem (1)
+      propertyPath: m_SizeDelta.x
+      value: 317
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 174
       objectReference: {fileID: 0}
     - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -3682,16 +3692,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ownedBgColor.a
       value: 0.5019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 317
-      objectReference: {fileID: 0}
-    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174
       objectReference: {fileID: 0}
     - target: {fileID: 460047716164509946, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -4813,6 +4813,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4801241228510987785}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: Thinking
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4933,14 +4941,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.99998
       objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: Thinking
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
 --- !u!224 &6448558359725701455 stripped
@@ -4956,6 +4956,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6152886760575892294}
     m_Modifications:
+    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_Name
+      value: InventoryItem (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8267565966825160137, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5061,10 +5066,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6037874921497246671, guid: 787a0d878c53b43598070365737fda98,
+    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
-      propertyPath: m_Name
-      value: InventoryItem (1)
+      propertyPath: m_SizeDelta.x
+      value: 229
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 7313420165229108711, guid: 787a0d878c53b43598070365737fda98,
         type: 3}
@@ -5105,16 +5115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ownedBgColor.a
       value: 0.5019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 229
-      objectReference: {fileID: 0}
-    - target: {fileID: 1394711628128307599, guid: 787a0d878c53b43598070365737fda98,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 460047716164509946, guid: 787a0d878c53b43598070365737fda98,
         type: 3}

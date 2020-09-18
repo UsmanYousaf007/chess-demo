@@ -137,7 +137,7 @@ namespace TurboLabz.InstantFramework
                 iTween.Hash(
                     "from", from,
                     "to", to,
-                    "time", 2f,
+                    "time", 1f,
                     "onupdate", "AnimateBar",
                     "onupdatetarget", this.gameObject,
                     "oncomplete", "AnimationComplete"
