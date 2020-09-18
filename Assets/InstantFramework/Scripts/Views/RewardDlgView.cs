@@ -181,6 +181,7 @@ namespace TurboLabz.InstantFramework
 
             p.headingText.text = vo.tournamentName + " Reward";
             p.subHeadtingLabel.text = "Rank Achieved";
+            p.trophiesAlreadyAdded.text = localizationService.Get(LocalizationKey.TOURNAMENT_REWARD_DLG_TROPHIES_ADDED);
             p.rankCountText.text = vo.rankCount.ToString();
             p.trophiesCountText.text = vo.trophiesCount.ToString();
             p.chestImage.sprite = vo.chestImage;

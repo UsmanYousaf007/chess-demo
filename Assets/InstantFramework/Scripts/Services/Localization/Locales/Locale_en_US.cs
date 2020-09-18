@@ -524,6 +524,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_DESCRIPTION, "This Chest Contains:"},
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT, "Got it"},
 
+                { LocalizationKey.TOURNAMENT_REWARD_DLG_TROPHIES_ADDED, "Trophies already added to your account"},
                 #endregion
 
                 #region InBox
