@@ -3,22 +3,8 @@
   <application android:usesCleartextTraffic="true">
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-1220882738324941~5282706915" />
     <meta-data android:name="applovin.sdk.key" android:value="4cGQClILnclNaflJM0vqqIM1cDbpyzU1amRnUk6FKrdwVNEsO7fCQ1D2EqrBnKCL4e7TMDph2QcXprOBz2OO4b" />
-    <activity android:name="com.vungle.publisher.VideoFullScreenAdActivity" android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-    <activity android:name="com.vungle.publisher.MraidFullScreenAdActivity" android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
     <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
-    <activity android:name="com.inmobi.rendering.InMobiAdActivity" android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize" android:hardwareAccelerated="true" />
-    <receiver android:name="com.inmobi.commons.core.utilities.uid.ImIdShareBroadCastReceiver" android:enabled="true" android:exported="true" tools:ignore="ExportedReceiver">
-      <intent-filter>
-        <action android:name="com.inmobi.share.id" />
-      </intent-filter>
-    </receiver>
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
-    <activity android:name="com.mopub.mobileads.MoPubActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-    <activity android:name="com.mopub.mobileads.MraidActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-    <activity android:name="com.mopub.common.MoPubBrowser" android:configChanges="keyboardHidden|orientation|screenSize" />
-    <activity android:name="com.mopub.mobileads.MraidVideoPlayerActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-    <activity android:name="com.mopub.mobileads.RewardedMraidActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-    <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
   </application>
 </manifest>
