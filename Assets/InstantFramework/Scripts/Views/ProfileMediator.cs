@@ -29,13 +29,12 @@ namespace TurboLabz.InstantGame
         [Inject] public AuthFaceBookSignal authFacebookSignal { get; set; }
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public PlayerProfilePicTappedSignal playerProfilePicTappedSignal { get; set; }
-        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
-        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public ShowThemesInventoryTabSignal showThemesInventoryTabSignal { get; set; }
+        [Inject] public ShareAppSignal shareAppSignal { get; set; }
 
         // View injection
         [Inject] public ProfileView view { get; set; }
@@ -51,11 +50,10 @@ namespace TurboLabz.InstantGame
             view.facebookButtonClickedSignal.AddListener(OnFacebookButtonClicked);
             view.profilePicButtonClickedSignal.AddListener(OnProfilePicButtonClicked);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
-            view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
-            view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
             view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
             view.changeThemesButtonClickedSignal.AddListener(OnChangeThemesButtonClicked);
             view.socialConnectionButtonClickedSignal.AddListener(OnSocialConnectionButtonClicked);
+            view.inviteFriendSignal.AddListener(OnInviteFriend);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -100,12 +98,6 @@ namespace TurboLabz.InstantGame
             view.UpdateProfilePic(vo);
         }
 
-        [ListensTo(typeof(UpdateTournamentsViewSignal))]
-        public void UpdateTournamentView()
-        {
-            view.UpdateTournamentView();
-        }
-
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -134,26 +126,6 @@ namespace TurboLabz.InstantGame
         //    view.ShowPremiumBorder(playerModel.HasSubscription());
         //}
 
-        public void OnJoinedTournamentClicked(JoinedTournamentData data)
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
-            getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
-        }
-
-        public void OnOpenTournamentClicked(LiveTournamentData data)
-        {
-            if (data.concluded)
-            {
-                loadArenaSignal.Dispatch();
-                updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
-            }
-            else
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
-                fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
-            }
-        }
-
         private void OnInboxButtonClicked()
         {
             loadInboxSignal.Dispatch();
@@ -175,6 +147,11 @@ namespace TurboLabz.InstantGame
         void OnSocialConnectionButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SOCIAL_CONNECTION_DLG);
+        }
+
+        private void OnInviteFriend()
+        {
+            shareAppSignal.Dispatch();
         }
     }
 }

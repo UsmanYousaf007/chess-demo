@@ -45,11 +45,28 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+
+        public ProfileView profileView;
+
         private SpritesContainer defaultAvatarContainer;
 
         public Transform listContainer;
         public GameObject friendBarPrefab;
 
+
+        [Header("Tournaments Section")]
+        public Button playTournamentButton;
+        public Text playTournamentButtonLabel;
+        public Text tournamentLiveLabel;
+        public Image liveTournamentIcon;
+        public GameObject liveTournamentGO;
+        public Image chestIcon;
+        public Text trophiesCount;
+        public Text countDowntimer;
+        public Image tournamentBG;
+        private long endTimeUTCSeconds;
+        private WaitForSecondsRealtime waitForOneRealSecond;
 
         public Button quickMatch1MinBtn;
         public Button quickMatch5MinBtn;
@@ -185,6 +202,8 @@ namespace TurboLabz.InstantFramework
         public Signal<string> showChatSignal = new Signal<string>();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
         public Signal OnLessonsBtnClicked = new Signal();
+        public Signal<JoinedTournamentData> joinedTournamentButtonClickedSignal = new Signal<JoinedTournamentData>();
+        public Signal<LiveTournamentData> openTournamentButtonClickedSignal = new Signal<LiveTournamentData>();
 
         private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -197,6 +216,8 @@ namespace TurboLabz.InstantFramework
         private bool isCPUGameInProgress;
         List<FriendBar> recentlyCompleted = new List<FriendBar>();
         private StoreIconsContainer iconsContainer;
+        private ChestIconsContainer chestIconsContainer;
+        private TournamentAssetsContainer tournamentAssetsContainer;
 
         public void Init()
         {
@@ -288,6 +309,8 @@ namespace TurboLabz.InstantFramework
             rewardOkButtonText.text = localizationService.Get(LocalizationKey.REWARD_UNLOCKED_CLAIM);
             rewardOkButton.onClick.AddListener(() => rewardUnlockedDlg.SetActive(false));
             iconsContainer = StoreIconsContainer.Load();
+            chestIconsContainer = ChestIconsContainer.Load();
+            tournamentAssetsContainer = TournamentAssetsContainer.Load();
 
             //Ad Skipped Dlg 
             adSkippedTitle.text = localizationService.Get(LocalizationKey.AD_SKIPPED_TITLE);
@@ -297,6 +320,33 @@ namespace TurboLabz.InstantFramework
 
             // Initializing Friend Bars Pool
             friendBarsPool = new GameObjectsPool(friendBarPrefab, 10);
+
+            //Tournaments section
+            playTournamentButtonLabel.text = localizationService.Get(LocalizationKey.PLAY_TOURNAMENT);
+            tournamentLiveLabel.text = localizationService.Get(LocalizationKey.LIVE_TEXT);
+            playTournamentButton.onClick.AddListener(OnPlayTournamentButtonClicked);
+
+            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
+        }
+
+        public void Show()
+        {
+            showBottomNavSignal.Dispatch(true);
+            gameObject.SetActive(true);
+            startGameConfirmationDlg.gameObject.SetActive(false);
+            removeCommunityFriendDlg.SetActive(false);
+            createMatchLimitReachedDlg.SetActive(false);
+            chooseComputerDifficultyDlg.SetActive(false);
+            coachTrainingDailogue.GetComponent<CoachTrainingView>().Close();
+            strengthTrainingDailogue.GetComponent<StrengthTrainingView>().Close();
+            ratingBoost.gameObject.SetActive(false);
+            StartCoroutine(CountdownTimer());
+        }
+
+        public void Hide()
+        {
+            StopCoroutine(CountdownTimer());
+            gameObject.SetActive(false);
         }
 
         void OnDecStrengthButtonClicked()
@@ -373,6 +423,23 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        private void OnPlayTournamentButtonClicked()
+        {
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+            LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+
+            if (joinedTournament != null)
+            {
+                joinedTournamentButtonClickedSignal.Dispatch(joinedTournament);
+            }
+            else if (openTournament != null)
+            {
+                openTournamentButtonClickedSignal.Dispatch(openTournament);
+            }
+
+            analyticsService.Event(AnalyticsEventId.tournament_promo);
+        }
+
         void OnQuickMatchBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
@@ -442,6 +509,101 @@ namespace TurboLabz.InstantFramework
         {
             OnLessonsBtnClicked.Dispatch();
         }
+
+        #region Tournaments
+
+        public void UpdateTournamentView()
+        {
+            if (liveTournamentIcon != null)
+            {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+
+                if (joinedTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(joinedTournament.type);
+                    liveTournamentIcon.SetNativeSize();
+                    playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
+                    chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.shortCode).chestType);
+                    trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.shortCode).trophies.ToString();
+                    tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
+
+                    endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+
+                    long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    string timeLeftText;
+                    if (timeLeft > 0)
+                    {
+                        timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                    }
+                    else
+                    {
+                        timeLeftText = "0:00";
+                    }
+                    countDowntimer.text = timeLeftText;
+                }
+                else if (openTournament != null)
+                {
+                    liveTournamentIcon.sprite = tournamentsModel.GetStickerSprite(openTournament.type);
+                    liveTournamentIcon.SetNativeSize();
+                    playTournamentButton.interactable = true;
+                    liveTournamentGO.SetActive(true);
+                    chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).chestType);
+                    trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(openTournament.shortCode).trophies.ToString();
+                    tournamentBG.color = tournamentAssetsContainer.GetSolidColor(openTournament.type);
+
+                    endTimeUTCSeconds = openTournament.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+
+                    long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    string timeLeftText;
+                    if (timeLeft > 0)
+                    {
+                        timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                    }
+                    else
+                    {
+                        timeLeftText = "0:00";
+                    }
+                    countDowntimer.text = timeLeftText;
+                }
+                else
+                {
+                    liveTournamentIcon.sprite = null;
+                    playTournamentButton.interactable = false;
+                    liveTournamentGO.SetActive(false);
+                }
+            }
+        }
+
+        public void UpdateTime()
+        {
+            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            if (timeLeft > 0)
+            {
+                timeLeft--;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                countDowntimer.text = timeLeftText;
+            }
+            else
+            {
+                countDowntimer.text = "0:00";
+            }
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                yield return waitForOneRealSecond;
+
+                UpdateTime();
+            }
+
+            yield return null;
+        }
+
+        #endregion
 
         void CacheEnabledSections()
         {
@@ -848,24 +1010,6 @@ namespace TurboLabz.InstantFramework
                 friendBar.isOfferDraw = false;
                 friendBar.UpdateStatus();
             }
-        }
-
-        public void Show()
-        {
-            showBottomNavSignal.Dispatch(true);
-            gameObject.SetActive(true);
-            startGameConfirmationDlg.gameObject.SetActive(false);
-            removeCommunityFriendDlg.SetActive(false);
-            createMatchLimitReachedDlg.SetActive(false);
-            chooseComputerDifficultyDlg.SetActive(false);
-            coachTrainingDailogue.GetComponent<CoachTrainingView>().Close();
-            strengthTrainingDailogue.GetComponent<StrengthTrainingView>().Close();
-            ratingBoost.gameObject.SetActive(false);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         public bool IsVisible()

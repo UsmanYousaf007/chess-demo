@@ -24414,6 +24414,8 @@ MonoBehaviour:
   leagueBorder: {fileID: 718834871}
   eloScoreLabel: {fileID: 1122052553}
   eloScoreValue: {fileID: 724965330}
+  playerLeagueLabel: {fileID: 0}
+  playerLeagueLabelBG: {fileID: 0}
   playerFlag: {fileID: 583626470}
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
@@ -24423,10 +24425,20 @@ MonoBehaviour:
   tournamentLiveLabel: {fileID: 0}
   liveTournamentIcon: {fileID: 0}
   liveTournamentGO: {fileID: 0}
+  chestIcon: {fileID: 0}
+  trophiesCount: {fileID: 0}
+  countDowntimer: {fileID: 0}
+  tournamentBG: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
   appleIcon: {fileID: 0}
+  inviteFriendsLobbyText: {fileID: 0}
+  inviteFriendLobbyButton: {fileID: 0}
+  inviteFriendsDlg: {fileID: 0}
+  inviteFriendsCloseBtn: {fileID: 0}
+  inviteFriendsBtn: {fileID: 0}
+  inviteFriendTitleText: {fileID: 0}
   fbBtnPos: {fileID: 0}
   facebookButton: {fileID: 0}
   facebookButtonLabel: {fileID: 0}
@@ -35406,6 +35418,8 @@ MonoBehaviour:
   leagueBorder: {fileID: 689201278}
   eloScoreLabel: {fileID: 916494726}
   eloScoreValue: {fileID: 523734483}
+  playerLeagueLabel: {fileID: 0}
+  playerLeagueLabelBG: {fileID: 0}
   playerFlag: {fileID: 1377115543}
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
@@ -35415,10 +35429,20 @@ MonoBehaviour:
   tournamentLiveLabel: {fileID: 0}
   liveTournamentIcon: {fileID: 0}
   liveTournamentGO: {fileID: 0}
+  chestIcon: {fileID: 0}
+  trophiesCount: {fileID: 0}
+  countDowntimer: {fileID: 0}
+  tournamentBG: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
   appleIcon: {fileID: 0}
+  inviteFriendsLobbyText: {fileID: 0}
+  inviteFriendLobbyButton: {fileID: 0}
+  inviteFriendsDlg: {fileID: 0}
+  inviteFriendsCloseBtn: {fileID: 0}
+  inviteFriendsBtn: {fileID: 0}
+  inviteFriendTitleText: {fileID: 0}
   fbBtnPos: {fileID: 0}
   facebookButton: {fileID: 0}
   facebookButtonLabel: {fileID: 0}
@@ -105578,6 +105602,11 @@ PrefabInstance:
       value: -78.6001
       objectReference: {fileID: 0}
     - target: {fileID: 2464176559523239435, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
+    - target: {fileID: 365775208325671202, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f,
         type: 3}
       propertyPath: sourceImage
       value: 

@@ -35,6 +35,16 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public Color GetSolidColor(string tournamentType)
+        {
+            if (assetsDict.ContainsKey(tournamentType))
+            {
+                return assetsDict[tournamentType].solidColor;
+            }
+
+            return Color.clear;
+        }
+
         public Sprite GetTile(string tournamentType)
         {
             if (assetsDict.ContainsKey(tournamentType))
