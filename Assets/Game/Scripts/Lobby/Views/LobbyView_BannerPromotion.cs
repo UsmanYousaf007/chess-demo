@@ -47,7 +47,8 @@ namespace TurboLabz.InstantFramework
             {
                 Destroy(spawnedBanner);
             }
-            
+
+
             if (LobbyPromotionKeys.Contains(vo.key))
             {
                 var prefabToInstantiate = Resources.Load(vo.key);
