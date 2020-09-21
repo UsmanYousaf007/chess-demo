@@ -35839,12 +35839,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2116651955103990543}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &690948491 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1577020451818701029, guid: 784d265be26c848e0abc6305689f7694,
-    type: 3}
-  m_PrefabInstance: {fileID: 1577020451322261212}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &695175896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4779815338723836708, guid: 36b81004f4318487ea5882344ad3e7b5,
@@ -105294,7 +105288,7 @@ MonoBehaviour:
   manageSubscriptionBottomNav: {fileID: 1435322812}
   blockedFriendsScrollView: {fileID: 525386969}
   blockedFriendsScrollViewPort: {fileID: 2042987604}
-  blockedFriendsSearchBarShadow: {fileID: 690948491}
+  blockedFriendsSecondTierTopNav: {fileID: 1577020451322261213}
   topicsViewBottomNav: {fileID: 1639294513}
   topicsScrollView: {fileID: 2026706856}
   lessonsViewBottomNav: {fileID: 398616761}

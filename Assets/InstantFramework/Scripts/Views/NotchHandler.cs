@@ -79,7 +79,7 @@ public class NotchHandler : MonoBehaviour {
     [Header("Manage Blocked Friends")]
     public RectTransform blockedFriendsScrollView;
     public RectTransform blockedFriendsScrollViewPort;
-    public RectTransform blockedFriendsSearchBarShadow;
+    public RectTransform blockedFriendsSecondTierTopNav;
 
     [Header("Lesson Views")]
     public RectTransform topicsViewBottomNav;
@@ -219,17 +219,17 @@ public class NotchHandler : MonoBehaviour {
         SetY(subscriptionOffers, -626f);
 
         //Promotion
-        //SetY(promotionTitle, -106f);
-        //SetY(promotionOffers, -435f);
+        SetY(promotionTitle, -106f);
+        SetY(promotionOffers, -435f);
 
         //Manage Subscription
         SetY(manageSubscriptionBottomNav, 60);
 
         // Blocked Friends
-        SetY(blockedFriendsScrollView, -20f);
-        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 60);
-        SetY(blockedFriendsSearchBarShadow, -125);
-
+        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 295);
+        blockedFriendsScrollViewPort.offsetMax = new Vector2(blockedFriendsScrollViewPort.offsetMax.x, -324);
+        SetY(blockedFriendsSecondTierTopNav, -165);
+   
         //Lesson Views
         SetY(topicsViewBottomNav, 89f);
         SetTop(topicsScrollView, -177f);
