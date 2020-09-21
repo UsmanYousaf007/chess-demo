@@ -31,6 +31,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform friendsScrollView;
     public RectTransform friendsViewPort;
     public RectTransform friendsScrollViewTopShadow;
+    public RectTransform friendsSecondTierTopNav;
 
     [Header("CPU Game")]
     public RectTransform cpuTopBar;
@@ -173,10 +174,11 @@ public class NotchHandler : MonoBehaviour {
         SetY(profileBottomNav, 156f);
 
         // FRIENDS
-        SetY(friendsScrollView, -31f - 100f);
-        SetTop(friendsViewPort, 0f);
-        SetBottom(friendsViewPort, 100f + 100f);
+        //SetY(friendsScrollView, -31f - 100f);
+        SetTop(friendsViewPort, -336f);
+        SetBottom(friendsViewPort, 260f);
         SetY(friendsScrollViewTopShadow, -10);
+        SetY(friendsSecondTierTopNav, -163);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);
