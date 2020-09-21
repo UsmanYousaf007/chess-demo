@@ -2928,19 +2928,22 @@ MonoBehaviour:
   leagueBorder: {fileID: 6080459847165216761}
   eloScoreLabel: {fileID: 1300161158644412695}
   eloScoreValue: {fileID: 1300161157505489006}
+  playerLeagueLabel: {fileID: 0}
+  playerLeagueLabelBG: {fileID: 0}
   playerFlag: {fileID: 1300161158807869806}
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
   profilePicButton: {fileID: 1200782218067656339}
-  playTournamentButton: {fileID: 0}
-  playTournamentButtonLabel: {fileID: 0}
-  tournamentLiveLabel: {fileID: 0}
-  liveTournamentIcon: {fileID: 0}
-  liveTournamentGO: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
   appleIcon: {fileID: 0}
+  inviteFriendsLobbyText: {fileID: 0}
+  inviteFriendLobbyButton: {fileID: 0}
+  inviteFriendsDlg: {fileID: 0}
+  inviteFriendsCloseBtn: {fileID: 0}
+  inviteFriendsBtn: {fileID: 0}
+  inviteFriendTitleText: {fileID: 0}
   fbBtnPos: {fileID: 0}
   facebookButton: {fileID: 0}
   facebookButtonLabel: {fileID: 0}
@@ -3457,9 +3460,9 @@ RectTransform:
   - {fileID: 4752417547044387123}
   - {fileID: 1300161156987325383}
   - {fileID: 1300161158580217403}
-  - {fileID: 1300161157637205483}
   - {fileID: 5189197977032412203}
   - {fileID: 5627584211322373919}
+  - {fileID: 1300161157637205483}
   m_Father: {fileID: 1300161158656801233}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5435,7 +5438,7 @@ RectTransform:
   - {fileID: 6760770228475361521}
   - {fileID: 3504235324511072073}
   m_Father: {fileID: 1300161157902199842}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -9216,7 +9219,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1300161157902199842}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -12080,7 +12083,7 @@ GameObject:
   - component: {fileID: 5627584211322373919}
   - component: {fileID: 490754549636469171}
   m_Layer: 5
-  m_Name: LeftPanel
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12101,11 +12104,11 @@ RectTransform:
   - {fileID: 9038413715667565653}
   - {fileID: 2908533173525119942}
   m_Father: {fileID: 1300161157902199842}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -796.024}
+  m_AnchoredPosition: {x: 0, y: -994}
   m_SizeDelta: {x: 0, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &490754549636469171
@@ -13477,7 +13480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.003921569, b: 0.003921569, a: 0.53333336}
+  m_Color: {r: 0.003921569, g: 0.003921569, b: 0.003921569, a: 0.3529412}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -14354,15 +14357,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
---- !u!224 &3818703118478988780 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
-    type: 3}
-  m_PrefabInstance: {fileID: 4027064248608456512}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4028133588288694958 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4027064248608456512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &3818703118478988780 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
     type: 3}
   m_PrefabInstance: {fileID: 4027064248608456512}
   m_PrefabAsset: {fileID: 0}

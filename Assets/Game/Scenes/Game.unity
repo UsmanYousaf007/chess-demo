@@ -18593,6 +18593,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &354125936 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5627584211322373919, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1450800370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &354968788
 GameObject:
   m_ObjectHideFlags: 0
@@ -33883,6 +33889,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &658855321 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5189197977032412203, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1450800370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &660870181
 GameObject:
   m_ObjectHideFlags: 0
@@ -77960,6 +77972,11 @@ PrefabInstance:
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 105294782}
+    - target: {fileID: 4934871267201218404, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 13.540039
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b61f72c037234d6ba533cb9f20f20bd, type: 3}
 --- !u!1 &1450800371 stripped
@@ -105066,7 +105083,8 @@ MonoBehaviour:
   lobbyView: {fileID: 1902988840}
   lobbyScrollViewTopShadow: {fileID: 1902988839}
   profileFacebookButton: {fileID: 1843188360}
-  profileSiwaButton: {fileID: 0}
+  profileVersion: {fileID: 658855321}
+  profileLinksPanel: {fileID: 354125936}
   profileCenterContent: {fileID: 152747280}
   friendsScrollView: {fileID: 1684146533}
   friendsViewPort: {fileID: 1674480800}

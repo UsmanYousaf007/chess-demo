@@ -22,8 +22,10 @@ public class NotchHandler : MonoBehaviour {
 
     [Header("Profile")]
     public RectTransform profileFacebookButton;
-    public RectTransform profileSiwaButton;
+    public RectTransform profileAppVersion;
+    public RectTransform profileLinksPanel;
     public RectTransform profileCenterContent;
+    public RectTransform profileBottomNav;
 
     [Header("Friends")]
     public RectTransform friendsScrollView;
@@ -160,10 +162,12 @@ public class NotchHandler : MonoBehaviour {
 
         SetY(lobbyScrollViewTopShadow, -2);
 
-        // PROFILE
-        SetY(profileFacebookButton, -270f);
-        //SetY(profileSiwaButton, -270f);
-        SetY(profileCenterContent, -66f);
+        // PROFILE156
+        SetY(profileFacebookButton, -281f);
+        SetY(profileLinksPanel, -786f);
+        SetY(profileAppVersion, 294f);
+        SetY(profileCenterContent, -95f);
+        SetY(profileBottomNav, 156f);
 
         // FRIENDS
         SetY(friendsScrollView, -31f - 100f);
