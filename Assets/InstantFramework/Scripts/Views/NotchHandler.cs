@@ -256,8 +256,8 @@ public class NotchHandler : MonoBehaviour {
         inventorySpecialItemsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
         //Inbox
-        SetTop(inboxItemsContainer, -175f);
-        SetBottom(inboxItemsContainer, 232f);
+        SetTop(inboxItemsContainer, -213f);
+        SetBottom(inboxItemsContainer, 213f);
         SetY(inboxBottomNav, 90f);
 
         //League Perks
