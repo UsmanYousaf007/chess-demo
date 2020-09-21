@@ -133,7 +133,7 @@ public class NotchHandler : MonoBehaviour {
         // TOP NAVS
         foreach (RectTransform tfm in topNavs)
         {
-            SetY(tfm, -175f);
+            SetY(tfm, -165f);
         }
 
         foreach (RectTransform tfm in secondTierTopNavs)

@@ -36392,6 +36392,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4636370686086631797, guid: 1fb83fe1de32544bbac26c5160e389cd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 11.709961
+      objectReference: {fileID: 0}
     - target: {fileID: 393412945056752454, guid: 1fb83fe1de32544bbac26c5160e389cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36867,17 +36872,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -233.40015
       objectReference: {fileID: 0}
+    - target: {fileID: 1717319880185471269, guid: 1fb83fe1de32544bbac26c5160e389cd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -20.900024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fb83fe1de32544bbac26c5160e389cd, type: 3}
 --- !u!224 &708720602 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 393412945056752454, guid: 1fb83fe1de32544bbac26c5160e389cd,
-    type: 3}
-  m_PrefabInstance: {fileID: 708720601}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &708720603 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1717319880185471269, guid: 1fb83fe1de32544bbac26c5160e389cd,
     type: 3}
   m_PrefabInstance: {fileID: 708720601}
   m_PrefabAsset: {fileID: 0}
@@ -105040,7 +105044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topNavs:
-  - {fileID: 708720603}
+  - {fileID: 267016388}
   - {fileID: 690289749}
   - {fileID: 238868596}
   - {fileID: 777421627}
@@ -105083,9 +105087,10 @@ MonoBehaviour:
   lobbyView: {fileID: 1902988840}
   lobbyScrollViewTopShadow: {fileID: 1902988839}
   profileFacebookButton: {fileID: 1843188360}
-  profileVersion: {fileID: 658855321}
+  profileAppVersion: {fileID: 658855321}
   profileLinksPanel: {fileID: 354125936}
   profileCenterContent: {fileID: 152747280}
+  profileBottomNav: {fileID: 431902463}
   friendsScrollView: {fileID: 1684146533}
   friendsViewPort: {fileID: 1674480800}
   friendsScrollViewTopShadow: {fileID: 1877106823}
