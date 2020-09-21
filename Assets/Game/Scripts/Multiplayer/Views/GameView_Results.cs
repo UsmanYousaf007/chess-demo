@@ -264,9 +264,9 @@ namespace TurboLabz.Multiplayer
 
         private void Cleanup(ResultDialog resultDialog)
         {
-            resultDialog.resultsCollectRewardButton.onClick.RemoveAllListeners();
-            resultDialog.resultsViewBoardButton.onClick.RemoveAllListeners();
-            resultDialog.resultsSkipRewardButton.onClick.RemoveAllListeners();
+            resultDialog.resultsCollectRewardButton?.onClick.RemoveAllListeners();
+            resultDialog.resultsViewBoardButton?.onClick.RemoveAllListeners();
+            resultDialog.resultsSkipRewardButton?.onClick.RemoveAllListeners();
         }
 
         private void EnableRewarededVideoButton(bool enable)
