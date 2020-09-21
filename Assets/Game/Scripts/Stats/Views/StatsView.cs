@@ -171,7 +171,7 @@ namespace TurboLabz.InstantGame
             termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
             privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
 
-            appVersion.text = "v" + Application.version;
+            appVersion.text = "v " + Application.version;
         }
 
         public void Show()
