@@ -133,7 +133,9 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                keysCount.fontSize = 50;
                 keysCount.text = "∞";
+                hintsCount.fontSize = 50;
                 hintsCount.text = "∞";
             }
     
