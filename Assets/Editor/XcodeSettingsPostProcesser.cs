@@ -27,7 +27,7 @@ public class XcodeSettingsPostProcesser
 
         //Required Frameworks
         proj.AddFrameworkToProject(target, "UserNotifications.framework", false);
-
+        proj.AddFrameworkToProject(target, "PhotosUI.framework", false);
         // Additional files
         TurboLabz.TLUtils.LogUtil.Log("Adding ChessAI files..", "cyan");
         string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
