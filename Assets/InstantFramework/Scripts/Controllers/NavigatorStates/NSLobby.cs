@@ -121,6 +121,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSInviteDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SOCIAL_CONNECTION_DLG)
+            {
+                return new NSSocialConnectionDlg();
+            }
 
             return null;
         }
