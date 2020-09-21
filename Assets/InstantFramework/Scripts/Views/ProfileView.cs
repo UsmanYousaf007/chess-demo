@@ -195,6 +195,7 @@ namespace TurboLabz.InstantGame
         private void InviteFriendDialogCloseButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            HideInviteDlg();
         }
 
         private void InviteFriendDialogButtonClicked()

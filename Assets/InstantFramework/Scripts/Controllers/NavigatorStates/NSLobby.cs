@@ -117,6 +117,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSTournamentLeaderboard();
             }
+            else if (evt == NavigatorEvent.SHOW_INVITE_DLG)
+            {
+                return new NSInviteDlg();
+            }
 
             return null;
         }
