@@ -139,6 +139,7 @@ namespace TurboLabz.InstantGame
 
         void OnChangeThemesButtonClicked()
         {
+            view.preferencesModel.inventoryTabVisited = true;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
             showThemesInventoryTabSignal.Dispatch();

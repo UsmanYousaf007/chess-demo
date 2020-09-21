@@ -108,7 +108,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -56.200012}
+  m_AnchoredPosition: {x: 0, y: -69}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1430086325607708246
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.87058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.74509805}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -187,8 +187,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15, y: 0}
-  m_SizeDelta: {x: -70, y: -12}
+  m_AnchoredPosition: {x: 18.39, y: 0.000017166138}
+  m_SizeDelta: {x: -63.22, y: -0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3164909560586098338
 CanvasRenderer:
@@ -224,7 +224,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 32
+    m_MaxSize: 18
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -665,8 +665,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 47.5}
-  m_SizeDelta: {x: 771, y: 523.9}
+  m_AnchoredPosition: {x: 0, y: 13}
+  m_SizeDelta: {x: 660, y: 592}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6775241636781948895
 CanvasRenderer:
@@ -737,6 +737,7 @@ MonoBehaviour:
   signInWithAppleButton: {fileID: 3946986549030865217}
   signInWithAppleLabel: {fileID: 1941890829969396153}
   label: {fileID: 3194400422486724897}
+  blackBG: {fileID: 0}
 --- !u!1 &6864674093688316942
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +816,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??
+  m_Text: Log In
 --- !u!1 &6946817853953505991
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,8 +853,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37, y: -35}
-  m_SizeDelta: {x: 30, y: 30}
+  m_AnchoredPosition: {x: -54, y: -37}
+  m_SizeDelta: {x: 26, y: 26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &734116559915099100
 CanvasRenderer:
@@ -1015,18 +1016,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 11baf4b87a60d4bd09b6cb3128f59de2, type: 3}
-    m_FontSize: 45
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 45
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Log in to Apple or Faceook
+  m_Text: Log in with Faceook or Apple
 --- !u!1 &7731557164095553985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,8 +1064,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 21.019989}
-  m_SizeDelta: {x: 200, y: 110}
+  m_AnchoredPosition: {x: 0, y: 15.519867}
+  m_SizeDelta: {x: 280, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7885118242988610022
 CanvasRenderer:
@@ -1348,8 +1349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 112.16, y: -148}
-  m_SizeDelta: {x: 187.68, y: 51.55}
+  m_AnchoredPosition: {x: 117.1, y: -153.50012}
+  m_SizeDelta: {x: 198, y: 51.5}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &6220473109047786225
 CanvasRenderer:

@@ -35,6 +35,7 @@ namespace TurboLabz.InstantGame
         public Button signInWithAppleButton;
         public Text signInWithAppleLabel;
         public Text label;
+        public GameObject blackBG;
 
         //Signals
         public Signal facebookButtonClickedSignal = new Signal();
@@ -120,6 +121,10 @@ namespace TurboLabz.InstantGame
         {
             facebookButton.gameObject.SetActive(LoginButton);
             signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
+            if (blackBG != null)
+            {
+                blackBG.gameObject.SetActive(LoginButton);
+            }
         }
 
         public void ToggleFacebookButton(bool toggle)

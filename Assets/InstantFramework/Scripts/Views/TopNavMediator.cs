@@ -25,6 +25,9 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -56,12 +59,14 @@ namespace TurboLabz.InstantFramework
 
         private void OnAddGemsButtonClicked()
         {
+            preferencesModel.shopTabVisited = true;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
         private void OnAddCollectiblesButtonClicked()
         {
+            preferencesModel.inventoryTabVisited = true;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
         }
