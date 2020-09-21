@@ -96,6 +96,8 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform inventorySpecialItemsScrollView;
     public RectTransform inventoryThemesScrollView;
     public RectTransform inventoryTitleBar;
+    public RectTransform inventoryThemesScrollViewport;
+    public RectTransform inventorySpecialItemsScrollViewport;
 
     [Header("Inbox")]
     public RectTransform inboxItemsContainer;
@@ -242,10 +244,12 @@ public class NotchHandler : MonoBehaviour {
 
         //Inventory
         SetY(inventoryHeading, -258f);
-        SetTop(inventorySpecialItemsScrollView, -396f);
-        SetBottom(inventorySpecialItemsScrollView, 232f);
-        SetTop(inventoryThemesScrollView, -396f);
-        SetBottom(inventoryThemesScrollView, 232f);
+        SetTop(inventorySpecialItemsScrollViewport, -400f);
+        SetBottom(inventorySpecialItemsScrollViewport, 260f);
+        SetTop(inventoryThemesScrollViewport, -400f);
+        SetBottom(inventoryThemesScrollViewport, 260f);
+
+
         SetY(inventoryTitleBar, -318f);
         inventorySpecialItemsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 

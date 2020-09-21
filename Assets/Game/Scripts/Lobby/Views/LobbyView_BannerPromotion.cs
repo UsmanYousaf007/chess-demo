@@ -82,7 +82,7 @@ namespace TurboLabz.InstantFramework
                 //scrollRect.transform.localPosition = scrollViewOrignalPosition;
                 shadow.localPosition = loadPromotionAt.localPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
-                scrollViewport.offsetMax = new Vector2(scrollViewportOrginalTop, scrollViewport.offsetMin.y);
+                scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalTop);
             }
         }
 
