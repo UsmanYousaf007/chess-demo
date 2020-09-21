@@ -277,7 +277,7 @@ public class NotchHandler : MonoBehaviour {
         SetY(tournamentsLeaderboardHeader, -232f);
         SetY(tournamentsLeaderboardFooter, 321f);
         SetTop(tounamentsLeaderboardScrollViewport, -993f);
-        SetBottom(tounamentsLeaderboardScrollViewport, 642f);
+        SetBottom(tounamentsLeaderboardScrollViewport, 429f);
 
         SetY(tournamentsLeaderboardNotEnteredBar, 538f);
     }
