@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
+            processing.SetActive(false);
         }
 
         public void Hide()
