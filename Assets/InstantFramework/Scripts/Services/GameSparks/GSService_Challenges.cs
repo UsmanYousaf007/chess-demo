@@ -379,6 +379,7 @@ namespace TurboLabz.InstantFramework
             if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {
                 joinedTournament = ParseJoinedTournament(tournamentDetailsGSData, tournamentId, tournament);
+                joinedTournament.ended = false;
                 joinedTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             }
 

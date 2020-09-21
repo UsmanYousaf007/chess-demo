@@ -585,6 +585,9 @@ namespace TurboLabz.Multiplayer
             // Tournament fields
             if (vo.tournamentMatch)
             {
+                // Disabling banner ad here
+                toggleBannerSignal.Dispatch(false);
+
                 PopulateTournamentMatchFields(vo);
             }
             else
@@ -818,11 +821,13 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayTournamentMatchButtonClicked()
         {
+            audioService.PlayStandardClick();
             playTournamentMatchSignal.Dispatch();
         }
 
         private void OnBackToArenaButtonClicked()
         {
+            audioService.PlayStandardClick();
             backToArenaSignal.Dispatch();
         }
 

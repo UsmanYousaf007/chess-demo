@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
         private bool haveNotEnoughTicketsToPlay = false;
         private string rewardMessageId = null;
         private bool goBackToArena = false;
+        private bool showTournamentOverDialog = false;
 
         public override void OnRegister()
         {
@@ -75,7 +76,15 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
             {
                 view.Show();
+                if (showTournamentOverDialog)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
                 analyticsService.ScreenVisit(AnalyticsScreen.tournament_leaderboard);
+            }
+            else if (viewId == NavigatorViewId.TOURNAMENT_OVER_DLG)
+            {
+                showTournamentOverDialog = false;
             }
         }
 
@@ -136,9 +145,10 @@ namespace TurboLabz.InstantFramework
             {
                 this._joinedTournament = joinedTournament;
 
-                if (tournamentModel.HasTournamentEnded(joinedTournament) == true && joinedTournament.locked == true)
+                if (joinedTournament.locked == true && tournamentModel.HasTournamentEnded(joinedTournament) == true && joinedTournament.ended == false)
                 {
                     joinedTournament.ended = true;
+                    showTournamentOverDialog = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
                 else
@@ -199,6 +209,7 @@ namespace TurboLabz.InstantFramework
                 if (tournamentModel.HasTournamentEnded(_joinedTournament) == true && _joinedTournament.locked == false && _joinedTournament.ended == false)
                 {
                     _joinedTournament.ended = true;
+                    showTournamentOverDialog = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 

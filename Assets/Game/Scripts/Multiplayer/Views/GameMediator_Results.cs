@@ -165,8 +165,6 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayTournamentMatchButtonClicked()
         {
-            view.audioService.PlayStandardClick();
-
             transactionVO = new VirtualGoodsTransactionVO();
             transactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
             transactionVO.consumeQuantity = 1;
@@ -256,11 +254,6 @@ namespace TurboLabz.Multiplayer
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
-            if (view.tournamentEnded)
-            {
-                updateTournamentLeaderboardView.Dispatch();
-                //getJoinedTournamentLeaderboardSignal.Dispatch(tournamentsModel.currentMatchTournament.id, true);
-            }
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
