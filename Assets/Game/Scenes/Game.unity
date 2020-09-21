@@ -50476,6 +50476,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964124065}
   m_CullTransparentMesh: 0
+--- !u!224 &964299728 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 580051012078221422, guid: f932915e8f0ce4c82a368225f7abc59a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6530627149870844032}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &965553852
 GameObject:
   m_ObjectHideFlags: 0
@@ -60833,12 +60839,6 @@ RectTransform:
   m_AnchoredPosition: {x: 576, y: -50}
   m_SizeDelta: {x: 1152, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &1133868285 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 580051011932709155, guid: f932915e8f0ce4c82a368225f7abc59a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6530627149870844032}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1135820296
 GameObject:
   m_ObjectHideFlags: 0
@@ -72029,7 +72029,7 @@ PrefabInstance:
     - target: {fileID: 6779842739393934502, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 92.1
+      value: 92.1001
       objectReference: {fileID: 0}
     - target: {fileID: 6779842739393934502, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
@@ -105313,7 +105313,7 @@ MonoBehaviour:
   tournamentsLeaderboardBottomNav: {fileID: 1791535129}
   tournamentsLeaderboardHeader: {fileID: 139355379}
   tournamentsLeaderboardFooter: {fileID: 2015249863}
-  tounamentsLeaderboardScrollView: {fileID: 1133868285}
+  tounamentsLeaderboardScrollViewport: {fileID: 964299728}
   tournamentsLeaderboardNotEnteredBar: {fileID: 1447143220}
 --- !u!1 &1901426452
 GameObject:
