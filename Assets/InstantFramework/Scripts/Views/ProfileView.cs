@@ -285,7 +285,7 @@ namespace TurboLabz.InstantGame
 
             if (appleIcon != null)
             {
-                appleIcon.enabled = showSignInWithAppleButton;
+                appleIcon.gameObject.SetActive(showSignInWithAppleButton);
             }
 
             if (socialConnectionButton != null)
