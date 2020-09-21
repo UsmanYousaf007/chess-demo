@@ -28,6 +28,10 @@ namespace TurboLabz.InstantFramework
                     return new NSTournamentLeaderboard();
                 }
             }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            {
+                return new NSTournamentLeaderboard();
+            }
 
             return null;
         }

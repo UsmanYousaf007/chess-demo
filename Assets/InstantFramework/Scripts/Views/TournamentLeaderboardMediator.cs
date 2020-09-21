@@ -232,6 +232,16 @@ namespace TurboLabz.InstantFramework
             rewardMessageId = messageId;
         }
 
+        [ListensTo(typeof(TournamentOverDialogueClosedSignal))]
+        public void OnTournamentOverDialogueClosed()
+        {
+            if (_openTournament != null)
+            {
+                UnlockTournament();
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            }
+        }
+
         public void OnEnterButtonClicked()
         {
             view.audioService.PlayStandardClick();
@@ -248,7 +258,7 @@ namespace TurboLabz.InstantFramework
 
                 StartTournament("free");
             }
-            else 
+            else
             {
                 transactionVO = new VirtualGoodsTransactionVO();
                 transactionVO.consumeItemShortCode = view.footer.itemToConsumeShortCode;
@@ -277,7 +287,7 @@ namespace TurboLabz.InstantFramework
             //    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
             //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
             //}
-            
+
         }
 
         private void OnCollectRewardButtonClicked()

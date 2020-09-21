@@ -17,12 +17,19 @@
                 if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
                 {
                     return new NSTournamentLeaderboard();
-
                 }
                 if (viewId == NavigatorViewId.INBOX_VIEW)
                 {
                     return new NSInboxView();
                 }
+            }
+            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            {
+                return new NSTournamentLeaderboard();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
             }
 
             return null;
