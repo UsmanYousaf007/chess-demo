@@ -232,11 +232,11 @@ public class NotchHandler : MonoBehaviour {
    
         //Lesson Views
         SetY(topicsViewBottomNav, 89f);
-        SetTop(topicsScrollView, -177f);
-        SetBottom(topicsScrollView, 212f);
+        SetTop(topicsScrollView, -223f);
+        SetBottom(topicsScrollView, 213f);
         SetY(lessonsViewBottomNav, 89f);
-        SetTop(lessonsScrollView, -110f);
-        SetBottom(lessonsScrollView, 212f);
+        SetTop(lessonsScrollView, -208f);
+        SetBottom(lessonsScrollView, 213f);
         SetY(lessonVideoPlayerTopBar, -113f);
         SetY(lessonVideoPlayerBottomNav, 91f);
 
@@ -256,8 +256,8 @@ public class NotchHandler : MonoBehaviour {
         inventorySpecialItemsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
         //Inbox
-        SetTop(inboxItemsContainer, -175f);
-        SetBottom(inboxItemsContainer, 232f);
+        SetTop(inboxItemsContainer, -213f);
+        SetBottom(inboxItemsContainer, 213f);
         SetY(inboxBottomNav, 90f);
 
         //League Perks
