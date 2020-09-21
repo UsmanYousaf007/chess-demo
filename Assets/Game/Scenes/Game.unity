@@ -63786,6 +63786,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196181059}
   m_CullTransparentMesh: 0
+--- !u!224 &1196345595 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6454689471688604788, guid: ae2b9b819eacb41dc9090116e42f1cbe,
+    type: 3}
+  m_PrefabInstance: {fileID: 990327596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1197406255
 GameObject:
   m_ObjectHideFlags: 0
@@ -101283,6 +101289,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &1838096210 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7739176987407589225, guid: ae2b9b819eacb41dc9090116e42f1cbe,
+    type: 3}
+  m_PrefabInstance: {fileID: 990327596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1839683361
 GameObject:
   m_ObjectHideFlags: 0
@@ -105139,10 +105151,13 @@ MonoBehaviour:
   lessonVideoPlayerTopBar: {fileID: 114199747}
   lessonVideoPlayerBottomNav: {fileID: 2008947623}
   shopScrollView: {fileID: 2032084662}
+  shopScrollViewport: {fileID: 1981192953}
   inventoryHeading: {fileID: 899956812}
   inventorySpecialItemsScrollView: {fileID: 182711918}
   inventoryThemesScrollView: {fileID: 716769651}
   inventoryTitleBar: {fileID: 86069205}
+  inventoryThemesScrollViewport: {fileID: 1196345595}
+  inventorySpecialItemsScrollViewport: {fileID: 1838096210}
   inboxItemsContainer: {fileID: 1341689661}
   inboxBottomNav: {fileID: 147702469}
   leaguePerksTopNav: {fileID: 267016388}
@@ -108867,6 +108882,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981145099}
   m_CullTransparentMesh: 0
+--- !u!224 &1981192953 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3057387842052354035, guid: bd327256901cc496794fc6f71716bf50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756673654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1983474086
 GameObject:
   m_ObjectHideFlags: 0
