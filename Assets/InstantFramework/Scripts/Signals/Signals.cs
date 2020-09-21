@@ -185,6 +185,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSpotInventorySignal : Signal<LoadSpotInventoryParams> { }
     public class UpdateSpotInventoryViewSignal : Signal<SpotInventoryVO> { }
     public class SpotInventoryPurchaseCompletedSignal : Signal<string> { }
+    public class TournamentOverDialogueClosedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

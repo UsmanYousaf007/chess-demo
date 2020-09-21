@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public TournamentOverDlgView view { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public TournamentOverDialogueClosedSignal tournamentOverDialogueClosedSignal { get; set; }
 
         // Services
         [Inject] public IAudioService audioService { get; set; }
@@ -46,7 +47,12 @@ namespace TurboLabz.InstantFramework
         public void OnButtonClicked()
         {
             audioService.PlayStandardClick();
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+
+            view.Hide();
+
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+
+            tournamentOverDialogueClosedSignal.Dispatch();
         }
     }
 }

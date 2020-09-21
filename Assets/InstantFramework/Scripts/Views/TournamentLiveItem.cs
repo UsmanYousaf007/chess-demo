@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
 
         public Button button;
         public Text buttonText;
+        public Image joinButtonImage;
 
         [HideInInspector]
         public LiveTournamentData openTournamentData = null;
@@ -76,6 +77,8 @@ namespace TurboLabz.InstantFramework
                 }
             }
             entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
+            joinButtonImage?.gameObject.SetActive(!liveTournamentData.concluded);
+
             if (button != null)
                 button.enabled = !liveTournamentData.concluded;
 
