@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         public Text resultsYourRankText;
 
         public Button button;
+        public Text buttonText;
 
         [HideInInspector]
         public LiveTournamentData openTournamentData = null;
@@ -68,6 +69,11 @@ namespace TurboLabz.InstantFramework
             if (liveImageText != null)
             {
                 liveImageText.text = "LIVE";
+
+                if (buttonText != null)
+                {
+                    buttonText.text = "Join";
+                }
             }
             entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
             if (button != null)
@@ -144,6 +150,10 @@ namespace TurboLabz.InstantFramework
                 if (liveImageText != null)
                 {
                     liveImageText.text = "JOINED";
+                    if (buttonText != null)
+                    {
+                        buttonText.text = "Play";
+                    }
                 }
 
                 endTimeUTCSeconds = joinedTournamentData.endTimeUTCSeconds;

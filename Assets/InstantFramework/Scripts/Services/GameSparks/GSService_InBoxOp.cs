@@ -19,15 +19,17 @@ namespace TurboLabz.InstantFramework
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
         [Inject] public InboxRemoveMessagesSignal inboxRemoveMessagesSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
+        [Inject] public InboxFetchingMessagesSignal inboxFetchingMessagesSignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
+            inboxFetchingMessagesSignal.Dispatch(true);
             return new GSInBoxOpRequest(GetRequestContext()).Send("get", OnInBoxOpSuccess);
         }
 
         public IPromise<BackendResult> InBoxOpCollect(string messageId)
         {
-            inboxModel.items.Remove(messageId);
+            inboxFetchingMessagesSignal.Dispatch(true);
 
             JsonObject jsonObj = new JsonObject();
             jsonObj.Add("messageId", messageId);
@@ -85,12 +87,14 @@ namespace TurboLabz.InstantFramework
 
             if (response.ScriptData == null)
             {
+                inboxFetchingMessagesSignal.Dispatch(false);
                 return;
             }
 
             GSData error = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.ERROR);
             if (error != null)
             {
+                inboxFetchingMessagesSignal.Dispatch(false);
                 // We can dispatch error signal here
                 return;
             }
@@ -111,10 +115,7 @@ namespace TurboLabz.InstantFramework
                 string messageId = response.ScriptData.GetString("messageId");
 
                 TLUtils.LogUtil.Log("+++++====> GSBackendKeys.InBoxOp.COLLECT");
-                //int gems = inBoxCollectData.GetInt("gems").Value;
-                //TLUtils.LogUtil.Log("+++++====> gems = " + gems);
 
-                //GSData items = inBoxCollectData.GetGSData("items");
                 foreach (KeyValuePair<string, Object> obj in inBoxCollectData.BaseData)
                 {
                     string itemShortCode = obj.Key;
@@ -154,9 +155,8 @@ namespace TurboLabz.InstantFramework
 
                 if (messageId != null)
                 {
-                    //inboxModel.items.Remove(messageId);
+                    inboxModel.items.Remove(messageId);
                     inboxRemoveMessagesSignal.Dispatch(messageId);
-                    //inboxAddMessagesSignal.Dispatch(inboxModel.items);
                 }
 
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
@@ -169,6 +169,7 @@ namespace TurboLabz.InstantFramework
                 updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
             }
 
+            inboxFetchingMessagesSignal.Dispatch(false);
         }
     }
 

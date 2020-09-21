@@ -16,7 +16,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
-        [Inject] public InboxFetchingMessagesSignal inboxFetchingMessagesSignal { get; set; }
 
         public override void Execute()
         {
@@ -25,18 +24,12 @@ namespace TurboLabz.InstantFramework
             var diffInSeconds = (DateTime.UtcNow - inboxModel.lastFetchedTime).TotalSeconds;
             if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
             {
-                inboxFetchingMessagesSignal.Dispatch(true);
-                backendService.InBoxOpGet().Then(OnInboxGetComplete);
+                backendService.InBoxOpGet();
             }
             else
             {
                 inboxAddMessagesSignal.Dispatch(inboxModel.items);
             }
-        }
-
-        public void OnInboxGetComplete(BackendResult backendResult)
-        {
-            inboxFetchingMessagesSignal.Dispatch(false);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace TurboLabz.InstantFramework
         public Transform loadPromotionAt;
         public Transform moveScrollViewTo;
         public Transform promotionContainer;
-        public float setScorllViewportBottomTo;
         public RectTransform scrollViewport;
         public GameObject coachTrainingDailogue;
         public GameObject strengthTrainingDailogue;
@@ -22,13 +21,21 @@ namespace TurboLabz.InstantFramework
         private GameObject spawnedBanner;
         public Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
-        public float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
         private IAPBanner iapBanner;
         private Vector3 playerProfileOriginalPosition;
 
+
+        public float scrollViewportOrginalBottom;
+        public float setScrollViewportBottomTo;
+
+        public float scrollViewportOrginalTop;
+        public float setScrollViewportTopTo;
+
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
+
+        public RectTransform shadow;
 
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
@@ -48,8 +55,13 @@ namespace TurboLabz.InstantFramework
                 if (prefabToInstantiate != null)
                 {
                     spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
-                    scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
-                    scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
+                    //scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
+
+                    scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScrollViewportBottomTo);
+                    scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, -setScrollViewportTopTo);
+
+                    shadow.localPosition = new Vector3(loadPromotionAt.localPosition.x, loadPromotionAt.localPosition.y - 70, loadPromotionAt.localPosition.z);
+
                     scrollRect.verticalNormalizedPosition = 1;
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
 
@@ -67,8 +79,10 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                scrollRect.transform.localPosition = scrollViewOrignalPosition;
+                //scrollRect.transform.localPosition = scrollViewOrignalPosition;
+                shadow.localPosition = loadPromotionAt.localPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
+                scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalTop);
             }
         }
 

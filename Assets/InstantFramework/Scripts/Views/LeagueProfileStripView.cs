@@ -116,7 +116,7 @@ namespace TurboLabz.InstantFramework
                     var requiredPoints = value.qualifyTrophies;
                     var barFillPercentage = (float)currentPoints / requiredPoints;
                     trophyProgressionBarFiller.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBarFiller.sizeDelta.y);
-                    playerTrophiesCountLabel.text = $"{currentTrophies}/{requiredPoints}";
+                    playerTrophiesCountLabel.text = $"{currentTrophies} / {requiredPoints}";
                 }
             }
             else
