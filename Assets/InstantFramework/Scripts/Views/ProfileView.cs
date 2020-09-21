@@ -292,7 +292,6 @@ namespace TurboLabz.InstantGame
             {
                 if (!showSignInWithAppleButton)
                 {
-                    facebookIcon.transform.localPosition = fbBtnPos.localPosition;
                     socialConnectionButton.onClick.AddListener(OnFacebookButtonClicked);
                 }
                 else
