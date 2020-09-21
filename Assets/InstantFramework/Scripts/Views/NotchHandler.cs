@@ -141,23 +141,29 @@ public class NotchHandler : MonoBehaviour {
 
         foreach (RectTransform tfm in botNavs)
         {
-            SetY(tfm, 19f);
+            SetY(tfm, 192f);
         }
 
-        SetY(mainBottomNav, 167f);
+        //SetY(mainBottomNav, 167f);
         
         // LOBBY
-        SetY(lobbyScrollView, -240f);
-        SetTop(lobbyViewPort, 9f);
-        SetBottom(lobbyViewPort, 128f + 100f);
+        //SetY(lobbyScrollView, -240f);
+        SetTop(lobbyViewPort, 600);
+        SetBottom(lobbyViewPort, 263);
         SetY(lobbyScrollViewPivotForBanner, -373);
-        lobbyView.setScorllViewportBottomTo = 361;
+
+        lobbyView.scrollViewportOrginalBottom = 263;
+        lobbyView.scrollViewportOrginalTop = 600;
+
+        lobbyView.setScrollViewportBottomTo = 263;
+        lobbyView.setScrollViewportTopTo = 720;
+
         SetY(lobbyScrollViewTopShadow, -2);
 
         // PROFILE
-        //SetY(profileFacebookButton, -270f);
+        SetY(profileFacebookButton, -270f);
         //SetY(profileSiwaButton, -270f);
-        //SetY(profileCenterContent, -66f);
+        SetY(profileCenterContent, -66f);
 
         // FRIENDS
         SetY(friendsScrollView, -31f - 100f);

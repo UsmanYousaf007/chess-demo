@@ -26067,6 +26067,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499093373}
   m_CullTransparentMesh: 0
+--- !u!224 &499139316 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6657951355985391544, guid: eb37660ceb1bc43929f94972083c4850,
+    type: 3}
+  m_PrefabInstance: {fileID: 393412945150941080}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &501510373
 GameObject:
   m_ObjectHideFlags: 0
@@ -37597,6 +37603,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &722914162 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3997976005746623157, guid: 7d8fe6b5fc66d4dbe94d7af81d3bfa9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1902988837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &723900408
 GameObject:
   m_ObjectHideFlags: 0
@@ -64182,6 +64194,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceImage: {fileID: 301695186}
+--- !u!224 &1207451902 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4173041257491142399, guid: bd327256901cc496794fc6f71716bf50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756673654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1207816496
 GameObject:
   m_ObjectHideFlags: 0
@@ -65322,6 +65340,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229686081}
   m_CullTransparentMesh: 0
+--- !u!224 &1232513620 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1535447680087490339, guid: ae2b9b819eacb41dc9090116e42f1cbe,
+    type: 3}
+  m_PrefabInstance: {fileID: 990327596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1233975516
 GameObject:
   m_ObjectHideFlags: 0
@@ -101566,6 +101590,12 @@ MonoBehaviour:
   fileRank:
     file: 0
     rank: 0
+--- !u!224 &1843188360 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4752417547044387123, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1450800370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1844749608
 GameObject:
   m_ObjectHideFlags: 0
@@ -105023,14 +105053,19 @@ MonoBehaviour:
   - {fileID: 1791535129}
   - {fileID: 147702469}
   - {fileID: 2008947623}
-  - {fileID: 0}
+  - {fileID: 722914162}
+  - {fileID: 1232513620}
+  - {fileID: 499139316}
+  - {fileID: 1791535129}
+  - {fileID: 1207451902}
+  - {fileID: 1337517966}
   mainBottomNav: {fileID: 0}
   lobbyScrollView: {fileID: 1902988843}
   lobbyViewPort: {fileID: 1902988842}
   lobbyScrollViewPivotForBanner: {fileID: 1902988841}
   lobbyView: {fileID: 1902988840}
   lobbyScrollViewTopShadow: {fileID: 1902988839}
-  profileFacebookButton: {fileID: 0}
+  profileFacebookButton: {fileID: 1843188360}
   profileSiwaButton: {fileID: 0}
   profileCenterContent: {fileID: 152747280}
   friendsScrollView: {fileID: 1684146533}
@@ -105068,8 +105103,8 @@ MonoBehaviour:
   topBar: {fileID: 316917912}
   subscriptionTitle: {fileID: 1154409897}
   subscriptionOffers: {fileID: 1935745497}
-  promotionTitle: {fileID: 0}
-  promotionOffers: {fileID: 0}
+  promotionTitle: {fileID: 1154409897}
+  promotionOffers: {fileID: 1935745497}
   manageSubscriptionBottomNav: {fileID: 1435322812}
   blockedFriendsScrollView: {fileID: 525386969}
   blockedFriendsScrollViewPort: {fileID: 2042987604}
