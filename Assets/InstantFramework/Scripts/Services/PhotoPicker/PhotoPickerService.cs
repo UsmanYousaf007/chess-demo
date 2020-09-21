@@ -82,9 +82,9 @@ namespace TurboLabz.InstantFramework
 
 		public bool HasGalleryPermission()
 		{
-			var permission = NativeGallery.CheckPermission(true);
+			var permission = NativeGallery.CheckPermission(NativeGallery.PermissionType.Read);
 			Debug.Log("HasGalleryPermission: " + permission.ToString());
-			if (permission == NativeGallery.Permission.Granted || permission == NativeGallery.Permission.ShouldAsk)
+			if (permission == NativeGallery.Permission.Granted || permission == NativeGallery.Permission.ShouldAsk || permission == NativeGallery.Permission.LimitedAccess)
 			{
 				return true;
 			}
