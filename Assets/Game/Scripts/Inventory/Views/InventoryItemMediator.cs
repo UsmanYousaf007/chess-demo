@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public void OnInventoryUpdated(PlayerInventoryVO inventory)
         {
             view.SetupPriceAndCount();
+            view.UpdateSubscriptionStatus();
         }
         
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]

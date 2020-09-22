@@ -138,6 +138,16 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void UpdateSubscriptionStatus()
+        {
+            if (checkSubscription)
+            {
+                var isSubscriber = playerModel.HasSubscription();
+                subscribersObj.SetActive(isSubscriber);
+                nonSubscribersObj.SetActive(!isSubscriber);
+            }
+        }
+
         private void OnBuyButtonClicked()
         {
             audioService.PlayStandardClick();
