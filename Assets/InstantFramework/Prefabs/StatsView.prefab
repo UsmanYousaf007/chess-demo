@@ -3462,7 +3462,6 @@ RectTransform:
   - {fileID: 1300161158580217403}
   - {fileID: 5189197977032412203}
   - {fileID: 1300161157637205483}
-  - {fileID: 5627584211322373919}
   m_Father: {fileID: 1300161158656801233}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7990,6 +7989,7 @@ GameObject:
   - component: {fileID: 3447688208302977065}
   - component: {fileID: 2484893743483329855}
   - component: {fileID: 6839002372844176736}
+  - component: {fileID: 1439906865628140172}
   m_Layer: 5
   m_Name: RestorePurchaseButton
   m_TagString: Untagged
@@ -8016,7 +8016,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 233, y: 0}
+  m_SizeDelta: {x: 232, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &3447688208302977065
 CanvasRenderer:
@@ -8116,6 +8116,20 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1439906865628140172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2204160831104505733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &2243273892243123581
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,7 +9231,8 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 5627584211322373919}
   m_Father: {fileID: 1300161157902199842}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11640,6 +11655,7 @@ GameObject:
   - component: {fileID: 8777296724223158767}
   - component: {fileID: 1649845382315881739}
   - component: {fileID: 5460726072246970345}
+  - component: {fileID: 619298517677841455}
   m_Layer: 5
   m_Name: PrivacyPolicyButton
   m_TagString: Untagged
@@ -11666,7 +11682,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 172, y: 0}
+  m_SizeDelta: {x: 178, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8777296724223158767
 CanvasRenderer:
@@ -11766,6 +11782,20 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &619298517677841455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767166226303623713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &5969205791213278024
 GameObject:
   m_ObjectHideFlags: 0
@@ -12103,13 +12133,13 @@ RectTransform:
   - {fileID: 4413379405878230914}
   - {fileID: 9038413715667565653}
   - {fileID: 2908533173525119942}
-  m_Father: {fileID: 1300161157902199842}
-  m_RootOrder: 6
+  m_Father: {fileID: 5189197977032412203}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -994}
-  m_SizeDelta: {x: 0, y: 34}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -76.5}
+  m_SizeDelta: {x: 1125, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &490754549636469171
 MonoBehaviour:
@@ -12129,11 +12159,11 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 41.6
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_Spacing: 120
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
 --- !u!1 &6428990119666802464
@@ -12301,6 +12331,7 @@ GameObject:
   - component: {fileID: 4164234597837095853}
   - component: {fileID: 8919417734206900920}
   - component: {fileID: 8769517409597740207}
+  - component: {fileID: 8940112726181638899}
   m_Layer: 5
   m_Name: TermsOfUseButton
   m_TagString: Untagged
@@ -12327,7 +12358,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 213, y: 0}
+  m_SizeDelta: {x: 222, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &4164234597837095853
 CanvasRenderer:
@@ -12427,6 +12458,20 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &8940112726181638899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999524995320600446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &7038107704775701813
 GameObject:
   m_ObjectHideFlags: 0
@@ -14247,10 +14292,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1300161158656801233}
     m_Modifications:
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14355,6 +14396,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
