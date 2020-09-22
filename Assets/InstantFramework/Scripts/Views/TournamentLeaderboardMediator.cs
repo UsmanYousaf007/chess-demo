@@ -95,6 +95,13 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
+            else if (viewId == NavigatorViewId.CHEST_INFO_DLG)
+            {
+                if (IsTournamentOpen() == false)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
+            }
         }
 
         [ListensTo(typeof(UpdateTournamentLeaderboardPartialSignal))]
@@ -174,6 +181,7 @@ namespace TurboLabz.InstantFramework
 
                 if (tournamentModel.HasTournamentEnded(openTournament) == true)
                 {
+                    showTournamentOverDialog = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
@@ -196,6 +204,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (tournamentModel.HasTournamentEnded(_openTournament) == true)
                 {
+                    showTournamentOverDialog = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
 
@@ -353,6 +362,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                showTournamentOverDialog = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
             }
         }
@@ -447,6 +457,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnBackPressed()
         {
+            showTournamentOverDialog = false;
             UnlockTournament();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             audioService.PlayStandardClick();
@@ -476,6 +487,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    showTournamentOverDialog = true;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
             }
