@@ -14,21 +14,22 @@ namespace TurboLabz.InstantFramework
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW);
+            //NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW);
 
-            if (evt == NavigatorEvent.ESCAPE)
-            {
-                if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
-                {
-                    //cmd.hideViewSignal.Dispatch(NavigatorViewId.TOURNAMENT_OVER_DLG);
-                    //cmd.unlockCurrentJoinedTournamentSignal.Dispatch();
-                    //cmd.loadArenaSignal.Dispatch();
-                    //return new NSArenaView();
+            //if (evt == NavigatorEvent.ESCAPE)
+            //{
+            //    if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
+            //    {
+            //        //cmd.hideViewSignal.Dispatch(NavigatorViewId.TOURNAMENT_OVER_DLG);
+            //        //cmd.unlockCurrentJoinedTournamentSignal.Dispatch();
+            //        //cmd.loadArenaSignal.Dispatch();
+            //        //return new NSArenaView();
 
-                    return new NSTournamentLeaderboard();
-                }
-            }
-            else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
+            //        return new NSTournamentLeaderboard();
+            //    }
+            //}
+
+            if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)
             {
                 return new NSTournamentLeaderboard();
             }
