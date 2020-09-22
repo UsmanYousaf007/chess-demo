@@ -203,6 +203,7 @@ namespace TurboLabz.InstantGame
         {
             inviteFriendSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            HideInviteDlg();
         }
 
         public void HideInviteDlg()
