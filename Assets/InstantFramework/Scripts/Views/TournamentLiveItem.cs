@@ -73,7 +73,7 @@ namespace TurboLabz.InstantFramework
 
                 if (buttonText != null)
                 {
-                    buttonText.text = "Join";
+                    buttonText.text = "Enter";
                 }
             }
             entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
