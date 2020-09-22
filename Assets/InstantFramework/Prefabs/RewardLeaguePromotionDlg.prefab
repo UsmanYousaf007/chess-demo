@@ -912,7 +912,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -1, y: 158}
-  m_SizeDelta: {x: 316.1, y: 72}
+  m_SizeDelta: {x: 311, y: 93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7073490606339985770
 CanvasRenderer:
@@ -942,7 +942,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 70754318efb21480e98e27e1a7a08fde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2026,6 +2026,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerProfilePic
       objectReference: {fileID: 0}
+    - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 272.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 346.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6665650889358244020, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2142,16 +2152,6 @@ PrefabInstance:
       propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 272.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 346.2
-      objectReference: {fileID: 0}
     - target: {fileID: 770215236143774911, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2172,16 +2172,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 230
       objectReference: {fileID: 0}
-    - target: {fileID: 5039395075845039663, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 230
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039395075845039663, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 230
-      objectReference: {fileID: 0}
     - target: {fileID: 1984469162252810, guid: c9c6868d114c845969a71638185ffa23, type: 3}
       propertyPath: m_SizeDelta.x
       value: 240
@@ -2189,6 +2179,16 @@ PrefabInstance:
     - target: {fileID: 1984469162252810, guid: c9c6868d114c845969a71638185ffa23, type: 3}
       propertyPath: m_SizeDelta.y
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039395075845039663, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039395075845039663, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 7985059148898624468, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
