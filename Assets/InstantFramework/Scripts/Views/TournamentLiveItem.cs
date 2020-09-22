@@ -132,7 +132,7 @@ namespace TurboLabz.InstantFramework
                 }
                 if (resultsYourRankText != null)
                 {
-                    resultsYourRankText.text = playerRankCountText.text;
+                    resultsYourRankText.text = joinedTournamentData.rank.ToString();
                 }
 
                 EnableResultsGroup(true);
