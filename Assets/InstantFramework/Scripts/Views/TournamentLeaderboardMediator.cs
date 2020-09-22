@@ -266,8 +266,11 @@ namespace TurboLabz.InstantFramework
 
                 if (view.footer.haveEnoughItems)
                 {
-                    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                    virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                    if (IsTournamentOpen())
+                    {
+                        virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                        virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                    }
                 }
                 else
                 {
@@ -332,6 +335,7 @@ namespace TurboLabz.InstantFramework
 
             rewardMessageId = null;
             goBackToArena = false;
+            showTournamentOverDialog = false;
         }
 
         private void OnItemConsumed(BackendResult result)
@@ -341,9 +345,16 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
-            analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "main");
-            StartTournament(currency);
+            if (IsTournamentOpen())
+            {
+                var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "main");
+                StartTournament(currency);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+            }
         }
 
         private void StartTournament(string currency)
@@ -457,10 +468,38 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && key.Equals("tournament"))
             {
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                if (IsTournamentOpen())
+                {
+                    view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
+                    virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                }
+                else
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
+                }
             }
+        }
+
+        private bool IsTournamentOpen()
+        {
+            if (_openTournament != null)
+            {
+                if (tournamentModel.HasTournamentEnded(_openTournament) == true)
+                {
+                    return false;
+                }
+            }
+
+            if (_joinedTournament != null)
+            {
+                if (tournamentModel.HasTournamentEnded(_joinedTournament) == true)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -165,6 +165,13 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayTournamentMatchButtonClicked()
         {
+            var joinedTournament = tournamentsModel.currentMatchTournament;
+            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == true)
+            {
+                OnBackToArenaButtonClicked();
+                return;
+            }
+
             transactionVO = new VirtualGoodsTransactionVO();
             transactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
             transactionVO.consumeQuantity = 1;
