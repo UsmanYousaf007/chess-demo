@@ -337,7 +337,10 @@ namespace TurboLabz.Multiplayer
 
             HideSafeMoveBorder();
             ShowViewBoardResultsPanel(false);
-            showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            if (HCrossPromo.service != null)
+            {
+                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            }
             appInfoModel.gameMode = GameMode.NONE;
         }
 

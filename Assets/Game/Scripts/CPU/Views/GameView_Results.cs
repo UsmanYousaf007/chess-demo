@@ -202,8 +202,11 @@ namespace TurboLabz.CPU
             }
 
             HideSafeMoveBorder();
-            ShowViewBoardResultsPanel(false);   
-            showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            ShowViewBoardResultsPanel(false);
+            if (HCrossPromo.service != null)
+            {
+                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            }
             appInfoModel.gameMode = GameMode.NONE;
         }
 
