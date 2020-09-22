@@ -87,7 +87,10 @@ namespace TurboLabz.InstantGame
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             facebookConnectAnim.SetActive(false);
 
-            label.enabled = vo.isAppleSignInSupported;
+            if (label != null)
+            {
+                label.text = vo.isAppleSignInSupported ? "Log in to Apple or Facebook" : "Log in with Facebook";
+            }
 
             ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
         }

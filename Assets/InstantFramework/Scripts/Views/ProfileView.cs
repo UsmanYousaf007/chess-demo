@@ -147,7 +147,8 @@ namespace TurboLabz.InstantGame
 
             if(socialConnectionButton != null)
             {
-                socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
+                socialConnectionButton.onClick.AddListener(OnFacebookButtonClicked);
+                facebookConnectAnim.SetActive(false);
             }
 
 
@@ -276,11 +277,11 @@ namespace TurboLabz.InstantGame
             ChangeSocialAccountButtonsState(true, true);
         }
 
-        void ChangeSocialAccountButtonsState(bool showFBLoginButton, bool showSignInWithAppleButton)
+        void ChangeSocialAccountButtonsState(bool loginButton, bool showSignInWithAppleButton)
         {
             if (facebookIcon != null)
             {
-                facebookIcon.enabled = showFBLoginButton;
+                facebookIcon.enabled = loginButton;
             }
 
             if (appleIcon != null)
@@ -290,6 +291,7 @@ namespace TurboLabz.InstantGame
 
             if (socialConnectionButton != null)
             {
+                socialConnectionButton.onClick.RemoveAllListeners();
                 if (!showSignInWithAppleButton)
                 {
                     socialConnectionButton.onClick.AddListener(OnFacebookButtonClicked);
@@ -298,7 +300,7 @@ namespace TurboLabz.InstantGame
                 {
                     socialConnectionButton.onClick.AddListener(OnClickedSocialConnectionButton);
                 }
-                if (showFBLoginButton)
+                if (loginButton)
                 {
                     socialConnectionButton.gameObject.SetActive(true);
                 }else

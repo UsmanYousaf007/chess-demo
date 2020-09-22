@@ -28,6 +28,8 @@ namespace TurboLabz.InstantGame
     public class SocialConnectionDlgView : View
     {
         public Button closeButton;
+        public Button fbButton;
+        public Button appleButton;
 
         //Signals
         public Signal closeButtonClickedSignal = new Signal();
@@ -39,6 +41,8 @@ namespace TurboLabz.InstantGame
         public void Init()
         {
             closeButton.onClick.AddListener(OnCloseButtonClicked);
+            fbButton.onClick.AddListener(OnCloseButtonClicked);
+            appleButton.onClick.AddListener(OnCloseButtonClicked);
         }
 
         public void Show()
