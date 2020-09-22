@@ -73,7 +73,7 @@ namespace TurboLabz.InstantFramework
 
                 if (buttonText != null)
                 {
-                    buttonText.text = "Join";
+                    buttonText.text = "Enter";
                 }
             }
             entriesClosedImage?.gameObject.SetActive(liveTournamentData.concluded);
@@ -132,7 +132,7 @@ namespace TurboLabz.InstantFramework
                 }
                 if (resultsYourRankText != null)
                 {
-                    resultsYourRankText.text = playerRankCountText.text;
+                    resultsYourRankText.text = joinedTournamentData.rank.ToString();
                 }
 
                 EnableResultsGroup(true);

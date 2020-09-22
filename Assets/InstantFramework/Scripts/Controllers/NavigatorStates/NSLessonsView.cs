@@ -55,6 +55,14 @@
             {
                 return new NSSpotInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
 
             return null;
         }

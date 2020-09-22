@@ -168,7 +168,7 @@ public class NotchHandler : MonoBehaviour {
 
         // PROFILE156
         SetY(profileFacebookButton, -281f);
-        SetY(profileLinksPanel, -786f);
+        //SetY(profileLinksPanel, -786f);
         SetY(profileAppVersion, 294f);
         SetY(profileCenterContent, -95f);
         SetY(profileBottomNav, 156f);

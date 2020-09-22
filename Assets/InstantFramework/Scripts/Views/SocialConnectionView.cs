@@ -121,6 +121,11 @@ namespace TurboLabz.InstantGame
         {
             facebookButton.gameObject.SetActive(LoginButton);
             signInWithAppleButton.gameObject.SetActive(showSignInWithAppleButton);
+
+            if (label != null)
+            {
+                label.enabled = LoginButton;
+            }
             if (blackBG != null)
             {
                 blackBG.gameObject.SetActive(LoginButton);

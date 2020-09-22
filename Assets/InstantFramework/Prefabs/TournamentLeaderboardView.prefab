@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -29.101562, y: 2.0999985}
-  m_SizeDelta: {x: 76.54485, y: 32.318935}
+  m_SizeDelta: {x: 80, y: 34}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &240490476
 CanvasRenderer:
@@ -531,7 +531,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 154.45007}
-  m_SizeDelta: {x: 685.50165, y: 68.03986}
+  m_SizeDelta: {x: 880, y: 67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2515359175501372503
 CanvasRenderer:
@@ -574,7 +574,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: TOURNAMENT RESULTS
+  m_Text: FINAL TOURNAMENT RESULTS
 --- !u!114 &5258054410050540556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,7 +881,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00036621094}
-  m_SizeDelta: {x: 0, y: -806.1}
+  m_SizeDelta: {x: 0, y: -918.1}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &580051010113997545
 MonoBehaviour:
@@ -2199,7 +2199,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 224, y: 46}
-  m_SizeDelta: {x: 185.40863, y: 45.92691}
+  m_SizeDelta: {x: 190, y: 47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &101550146401344869
 CanvasRenderer:
@@ -2373,7 +2373,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -6, y: -78}
-  m_SizeDelta: {x: -71.44186, y: 34.019936}
+  m_SizeDelta: {x: -75, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4922066602931022836
 CanvasRenderer:
@@ -3310,7 +3310,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 141.18272, y: 39.122925}
+  m_SizeDelta: {x: 146, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6840418668713131870
 CanvasRenderer:
@@ -4087,6 +4087,7 @@ MonoBehaviour:
   resultsYourRankText: {fileID: 1901902740862430738}
   button: {fileID: 0}
   buttonText: {fileID: 0}
+  joinButtonImage: {fileID: 0}
   openTournamentData:
     shortCode: 
     name: 
@@ -4715,7 +4716,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -141, y: -182.8999}
-  m_SizeDelta: {x: 115.66777, y: 32.318935}
+  m_SizeDelta: {x: 118, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627149246856854
 CanvasRenderer:
@@ -4848,7 +4849,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 16.1, y: 0}
-  m_SizeDelta: {x: 39.122925, y: 42.524918}
+  m_SizeDelta: {x: 40, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627149459149086
 CanvasRenderer:
@@ -5020,7 +5021,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 110.5, y: -182.8999}
-  m_SizeDelta: {x: 66.33887, y: 32.318935}
+  m_SizeDelta: {x: 68, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627149658791942
 CanvasRenderer:
@@ -5388,7 +5389,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -32.6, y: 0}
-  m_SizeDelta: {x: 93.55482, y: 42.524918}
+  m_SizeDelta: {x: 96, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627150082057656
 CanvasRenderer:
@@ -5556,7 +5557,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -75}
-  m_SizeDelta: {x: 7.544853, y: -40.083057}
+  m_SizeDelta: {x: 10, y: -39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627150110848534
 CanvasRenderer:
@@ -5981,7 +5982,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -182.8999}
-  m_SizeDelta: {x: 176.90366, y: 32.318935}
+  m_SizeDelta: {x: 182, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627150573672670
 CanvasRenderer:
@@ -6075,7 +6076,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -71}
-  m_SizeDelta: {x: 23.441864, y: -32.083057}
+  m_SizeDelta: {x: 28, y: -31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627150601886563
 CanvasRenderer:
@@ -6613,7 +6614,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -67}
-  m_SizeDelta: {x: 73.48172, y: -34.083057}
+  m_SizeDelta: {x: 79, y: -33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6530627150864707750
 CanvasRenderer:
@@ -6957,7 +6958,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 96.200195, y: 0}
-  m_SizeDelta: {x: 51.0299, y: 39.122925}
+  m_SizeDelta: {x: 53, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8239362130609634646
 CanvasRenderer:
@@ -7538,11 +7539,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6530627149416096467}
     m_Modifications:
-    - target: {fileID: 1366082233149308536, guid: f2da351fdea284c62a43a8a3e64a7f88,
-        type: 3}
-      propertyPath: m_Name
-      value: TournamentLeaderboardPlayerEnterBar
-      objectReference: {fileID: 0}
     - target: {fileID: 1291499761997378164, guid: f2da351fdea284c62a43a8a3e64a7f88,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7648,15 +7644,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1366082233149308536, guid: f2da351fdea284c62a43a8a3e64a7f88,
+        type: 3}
+      propertyPath: m_Name
+      value: TournamentLeaderboardPlayerEnterBar
+      objectReference: {fileID: 0}
     - target: {fileID: 746976388686284161, guid: f2da351fdea284c62a43a8a3e64a7f88,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 15.30897
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 746976388686284161, guid: f2da351fdea284c62a43a8a3e64a7f88,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 42.524918
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4592282729597721837, guid: f2da351fdea284c62a43a8a3e64a7f88,
         type: 3}
@@ -7684,10 +7685,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 580051010517858092}
     m_Modifications:
-    - target: {fileID: 1859381489405514, guid: 3e9840371a731497786a843bfee65310, type: 3}
-      propertyPath: m_Name
-      value: TopNav
-      objectReference: {fileID: 0}
     - target: {fileID: 224843665634925016, guid: 3e9840371a731497786a843bfee65310,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7793,6 +7790,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1859381489405514, guid: 3e9840371a731497786a843bfee65310, type: 3}
+      propertyPath: m_Name
+      value: TopNav
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606287643463283245, guid: 3e9840371a731497786a843bfee65310,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -132.7002
+      objectReference: {fileID: 0}
     - target: {fileID: 5190786023504306016, guid: 3e9840371a731497786a843bfee65310,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7807,11 +7813,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -543.1992
-      objectReference: {fileID: 0}
-    - target: {fileID: 6606287643463283245, guid: 3e9840371a731497786a843bfee65310,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -132.7002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e9840371a731497786a843bfee65310, type: 3}
