@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         public IPromise<BackendResult> InBoxOpGet()
         {
             inboxFetchingMessagesSignal.Dispatch(true);
-            return new GSInBoxOpRequest(GetRequestContext()).Send("get", OnInBoxOpSuccess);
+            return new GSInBoxOpRequest(GetRequestContext()).Send("get", OnInBoxOpSuccess, OnInboxOpFailure);
         }
 
         public IPromise<BackendResult> InBoxOpCollect(string messageId)
@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
             JsonObject jsonObj = new JsonObject();
             jsonObj.Add("messageId", messageId);
 
-            return new GSInBoxOpRequest(GetRequestContext()).Send("collect", OnInBoxOpSuccess, jsonObj.ToString());
+            return new GSInBoxOpRequest(GetRequestContext()).Send("collect", OnInBoxOpSuccess, OnInboxOpFailure, jsonObj.ToString());
         }
 
 
@@ -171,6 +171,11 @@ namespace TurboLabz.InstantFramework
 
             inboxFetchingMessagesSignal.Dispatch(false);
         }
+
+        private void OnInboxOpFailure(object r)
+        {
+            inboxFetchingMessagesSignal.Dispatch(false);
+        }
     }
 
     #region REQUEST
@@ -183,10 +188,11 @@ namespace TurboLabz.InstantFramework
 
         public GSInBoxOpRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string op, Action<object, Action<object>> onSuccess, string opJson = null)
+        public IPromise<BackendResult> Send(string op, Action<object, Action<object>> onSuccess, Action<object> onFailure, string opJson = null)
         {
             this.errorCode = BackendResult.INBOX_OP_FAILED;
             this.onSuccess = onSuccess;
+            this.onFailure = onFailure;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_OP, op)
