@@ -27,11 +27,13 @@ You can learn more about it here: https://developer.android.com/guide/app-bundle
 # HOW TO USE
 
 1. Import the package (which you already did if you are able to read this :P )
-2. Download Google's Unity Jar Resolver from this link: https://github.com/googlesamples/unity-jar-resolver/raw/v1.2.135/play-services-resolver-1.2.135.0.unitypackage and import it in your project if you don't have it already.
+2. Add Google's Game Package Registry for Unity to your project: https://developer.android.com/games/develop/build-in-unity#download-registry .
+3. After adding Game Package Registry, you should import Google Play Core package to your project from Unity / Windows -> Package Manager. From the drop down menu on top left part of the Package Manager windows select 'My Registries' and Install 'Google Play Core'.
 3. Add AutoUpdateManager or UpdateManager prefab from Assets/hardartcore/In-App Updates/Prefabs folder to your Scene.
   3.1 The difference between AutoUpdateManager and UpdateManager is that if you use AutoUpdateManager you won't need to override or do anything at all.
       If you need to customize the behaviour, show dialogs or inform the user with your custom message, you should use UpdateManager and subscribe to it's events
       in some of your scripts as in UiManager inside Assets/hardartcore/Demo/DemoScene/Scripts/UiManager.cs.
+  3.2 Please keep in mind that you will have to call CheckForAnUpdate() function in AndroidUpdateManager script in order to trigger the check for an update if ypu use UpdateManager prefab.
 4. That's all.
 
 
@@ -58,16 +60,20 @@ I know that verifying the plugin is not just install and see, but all this is be
 # CUSTOMIZATION
 
 You can customize the behaviour of AndroidUpdateManager in a few steps.
-It has two events which are fired when the system detects that there is a new version of the game and it's available for an update
+It has three events which are fired when the system detects that there is a new version of the game and it's available for an update
 and when the update is downloaded.
 
 The first one: AndroidUpdateManager.OnUpdateAvailable will let you customize the way which you tell your users that there is an update.
 You can show your custom dialog or anything else, but don't forget to call AndroidUpdateManager.Instance.StartUpdate() to start the downloading
 process of your app's new version.
 
-The second event: AndroidUpdateManager.OnUpdateDownloaded will give you a way to notify the user that the update is downloaded and 
+The second one: AndroidUpdateManager.onUpdateDownloading will give you information how many bytes were downloaded from the total update download size.
+
+The third event: AndroidUpdateManager.OnUpdateDownloaded will give you a way to notify the user that the update is downloaded and 
 he can start the update process. You can show a dialog or any other Ui elements to inform him and let him choose if it should update now or later.
 Do not forget to call AndroidUpdateManager.Instance.CompleteUpdate()l to install the downloaded update.
+
+
 
 
 You can check Assets/hardartcore/Demo/DemoScene/Scripts/UiManager.cs to check the example how to use it.
