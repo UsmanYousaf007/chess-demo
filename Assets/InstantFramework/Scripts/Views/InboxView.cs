@@ -233,7 +233,7 @@ namespace TurboLabz.InstantFramework
             }
 
             Sort();
-            processing.SetActive(false);
+            //processing.SetActive(false);
         }
 
         public void RemoveMessage(string messageId)
