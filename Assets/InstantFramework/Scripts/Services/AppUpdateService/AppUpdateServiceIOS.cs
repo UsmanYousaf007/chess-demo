@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
             routineRunner = new NormalRoutineRunner();
             IOSUpdateManager.Initialize();
             IOSUpdateManager.IsUpdateAvailableOnStore += OnIsUpdateAvailableResult;
+            CheckForUpdate();
 #endif
         }
 

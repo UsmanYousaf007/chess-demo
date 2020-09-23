@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         {
             routineRunner = new NormalRoutineRunner();
             EditorUpdateManager.IsUpdateAvailableOnStore += OnIsUpdateAvailableResult;
+            CheckForUpdate();
         }
 
         public void Terminate()
