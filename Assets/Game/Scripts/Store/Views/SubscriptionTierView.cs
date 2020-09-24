@@ -123,7 +123,7 @@ public class SubscriptionTierView : View
             savings.gameObject.SetActive(showSavings);*/
 
             //singleText.text = $"Upgrade with {(int)(savingsValue * 100)}% off, for {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo, billed annually";
-            singleText.text = $"<b>{item.remoteProductCurrencyCode} {item.productPrice} / Year.</b>";
+            singleText.text = $"<b>{item.remoteProductCurrencyCode} {item.productPrice} / Year</b>";
             infoText.text = $"(12 months at {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)} / mo. Save {(int)(savingsValue * 100)}%)";
             infoText.enabled = true;
         }

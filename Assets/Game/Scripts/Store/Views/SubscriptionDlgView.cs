@@ -22,6 +22,9 @@ public class SubscriptionDlgView : View
     public GameObject processingUi;
     public VerticalLayoutGroup offerBg;
 
+    public Button privacyPolicyButton;
+    public Text privacyPolicyText;
+
     //Fetching data
     public GameObject thinking;
     public Image[] radioButtons;
@@ -48,14 +51,15 @@ public class SubscriptionDlgView : View
         termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
         restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+        purchaseButton.onClick.AddListener(OnPrivacyPolicyButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
     public void Init()
     {
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
-        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
-        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        //restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+        //termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
         var storeItem = storeSettingsModel.items[key];
@@ -115,6 +119,12 @@ public class SubscriptionDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
+    }
+
+    private void OnPrivacyPolicyButtonClicked()
+    {
+        audioService.PlayStandardClick();
+        Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     public void ShowProcessing(bool show, bool showProcessingUi)
