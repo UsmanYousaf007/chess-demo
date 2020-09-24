@@ -28,6 +28,7 @@ public class SubscriptionTierView : View
     public TierConfig selectedConfig;
     public TierConfig defaultConfig;
     public Text singleText;
+    public Text infoText;
     public Image toggleBall;
 
     //TO-DO Remove code - SubDlg with icons
@@ -100,7 +101,9 @@ public class SubscriptionTierView : View
             billedSeperator.gameObject.SetActive(false);
             savings.text = $"Save {savingsValue * 100}%";*/
 
-            singleText.text = $"Upgrade with {savingsValue * 100}% off, for {item.remoteProductCurrencyCode} {item.productPrice}, billed monthly";
+            //singleText.text = $"Upgrade with {savingsValue * 100}% off, for {item.remoteProductCurrencyCode} {item.productPrice}, billed monthly";
+            singleText.text = $"<b>{item.remoteProductCurrencyCode} {item.productPrice} / Month</b>";
+            infoText.enabled = false;
         }
         else
         {
@@ -119,7 +122,10 @@ public class SubscriptionTierView : View
             actualPrice.gameObject.SetActive(showSavings);
             savings.gameObject.SetActive(showSavings);*/
 
-            singleText.text = $"Upgrade with {(int)(savingsValue * 100)}% off, for {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo, billed annually";
+            //singleText.text = $"Upgrade with {(int)(savingsValue * 100)}% off, for {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo, billed annually";
+            singleText.text = $"<b>{item.remoteProductCurrencyCode} {item.productPrice} / Year.</b>";
+            infoText.text = $"(12 months at {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)} / mo. Save {(int)(savingsValue * 100)}%)";
+            infoText.enabled = true;
         }
     }
 
