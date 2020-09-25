@@ -51,7 +51,7 @@ public class SubscriptionDlgView : View
         termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
         restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-        purchaseButton.onClick.AddListener(OnPrivacyPolicyButtonClicked);
+        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
@@ -119,12 +119,6 @@ public class SubscriptionDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
-    }
-
-    private void OnPrivacyPolicyButtonClicked()
-    {
-        audioService.PlayStandardClick();
-        Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
     }
 
     public void ShowProcessing(bool show, bool showProcessingUi)
