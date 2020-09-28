@@ -378,7 +378,7 @@ namespace TurboLabz.InstantGame
 
             if (notificationVO.matchGroup != "undefined")
             {
-                if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)
+                if ((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent) / 1000 > NOTIFICATION_QUICKMATCH_DURATION)
                 {
                     //show dailogue
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
@@ -409,6 +409,36 @@ namespace TurboLabz.InstantGame
 
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
+            }
+            else
+            {
+                #region Tournaments and Inbox Notifications
+
+                if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
+                {
+                    var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
+
+                    if (tournamentAssets != null)
+                    {
+                        loadInboxSignal.Dispatch();
+                    }
+                    else
+                    {
+                        var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
+                        tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
+
+                        if (tournamentAssets != null)
+                        {
+                            loadArenaSignal.Dispatch();
+                        }
+                        else if (notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
+                        {
+                            loadInboxSignal.Dispatch();
+                        }
+                    }
+                }
+
+                #endregion
             }
         }
 

@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
             modelsLoadFromDiskSignal.AddListener(LoadFromDisk);
             modelsSaveToDiskSignal.AddListener(SaveToDisk);
             appResumedSignal.AddListener(LoadFromDisk);
+            appResumedSignal.AddListener(Init);
         }
 
         // Constants
@@ -67,29 +68,6 @@ namespace TurboLabz.InstantFramework
             {
                 localDataService.DeleteFile(NOTIFICATIONS_FILE);
             }
-
-            //Clear all registered notifications
-            //Local notifications will be registered when app is going to background
-            HNotifications.Local.ClearAllNotifications();
-
-            //Remove notifications that has been sent locally on the device
-            var notificationsToRemove = (from notificaiton in registeredNotifications
-                                        where notificaiton.timestamp <= backendService.serverClock.currentTimestamp
-                                        select notificaiton).ToList();
-
-            foreach (var notification in notificationsToRemove)
-            {
-                registeredNotifications.Remove(notification);
-            }
-
-            //Register in-game notifications
-            foreach (var notification in registeredNotifications)
-            {
-                if (notification.timestamp > backendService.serverClock.currentTimestamp)
-                {
-                    ScheduleInGameNotification(notification);
-                }
-            }
         }
 
         private void SaveToDisk()
@@ -103,6 +81,7 @@ namespace TurboLabz.InstantFramework
                     notificationData.title = notification.title;
                     notificationData.text = notification.body;
                     notificationData.delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp)/1000;
+                    notificationData.intentData = notification.sender;
                     HNotifications.Local.ScheduleNotification(notificationData);
                 }
             }
@@ -167,13 +146,75 @@ namespace TurboLabz.InstantFramework
             registeredNotifications.Remove(notification);
         }
 
-        public bool IsNotificationRegistered(string title)
+        public bool IsNotificationRegistered(string sender)
         {
             var notification = (from n in registeredNotifications
-                                where n.title.Equals(title)
+                                where n.sender.Equals(sender)
                                 select n).FirstOrDefault();
 
             return notification != null;
+        }
+
+        public void UnregisterNotifications(string sender)
+        {
+            var notifications = (from n in registeredNotifications
+                                where n.sender.Equals(sender)
+                                select n).ToList();
+
+            foreach (var notification in notifications)
+            {
+                registeredNotifications.Remove(notification);
+            }
+        }
+
+        public void Init()
+        {
+            //Clear all registered notifications
+            //Local notifications will be registered when app is going to background
+            HNotifications.Local.ClearAllNotifications();
+
+            //Remove notifications that has been sent locally on the device
+            var notificationsToRemove = (from notificaiton in registeredNotifications
+                                         where notificaiton.timestamp <= backendService.serverClock.currentTimestamp
+                                         select notificaiton).ToList();
+
+            foreach (var notification in notificationsToRemove)
+            {
+                registeredNotifications.Remove(notification);
+            }
+
+            //Register in-game notifications
+            foreach (var notification in registeredNotifications)
+            {
+                if (notification.timestamp > backendService.serverClock.currentTimestamp)
+                {
+                    ScheduleInGameNotification(notification);
+                }
+            }
+
+            //Process Opened Notification
+            var intentData = HNotifications.Local.GetLastIntentData();
+
+            if (!string.IsNullOrEmpty(intentData))
+            {
+                NotificationVO notificationVO;
+
+                notificationVO.isOpened = true;
+                notificationVO.title = "undefined";
+                notificationVO.body = "undefined";
+                notificationVO.senderPlayerId = intentData;
+                notificationVO.challengeId = "undefined";
+                notificationVO.matchGroup = "undefined";
+                notificationVO.avatarId = "undefined";
+                notificationVO.avaterBgColorId = "undefined";
+                notificationVO.profilePicURL = "undefined";
+                notificationVO.isPremium = false;
+                notificationVO.timeSent = 0;
+                notificationVO.actionCode = "undefined";
+                notificationVO.league = -1;
+
+                notificationRecievedSignal.Dispatch(notificationVO);
+            }
         }
     }
 

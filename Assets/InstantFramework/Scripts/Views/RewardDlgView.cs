@@ -65,6 +65,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.inbox_subscription_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+                notificationsModel.UnregisterNotifications("subscription");
 
                 var notification = new Notification();
                 notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE);
@@ -77,7 +78,7 @@ namespace TurboLabz.InstantFramework
                 reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
                 reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
                 reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
-                notification.sender = "subscription";
+                reminder.sender = "subscription";
                 notificationsModel.RegisterNotification(reminder);
             });
 
@@ -104,6 +105,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.inbox_daily_league_reward_collected);
                 buttonClickedSignal.Dispatch(vo.msgId);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+                notificationsModel.UnregisterNotifications("league");
 
                 var notification = new Notification();
                 notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
@@ -118,7 +120,7 @@ namespace TurboLabz.InstantFramework
                 reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
                 reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
                 reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
-                notification.sender = "league";
+                reminder.sender = "league";
                 notificationsModel.RegisterNotification(reminder);
             });
 

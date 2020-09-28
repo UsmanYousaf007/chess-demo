@@ -96,6 +96,7 @@ namespace TurboLabz.InstantGame
             vo.playerProfile.playerPic = picsModel.GetPlayerPic(playerModel.id);
             vo.playerProfile.avatarColorId = playerModel.avatarBgColorId;
             vo.playerProfile.leagueBorder = leagueAssets.ringSprite;
+            vo.playerProfile.avatarId = playerModel.avatarId;
 
             AddRewardsToVO(vo, msg.rewards);
 

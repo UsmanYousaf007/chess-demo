@@ -10,5 +10,7 @@ namespace TurboLabz.InstantFramework
     {
         void RegisterNotification(Notification notification);
         bool IsNotificationRegistered(string title);
+        void UnregisterNotifications(string sender);
+        void Init();
     }
 }

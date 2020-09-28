@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public ILeaguesModel leaguesModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -150,6 +151,7 @@ namespace TurboLabz.InstantFramework
             // loadPromotionSingal.Dispatch();
             autoSubscriptionDialogueService.Show();
             pushNotificationService.Init();
+            notificationsModel.Init();
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();

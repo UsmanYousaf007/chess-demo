@@ -206,7 +206,7 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentUpcomingItem(TournamentUpcomingItem item, LiveTournamentData liveTournament)
         {
-            var getNotified = notificationsModel.IsNotificationRegistered($"{liveTournament.name} {localizationService.Get(LocalizationKey.NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE)}");
+            var getNotified = notificationsModel.IsNotificationRegistered($"{liveTournament.type}_upcoming");
 
             item.UpdateItem(liveTournament, getNotified);
             item.startsInLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_UPCOMING_STARTS_IN);
