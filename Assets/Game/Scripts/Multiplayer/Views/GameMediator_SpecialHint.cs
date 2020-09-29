@@ -7,7 +7,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
-        private VirtualGoodsTransactionVO transactionVO;
+        private VirtualGoodsTransactionVO hintTransactionVO;
 
         private void OnRegisterSpecialHint()
         {
@@ -19,7 +19,7 @@ namespace TurboLabz.Multiplayer
         {
             if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))
             {
-                transactionVO = vo;
+                hintTransactionVO = vo;
                 vo.challengeId = matchInfoModel.activeChallengeId;
                 virtualGoodsTransactionResultSignal.AddOnce(OnSpecialHintConsumed);
                 virtualGoodsTransactionSignal.Dispatch(vo);
@@ -33,9 +33,9 @@ namespace TurboLabz.Multiplayer
                 view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount);
                 getHintSignal.Dispatch(true);
 
-                if (!transactionVO.consumeItemShortCode.Equals("premium"))
+                if (!hintTransactionVO.consumeItemShortCode.Equals("premium"))
                 {
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "hint");
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(hintTransactionVO.consumeItemShortCode).ToString(), hintTransactionVO.consumeQuantity, "booster_used", "hint");
                 }
             }
             else

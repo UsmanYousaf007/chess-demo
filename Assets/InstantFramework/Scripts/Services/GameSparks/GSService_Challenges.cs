@@ -274,6 +274,10 @@ namespace TurboLabz.InstantFramework
                 opponentPublicProfile.lastSeen = opponentPublicProfile.lastSeenDateTime.ToLocalTime().ToLongDateString();
 
                 opponentPublicProfile.isOnline = opponentProfile.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
+
+                var opponentLeague = GSParser.GetSafeInt(opponentProfile, GSBackendKeys.PublicProfile.LEAGUE);
+                var leagueAssets = tournamentsModel.GetLeagueSprites(opponentLeague.ToString());
+                opponentPublicProfile.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
             }
 
             matchInfo.opponentPublicProfile = opponentPublicProfile;

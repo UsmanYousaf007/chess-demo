@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnProductPurchased(StoreItem item)
         {
-            if (item.key.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK))
+            if (item.key.Equals(GSBackendKeys.ShopItem.ALL_THEMES_PACK) || item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
             {
                 view.ShowThemeBanner(false);
 
