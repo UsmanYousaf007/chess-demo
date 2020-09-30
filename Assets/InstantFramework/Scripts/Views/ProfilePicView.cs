@@ -163,7 +163,13 @@ namespace TurboLabz.InstantGame
 
                 if (vo.avatarId != null)
                 {
+                    if(defaultAvatarContainer == null)
+                    {
+                        defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
+                    }
+
                     Sprite newSprite = defaultAvatarContainer.GetSprite(vo.avatarId);
+
                     if (newSprite != null)
                     {
                         avatarIcon.gameObject.SetActive(true);

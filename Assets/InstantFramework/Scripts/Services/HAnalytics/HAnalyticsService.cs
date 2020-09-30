@@ -321,7 +321,7 @@ namespace TurboLabz.InstantFramework
                 analyticsEvent.Add(e.Key, e.Value);
             }
 
-            HAnalytics.LogEvent(eventData, AnalyticsServiceName.APPS_FLYER);
+            HAnalytics.LogEvent(analyticsEvent, AnalyticsServiceName.APPS_FLYER);
             analyticsEvent = null;
         }
 
