@@ -105,17 +105,7 @@ namespace TurboLabz.InstantGame
                     bool majorV = int.Parse(vServer[0]) > int.Parse(vClient[0]);
                     bool minorV = int.Parse(vServer[1]) > int.Parse(vClient[1]);
 
-                    if (majorV == true && !isUpdateBannerShown)
-                    {
-                        return true;
-                    }
-
-                    if (minorV == true && !isUpdateBannerShown)
-                    {
-                        return true;
-                    }
-
-                    return isUpdateBannerShown;
+                    return (majorV || minorV) && !isUpdateBannerShown;
                 },
                 onClick = delegate
                 {
@@ -136,7 +126,7 @@ namespace TurboLabz.InstantGame
                 isUpdateBannerShown = true;
                 analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.lobby_update_banner);
                 showPromotionSignal.Dispatch(gameUpdateItem);
-                routineRunner.StartCoroutine(LoadNextPromotionAfter(180f));
+                //routineRunner.StartCoroutine(LoadNextPromotionAfter(180f));
                 return true;
             }
 

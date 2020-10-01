@@ -65,13 +65,6 @@ namespace TurboLabz.InstantFramework
 
                     scrollRect.verticalNormalizedPosition = 1;
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
-
-                    var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
-                    if (updateBanner != null)
-                    {
-                        updateBanner.updateReleaseMessage.text = settingsModel.updateReleaseBannerMessage;
-                    }
-
                 }
                 else
                 {

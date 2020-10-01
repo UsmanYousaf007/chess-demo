@@ -20,28 +20,32 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
-        [Inject] public IAppInfoModel appInfoModel { get; set; }
-
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         public override void Execute()
         {
-            if (playerModel.HasRemoveAds(metaDataModel.adsSettings))
+            if (playerModel.HasRemoveAds())
             { 
                 return;
             }
 
-            if (!enable)
+            var currentState = navigatorModel.currentState.GetType();
+            var previousState = navigatorModel.previousState.GetType();
+            var canShowBanner = enable &&
+                (currentState == typeof(NSMultiplayer) ||
+                 currentState == typeof(NSCPU) ||
+                (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer)));
+
+            if (canShowBanner)
             {
-                adsService.HideBanner();
+                adsService.ShowBanner();
             }
             else
             {
-                adsService.ShowBanner();
+                adsService.HideBanner();
             }
         }
     }
