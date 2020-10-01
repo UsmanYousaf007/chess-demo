@@ -44,6 +44,7 @@ namespace TurboLabz.Multiplayer
         private string challengeId;
         private VirtualGoodsTransactionVO ratingBoosterTransactionVO;
         private VirtualGoodsTransactionVO ticketTransactionVO;
+        private string spotInventoryPurchaseType;
 
         public void OnRegisterResults()
         {
@@ -201,6 +202,7 @@ namespace TurboLabz.Multiplayer
                 spotInventoryParams.itemShortCode = ticketTransactionVO.consumeItemShortCode;
                 spotInventoryParams.itemToUnclockShortCode = ticketTransactionVO.consumeItemShortCode;
                 loadSpotInventorySignal.Dispatch(spotInventoryParams);
+                spotInventoryPurchaseType = string.Empty;
             }            
         }
 
@@ -213,6 +215,7 @@ namespace TurboLabz.Multiplayer
 
             var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
             analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
+            currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
             StartMatch(currency);
         }
 
@@ -276,7 +279,7 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key)
+        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
         {
             if (view.isActiveAndEnabled)
             {
@@ -286,6 +289,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else if (key.Equals(view.tournamentMatchResultDialog.ticketsShortCode))
                 {
+                    spotInventoryPurchaseType = purchaseType;
                     virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
                     virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
                 }

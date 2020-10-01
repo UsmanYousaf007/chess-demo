@@ -195,7 +195,7 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key)
+        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
         {
             if (view.isActiveAndEnabled)
             {

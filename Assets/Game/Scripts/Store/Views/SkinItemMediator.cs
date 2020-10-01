@@ -83,7 +83,7 @@ public class SkinItemMediator : Mediator
     }
 
     [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-    public void OnSpotInventoryPurchaseCompleted(string key)
+    public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
     {
         if (key.Equals(view.Key))
         {

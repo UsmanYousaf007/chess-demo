@@ -99,7 +99,7 @@ namespace TurboLabz.InstantFramework
                 var itemId = item.displayName.Replace(' ', '_').ToLower();
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(item.key).ToString(), 1, "spot_inventory", "gems");
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", item.currency3Cost, "spot_inventory", itemId);
-                spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode);
+                spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode,"gems");
             }
         }
 
@@ -121,7 +121,7 @@ namespace TurboLabz.InstantFramework
                     case InventoryVideoResult.ITEM_UNLOCKED:
                         OnCloseDlgSignal();
                         analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "spot_inventory", "rewarded_video");
-                        spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode);
+                        spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode,"rv");
                         break;
                 }
             }

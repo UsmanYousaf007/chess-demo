@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
         private string rewardMessageId = null;
         private bool goBackToArena = false;
         private bool showTournamentOverDialog = false;
+        private string spotInventoryPurchaseType;
 
         public override void OnRegister()
         {
@@ -289,6 +290,7 @@ namespace TurboLabz.InstantFramework
                     spotInventoryParams.itemShortCode = view.footer.itemToConsumeShortCode;
                     spotInventoryParams.itemToUnclockShortCode = "tournament";
                     loadSpotInventorySignal.Dispatch(spotInventoryParams);
+                    spotInventoryPurchaseType = string.Empty;
                 }
             }
             //else if (view.footer.haveEnoughGems)
@@ -358,6 +360,7 @@ namespace TurboLabz.InstantFramework
             {
                 var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "main");
+                currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
                 StartTournament(currency);
             }
             else
@@ -475,13 +478,14 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key)
+        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
         {
             if (view.isActiveAndEnabled && key.Equals("tournament"))
             {
                 if (IsTournamentOpen())
                 {
                     view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                    spotInventoryPurchaseType = purchaseType;
                     virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
                     virtualGoodsTransactionSignal.Dispatch(transactionVO);
                 }
