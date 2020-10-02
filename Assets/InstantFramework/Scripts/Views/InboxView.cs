@@ -112,7 +112,7 @@ namespace TurboLabz.InstantFramework
 
             item.thumbnailBg.sprite = TournamentAssetsContainer.Load().GetThumb(msg.tournamentType);
             item.headingText.text = "Tournament Rewards";
-            item.subHeadingText.text = "Completed " + DateTimeOffset.FromUnixTimeMilliseconds(msg.timeStamp).LocalDateTime.ToShortDateString();
+            item.subHeadingText.text = $"Completed {TimeUtil.DateTimeToRelativeTime(DateTimeOffset.FromUnixTimeMilliseconds(msg.timeStamp).LocalDateTime)}";
             item.thumbnail.sprite = TournamentAssetsContainer.Load().GetSticker(msg.tournamentType);
             item.thumbnail.preserveAspect = true;
 

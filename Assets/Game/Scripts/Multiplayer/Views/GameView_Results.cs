@@ -387,6 +387,8 @@ namespace TurboLabz.Multiplayer
                 resultsRatingChangeLabel.color = Colors.RED_DIM;
                 resultsRatingChangeLabel.gameObject.SetActive(true);
             }
+
+            defaultResultDialog.ForceLayoutUpdate();
         }
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)

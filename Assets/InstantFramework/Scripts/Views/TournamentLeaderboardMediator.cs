@@ -258,6 +258,7 @@ namespace TurboLabz.InstantFramework
 
             if (_joinedTournament == null)
             {
+                notificationsModel.UnregisterNotifications(_openTournament.type);
                 var notification = new Notification();
                 notification.title = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_TITLE);
                 notification.body = view.localizationService.Get(LocalizationKey.NOTIFICATION_TOURNAMENT_END_BODY);
