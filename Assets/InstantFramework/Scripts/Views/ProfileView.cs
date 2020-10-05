@@ -49,6 +49,7 @@ namespace TurboLabz.InstantGame
         Transform avatarContainerStartRef;
         public RectTransform avatarContainerRef;
         public Button profilePicButton;
+        public RectTransform playerScoreLeague;
 
         [Header("Social Connection Section")]
         public Button socialConnectionButton;
@@ -226,6 +227,10 @@ namespace TurboLabz.InstantGame
                 {
                     playerLeagueLabel.text = leagueAssets.typeName;
                     playerLeagueLabelBG.sprite = leagueAssets.textUnderlaySprite;
+                }
+                if (playerScoreLeague != null)
+                {
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(playerScoreLeague);
                 }
             }
 
