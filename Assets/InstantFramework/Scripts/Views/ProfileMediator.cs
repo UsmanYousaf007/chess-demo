@@ -154,5 +154,11 @@ namespace TurboLabz.InstantGame
         {
             shareAppSignal.Dispatch();
         }
+
+        [ListensTo(typeof(SkinUpdatedSignal))]
+        public void UpdateThemeIcon()
+        {
+            view.UpdateThemeIcon();
+        }
     }
 }
