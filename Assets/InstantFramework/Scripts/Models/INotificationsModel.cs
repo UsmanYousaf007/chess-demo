@@ -9,7 +9,7 @@ namespace TurboLabz.InstantFramework
     public interface INotificationsModel
     {
         void RegisterNotification(Notification notification);
-        bool IsNotificationRegistered(string title);
+        bool IsNotificationRegistered(string sender);
         void UnregisterNotifications(string sender);
         void Init();
     }

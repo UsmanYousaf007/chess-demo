@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalDataService localDataService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -24,6 +25,10 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
+
+        //Models
+        [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         private List<Notification> registeredNotifications;
 
@@ -72,19 +77,8 @@ namespace TurboLabz.InstantFramework
 
         private void SaveToDisk()
         {
-            foreach (var notification in registeredNotifications)
-            {
-                //Register local notification in case notication time has not passed
-                if (notification.timestamp > backendService.serverClock.currentTimestamp)
-                {
-                    var notificationData = new NotificationData();
-                    notificationData.title = notification.title;
-                    notificationData.text = notification.body;
-                    notificationData.delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp)/1000;
-                    notificationData.intentData = notification.sender;
-                    HNotifications.Local.ScheduleNotification(notificationData);
-                }
-            }
+            RescheduleDailyRewardNotification();
+            ScheduleLocalDeviceNotifications();
 
             try
             {
@@ -214,6 +208,46 @@ namespace TurboLabz.InstantFramework
                 notificationVO.league = -1;
 
                 notificationRecievedSignal.Dispatch(notificationVO);
+            }
+        }
+
+        //when app is sent to bg it will register the daily reward notification if its not collected
+        private void RescheduleDailyRewardNotification()
+        {
+            //search for daily league reward inbox item
+            var dailyNotificationItem =
+               inboxModel.items.Where(item => item.Value.type.Equals("RewardDailyLeague"))
+                               .Select(item => (KeyValuePair<string, InboxMessage>?)item)
+                               .FirstOrDefault();
+
+            if (dailyNotificationItem != null && !IsNotificationRegistered("league"))
+            {
+                //daily league reward inbox item found
+                //registering 8pm remineder notification in case its not already registered
+
+                var reminder = new Notification();
+                reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+                reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+                reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
+                reminder.sender = "league";
+                RegisterNotification(reminder);
+            }
+        }
+
+        private void ScheduleLocalDeviceNotifications()
+        {
+            foreach (var notification in registeredNotifications)
+            {
+                //Register local notification in case notication time has not passed
+                if (notification.timestamp > backendService.serverClock.currentTimestamp)
+                {
+                    var notificationData = new NotificationData();
+                    notificationData.title = notification.title;
+                    notificationData.text = notification.body;
+                    notificationData.delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp) / 1000;
+                    notificationData.intentData = notification.sender;
+                    HNotifications.Local.ScheduleNotification(notificationData);
+                }
             }
         }
     }
