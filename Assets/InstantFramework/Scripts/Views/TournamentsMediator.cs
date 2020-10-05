@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateChestInfoDlgViewSignal updateChestInfoDlgViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
             // Button click handlers
             view.liveItemClickedSignal.AddListener(OnUpcomingItemClicked);
             view.upcomingItemClickedSignal.AddListener(OnUpcomingItemClicked);
+            view.playerBarChestClickSignal.AddListener(OnPlayerBarChestClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -86,6 +88,12 @@ namespace TurboLabz.InstantFramework
             }
 
             analyticsService.Event(AnalyticsEventId.tap_live_tournament);
+        }
+
+        public void OnPlayerBarChestClicked(TournamentReward reward)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHEST_INFO_DLG);
+            updateChestInfoDlgViewSignal.Dispatch(reward);
         }
 
         public void OnUpcomingItemClicked(LiveTournamentData item)

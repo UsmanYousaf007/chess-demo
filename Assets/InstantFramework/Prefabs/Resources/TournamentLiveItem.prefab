@@ -929,7 +929,7 @@ RectTransform:
   - {fileID: 7021404785506227565}
   - {fileID: 4926511056413539992}
   m_Father: {fileID: 285401062067087610}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1322,10 +1322,10 @@ RectTransform:
   - {fileID: 689810144109784291}
   - {fileID: 6609184682809550450}
   - {fileID: 688580427407565142}
-  - {fileID: 7360915049186989515}
   - {fileID: 3488807441301240840}
   - {fileID: 2746881388379091158}
   - {fileID: 1731343363754418967}
+  - {fileID: 7360915049186989515}
   - {fileID: 4655350164985924161}
   - {fileID: 4572078562392521220}
   m_Father: {fileID: 6538105015017868359}
@@ -1538,6 +1538,7 @@ MonoBehaviour:
   button: {fileID: 4207650039054127917}
   buttonText: {fileID: 2956365915249885577}
   joinButtonImage: {fileID: 3717031335268956371}
+  prizeBtn: {fileID: 8781316311447867738}
   openTournamentData:
     shortCode: 
     name: 
@@ -1597,6 +1598,7 @@ GameObject:
   - component: {fileID: 7360915049186989515}
   - component: {fileID: 3669683769257334584}
   - component: {fileID: 6239203213511224879}
+  - component: {fileID: 8781316311447867738}
   m_Layer: 5
   m_Name: Prize
   m_TagString: Untagged
@@ -1619,7 +1621,7 @@ RectTransform:
   - {fileID: 740486086930541530}
   - {fileID: 9002885601895913516}
   m_Father: {fileID: 285401062067087610}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1663,6 +1665,51 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8781316311447867738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527182046252181632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 6239203213511224879}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &7480475957089942037
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,7 +2155,7 @@ RectTransform:
   - {fileID: 7300379489226992147}
   - {fileID: 1069824442157038724}
   m_Father: {fileID: 285401062067087610}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -2185,7 +2232,7 @@ RectTransform:
   - {fileID: 4080378493362248221}
   - {fileID: 2130146454564902861}
   m_Father: {fileID: 285401062067087610}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

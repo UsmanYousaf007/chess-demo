@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateLeagueProfileStripSignal updateLeagueProfileStripSignal { get; set; }
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
+        public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
 
         public Transform listContainer;
         public GameObject tournamentLiveItemPrefab;
@@ -184,11 +185,21 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
+            item.prizeBtn.onClick.AddListener(() =>
+            {
+                playerBarChestClickSignal.Dispatch(joinedTournament.grandPrize);
+                audioService.PlayStandardClick();
+            });
             item.UpdateItem(joinedTournament);
         }
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
+            item.prizeBtn.onClick.AddListener(() =>
+            {
+                playerBarChestClickSignal.Dispatch(liveTournament.grandPrize);
+                audioService.PlayStandardClick();
+            });
             item.UpdateItem(liveTournament);
         }
 

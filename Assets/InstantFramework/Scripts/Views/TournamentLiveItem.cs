@@ -38,6 +38,8 @@ namespace TurboLabz.InstantFramework
         public Text buttonText;
         public Image joinButtonImage;
 
+        public Button prizeBtn;
+
         [HideInInspector]
         public LiveTournamentData openTournamentData = null;
         [HideInInspector]
@@ -82,6 +84,9 @@ namespace TurboLabz.InstantFramework
             if (button != null)
                 button.enabled = !liveTournamentData.concluded;
 
+            if(prizeBtn != null)
+                prizeBtn.enabled = !liveTournamentData.concluded;
+
             endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
 
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -100,6 +105,8 @@ namespace TurboLabz.InstantFramework
             {
                 infoBg.color = tournamentAssetsContainer.GetColor(liveTournamentData.type);
             }
+
+            //prizeBtn.onClick.AddListener(liveTournamentData.);
         }
 
         public void UpdateItem(JoinedTournamentData joinedTournamentData)
@@ -145,6 +152,11 @@ namespace TurboLabz.InstantFramework
             if (button != null)
             {
                 button.enabled = true;
+            }
+
+            if (prizeBtn != null)
+            {
+                prizeBtn.enabled = true;
             }
 
             string timeLeftText;
