@@ -153,6 +153,18 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
+                int updatedTrophies = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.PlayerDetails.TROPHIES);
+                if (updatedTrophies > playerModel.trophies)
+                {
+                    // Handle increase in trophies here
+                }
+
+                int promotedLeague = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.PlayerDetails.LEAGUE);
+                if (promotedLeague > playerModel.league)
+                {
+                    // Handle league promotion here
+                }
+
                 if (messageId != null)
                 {
                     inboxModel.items.Remove(messageId);
