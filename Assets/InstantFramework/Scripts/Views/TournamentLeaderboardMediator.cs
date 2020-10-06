@@ -100,6 +100,11 @@ namespace TurboLabz.InstantFramework
             {
                 if (IsTournamentOpen() == false)
                 {
+                    if (_joinedTournament != null && _joinedTournament.ended == true)
+                    {
+                        return;
+                    }
+
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_OVER_DLG);
                 }
             }
