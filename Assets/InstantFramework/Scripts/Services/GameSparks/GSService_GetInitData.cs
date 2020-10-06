@@ -541,6 +541,7 @@ namespace TurboLabz.InstantFramework
                     if (tournamentEntries[i].publicProfile.playerId == playerId)
                     {
                         joinedTournament.rank = tournamentEntries[i].rank;
+                        joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
                     }
 
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
@@ -569,6 +570,7 @@ namespace TurboLabz.InstantFramework
                 TournamentEntry tournamentEntry = new TournamentEntry();
                 tournamentEntry.rank = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.RANK);
                 tournamentEntry.score = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.SCORE);
+                tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
 
                 tournamentEntry.publicProfile = new PublicProfile();
                 GSData publicProfileData = entriesGSData[i].GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);

@@ -415,6 +415,7 @@ namespace TurboLabz.InstantFramework
             public const string WAIT_TIME = "waitTime";
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
+            public const string MATCHES_PLAYED_COUNT = "matchesPlayedCount";
             public const string REWARDS = "rewards";
             public const string CONCLUDED = "concluded";
             public const string TOURNAMENT_MATCH_SCORE = "tournamentScore";
