@@ -2934,6 +2934,7 @@ MonoBehaviour:
   avatarContainer: {fileID: 0}
   avatarContainerRef: {fileID: 0}
   profilePicButton: {fileID: 1200782218067656339}
+  playerScoreLeague: {fileID: 0}
   socialConnectionButton: {fileID: 0}
   socialConnectionButtonLabel: {fileID: 0}
   facebookIcon: {fileID: 0}
@@ -8015,7 +8016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 468.5, y: 0}
   m_SizeDelta: {x: 232, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &3447688208302977065
@@ -8164,8 +8165,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 28, y: 0}
-  m_SizeDelta: {x: -122, y: -47.2}
+  m_AnchoredPosition: {x: 23, y: 0}
+  m_SizeDelta: {x: -87, y: -47.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4907950633488228898
 CanvasRenderer:
@@ -11681,7 +11682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 820.5, y: 0}
   m_SizeDelta: {x: 178, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8777296724223158767
@@ -12357,7 +12358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 126.5, y: 0}
   m_SizeDelta: {x: 222, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &4164234597837095853
@@ -14292,6 +14293,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1300161158656801233}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14396,10 +14401,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
