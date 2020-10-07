@@ -19634,6 +19634,12 @@ Transform:
   m_Father: {fileID: 1708956978}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &369653506 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1300161157760857038, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1450800370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &371177415
 GameObject:
   m_ObjectHideFlags: 0
@@ -24522,6 +24528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 164
+      objectReference: {fileID: 0}
+    - target: {fileID: 2653239112990052537, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -78.6001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91a22b3c6348040ba9fe46b345aca015, type: 3}
@@ -42400,6 +42411,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807096394}
   m_CullTransparentMesh: 0
+--- !u!224 &808269297 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1300161157478589229, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1450800370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &812434954
 GameObject:
   m_ObjectHideFlags: 0
@@ -77336,6 +77353,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1300161157637205483, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 55.30005
+      objectReference: {fileID: 0}
     - target: {fileID: 1300161158656801233, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -77914,7 +77936,7 @@ PrefabInstance:
     - target: {fileID: 1300161157760857038, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 62.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1300161157982850284, guid: 3b61f72c037234d6ba533cb9f20f20bd,
         type: 3}
@@ -78126,6 +78148,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 13.540039
+      objectReference: {fileID: 0}
+    - target: {fileID: 8335013523947967677, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -48.19995
+      objectReference: {fileID: 0}
+    - target: {fileID: 4696963823671966315, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 8.029999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4696963823671966315, guid: 3b61f72c037234d6ba533cb9f20f20bd,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000017166138
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b61f72c037234d6ba533cb9f20f20bd, type: 3}
@@ -105246,6 +105283,8 @@ MonoBehaviour:
   profileLinksPanel: {fileID: 354125936}
   profileCenterContent: {fileID: 152747280}
   profileBottomNav: {fileID: 431902463}
+  profilePartition: {fileID: 808269297}
+  profileOnline: {fileID: 369653506}
   friendsScrollView: {fileID: 1684146533}
   friendsViewPort: {fileID: 1674480800}
   friendsScrollViewTopShadow: {fileID: 1877106823}
@@ -118689,6 +118728,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -132.7002
       objectReference: {fileID: 0}
+    - target: {fileID: 8649502962522609769, guid: eb37660ceb1bc43929f94972083c4850,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401233671566073314, guid: eb37660ceb1bc43929f94972083c4850,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb37660ceb1bc43929f94972083c4850, type: 3}
 --- !u!224 &698312177839213178 stripped
@@ -118980,6 +119029,11 @@ PrefabInstance:
       propertyPath: sourceImage
       value: 
       objectReference: {fileID: 105294782}
+    - target: {fileID: 2653239112990052537, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -78.6001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91a22b3c6348040ba9fe46b345aca015, type: 3}
 --- !u!114 &1122647107061229576 stripped
