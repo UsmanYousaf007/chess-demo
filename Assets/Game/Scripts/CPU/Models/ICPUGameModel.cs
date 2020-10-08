@@ -20,6 +20,7 @@ namespace TurboLabz.CPU
         bool inProgress { get; set; }
         string devFen { get; set; }
         int totalGames { get; set; }
+        long lastAdShownUTC { get; set; }
 
         void Reset();
     }

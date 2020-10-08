@@ -115,6 +115,11 @@ namespace TurboLabz.InstantGame
                         // Go to tournaments leaderboard view here.
                         InterstitialAdCompleteHandler(AdsResult.FINISHED);
                     }
+                    else
+                    {
+                        resultAdsVO.OnAdCompleteCallback?.Invoke();
+                        resultAdsVO.RemoveCallback();
+                    }
                 }
 
                 return;
@@ -183,6 +188,10 @@ namespace TurboLabz.InstantGame
                                     promise.Then(InterstitialAdCompleteHandler);
                                     promise.Then(ClaimReward);
                                     promise.Then(ShowPromotionOnVictory);
+                                }
+                                else
+                                {
+                                    promise.Then(InterstitialAdCompleteHandler);
                                 }
                             }
                             else

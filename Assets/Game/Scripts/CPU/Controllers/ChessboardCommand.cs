@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
     {
         // Signal parameters
         [Inject] public ChessboardEvent chessboardEvent { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }

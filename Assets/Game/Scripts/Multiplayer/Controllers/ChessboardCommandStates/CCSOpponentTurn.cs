@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 
+using System;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
@@ -89,6 +90,14 @@ namespace TurboLabz.Multiplayer
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
                 PlayerMoveCompleted(cmd);
+
+                // Show in game ad for 30min match mode here.
+                MatchInfo matchInfo = cmd.activeMatchInfo;
+                if (matchInfo.isThirtyMinGame && chessboard.backendPlayerTimer.Seconds < Settings.Ads.TIME_DISABLE_30MIN_INGAME_ADS)
+                {
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd);
+                }
+
                 return null;
             }
             // We received an opponent moved event from the backend service
@@ -124,6 +133,28 @@ namespace TurboLabz.Multiplayer
             }
 
             return null;
+        }
+
+        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd)
+        {
+            long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
+            if (secondsSinceLastAdShown > Settings.Ads.TIME_BETWEEN_INGAME_ADS)
+            {
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+                vo.challengeId = challengeId;
+                cmd.playerModel.adContext = AnalyticsContext.interstitial_in_game_30_min;
+
+                if (!cmd.playerModel.HasSubscription())
+                {
+                    cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
+                }
+
+                cmd.showAdSignal.Dispatch(vo, true);
+
+                matchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            }
         }
     }
 }

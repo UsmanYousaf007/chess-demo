@@ -9,12 +9,16 @@
 /// 
 /// @description
 /// [add_description_here]
+using System;
 using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.CPU
 {
     public class CCSOpponentTurn : CCS
     {
+        private ChessboardCommand chessboardCommand;
+
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
             // If we're starting a new game
@@ -82,11 +86,32 @@ namespace TurboLabz.CPU
             // The player has completed the move
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
-                DoAiMove(cmd);
+                chessboardCommand = cmd;
 
-                // You can no longer go forward in history after making a move
-                cmd.chessboardModel.trimmedMoveList.Clear();
-                cmd.toggleStepForwardSignal.Dispatch(false);
+                // Show computer game ad here, wait for ad to finish before making ai move.
+                long utcNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                if (utcNow - cmd.cpuGameModel.lastAdShownUTC > Settings.Ads.TIME_BETWEEN_INGAME_ADS)
+                {
+                    cmd.cpuGameModel.lastAdShownUTC = utcNow;
+
+                    ResultAdsVO vo = new ResultAdsVO();
+                    vo.adsType = AdType.Interstitial;
+                    vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+                    vo.challengeId = "";
+                    vo.OnAdCompleteCallback = OnInGameAdComplete;
+                    cmd.playerModel.adContext = AnalyticsContext.interstitial_in_game_cpu;
+
+                    if (!cmd.playerModel.HasSubscription())
+                    {
+                        cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
+                    }
+
+                    cmd.showAdSignal.Dispatch(vo, true);
+                }
+                else
+                {
+                    OnInGameAdComplete();
+                }
 
                 return null;
             }
@@ -110,6 +135,15 @@ namespace TurboLabz.CPU
             }
 
             return null;
+        }
+
+        private void OnInGameAdComplete()
+        {
+            DoAiMove(chessboardCommand);
+
+            // You can no longer go forward in history after making a move
+            chessboardCommand.chessboardModel.trimmedMoveList.Clear();
+            chessboardCommand.toggleStepForwardSignal.Dispatch(false);
         }
     }
 }
