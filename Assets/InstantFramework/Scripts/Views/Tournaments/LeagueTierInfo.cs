@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
             youText.gameObject.SetActive(false);
             defaultAvatar.gameObject.SetActive(true);
             picBorder.sprite = leagueAsset.ringSprite;
+            picBorder.SetNativeSize();
         }
 
         public void UpdateView(bool isPlayerLeague)
