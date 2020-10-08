@@ -128,14 +128,21 @@ namespace TurboLabz.InstantFramework
             ticketsCount.text = playerModel.GetInventoryItemCount("SpecialItemTicket").ToString();
             ratingBoostersCount.text = playerModel.GetInventoryItemCount("SpecialItemRatingBooster").ToString();
             if (!playerModel.HasSubscription()) {
+                keysCount.resizeTextMaxSize = 35;
+                keysCount.fontSize = 35;
                 keysCount.text = playerModel.GetInventoryItemCount("SpecialItemKey").ToString();
+                hintsCount.resizeTextMaxSize = 35;
+                hintsCount.fontSize = 35;
                 hintsCount.text = playerModel.GetInventoryItemCount("SpecialItemHint").ToString();
             }
             else
             {
-                keysCount.fontSize = 50;
+               
+                keysCount.resizeTextMaxSize = 70;
+                keysCount.fontSize = 70;
                 keysCount.text = "∞";
-                hintsCount.fontSize = 50;
+                hintsCount.resizeTextMaxSize = 70;
+                hintsCount.fontSize = 70;
                 hintsCount.text = "∞";
             }
     

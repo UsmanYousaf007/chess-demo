@@ -198,7 +198,7 @@ namespace TurboLabz.Multiplayer
             if (rewardBar != null)
                 rewardBarOriginalWidth = rewardBar.sizeDelta.x;
 
-            originalColor = resultsBoostRatingAddedCount.color;
+            //originalColor = resultsBoostRatingAddedCount.color;
         }
 
         public void InitResults()
@@ -249,6 +249,8 @@ namespace TurboLabz.Multiplayer
 
             if (resultDialog.resultsRatingBoostedLabel != null)
                 resultDialog.resultsRatingBoostedLabel.text = localizationService.Get(LocalizationKey.RESULTS_BOOSTED);
+
+            originalColor = resultsBoostRatingAddedCount.color;
         }
 
         public void CleanupResults()

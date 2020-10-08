@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         string challengeId;
 
@@ -64,6 +65,8 @@ namespace TurboLabz.InstantFramework
             pvo.playerId = playerModel.id;
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {
