@@ -975,7 +975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 4, y: -4}
+  m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
 --- !u!1 &7844216945914133600
 GameObject:
@@ -1137,11 +1137,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerProfilePic
       objectReference: {fileID: 0}
-    - target: {fileID: 5016095306862191003, guid: c9c6868d114c845969a71638185ffa23,
-        type: 3}
-      propertyPath: leagueBorder
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6665650889358244020, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1246,6 +1241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5016095306862191003, guid: c9c6868d114c845969a71638185ffa23,
+        type: 3}
+      propertyPath: leagueBorder
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8754006656353162124, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
