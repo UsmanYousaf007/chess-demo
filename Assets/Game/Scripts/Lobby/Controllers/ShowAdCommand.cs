@@ -21,6 +21,7 @@ namespace TurboLabz.InstantGame
     {
         // Parameters
         [Inject] public ResultAdsVO resultAdsVO { get; set; }
+        [Inject] public bool forcedShow { get; set; }
 
         //[Inject] public AdType adType { get; set; }
         //[Inject] public string claimRewardType { get; set; }
@@ -60,6 +61,12 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            bool skipAd = false;
+            if (forcedShow == false && CanShowAd(resultAdsVO.actionCode) == false)
+            {
+                skipAd = true;
+            }
+
             // All non-rewarded ads skipped if player owns the remove ads feature
             bool removeAds = playerModel.HasRemoveAds(metaDataModel.adsSettings);
 
@@ -67,7 +74,7 @@ namespace TurboLabz.InstantGame
             claimRewardType = resultAdsVO.rewardType;
 
             // Case: Ad removed
-            if (removeAds)
+            if (removeAds || skipAd)
             {
                 if (adType == AdType.RewardedVideo)
                 {
@@ -93,14 +100,20 @@ namespace TurboLabz.InstantGame
                 }
                 else if (adType == AdType.Interstitial)
                 {
-                    if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                    if (IsPregameAd())
                     {
                         LoadGameStartSignal();
-                    }else if(playerModel.adContext == AnalyticsContext.interstitial_endgame)
+                    }
+                    else if (playerModel.adContext == AnalyticsContext.interstitial_endgame)
                     {
                         Retain();
                         ClaimReward(AdsResult.BYPASS);
                         LoadLobby();
+                    }
+                    else if (playerModel.adContext == AnalyticsContext.interstitial_tournament_endcard_continue)
+                    {
+                        // Go to tournaments leaderboard view here.
+                        InterstitialAdCompleteHandler(AdsResult.FINISHED);
                     }
                 }
 
@@ -115,7 +128,7 @@ namespace TurboLabz.InstantGame
                 case AdType.Interstitial:
 
                     Retain();
-                    if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                    if (IsPregameAd())
                     {
                         if (adsService.IsInterstitialAvailable())
                         {
@@ -158,10 +171,19 @@ namespace TurboLabz.InstantGame
                             var promise = adsService.ShowInterstitial();
                             if (promise != null)
                             {
-                                promise.Then(InterstitialAdCompleteHandler);
-                                promise.Then(LoadLobby);
-                                promise.Then(ClaimReward);
-                                promise.Then(ShowPromotionOnVictory);
+                                if (playerModel.adContext == AnalyticsContext.interstitial_endgame)
+                                {
+                                    promise.Then(InterstitialAdCompleteHandler);
+                                    promise.Then(LoadLobby);
+                                    promise.Then(ClaimReward);
+                                    promise.Then(ShowPromotionOnVictory);
+                                }
+                                else if (playerModel.adContext == AnalyticsContext.interstitial_tournament_endcard_continue)
+                                {
+                                    promise.Then(InterstitialAdCompleteHandler);
+                                    promise.Then(ClaimReward);
+                                    promise.Then(ShowPromotionOnVictory);
+                                }
                             }
                             else
                             {
@@ -319,7 +341,7 @@ namespace TurboLabz.InstantGame
                 preferencesModel.globalAdsCount++;
                 preferencesModel.interstitialAdsCount++;
 
-                if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
+                if (IsPregameAd())
                 {
                     preferencesModel.pregameAdsPerDayCount++;
                 }
@@ -328,6 +350,9 @@ namespace TurboLabz.InstantGame
             }
 
             LoadGameStartSignal();
+
+            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.RemoveCallback();
         }
 
         private void RewardedAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
@@ -336,6 +361,9 @@ namespace TurboLabz.InstantGame
             {
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
+
+            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.RemoveCallback();
         }
 
         private void InterstitialAdCompleteHandler(AdsResult result = AdsResult.FINISHED)
@@ -344,8 +372,10 @@ namespace TurboLabz.InstantGame
             {
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
-        }
 
+            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.RemoveCallback();
+        }
 
         private void LoadGameStartSignal()
         {
@@ -359,7 +389,7 @@ namespace TurboLabz.InstantGame
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
               || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random30.ToString())
             {
-                FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString());
+                FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString(), resultAdsVO.tournamentId);
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
                 resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge30.ToString())
@@ -377,6 +407,37 @@ namespace TurboLabz.InstantGame
             }
 
             Release();
+        }
+
+        private bool IsPregameAd()
+        {
+            return (playerModel.adContext == AnalyticsContext.interstitial_pregame ||
+                        playerModel.adContext == AnalyticsContext.interstitial_tournament_pregame);
+        }
+
+        private bool CanShowAd(string actionCode = null)
+        {
+            bool retVal = false;
+
+            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
+
+            bool isOneMinuteGame = actionCode != null &&
+                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
+
+            if (isOneMinuteGame && adsSettingsModel.showPregameInOneMinute == false)
+            {
+                retVal = false;
+            }
+            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
+                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
+                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
+                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
+            {
+                retVal = true;
+            }
+
+            return retVal;
         }
     }
 }

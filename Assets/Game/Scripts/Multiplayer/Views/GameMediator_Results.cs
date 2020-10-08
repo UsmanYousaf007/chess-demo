@@ -34,6 +34,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
         [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -216,6 +217,7 @@ namespace TurboLabz.Multiplayer
             var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
             analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
             currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
+
             StartMatch(currency);
         }
 
@@ -253,10 +255,26 @@ namespace TurboLabz.Multiplayer
             tournamentsModel.currentMatchTournament = joinedTournament;
             joinedTournament.locked = true;
 
+            // Analytics
             analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.end_game_card);
             analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
 
-            FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+            // Show tournament pre-game ad here.
+            var currentTournament = tournamentsModel.currentMatchTournament;
+            long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
+            if (tournamentTimeLeftSeconds < Settings.Ads.TIME_DISABLE_TOURNAMENT_PREGAME_ADS)
+            {
+                FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+            }
+            else
+            {
+                playerModel.adContext = AnalyticsContext.interstitial_tournament_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = actionCode;
+                vo.tournamentId = joinedTournament.id;
+                showAdSignal.Dispatch(vo, false);
+            }
         }
 
         private void OnBackToArenaButtonClicked()

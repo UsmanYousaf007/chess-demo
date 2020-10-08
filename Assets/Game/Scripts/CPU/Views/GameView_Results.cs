@@ -508,7 +508,7 @@ namespace TurboLabz.CPU
             {
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
             }
-            showAdSignal.Dispatch(vo);
+            showAdSignal.Dispatch(vo, true);
         }
 
         private void OnResultsClosed()

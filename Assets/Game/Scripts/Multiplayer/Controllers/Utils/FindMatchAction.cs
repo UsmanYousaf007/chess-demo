@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
             isRandomLongMatch = false;
             actionData.action = actionCode;
             actionData.notificationStatus = NotificationStatus.None;
-            actionData.tournamentId = tournamentId;
+            actionData.tournamentId = string.IsNullOrEmpty(tournamentId) ? "" : tournamentId;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 

@@ -8,6 +8,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
         [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -413,16 +415,33 @@ namespace TurboLabz.InstantFramework
                 _joinedTournament.locked = true;
             }
 
-            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);
-            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
-            FindMatchAction.Random(findMatchSignal, actionCode, _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode);
 
             view.EnableNavButtons(false);
 
             if (_openTournament != null)
             {
                 _openTournament.joined = true;
-                //_openTournament = null;
+            }
+
+            // Analytics
+            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.main);
+            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
+
+            // Show tournament match pre-game ad here. Skip if 10 mins are left in tournament to end
+            long timeLeftSeconds = CalculateTournamentTimeLeftSeconds();
+            string tournamentId = _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode;
+            if (timeLeftSeconds < Settings.Ads.TIME_DISABLE_TOURNAMENT_PREGAME_ADS)
+            {
+                FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
+            }
+            else
+            {
+                playerModel.adContext = AnalyticsContext.interstitial_tournament_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = actionCode;
+                vo.tournamentId = tournamentId;
+                showAdSignal.Dispatch(vo, false);
             }
         }
 
@@ -522,6 +541,20 @@ namespace TurboLabz.InstantFramework
             }
 
             return true;
+        }
+
+        private long CalculateTournamentTimeLeftSeconds()
+        {
+            if (_openTournament != null)
+            {
+                return tournamentModel.CalculateTournamentTimeLeftSeconds(_openTournament);
+            }
+            else if (_joinedTournament != null)
+            {
+                return tournamentModel.CalculateTournamentTimeLeftSeconds(_joinedTournament);
+            }
+
+            return 0;
         }
     }
 }

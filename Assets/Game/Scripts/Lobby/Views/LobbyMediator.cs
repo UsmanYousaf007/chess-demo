@@ -324,18 +324,15 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd())
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.isRanked = isRanked;
-                    vo.friendId = playerId;
-                    vo.actionCode = "ChallengeClassic";
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    showAdSignal.Dispatch(vo);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.isRanked = isRanked;
+                vo.friendId = playerId;
+                vo.actionCode = "ChallengeClassic";
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                showAdSignal.Dispatch(vo, false);
+                return;
             }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
@@ -349,18 +346,15 @@ namespace TurboLabz.InstantFramework
 
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd(actionCode))
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.actionCode = actionCode;
-                    vo.friendId = playerId;
-                    vo.isRanked = isRanked;
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    showAdSignal.Dispatch(vo);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = actionCode;
+                vo.friendId = playerId;
+                vo.isRanked = isRanked;
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                showAdSignal.Dispatch(vo, false);
+                return;
             }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
@@ -400,15 +394,12 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd())
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    showAdSignal.Dispatch(vo);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                showAdSignal.Dispatch(vo, false);
+                return;
             }
             startCPUGameSignal.Dispatch();
         }
@@ -420,16 +411,13 @@ namespace TurboLabz.InstantFramework
 
             if (!playerModel.isPremium)
             {
-                if (CanShowPregameAd(actionCode))
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.actionCode = actionCode;
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    showAdSignal.Dispatch(vo);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = actionCode;
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                showAdSignal.Dispatch(vo, false);
+                return;
             }
 
             FindMatchAction.Random(findMatchSignal, actionCode);
@@ -442,15 +430,12 @@ namespace TurboLabz.InstantFramework
 
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd())
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.actionCode = FindMatchAction.ActionCode.Random30.ToString();
-                    showAdSignal.Dispatch(vo);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = FindMatchAction.ActionCode.Random30.ToString();
+                showAdSignal.Dispatch(vo, false);
+                return;
             }
 
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
@@ -460,34 +445,6 @@ namespace TurboLabz.InstantFramework
         private void OnLessonsBtnClicked()
         {
             loadTopicsViewSignal.Dispatch();
-        }
-
-        private bool CanShowPregameAd(string actionCode = null)
-        {
-            bool retVal = false;
-
-            IPreferencesModel preferencesModel = view.preferencesModel;
-            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
-
-            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-            bool isOneMinuteGame = actionCode != null &&
-                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
-                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
-
-            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
-            {
-                retVal = false;
-            }
-            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
-                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
-                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
-            {
-                retVal = true;
-            }
-
-            return retVal;
         }
 
         [ListensTo(typeof(ShowPromotionSignal))]

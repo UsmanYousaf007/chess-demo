@@ -173,14 +173,12 @@ namespace TurboLabz.InstantFramework
 
         public bool HasTournamentEnded(JoinedTournamentData joinedTournament)
         {
-            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            return currentTimeUTCSeconds > joinedTournament.concludeTimeUTCSeconds;
+            return DateTimeOffset.UtcNow.ToUnixTimeSeconds() > joinedTournament.concludeTimeUTCSeconds;
         }
 
         public bool HasTournamentEnded(LiveTournamentData liveTournament)
         {
-            long currentTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            return currentTimeUTCSeconds > liveTournament.concludeTimeUTCSeconds;
+            return DateTimeOffset.UtcNow.ToUnixTimeSeconds() > liveTournament.concludeTimeUTCSeconds;
         }
 
         public long CalculateTournamentTimeLeftSeconds(LiveTournamentData liveTournament)
