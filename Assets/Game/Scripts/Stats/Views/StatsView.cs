@@ -291,6 +291,11 @@ namespace TurboLabz.InstantGame
             openSettingsDlg.SetActive(false);
         }
 
+        public bool IsVisible()
+        {
+            return gameObject.activeSelf;
+        }
+
         void nameConfirmDlgYesBtnClicked()
         {
             var newName = playerProfileNameInputField.text;

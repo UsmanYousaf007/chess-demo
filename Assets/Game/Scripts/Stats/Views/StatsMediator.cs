@@ -197,5 +197,25 @@ namespace TurboLabz.InstantGame
                 uploadFileSignal.Dispatch(uploadFileVO);
             }
         }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(true, true);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && !status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(false, false);
+            }
+        }
     }
 }
