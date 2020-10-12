@@ -144,6 +144,15 @@ namespace TurboLabz.InstantFramework
         shop_purchase,
         shop_popup_view,
         shop_popup_purchase,
+        inventory_source,
+        items_owned,
+        key_obtained_rv,
+        key_obtained_gem,
+        resource_used,
+        resource_via_gems,
+        resource_via_videos,
+        resource_via_free,
+        resource_via_bundle,
 
         //inbox
         inbox_visits,
@@ -152,14 +161,18 @@ namespace TurboLabz.InstantFramework
         inbox_subscription_reward_collected,
 
         //tournaments
-        tournament_promo,
-        tap_live_tournament,
         tap_tier_info,
         start_tournament,
         tap_notification,
         tournament_start_location,
         finish_rank,
-        current_league
+        current_league,
+        engaged_finish_rank,
+        trophies_earned,
+        tournament_first_game_start_location,
+
+        //navigation
+        navigation_clicked
     }
 
     public enum AnalyticsContext
@@ -284,10 +297,22 @@ namespace TurboLabz.InstantFramework
         rewarded_hints_popup,
         rewarded_keys_popup,
         rewarded_tickets_popup,
+        inventory_nav,
+        tournament_main,
+        tournament_leaderboard,
+        lessons,
+        themes,
 
         //tournament
         main,
-        end_game_card
+        end_game_card,
+        tournaments_tab,
+        lobby,
+
+        //navigation
+        inventory,
+        games,
+        arena
     }
 
     public enum AnalyticsParameter
@@ -305,7 +330,12 @@ namespace TurboLabz.InstantFramework
         context,
         day,
         seconds,
-        num_facebook_friends
+        num_facebook_friends,
+        gems,
+        tickets,
+        rating_boosters,
+        hints,
+        keys
     }
 }
 

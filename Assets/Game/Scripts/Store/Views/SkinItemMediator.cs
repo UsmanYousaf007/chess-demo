@@ -1,6 +1,7 @@
 ﻿using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 public class SkinItemMediator : Mediator
@@ -16,6 +17,9 @@ public class SkinItemMediator : Mediator
 
     //Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
+
+    //Models
+    [Inject] public IPreferencesModel preferencesModel { get; set; }
 
     private VirtualGoodsTransactionVO transactionVO;
 
@@ -79,6 +83,7 @@ public class SkinItemMediator : Mediator
         {
             view.PlayAnimation();
             analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "theme_unlocked", itemShortCode);
+            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
         }
     }
 
@@ -88,6 +93,7 @@ public class SkinItemMediator : Mediator
         if (key.Equals(view.Key))
         {
             virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            analyticsService.Event(purchaseType.Equals("rv") ? AnalyticsEventId.key_obtained_rv : AnalyticsEventId.key_obtained_gem, AnalyticsContext.themes);
         }
     }
 }

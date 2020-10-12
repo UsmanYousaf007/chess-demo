@@ -107,6 +107,13 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("SpecialItemHintPopup", AnalyticsContext.popup_hint);
             stringToContextMap.Add("SpecialItemKeyPopup", AnalyticsContext.popup_key);
             stringToContextMap.Add("SpecialItemTicketPopup", AnalyticsContext.popup_ticket);
+            stringToContextMap.Add("LESSONS_VIEW", AnalyticsContext.lessons);
+            stringToContextMap.Add("TOPICS_VIEW", AnalyticsContext.lessons);
+            stringToContextMap.Add("FRIENDS", AnalyticsContext.friends);
+            stringToContextMap.Add("TOURNAMENT_LEADERBOARD_VIEW", AnalyticsContext.tournament_leaderboard);
+            stringToContextMap.Add("ARENA_VIEW", AnalyticsContext.tournament_main);
+            stringToContextMap.Add("SHOP", AnalyticsContext.shop);
+            stringToContextMap.Add("LOBBY", AnalyticsContext.games);
         }
     }
 }

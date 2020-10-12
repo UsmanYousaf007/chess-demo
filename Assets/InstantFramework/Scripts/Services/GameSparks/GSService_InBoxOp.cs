@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using strange.extensions.promise.api;
 using SimpleJson2;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -149,6 +150,11 @@ namespace TurboLabz.InstantFramework
                         analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
                             CollectionsUtil.GetContextFromString(itemShortCode).ToString(),
                             qtyInt, itemType, itemId);
+
+                        if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(itemShortCode))
+                        {
+                            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][itemShortCode] += qtyInt;
+                        }
                         //Analyttics end
                     }
                 }

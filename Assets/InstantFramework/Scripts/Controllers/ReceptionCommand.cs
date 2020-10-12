@@ -259,8 +259,63 @@ namespace TurboLabz.InstantFramework
             {
                 gameModesAnalyticsService.LogTimeSpent();
                 gameModesAnalyticsService.LogInstallDayData();
+
+                analyticsService.Event(AnalyticsEventId.trophies_earned, AnalyticsParameter.count, playerModel.trophies);
+
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.gems, playerModel.gems);
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.tickets, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET));
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.rating_boosters, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER));
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.hints, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT));
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.keys, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY));
+
+                SendResourceManagerAnalytics();
                 preferencesModel.ResetDailyPrefers();
             }
+        }
+
+        private void SendResourceManagerAnalytics()
+        {
+            if (playerModel.HasSubscription())
+            {
+                return;
+            }
+
+            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET] > 0)
+            {
+                analyticsService.Event(AnalyticsEventId.resource_via_free, AnalyticsParameter.tickets, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET]);
+                analyticsService.Event(AnalyticsEventId.resource_via_gems, AnalyticsParameter.tickets, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET]);
+                analyticsService.Event(AnalyticsEventId.resource_via_videos, AnalyticsParameter.tickets, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET]);
+                analyticsService.Event(AnalyticsEventId.resource_via_bundle, AnalyticsParameter.tickets, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET]);
+            }
+
+            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER] > 0)
+            {
+                analyticsService.Event(AnalyticsEventId.resource_via_free, AnalyticsParameter.rating_boosters, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER]);
+                analyticsService.Event(AnalyticsEventId.resource_via_gems, AnalyticsParameter.rating_boosters, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER]);
+                analyticsService.Event(AnalyticsEventId.resource_via_videos, AnalyticsParameter.rating_boosters, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER]);
+                analyticsService.Event(AnalyticsEventId.resource_via_bundle, AnalyticsParameter.rating_boosters, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER]);
+            }
+
+            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT] > 0)
+            {
+                analyticsService.Event(AnalyticsEventId.resource_via_free, AnalyticsParameter.hints, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT]);
+                analyticsService.Event(AnalyticsEventId.resource_via_gems, AnalyticsParameter.hints, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT]);
+                analyticsService.Event(AnalyticsEventId.resource_via_videos, AnalyticsParameter.hints, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT]);
+                analyticsService.Event(AnalyticsEventId.resource_via_bundle, AnalyticsParameter.hints, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT]);
+            }
+
+            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY] > 0)
+            {
+                analyticsService.Event(AnalyticsEventId.resource_via_free, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
+                analyticsService.Event(AnalyticsEventId.resource_via_gems, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
+                analyticsService.Event(AnalyticsEventId.resource_via_videos, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
+                analyticsService.Event(AnalyticsEventId.resource_via_bundle, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
+            }
+
+            analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.tickets, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET]);
+            analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.rating_boosters, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER]);
+            analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.hints, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT]);
+            analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
 
         }
     }

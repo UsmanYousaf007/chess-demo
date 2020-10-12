@@ -5,6 +5,7 @@
 ///
 
 using System;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -28,6 +29,9 @@ namespace TurboLabz.InstantFramework
         float timeSpent30mMatch { get; set; }
         float timeSpentLongMatch { get; set; }
         float timeSpentCpuMatch { get; set; }
+        float timeSpent1mTournament { get; set; }
+        float timeSpent5mTournament { get; set; }
+        float timeSpent10mTournament { get; set; }
         DateTime lastLaunchTime { get; set; }
         int globalAdsCount { get; set; }
         int rewardedAdsCount { get; set; }
@@ -69,5 +73,7 @@ namespace TurboLabz.InstantFramework
         int pregameAdsPerDayCount { get; set; }
         DateTime intervalBetweenPregameAds { get; set; }
         bool autoPromotionToQueen { get; set; }
+
+        Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
     }
 }

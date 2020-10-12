@@ -23,11 +23,25 @@ namespace TurboLabz.InstantFramework
             }
             else if (matchInfo.isTenMinGame)
             {
-                preferencesModel.timeSpent10mMatch += timeSpent;
+                if (matchInfo.isTournamentMatch)
+                {
+                    preferencesModel.timeSpent10mTournament += timeSpent;
+                }
+                else
+                {
+                    preferencesModel.timeSpent10mMatch += timeSpent;
+                }
             }
             else if (matchInfo.isOneMinGame)
             {
-                preferencesModel.timeSpent1mMatch += timeSpent;
+                if (matchInfo.isTournamentMatch)
+                {
+                    preferencesModel.timeSpent1mTournament += timeSpent;
+                }
+                else
+                {
+                    preferencesModel.timeSpent1mMatch += timeSpent;
+                }
             }
             else if (matchInfo.isThirtyMinGame)
             {
@@ -35,7 +49,14 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                preferencesModel.timeSpent5mMatch += timeSpent;
+                if (matchInfo.isTournamentMatch)
+                {
+                    preferencesModel.timeSpent5mTournament += timeSpent;
+                }
+                else
+                {
+                    preferencesModel.timeSpent5mMatch += timeSpent;
+                }
             }
         }
 
@@ -43,10 +64,13 @@ namespace TurboLabz.InstantFramework
         {
             analyticsService.Event("cpu_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
             analyticsService.Event("classic_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
-            analyticsService.Event("1m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
-            analyticsService.Event("5m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
-            analyticsService.Event("10m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
+            analyticsService.Event("1m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
+            analyticsService.Event("5m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
+            analyticsService.Event("10m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
             analyticsService.Event("30m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent30mMatch));
+            analyticsService.Event("1m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mTournament));
+            analyticsService.Event("5m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mTournament));
+            analyticsService.Event("10m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mTournament));
         }
 
         public void ProcessGameCount(MatchInfo matchInfo = null)

@@ -1,5 +1,6 @@
 ﻿using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -20,6 +21,7 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         private string itemToUnlockShortCode;
         private string cameFromScreen;
@@ -99,6 +101,7 @@ namespace TurboLabz.InstantFramework
                 var itemId = item.displayName.Replace(' ', '_').ToLower();
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(item.key).ToString(), 1, "spot_inventory", "gems");
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", item.currency3Cost, "spot_inventory", itemId);
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][item.key] += 1;
                 spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode,"gems");
             }
         }
@@ -121,6 +124,7 @@ namespace TurboLabz.InstantFramework
                     case InventoryVideoResult.ITEM_UNLOCKED:
                         OnCloseDlgSignal();
                         analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "spot_inventory", "rewarded_video");
+                        preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][key] += 1;
                         spotInventoryPurchaseCompletedSignal.Dispatch(itemToUnlockShortCode,"rv");
                         break;
                 }

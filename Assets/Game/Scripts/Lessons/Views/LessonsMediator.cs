@@ -200,6 +200,7 @@ namespace TurboLabz.InstantGame
             if (view.isActiveAndEnabled)
             {
                 virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                analyticsService.Event(purchaseType.Equals("rv") ? AnalyticsEventId.key_obtained_rv : AnalyticsEventId.key_obtained_gem, AnalyticsContext.lessons);
             }
         }
     }

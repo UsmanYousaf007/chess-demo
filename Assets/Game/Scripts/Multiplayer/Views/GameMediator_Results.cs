@@ -37,6 +37,7 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -135,6 +136,7 @@ namespace TurboLabz.Multiplayer
                 backendService.ClaimReward(jsonData);
 
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(ratingBoosterTransactionVO.consumeItemShortCode).ToString(), ratingBoosterTransactionVO.consumeQuantity, "booster_used", "rating_booster");
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
             }
         }
 
@@ -215,6 +217,7 @@ namespace TurboLabz.Multiplayer
 
             var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
             analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
+            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ticketTransactionVO.consumeItemShortCode] += ticketTransactionVO.consumeQuantity;
             currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
             StartMatch(currency);
         }

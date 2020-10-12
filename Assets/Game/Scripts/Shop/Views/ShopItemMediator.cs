@@ -1,5 +1,6 @@
 ﻿using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 using UnityEngine;
 
@@ -15,6 +16,9 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void OnRegister()
         {
@@ -55,6 +59,11 @@ namespace TurboLabz.InstantFramework
                         foreach (var bItem in item.bundledItems)
                         {
                             analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(bItem.Key).ToString(), bItem.Value, "shop", context);
+
+                            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE].ContainsKey(bItem.Key))
+                            {
+                                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][bItem.Key] += bItem.Value;
+                            }
                         }
                     }
 

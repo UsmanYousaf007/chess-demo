@@ -8,6 +8,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,6 +38,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentModel { get; set; }
         [Inject] public INotificationsModel notificationsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -272,6 +275,8 @@ namespace TurboLabz.InstantFramework
                 notification.showInGame = false;
                 notificationsModel.RegisterNotification(notification);
 
+                var context = navigatorModel.previousState.GetType() == typeof(NSLobby) ? AnalyticsContext.lobby : AnalyticsContext.tournaments_tab;
+                analyticsService.Event(AnalyticsEventId.tournament_first_game_start_location, context);
                 StartTournament("free");
             }
             else
@@ -366,6 +371,7 @@ namespace TurboLabz.InstantFramework
             {
                 var currency = CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString();
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, transactionVO.consumeQuantity, "tournament", "main");
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
                 currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
                 StartTournament(currency);
             }

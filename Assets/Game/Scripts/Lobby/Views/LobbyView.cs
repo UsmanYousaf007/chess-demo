@@ -438,8 +438,6 @@ namespace TurboLabz.InstantFramework
             {
                 openTournamentButtonClickedSignal.Dispatch(openTournament);
             }
-
-            analyticsService.Event(AnalyticsEventId.tournament_promo);
         }
 
         void OnQuickMatchBtnClicked(string actionCode)

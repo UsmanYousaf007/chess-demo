@@ -1,6 +1,7 @@
 ﻿using GameAnalyticsSDK;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.CPU
@@ -54,6 +55,7 @@ namespace TurboLabz.CPU
                 if (!transactionVO.consumeItemShortCode.Equals("premium"))
                 {
                     analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "hint");
+                    preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
                 }
             }
             else

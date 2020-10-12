@@ -24,9 +24,11 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         public override void OnRegister()
         {
@@ -67,8 +69,10 @@ namespace TurboLabz.InstantFramework
         private void OnAddCollectiblesButtonClicked()
         {
             preferencesModel.inventoryTabVisited = true;
+            var context = TLUtils.CollectionsUtil.GetContextFromString(navigatorModel.currentViewId.ToString());
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
+            analyticsService.Event(AnalyticsEventId.inventory_source, context);
         }
 
         private void OnInboxButtonClicked()

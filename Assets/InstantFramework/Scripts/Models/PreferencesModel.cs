@@ -6,6 +6,8 @@
 using TurboLabz.TLUtils;
 using TurboLabz.InstantFramework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TurboLabz.InstantGame
 {
@@ -38,6 +40,9 @@ namespace TurboLabz.InstantGame
         public float timeSpent30mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
+        public float timeSpent1mTournament { get; set; }
+        public float timeSpent5mTournament { get; set; }
+        public float timeSpent10mTournament { get; set; }
         public DateTime lastLaunchTime { get; set; }
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
@@ -76,6 +81,7 @@ namespace TurboLabz.InstantGame
         public bool inventoryTabVisited { get; set; }
         public bool shopTabVisited { get; set; }
         public bool themesTabVisited { get; set; }
+        public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -222,6 +228,21 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
                 {
                     timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_1M_TOURNAMENT))
+                {
+                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_5M_TOURNAMENT))
+                {
+                    timeSpent5mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_10M_TOURNAMENT))
+                {
+                    timeSpent10mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT);
                 }
 
                 if (reader.HasKey(PrefKeys.TIME_SPENT_30M_MATCH))
@@ -414,6 +435,23 @@ namespace TurboLabz.InstantGame
                     themesTabVisited = reader.Read<bool>(PrefKeys.THEMES_TAB_VISITED);
                 }
 
+                var transactionKeys = dailyResourceManager.Keys.ToList();
+
+                foreach (var transaction in transactionKeys)
+                {
+                    var resourceKeys = dailyResourceManager[transaction].Keys.ToList();
+
+                    foreach (var resource in resourceKeys)
+                    {
+                        var key = $"{transaction}{resource}";
+
+                        if (reader.HasKey(key))
+                        {
+                            dailyResourceManager[transaction][resource] = reader.Read<int>(key);
+                        }
+                    }
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -446,6 +484,9 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT, timeSpent1mTournament);
+                writer.Write<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT, timeSpent5mTournament);
+                writer.Write<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT, timeSpent10mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_30M_MATCH, timeSpent30mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
@@ -487,6 +528,14 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
                 writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
 
+                foreach (var transaction in dailyResourceManager)
+                {
+                    foreach (var resource in transaction.Value)
+                    {
+                        writer.Write<int>($"{transaction.Key}{resource.Key}", resource.Value);
+                    }
+                }
+
                 writer.Close();
             }
             catch (Exception e)
@@ -509,12 +558,26 @@ namespace TurboLabz.InstantGame
             timeSpent5mMatch = 0;
             timeSpent10mMatch = 0;
             timeSpent30mMatch = 0;
+            timeSpent1mTournament = 0;
+            timeSpent5mTournament = 0;
+            timeSpent10mTournament = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;
             resignCount = 0;
             pregameAdsPerDayCount = 0;
             isFirstRankedGameOfTheDayFinished = false;
+            dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var key in PrefKeys.DAILY_RESOURCE_MAMANGER)
+            {
+                var value = new Dictionary<string, int>();
+                value.Add(GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET, 0);
+                value.Add(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER, 0);
+                value.Add(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT, 0);
+                value.Add(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY, 0);
+                dailyResourceManager.Add(key, value);
+            }
         }
     }
 }

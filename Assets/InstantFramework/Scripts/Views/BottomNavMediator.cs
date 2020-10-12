@@ -27,6 +27,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -50,30 +53,35 @@ namespace TurboLabz.InstantFramework
         {
             loadLobbySignal.Dispatch();
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Home);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.games);
         }
 
         void OnFriendsButtonClicked()
         {
             loadFriendsSignal.Dispatch();
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Friends);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.friends);
         }
 
         void OnArenaButtonClicked()
         {
             loadArenaSignal.Dispatch();
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.arena);
         }
 
         void OnInventoryButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.inventory);
         }
 
         void OnShopButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.shop);
         }
 
         [ListensTo(typeof(UpdateBottomNavSignal))]

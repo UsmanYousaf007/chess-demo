@@ -13,6 +13,7 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
 using UnityEngine;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -784,6 +785,11 @@ namespace TurboLabz.InstantFramework
                         if (context != AnalyticsContext.unknown)
                         {
                             analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+
+                            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(item.Key))
+                            {
+                                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][item.Key] += item.Value;
+                            }
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using GameAnalyticsSDK;
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -16,6 +17,9 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void OnRegister()
         {
@@ -57,6 +61,12 @@ namespace TurboLabz.InstantFramework
                 var itemId = item.displayName.Replace(' ', '_').ToLower();
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(item.key).ToString(), 1, "inventory", "gems");
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", item.currency3Cost, "inventory", itemId);
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][item.key] += 1;
+
+                if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
+                {
+                    analyticsService.Event(AnalyticsEventId.key_obtained_gem, AnalyticsContext.inventory);
+                }
             }
         }
 
@@ -94,7 +104,13 @@ namespace TurboLabz.InstantFramework
                         if (view.gameObject.activeInHierarchy)
                         {
                             analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
+                            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][key] += 1;
                             view.OnItemUnclocked();
+
+                            if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
+                            {
+                                analyticsService.Event(AnalyticsEventId.key_obtained_rv, AnalyticsContext.inventory);
+                            }
                         }
                         else
                         {

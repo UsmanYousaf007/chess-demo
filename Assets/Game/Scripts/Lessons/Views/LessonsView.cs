@@ -49,6 +49,9 @@ namespace TurboLabz.InstantGame
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         public void Init()
         {
             lessonTilePool = new GameObjectsPool(lessonTile);
@@ -192,6 +195,7 @@ namespace TurboLabz.InstantGame
                 analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
             }
         }
 

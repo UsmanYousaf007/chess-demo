@@ -37,6 +37,9 @@ namespace TurboLabz.InstantGame
         public const string TIME_SPENT_30M_MATCH = "timeSpent30mMatch";
         public const string TIME_SPENT_LONG_MATCH = "timeSpentLongMatch";
         public const string TIME_SPENT_CPU_MATCH = "timeSpentCpuMatch";
+        public const string TIME_SPENT_1M_TOURNAMENT = "timeSpent1mTournament";
+        public const string TIME_SPENT_5M_TOURNAMENT = "timeSpent5mTournament";
+        public const string TIME_SPENT_10M_TOURNAMENT = "timeSpent10mTournament";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
         public const string SKIP_DLG_SHOWN = "skipDlgShown";
         public const string TIME_AT_SUBSCRIPTION_DLG_SHOWN = "timeAtSubscriptionDlgShown";
@@ -80,6 +83,13 @@ namespace TurboLabz.InstantGame
         public const string RESIGN_COUNT = "resignCount";
         public const string S3_URL_PING_VERSION = "urlPingVersion";
         public const string AUTO_PROMOTION_TO_QUEEN = "autoPromotionToQueen";
-        
+
+        public const string RESOURCE_USED = "resourceUsed";
+        public const string RESOURCE_GEMS = "resourceGems";
+        public const string RESOURCE_VIDEOS = "resourceVideos";
+        public const string RESOURCE_FREE = "resourceFree";
+        public const string RESOURCE_BUNDLE = "resourceBundle";
+
+        public static readonly string[] DAILY_RESOURCE_MAMANGER = { RESOURCE_USED, RESOURCE_GEMS, RESOURCE_VIDEOS, RESOURCE_FREE, RESOURCE_BUNDLE };
     }
 }

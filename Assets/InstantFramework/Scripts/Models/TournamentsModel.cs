@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
                         updateRemote = true;
-                        analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+                        LogTournamentEndAnalytics(joinedTournaments[i]);
                     }
                 }
             }
@@ -405,8 +405,7 @@ namespace TurboLabz.InstantFramework
                         {
                             LiveTournamentData upcomingTournament = new LiveTournamentData(joinedTournaments[i]);
                             finishedTournaments.Add(upcomingTournament);
-
-                            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{joinedTournaments[i].type.ToLower()}", AnalyticsParameter.context, GetRankContext(joinedTournaments[i].rank));
+                            LogTournamentEndAnalytics(joinedTournaments[i]);
                         }
 
                         joinedTournaments.RemoveAt(i);
@@ -491,13 +490,23 @@ namespace TurboLabz.InstantFramework
             return "1";
         }
 
+        private void LogTournamentEndAnalytics(JoinedTournamentData data)
+        {
+            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{data.type.ToLower()}", AnalyticsParameter.context, GetRankContext(data.rank));
+
+            if (data.matchesPlayedCount > 1)
+            {
+                analyticsService.Event($"{AnalyticsEventId.engaged_finish_rank}_{data.type.ToLower()}", AnalyticsParameter.context, GetRankContext(data.rank));
+            }
+        }
+
         public void LogConcludedJoinedTournaments()
         {
             foreach (var t in joinedTournaments)
             {
                 if (t.ended)
                 {
-                    analyticsService.Event($"{AnalyticsEventId.finish_rank}_{t.type.ToLower()}", AnalyticsParameter.context, GetRankContext(t.rank));
+                    LogTournamentEndAnalytics(t);
                 }
             }
         }
