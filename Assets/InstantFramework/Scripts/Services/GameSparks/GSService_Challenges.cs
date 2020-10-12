@@ -123,6 +123,16 @@ namespace TurboLabz.InstantFramework
                 matchInfoModel.matches[challengeId].drawOfferedBy = offerDrawVO.offeredBy;
                 updateOfferDrawSignal.Dispatch(offerDrawVO);
 
+                // Check and set if it's a tournament match
+                GSData playerData = matchData.GetGSData(playerModel.id);
+                if (playerData != null)
+                {
+                    string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
+                    if (string.IsNullOrEmpty(tournamentId) == false)
+                    {
+                        matchInfoModel.matches[challengeId].isTournamentMatch = true;
+                    }
+                }
             }
 
             UpdateMatch(challengeId, matchData);
@@ -148,12 +158,10 @@ namespace TurboLabz.InstantFramework
                     GSData playerData = matchData.GetGSData(playerModel.id);
                     if (playerData != null)
                     {
-                        string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
-                        if (string.IsNullOrEmpty(tournamentId) == false)
+                        if (matchInfoModel.matches[challengeId].isTournamentMatch == true)
                         {
                             int score = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_SCORE);
                             int winTimeBonus = GSParser.GetSafeInt(playerData, GSBackendKeys.Tournament.TOURNAMENT_MATCH_WIN_TIME_BONUS);
-                            matchInfoModel.matches[challengeId].isTournamentMatch = true;
                             matchInfoModel.matches[challengeId].tournamentMatchScore = score;
                             matchInfoModel.matches[challengeId].tournamentMatchWinTimeBonus = winTimeBonus;
                         }
