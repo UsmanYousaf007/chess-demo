@@ -25,6 +25,13 @@ namespace HUFEXT.CrossPromo.Runtime.API
         public static event UnityAction OnCrossPromoPanelClosed;
 
         /// <summary>
+        /// Use this method to check if the cross promo panel is open.
+        /// </summary>
+        /// <returns>Panel visibility status</returns>
+        [PublicAPI]
+        public static bool IsPanelOpen() => isInitialized && service.IsPanelOpen();
+        
+        /// <summary>
         /// Use this method to close panel explicitly
         /// </summary>
         [PublicAPI]
@@ -114,11 +121,6 @@ namespace HUFEXT.CrossPromo.Runtime.API
                     Init();
                 }
             }
-        }
-
-        public static void Fetch()
-        {
-            service.FetchRemoteConfigs();
         }
     }
 }

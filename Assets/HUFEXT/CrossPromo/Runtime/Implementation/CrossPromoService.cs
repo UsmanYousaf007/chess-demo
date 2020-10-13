@@ -19,17 +19,17 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         BottomPanelContainer bottomPanelContainer;
         ScreenOrientation defaultAppOrientation;
         bool isInitialized;
-        
+        bool isPanelOpen = false;
+        public bool hasContent;
+
         public static string NotInstalledStateButtonText = "get";
         public static string InstalledStateButtonText = "play now";
         public static string InstalledStateTileLabelText = "installed";
         public static string CloseButtonText = "continue to game";
 
-        public bool hasContent;
-
         public CrossPromoService()
         {
-            PauseManager.Instance.OnAppPause += HandleFocusLost;
+            //PauseManager.Instance.OnAppPause += HandleFocusLost;
             
             if (HInitFirebase.IsInitialized)
             {
@@ -44,23 +44,27 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             }
         }
 
-        void HandleFocusLost(bool isActive)
+        /*void HandleFocusLost(bool isActive)
         {
             if (!isActive)
             {
                 var config = HConfigs.GetConfig<CrossPromoRemoteConfig>();
                 UpdateContainerPanels(config);
             }
-        }
+        }*/
 
+        public bool IsPanelOpen() => isPanelOpen;
+        
         public void ClosePanel()
         {
             crossPromoView.gameObject.SetActive(false);
-            //Screen.orientation = defaultAppOrientation;
+            isPanelOpen = false;
+            Screen.orientation = defaultAppOrientation;
         }
 
         public void OpenPanel()
         {
+            isPanelOpen = true;
             CoroutineManager.StartCoroutine(InternalOpenPanel());
         }
 
@@ -96,8 +100,8 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
 
             if (!localConfig.UseDefaultAppOrientation)
                 defaultAppOrientation = Screen.orientation;
-            //Screen.orientation = ScreenOrientation.Portrait;
-            //yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
+            Screen.orientation = ScreenOrientation.Portrait;
+            yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
             crossPromoView.gameObject.SetActive(true);
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate(crossPromoView.GetComponent<RectTransform>());
@@ -140,15 +144,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             isInitialized = true;
             UpdateContainerPanels(remoteConfig);
             ClosePanel();
-
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
-        }
-
-        public void FetchRemoteConfigs()
-        {
-            HandleRemoteConfigsInitialized();
-            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
-            HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
         }
 
         void HandleRemoteConfigsInitialized()
