@@ -305,6 +305,7 @@ namespace TurboLabz.Multiplayer
         {
             border.gameObject.SetActive(borderSprite != null);
             border.sprite = borderSprite;
+            border.SetNativeSize();
         }
     }
 }

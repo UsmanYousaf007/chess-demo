@@ -150,6 +150,7 @@ namespace TurboLabz.InstantGame
             {
                 leagueBorder.gameObject.SetActive(vo.leagueBorder != null);
                 leagueBorder.sprite = vo.leagueBorder;
+                leagueBorder.SetNativeSize();
             }
 
             if (vo.playerPic != null)

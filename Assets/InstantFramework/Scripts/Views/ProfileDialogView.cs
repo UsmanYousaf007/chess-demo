@@ -169,6 +169,7 @@ namespace TurboLabz.InstantFramework
             //premiumBorder.gameObject.SetActive(vo.isOpponentPremium);
             leagueBorder.gameObject.SetActive(vo.opponentLeagueBorder != null);
             leagueBorder.sprite = vo.opponentLeagueBorder;
+            leagueBorder.SetNativeSize();
 
             if (vo.oppProfilePic != null)
             {

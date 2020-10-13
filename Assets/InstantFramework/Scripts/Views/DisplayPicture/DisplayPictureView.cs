@@ -44,6 +44,7 @@ public class DisplayPictureView : MonoBehaviour
 
         this.leagueBorder.gameObject.SetActive(vo.leagueBorder != null);
         this.leagueBorder.sprite = vo.leagueBorder;
+        this.leagueBorder.SetNativeSize();
 
         if (vo.profilePicture != null)
         {

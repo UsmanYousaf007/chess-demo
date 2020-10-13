@@ -465,6 +465,7 @@ namespace TurboLabz.InstantFramework
         {
             border.gameObject.SetActive(borderSprite != null);
             border.sprite = borderSprite;
+            border.SetNativeSize();
         }
     }
 }

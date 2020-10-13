@@ -234,7 +234,7 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            SetProfilePic(vo);
+            //SetProfilePic(vo);
 
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
             if (facebookButton != null)
@@ -251,7 +251,7 @@ namespace TurboLabz.InstantGame
             {
                 if (vo.pic != null)
                 {
-                    SetProfilePic(vo.pic);
+                   // SetProfilePic(vo.pic);
                 }
                 profileName.text = vo.name;
                 eloScoreValue.text = vo.rating.ToString();
@@ -338,7 +338,7 @@ namespace TurboLabz.InstantGame
 
             if (vo.sprite != null)
             {
-                SetProfilePic(vo.sprite);
+                //SetProfilePic(vo.sprite);
             }
         }
 
@@ -425,6 +425,7 @@ namespace TurboLabz.InstantGame
         {
             leagueBorder.gameObject.SetActive(border != null);
             leagueBorder.sprite = border;
+            leagueBorder.SetNativeSize();
         }
 
         private void OnInboxButtonClicked()
@@ -461,7 +462,6 @@ namespace TurboLabz.InstantGame
 
         private void OnClickedChangeThemesButton()
         {
-            audioService.PlayStandardClick();
             changeThemesButtonClickedSignal.Dispatch();
         }
 

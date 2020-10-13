@@ -769,6 +769,7 @@ namespace TurboLabz.InstantFramework
 
             barData.leagueBorder.gameObject.SetActive(publicProfile.leagueBorder != null);
             barData.leagueBorder.sprite = publicProfile.leagueBorder;
+            barData.leagueBorder.SetNativeSize();
             //barData.premiumBorder.SetActive(publicProfile.isSubscriber);
         }
 
@@ -1309,6 +1310,7 @@ namespace TurboLabz.InstantFramework
             //startGameConfirmationDlg.premiumBorder.SetActive(bar.premiumBorder.activeSelf);
             startGameConfirmationDlg.leagueBorder.gameObject.SetActive(bar.leagueBorder.gameObject.activeSelf);
             startGameConfirmationDlg.leagueBorder.sprite = bar.leagueBorder.sprite;
+            startGameConfirmationDlg.leagueBorder.SetNativeSize();
 
             startGameConfirmationDlg.gameObject.SetActive(true);
         }
