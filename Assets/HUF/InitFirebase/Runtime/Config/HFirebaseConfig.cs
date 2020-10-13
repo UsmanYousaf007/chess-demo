@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HUF.InitFirebase.Runtime.Config
 {
-    [CreateAssetMenu(menuName = "HUF/Firebase/Firebase Initialization Config")]
+    [CreateAssetMenu(menuName = "HUF/Firebase/Firebase Wrapper Config", fileName = "FirebaseWrapperConfig")]
     public class HFirebaseConfig : FeatureConfigBase
     {
         public override void RegisterManualInitializers()

@@ -1,6 +1,16 @@
+## [2.1.1] - 2020-07-16
+### Added
+- Added GoogleUtilities pod to dependencies to fix iOS build errors
+
+
 ## [2.1.0] - 2020-05-21
 ### Changed
-- move back to HUF Firebase
+- Move back to HUF Firebase
+
+
+## [2.0.2] - 2020-05-21
+### Fixed
+- Improved initialization reliability
 
 
 ## [2.0.1] - 2020-05-08
