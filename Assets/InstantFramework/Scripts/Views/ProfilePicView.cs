@@ -106,18 +106,18 @@ namespace TurboLabz.InstantGame
             gameObject.SetActive(false);
         }
 
-        public void UpdateProfilePic(Photo vo)
+        public void UpdateProfilePic(Sprite pic)
         {
-            if (vo.sprite == null)
+            if (pic == null)
                 Debug.Log("UpdateProfilePic sprite is null");
 
-            if (vo.sprite != null)
+            if (pic != null)
             {
-                SetProfilePic(vo.sprite);
+                SetProfilePic(pic);
             }
         }
 
-        private void SetProfilePic(Sprite sprite)
+        private void SetProfilePic(Sprite pic)
         {
             Debug.Log("OnProfilePicUpdate SetProfilePic");
             //noProfilePicBorder.SetActive(false);
@@ -126,14 +126,14 @@ namespace TurboLabz.InstantGame
             avatarBG.gameObject.SetActive(false);
             profilePic.color = Color.white;
 
-            if (sprite == null)
+            if (pic == null)
             {
                 profilePic.sprite = defaultAvatar;
                 //noProfilePicBorder.SetActive(true);
             }
             else
             {
-                profilePic.sprite = sprite;
+                profilePic.sprite = pic;
                 //hasProfilePicBorder.SetActive(true);
             }
         }

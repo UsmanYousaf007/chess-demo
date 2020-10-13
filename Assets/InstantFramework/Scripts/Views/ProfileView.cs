@@ -331,14 +331,14 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateProfilePic(Photo vo)
+        public void UpdateProfilePic(Sprite pic)
         {
-            if (vo.sprite == null)
+            if (pic == null)
                 Debug.Log("UpdateProfilePic sprite is null");
 
-            if (vo.sprite != null)
+            if (pic != null)
             {
-                //SetProfilePic(vo.sprite);
+                SetProfilePic(pic);
             }
         }
 

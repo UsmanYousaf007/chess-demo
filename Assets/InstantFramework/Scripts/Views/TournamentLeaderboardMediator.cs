@@ -486,7 +486,10 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(ProfilePictureLoadedSignal))]
         public void OnPictureLoaded(string playerId, Sprite picture)
         {
-            view.UpdatePicture(playerId, picture);
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdatePicture(playerId, picture);
+            }
         }
 
         [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]

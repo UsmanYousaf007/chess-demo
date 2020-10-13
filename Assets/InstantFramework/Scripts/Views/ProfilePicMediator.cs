@@ -57,9 +57,9 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
-        public void OnProfilePicUpdate(Photo vo)
+        public void OnProfilePicUpdate(PhotoVO vo)
         {
-            view.UpdateProfilePic(vo);
+            view.UpdateProfilePic(vo.sprite);
         }
 
         private void OnProfilePicButtonClicked()
@@ -71,6 +71,15 @@ namespace TurboLabz.InstantGame
         public void OnSubscrionPurchased(StoreItem item)
         {
             view.ShowPremiumBorder(playerModel.HasSubscription());
+        }
+
+        [ListensTo(typeof(ProfilePictureLoadedSignal))]
+        public void OnProfilePictureLoaded(string playerId, Sprite picture)
+        {
+            if (playerModel.id == playerId)
+            {
+                view.UpdateProfilePic(picture);
+            }
         }
     }
 }

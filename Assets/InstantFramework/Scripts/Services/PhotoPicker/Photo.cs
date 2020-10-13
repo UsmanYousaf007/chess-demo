@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 { 
-    public class Photo
+    public class PhotoVO
     {
         public Sprite sprite { get; set; }
         public byte[] stream { get; set; }
 
-        public Photo(Sprite photoSprite, byte[] photoStream)
+        public PhotoVO(Sprite photoSprite, byte[] photoStream)
         {
             this.sprite = photoSprite;
             this.stream = photoStream;

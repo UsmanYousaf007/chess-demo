@@ -180,7 +180,7 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
-        public void OnPhotoPickerComplete (Photo photo)
+        public void OnPhotoPickerComplete (PhotoVO photo)
         {
             view.CloseProfilePicDialog();
             view.ShowProcessing(true, true);

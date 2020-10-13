@@ -93,9 +93,9 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
-        public void OnProfilePicUpdate(Photo vo)
+        public void OnProfilePicUpdate(PhotoVO vo)
         {
-            view.UpdateProfilePic(vo);
+            view.UpdateProfilePic(vo.sprite);
         }
 
         private void OnFacebookButtonClicked()

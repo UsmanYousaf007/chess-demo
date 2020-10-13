@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
 		#region Public Methods
 		public void PickPhoto(int width, int height, string format= "jpeg")
 		{
-			Photo photo = null;
+			PhotoVO photo = null;
 			int maxSize = width > height ? width : height;
 			try
 			{
@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
 			try
 			{
 				int maxSize = width > height ? width : height;
-				Photo photo = null;
+				PhotoVO photo = null;
 				NativeCamera.Permission permission = NativeCamera.TakePicture((path) =>
 				{
 					if (path != null)
@@ -105,7 +105,7 @@ namespace TurboLabz.InstantFramework
         #endregion
 
         #region Private Methods
-        private Photo CreatePhotoView(Texture2D photoTexture)
+        private PhotoVO CreatePhotoView(Texture2D photoTexture)
 		{
 			Sprite image = Sprite.Create(photoTexture,
 											 new Rect(0, 0, photoTexture.width, photoTexture.height),
@@ -114,7 +114,7 @@ namespace TurboLabz.InstantFramework
 
 			byte[] imageStream = photoTexture.EncodeToJPG();
 
-			Photo photo = new Photo(image, imageStream);
+			PhotoVO photo = new PhotoVO(image, imageStream);
 			return photo;
 		}
 

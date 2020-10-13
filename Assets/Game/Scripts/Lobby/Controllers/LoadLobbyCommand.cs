@@ -136,7 +136,7 @@ namespace TurboLabz.InstantGame
             var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
 
-            if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
+            if (pvo.playerPic == null)
             {
                 pvo.playerPic = picsModel.GetPlayerPic(playerModel.id);
             }

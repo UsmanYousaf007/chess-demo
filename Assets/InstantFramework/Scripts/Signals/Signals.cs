@@ -159,7 +159,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     public class SkillSelectedSignal : Signal { }
     public class UploadFileSignal : Signal<UploadFileVO> { }
-    public class PhotoPickerCompleteSignal : Signal<Photo> { }
+    public class PhotoPickerCompleteSignal : Signal<PhotoVO> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
     public class LoadArenaSignal : Signal { }

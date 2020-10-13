@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
+        [Inject] public ProfilePictureLoadedSignal profilePictureSignal { get; set; }
 
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
@@ -211,6 +212,7 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 picsModel.SetPlayerPic(playerModel.id, sprite);
+                profilePictureSignal.Dispatch(playerModel.id, sprite);
             }
 
             CommandEnd();
