@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentModel { get; set; }
         [Inject] public INotificationsModel notificationsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -430,7 +431,7 @@ namespace TurboLabz.InstantFramework
             // Show tournament match pre-game ad here. Skip if 10 mins are left in tournament to end
             long timeLeftSeconds = CalculateTournamentTimeLeftSeconds();
             string tournamentId = _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode;
-            if (timeLeftSeconds < Settings.Ads.TIME_DISABLE_TOURNAMENT_PREGAME_ADS)
+            if (adsSettingsModel.showPregameTournament == false || timeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
                 FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
             }

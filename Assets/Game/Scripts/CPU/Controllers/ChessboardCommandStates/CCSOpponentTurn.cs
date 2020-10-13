@@ -90,7 +90,7 @@ namespace TurboLabz.CPU
 
                 // Show computer game ad here, wait for ad to finish before making ai move.
                 long utcNow = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                if (utcNow - cmd.cpuGameModel.lastAdShownUTC > Settings.Ads.TIME_BETWEEN_INGAME_ADS)
+                if (cmd.adsSettingsModel.showInGameCPU && utcNow - cmd.cpuGameModel.lastAdShownUTC > cmd.adsSettingsModel.secondsBetweenIngameAds)
                 {
                     cmd.cpuGameModel.lastAdShownUTC = utcNow;
 
@@ -106,7 +106,7 @@ namespace TurboLabz.CPU
                         cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
                     }
 
-                    cmd.showAdSignal.Dispatch(vo, true);
+                    cmd.showAdSignal.Dispatch(vo, false);
                 }
                 else
                 {

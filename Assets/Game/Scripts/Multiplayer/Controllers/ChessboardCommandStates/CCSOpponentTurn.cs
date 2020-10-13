@@ -93,7 +93,9 @@ namespace TurboLabz.Multiplayer
 
                 // Show in game ad for 30min match mode here.
                 MatchInfo matchInfo = cmd.activeMatchInfo;
-                if (matchInfo.isThirtyMinGame && chessboard.backendPlayerTimer.Seconds < Settings.Ads.TIME_DISABLE_30MIN_INGAME_ADS)
+                if (matchInfo.isThirtyMinGame &&
+                    cmd.adsSettingsModel.showInGame30Min &&
+                    chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
                 {
                     ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd);
                 }
@@ -138,7 +140,7 @@ namespace TurboLabz.Multiplayer
         private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd)
         {
             long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
-            if (secondsSinceLastAdShown > Settings.Ads.TIME_BETWEEN_INGAME_ADS)
+            if (secondsSinceLastAdShown > cmd.adsSettingsModel.secondsBetweenIngameAds)
             {
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
@@ -151,7 +153,7 @@ namespace TurboLabz.Multiplayer
                     cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
                 }
 
-                cmd.showAdSignal.Dispatch(vo, true);
+                cmd.showAdSignal.Dispatch(vo, false);
 
                 matchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }

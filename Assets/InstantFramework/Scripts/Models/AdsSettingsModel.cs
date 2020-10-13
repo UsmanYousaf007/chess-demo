@@ -21,8 +21,14 @@ namespace TurboLabz.InstantFramework
         public int sessionsBeforePregameAd { get; set; }
         public int maxPregameAdsPerDay { get; set; }
         public int waitForPregameAdLoadSeconds { get; set; }
+        public int secondsBetweenIngameAds { get; set; }
+        public int secondsLeftDisableTournamentPregame { get; set; }
+        public int secondsElapsedDisable30MinInGame { get; set; }
         public double intervalsBetweenPregameAds { get; set; }
         public bool showPregameInOneMinute { get; set; }
+        public bool showPregameTournament { get; set; }
+        public bool showInGameCPU { get; set; }
+        public bool showInGame30Min { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }

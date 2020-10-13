@@ -75,6 +75,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

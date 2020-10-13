@@ -135,6 +135,12 @@ namespace TurboLabz.InstantFramework
         public const string WAIT_PREGAME_AD_LOAD_SECONDS = "waitForPregameAdLoadSeconds";
         public const string INTERVALS_BETWEEN_PREGAME_ADS = "intervalsBetweenPregameAds";
         public const string SHOW_PREGAME_AD_ONE_MINUTE = "showPregameOneMinute";
+        public const string SHOW_PREGAME_AD_TOURNAMENT = "showPregameTournament";
+        public const string SHOW_INGAME_AD_CPU = "showInGameCPU";
+        public const string SHOW_INGAME_AD_30MIN = "showInGame30Min";
+        public const string MINUTES_BETWEEN_INGAME_AD = "minutesBetweenIngameAds";
+        public const string MINUTES_LEFT_DISABLE_TOURNAMENT_ADS = "minutesLeftDisableTournamentPregame";
+        public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";

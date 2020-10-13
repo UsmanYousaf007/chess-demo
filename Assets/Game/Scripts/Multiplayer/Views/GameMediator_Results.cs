@@ -38,6 +38,7 @@ namespace TurboLabz.Multiplayer
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -262,7 +263,7 @@ namespace TurboLabz.Multiplayer
             // Show tournament pre-game ad here.
             var currentTournament = tournamentsModel.currentMatchTournament;
             long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
-            if (tournamentTimeLeftSeconds < Settings.Ads.TIME_DISABLE_TOURNAMENT_PREGAME_ADS)
+            if (adsSettingsModel.showPregameTournament == false || tournamentTimeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
                 FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
             }

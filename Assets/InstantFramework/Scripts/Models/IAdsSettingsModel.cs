@@ -21,8 +21,14 @@ namespace TurboLabz.InstantFramework
         int sessionsBeforePregameAd { get; set; }
         int maxPregameAdsPerDay { get; set; }
         int waitForPregameAdLoadSeconds { get; set; }
+        int secondsBetweenIngameAds { get; set; }
+        int secondsLeftDisableTournamentPregame { get; set; }
+        int secondsElapsedDisable30MinInGame { get; set; }
         double intervalsBetweenPregameAds { get; set; }
         bool showPregameInOneMinute { get; set; }
+        bool showPregameTournament { get; set; }
+        bool showInGameCPU { get; set; }
+        bool showInGame30Min { get; set; }
     }
 }
 
