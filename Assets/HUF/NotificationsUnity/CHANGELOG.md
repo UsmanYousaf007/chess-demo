@@ -1,3 +1,8 @@
+## [2.2.0] - 2020-09-24
+### Added
+- Function asking for notifications permission
+
+
 ## [2.1.2] - 2020-09-17
 ### Changed
 - Initializing the module only once

@@ -28,6 +28,10 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
             var request = UnityWebRequestMultimedia.GetAudioClip(uri, GetAudioType(Path.GetExtension(uri.LocalPath)));
             yield return request.SendWebRequest();
 
+#if HUF_TIMESERVER
+            TimeServer.Runtime.Implementation.ExternalWebrequestConnector.HandleRequest( request );
+#endif
+
             if (request.isNetworkError || request.isHttpError)
             {
                 SendHandlerFail($"{request.error} \n on uri: {uri} ");
