@@ -11,21 +11,24 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
 {
     public class FirebasePushNotificationsService : IPushNotificationsService
     {
-        string cachedToken;
-        FirebaseMessage cachedMessage;
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(FirebasePushNotificationsService) );
+
+        string cachedToken;
+        bool isInitializing = false;
+
+        public event UnityAction OnInitialized;
+        public event UnityAction<string> OnNotificationReceived;
 
         public bool IsInitialized => !cachedToken.IsNullOrEmpty();
 
-        public string CachedToken => cachedToken;
-
-        public FirebaseMessage CachedMessage => cachedMessage;
-
-        public event UnityAction<string> OnNotificationReceived;
-
         public void InitializeNotifications()
         {
-            if (HInitFirebase.IsInitialized)
+            if ( isInitializing || IsInitialized )
+                return;
+
+            isInitializing = true;
+
+            if ( HInitFirebase.IsInitialized )
             {
                 AttachCallbacks();
                 HLog.Log( logPrefix, "Service initialized" );
@@ -45,21 +48,9 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
             }
         }
 
-        void AttachCallbacks()
+        public void Dispose()
         {
-            FirebaseMessaging.TokenReceived += OnTokenReceived;
-            FirebaseMessaging.MessageReceived += OnMessageReceived;
-        }
-
-        void OnTokenReceived(object sender, TokenReceivedEventArgs token)
-        {
-            cachedToken = token.Token;
-        }
-
-        void OnMessageReceived(object sender, MessageReceivedEventArgs e)
-        {
-            cachedMessage = e.Message;
-            OnNotificationReceived.Dispatch(e.Message.RawData);
+            DetachCallbacks();
         }
 
         void OnFirebaseInitSuccess()
@@ -68,10 +59,28 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
             AttachCallbacks();
         }
 
-        public void Dispose()
+        void AttachCallbacks()
+        {
+            FirebaseMessaging.TokenReceived += OnTokenReceived;
+            FirebaseMessaging.MessageReceived += OnMessageReceived;
+        }
+
+        void DetachCallbacks()
         {
             FirebaseMessaging.TokenReceived -= OnTokenReceived;
             FirebaseMessaging.MessageReceived -= OnMessageReceived;
+        }
+
+        void OnTokenReceived( object sender, TokenReceivedEventArgs token )
+        {
+            cachedToken = token.Token;
+            isInitializing = false;
+            OnInitialized.Dispatch();
+        }
+
+        void OnMessageReceived( object sender, MessageReceivedEventArgs e )
+        {
+            OnNotificationReceived.Dispatch( e.Message.RawData );
         }
     }
 }
