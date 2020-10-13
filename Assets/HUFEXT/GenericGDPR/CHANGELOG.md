@@ -1,3 +1,26 @@
+## [2.4.6] - 2020-09-17
+### Added
+- Hufdefine file
+- Config installer
+
+
+## [2.4.5] - 2020-09-16
+### Fixed
+- NRE when using properties
+
+
+## [2.4.4] - 2020-09-01
+### Fixed
+- Documentation errors
+
+## [2.4.3] - 2020-08-17
+### Added
+- Documentation
+
+## [2.4.2] - 2020-07-29
+### Changed
+- es texts update
+
 ## [2.4.1] - 2020-06-05
 ### Changed
 - One frame delay on AutoInit - fix wrong GDPR displayment on some devices

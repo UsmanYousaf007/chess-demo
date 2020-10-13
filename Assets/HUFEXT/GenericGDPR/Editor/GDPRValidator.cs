@@ -15,7 +15,7 @@ namespace HUFEXT.GenericGDPR.Editor
 {
     public class GDPRValidator : IPreprocessBuildWithReport
     {
-        readonly HLogPrefix prefix = new HLogPrefix( nameof( GDPRValidator ) );
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof( GDPRValidator ) );
         
         public int callbackOrder => 0;
 
@@ -31,12 +31,12 @@ namespace HUFEXT.GenericGDPR.Editor
         public void OnPreprocessBuild( BuildReport report )
         {
             var detected = GenerateHash();
-            const string expected = "fce94f1d98c11fd55f134fffce7087fbca97d4930444e4f91f0e34840c6dd19d";
+            const string expected = "a5e77175e707a6b0b58fa9fa49ec1dbb1869ab1cb217cd133ffe44519ffc5df0";
             
             if ( detected != expected )
             {
                 GenerateInvalidHashReport( detected, expected );
-                HLog.LogWarning( prefix, "Policy text mismatch detected. Please contact HUF support." );
+                HLog.LogWarning( logPrefix, "Policy text mismatch detected. Please contact HUF support." );
             }
         }
         
