@@ -1,3 +1,4 @@
+using Firebase.Messaging;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
@@ -47,5 +48,9 @@ namespace HUF.Notifications.Runtime.API
         {
             OnNotificationsReceived.Dispatch( notificationData );
         }
+
+        public string CachedToken => notifications?.CachedToken;
+        public FirebaseMessage CachedMessage => notifications?.CachedMessage;
+
     }
 }
