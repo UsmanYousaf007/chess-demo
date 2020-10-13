@@ -14,12 +14,15 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(FirebasePushNotificationsService) );
 
         string cachedToken;
+        FirebaseMessage cachedMessage;
         bool isInitializing = false;
 
         public event UnityAction OnInitialized;
         public event UnityAction<string> OnNotificationReceived;
 
         public bool IsInitialized => !cachedToken.IsNullOrEmpty();
+        public string CachedToken => cachedToken;
+        public FirebaseMessage CachedMessage => cachedMessage;
 
         public void InitializeNotifications()
         {
@@ -80,6 +83,7 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
 
         void OnMessageReceived( object sender, MessageReceivedEventArgs e )
         {
+            cachedMessage = e.Message;
             OnNotificationReceived.Dispatch( e.Message.RawData );
         }
     }
