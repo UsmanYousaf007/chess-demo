@@ -1,3 +1,4 @@
+using System;
 using HUF.Notifications.Runtime.Data.Structs;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
@@ -13,12 +14,36 @@ namespace HUF.Notifications.Runtime.API
 
         ILocalNotificationsService notifications;
 
+        public event Action<ConsentStatus> OnAskForPermissionComplete
+        {
+            add
+            {
+                if ( notifications == null )
+                {
+                    HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
+                    return;
+                }
+
+                notifications.OnAskForPermissionComplete += value;
+            }
+            remove
+            {
+                if ( notifications == null )
+                {
+                    HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
+                    return;
+                }
+
+                notifications.OnAskForPermissionComplete -= value;
+            }
+        }
+
         /// <summary>
         /// Registers local notifications service.
         /// </summary>
         /// <param name="service">Service to be registered</param>
         [PublicAPI]
-        public void RegisterService(ILocalNotificationsService service)
+        public void RegisterService( ILocalNotificationsService service )
         {
             notifications?.Dispose();
             notifications = service;
@@ -32,15 +57,15 @@ namespace HUF.Notifications.Runtime.API
         /// <returns>Id string for scheduled notification if success,
         /// <see cref="NotificationData.INVALID_NOTIFICATION_ID"/> if otherwise</returns>
         [PublicAPI]
-        public string ScheduleNotification(NotificationData notificationData)
+        public string ScheduleNotification( NotificationData notificationData )
         {
-            if (notifications == null)
+            if ( notifications == null )
             {
-                HLog.LogWarning( logPrefix ,NOTIFICATIONS_NOT_INITIALIZED_WARNING);
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
                 return NotificationData.INVALID_NOTIFICATION_ID;
             }
 
-            return notifications.ScheduleNotification(notificationData);
+            return notifications.ScheduleNotification( notificationData );
         }
 
         /// <summary>
@@ -48,26 +73,26 @@ namespace HUF.Notifications.Runtime.API
         /// </summary>
         /// <param name="notificationId">Notification id that needs to be cleared</param>
         [PublicAPI]
-        public void ClearScheduledNotification(string notificationId)
+        public void ClearScheduledNotification( string notificationId )
         {
-            if (notifications == null)
+            if ( notifications == null )
             {
-                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING);
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
                 return;
             }
 
-            notifications.ClearScheduledNotification(notificationId);
+            notifications.ClearScheduledNotification( notificationId );
         }
 
         /// <summary>
-        /// Clears all schedules notifications.
+        /// Clears all scheduled notifications.
         /// </summary>
         [PublicAPI]
         public void ClearAllNotifications()
         {
-            if (notifications == null)
+            if ( notifications == null )
             {
-                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING);
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
                 return;
             }
 
@@ -75,16 +100,16 @@ namespace HUF.Notifications.Runtime.API
         }
 
         /// <summary>
-        /// Return last intent data after returning from notification.
+        /// Returns last intent data after returning from notification.
         /// </summary>
         /// <returns>String value if intent data is present, empty string otherwise. If null is returned
         /// no notification service is present.</returns>
         [PublicAPI]
         public string GetLastIntentData()
         {
-            if (notifications == null)
+            if ( notifications == null )
             {
-                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING);
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
                 return string.Empty;
             }
 
@@ -99,13 +124,30 @@ namespace HUF.Notifications.Runtime.API
         [PublicAPI]
         public ConsentStatus GetConsentStatus()
         {
-            if (notifications == null)
+            if ( notifications == null )
             {
-                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING);
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
                 return ConsentStatus.Undefined;
             }
 
             return notifications.GetConsentStatus();
+        }
+
+        /// <summary>
+        /// Asks for permission to notifications.
+        /// Currently only iOS is supported.
+        /// </summary>
+        /// <param name="registerForRemoteNotifications">Should it also ask for remote notifications permission</param>
+        [PublicAPI]
+        public void AskForPermission( bool registerForRemoteNotifications )
+        {
+            if ( notifications == null )
+            {
+                HLog.LogWarning( logPrefix, NOTIFICATIONS_NOT_INITIALIZED_WARNING );
+                return;
+            }
+
+            notifications.AskForPermission( registerForRemoteNotifications );
         }
     }
 }

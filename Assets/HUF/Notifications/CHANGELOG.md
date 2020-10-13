@@ -1,3 +1,13 @@
+## [2.1.0] - 2020-09-24
+### Added
+- Function asking for notifications permission
+
+
+## [2.0.1] - 2020-09-21
+### Added
+- Documentation
+
+
 ## [2.0.0] - 2020-04-02
 ### Added
 - Service initialization logging
@@ -9,6 +19,7 @@
 
 ### Removed
 - Define from HNotifications
+
 
 ## [1.9.0] - 2020-01-14
 ### Added

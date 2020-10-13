@@ -1,4 +1,3 @@
-using Firebase.Messaging;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
@@ -12,7 +11,7 @@ namespace HUF.Notifications.Runtime.API
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HPushNotifications) );
 
         /// <summary>
-        /// Dispatched when coming to app with notification. Parameter is raw data of notification.
+        /// Raised when coming to app with notification. Parameter is raw data of notification.
         /// </summary>
         [PublicAPI]
         public event UnityAction<string> OnNotificationsReceived;
@@ -22,7 +21,7 @@ namespace HUF.Notifications.Runtime.API
         /// </summary>
         /// <param name="service">Service to be registered</param>
         [PublicAPI]
-        public void RegisterService(IPushNotificationsService service)
+        public void RegisterService( IPushNotificationsService service )
         {
             notifications?.Dispose();
             notifications = service;
@@ -35,7 +34,7 @@ namespace HUF.Notifications.Runtime.API
         [PublicAPI]
         public void InitializePushNotifications()
         {
-            if (notifications != null && !notifications.IsInitialized)
+            if ( notifications != null && !notifications.IsInitialized )
             {
                 notifications.InitializeNotifications();
                 notifications.OnNotificationReceived += NotificationReceived;
@@ -44,12 +43,9 @@ namespace HUF.Notifications.Runtime.API
             HLog.Log( logPrefix, $"Push notification service initialized" );
         }
 
-        void NotificationReceived(string notificationData)
+        void NotificationReceived( string notificationData )
         {
-            OnNotificationsReceived.Dispatch(notificationData);
+            OnNotificationsReceived.Dispatch( notificationData );
         }
-
-        public string CachedToken => notifications?.CachedToken;
-        public FirebaseMessage CachedMessage => notifications?.CachedMessage;
     }
 }
