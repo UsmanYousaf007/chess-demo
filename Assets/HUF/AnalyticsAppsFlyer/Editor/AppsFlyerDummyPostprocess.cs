@@ -10,12 +10,12 @@ public class AppsFlyerDummyPostprocess : BaseDummyPreprocessBuild
 #else
     public override bool Enabled => false;
 #endif
-    public override IEnumerable<string> DirectoriesToHide => new[]
+    public override IEnumerable<string> DirectoriesToHide { get; } = new[]
     {
         "HUF/AnalyticsAppsFlyer/Plugins",
         "HUF/AnalyticsAppsFlyer/Runtime/Implementation"
     };
-    public override HLogPrefix LogPrefix => new HLogPrefix(nameof(AppsFlyerDummyPostprocess));
+    public override HLogPrefix LogPrefix { get; } = new HLogPrefix(nameof(AppsFlyerDummyPostprocess));
 
     [MenuItem( "HUF/Dummy/" + nameof(AppsFlyerDummyPostprocess) + "/Force Hide" )]
     static void ForceHideFolders()

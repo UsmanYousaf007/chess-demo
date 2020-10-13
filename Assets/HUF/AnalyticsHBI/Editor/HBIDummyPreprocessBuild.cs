@@ -11,11 +11,11 @@ namespace HUF.AnalyticsHBI.Editor
 #else
         public override bool Enabled => false;
 #endif
-        public override IEnumerable<string> DirectoriesToHide => new[]
+        public override IEnumerable<string> DirectoriesToHide { get; } = new[]
         {
             "HUF/AnalyticsHBI/Plugins",
             "HUF/AnalyticsHBI/Runtime/Implementation"
         };
-        public override HLogPrefix LogPrefix => new HLogPrefix(nameof(HBIDummyPreprocessBuild));
+        public override HLogPrefix LogPrefix { get; } = new HLogPrefix(nameof(HBIDummyPreprocessBuild));
     }
 }
