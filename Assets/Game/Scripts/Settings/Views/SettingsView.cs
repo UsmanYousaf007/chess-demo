@@ -136,8 +136,8 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
-            hufShowAdsTestSuite.gameObject.SetActive(Debug.isDebugBuild);
-            hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
+            hufShowAdsTestSuite.gameObject.SetActive(false);
+            //hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
         }
 
         protected override void OnEnable()

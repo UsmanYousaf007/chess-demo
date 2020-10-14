@@ -3,13 +3,10 @@ using strange.extensions.promise.impl;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
-//using HUF.AdsAdMobMediation.Runtime.API;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
-//using HUF.AdsAdMobMediation.Runtime.Implementation;
-using HUF.AdsIronSourceMediation.Runtime.Implementation;
-using HUF.AdsIronSourceMediation.Runtime.API;
+
 
 namespace TurboLabz.InstantFramework
 {
@@ -44,7 +41,6 @@ namespace TurboLabz.InstantFramework
             HAds.Banner.OnFailed += OnBannerFailed;
             HAds.Interstitial.OnClicked += OnInterstitialClicked;
             HAds.Rewarded.OnClicked += OnRewardedClicked;
-            //AdsIronSourceMediation.OnPaidEvent += HandlePaidEvent;
             HAdsManager.SetNewBannerPosition(BannerPosition.TopCenter);
         }
 
@@ -258,7 +254,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowTestSuite()
         {
-            HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, null);
+            //HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, null);
         }
 
         public void OnAppEvent(AppEvent evt)

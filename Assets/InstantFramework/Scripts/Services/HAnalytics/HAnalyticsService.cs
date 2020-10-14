@@ -214,7 +214,7 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add("games_finished", preferencesModel.gameFinishedCount);
             analyticsEvent.Add("online", true);
             analyticsEvent.Add("trial_subscription_used", playerModel.subscriptionExipryTimeStamp > 0);
-            analyticsEvent.Add("axgroup", "");
+            //analyticsEvent.Add("axgroup", "");
             analyticsEvent.Add("sub_days_left", Math.Max((TimeUtil.ToDateTime(playerModel.subscriptionExipryTimeStamp) - DateTime.UtcNow).TotalDays, 0).ToString("0"));
             analyticsEvent.Add("player_level", statsModel.GetHighestDifficultyLevelBeaten());
             analyticsEvent.Add("power", playerModel.eloScore);
