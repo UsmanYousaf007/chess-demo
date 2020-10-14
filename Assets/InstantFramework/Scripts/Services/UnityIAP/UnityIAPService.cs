@@ -297,13 +297,17 @@ namespace TurboLabz.InstantFramework
                 }
 
                 // Unlock the appropriate content here.
-                backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id, 
-                                                            e.purchasedProduct.transactionID, 
+                backendService.VerifyRemoteStorePurchase(e.purchasedProduct.definition.id,
+                                                            e.purchasedProduct.transactionID,
                                                             e.purchasedProduct.receipt,
                                                             expiryTimeStamp,
                                                             shortCode).Then(OnVerifiedPurchase);
 
                 return PurchaseProcessingResult.Pending;
+            }
+            else
+            {
+                showIAPProcessingSignal.Dispatch(false, false);
             }
 
             return PurchaseProcessingResult.Complete;

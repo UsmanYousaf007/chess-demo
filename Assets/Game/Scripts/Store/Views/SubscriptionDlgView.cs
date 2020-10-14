@@ -29,9 +29,12 @@ public class SubscriptionDlgView : View
     public GameObject thinking;
     public Image[] radioButtons;
 
+    public SubscriptionTierView[] subscriptionTiers;
+
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+    [Inject] public ISettingsModel settingsModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
@@ -66,6 +69,8 @@ public class SubscriptionDlgView : View
 
         if (storeItem == null)
             return;
+
+        SetupDefaultSubscriptionTier();
 
         // Fill only once
         if (offersContainer.childCount == 0)
@@ -146,6 +151,20 @@ public class SubscriptionDlgView : View
             btn.color = tempColor;
         }
         //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+    }
+
+    private void SetupDefaultSubscriptionTier()
+    {
+        foreach (var t in subscriptionTiers)
+        {
+            t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
+
+            if (t.isSelected)
+            {
+                t.transform.SetAsFirstSibling();
+            }
+        }
+
     }
 }
 

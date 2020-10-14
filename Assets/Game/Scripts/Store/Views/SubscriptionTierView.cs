@@ -64,7 +64,7 @@ public class SubscriptionTierView : View
         bg.onClick.AddListener(OnClickSelectButton);
         //TO-DO Remove code - SubDlg with icons
         //bestValueObject.gameObject.SetActive(showBestValue);
-        SelectTier(isSelected);
+        //SelectTier(isSelected);
     }
 
     public void Init(bool isStoreAvailable)
@@ -84,6 +84,8 @@ public class SubscriptionTierView : View
         {
             return;
         }
+
+        SelectTier(isSelected);
 
         //TO-DO Remove code - SubDlg with icons
         //title.text = item.displayName;

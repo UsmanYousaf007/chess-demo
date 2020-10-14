@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         int maxFriendsCountPremium { get; set; }
         int hintsAllowedPerGame { get; set; }
         int dailyNotificationDeadlineHour { get; set; }
+        string defaultSubscriptionKey { get; set; }
 
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);
