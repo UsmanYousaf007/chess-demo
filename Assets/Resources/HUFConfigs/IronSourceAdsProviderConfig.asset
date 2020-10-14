@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 215c0aa01c8540d8baaa8af148ff87eb, type: 3}
+  m_Name: IronSourceAdsProviderConfig
+  m_EditorClassIdentifier: 
+  configId: IronSourceAdsProviderConfig
+  autoInit: 1
+  autoUpdateAndroidManifest: 1
+  appId:
+    androidAppId: d9f8ee29
+    iOSAppId: d9f927b1
+  adPlacementData:
+  - placementId: banner
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 0
+  - placementId: restart
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 1
+  - placementId: chest
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 2
+  - placementId: currency
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 2
+  useEditorMockProvider: 1
+  androidAdMobKey: ca-app-pub-1220882738324941~5282706915
+  iOSAdMobKey: ca-app-pub-1220882738324941~2273400192

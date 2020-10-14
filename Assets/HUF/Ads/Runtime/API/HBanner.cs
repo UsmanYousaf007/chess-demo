@@ -11,7 +11,7 @@ namespace HUF.Ads.Runtime.API
         /// Raised immediately after a banner is shown on the screen.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IBannerCallbackData> OnShown;
+        public event UnityAction<IBannerCallbackData, bool> OnShown;
 
         /// <summary>
         /// Raised when a banner fails to load and show.
@@ -123,9 +123,9 @@ namespace HUF.Ads.Runtime.API
             return service?.BannerAdProvider == null ? "UNKNOWN" : service.BannerAdProvider.ProviderId;
         }
 
-        void AdShown(IBannerCallbackData data)
+        void AdShown(IBannerCallbackData data, bool isRefresh)
         {
-            OnShown.Dispatch(data);
+            OnShown.Dispatch(data, isRefresh);
         }
 
         void AdFailed(IBannerCallbackData data)

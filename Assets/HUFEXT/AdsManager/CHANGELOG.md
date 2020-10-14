@@ -1,3 +1,19 @@
+
+##[1.5.0] - 2020-09-18
+##Changed
+- Handling change in banner show event
+
+
+## [1.4.5] - 2020-09-17
+### Added
+- Config installer
+
+### Changed
+- Hufdefine file
+- Documentation
+- Code refactoring
+
+
 ## [1.4.4] - 2020-08-18
 ### Fixed
 - Handling null placementId value in HUFAdsService
