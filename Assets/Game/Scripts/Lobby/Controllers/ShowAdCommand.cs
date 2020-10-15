@@ -71,12 +71,12 @@ namespace TurboLabz.InstantGame
             {
                 if (adType == AdType.RewardedVideo)
                 {
-                    if (adsService.IsRewardedVideoAvailable())
+                    if (adsService.IsRewardedVideoAvailable(resultAdsVO.placementId))
                     {
                         preferencesModel.globalAdsCount++;
                         preferencesModel.rewardedAdsCount++;
                         Retain();
-                        IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+                        IPromise<AdsResult> p = adsService.ShowRewardedVideo(resultAdsVO.placementId);
 
                         if (p != null)
                         {
@@ -117,9 +117,9 @@ namespace TurboLabz.InstantGame
                     Retain();
                     if (playerModel.adContext == AnalyticsContext.interstitial_pregame)
                     {
-                        if (adsService.IsInterstitialAvailable())
+                        if (adsService.IsInterstitialAvailable(resultAdsVO.placementId))
                         {
-                            var promise = adsService.ShowInterstitial();
+                            var promise = adsService.ShowInterstitial(resultAdsVO.placementId);
                             if (promise != null)
                             {
                                 promise.Then(PregameAdCompleteHandler);
@@ -133,7 +133,7 @@ namespace TurboLabz.InstantGame
                         {
                             // If the the ad was unavailable becuause it wasn't loaded then we wait for it to load here, otherwise we assume that
                             // it was not available because of some other cap settings and we dispatch the load game signal.
-                            if (adsService.IsInterstitialReady() == false && adsService.IsInterstitialNotCapped() == true)
+                            if (adsService.IsInterstitialReady(resultAdsVO.placementId) == false && adsService.IsInterstitialNotCapped() == true)
                             {
                                 if (adsSettingsModel.waitForPregameAdLoadSeconds > 0)
                                 {
@@ -153,9 +153,9 @@ namespace TurboLabz.InstantGame
                     }
                     else
                     {
-                        if (adsService.IsInterstitialAvailable())
+                        if (adsService.IsInterstitialAvailable(resultAdsVO.placementId))
                         {
-                            var promise = adsService.ShowInterstitial();
+                            var promise = adsService.ShowInterstitial(resultAdsVO.placementId);
                             if (promise != null)
                             {
                                 promise.Then(InterstitialAdCompleteHandler);
@@ -178,12 +178,12 @@ namespace TurboLabz.InstantGame
 
                 case AdType.RewardedVideo:
 
-                    if (adsService.IsRewardedVideoAvailable())
+                    if (adsService.IsRewardedVideoAvailable(resultAdsVO.placementId))
                     {
                         preferencesModel.globalAdsCount++;
                         preferencesModel.rewardedAdsCount++;
                         Retain();
-                        IPromise<AdsResult> p = adsService.ShowRewardedVideo();
+                        IPromise<AdsResult> p = adsService.ShowRewardedVideo(resultAdsVO.placementId);
 
                         if (p != null)
                         {
@@ -215,10 +215,10 @@ namespace TurboLabz.InstantGame
                 yield return waitForOneSecond;
                 waitSeconds--;
 
-                if (adsService.IsInterstitialReady())
+                if (adsService.IsInterstitialReady(resultAdsVO.placementId))
                 {
                     //-- Show pregame Ad
-                    var promise = adsService.ShowInterstitial();
+                    var promise = adsService.ShowInterstitial(resultAdsVO.placementId);
                     if (promise != null)
                     {
                         promise.Then(PregameAdCompleteHandler);

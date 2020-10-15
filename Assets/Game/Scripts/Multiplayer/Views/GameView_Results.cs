@@ -799,6 +799,7 @@ namespace TurboLabz.Multiplayer
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            vo.placementId = AdPlacements.Interstitial_endgame;
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
 
             if (!playerModel.HasSubscription())

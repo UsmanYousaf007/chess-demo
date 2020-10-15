@@ -11,6 +11,7 @@ namespace TurboLabz.InstantFramework
         public string actionCode;
         public string friendId;
         public bool isRanked;
+        public AdPlacements placementId;
     }
 }
 

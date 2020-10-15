@@ -503,6 +503,7 @@ namespace TurboLabz.CPU
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = "";
             vo.playerWins = playerWins;
+            vo.placementId = AdPlacements.Interstitial_endgame;
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             if (!playerModel.HasSubscription())
             {

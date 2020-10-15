@@ -10,15 +10,15 @@ namespace TurboLabz.InstantFramework
     public interface IAdsService
     {
         void Init();
-        bool IsRewardedVideoAvailable();
-        IPromise<AdsResult> ShowRewardedVideo();
-        bool IsInterstitialAvailable();
-        IPromise<AdsResult> ShowInterstitial();
+        bool IsRewardedVideoAvailable(AdPlacements placementId);
+        IPromise<AdsResult> ShowRewardedVideo(AdPlacements placementId);
+        bool IsInterstitialAvailable(AdPlacements placementId);
+        IPromise<AdsResult> ShowInterstitial(AdPlacements placementId);
         void ShowBanner();
         void HideBanner();
         void CollectSensitiveData(bool consentStatus);
         void ShowTestSuite();
-        bool IsInterstitialReady();
+        bool IsInterstitialReady(AdPlacements placementId);
         bool IsInterstitialNotCapped();
     }
 }
