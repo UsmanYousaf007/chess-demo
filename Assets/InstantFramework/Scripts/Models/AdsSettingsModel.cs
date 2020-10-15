@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public bool showPregameTournament { get; set; }
         public bool showInGameCPU { get; set; }
         public bool showInGame30Min { get; set; }
+        public bool showInGameClassic { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }

@@ -97,7 +97,13 @@ namespace TurboLabz.Multiplayer
                     cmd.adsSettingsModel.showInGame30Min &&
                     chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
                 {
-                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd);
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_30_min);
+                }
+                else if (matchInfo.isLongPlay &&
+                    cmd.adsSettingsModel.showInGameClassic &&
+                    chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
+                {
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic);
                 }
 
                 return null;
@@ -137,7 +143,7 @@ namespace TurboLabz.Multiplayer
             return null;
         }
 
-        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd)
+        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext)
         {
             long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
             if (secondsSinceLastAdShown > cmd.adsSettingsModel.secondsBetweenIngameAds)
@@ -146,11 +152,11 @@ namespace TurboLabz.Multiplayer
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                 vo.challengeId = challengeId;
-                cmd.playerModel.adContext = AnalyticsContext.interstitial_in_game_30_min;
+                cmd.playerModel.adContext = adContext;
 
                 if (!cmd.playerModel.HasSubscription())
                 {
-                    cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
+                    cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
                 }
 
                 cmd.showAdSignal.Dispatch(vo, false);

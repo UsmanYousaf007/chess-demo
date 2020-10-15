@@ -197,6 +197,7 @@ namespace TurboLabz.InstantFramework
         interstitial_tournament_endcard_continue,
         interstitial_in_game_cpu,
         interstitial_in_game_30_min,
+        interstitial_in_game_classic,
 
         //Session
         num_facebook_friends,

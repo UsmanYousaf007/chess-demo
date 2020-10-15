@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         bool showPregameTournament { get; set; }
         bool showInGameCPU { get; set; }
         bool showInGame30Min { get; set; }
+        bool showInGameClassic { get; set; }
     }
 }
 

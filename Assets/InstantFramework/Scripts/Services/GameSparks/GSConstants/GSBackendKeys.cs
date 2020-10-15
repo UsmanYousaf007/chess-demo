@@ -138,6 +138,7 @@ namespace TurboLabz.InstantFramework
         public const string SHOW_PREGAME_AD_TOURNAMENT = "showPregameTournament";
         public const string SHOW_INGAME_AD_CPU = "showInGameCPU";
         public const string SHOW_INGAME_AD_30MIN = "showInGame30Min";
+        public const string SHOW_INGAME_AD_CLASSIC = "showInGameClassic";
         public const string MINUTES_BETWEEN_INGAME_AD = "minutesBetweenIngameAds";
         public const string MINUTES_LEFT_DISABLE_TOURNAMENT_ADS = "minutesLeftDisableTournamentPregame";
         public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
