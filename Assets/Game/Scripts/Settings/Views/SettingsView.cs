@@ -65,8 +65,6 @@ namespace TurboLabz.InstantFramework
         public Button chatOnDiscordBtn;
         public Text chatOnDiscordText;
 
-        public Button hufShowAdsTestSuite;
-
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
         public Signal upgradeToPremiumButtonClickedSignal = new Signal();
@@ -136,8 +134,6 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
-            hufShowAdsTestSuite.gameObject.SetActive(false);
-            //hufShowAdsTestSuite.onClick.AddListener(adsService.ShowTestSuite);
         }
 
         protected override void OnEnable()
