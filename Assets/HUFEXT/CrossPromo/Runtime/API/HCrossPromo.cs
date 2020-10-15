@@ -122,5 +122,10 @@ namespace HUFEXT.CrossPromo.Runtime.API
                 }
             }
         }
+
+        public static void Fetch()
+        {
+            service.FetchRemoteConfigs();
+        }
     }
 }
