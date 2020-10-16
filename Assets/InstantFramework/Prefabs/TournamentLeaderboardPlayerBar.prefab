@@ -563,7 +563,7 @@ MonoBehaviour:
   button: {fileID: 1397259190096966096}
   chestButton: {fileID: 6093724865505795659}
   chestImage: {fileID: 4893794663516103762}
-  profile: {fileID: 4474705543374962910}
+  profile: {fileID: 5245371167578708055}
   playerPanel: {fileID: 2752019648988526469}
   skinLink: {fileID: 1591658477151738667}
   reward:
@@ -2825,7 +2825,7 @@ PrefabInstance:
     - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 286
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
         type: 3}
@@ -2872,11 +2872,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7, type: 3}
---- !u!114 &4474705543374962910 stripped
+--- !u!114 &5245371167578708055 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9131789625894417715, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+  m_CorrespondingSourceObject: {fileID: 605936437384474042, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
     type: 3}
   m_PrefabInstance: {fileID: 4657842088960767469}
   m_PrefabAsset: {fileID: 0}
