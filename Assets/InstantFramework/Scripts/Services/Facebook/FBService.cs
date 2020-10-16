@@ -54,7 +54,13 @@ namespace TurboLabz.InstantFramework
 
         private IPromise<FacebookResult, Sprite, string> _GetSocialPic(string facebookUserId, string playerId)
         {
-            return new FBGetSocialPicRequest().Send(facebookUserId, playerId);
+            string accessToken = GetAccessToken();
+            if (accessToken == null)
+            {
+                accessToken = "";
+            }
+
+            return new FBGetSocialPicRequest().Send(facebookUserId, playerId, accessToken);
         }
 
         public IPromise<FacebookResult, string> GetSocialName()
