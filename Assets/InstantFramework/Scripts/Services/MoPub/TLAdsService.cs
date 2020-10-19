@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         private IPromise<AdsResult> adEndedPromise;
         private long videoStartTime = 0;
@@ -254,6 +255,17 @@ namespace TurboLabz.InstantFramework
         {
             if (data.Result == AdResult.Completed)
             {
+                var currentState = navigatorModel.currentState.GetType();
+                var previousState = navigatorModel.previousState.GetType();
+                var canShowBanner = currentState == typeof(NSMultiplayer) ||
+                                    currentState == typeof(NSCPU) ||
+                                   (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer));
+
+                if (!canShowBanner)
+                {
+                    HideBanner();
+                }
+
                 analyticsService.Event(AnalyticsEventId.ad_shown, AnalyticsContext.banner);
                 appsFlyerService.TrackRichEvent(AnalyticsEventId.ad_displayed.ToString());
                 hAnalyticsService.LogEvent(AnalyticsEventId.ad_displayed.ToString(), "monetization", "banner", data.ProviderId);

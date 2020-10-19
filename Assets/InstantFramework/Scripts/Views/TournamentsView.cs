@@ -185,6 +185,7 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, JoinedTournamentData joinedTournament)
         {
+            item.prizeBtn.onClick.RemoveAllListeners();
             item.prizeBtn.onClick.AddListener(() =>
             {
                 playerBarChestClickSignal.Dispatch(joinedTournament.grandPrize);
@@ -195,6 +196,7 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateTournamentLiveItem(TournamentLiveItem item, LiveTournamentData liveTournament)
         {
+            item.prizeBtn.onClick.RemoveAllListeners();
             item.prizeBtn.onClick.AddListener(() =>
             {
                 playerBarChestClickSignal.Dispatch(liveTournament.grandPrize);

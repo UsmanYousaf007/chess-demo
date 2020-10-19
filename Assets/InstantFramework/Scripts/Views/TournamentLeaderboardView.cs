@@ -342,6 +342,13 @@ namespace TurboLabz.InstantFramework
             {
                 fixedPlayerBar.Populate(entry, reward, isPlayerStrip);
 
+                fixedPlayerBar.chestButton.onClick.RemoveAllListeners();
+                fixedPlayerBar.chestButton.onClick.AddListener(() =>
+                {
+                    playerBarChestClickSignal.Dispatch(reward);
+                    audioService.PlayStandardClick();
+                });
+
                 if (entry.rank > 3)
                 {
                     fixedPlayerStripEnabler.EnableTransform();
