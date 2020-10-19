@@ -255,9 +255,9 @@ namespace TurboLabz.InstantFramework
 
         private void SendDailyAnalytics()
         {
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
+            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalMinutes;
 
-            if (daysBetweenLastLogin >= 1)
+            if (daysBetweenLastLogin >= 5)
             {
                 gameModesAnalyticsService.LogTimeSpent();
                 gameModesAnalyticsService.LogInstallDayData();
