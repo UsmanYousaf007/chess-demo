@@ -20,21 +20,21 @@ namespace TurboLabz.InstantGame
         {
             if (adsService.IsRewardedVideoAvailable())
             {
-                showAdSignal.Dispatch(resultAdsVO);
+                showAdSignal.Dispatch(resultAdsVO, true);
             }
             else if (adsService.IsInterstitialAvailable())
             {
                 var vo = resultAdsVO;
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
-                showAdSignal.Dispatch(vo);
+                showAdSignal.Dispatch(vo, true);
             }
             else
             {
                 var vo = resultAdsVO;
                 vo.adsType = AdType.Promotion;
                 vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
-                showAdSignal.Dispatch(vo);
+                showAdSignal.Dispatch(vo, true);
             }
         }
     }

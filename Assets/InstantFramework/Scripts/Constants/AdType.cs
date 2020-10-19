@@ -13,12 +13,4 @@ namespace TurboLabz.InstantFramework
         Interstitial,
         Promotion
     }
-
-    public enum AdContext
-    {
-        interstitial_pregame,
-        interstitial_endgame,
-        interstitial_replacement,
-        interstitial_capped
-    }
 }

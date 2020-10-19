@@ -23,6 +23,7 @@ namespace TurboLabz.CPU
     {
         // Signal parameters
         [Inject] public ChessboardEvent chessboardEvent { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
 
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -80,6 +81,7 @@ namespace TurboLabz.CPU
         [Inject] public ICPUStatsModel statsModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }

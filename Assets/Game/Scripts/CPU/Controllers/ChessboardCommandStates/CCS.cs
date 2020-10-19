@@ -48,8 +48,9 @@ namespace TurboLabz.CPU
             // Initialize and launch our time control
             cmd.initInfiniteTimersSignal.Dispatch(isPlayerTurn);
                 
-
             ICPUGameModel cpuGameModel = cmd.cpuGameModel;
+            cpuGameModel.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); ;
+
             IChessboardModel chessboardModel = cmd.chessboardModel;
 
             // Setup the initial rotation

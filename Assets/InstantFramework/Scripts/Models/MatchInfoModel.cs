@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public bool isTournamentMatch { get; set; }
         public int tournamentMatchScore { get; set; }
         public int tournamentMatchWinTimeBonus { get; set; }
+        public long lastAdShownUTC { get; set; }
 
         public bool isBotMatch
         {
@@ -81,7 +82,8 @@ namespace TurboLabz.InstantFramework
             isTournamentMatch = false;
             tournamentMatchScore = 0;
             tournamentMatchWinTimeBonus = 0;
-    }
+            lastAdShownUTC = 0;
+        }
     }
 
     public class MatchInfoModel : IMatchInfoModel
