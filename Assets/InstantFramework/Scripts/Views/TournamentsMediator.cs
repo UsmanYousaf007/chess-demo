@@ -97,6 +97,12 @@ namespace TurboLabz.InstantFramework
         public void OnUpcomingItemClicked(LiveTournamentData item)
         {
             TLUtils.LogUtil.Log("TournamentsMediator::OnUpcomingItemClicked()");
+
+            if (notificationsModel.IsNotificationRegistered($"{item.type}_upcoming"))
+            {
+                return;
+            }
+
             analyticsService.Event(AnalyticsEventId.tap_notification);
 
             var tenMinInMilliseconds = 10 * 60 * 1000;

@@ -137,31 +137,31 @@ namespace TurboLabz.InstantFramework
             //    return;
 
             homeButton.interactable = true;
-            //homeSelected.SetActive(false);
+            homeSelected.SetActive(false);
             homeLabel.enabled = true;
             homeLabel.color = Colors.WHITE_150;
             homeIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
 
             friendsButton.interactable = true;
-            //friendsSelected.SetActive(false);
+            friendsSelected.SetActive(false);
             friendsLabel.enabled = true;
             friendsLabel.color = Colors.WHITE_150;
             friendsIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
 
             inventoryButton.interactable = true;
-            //inventorySelected.SetActive(false);
+            inventorySelected.SetActive(false);
             inventoryLabel.enabled = true;
             inventoryLabel.color = Colors.WHITE_150;
             inventoryIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
 
             shopButton.interactable = true;
-            //shopSelected.SetActive(false);
+            shopSelected.SetActive(false);
             shopLabel.enabled = true;
             shopLabel.color = Colors.WHITE_150;
             shopIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
 
             arenaButton.interactable = true;
-            //arenaSelected.SetActive(false);
+            arenaSelected.SetActive(false);
             arenaLabel.enabled = true;
             arenaLabel.color = Colors.WHITE_150;
             arenaIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
@@ -169,7 +169,7 @@ namespace TurboLabz.InstantFramework
             if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
-                //homeSelected.SetActive(true);
+                homeSelected.SetActive(true);
                 //homeLabel.enabled = false;
                 homeLabel.color = Colors.YELLOW;
                 homeIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -179,7 +179,7 @@ namespace TurboLabz.InstantFramework
             else if (buttonId == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
-                //friendsSelected.SetActive(true);
+                friendsSelected.SetActive(true);
                 //friendsLabel.enabled = false;
                 friendsLabel.color = Colors.YELLOW;
                 friendsIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -189,7 +189,7 @@ namespace TurboLabz.InstantFramework
             else if (buttonId == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
-                //inventorySelected.SetActive(true);
+                inventorySelected.SetActive(true);
                 //inventoryLabel.enabled = false;
                 inventoryLabel.color = Colors.YELLOW;
                 inventoryIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -199,7 +199,7 @@ namespace TurboLabz.InstantFramework
             else if (buttonId == ButtonId.Shop)
             {
                 shopButton.interactable = false;
-                //shopSelected.SetActive(true);
+                shopSelected.SetActive(true);
                 //shopLabel.enabled = false;
                 shopLabel.color = Colors.YELLOW;
                 shopIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -209,7 +209,7 @@ namespace TurboLabz.InstantFramework
             else if (buttonId == ButtonId.Arena)
             {
                 arenaButton.interactable = false;
-                //arenaSelected.SetActive(true);
+                arenaSelected.SetActive(true);
                 //arenaLabel.enabled = false;
                 arenaLabel.color = Colors.YELLOW;
                 arenaIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);

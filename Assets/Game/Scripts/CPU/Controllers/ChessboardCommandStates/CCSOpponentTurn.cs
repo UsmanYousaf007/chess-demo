@@ -98,6 +98,7 @@ namespace TurboLabz.CPU
                     vo.adsType = AdType.Interstitial;
                     vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                     vo.challengeId = "";
+                    vo.placementId = AdPlacements.interstitial_in_game_cpu;
                     vo.OnAdCompleteCallback = OnInGameAdComplete;
                     cmd.playerModel.adContext = AnalyticsContext.interstitial_in_game_cpu;
 

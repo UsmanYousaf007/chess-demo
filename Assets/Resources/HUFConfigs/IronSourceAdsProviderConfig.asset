@@ -88,7 +88,12 @@ MonoBehaviour:
     appId:
       androidAppId: 
       iOSAppId: 
-    placementType: 2
+    placementType: 1
+  - placementId: Interstitial_in_game_classic
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 1
   useEditorMockProvider: 1
   androidAdMobKey: ca-app-pub-1220882738324941~5282706915
   iOSAdMobKey: ca-app-pub-1220882738324941~2273400192

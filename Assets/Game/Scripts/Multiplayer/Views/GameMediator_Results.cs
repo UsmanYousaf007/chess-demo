@@ -277,6 +277,7 @@ namespace TurboLabz.Multiplayer
                 vo.adsType = AdType.Interstitial;
                 vo.actionCode = actionCode;
                 vo.tournamentId = joinedTournament.id;
+                vo.placementId = AdPlacements.Interstitial_tournament_pre;
                 showAdSignal.Dispatch(vo, false);
             }
         }

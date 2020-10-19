@@ -120,6 +120,7 @@ namespace TurboLabz.InstantFramework
         ftue_skill_level_dlg,
         ftue_intstall_popup,
         ftue_lobby,
+        ftue_gdpr_accept,
 
         //early inidicator
         install_game_count,

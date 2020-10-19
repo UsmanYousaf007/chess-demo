@@ -148,6 +148,7 @@ namespace TurboLabz.TLUtils
             stringToAdPlacementMap.Add("interstitial_in_game_30_min", AdPlacements.interstitial_in_game_30_min);
             stringToAdPlacementMap.Add("Interstitial_tournament_pre", AdPlacements.Interstitial_tournament_pre);
             stringToAdPlacementMap.Add("Interstitial_tournament_end_co", AdPlacements.Interstitial_tournament_end_co);
+            stringToAdPlacementMap.Add("Interstitial_in_game_classic", AdPlacements.Interstitial_in_game_classic);
             stringToAdPlacementMap.Add("Banner", AdPlacements.Banner);
             stringToAdPlacementMap.Add("SpecialItemRatingBoosterPoints", AdPlacements.Rewarded_rating_booster);
             stringToAdPlacementMap.Add("SpecialItemHintPoints", AdPlacements.Rewarded_hints);
