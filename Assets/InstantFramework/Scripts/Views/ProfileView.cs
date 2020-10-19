@@ -255,6 +255,10 @@ namespace TurboLabz.InstantGame
                 }
                 profileName.text = vo.name;
                 eloScoreValue.text = vo.rating.ToString();
+                if (playerScoreLeague != null)
+                {
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(playerScoreLeague);
+                }
                 ChangeSocialAccountButtonsState(false, false);
             }
 
@@ -269,6 +273,10 @@ namespace TurboLabz.InstantGame
             if (vo.isSuccessful)
             {
                 profileName.text = vo.name;
+                if (playerScoreLeague != null)
+                {
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(playerScoreLeague);
+                }
                 ChangeSocialAccountButtonsState(false, false);
             }
 
