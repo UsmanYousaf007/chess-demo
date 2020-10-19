@@ -19,6 +19,12 @@ namespace TurboLabz.InstantFramework
         public const int TARGET_FRAME_RATE = 60;
         public const string SUPPORT_EMAIL = "support@turbolabz.com";
 
+        public class Ads
+        {
+            public const long TIME_BETWEEN_INGAME_ADS = 3 * 60; // 3 minutes
+            public const long TIME_DISABLE_TOURNAMENT_PREGAME_ADS = 10 * 60;    // When 10 minutes are left in tournament
+            public const long TIME_DISABLE_30MIN_INGAME_ADS = 20 * 60;  // After 20 minutes
+        }
 
     }
 }

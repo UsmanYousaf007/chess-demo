@@ -328,18 +328,16 @@ namespace TurboLabz.InstantFramework
         {
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd())
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.isRanked = isRanked;
-                    vo.friendId = playerId;
-                    vo.actionCode = "ChallengeClassic";
-                    showAdSignal.Dispatch(vo);
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.isRanked = isRanked;
+                vo.friendId = playerId;
+                vo.actionCode = "ChallengeClassic";
+                vo.placementId = AdPlacements.Interstitial_pregame;
+                showAdSignal.Dispatch(vo, false);
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                return;
             }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
         }
@@ -353,18 +351,16 @@ namespace TurboLabz.InstantFramework
 
             if (!playerModel.HasSubscription())
             {
-                if (CanShowPregameAd(actionCode))
-                {
-                    playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                    ResultAdsVO vo = new ResultAdsVO();
-                    vo.adsType = AdType.Interstitial;
-                    vo.actionCode = actionCode;
-                    vo.friendId = playerId;
-                    vo.isRanked = isRanked;
-                    showAdSignal.Dispatch(vo);
-                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                    return;
-                }
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.actionCode = actionCode;
+                vo.friendId = playerId;
+                vo.isRanked = isRanked;
+                vo.placementId = AdPlacements.Interstitial_pregame;
+                showAdSignal.Dispatch(vo, false);
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                return;
             }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
@@ -427,34 +423,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-        }
-
-        private bool CanShowPregameAd(string actionCode = null)
-        {
-            bool retVal = false;
-
-            IPreferencesModel preferencesModel = view.preferencesModel;
-            IAdsSettingsModel adsSettingsModel = view.adsSettingsModel;
-
-            double minutesBetweenLastAdShown = (DateTime.Now - preferencesModel.intervalBetweenPregameAds).TotalMinutes;
-
-            bool isOneMinuteGame = actionCode != null &&
-                                    (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
-                                    actionCode == FindMatchAction.ActionCode.Random1.ToString());
-
-            if (isOneMinuteGame && view.adsSettingsModel.showPregameInOneMinute == false)
-            {
-                retVal = false;
-            }
-            else if (preferencesModel.sessionsBeforePregameAdCount > adsSettingsModel.sessionsBeforePregameAd &&
-                    preferencesModel.pregameAdsPerDayCount < adsSettingsModel.maxPregameAdsPerDay &&
-                    (preferencesModel.intervalBetweenPregameAds == DateTime.MaxValue || (preferencesModel.intervalBetweenPregameAds != DateTime.MaxValue &&
-                    minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
-            {
-                retVal = true;
-            }
-
-            return retVal;
         }
 
         private void OnSignInWithAppleButtonClicked()

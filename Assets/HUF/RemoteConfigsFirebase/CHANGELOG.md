@@ -1,6 +1,17 @@
+## [3.1.1] - 2020-09-07
+### Changed
+- Initializing the module only once
+
+
 ## [3.1.0] - 2020-05-21
 ### Changed
 - move back to HUF Firebase
+
+
+## [3.0.1] - 2020-05-21
+### Fixed
+- Improved initialization reliability
+
 
 ## [3.0.0] - 2020-05-15
 ### Added 

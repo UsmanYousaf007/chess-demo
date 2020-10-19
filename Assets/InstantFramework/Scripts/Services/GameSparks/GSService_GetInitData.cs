@@ -255,6 +255,13 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.showPregameInOneMinute = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_PREGAME_AD_ONE_MINUTE);
             adsSettingsModel.autoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.AUTO_SUBSCRIPTION_THRESHOLD);
             adsSettingsModel.daysPerAutoSubscriptionDlgThreshold = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.DAYS_PER_AUTO_SUBSCRIPTION_THRESHOLD);
+            adsSettingsModel.showPregameTournament = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_PREGAME_AD_TOURNAMENT);
+            adsSettingsModel.showInGameCPU = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_INGAME_AD_CPU);
+            adsSettingsModel.showInGame30Min = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_INGAME_AD_30MIN);
+            adsSettingsModel.showInGameClassic = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.SHOW_INGAME_AD_CLASSIC);
+            adsSettingsModel.secondsBetweenIngameAds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_BETWEEN_INGAME_AD) * 60;
+            adsSettingsModel.secondsLeftDisableTournamentPregame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_LEFT_DISABLE_TOURNAMENT_ADS) * 60;
+            adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

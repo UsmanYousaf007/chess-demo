@@ -1,3 +1,18 @@
+## [3.0.4] - 2020-09-24
+### Added
+- Opening application settings on iOS
+
+
+## [3.0.3] - 2020-09-10
+### Added
+- Compatibility with GameServer Profile Services
+
+
+## [3.0.2] - 2020-08-21
+### Added
+- CanvasBlockerPanel
+
+
 ## [3.0.1] - 2020-08-27
 ### Fixed
 - Prevented NREs during configs loading
@@ -8,10 +23,6 @@
 - HLogs and correct namespace for `iOSMissingPurposeStringFixer`
 
 ##### **Important**: `PurposeStringConfig` must be moved to HUFConfigs folder.
-
-## [2.9.0] - 2020-08-21
-### Added
-- CanvasBlockerPanel
 
 
 ## [2.8.0] - 2020-08-06

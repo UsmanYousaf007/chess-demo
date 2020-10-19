@@ -3,6 +3,8 @@ using System.Globalization;
 using HUF.Utils.Runtime._3rdParty.Blowfish;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
+using UnityEngine.Networking;
 
 // ReSharper disable once CheckNamespace
 namespace HUF.Utils.Runtime.PlayerPrefs.Security
@@ -154,6 +156,8 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         {
             string HashedValue { get; }
             string Key { get; }
+
+            bool SetFromRemote( UnityWebRequest request, string encryptedValue );
         }
 
         public interface ICustomTransition
@@ -203,6 +207,18 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
                     HashedValue = hashed;
                 else
                     HashedValue = hashedInitialValue;
+            }
+
+            public bool SetFromRemote( UnityWebRequest request, string encryptedValue )
+            {
+                if ( !request.isDone || !request.url.StartsWith( "https" ) )
+                {
+                    HLog.LogError( new HLogPrefix(nameof(HSecureLiveValue)), "Only secure connection is supported!" );
+                    return false;
+                }
+
+                HashedValue = encryptedValue;
+                return true;
             }
 
             void ISecureLiveFloat.Add( ISecureLiveFloat increment )

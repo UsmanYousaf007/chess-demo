@@ -12,7 +12,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
 {
     public class GDPRView : MonoBehaviour
     {
-        static readonly HLogPrefix prefix = new HLogPrefix( nameof( GDPRView ) );
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof( GDPRView ) );
 
         [Serializable]
         public class ColorScheme
@@ -58,7 +58,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
             }
             else
             {
-                HLog.LogError( prefix, "Some required fields are missing in GDPRView prefab." );
+                HLog.LogError( logPrefix, "Some required fields are missing in GDPRView prefab." );
             }
         }
 

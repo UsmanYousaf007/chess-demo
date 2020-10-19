@@ -205,8 +205,11 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
                 callbackData.HeightInPx ) );
         }
 
-        void HandleBannerShow( IBannerCallbackData callbackData )
+        void HandleBannerShow( IBannerCallbackData callbackData, bool isRefresh )
         {
+            if (isRefresh)
+                return;
+
             OnBannerShown.Dispatch( new AdCallback( callbackData.PlacementId,
                 MediationId,
                 AdResult.Completed,

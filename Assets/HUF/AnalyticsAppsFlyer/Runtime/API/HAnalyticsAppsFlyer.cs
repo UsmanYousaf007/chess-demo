@@ -1,4 +1,5 @@
 using HUF.Analytics.Runtime.API;
+using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
 #if HUF_ANALYTICS_APPSFLYER_DUMMY
@@ -7,42 +8,59 @@ using AppsFlyerAnalyticsService = HUF.Analytics.Runtime.Implementation.DummyAnal
 using HUF.Utils.Runtime.Configs.API;
 using HUF.AnalyticsAppsFlyer.Runtime.Implementation;
 using AppsFlyerAnalyticsService = HUF.AnalyticsAppsFlyer.Runtime.Implementation.AppsFlyerAnalyticsService;
+
 #endif
 
 namespace HUF.AnalyticsAppsFlyer.Runtime.API
 {
     public static class HAnalyticsAppsFlyer
     {
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAnalyticsAppsFlyer) );
         static AppsFlyerAnalyticsService service;
 
-        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
-        static void AutoInit()
+        /// <summary>
+        /// Returns whether the AppsFlyer analytics service is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized { private set; get; }
+
+        /// <summary>
+        /// Gets AppsFlyer User Id.
+        /// </summary>
+        [PublicAPI]
+        public static string UserId
         {
-#if !HUF_ANALYTICS_APPSFLYER_DUMMY
-            if ( HConfigs.HasConfig<AppsFlyerAnalyticsConfig>() &&
-                 HConfigs.GetConfig<AppsFlyerAnalyticsConfig>().AutoInit )
+            get
             {
-                Init();
+                if ( service == null )
+                {
+                    HLog.LogError( logPrefix, "Service not initialized" );
+                    return string.Empty;
+                }
+
+                return service.UserId;
             }
-#endif
         }
 
         /// <summary>
-        /// Use this method to initialize AppsFlyer analytics service.
+        /// Initializes the AppsFlyer analytics service.
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
+            if ( IsInitialized )
+                return;
+
 #if HUF_ANALYTICS_APPSFLYER_DUMMY
             service = new AppsFlyerAnalyticsService( AnalyticsServiceName.APPS_FLYER );
 #else
             service = new AppsFlyerAnalyticsService();
 #endif
-            HAnalytics.TryRegisterService( service );
+            IsInitialized = HAnalytics.TryRegisterService( service );
         }
 
         /// <summary>
-        /// Get application installation type <para />
+        /// Gets application installation type. <para />
         /// 1. NotSpecified - don't have information about installation <para />
         /// 2. Organic <para />
         /// 3. NonOrganic <para />
@@ -64,22 +82,33 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.API
         }
 
         /// <summary>
-        /// Get AppsFlyer User Id
-        /// </summary>
-        [PublicAPI]
-        public static string UserId => service == null ? string.Empty : service.UserId;
-
-        /// <summary>
-        /// Use this API during the SDK Initialization to explicitly anonymize a user's installs, events and sessions <para />
-        /// Tracking can be restarted by calling it again with "false"
+        /// Explicitly anonymizes a user's installs, events and sessions, when used during the SDK Initialization.
+        /// Tracking can be restarted by calling it again with "false".
         /// </summary>
         [PublicAPI]
         public static void SetDeviceTrackingDisabled( bool isDisabled )
         {
-#if !HUF_ANALYTICS_APPSFLYER_DUMMY
-            AppsFlyer.setDeviceTrackingDisabled( isDisabled );
-#endif
+            service?.CollectSensitiveData( !isDisabled );
         }
 
+        /// <summary>
+        /// Sets consent for sending sensitive user data to the analytics services.
+        /// </summary>
+        /// <param name="consentStatus">Status of consent</param>
+        [PublicAPI]
+        public static void CollectSensitiveData( bool consentStatus )
+        {
+            service?.CollectSensitiveData( consentStatus );
+        }
+
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        static void AutoInit()
+        {
+#if !HUF_ANALYTICS_APPSFLYER_DUMMY
+            if ( HConfigs.HasConfig<AppsFlyerAnalyticsConfig>() &&
+                 HConfigs.GetConfig<AppsFlyerAnalyticsConfig>().AutoInit )
+#endif
+                Init();
+        }
     }
 }

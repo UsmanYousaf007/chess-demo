@@ -21,7 +21,7 @@ namespace TurboLabz.CPU
         public bool inProgress { get; set; }
         public string devFen { get; set; }
         public int totalGames { get; set; }
-
+        public long lastAdShownUTC { get; set; }
 
         [PostConstruct]
         public void LoadDefault()
@@ -37,6 +37,7 @@ namespace TurboLabz.CPU
             inProgress = false;
             devFen = "";
             totalGames = 0;
+            lastAdShownUTC = 0;
         }
     }
 }

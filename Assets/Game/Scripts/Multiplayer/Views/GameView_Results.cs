@@ -794,19 +794,7 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
 
-            ResultAdsVO vo = new ResultAdsVO();
-            vo.adsType = AdType.Interstitial;
-            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
-            vo.challengeId = challengeId;
-            vo.playerWins = playerWins;
-            playerModel.adContext = AnalyticsContext.interstitial_endgame;
-
-            if (!playerModel.HasSubscription())
-            {
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            }
-
-            showAdSignal.Dispatch(vo);
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 
 
@@ -832,6 +820,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnBackToArenaButtonClicked()
         {
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_tournament_endcard_continue, AdPlacements.Interstitial_tournament_end_co);
+
             audioService.PlayStandardClick();
             backToArenaSignal.Dispatch();
         }
@@ -929,6 +919,24 @@ namespace TurboLabz.Multiplayer
                 resultsBoostRatingGemsBg.sprite = haveEnoughGemsForRatingBooster ? enoughGemsSprite : notEnoughGemsSprite;
                 resultsBoostRatingGemsBg.gameObject.SetActive(false);
             }
+        }
+
+        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
+        {
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+            vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            vo.placementId = placementId;
+            playerModel.adContext = analyticsContext;
+
+            if (!playerModel.HasSubscription())
+            {
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            }
+
+            showAdSignal.Dispatch(vo, false);
         }
     }
 }

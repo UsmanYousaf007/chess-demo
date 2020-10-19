@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 
+using System;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
 
@@ -89,6 +90,22 @@ namespace TurboLabz.Multiplayer
             else if (evt == ChessboardEvent.PLAYER_MOVE_COMPLETE)
             {
                 PlayerMoveCompleted(cmd);
+
+                // Show in game ad for 30min match mode here.
+                MatchInfo matchInfo = cmd.activeMatchInfo;
+                if (matchInfo.isThirtyMinGame &&
+                    cmd.adsSettingsModel.showInGame30Min &&
+                    chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
+                {
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_30_min);
+                }
+                else if (matchInfo.isLongPlay &&
+                    cmd.adsSettingsModel.showInGameClassic &&
+                    chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
+                {
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic);
+                }
+
                 return null;
             }
             // We received an opponent moved event from the backend service
@@ -124,6 +141,28 @@ namespace TurboLabz.Multiplayer
             }
 
             return null;
+        }
+
+        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext)
+        {
+            long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
+            if (secondsSinceLastAdShown > cmd.adsSettingsModel.secondsBetweenIngameAds)
+            {
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+                vo.challengeId = challengeId;
+                cmd.playerModel.adContext = adContext;
+
+                if (!cmd.playerModel.HasSubscription())
+                {
+                    cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
+                }
+
+                cmd.showAdSignal.Dispatch(vo, false);
+
+                matchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            }
         }
     }
 }

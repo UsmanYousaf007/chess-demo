@@ -10,12 +10,17 @@ namespace HUF.Auth.Runtime.API
     {
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAuth) );
         static IAuthModel authModel;
-        static IAuthModel AuthModel => authModel ?? (authModel = new AuthModel());
+        static IAuthModel AuthModel => authModel ?? ( authModel = new AuthModel() );
+
+        static HAuth()
+        {
+            OnInitialized += LogServiceInitialization;
+        }
 
         /// <summary>
-        /// Occurs when service initialization succeed <para />
-        /// Auth service name is available in parameter <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Occurs when service initialization succeeds. <para />
+        /// Auth service name is available in the parameter. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
         public static event UnityAction<string> OnInitialized
@@ -26,9 +31,9 @@ namespace HUF.Auth.Runtime.API
 
         /// <summary>
         /// Occurs when Sign In completed. <para />
-        /// Auth service name is available in parameter <para/>
-        /// Bool parameter defines if sign in is ended with success <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Auth service name is available in the parameter. <para/>
+        /// Bool parameter defines if sign in is ended with success. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
         public static event UnityAction<string, bool> OnSignIn
@@ -38,8 +43,8 @@ namespace HUF.Auth.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when Sign Out is completed. Auth service name is passed as parameter. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Occurs when Sign Out is completed. Auth service name is passed as the parameter. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
         public static event UnityAction<string> OnSignOutSuccess
@@ -48,19 +53,14 @@ namespace HUF.Auth.Runtime.API
             remove => AuthModel.OnSignOutComplete -= value;
         }
 
-        static HAuth()
-        {
-            OnInitialized += LogServiceInitialization;
-        }
-
         /// <summary>
         /// Tries to register auth service for future use. The service is automatically initialized <para />
         /// after registration. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
-        /// <returns>If service is registered correctly returns TRUE. Returns FALSE otherwise.</returns>
+        /// <returns>If service gets registered correctly returns TRUE. Returns FALSE otherwise.</returns>
         [PublicAPI]
-        public static bool TryRegisterService(IAuthService service)
+        public static bool TryRegisterService( IAuthService service )
         {
             bool isPossible = false;
 
@@ -75,14 +75,13 @@ namespace HUF.Auth.Runtime.API
 
             if ( !isPossible )
                 HLog.LogError( logPrefix, $"Registration of service {service.Name} not possible" );
-
             return isPossible;
         }
 
         /// <summary>
         /// Tries to register auth service for future use. The service is automatically initialized <para />
         /// after registration. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         /// <param name="service">Service to register</param>
         /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
@@ -116,68 +115,67 @@ namespace HUF.Auth.Runtime.API
             HandleInitializationEnd();
         }
 
-
         /// <summary>
-        /// Checks if service with given name is already registered <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Checks if service with given name is already registered.<para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static bool IsServiceRegistered(string serviceName)
+        public static bool IsServiceRegistered( string serviceName )
         {
-            return AuthModel.IsServiceRegistered(serviceName);
+            return AuthModel.IsServiceRegistered( serviceName );
         }
 
         /// <summary>
-        /// Checks if service with given name is initialized <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Checks if service with given name is initialized.<para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static bool IsServiceInitialized(string serviceName)
+        public static bool IsServiceInitialized( string serviceName )
         {
-            return AuthModel.IsInitialized(serviceName);
+            return AuthModel.IsInitialized( serviceName );
         }
 
         /// <summary>
-        /// Tries to sign in into service with given name. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Tries to sign in into a given service. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
-        /// <returns>Returns TRUE if user could be signed in. Returns FALSE otherwise.</returns>
+        /// <returns>Returns TRUE if user can be signed in. Returns FALSE otherwise.</returns>
         [PublicAPI]
-        public static bool SignIn(string serviceName)
+        public static bool SignIn( string serviceName )
         {
-            return AuthModel.SignIn(serviceName);
+            return AuthModel.SignIn( serviceName );
         }
 
         /// <summary>
-        /// Tries to sign out from service with given name. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Tries to sign out of a given service. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
-        /// <returns>Returns TRUE if user could be signed out. Returns FALSE otherwise.</returns>
+        /// <returns>Returns TRUE if user can be signed out. Returns FALSE otherwise.</returns>
         [PublicAPI]
-        public static bool SignOut(string serviceName)
+        public static bool SignOut( string serviceName )
         {
-            return AuthModel.SignOut(serviceName);
+            return AuthModel.SignOut( serviceName );
         }
 
         /// <summary>
-        /// Return info if user is signed in in service with given name. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Returns whether the user is signed into a given service. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static bool IsSignedIn(string serviceName)
+        public static bool IsSignedIn( string serviceName )
         {
-            return AuthModel.IsSignedIn(serviceName);
+            return AuthModel.IsSignedIn( serviceName );
         }
 
         /// <summary>
-        /// Return user id in service with given name. <para />
-        /// If user is not signed in yet in chosen service it will return empty string. <para/>
-        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>
+        /// Returns user ID from a given service. <para />
+        /// If the user is not signed in the chosen service it will return an empty string. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static string GetUserId(string serviceName)
+        public static string GetUserId( string serviceName )
         {
-            return AuthModel.GetUserId(serviceName);
+            return AuthModel.GetUserId( serviceName );
         }
 
         static void LogServiceInitialization( string serviceName )

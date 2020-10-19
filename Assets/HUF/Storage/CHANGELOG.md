@@ -1,3 +1,11 @@
+## [2.1.1] - 2020-09-17
+### Fixed
+- TimeManager dependency
+
+## [2.1.0] - 2020-07-29
+### Added
+- Support for TimeManager 3.2
+
 ## [2.0.0] - 2020-04-02
 ### Added
 - Init log

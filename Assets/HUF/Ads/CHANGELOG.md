@@ -1,3 +1,12 @@
+## [2.2.0] - 2020-09-18
+- Banner show event with isRefresh flag
+
+
+## [2.1.1] - 2020-09-10
+### Changed
+- Utils dependency to an existing package
+
+
 ## [2.1.0] - 2020-08-20
 ### Added
 - Ad banner with test buttons in the Editor

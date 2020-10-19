@@ -206,6 +206,11 @@ namespace TurboLabz.InstantFramework
         interstitial_rewarded_failed_replacement,
         interstitial_rewarded_capped_replacement,
         banner,
+        interstitial_tournament_pregame,
+        interstitial_tournament_endcard_continue,
+        interstitial_in_game_cpu,
+        interstitial_in_game_30_min,
+        interstitial_in_game_classic,
 
         //Session
         num_facebook_friends,

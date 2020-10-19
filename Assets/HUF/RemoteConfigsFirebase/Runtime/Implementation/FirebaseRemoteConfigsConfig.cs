@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 {
-    [CreateAssetMenu(menuName = "HUF/RemoteConfigs/Firebase Remote Configs Config",
-        fileName = "FirebaseRemoteConfigsConfig")]
+    [CreateAssetMenu( menuName = "HUF/RemoteConfigs/Firebase Remote Configs Config",
+        fileName = "FirebaseRemoteConfigsConfig" )]
     public class FirebaseRemoteConfigsConfig : FeatureConfigBase
     {
         [SerializeField] bool enableInEditor = true;

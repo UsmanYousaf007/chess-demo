@@ -11,6 +11,15 @@ namespace TurboLabz.InstantFramework
         public string actionCode;
         public string friendId;
         public bool isRanked;
+        public string tournamentId;
+        public AdPlacements placementId;
+
+        public Action OnAdCompleteCallback;
+
+        public void RemoveCallback()
+        {
+            OnAdCompleteCallback = null;
+        }
     }
 }
 

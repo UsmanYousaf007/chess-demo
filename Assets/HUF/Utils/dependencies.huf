@@ -42,6 +42,7 @@ Assets/HUF/Utils/Editor/Configs/ConfigsMigrationTool.cs
 Assets/HUF/Utils/Editor/Configs/ConfigInstallerData.cs
 Assets/HUF/Utils/Editor/LibrariesImporter.cs
 Assets/HUF/Utils/Editor/ProGuard/ProGuardBuilder.cs
+Assets/HUF/Utils/Plugins/iOS/HUFNativeBidings.mm
 Assets/HUF/Utils/Runtime/RandomGenerators/SecureStringGenerator.cs
 Assets/HUF/Utils/Runtime/UI/CanvasBlocker/DebugButtonsScreen.cs
 Assets/HUF/Utils/Runtime/UI/CanvasBlocker/CanvasBlocker.cs
@@ -110,6 +111,8 @@ Assets/HUF/Utils/Runtime/Logging/HLog.cs
 Assets/HUF/Utils/Runtime/Logging/HLogConfig.cs
 Assets/HUF/Utils/Runtime/Logging/HLogPrefix.cs
 Assets/HUF/Utils/Runtime/Logging/HLogs.cs
+Assets/HUF/Utils/Runtime/NativeFunctions/HNativeFunctions.cs
+Assets/HUF/Utils/Runtime/NativeFunctions/iOSNativeBindings.cs
 Assets/HUF/Utils/define.hufdefine
 Assets/HUF/Utils/dependencies.huf
 Assets/HUF/Utils/package.json

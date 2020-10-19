@@ -21,4 +21,23 @@ namespace TurboLabz.InstantFramework
         interstitial_replacement,
         interstitial_capped
     }
+
+    public enum AdPlacements
+    {
+        Rewarded_rating_booster,
+        Rewarded_hints,
+        Rewarded_keys,
+        Rewarded_tickets,
+        Rewarded_rating_booster_popup,
+        Rewarded_keys_popup,
+        Rewarded_tickets_popup,
+        Interstitial_pregame,
+        Interstitial_endgame,
+        interstitial_in_game_cpu,
+        interstitial_in_game_30_min,
+        Interstitial_tournament_pre,
+        Interstitial_tournament_end_co,
+        Banner,
+        Unknown
+    }
 }

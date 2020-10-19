@@ -1,7 +1,7 @@
 {
   "name": "com.huuuge.hufext.genericgdpr",
   "displayName": "Generic GDPR",
-  "version": "2.4.1",
+  "version": "2.4.6",
   "unity": "2018.4",
   "description": "Generic GDPR is generic policy window that allows you to show policy to players and receive consent for personalized ads.",
   "huf": {
@@ -11,14 +11,15 @@
       "com.huuuge.hufext.packagemanager@^1.2.1",
       "com.huuuge.huf.utils@^2.2.2",
       "com.huuuge.huf.analytics@^2.0.0",
-      "com.huuuge.huf.ads@^2.0.0"
+      "com.huuuge.huf.ads@^2.0.2"
     ],
-    "date": "30.06.2020 17:55",
-    "commit": "ea5976e",
-    "build": "89",
+    "date": "21.09.2020 13:39",
+    "commit": "e7e0011",
+    "build": "99",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUFEXT/GenericGDPR",
-    "rollout": "16"
-  }
+    "rollout": "21"
+  },
+  "doc_section": "Getting Started"
 }

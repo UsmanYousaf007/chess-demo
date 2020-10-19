@@ -1,3 +1,19 @@
+## [2.0.3] - 2020-09-17
+### Added
+- Hufdefine file
+- Config installers
+
+
+## [2.0.2] - 2020-07-17
+### Added
+- Added IsPanelOpen method to check the panel visibility 
+
+
+## [2.0.1] - 2020-07-10
+### Removed
+Cross promo will from now not update when an app is getting back from the background
+
+
 ## [2.0.0] - 2020-04-02
 ### Added
 - HIP support
@@ -6,6 +22,7 @@
 
 ### Changed
 - Namespaces
+
 
 ## [1.0.0] - 2020-01-09
 ### Added

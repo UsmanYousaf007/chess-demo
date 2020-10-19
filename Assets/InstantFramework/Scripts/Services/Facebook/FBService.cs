@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
             string accessToken = GetAccessToken();
             if (accessToken == null)
             {
-                accessToken = "";
+                accessToken = GetClientAccessToken();
             }
 
             return new FBGetSocialPicRequest().Send(facebookUserId, playerId, accessToken);
@@ -96,5 +96,16 @@ namespace TurboLabz.InstantFramework
 			}
 			return AccessToken.CurrentAccessToken != null ? AccessToken.CurrentAccessToken.TokenString : null;
 		}
+
+        private string GetClientAccessToken()
+        {
+            if (IsInitialized())
+            {
+                // According to FB docs: https://developers.facebook.com/docs/facebook-login/access-tokens#clienttokens
+                return FB.AppId + "|" + FB.ClientToken;
+            }
+
+            return null;
+        }
     }
 }

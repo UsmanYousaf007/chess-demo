@@ -11,7 +11,7 @@ namespace HUF.Auth.Runtime.API
 
         event UnityAction<string> OnInitialized;
         event UnityAction OnInitializationFailure;
-        event UnityAction<string,bool> OnSignIn;
+        event UnityAction<string, bool> OnSignIn;
         event UnityAction<string> OnSignOutComplete;
 
         void Init();

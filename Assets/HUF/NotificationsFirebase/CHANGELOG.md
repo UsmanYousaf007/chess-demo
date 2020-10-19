@@ -1,3 +1,11 @@
+## [2.3.0] - 2020-09-07
+### Added
+- HIP support
+- Config installer
+
+### Changed
+- Initializing the module only once
+
 ## [2.2.0] - 2020-05-22
 ### Added
 - Exposed Firebase's message event

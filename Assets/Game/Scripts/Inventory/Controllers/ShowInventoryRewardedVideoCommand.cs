@@ -32,17 +32,19 @@ namespace TurboLabz.InstantFramework
         {
             var itemPointsKey = vo.isPopup ? $"{vo.itemPointsKey}Popup" : vo.itemPointsKey;
             var adContext = CollectionsUtil.GetContextFromString(itemPointsKey);
+            var adPlacementId = CollectionsUtil.GetAdPlacementsIdFromString(itemPointsKey);
+
             playerModel.adContext = adContext;
             analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
 
-            if (!adsService.IsRewardedVideoAvailable())
+            if (!adsService.IsRewardedVideoAvailable(adPlacementId))
             {
                 inventoryVideoResultSignal.Dispatch(InventoryVideoResult.NOT_AVAILABLE, vo.itemKey);
                 return;
             }
 
             Retain();
-            adsService.ShowRewardedVideo().Then(OnVideoShown);
+            adsService.ShowRewardedVideo(adPlacementId).Then(OnVideoShown);
         }
 
         private void OnVideoShown(AdsResult result)

@@ -3,11 +3,10 @@ using strange.extensions.promise.impl;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
-using HUF.AdsAdMobMediation.Runtime.API;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
-using HUF.AdsAdMobMediation.Runtime.Implementation;
+
 
 namespace TurboLabz.InstantFramework
 {
@@ -30,8 +29,8 @@ namespace TurboLabz.InstantFramework
         private long videoStartTime = 0;
 
         private const string PLACEMENT_ID_BANNER = "Banner";
-        private const string PLACEMENT_ID_REWARDED = "Rewarded";
-        private const string PLACEMENT_ID_INTERSTITIAL = "Interstitial";
+        //private const string PLACEMENT_ID_REWARDED = "Rewarded";
+        //private const string PLACEMENT_ID_INTERSTITIAL = "Interstitial";
 
         public void Init()
         {
@@ -42,44 +41,56 @@ namespace TurboLabz.InstantFramework
             HAds.Banner.OnFailed += OnBannerFailed;
             HAds.Interstitial.OnClicked += OnInterstitialClicked;
             HAds.Rewarded.OnClicked += OnRewardedClicked;
-            HAdsAdMobMediation.OnPaidEvent += HandlePaidEvent;
             HAdsManager.SetNewBannerPosition(BannerPosition.TopCenter);
         }
 
         private void OnAdFetched(AdsManagerFetchCallbackData callbackData)
         {
-            switch (callbackData.PlacementId)
+            var placementId = CollectionsUtil.GetAdPlacementsIdFromString(callbackData.PlacementId);
+
+            switch (placementId)
             {
-                case PLACEMENT_ID_REWARDED:
+                case AdPlacements.Rewarded_hints:
+                case AdPlacements.Rewarded_keys:
+                case AdPlacements.Rewarded_rating_booster:
+                case AdPlacements.Rewarded_tickets:
+                case AdPlacements.Rewarded_keys_popup:
+                case AdPlacements.Rewarded_rating_booster_popup:
+                case AdPlacements.Rewarded_tickets_popup:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
                     break;
 
-                case PLACEMENT_ID_INTERSTITIAL:
+                case AdPlacements.Interstitial_endgame:
+                case AdPlacements.Interstitial_pregame:
+                case AdPlacements.Interstitial_tournament_end_co:
+                case AdPlacements.Interstitial_tournament_pre:
+                case AdPlacements.interstitial_in_game_30_min:
+                case AdPlacements.interstitial_in_game_cpu:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial);
                     break;
 
-                case PLACEMENT_ID_BANNER:
+                case AdPlacements.Banner:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.banner);
                     break;
             }
         }
 
-        public IPromise<AdsResult> ShowInterstitial()
+        public IPromise<AdsResult> ShowInterstitial(AdPlacements placementId)
         {
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
-            HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, OnInterstitailEnded);
+            HAdsManager.ShowAd(placementId.ToString(), OnInterstitailEnded);
             analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "interstitial", HAds.Interstitial.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
             return adEndedPromise;
         }
 
-        public IPromise<AdsResult> ShowRewardedVideo()
+        public IPromise<AdsResult> ShowRewardedVideo(AdPlacements placementId)
         {
             videoStartTime = backendService.serverClock.currentTimestamp;
             adEndedPromise = new Promise<AdsResult>();
-            HAdsManager.ShowAd(PLACEMENT_ID_REWARDED, OnRewardedEnded);
+            HAdsManager.ShowAd(placementId.ToString(), OnRewardedEnded);
             analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "rewarded_result_2xcoins", HAds.Rewarded.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
@@ -114,9 +125,9 @@ namespace TurboLabz.InstantFramework
             hAnalyticsService.LogEvent(AnalyticsEventId.ad_clicked.ToString(), "monetization", "banner", data.ProviderId);
         }
 
-        public bool IsRewardedVideoAvailable()
+        public bool IsRewardedVideoAvailable(AdPlacements placementId)
         {
-            bool availableFlag = HAdsManager.CanShowAd(PLACEMENT_ID_REWARDED);
+            bool availableFlag = HAdsManager.CanShowAd(placementId.ToString());
             bool isNotCapped = (adsSettingsModel.globalCap == 0 || preferencesModel.globalAdsCount <= adsSettingsModel.globalCap) &&
                 (adsSettingsModel.rewardedVideoCap == 0 || preferencesModel.rewardedAdsCount <= adsSettingsModel.rewardedVideoCap);
 
@@ -138,9 +149,9 @@ namespace TurboLabz.InstantFramework
         /// Use this to chcek if an interstitial ad is loaded and ready to show.
         /// </summary>
         /// <returns></returns>
-        public bool IsInterstitialReady()
+        public bool IsInterstitialReady(AdPlacements placementId)
         {
-            return HAdsManager.CanShowAd(PLACEMENT_ID_INTERSTITIAL);
+            return HAdsManager.CanShowAd(placementId.ToString());
         }
 
         public bool IsInterstitialNotCapped()
@@ -149,9 +160,9 @@ namespace TurboLabz.InstantFramework
                 (adsSettingsModel.interstitialCap == 0 || preferencesModel.interstitialAdsCount <= adsSettingsModel.interstitialCap);
         }
 
-        public bool IsInterstitialAvailable()
+        public bool IsInterstitialAvailable(AdPlacements placementId)
         {
-            bool availableFlag = IsInterstitialReady();
+            bool availableFlag = IsInterstitialReady(placementId);
             bool isNotCapped = IsInterstitialNotCapped();
 
             if (!availableFlag)
@@ -256,7 +267,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowTestSuite()
         {
-            HAdsAdMobMediation.ShowTestSuite();
+            //HAdsManager.ShowAd(PLACEMENT_ID_INTERSTITIAL, null);
         }
 
         public void OnAppEvent(AppEvent evt)
@@ -270,12 +281,6 @@ namespace TurboLabz.InstantFramework
             //    analyticsService.Event(AnalyticsEventId.ad_player_shutdown, playerModel.adContext);
             //}
         }
-
-        private void HandlePaidEvent(PaidEventData data)
-        {
-            hAnalyticsService.LogAdImpressionEvent(data);
-        }
-
 
         private void OnBannerFailed(IBannerCallbackData data)
         {
