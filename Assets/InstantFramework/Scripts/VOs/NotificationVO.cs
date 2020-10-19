@@ -19,5 +19,6 @@ namespace TurboLabz.InstantFramework
         public bool isPremium;
         public long timeSent;
         public string actionCode;
+        public int league;
     }
 }

@@ -58,6 +58,22 @@
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
 
             return null;
         }

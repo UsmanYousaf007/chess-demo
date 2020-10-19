@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void Execute()
         {
@@ -67,6 +68,9 @@ namespace TurboLabz.InstantFramework
             vo.opponentProfilePic = picsModel.GetPlayerPic(opponentId);
             vo.isPlayerPremium = playerModel.HasSubscription();
 
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            vo.playerLeagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+
             if (opponentPublicProfile != null)
             {
                 vo.opponentId = opponentId;
@@ -76,6 +80,7 @@ namespace TurboLabz.InstantFramework
                 vo.isOnline = opponentPublicProfile.isOnline;
                 vo.isActive = opponentPublicProfile.isActive;
                 vo.isOpponentPremium = opponentPublicProfile.isSubscriber;
+                vo.opponentLeagueBorder = opponentPublicProfile.leagueBorder;
 
                 if (vo.opponentProfilePic == null)
                 {

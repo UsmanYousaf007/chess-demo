@@ -41,6 +41,15 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
+
             return null;
         }
     }

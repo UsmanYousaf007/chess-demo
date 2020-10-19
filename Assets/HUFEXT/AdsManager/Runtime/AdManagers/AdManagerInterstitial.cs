@@ -1,8 +1,6 @@
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using HUFEXT.AdsManager.Runtime.API;
-using HUFEXT.AdsManager.Runtime.Config;
 using HUFEXT.AdsManager.Runtime.Service;
 using UnityEngine.Events;
 
@@ -10,13 +8,14 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 {
     public class AdManagerInterstitial : AdManagerBase
     {
+        protected override string ServiceName => nameof(AdManagerInterstitial);
+
         public AdManagerInterstitial(
             AdPlacementData inAdPlacementData,
             HUFAdsService inAdsService ) : base(
             inAdPlacementData,
             inAdsService )
         {
-            logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(AdManagerInterstitial) );
         }
 
         protected override void Fetch()
@@ -28,7 +27,6 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             base.ShowAd( resultCallback, alternativeAdPlacement );
-
             adsService.Mediation.ShowInterstitial( adPlacementData.PlacementId );
         }
 
@@ -40,14 +38,13 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
                     placementId,
                     result ) );
         }
-        
 
-        
         protected override void SubscribeToEvents()
         {
             adsService.Mediation.OnInterstitialFetched += HandleFetched;
             adsService.Mediation.OnInterstitialEnded += HandleEnded;
         }
+
         protected override void UnsubscribeFromEvents()
         {
             adsService.Mediation.OnInterstitialFetched -= HandleFetched;

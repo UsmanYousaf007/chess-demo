@@ -93,10 +93,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public T GetConfig<T>() where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var type = typeof(T);
 
             if ( !configMap.ContainsKey( type ) )
@@ -112,10 +109,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public T GetConfig<T>( string configId ) where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var type = typeof(T);
 
             if ( !configMap.ContainsKey( type ) )
@@ -139,30 +133,25 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public bool HasConfig<T>() where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
+
             var type = typeof(T);
             return configMap.ContainsKey( type );
         }
 
         public bool HasConfig<T>( string configId ) where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
+            MapBuildCheck();
+            if ( configMap == null )
                 BuildConfigMap();
-#endif
+
             var type = typeof(T);
             return configMap.ContainsKey( type ) && configMap[type].Any( x => x.ConfigId.Equals( configId ) );
         }
 
         public IEnumerable<T> GetConfigs<T>() where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var type = typeof(T);
 
             if ( !configMap.ContainsKey( type ) || configMap[type].Count == 0 )
@@ -176,10 +165,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public IEnumerable<T> GetConfigsByBaseClass<T>() where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var type = typeof(T);
             var configs = new List<AbstractConfig>();
 
@@ -223,10 +209,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         void AddConfigToMap<T>( T config, Type type ) where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var configIndex = -1;
 
             if ( configMap.ContainsKey( type ) )
@@ -253,10 +236,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public bool TryRemoveConfigs<T>() where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var configType = typeof(T);
 
             if ( !configMap.ContainsKey( configType ) )
@@ -268,10 +248,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public bool TryRemoveConfig<T>( string configId ) where T : AbstractConfig
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             var configType = typeof(T);
 
             if ( !configMap.ContainsKey( configType ) )
@@ -282,10 +259,7 @@ namespace HUF.Utils.Runtime.Configs.Implementation
 
         public void ResetConfigs()
         {
-#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
-            if ( shouldReload )
-                BuildConfigMap();
-#endif
+            MapBuildCheck();
             foreach ( var pair in configMap )
             {
                 foreach ( var config in pair.Value )
@@ -294,5 +268,16 @@ namespace HUF.Utils.Runtime.Configs.Implementation
                 }
             }
         }
+
+        void MapBuildCheck()
+        {
+#if UNITY_EDITOR && !UNITY_CLOUD_BUILD
+            if ( shouldReload )
+                BuildConfigMap();
+#endif
+            if ( configMap == null )
+                BuildConfigMap();
+        }
+
     }
 }

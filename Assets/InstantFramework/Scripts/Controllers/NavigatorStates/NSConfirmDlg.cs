@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER, NavigatorViewId.SUBSCRIPTION_DLG, NavigatorViewId.MANAGE_BLOCKED_FRIENDS, NavigatorViewId.TOPICS_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER, NavigatorViewId.SUBSCRIPTION_DLG, NavigatorViewId.MANAGE_BLOCKED_FRIENDS, NavigatorViewId.TOPICS_VIEW, NavigatorViewId.SHOP, NavigatorViewId.SPOT_PURCHASE_DLG, NavigatorViewId.INVENTORY, NavigatorViewId.LESSONS_VIEW);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -38,6 +38,23 @@
                 {
                     return new NSLessonTopics();
                 }
+                else if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
+                }
+                else if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSSpotPurchase();
+                }
+                else if (viewId == NavigatorViewId.INVENTORY)
+                {
+                    return new NSInventory();
+                }
+                else if (viewId == NavigatorViewId.LESSONS_VIEW)
+                {
+                    return new NSLessonsView();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
@@ -62,6 +79,15 @@
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
+
             return null;
         }
     }

@@ -83,6 +83,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ToggleStepForwardSignal>().ToSingleton();
             injectionBinder.Bind<ShowStrengthOnboardingTooltipSignal>().ToSingleton();
             injectionBinder.Bind<ShowCoachOnboardingTooltipSignal>().ToSingleton();
+            injectionBinder.Bind<SetupSpecialHintSignal>().ToSingleton();
+            injectionBinder.Bind<SpecialHintAvailableSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

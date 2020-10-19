@@ -27,7 +27,8 @@ public class XcodeSettingsPostProcesser
 
         //Required Frameworks
         proj.AddFrameworkToProject(target, "UserNotifications.framework", false);
-
+        proj.AddFrameworkToProject(target, "PhotosUI.framework", false);
+        proj.AddFrameworkToProject(target, "AuthenticationServices.framework", true);
         // Additional files
         TurboLabz.TLUtils.LogUtil.Log("Adding ChessAI files..", "cyan");
         string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
@@ -118,5 +119,12 @@ public class XcodeSettingsPostProcesser
 
         File.WriteAllText(plistPath, plist.WriteToString());
         File.WriteAllText(projPath, proj.WriteToString());
+
+        //Adding Apple Sign-In Capability
+#if UNITY_IOS
+	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
+	    ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
+	    projCapability.WriteToFile();
+#endif
     }
 }

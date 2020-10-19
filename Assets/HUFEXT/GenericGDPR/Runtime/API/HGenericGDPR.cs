@@ -60,6 +60,11 @@ namespace HUFEXT.GenericGDPR.Runtime.API
                     return analyticsConsent.Value;
                 }
 
+                if (config == null)
+                {
+                    FetchConfig();
+                }
+
                 if ( HPlayerPrefs.GetBool( config.CustomGDPRKey, false ) )
                 {
                     HAnalytics.CollectSensitiveData( true );
@@ -84,6 +89,11 @@ namespace HUFEXT.GenericGDPR.Runtime.API
                 if ( adsConsent.HasValue )
                 {
                     return adsConsent.Value;
+                }
+
+                if (config == null)
+                {
+                    FetchConfig();
                 }
 
                 if ( HPlayerPrefs.GetBool( config.CustomPersonalizedAdsKey, false ) )

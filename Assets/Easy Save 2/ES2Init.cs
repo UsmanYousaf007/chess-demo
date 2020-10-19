@@ -28,8 +28,8 @@ public class ES2Init : MonoBehaviour
 		ES2TypeManager.types[typeof(UnityEngine.Color)] = new ES2_Color();
 		ES2TypeManager.types[typeof(UnityEngine.Color32)] = new ES2_Color32();
 		ES2TypeManager.types[typeof(System.DateTime)] = new ES2_DateTime();
-		ES2TypeManager.types[typeof(ES2AutoSaveManager)] = new ES2_ES2AutoSaveManager();
 		ES2TypeManager.types[typeof(System.Enum)] = new ES2_Enum();
+		ES2TypeManager.types[typeof(ES2AutoSaveManager)] = new ES2_ES2AutoSaveManager();
 		ES2TypeManager.types[typeof(UnityEngine.Gradient)] = new ES2_Gradient();
 		ES2TypeManager.types[typeof(UnityEngine.GradientAlphaKey)] = new ES2_GradientAlphaKey();
 		ES2TypeManager.types[typeof(UnityEngine.GradientColorKey)] = new ES2_GradientColorKey();
@@ -65,12 +65,13 @@ public class ES2Init : MonoBehaviour
 		ES2TypeManager.types[typeof(System.UInt32)] = new ES2_uint();
 		ES2TypeManager.types[typeof(System.UInt64)] = new ES2_ulong();
 		ES2TypeManager.types[typeof(System.UInt16)] = new ES2_ushort();
+		ES2TypeManager.types[typeof(UnityEngine.AudioClip)] = new ES2_AudioClip();
+		ES2TypeManager.types[typeof(UnityEngine.GameObject)] = new ES2_GameObject();
 		ES2TypeManager.types[typeof(UnityEngine.CanvasRenderer)] = new ES2UserType_UnityEngineCanvasRenderer();
 		ES2TypeManager.types[typeof(UnityEngine.LineRenderer)] = new ES2UserType_UnityEngineLineRenderer();
 		ES2TypeManager.types[typeof(UnityEngine.RectTransform)] = new ES2UserType_UnityEngineRectTransform();
 		ES2TypeManager.types[typeof(UnityEngine.UI.Text)] = new ES2UserType_UnityEngineUIText();
-		ES2TypeManager.types[typeof(UnityEngine.AudioClip)] = new ES2_AudioClip();
-		ES2TypeManager.types[typeof(UnityEngine.GameObject)] = new ES2_GameObject();
+		ES2TypeManager.types[typeof(TurboLabz.InstantFramework.Notification)] = new ES2UserType_TurboLabzInstantFrameworkNotification();
 
 		ES2.initialised = true;
 	}

@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394205520f5154c3b82ed9da8c141dbd, type: 3}
+  m_Name: LeagueTierIcons
+  m_EditorClassIdentifier: 
+  assets:
+  - typeName: BRONZE
+    typeID: 0
+    chestSprite: {fileID: 21300000, guid: eadb53761fa2e406e8575e2ac9e51104, type: 3}
+    trophySprite: {fileID: 21300000, guid: f348b2c92c3354f79a672474f2c8c8e6, type: 3}
+    ringSprite: {fileID: 21300000, guid: 0e16d1286b6de49a5961092c2faf1b78, type: 3}
+    bgSprite: {fileID: 21300000, guid: ebb40f6e007794620bd89022c3eee7b8, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: 4d54a033e54004daba811a4c70a90d49,
+      type: 3}
+    borderColor: {r: 1, g: 0.6627451, b: 0.41960785, a: 1}
+  - typeName: SILVER
+    typeID: 1
+    chestSprite: {fileID: 21300000, guid: aac833b4b0a554233b6e65f8785374db, type: 3}
+    trophySprite: {fileID: 21300000, guid: e044c284155894dd1932ed4eb26704db, type: 3}
+    ringSprite: {fileID: 21300000, guid: 58647efc8e0e544c3a88ccd37ce64c3d, type: 3}
+    bgSprite: {fileID: 21300000, guid: db092f808a27f4d3c93f836201237a7b, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: b30434b6ffade473e81602678bce5b78,
+      type: 3}
+    borderColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
+  - typeName: GOLD
+    typeID: 2
+    chestSprite: {fileID: 21300000, guid: c07e2d3eb32004c0f9426453efab71ec, type: 3}
+    trophySprite: {fileID: 21300000, guid: 65380127a4aa34a5aa5dce4c94875c65, type: 3}
+    ringSprite: {fileID: 21300000, guid: 070d06435b2dd41d096be67d18e9310e, type: 3}
+    bgSprite: {fileID: 21300000, guid: 4efebfe970b2b4a8c9d6120bcc6bcfca, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: 7c9c6627f1938412083d26c970b45350,
+      type: 3}
+    borderColor: {r: 0.9411765, g: 0.7882353, b: 0.4117647, a: 1}
+  - typeName: PLATINUM
+    typeID: 3
+    chestSprite: {fileID: 21300000, guid: 1599d3e807ee244358e40726294a6395, type: 3}
+    trophySprite: {fileID: 21300000, guid: 44fe0ec500ec24c59867408ac5f0bd1c, type: 3}
+    ringSprite: {fileID: 21300000, guid: 3b519358e8cc74f5cbd40d8ef020a48d, type: 3}
+    bgSprite: {fileID: 21300000, guid: 9357d3629559449bd9281a2f2bffbebe, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: 1c60ab206279447ada5c65d43900c586,
+      type: 3}
+    borderColor: {r: 0.5647059, g: 0.88235295, b: 0.8627451, a: 1}
+  - typeName: EMERALD
+    typeID: 4
+    chestSprite: {fileID: 21300000, guid: a35b179e770974925b60e0b3ad7b2089, type: 3}
+    trophySprite: {fileID: 21300000, guid: 4dbee57453da24215ab1b3d161b5beeb, type: 3}
+    ringSprite: {fileID: 21300000, guid: 26c2741bd870746c58472fdfbc9be21e, type: 3}
+    bgSprite: {fileID: 21300000, guid: dd95c7b9dbad641b6b792460334f1569, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: 23b036ef5812d4226ae8e24a30fa6dc3,
+      type: 3}
+    borderColor: {r: 0.57254905, g: 0.88235295, b: 0.5647059, a: 1}
+  - typeName: SAPPHIRE
+    typeID: 5
+    chestSprite: {fileID: 21300000, guid: bade1ff2355de4b17bf3ca9b096ba190, type: 3}
+    trophySprite: {fileID: 21300000, guid: 5fff5923bc4b74dabaf381ac84860f5a, type: 3}
+    ringSprite: {fileID: 21300000, guid: ddb4ed6bcf6df4c3f9529cbecbb3c235, type: 3}
+    bgSprite: {fileID: 21300000, guid: 943391597b85d4e72ad9ab5effc76547, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: 21bcf6b3e456b435c9f77f3bc281e635,
+      type: 3}
+    borderColor: {r: 0.17254902, g: 0.6, b: 1, a: 1}
+  - typeName: DIAMOND
+    typeID: 6
+    chestSprite: {fileID: 21300000, guid: 554b60960a34444f7b84bbc3b7cca483, type: 3}
+    trophySprite: {fileID: 21300000, guid: 2e16302f2c08d4fce92818fa34370999, type: 3}
+    ringSprite: {fileID: 21300000, guid: e5bca6ea284a84468b8de83051faf299, type: 3}
+    bgSprite: {fileID: 21300000, guid: 0ec098adec3cd48cea3c3d5d0552cc75, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: f820dc5529f2d48cab8ef5368af82c0d,
+      type: 3}
+    borderColor: {r: 0.70980394, g: 0.75686276, b: 1, a: 1}

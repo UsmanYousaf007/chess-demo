@@ -20,19 +20,20 @@ namespace TurboLabz.InstantFramework
         private IRoutineRunner routineRunner = new NormalRoutineRunner();
         private string playerId;
 
-        public IPromise<FacebookResult, Sprite, string> Send(string facebookUserId, string playerId)
+        public IPromise<FacebookResult, Sprite, string> Send(string facebookUserId, string playerId, string accessToken)
         {
             this.playerId = playerId;
-            GetProfilePicture(facebookUserId);
+            GetProfilePicture(facebookUserId, accessToken);
 
             return promise;
         }
 
-        private void GetProfilePicture(string facebookUserId)
+        private void GetProfilePicture(string facebookUserId, string accessToken)
         {
             if (!string.IsNullOrEmpty(facebookUserId))
             {
-                FB.API(facebookUserId + "/picture?width=256&height=256&redirect=false", HttpMethod.GET, OnGetProfilePicture);
+                string query = facebookUserId + "/picture?width=256&height=256&redirect=false&access_token=" + accessToken;
+                FB.API(query, HttpMethod.GET, OnGetProfilePicture);
             }
         }
 

@@ -27,7 +27,8 @@ public class ChatBubble : MonoBehaviour
     public Image avatarBg;
     public Image avatarIcon;
     public Text timer;
-    public GameObject premiumBorder;
+    //public GameObject premiumBorder;
+    public Image leagueBorder;
 
     Image bgImage;
     Coroutine fadeRoutine;
@@ -157,7 +158,7 @@ public class ChatBubble : MonoBehaviour
             Vector3 textBoundsSize = text.rectTransform.sizeDelta;
 
             bg.sizeDelta = new Vector2(
-                textBoundsSize.x + 65f,
+                textBoundsSize.x + 50f,
                 textBoundsSize.y + 30f);
 
             bgImage.sprite = (isPlayer) ? bgFullChatPlayer : bgFullChatOpponent;

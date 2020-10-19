@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using GameSparks.Core;
 
 using TurboLabz.TLUtils;
@@ -84,7 +83,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public static void PopulateStoreItem(StoreItem item, GSData itemData, string videoBaseUrl = null)
+        public static void PopulateStoreItem(StoreItem item, GSData itemData)
         {
             const string unrecognized = "unrecognized";
 
@@ -98,7 +97,12 @@ namespace TurboLabz.InstantFramework
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_HINDSIGHT_SHOP_TAG,
                 GSBackendKeys.ShopItem.POWERUP_SAFEMOVE_SHOP_TAG,
-                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG
+                GSBackendKeys.ShopItem.VIDEO_LESSON_SHOP_TAG,
+                GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG,
+                GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG,
+                GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG,
+                GSBackendKeys.ShopItem.SUBSCRIPTION_TAG,
+                GSBackendKeys.ShopItem.SPECIALITEM_POINTS_TAG
             };
 
             //string[] tagState = {
@@ -121,6 +125,7 @@ namespace TurboLabz.InstantFramework
             item.description = itemData.GetString(GSBackendKeys.SHOP_ITEM_DESCRIPTION);
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
+            item.currency3Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY3COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
 
 #if UNITY_IOS
@@ -147,14 +152,24 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            // Check for payouts if item is currency type
+            if (item.type == StoreItem.Type.CURRENCY)
+            {
+                item.currency1Payout = item.currency1Cost;
+                item.currency2Payout = item.currency2Cost;
+                item.currency3Payout = item.currency3Cost;
+
+                item.currency1Cost = 0;
+                item.currency2Cost = 0;
+                item.currency3Cost = 0;
+            }
+
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
             if (bundleData !=  null)
             {
                 item.bundledItems = new Dictionary<string, int>();
                 ParseBundledGoods(item, bundleData);
             }
-
-            item.videoUrl = videoBaseUrl != null ? videoBaseUrl + itemData.GetString(GSBackendKeys.SHOP_ITEM_ID) + ".mp4" : null;
 
             LogUtil.Log("********** PopulateShopItem: " + item.key);
         }
@@ -302,6 +317,7 @@ namespace TurboLabz.InstantFramework
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
             publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
             publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
+            publicProfile.league = GetSafeInt(publicProfileData, GSBackendKeys.PublicProfile.LEAGUE);
            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
@@ -329,8 +345,6 @@ namespace TurboLabz.InstantFramework
 				ExternalAuth facebookAuthData = auths[ExternalAuthType.FACEBOOK];
 				publicProfile.facebookUserId = facebookAuthData.id;
 			}
-
-
 		}
 
         public static void ParseFriend(Friend friend, GSData friendData, string friendId)
@@ -342,12 +356,72 @@ namespace TurboLabz.InstantFramework
             friend.lastMatchTimestamp = GetSafeLong(friendData, GSBackendKeys.Friend.LAST_MATCH_TIMESTAMP);
             friend.flagMask = GetSafeLong(friendData, GSBackendKeys.Friend.FLAG_MASK);
 
-
             GSData publicProfileData = friendData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
             PopulatePublicProfile(friend.publicProfile, publicProfileData, friendId);
 		}
 
-		public static void LogPublicProfile(PublicProfile publicProfile)
+        public static void ParseIboxMessageRewards(GSData rewardsData, Dictionary<string, int> rewards)
+        {
+            foreach (KeyValuePair<string, Object> obj in rewardsData.BaseData)
+            {
+                string itemShortCode = obj.Key;
+                var qtyVar = obj.Value;
+                int qtyInt = Int32.Parse(qtyVar.ToString());
+                TLUtils.LogUtil.Log("+++++====>" + itemShortCode + " qty: " + qtyInt.ToString());
+                rewards.Add(itemShortCode, qtyInt);
+            }
+        }
+
+        public static void ParseInboxMessage(InboxMessage msg, GSData data)
+        {
+            msg.id = data.GetString("id");
+            msg.type = data.GetString("type");
+            msg.isDaily = GetSafeBool(data, "isDaily");
+            msg.heading = data.GetString("heading");
+            msg.subHeading = GetSafeString(data, "body");
+            msg.timeStamp = GetSafeLong(data, "time");
+            msg.chestType = GetSafeString(data, "chestType");
+            msg.tournamentType = GetSafeString(data, "tournamentType");
+            msg.tournamentId = GetSafeString(data, "tournamentId");
+            msg.league = GetSafeString(data, "league");
+            msg.startTime = GetSafeLong(data, "startTime");
+            msg.rankCount = GetSafeInt(data, "rank");
+            msg.trophiesCount = GetSafeInt(data, "trophies");
+
+            GSData rewardsData = data.GetGSData("reward");
+            if (rewardsData != null)
+            { 
+                ParseIboxMessageRewards(rewardsData, msg.rewards);
+            }
+        }
+
+        public static void ParseLeague(League league, GSData data)
+        {
+            league.name = data.GetString("name");
+            GSData qualificationData = data.GetGSData("qualification");
+            league.qualifyTrophies = GetSafeInt(qualificationData, "trophies");
+            GSData dailyRewardData = data.GetGSData("dailyReward");
+
+            foreach (KeyValuePair<string, object> obj in dailyRewardData.BaseData)
+            {
+                var count = obj.Value;
+                league.dailyReward.Add(obj.Key, Int32.Parse(count.ToString()));
+            }
+        }
+
+        public static void LogLeague(League league)
+        {
+            LogUtil.Log("********** league.name " + " " + league.name);
+            LogUtil.Log("league.qualifyTrophies " + league.qualifyTrophies);
+            LogUtil.Log("league.dailyReward ");
+
+            foreach (KeyValuePair<string, int> item in league.dailyReward)
+            {
+                LogUtil.Log("league.item " + item.Key + " : " + item.Value);
+            }
+        }
+
+        public static void LogPublicProfile(PublicProfile publicProfile)
 		{
 			LogUtil.Log("********** publicProfile.name" + " " + publicProfile.name);
 			LogUtil.Log("********** publicProfile.countryId" + " " + publicProfile.countryId);
@@ -373,6 +447,26 @@ namespace TurboLabz.InstantFramework
 				LogFriend(friend.Value);
 			}
 		}
+
+        public static void LogInboxMessage(InboxMessage msg)
+        {
+            TLUtils.LogUtil.Log("<<---------- Inbox Message <<----------");
+            TLUtils.LogUtil.Log("id = " + msg.id);
+            TLUtils.LogUtil.Log("type = " + msg.type);
+            TLUtils.LogUtil.Log("heading = " + msg.heading);
+            TLUtils.LogUtil.Log("subHeading = " + msg.subHeading);
+            TLUtils.LogUtil.Log("timeStamp = " + msg.timeStamp);
+            TLUtils.LogUtil.Log("rankCount = " + msg.rankCount);
+            TLUtils.LogUtil.Log("trophiesCount = " + msg.trophiesCount);
+
+            TLUtils.LogUtil.Log("rewards:");
+            foreach (KeyValuePair<string, int> item in msg.rewards)
+            {
+                TLUtils.LogUtil.Log("shortCode = " + item.Key + "qty = " + item.Value);
+            }
+
+            TLUtils.LogUtil.Log("<<---------- Inbox Message End <<----------");
+        }
 
         public static void LogPlayerInfo(IPlayerModel playerModel)
         {
@@ -419,6 +513,9 @@ namespace TurboLabz.InstantFramework
                 LogUtil.Log("********** playerModel.inventory " + item.Key + " Quantity: " + item.Value);
             }
             LogUtil.Log("********** playerModel.activeSkinId" + " " + playerModel.activeSkinId);
+
+            LogUtil.Log("********** playerModel.league " + playerModel.league);
+            LogUtil.Log("********** playerModel.trophies " + playerModel.trophies);
 
             LogUtil.Log("******************** END PLAYER INFO ********************");
         }

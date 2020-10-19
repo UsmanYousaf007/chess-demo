@@ -11,7 +11,7 @@ namespace TurboLabz.InstantFramework
         public Image avatarImage;
         public Image avatarBG;
         public Image avatarIcon;
-        public GameObject premiumBorder;
+        //public GameObject premiumBorder;
         public Text profileNameLabel;
         public Text eloScoreLabel;
         public GameObject timer;
@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         public bool isOnline;
         public bool isActive;
         public GameObject playArrowButton;
-
+        public Image leagueBorder;
         public GameObject playArrow;
         public Text playButtonLabel;
         public Button notNowButton;
@@ -390,6 +390,7 @@ namespace TurboLabz.InstantFramework
             viewButton.onClick.RemoveAllListeners();
             unreadChat.onClick.RemoveAllListeners();
             removeCommunityFriendButton.onClick.RemoveAllListeners();
+            unreadChat.gameObject.SetActive(false);
         }
     }
 }

@@ -28,6 +28,9 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
         [Inject] public UploadFileSignal uploadFileSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+
         // View injection
         [Inject] public StatsView view { get; set; }
         //Model injection
@@ -37,13 +40,12 @@ namespace TurboLabz.InstantGame
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IPhotoService photoPickerService { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
-
-        
+        [Inject] public IDownloadablesService downloadablesService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-            view.restorePurchasesSignal.AddListener(OnRestorePurchases);
             view.backButton.onClick.AddListener(OnBackButtonClicked);
             view.shareBtn.onClick.AddListener(OnShareScreenClicked);
 
@@ -52,6 +54,11 @@ namespace TurboLabz.InstantGame
 
             view.openPhotoSettingsBtn.onClick.AddListener(OnOpenSettingsBtnClicked);
             view.profilePicBtn.onClick.AddListener(OnUploadProfilPicBtnClicked);
+
+            view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
+            view.supportButtonClicked.AddListener(OnSupportButtonClicked);
+
+            view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -73,6 +80,18 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        private void OnSettingsButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SETTINGS);
+            hAnalyticsService.LogEvent("clicked", "menu", "", "settings");
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "menu", "", "support");
+            contactSupportSignal.Dispatch();
+        }
+
         [ListensTo(typeof(UpdateStatsSignal))]
         public void OnUpdateStats(StatsVO vo)
         {
@@ -82,6 +101,9 @@ namespace TurboLabz.InstantGame
         void OnRestorePurchases()
         {
             restorePurchasesSignal.Dispatch();
+#if UNITY_IOS
+            hAnalyticsService.LogEvent("clicked", "settings", "", "restore_ios_iap");
+#endif
         }
 
         void OnBackButtonClicked()
@@ -129,7 +151,6 @@ namespace TurboLabz.InstantGame
                 view.CloseProfilePicDialog();
                 view.OpenSettingsDialog();
             }
-
         }
 
         void OnChoosePhotoBtnClicked()
@@ -159,7 +180,7 @@ namespace TurboLabz.InstantGame
         }
 
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
-        public void OnPhotoPickerComplete (Photo photo)
+        public void OnPhotoPickerComplete (PhotoVO photo)
         {
             view.CloseProfilePicDialog();
             view.ShowProcessing(true, true);
@@ -174,6 +195,26 @@ namespace TurboLabz.InstantGame
                     mimeType = "image/png"
                 };
                 uploadFileSignal.Dispatch(uploadFileVO);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(true, true);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && !status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(false, false);
             }
         }
     }

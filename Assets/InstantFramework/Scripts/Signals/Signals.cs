@@ -159,12 +159,67 @@ namespace TurboLabz.InstantFramework
     public class UpdateOfferDrawSignal : Signal<OfferDrawVO> { }
     public class SkillSelectedSignal : Signal { }
     public class UploadFileSignal : Signal<UploadFileVO> { }
-    public class PhotoPickerCompleteSignal : Signal<Photo> { }
+    public class PhotoPickerCompleteSignal : Signal<PhotoVO> { }
     public class VideoEventSignal : Signal<VideoEvent> { }
     public class SaveLastWatchedVideoSignal : Signal<string> { }
+    public class LoadArenaSignal : Signal { }
+    public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
+    public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
+    public class VirtualGoodBoughtSignal : Signal<string> { }
+    public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
+    public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
+    public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
+    public class UpdateBottomNavSignal : Signal<BottomNavView.ButtonId> { }
+    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxRemoveMessagesSignal : Signal<string> { }
+    public class LoadInboxSignal : Signal { }
+    public class UpdateInboxMessageCountViewSignal : Signal<long> { }
+    public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
+    public class LoadRewardDlgViewSignal : Signal<string, Signal> { }
+    public class InboxFetchingMessagesSignal : Signal<bool> { }
+    public class PlayerModelUpdatedSignal : Signal<IPlayerModel> { }
+    public class ProfilePictureLoadedSignal : Signal<string, Sprite> { }
+    public class GetProfilePictureSignal : Signal<GetProfilePictureVO> { }
+    public class ShowBottomNavSignal : Signal<bool> { }
+    public class AppResumedSignal : Signal { }
+    public class LoadSpotInventorySignal : Signal<LoadSpotInventoryParams> { }
+    public class UpdateSpotInventoryViewSignal : Signal<SpotInventoryVO> { }
+    public class SpotInventoryPurchaseCompletedSignal : Signal<string, string> { }
+    public class TournamentOverDialogueClosedSignal : Signal { }
+
+    // Tournaments
+    public class GetAllTournamentsSignal : Signal { }
+    public class TournamentOpFailedSignal : Signal { }
+    public class GetTournamentsSuccessSignal : Signal { }
+    public class UpdateTournamentsSignal : Signal { }
+    public class GetTournamentLeaderboardSignal : Signal<string, bool> { }
+    public class FetchLiveTournamentRewardsSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardPartialSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardSignal : Signal<string> { }
+    public class UpdateTournamentLeaderboardViewSignal : Signal { }
+    public class ToggleLeaderboardViewNavButtons : Signal<bool> { }
+    public class UpdateTournamentsViewSignal : Signal { }
+    public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
+    public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
+    public class UnlockCurrentJoinedTournamentSignal : Signal { }
+    public class OnTournamentEndRewardViewClickedSignal : Signal<string> { }
+
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
     public class RatingBoostAnimSignal : Signal<int> { }
+
+    // LeagueProfileStrip
+    public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
+    public class UpdateLeagueProfileStripSignal : Signal<LeagueProfileStripVO> { }
+    //public class UpdateLeagueProfileSignal : Signal<string, ProfileVO> { }
+    public class UpdateLeagueProfileSignal : Signal<string> { }
+    public class SetLeaguesSignal : Signal { }
+
+    //Downloadable Content
+    public class DownloadableContentEventSignal : Signal<ContentType?, ContentDownloadStatus> { }
+
+    //App Updates
+    public class AppUpdateSignal : Signal<bool> { }
 }

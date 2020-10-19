@@ -38,8 +38,10 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IDownloadablesModel downloadablesModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
 
-		bool gameSparksAvailable = false;
+        bool gameSparksAvailable = false;
 
         private Coroutine wifiHealthCheckCR = null;
         private int wifiHealthWaitCounter = 0;
@@ -60,6 +62,7 @@ namespace TurboLabz.InstantFramework
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
             videoPlaybackService.Init();
+            downloadablesModel.Init();
         }
 
 		void StartGameSparksAvailable(bool isAvailable)

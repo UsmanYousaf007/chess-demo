@@ -10,7 +10,7 @@
         public override NS HandleEvent(NavigatorEvent evt)
         {
             NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER,
-                NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG,
+                NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SHOP,
                 NavigatorViewId.LESSONS_VIEW, NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LESSON_VIDEO);
 
             if (evt == NavigatorEvent.ESCAPE)
@@ -55,6 +55,10 @@
                 {
                     return new NSLessonVideo();
                 }
+                else if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
@@ -86,6 +90,14 @@
             {
                 cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
                 return new NSMultiplayerThreeFoldRepeatDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
             }
 
             return null;

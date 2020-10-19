@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
         [Inject] public ClosePromotionDlgSignal closePromotionDlgSignal { get; set; }
+        [Inject] public AppResumedSignal appResumedSignal { get; set; }
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -30,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -56,12 +58,6 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.IGNORE);
                 modelsSaveToDiskSignal.Dispatch();
                 hAnalyticsService.LogEvent(AnalyticsEventId.focus_lost.ToString(), "focus");
-
-                //only schedule local notificaitons once player model is filled with data
-                if (playerModel.id != null)
-                {
-                    setLocalNotificationNumber();
-                }
             }
             else if (appEvent == AppEvent.ESCAPED)
             {
@@ -105,6 +101,7 @@ namespace TurboLabz.InstantFramework
 
                 firebasePushNotificationService.ClearNotifications();
                 navigatorModel.currentState.RenderDisplayOnEnter();
+                appResumedSignal.Dispatch();
             }
         }
 

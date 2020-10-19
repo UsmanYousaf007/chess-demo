@@ -23,11 +23,15 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                NavigatorViewId viewId = CameFrom(NavigatorViewId.FRIENDS);
+                NavigatorViewId viewId = CameFrom(NavigatorViewId.FRIENDS, NavigatorViewId.LOBBY);
 
                 if (viewId == NavigatorViewId.FRIENDS)
                 {
                     return new NSFriends();
+                }
+                if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
             }
 

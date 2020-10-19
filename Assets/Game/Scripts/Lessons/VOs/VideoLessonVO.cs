@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using TurboLabz.InstantFramework;
 using UnityEngine;
 
 namespace TurboLabz.InstantGame
@@ -17,5 +18,7 @@ namespace TurboLabz.InstantGame
         public int indexInTopic;
         public int overallIndex;
         public string section;
+        public StoreItem unlockItem;
+        public IPlayerModel playerModel;
     }
 }

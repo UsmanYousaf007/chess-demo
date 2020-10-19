@@ -25,5 +25,6 @@ namespace TurboLabz.InstantFramework
         public bool isActive;
         public string activity;
         public bool isPremium;
+        public Sprite leagueBorder;
     }
 }

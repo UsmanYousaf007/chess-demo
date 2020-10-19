@@ -45,6 +45,7 @@ namespace TurboLabz.InstantGame
         [Inject] public INavigatorModel navigatorModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public IChatModel chatModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -62,11 +63,15 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public void Init()
         {
@@ -131,6 +136,7 @@ namespace TurboLabz.InstantGame
                 Notification notificationObj = notificationContainer.obj.GetComponent<Notification>();
                 notificationObj.playButton.gameObject.SetActive(false);
                 notificationObj.acceptQuickMatchButton.gameObject.SetActive(false);
+                notificationObj.fullButton.gameObject.SetActive(false);
             }
         }
 
@@ -169,8 +175,15 @@ namespace TurboLabz.InstantGame
             notification.body.text = notificationVO.body;
             notification.playButtonLabel.text = localizationService.Get(LocalizationKey.PLAY);
             notification.avatarBg.sprite = notification.defaultAvatar;
-            notification.premiumBorder.SetActive(notificationVO.isPremium);
+            //notification.premiumBorder.SetActive(notificationVO.isPremium);
+            notification.fullButton.gameObject.SetActive(false);
+            notification.icon.gameObject.SetActive(false);
             notification.senderPic.gameObject.SetActive(false);
+
+            var leagueAssets = tournamentsModel.GetLeagueSprites(notificationVO.league.ToString());
+            var leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+            notification.leagueBorder.gameObject.SetActive(leagueBorder != null);
+            notification.leagueBorder.sprite = leagueBorder;
 
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
@@ -290,6 +303,57 @@ namespace TurboLabz.InstantGame
                 notifidationObj.gameObject.transform.localScale = Vector3.one;
             //}
 
+            #region Tournaments and Inbox Notifications
+
+            if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
+            {
+                var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
+
+                if (tournamentAssets != null)
+                {
+                    notification.avatarBg.sprite = tournamentAssets.tileSprite;
+                    notification.avatarIcon.sprite = tournamentAssets.stickerSprite;
+                    notification.leagueBorder.gameObject.SetActive(false);
+                    notification.fullButton.gameObject.SetActive(true);
+                    notification.fullButton.onClick.AddListener(LoadInbox);
+                }
+                else
+                {
+                    var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
+                    tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
+
+                    if (tournamentAssets != null)
+                    {
+                        notification.bgOverlay.gameObject.SetActive(false);
+                        notification.playerObj.SetActive(false);
+                        notification.background.sprite = tournamentAssets.notificationSprite;
+                        notification.icon.sprite = tournamentAssets.stickerSprite;
+                        notification.title.color = Colors.WHITE;
+                        notification.body.color = Colors.WHITE;
+                        notification.fullButton.gameObject.SetActive(true);
+                        notification.icon.gameObject.SetActive(true);
+                        notification.fullButton.onClick.AddListener(LoadArena);
+                    }
+                    else if(notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
+                    {
+                        if (notificationVO.senderPlayerId.Equals("league"))
+                        {
+                            notification.avatarIcon.sprite = notification.leagueAvatar;
+                        }
+                        else if (notificationVO.senderPlayerId.Equals("subscription"))
+                        {
+                            notification.avatarIcon.sprite = notification.subsriptionAvatar;
+                        }
+
+                        notification.leagueBorder.gameObject.SetActive(false);
+                        notification.fullButton.gameObject.SetActive(true);
+                        notification.fullButton.onClick.AddListener(LoadInbox);
+                    }
+                }
+            }
+
+            #endregion
+
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;
             notificationContainer.playerId = notificationVO.senderPlayerId;
@@ -314,7 +378,7 @@ namespace TurboLabz.InstantGame
 
             if (notificationVO.matchGroup != "undefined")
             {
-                if((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent)/1000 > NOTIFICATION_QUICKMATCH_DURATION)
+                if ((TimeUtil.unixTimestampMilliseconds - notificationVO.timeSent) / 1000 > NOTIFICATION_QUICKMATCH_DURATION)
                 {
                     //show dailogue
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CONFIRM_DLG);
@@ -345,6 +409,36 @@ namespace TurboLabz.InstantGame
 
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
+            }
+            else
+            {
+                #region Tournaments and Inbox Notifications
+
+                if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
+                {
+                    var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
+
+                    if (tournamentAssets != null)
+                    {
+                        loadInboxSignal.Dispatch();
+                    }
+                    else
+                    {
+                        var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
+                        tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
+
+                        if (tournamentAssets != null)
+                        {
+                            loadArenaSignal.Dispatch();
+                        }
+                        else if (notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
+                        {
+                            loadInboxSignal.Dispatch();
+                        }
+                    }
+                }
+
+                #endregion
             }
         }
 
@@ -428,6 +522,18 @@ namespace TurboLabz.InstantGame
                     notifications[0].notification.senderPic.sprite = sprite;
                 }
             }
+        }
+
+        private void LoadArena()
+        {
+            audioService.PlayStandardClick();
+            loadArenaSignal.Dispatch();
+        }
+
+        private void LoadInbox()
+        {
+            audioService.PlayStandardClick();
+            loadInboxSignal.Dispatch();
         }
     }
 }

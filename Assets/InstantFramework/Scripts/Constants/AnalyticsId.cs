@@ -38,7 +38,14 @@ namespace TurboLabz.InstantFramework
         manage_blocked_friends,
         lessons_videos,
         lessons_topics,
-        lessons_play
+        lessons_play,
+        inventory,
+        spot_purchase_dlg,
+        arena,
+        tournament_leaderboard,
+        inbox,
+        league_perks,
+        spot_inventory_dlg
     }
 
     public enum AnalyticsEventId
@@ -120,12 +127,52 @@ namespace TurboLabz.InstantFramework
 
         //power_ups
         power_ups_used,
+        booster_used,
 
         //lessons
         all_lessons_complete,
 
         //profile pic
-        upload_picture
+        upload_picture,
+
+        //monetisation
+        inventory_rewarded_video_watched,
+        banner_shown,
+        banner_clicked,
+        banner_purchased,
+        booster_shown,
+        shop_purchase,
+        shop_popup_view,
+        shop_popup_purchase,
+        inventory_source,
+        items_owned,
+        key_obtained_rv,
+        key_obtained_gem,
+        resource_used,
+        resource_via_gems,
+        resource_via_videos,
+        resource_via_free,
+        resource_via_bundle,
+
+        //inbox
+        inbox_visits,
+        inbox_tournament_reward_collected,
+        inbox_daily_league_reward_collected,
+        inbox_subscription_reward_collected,
+
+        //tournaments
+        tap_tier_info,
+        start_tournament,
+        tap_notification,
+        tournament_start_location,
+        finish_rank,
+        current_league,
+        engaged_finish_rank,
+        trophies_earned,
+        tournament_first_game_start_location,
+
+        //navigation
+        navigation_clicked
     }
 
     public enum AnalyticsContext
@@ -210,13 +257,62 @@ namespace TurboLabz.InstantFramework
         //lessons
         started,
         completed,
+        unlocked,
+
         //power_ups
         coach,
         move_meter,
+
         //profile picture
         dlg_shown,        
         choose_existing,
-        take_new
+        take_new,
+
+        //monetization
+        rating_booster,
+        lucky_gem_booster,
+        hint,
+        key,
+        rewarded_rating_booster,
+        rewarded_hints,
+        rewarded_keys,
+        rewarded_gem_booster,
+        rewarded_tickets,
+        lobby_lessons_pack,
+        lobby_themes_pack,
+        lobby_remove_ads,
+        lobby_collect_rewards,
+        unlock_all_themes,
+        unlock_all_lessons,
+        lobby_update_banner,
+        lobby_subscription_banner,
+        ratingBooster,
+        gems,
+        ticket,
+        popup_rating_booster,
+        popup_hint,
+        popup_key,
+        popup_ticket,
+        rewarded_rating_booster_popup,
+        rewarded_hints_popup,
+        rewarded_keys_popup,
+        rewarded_tickets_popup,
+        inventory_nav,
+        tournament_main,
+        tournament_leaderboard,
+        lessons,
+        themes,
+
+        //tournament
+        main,
+        end_game_card,
+        tournaments_tab,
+        lobby,
+
+        //navigation
+        inventory,
+        games,
+        arena
     }
 
     public enum AnalyticsParameter
@@ -234,7 +330,12 @@ namespace TurboLabz.InstantFramework
         context,
         day,
         seconds,
-        num_facebook_friends
+        num_facebook_friends,
+        gems,
+        tickets,
+        rating_boosters,
+        hints,
+        keys
     }
 }
 

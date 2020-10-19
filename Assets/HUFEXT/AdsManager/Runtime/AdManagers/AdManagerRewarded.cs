@@ -1,7 +1,6 @@
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.Service;
 using UnityEngine.Events;
 
@@ -9,13 +8,14 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 {
     public class AdManagerRewarded : AdManagerBase
     {
+        protected override string ServiceName => nameof(AdManagerRewarded);
+
         public AdManagerRewarded(
             AdPlacementData inAdPlacementData,
             HUFAdsService inAdsService ) : base(
             inAdPlacementData,
             inAdsService )
         {
-            logPrefix = new HLogPrefix( HAdsManager.logPrefix, nameof(AdManagerRewarded) );
         }
 
         protected override void SubscribeToEvents()

@@ -49,6 +49,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
+        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -84,6 +89,8 @@ namespace TurboLabz.InstantFramework
             view.decStrengthButtonClickedSignal.AddListener(OnDecStrengthButtonClicked);
             view.incStrengthButtonClickedSignal.AddListener(OnIncStrengthButtonClicked);
             view.showChatSignal.AddListener(OnShowChat);
+            view.joinedTournamentButtonClickedSignal.AddListener(OnJoinedTournamentClicked);
+            view.openTournamentButtonClickedSignal.AddListener(OnOpenTournamentClicked);
         }
 
         private void OnDecStrengthButtonClicked()
@@ -214,7 +221,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SortFriendsSignal))]
         public void OnSortFriends()
         {
-            
+
             view.SortFriends();
         }
 
@@ -278,6 +285,8 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
+
+
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -338,7 +347,7 @@ namespace TurboLabz.InstantFramework
 
             var friend = playerModel.GetFriend(playerId);
 
-            if (!playerModel.HasSubscription()) 
+            if (!playerModel.HasSubscription())
             {
                 if (CanShowPregameAd(actionCode))
                 {
@@ -352,7 +361,7 @@ namespace TurboLabz.InstantFramework
                     showAdSignal.Dispatch(vo);
                     return;
                 }
-             }
+            }
 
             FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
         }
@@ -443,7 +452,7 @@ namespace TurboLabz.InstantFramework
                     return;
                 }
             }
-            
+
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
             FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
@@ -550,6 +559,58 @@ namespace TurboLabz.InstantFramework
         {
             view.RatingBoostAnimation(ratingBoost);
         }
+
+        #region Tournament
+
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateTournamentView()
+        {
+            view.UpdateTournamentView();
+        }
+
+        public void OnJoinedTournamentClicked(JoinedTournamentData data)
+        {
+            updateTournamentLeaderboardPartialSignal.Dispatch(data.id);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+            getJoinedTournamentLeaderboardSignal.Dispatch(data.id, true);
+        }
+
+        public void OnOpenTournamentClicked(LiveTournamentData data)
+        {
+            if (data.concluded)
+            {
+                loadArenaSignal.Dispatch();
+                updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
+            }
+            else
+            {
+                updateTournamentLeaderboardPartialSignal.Dispatch(data.shortCode);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS);
+                fetchLiveTournamentRewardsSignal.Dispatch(data.shortCode);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadBegin(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(true,true);
+            }
+        }
+
+        [ListensTo(typeof(DownloadableContentEventSignal))]
+        public void OnDLCDownloadCompleted(ContentType? contentType, ContentDownloadStatus status)
+        {
+            if (contentType != null && contentType.Equals(ContentType.Skins)
+                && !status.Equals(ContentDownloadStatus.Started) && view.IsVisible())
+            {
+                view.ShowProcessing(false,false);
+            }
+        }
+
+        #endregion
     }
 }
 

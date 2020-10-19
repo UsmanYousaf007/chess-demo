@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         NOT_ENOUGH_BUCKS = 2,
         PERMISSION_TO_PURCHASE = 3,
         PURCHASE_SUCCESS = 4,
-        PURCHASE_FAILURE = 5
+        PURCHASE_FAILURE = 5,
+        NOT_ENOUGH_GEMS = 6
     }
 }

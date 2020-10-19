@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
             pvo.isOnline = true;
             pvo.isActive = publicProfile.isActive;
             pvo.isPremium = publicProfile.isSubscriber;
+            pvo.leagueBorder = publicProfile.leagueBorder;
 
             if (pvo.playerPic == null)
             {

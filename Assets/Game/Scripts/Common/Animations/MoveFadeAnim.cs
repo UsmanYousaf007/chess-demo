@@ -4,7 +4,9 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System;
 
+[CLSCompliant(false)]
 public class MoveFadeAnim : MonoBehaviour
 {
     public TextMeshProUGUI uiElement;

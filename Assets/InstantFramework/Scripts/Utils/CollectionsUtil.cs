@@ -20,6 +20,7 @@ namespace TurboLabz.TLUtils
     {
         private static Random random = new Random();
         private static Dictionary<string, string> stateToContextMap;
+        private static Dictionary<string, AnalyticsContext> stringToContextMap;
 
         public static void Shuffle<T>(T[] collection)
         {
@@ -44,10 +45,25 @@ namespace TurboLabz.TLUtils
 
             if (!stateToContextMap.ContainsKey(state))
             {
-                return string.Empty;
+                return $"unknown_{state}";
             }
 
             return stateToContextMap[state];
+        }
+
+        public static AnalyticsContext GetContextFromString(string context)
+        {
+            if (stringToContextMap == null)
+            {
+                CreateStringToContextMap();
+            }
+
+            if (!stringToContextMap.ContainsKey(context))
+            {
+                return AnalyticsContext.unknown;
+            }
+
+            return stringToContextMap[context];
         }
 
         private static void CreateStateToContextMap()
@@ -57,6 +73,47 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("LimitReachedDlg", "games_limit");
             stateToContextMap.Add("ThemeSelectionDlg", "themes");
             stateToContextMap.Add("Settings", "settings");
+            stateToContextMap.Add("Shop", "shop");
+            stateToContextMap.Add("CPU", "in_game");
+            stateToContextMap.Add("Inventory", "inventory");
+            stateToContextMap.Add("LessonsView", "lessons");
+            stateToContextMap.Add("Multiplayer", "in_game");
+            stateToContextMap.Add("MultiplayerResultsDlg", "end_card");
+            stateToContextMap.Add("RewardDailySubscription", "daily_subscription_reward");
+            stateToContextMap.Add("RewardDailyLeague", "daily_league_reward");
+            stateToContextMap.Add("RewardTournamentEnd", "tournament_reward");
+            stateToContextMap.Add("TournamentLeaderboard", "tournament_main");
+        }
+
+        private static void CreateStringToContextMap()
+        {
+            stringToContextMap = new Dictionary<string, AnalyticsContext>();
+            stringToContextMap.Add("SpecialItemRatingBooster", AnalyticsContext.ratingBooster);
+            stringToContextMap.Add("SpecialItemHint", AnalyticsContext.hint);
+            stringToContextMap.Add("SpecialItemKey", AnalyticsContext.key);
+            stringToContextMap.Add("SpecialItemGemsBooster", AnalyticsContext.lucky_gem_booster);
+            stringToContextMap.Add("SpecialItemRatingBoosterPoints", AnalyticsContext.rewarded_rating_booster);
+            stringToContextMap.Add("SpecialItemHintPoints", AnalyticsContext.rewarded_hints);
+            stringToContextMap.Add("SpecialItemKeyPoints", AnalyticsContext.rewarded_keys);
+            stringToContextMap.Add("SpecialItemGemBoosterPoints", AnalyticsContext.rewarded_gem_booster);
+            stringToContextMap.Add("gems", AnalyticsContext.gems);
+            stringToContextMap.Add("SpecialItemTicket", AnalyticsContext.ticket);
+            stringToContextMap.Add("SpecialItemTicketPoints", AnalyticsContext.rewarded_tickets);
+            stringToContextMap.Add("SpecialItemRatingBoosterPointsPopup", AnalyticsContext.rewarded_rating_booster_popup);
+            stringToContextMap.Add("SpecialItemHintPointsPopup", AnalyticsContext.rewarded_hints_popup);
+            stringToContextMap.Add("SpecialItemKeyPointsPopup", AnalyticsContext.rewarded_keys_popup);
+            stringToContextMap.Add("SpecialItemTicketPointsPopup", AnalyticsContext.rewarded_tickets_popup);
+            stringToContextMap.Add("SpecialItemRatingBoosterPopup", AnalyticsContext.popup_rating_booster);
+            stringToContextMap.Add("SpecialItemHintPopup", AnalyticsContext.popup_hint);
+            stringToContextMap.Add("SpecialItemKeyPopup", AnalyticsContext.popup_key);
+            stringToContextMap.Add("SpecialItemTicketPopup", AnalyticsContext.popup_ticket);
+            stringToContextMap.Add("LESSONS_VIEW", AnalyticsContext.lessons);
+            stringToContextMap.Add("TOPICS_VIEW", AnalyticsContext.lessons);
+            stringToContextMap.Add("FRIENDS", AnalyticsContext.friends);
+            stringToContextMap.Add("TOURNAMENT_LEADERBOARD_VIEW", AnalyticsContext.tournament_leaderboard);
+            stringToContextMap.Add("ARENA_VIEW", AnalyticsContext.tournament_main);
+            stringToContextMap.Add("SHOP", AnalyticsContext.shop);
+            stringToContextMap.Add("LOBBY", AnalyticsContext.games);
         }
     }
 }

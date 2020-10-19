@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
         public override void Execute()
         {
@@ -90,6 +91,7 @@ namespace TurboLabz.InstantFramework
                 setSkinSignal.Dispatch(playerModel.activeSkinId);
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(true);
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
 
                 //in case if siwa user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())

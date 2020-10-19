@@ -3,6 +3,8 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
+using System.Collections.Generic;
+
 namespace TurboLabz.InstantFramework
 {
     public interface ISettingsModel
@@ -14,6 +16,7 @@ namespace TurboLabz.InstantFramework
 
         int maxCommunityMatches { get; set; }
         bool maintenanceFlag { get; set; }
+        bool appUpdateFlag { get; set; }
         string updateMessage { get; set; }
         string maintenanceMessage { get; set; }
         string minimumClientVersion { get; set; }
@@ -26,5 +29,11 @@ namespace TurboLabz.InstantFramework
         string manageSubscriptionURL { get; set; }
         int maxLongMatchCountPremium { get; set; }
         int maxFriendsCountPremium { get; set; }
+        int hintsAllowedPerGame { get; set; }
+        int dailyNotificationDeadlineHour { get; set; }
+        string defaultSubscriptionKey { get; set; }
+
+        Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
+        int GetInventorySpecialItemsRewardedVideoCost(string key);
     }
 }

@@ -32,6 +32,11 @@ namespace TurboLabz.InstantFramework
             hAnalyticsService.LogAppsFlyerEvent(eventName, eventValues);
         }
 
+        public void TrackMonetizationEvent(string name, int cents)
+        {
+            hAnalyticsService.LogAppsFlyerMonetizationEvent(name, cents);
+        }
+
         private void ProcessLaunchEvents()
         {
             TrackRichEvent(AnalyticsEventId.launch.ToString());

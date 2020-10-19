@@ -6,9 +6,11 @@
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using UnityEngine;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
+    [CLSCompliant(false)]
     public class TopNavMediator : Mediator
     {
         // View injection
@@ -16,27 +18,33 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ThemeAlertDisableSignal themeAlertDisableSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         //Services
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
+        //Models
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-
             view.settingsButtonClickedSignal.AddListener(OnSettingsButtonClicked);
-            view.selectThemeClickedSignal.AddListener(OnSelectThemeClicked);
-            view.rewardBarClicked.AddListener(RewardBarClicked);
             view.supportButtonClicked.AddListener(OnSupportButtonClicked);
+            view.addGemsButtonClickedSignal.AddListener(OnAddGemsButtonClicked);
+            view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
+            view.addCollectilesButtonClickedSignal.AddListener(OnAddCollectiblesButtonClicked);
         }
 
         public override void OnRemove()
         {
             view.settingsButtonClickedSignal.RemoveAllListeners();
-            view.selectThemeClickedSignal.RemoveAllListeners();
-            view.rewardBarClicked.RemoveAllListeners();
+            view.supportButtonClicked.RemoveAllListeners();
+            view.addGemsButtonClickedSignal.RemoveAllListeners();
         }
 
         private void OnSettingsButtonClicked()
@@ -51,61 +59,38 @@ namespace TurboLabz.InstantFramework
             contactSupportSignal.Dispatch();
         }
 
-        [ListensTo(typeof(UpdateRemoveAdsSignal))]
-        public void OnUpdateRemoveAdsDisplay(string freePeriod, bool isRemoved)
+        private void OnAddGemsButtonClicked()
         {
-            view.UpdateRemoveAds(freePeriod, isRemoved);
+            preferencesModel.shopTabVisited = true;
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
-        private void OnSelectThemeClicked()
+        private void OnAddCollectiblesButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_THEME_SELECTION_DLG);
-            themeAlertDisableSignal.Dispatch();
+            preferencesModel.inventoryTabVisited = true;
+            var context = TLUtils.CollectionsUtil.GetContextFromString(navigatorModel.currentViewId.ToString());
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
+            analyticsService.Event(AnalyticsEventId.inventory_source, context);
         }
 
-        [ListensTo(typeof(ThemeAlertDisableSignal))]
-        public void DisableAlert()
+        private void OnInboxButtonClicked()
         {
-            view.rewardUnlockedAlert.SetActive(false);
+            loadInboxSignal.Dispatch();
         }
 
-        [ListensTo(typeof(RewardUnlockedSignal))]
-        public void OnRewardUnlocked(string key, int quantity)
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnGemsUpdated(PlayerInventoryVO inventory)
         {
-            view.OnRewardUnlocked(key, quantity);
+            view.UpdateGemsCount(inventory.gemsCount);
+            view.UpdateCollectiblesCount();
         }
 
-        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-        public void OnSubscrionPurchased(StoreItem item)
+        [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]
+        public void OnMessagesUpdated(long messagesCount)
         {
-            view.ShowRewardBar();
-        }
-
-        [ListensTo(typeof(UpdatePlayerRewardsPointsSignal))]
-        public void OnRewardClaimed(float from, float to)
-        {
-            if (view.isActiveAndEnabled)
-            {
-                view.AnimateRewardBar(from, to);
-            }
-            else
-            {
-                view.SetupRewardBar();
-            }
-        }
-
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable)
-        {
-            if (!isAvailable)
-            {
-                view.SetupRewardBar();
-            }
-        }
-
-        private void RewardBarClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_EARN_REWARDS_DLG);
+            view.UpdateMessagesCount(messagesCount);
         }
     }
 }

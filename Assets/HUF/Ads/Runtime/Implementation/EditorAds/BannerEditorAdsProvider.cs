@@ -1,4 +1,5 @@
 using HUF.Ads.Runtime.API;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,9 +7,9 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class BannerEditorAdsProvider : IBannerAdProvider
     {
+        readonly HLogPrefix logPrefix = new HLogPrefix( nameof(BannerEditorAdsProvider) );
         public string ProviderId => "EditorAds";
         public bool IsInitialized => true;
-        string logPrefix;
 
         public event UnityAction<IBannerCallbackData> OnBannerShown;
         public event UnityAction<IBannerCallbackData> OnBannerFailed;
@@ -17,26 +18,30 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
 
         public bool Init()
         {
-            logPrefix = $"[{GetType().Name}]";
-            Debug.Log($"{logPrefix} Initialized Editor Interstitial ads provider");
+            HLog.Log( logPrefix, $"Initialized Editor Interstitial ads provider" );
             return true;
         }
 
-        public void CollectSensitiveData(bool consentStatus)
+        public void CollectSensitiveData( bool consentStatus )
         {
-            Debug.Log($"{logPrefix} Collect sensitive data: {consentStatus}");
+            HLog.Log( logPrefix, $"Collect sensitive data: {consentStatus}" );
         }
 
-        public bool Show(BannerPosition position = BannerPosition.BottomCenter)
+        public bool Show( BannerPosition position = BannerPosition.BottomCenter )
         {
-            return false;
+            MockEditorBanner.Instance.Show( position );
+            return true;
         }
 
-        public bool Show(string placementId, BannerPosition position = BannerPosition.BottomCenter)
+        public bool Show( string placementId, BannerPosition position = BannerPosition.BottomCenter )
         {
-            return false;
+            MockEditorBanner.Instance.Show( position );
+            return true;
         }
 
-        public void Hide() { }
+        public void Hide()
+        {
+            MockEditorBanner.Instance.Hide();
+        }
     }
 }

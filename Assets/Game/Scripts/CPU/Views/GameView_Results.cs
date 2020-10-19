@@ -46,6 +46,8 @@ namespace TurboLabz.CPU
         public Button resultsBoostRatingButton;
         public Text resultsBoostRatingButtonLabel;
         public Image resultsBoostRatingAdTVImage;
+        public GameObject resultsBoostRatingTooltip;
+        public Text resultsBoostRatingTooltipText;
 
         public Button resultsCollectRewardButton;
         public Text resultsCollectRewardButtonLabel;
@@ -127,9 +129,11 @@ namespace TurboLabz.CPU
             resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
             earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
+            resultsBoostRatingTooltipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
 
             resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
             rewardBarOriginalWidth = rewardBar.sizeDelta.x;
+            SetupRatingBoostButton();
         }
 
         public void CleanupResults()
@@ -199,7 +203,10 @@ namespace TurboLabz.CPU
 
             HideSafeMoveBorder();
             ShowViewBoardResultsPanel(false);
-            showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            if (HCrossPromo.service != null)
+            {
+                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
+            }
             appInfoModel.gameMode = GameMode.NONE;
         }
 
@@ -222,8 +229,8 @@ namespace TurboLabz.CPU
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
-                EnableRewarededVideoButton(false);
-                DoPulse(false);
+                //EnableRewarededVideoButton(false);
+                //DoPulse(false);
                 return;
             }
 
@@ -248,8 +255,8 @@ namespace TurboLabz.CPU
 
         private void UpdateGameEndReasonSection(GameEndReason gameEndReason)
         {
-            EnableRewarededVideoButton(true);
-            bool enablePulse = true;
+            //EnableRewarededVideoButton(true);
+            //bool enablePulse = true;
             viewBoardResultPanel.reason.text = "";
 
             string analyName = AnalyticsEventId.cpu_end_lvl_.ToString() + cpuGameModel.cpuStrength;
@@ -275,8 +282,8 @@ namespace TurboLabz.CPU
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
                         animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
-                        EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
-                        enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
+                        //EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
+                        //enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
                     }
                     else
                     {
@@ -333,7 +340,7 @@ namespace TurboLabz.CPU
                     break;
             }
 
-            DoPulse(enablePulse);
+            //DoPulse(enablePulse);
 
             if (string.IsNullOrEmpty(viewBoardResultPanel.reason.text))
             {
@@ -477,14 +484,15 @@ namespace TurboLabz.CPU
         private void OnResultsBoostRatingButtonClicked()
         {
             audioService.PlayStandardClick();
-            ResultAdsVO vo = new ResultAdsVO();
-            vo.adsType = AdType.RewardedVideo;
-            vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
-            vo.challengeId = "";
-            vo.playerWins = playerWins;
-            playerModel.adContext = AnalyticsContext.rewarded;
-            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            showRewardedAdSignal.Dispatch(vo);
+            resultsBoostRatingTooltip?.SetActive(true);
+            //ResultAdsVO vo = new ResultAdsVO();
+            //vo.adsType = AdType.RewardedVideo;
+            //vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
+            //vo.challengeId = "";
+            //vo.playerWins = playerWins;
+            //playerModel.adContext = AnalyticsContext.rewarded;
+            //analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            //showRewardedAdSignal.Dispatch(vo);
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -522,13 +530,14 @@ namespace TurboLabz.CPU
 
         private void OnCrossPromoButtonClicked()
         {
-            toggleBannerSignal.Dispatch(false);
+            //toggleBannerSignal.Dispatch(false);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
 
             IPromise promise = HCrossPromo.OpenPanel();
-            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+
             if (promise != null)
             {
+                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
                 promise.Then(ToggleBannerSignalFunc);
             }
         }
@@ -536,7 +545,18 @@ namespace TurboLabz.CPU
         private void ToggleBannerSignalFunc()
         {
             appInfoModel.internalAdType = InternalAdType.NONE;
-            toggleBannerSignal.Dispatch(true);
+            //toggleBannerSignal.Dispatch(true);
+        }
+
+        private void SetupRatingBoostButton()
+        {
+            var c = resultsBoostRatingAdTVImage.color;
+            resultsBoostRatingTooltip?.SetActive(false);
+            resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
+            c = resultsBoostRatingAdTVImage.color;
+            c.a = Colors.DISABLED_TEXT_ALPHA;
+            resultsBoostRatingAdTVImage.color = c;
+            resultsBoostRatingButton.GetComponent<Image>().color = c;
         }
     }
 }

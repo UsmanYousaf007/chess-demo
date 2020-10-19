@@ -87,7 +87,8 @@ namespace TurboLabz.InstantFramework
             vo.longPlayStatus = friendBar.longPlayStatus;
             vo.oppOnline = friend.publicProfile.isOnline;
             vo.oppActive = friend.publicProfile.isActive;
-            vo.isOpponentPremium = friend.publicProfile.isSubscriber;
+            //vo.isOpponentPremium = friend.publicProfile.isSubscriber;
+            vo.opponentLeagueBorder = friend.publicProfile.leagueBorder;
 
             updateProfileDialogSignal.Dispatch(vo);
         }

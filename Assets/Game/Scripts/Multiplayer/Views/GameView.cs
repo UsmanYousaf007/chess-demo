@@ -13,9 +13,11 @@ using UnityEngine.UI;
 using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using System.Collections;
+using System;
 
 namespace TurboLabz.Multiplayer
 {
+    [CLSCompliant(false)]
     public partial class GameView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -25,6 +27,7 @@ namespace TurboLabz.Multiplayer
 
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         [Inject] public IPlayerModel playerModel { get; set; }
 
@@ -35,6 +38,7 @@ namespace TurboLabz.Multiplayer
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
         public Text opponentConnectionMonitorLabel;
+        public GameObject logoObject;
 
 		[Header("Match Status")]
 		public GameObject friendlyObject;
@@ -54,6 +58,7 @@ namespace TurboLabz.Multiplayer
 
         public void Show()
         {
+            showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
             OnParentShowResults();
             OnParentShowPromotions();
@@ -69,8 +74,10 @@ namespace TurboLabz.Multiplayer
             OnParentShowHindsight();
             OnParentShowInfo();
             OnParentShowAdBanner();
+            OnParentShowSpecialHint();
             EnableSafeButton();
             ShowViewBoardResultsPanel(false);
+            OnShowLogo();
         }
 
         public void Hide()
@@ -213,6 +220,11 @@ namespace TurboLabz.Multiplayer
             }
 
             opponentConnectionMonitorLabel.gameObject.SetActive(false);
+        }
+
+        private void OnShowLogo()
+        {
+            logoObject.SetActive(playerModel.HasRemoveAds());
         }
     }
 }

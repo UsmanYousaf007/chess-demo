@@ -12,7 +12,6 @@ namespace TurboLabz.InstantFramework
         public Transform loadPromotionAt;
         public Transform moveScrollViewTo;
         public Transform promotionContainer;
-        public float setScorllViewportBottomTo;
         public RectTransform scrollViewport;
         public GameObject coachTrainingDailogue;
         public GameObject strengthTrainingDailogue;
@@ -20,15 +19,25 @@ namespace TurboLabz.InstantFramework
         public Transform movePlayerProfileToPivot;
 
         private GameObject spawnedBanner;
-        private Vector3 scrollViewOrignalPosition;
+        public Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
-        private float scrollViewportOrginalBottom;
         private PromotionVO currentPromotion;
         private IAPBanner iapBanner;
         private Vector3 playerProfileOriginalPosition;
 
+
+        public float scrollViewportOrginalBottom;
+        public float setScrollViewportBottomTo;
+
+        public float scrollViewportOrginalTop;
+        public float setScrollViewportTopTo;
+
         public static bool isCoachTrainingShown;
         public static bool isStrengthTrainingShown;
+
+        public RectTransform shadow;
+
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         public void ShowPromotion(PromotionVO vo)
         {
@@ -38,7 +47,8 @@ namespace TurboLabz.InstantFramework
             {
                 Destroy(spawnedBanner);
             }
-            
+
+
             if (LobbyPromotionKeys.Contains(vo.key))
             {
                 var prefabToInstantiate = Resources.Load(vo.key);
@@ -46,43 +56,15 @@ namespace TurboLabz.InstantFramework
                 if (prefabToInstantiate != null)
                 {
                     spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
-                    scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
-                    scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScorllViewportBottomTo);
+                    //scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
+
+                    scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScrollViewportBottomTo);
+                    scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, -setScrollViewportTopTo);
+
+                    shadow.localPosition = new Vector3(loadPromotionAt.localPosition.x, loadPromotionAt.localPosition.y - 70, loadPromotionAt.localPosition.z);
+
                     scrollRect.verticalNormalizedPosition = 1;
-                    playerProfile.transform.localPosition = movePlayerProfileToPivot.localPosition;
-
-                    iapBanner = spawnedBanner.GetComponent<IAPBanner>();
-                    if (iapBanner != null)
-                    {
-                        storeItem = metaDataModel.store.items[iapBanner.key];
-
-                        if (storeItem != null)
-                        {
-                            //iapBanner.price.text = storeItem.remoteProductPrice == null ?
-                                //localizationService.Get(LocalizationKey.STORE_NOT_AVAILABLE) :
-                                //storeItem.remoteProductPrice;
-                            spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick(storeItem.key));
-
-                            //if (iapBanner.payout != null && storeItem.bundledItems.ContainsKey(GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG))
-                            //{
-                            //    iapBanner.payout.text = metaDataModel.store.items[GSBackendKeys.ShopItem.FEATURE_REMOVEAD_PERM_SHOP_TAG].displayName;
-                            //}
-                        }
-                        else
-                        {
-                            LogUtil.Log(string.Format("Banner Promotion: store item against key '{0}' not found", iapBanner.key), "red");
-                        }
-                    }
-                    else
-                    {
-                        var updateBanner = spawnedBanner.GetComponent<UpdateBanner>();
-                        if (updateBanner != null)
-                        {
-                            updateBanner.updateReleaseMessage.text = settingsModel.updateReleaseBannerMessage;
-                        }
-
-                        spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
-                    }
+                    spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
                 }
                 else
                 {
@@ -91,9 +73,10 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                scrollRect.transform.localPosition = scrollViewOrignalPosition;
+                //scrollRect.transform.localPosition = scrollViewOrignalPosition;
+                shadow.localPosition = loadPromotionAt.localPosition;
                 scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
-                playerProfile.transform.localPosition = playerProfileOriginalPosition;
+                scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalTop);
             }
         }
 
@@ -119,16 +102,14 @@ namespace TurboLabz.InstantFramework
 
         public void RemovePromotion(string key)
         {
-            if (iapBanner != null)
+            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
             {
-                //for closing promotion pass key 'none'
-                ShowPromotion(new PromotionVO
+                if (IsVisible())
                 {
-                    cycleIndex = 0,
-                    key = "none",
-                    condition = null,
-                    onClick = null
-                });
+                    analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
+                }
+
+                loadPromotionSingal.Dispatch();
             }
         }
     }

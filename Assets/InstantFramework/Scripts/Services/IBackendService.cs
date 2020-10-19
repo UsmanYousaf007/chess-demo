@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> MatchWatchdogPingAck(string currentTurnPlayerId, string challengerId, string challengedId, string challengeId, int moveCount);
         IPromise<BackendResult> SyncReconnectData(string challengeId);
         IPromise<BackendResult> SetLastWatchedVideo(string videoId);
-
+        IPromise<BackendResult> VirtualGoodsTransaction(GSRequestData jsonData);
         IPromise<BackendResult> UpdatePlayerData();
 
         IPromise<BackendResult> FriendsOpBlock(string friendId); // block a friend
@@ -72,5 +72,18 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> GetDownloadUrl(string id, Action<object> onSuccessExternal);
         //IPromise<BackendResult, Sprite, string> GetProfilePicture(string url, string playerId);
         IPromise<BackendResult> UploadProfilePic(string filename, byte[] stream, string mimeType);
+
+        IPromise<BackendResult> TournamentsOpJoin(string tournamentShortCode, int score);
+        IPromise<BackendResult> TournamentsOpGetJoinedTournaments();
+        IPromise<BackendResult> TournamentsOpGetLiveTournaments();
+        IPromise<BackendResult> TournamentsOpGetAllTournaments();
+        IPromise<BackendResult> TournamentsOpGetLeaderboard(string tournamentId, bool update = true);
+        IPromise<BackendResult> TournamentsOpGetLiveRewards(string tournamentShortCode);
+        IPromise<BackendResult> TournamentsOpUpdateTournaments(string endedTournamentId = null);
+
+        IPromise<BackendResult> InBoxOpGet();
+        IPromise<BackendResult> InBoxOpCollect(string messageId);
+        IPromise<BackendResult> GetDownloadableContentUrl(string shortCode, Action<object> onSuccessExternal);
+
     }
 }

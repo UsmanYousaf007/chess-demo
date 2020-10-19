@@ -8,7 +8,8 @@ namespace TurboLabz.InstantGame
         public string key;
         public delegate bool Condition();
         public Condition condition;
-        public delegate void OnClick(string key = null);
+        public delegate void OnClick();
         public OnClick onClick;
+        public AnalyticsContext analyticsContext;
     }
 }

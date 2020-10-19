@@ -39,6 +39,30 @@
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_INBOX)
+            {
+                return new NSInboxView();
+            }
+            else if (evt == NavigatorEvent.SHOW_ARENA)
+            {
+                return new NSArenaView();
+            }
+            else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
+            {
+                return new NSSpotInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_INVENTORY)
+            {
+                return new NSInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_SHOP)
+            {
+                return new NSShop();
+            }
 
             return null;
         }

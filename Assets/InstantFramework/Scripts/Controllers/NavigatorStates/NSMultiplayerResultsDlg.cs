@@ -48,6 +48,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
+            {
+                return new NSSpotInventory();
+            }
 
             return null;
         }

@@ -1,6 +1,7 @@
-#if !UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 using System.IO;
 using HUF.Utils.Editor.BuildSupport.AssetsBuilder;
+using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build;
@@ -11,7 +12,7 @@ namespace HUF.Utils.Editor.BuildSupport
     [UsedImplicitly]
     public class Unity2019BuildFixer : IPreprocessBuildWithReport
     {
-        const string ANDROID_PLUGINS_FOLDER = HUFBuildAssetsResolver.PLUGIN_FOLDER + "Android/";
+        const string ANDROID_PLUGINS_FOLDER = HUFBuildAssetsResolver.PLUGIN_FOLDER + "Android";
 
         const string GRADLE_TEMPLATE_FILENAME = "gradleTemplate.properties";
 
@@ -93,9 +94,10 @@ namespace HUF.Utils.Editor.BuildSupport
                                                  "        }\n" +
                                                  "    }\n" +
                                                  "}**SPLITS_VERSION_CODE****LAUNCHER_SOURCE_BUILD_SETUP**\n";
-        
-        
-        
+
+
+
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(Unity2019BuildFixer) );
         
         public int callbackOrder => 0;
 
@@ -111,16 +113,20 @@ namespace HUF.Utils.Editor.BuildSupport
         {
             CreateTemplate(ANDROID_PLUGINS_FOLDER, GRADLE_TEMPLATE_FILENAME, GRADLE_TEMPLATE_CONTENT);
             CreateTemplate(ANDROID_PLUGINS_FOLDER, LAUNCHER_TEMPLATE_FILENAME, LAUNCHER_TEMPLATE_CONTENT);
-            
+
+            HLog.Log( logPrefix, $"Fixing finished." );
             AssetDatabase.Refresh( ImportAssetOptions.ForceUpdate );
         }
 
         static void CreateTemplate(string folder, string filename, string content)
         {
-            var filePath = $"{folder}/{filename}";
+            var filePath = Path.Combine( folder, filename );
 
             if ( File.Exists( filePath ) )
+            {
+                HLog.LogWarning( logPrefix, $"File {filePath} already exists, skipping" );
                 return;
+            }
 
             using ( StreamWriter writer = File.CreateText( filePath ) )
             {
@@ -128,8 +134,6 @@ namespace HUF.Utils.Editor.BuildSupport
                 writer.Close();
             }
         }
-        
-        
     }
 }
 

@@ -90,14 +90,18 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.CPU;
             }
-            else
+            else if (matchInfoModel.activeMatch.isOneMinGame)
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_1M;
+            }
+            else if (matchInfoModel.activeMatch.isTenMinGame)
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_10M;
+            }
+            else // 5m
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
             }
-
-
-            // TODO: In the future, if we add 1 minute games, use the IsOneMinuteGame flag in the vo
-            // to make the bots more aggressive so people can't spam the time control.
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
 
@@ -123,10 +127,25 @@ namespace TurboLabz.Multiplayer
             {
                 delay = AiMoveTimes.M_CPU;
             }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_1M)
+            {
+                const float M1_DELAY_FACTOR = 1.5f;
+
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_1.Length - 1);
+                float[] delayRange = AiMoveTimes.M_1[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+                delay = delay * M1_DELAY_FACTOR;
+            }
             else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_5M)
             {
                 int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_5.Length - 1);
                 float[] delayRange = AiMoveTimes.M_5[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+            }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_10M)
+            {
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_10.Length - 1);
+                float[] delayRange = AiMoveTimes.M_10[index];
                 delay = Random.Range(delayRange[0], delayRange[1]);
             }
 

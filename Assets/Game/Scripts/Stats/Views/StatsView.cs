@@ -17,17 +17,24 @@ using System;
 
 namespace TurboLabz.InstantGame
 {
+    [CLSCompliant(false)]
     public class StatsView : View
     {
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Scene references
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
+        [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
+
+        public Text appVersion;
 
         public Text onlineTitle;
         public Text onlineWinPct;
@@ -67,10 +74,14 @@ namespace TurboLabz.InstantGame
         public Text copiedToClipboardText;
         public Texture2D logo;
 
+        public Button supportButton;
+        public Button settingsButton;
+
         public GameObject uiBlocker;
         public GameObject processingUi;
  
-        public Signal restorePurchasesSignal = new Signal();
+        public Signal settingsButtonClickedSignal = new Signal();
+        public Signal supportButtonClicked = new Signal();
 
         [Header("Name Confirm Dialog")]
         public GameObject nameConfirmDlg;
@@ -96,6 +107,18 @@ namespace TurboLabz.InstantGame
         public Text openSettingsBtnText;
         public Text openSettingsDlgTitleText;
         public Text openSettingsDlgSubheadingText;
+
+        [Header("Links")]
+        public Button restorePurchaseBtn;
+        public Text restorePurchaseText;
+
+        public Button termsOfUseBtn;
+        public Text termsOfUseText;
+
+        public Button privacyPolicyBtn;
+        public Text privacyPolicyText;
+
+        public Signal restorePurchaseButtonClickedSignal = new Signal();
 
         public void Init()
         {
@@ -130,17 +153,56 @@ namespace TurboLabz.InstantGame
             closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
             closeSettingsDlgBtn.onClick.AddListener(closeSettingsDlgBtnClicked);
 
+            supportButton.onClick.AddListener(OnSupportButtonClicked);
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = noStar;
             }
 
             copyTagBtn.onClick.AddListener(OnCopyTagClicked);
+
+            restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+            termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_AND_SERVICES);
+            privacyPolicyText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY);
+
+            restorePurchaseBtn.onClick.AddListener(OnRestorePurchaseButtonClicked);
+            termsOfUseBtn.onClick.AddListener(OnTermsOfUseButtonClicked);
+            privacyPolicyBtn.onClick.AddListener(OnPrivacyPolicyButtonClicked);
+
+            appVersion.text = "v " + Application.version;
+        }
+
+        public void Show()
+        {
+            showBottomNavSignal.Dispatch(false);
+            gameObject.SetActive(true);
+            playerProfileNameInputField.transform.gameObject.SetActive(false);
+            nameConfirmDlg.SetActive(false);
+            nameEditBtn.gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         public void closeSettingsDlgBtnClicked()
         {
             openSettingsDlg.SetActive(false);
+        }
+
+        private void OnSupportButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            supportButtonClicked.Dispatch();
+        }
+
+        private void OnSettingsButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            settingsButtonClickedSignal.Dispatch();
         }
 
         public void UpdateView(StatsVO vo)
@@ -172,19 +234,6 @@ namespace TurboLabz.InstantGame
             playerTag.text = vo.tag;
             country.text = Flags.GetCountry(vo.country);
             playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-            playerProfileNameInputField.transform.gameObject.SetActive(false);
-            nameConfirmDlg.SetActive(false);
-            nameEditBtn.gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            gameObject.SetActive(false);
         }
 
         private void nameEditBtnClicked()
@@ -242,6 +291,11 @@ namespace TurboLabz.InstantGame
             openSettingsDlg.SetActive(false);
         }
 
+        public bool IsVisible()
+        {
+            return gameObject.activeSelf;
+        }
+
         void nameConfirmDlgYesBtnClicked()
         {
             var newName = playerProfileNameInputField.text;
@@ -293,6 +347,26 @@ namespace TurboLabz.InstantGame
         {
             processingUi.SetActive(showProcessingUi);
             uiBlocker.SetActive(show);
+        }
+
+        void OnRestorePurchaseButtonClicked()
+        {
+            restorePurchaseButtonClickedSignal.Dispatch();
+            audioService.PlayStandardClick();
+        }
+
+        void OnTermsOfUseButtonClicked()
+        {
+            hAnalyticsService.LogEvent("terms_clicked", "settings", "", "terms");
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.termsOfUseURL);
+        }
+
+        void OnPrivacyPolicyButtonClicked()
+        {
+            hAnalyticsService.LogEvent("clicked", "settings", "", "privacy_policy");
+            audioService.PlayStandardClick();
+            Application.OpenURL(metaDataModel.appInfo.privacyPolicyURL);
         }
     }
 }

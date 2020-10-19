@@ -5,12 +5,13 @@
 
 using System.Collections.Generic;
 using strange.extensions.promise.api;
+using UnityEngine.Purchasing;
 
 namespace TurboLabz.InstantFramework
 {
     public interface IStoreService
     {
-		IPromise<bool> Init(List<string> currencyProductIds);
+		IPromise<bool> Init(Dictionary<string, ProductType> currencyProductIds);
         IPromise<BackendResult> BuyProduct(string storeProductId);
 		string GetItemLocalizedPrice(string productId);
         string GetItemCurrencyCode(string storeProductId);

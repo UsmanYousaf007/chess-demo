@@ -16,10 +16,18 @@ public class Notification : MonoBehaviour
     public Image senderPic;
     public Sprite whiteAvatar;
     public Sprite defaultAvatar;
-    public GameObject premiumBorder;
+    //public GameObject premiumBorder;
+    public Image leagueBorder;
 
     public Button acceptQuickMatchButton;
     public Text acceptQuickMatchButtonText;
+
+    public Button fullButton;
+    public Image icon;
+    public Image bgOverlay;
+    public GameObject playerObj;
+    public Sprite subsriptionAvatar;
+    public Sprite leagueAvatar;
 
     private void OnEnable()
     {

@@ -90,9 +90,10 @@ namespace TurboLabz.CPU
 
 			cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_RESULTS_DLG);
 			cmd.updateResultsDialogSignal.Dispatch(gameEndReason, playerWins, powerupUsedCount, isRemoveAds);
-
+            cmd.preferencesModel.cpuPowerUpsUsedCount = 0;
             cmd.hintAvailableSignal.Dispatch(false);
             cmd.hindsightAvailableSignal.Dispatch(false);
+            cmd.specialHintAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.toggleStepBackwardSignal.Dispatch(false);
             cmd.toggleStepForwardSignal.Dispatch(false);

@@ -32,7 +32,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public TurboLabz.CPU.ICPUGameModel cPUGameModel { get; set; }
 
-
         // Todo: Move this to the game folder
         [Inject] public IChessboardModel chessboardModel { get; set; }
 
@@ -45,6 +44,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public GetInitDataFailedSignal getInitDataFailedSignal { get; set; }
         [Inject] public GetInitDataCompleteSignal getInitDataCompleteSignal { get; set; }
+        [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
+        [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
+        [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
 
         public override void Execute()
         {
@@ -63,6 +65,10 @@ namespace TurboLabz.InstantFramework
                 model.adsSettings = adsSettingsModel;
                 model.rewardsSettings = rewardsSettingsModel;
                 model.settingsModel = settingsModel;
+
+                updateTournamentsViewSignal.Dispatch();
+                toggleLeaderboardViewNavButtons.Dispatch(true);
+                updateTournamentLeaderboardView.Dispatch();
 
                 if (playerModel.subscriptionExipryTimeStamp == 0)
                 {

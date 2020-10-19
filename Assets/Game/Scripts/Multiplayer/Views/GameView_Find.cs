@@ -36,13 +36,15 @@ namespace TurboLabz.Multiplayer
         public Image playerFindProfilePic;
         public Image playerFindAvatarBg;
         public Image playerFindAvatarIcon;
-        public GameObject playerPremiumBorder;
+        //public GameObject playerPremiumBorder;
+        public Image playerFindLeageBorder;
 
         public GameObject opponentFindProfile;
         public Image opponentFindProfilePic;
         public Image opponentFindAvatarBg;
         public Image opponentFindAvatarIcon;
-        public GameObject opponentPremiumBorder;
+        //public GameObject opponentPremiumBorder;
+        public Image opponentFindLeagueBorder;
 
         public Text timerLabel;
 
@@ -91,7 +93,7 @@ namespace TurboLabz.Multiplayer
             playerId = vo.player.playerId;
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
-            playerPremiumBorder.SetActive(vo.player.isPremium);
+            SetLeagueBorder(playerFindLeageBorder, vo.player.leagueBorder);
 
             if (vo.opponent.playerId != null)
             {
@@ -100,7 +102,7 @@ namespace TurboLabz.Multiplayer
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_WAITING_FOR_OPPONENT);
                 SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.opponent.playerPic, vo.opponent.avatarId, vo.opponent.avatarColorId);
-                opponentPremiumBorder.SetActive(vo.opponent.isPremium);
+                SetLeagueBorder(opponentFindLeagueBorder, vo.opponent.leagueBorder);
             }
             else
             {
@@ -141,6 +143,8 @@ namespace TurboLabz.Multiplayer
             }
 
             OnParentHideAdBanner();
+            ResetCapturedPieces();
+            OnParentShowScore();
         }
 
         public void HideFind()
@@ -201,7 +205,8 @@ namespace TurboLabz.Multiplayer
             opponentId = vo.playerId;
             SetProfileDisplayPic(ref opponentFindAvatarBg, ref opponentFindAvatarIcon, ref opponentFindProfilePic,
                         vo.playerPic, vo.avatarId, vo.avatarColorId);
-            opponentPremiumBorder.SetActive(vo.isPremium);
+            //opponentPremiumBorder.SetActive(vo.isPremium);
+            SetLeagueBorder(opponentFindLeagueBorder, vo.leagueBorder);
             searchingLabel.color = Colors.YELLOW;
             searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
         }
@@ -296,5 +301,11 @@ namespace TurboLabz.Multiplayer
             timerLabel.text = "Timeout in " + TimeUtil.FormatPlayerClock(countDownTimer);
         }
 
+        private void SetLeagueBorder(Image border, Sprite borderSprite)
+        {
+            border.gameObject.SetActive(borderSprite != null);
+            border.sprite = borderSprite;
+            border.SetNativeSize();
+        }
     }
 }

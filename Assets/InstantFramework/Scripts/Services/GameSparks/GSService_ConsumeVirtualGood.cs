@@ -58,10 +58,16 @@ namespace TurboLabz.InstantFramework
 
                 TLUtils.LogUtil.LogNullValidation(shopItemId, "shopItemId");
 
-                if (shopItemId != null && playerModel.inventory.ContainsKey(shopItemId))
+                if (shopItemId != null)
                 {
-                    int count = playerModel.inventory[shopItemId] - quantity;
-                    playerModel.inventory[shopItemId] = count;
+                    if (shopItemId.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                    {
+                        playerModel.gems -= quantity;
+                    }
+                    else if (playerModel.inventory.ContainsKey(shopItemId))
+                    {
+                        playerModel.inventory[shopItemId] -= quantity;
+                    }
                 }
 
             }

@@ -22,13 +22,19 @@ public class SubscriptionDlgView : View
     public GameObject processingUi;
     public VerticalLayoutGroup offerBg;
 
+    public Button privacyPolicyButton;
+    public Text privacyPolicyText;
+
     //Fetching data
     public GameObject thinking;
     public Image[] radioButtons;
 
+    public SubscriptionTierView[] subscriptionTiers;
+
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+    [Inject] public ISettingsModel settingsModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
@@ -48,20 +54,23 @@ public class SubscriptionDlgView : View
         termsOfUseButton.onClick.AddListener(OnTermsOfUseClicked);
         restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
+        privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
     public void Init()
     {
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
-        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
-        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        //restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+        //termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
         var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
+
+        SetupDefaultSubscriptionTier();
 
         // Fill only once
         if (offersContainer.childCount == 0)
@@ -142,6 +151,20 @@ public class SubscriptionDlgView : View
             btn.color = tempColor;
         }
         //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+    }
+
+    private void SetupDefaultSubscriptionTier()
+    {
+        foreach (var t in subscriptionTiers)
+        {
+            t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
+
+            if (t.isSelected)
+            {
+                t.transform.SetAsFirstSibling();
+            }
+        }
+
     }
 }
 

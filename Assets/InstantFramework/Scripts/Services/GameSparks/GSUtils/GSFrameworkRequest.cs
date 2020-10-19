@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
 
         protected IPromise<BackendResult> promise;
         protected Action<object, Action<object>> onSuccess;
+        protected Action<object> onFailure;
         protected BackendResult errorCode;
         private GSFrameworkRequestContext context;
         protected Action<object> onSuccessExternal;
@@ -40,7 +41,6 @@ namespace TurboLabz.InstantFramework
 
         protected void OnRequestSuccess(object response)
         {
-
             if (IsActive() && onSuccess != null)
             {
                 onSuccess(response, onSuccessExternal);
@@ -52,6 +52,11 @@ namespace TurboLabz.InstantFramework
         protected void OnRequestFailure(object response)
         {
             LogUtil.Log("<--OnRequestFailure-->", "red");
+
+            if (IsActive() && onFailure != null)
+            {
+                onFailure(response);
+            }
 
             LogEventResponse logEventResponse = response as LogEventResponse;
             if (logEventResponse != null)
