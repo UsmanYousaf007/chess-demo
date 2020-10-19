@@ -37,6 +37,7 @@ namespace TurboLabz.InstantFramework
         interstitial_in_game_30_min,
         Interstitial_tournament_pre,
         Interstitial_tournament_end_co,
+        Interstitial_in_game_classic,
         Banner,
         Unknown
     }
