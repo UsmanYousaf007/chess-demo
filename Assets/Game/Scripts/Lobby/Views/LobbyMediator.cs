@@ -330,6 +330,7 @@ namespace TurboLabz.InstantFramework
                 vo.isRanked = isRanked;
                 vo.friendId = playerId;
                 vo.actionCode = "ChallengeClassic";
+                vo.placementId = AdPlacements.Interstitial_pregame;
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo, false);
                 return;
@@ -352,6 +353,7 @@ namespace TurboLabz.InstantFramework
                 vo.actionCode = actionCode;
                 vo.friendId = playerId;
                 vo.isRanked = isRanked;
+                vo.placementId = AdPlacements.Interstitial_pregame;
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo, false);
                 return;
@@ -397,6 +399,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.adContext = AnalyticsContext.interstitial_pregame;
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
+                vo.placementId = AdPlacements.Interstitial_pregame;
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo, false);
                 return;
@@ -415,6 +418,7 @@ namespace TurboLabz.InstantFramework
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
                 vo.actionCode = actionCode;
+                vo.placementId = AdPlacements.Interstitial_pregame;
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 showAdSignal.Dispatch(vo, false);
                 return;
@@ -433,6 +437,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.adContext = AnalyticsContext.interstitial_pregame;
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
+                vo.placementId = AdPlacements.Interstitial_pregame;
                 vo.actionCode = FindMatchAction.ActionCode.Random30.ToString();
                 showAdSignal.Dispatch(vo, false);
                 return;

@@ -10,24 +10,27 @@ namespace HUF.Analytics.Runtime.API
 {
     public static class HAnalytics
     {
-        public static readonly HLogPrefix prefix = new HLogPrefix( nameof( HAnalytics ) );
+        public static readonly HLogPrefix prefix = new HLogPrefix( nameof(HAnalytics) );
         const string ANALYTICS_CONSENT_SENSITIVE_DATA = "HUFAnalyticsConsentSensitiveData";
 
         static AnalyticsModel analyticsModel;
         static AnalyticsModel AnalyticsModel => analyticsModel ?? ( analyticsModel = new AnalyticsModel() );
 
         /// <summary>
-        /// Return true if consent key is set to any value.
+        /// Returns true if the consent key is set to any value.
         /// </summary>
+        [PublicAPI]
         public static bool ConsentFlagExist => HPlayerPrefs.HasKey( ANALYTICS_CONSENT_SENSITIVE_DATA );
 
         /// <summary>
-        /// Return true if flag exist and is set to true.
+        /// Returns true if GDPR flag exists and is set to true.
         /// </summary>
-        public static bool IsGDPRAccepted => ConsentFlagExist && HPlayerPrefs.GetBool( ANALYTICS_CONSENT_SENSITIVE_DATA );
+        [PublicAPI]
+        public static bool IsGDPRAccepted =>
+            ConsentFlagExist && HPlayerPrefs.GetBool( ANALYTICS_CONSENT_SENSITIVE_DATA );
 
         /// <summary>
-        /// Occurs when called CollectSensitiveData or SetConsent
+        /// Raised when CollectSensitiveData or SetConsent is called.
         /// </summary>
         [PublicAPI]
         public static event UnityAction<bool> OnCollectSensitiveDataSet
@@ -37,7 +40,7 @@ namespace HUF.Analytics.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when any service complete initialization.
+        /// Raised when any service completes initialization.
         /// </summary>
         [PublicAPI]
         public static event UnityAction<string, bool> OnServiceInitializationComplete
@@ -50,7 +53,7 @@ namespace HUF.Analytics.Runtime.API
         /// Tries to register analytics service for future use. The service is automatically initialized
         /// after registration.
         /// </summary>
-        /// <param name="service">Service to be registered</param>
+        /// <param name="service">Service to be registered.</param>
         /// <returns>If service is registered correctly returns TRUE. Returns FALSE otherwise.</returns>
         [PublicAPI]
         public static bool TryRegisterService( IAnalyticsService service )
@@ -72,15 +75,14 @@ namespace HUF.Analytics.Runtime.API
         /// Tries to register analytics service for future use. The service is automatically initialized
         /// after registration.
         /// </summary>
-        /// <param name="service">Service to be registered</param>
-        /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
+        /// <param name="service">Service to be registered.</param>
+        /// <param name="callback">Callback invoked after initialization is sent regardless of the outcome.</param>
         [PublicAPI]
-        public static void TryRegisterService( IAnalyticsService service, Action callback )
+        public static bool TryRegisterService( IAnalyticsService service, Action callback )
         {
             if ( callback == null )
             {
-                TryRegisterService( service );
-                return;
+                return TryRegisterService( service );
             }
 
             void CheckInitialization( string serviceName, bool status )
@@ -98,19 +100,20 @@ namespace HUF.Analytics.Runtime.API
             OnServiceInitializationComplete += CheckInitialization;
 
             if ( TryRegisterService( service ) )
-                return;
+                return true;
 
             HandleInitializationEnd();
+            return false;
         }
 
         /// <summary>
-        /// Sends event to analytics services <para/>
-        /// If no serviceNames provided - send event to all registered services [DEFAULT] <para/>
-        /// If any serviceNames provided - send event only to these services <para/>
-        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/> <para/>
+        /// Sends the event to the analytics services <para/>
+        /// If no <paramref name="serviceNames"/> are provided - sends event to all registered services [DEFAULT]. <para/>
+        /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
+        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsEvent">Event to be sent </param>
-        /// <param name="serviceNames">Set of target service names</param>
+        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
         public static void LogEvent( AnalyticsEvent analyticsEvent, params string[] serviceNames )
         {
@@ -118,15 +121,15 @@ namespace HUF.Analytics.Runtime.API
         }
 
         /// <summary>
-        /// Sends event to analytics services <para/>
+        /// Sends the event to the analytics services.<para/>
         /// Parameter with key "name" is required in dictionary, should store event name and can't be empty or null. <para />
-        /// Supported types: bool, int, long, double or string <para />
-        /// If no serviceNames provided - send event to all registered services [DEFAULT] <para/>
-        /// If any serviceNames provided - send event only to these services <para/>
-        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/> <para/>
+        /// Supported types: bool, int, long, double or string. <para />
+        /// If no <paramref name="serviceNames"/> are provided - sends event to all registered services [DEFAULT]. <para/>
+        /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
+        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsParameters">Parameters send to analytics service </param>
-        /// <param name="serviceNames">Set of target service names</param>
+        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
         public static void LogEvent( Dictionary<string, object> analyticsParameters, params string[] serviceNames )
         {
@@ -134,40 +137,40 @@ namespace HUF.Analytics.Runtime.API
         }
 
         /// <summary>
-        /// Sends monetization event analytics services <para/>
-        /// If no serviceNames provided - send event to all registered services [DEFAULT] <para/>
-        /// If any serviceNames provided - send event only to these services <para/>
-        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/> <para/>
+        /// Sends the monetization event to the analytics services. <para/>
+        /// If no <paramref name="serviceNames"/> are provided - sends event to all registered services [DEFAULT]. <para/>
+        /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
+        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="monetizationEvent">Event to be sent </param>
-        /// <param name="serviceNames">Set of target service names</param>
+        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
         public static void LogMonetizationEvent( AnalyticsMonetizationEvent monetizationEvent,
-                                                 params string[] serviceNames )
+            params string[] serviceNames )
         {
             AnalyticsModel.LogMonetizationEvent( monetizationEvent, serviceNames );
         }
 
         /// <summary>
-        /// Sends monetization event analytics services <para/>
+        /// Sends the monetization event to the analytics services. <para/>
         /// Parameter with key "name" is required in dictionary, should store event name and can't be empty or null. <para />
-        /// Parameter with key "cents" is required in dictionary and should be int type
         /// Supported types: bool, int, long, double or string <para />
-        /// If no serviceNames provided - send event to all registered services [DEFAULT] <para/>
-        /// If any serviceNames provided - send event only to these services <para/>
-        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/> <para/>
+        /// Parameter with key "cents" is required in dictionary and should be of int type <para />
+        /// If no <paramref name="serviceNames"/> are provided - sends event to all registered services [DEFAULT]. <para/>
+        /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
+        /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsParameters">Parameters send to analytics service </param>
-        /// <param name="serviceNames">Set of target service names</param>
+        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
         public static void LogMonetizationEvent( Dictionary<string, object> analyticsParameters,
-                                                 params string[] serviceNames )
+            params string[] serviceNames )
         {
             AnalyticsModel.LogMonetizationEvent( analyticsParameters, serviceNames );
         }
 
         /// <summary>
-        /// Sets consent for sending sensible user data to analytics services<para/>
+        /// Sets consent for sending sensitive user data to the analytics services<para/>
         /// set consent to all registered services <para/>
         /// </summary>
         /// <param name="consentStatus">Status of consent</param>
@@ -182,19 +185,18 @@ namespace HUF.Analytics.Runtime.API
 
             HPlayerPrefs.SetBool( ANALYTICS_CONSENT_SENSITIVE_DATA, consentStatus );
             AnalyticsModel.CollectSensitiveData( consentStatus );
-
             HLog.Log( prefix, $"CollectSensitiveData({consentStatus}), value changed." );
         }
 
         [PublicAPI]
-        [Obsolete("Use `CollectSensitiveData` instead.")]
+        [Obsolete( "Use `CollectSensitiveData` instead." )]
         public static void SetConsent( bool consentStatus )
         {
             CollectSensitiveData( consentStatus );
         }
 
         /// <summary>
-        /// Returns consent for sending sensible user data to analytics services.
+        /// Returns consent for sending sensitive user data to the analytics services.
         /// <returns>If consent is not set returns null. Returns consent value otherwise.</returns>
         /// </summary>
         [PublicAPI]

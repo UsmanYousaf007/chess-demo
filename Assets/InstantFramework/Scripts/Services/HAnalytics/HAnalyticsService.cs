@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HUF.AdsAdMobMediation.Runtime.Implementation;
+//using HUF.AdsAdMobMediation.Runtime.Implementation;
 using HUF.Analytics.Runtime.API;
 using HUF.AnalyticsAppsFlyer.Runtime.API;
 using TurboLabz.Chess;
@@ -205,24 +205,6 @@ namespace TurboLabz.InstantFramework
             analyticsService.HEvent(name, ST1, ST2);
         }
 
-        public void LogAdImpressionEvent(PaidEventData data)
-        {
-            analyticsEvent = new Dictionary<string, object>();
-            analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, "ad_impression");
-            analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, data.Cents);
-            analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, data.Cents);
-            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST1_KEY, "monetization");
-            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST2_KEY, data.PlacementId);
-            analyticsEvent.Add(AnalyticsEvent.EventConsts.ST3_KEY, data.AdapterId);
-            analyticsEvent.Add("ad_type", data.PlacementType);
-            analyticsEvent.Add("ad_precision", data.Precision);
-            analyticsEvent.Add("ad_currency_id", data.CurrencyCode);
-            analyticsEvent.Add("ad_mediation", data.MediationId);
-            analyticsEvent.Add("ad_amount", data.Cents / 10000d);
-            AddDefaultParameters();
-            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.HBI);
-            analyticsEvent = null;
-        }
 
         private void AddDefaultParameters()
         {
@@ -232,7 +214,7 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add("games_finished", preferencesModel.gameFinishedCount);
             analyticsEvent.Add("online", true);
             analyticsEvent.Add("trial_subscription_used", playerModel.subscriptionExipryTimeStamp > 0);
-            analyticsEvent.Add("axgroup", "");
+            //analyticsEvent.Add("axgroup", "");
             analyticsEvent.Add("sub_days_left", Math.Max((TimeUtil.ToDateTime(playerModel.subscriptionExipryTimeStamp) - DateTime.UtcNow).TotalDays, 0).ToString("0"));
             analyticsEvent.Add("player_level", statsModel.GetHighestDifficultyLevelBeaten());
             analyticsEvent.Add("power", playerModel.eloScore);

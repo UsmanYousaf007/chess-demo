@@ -1,5 +1,21 @@
 ## Internal SDK
-Sign in with Apple Unity plugin - v1.0.3
+Sign in with Apple Github Plugin v1.3.0
+
+## [2.2.1] - 2020-08-13
+### Fixed
+- convertion from bytes[] to string in UserInfo
+
+## [2.2.0] - 2020-08-13
+### Changed
+- replace Unity plugin with OS plugin
+
+### Added
+- support for detecting Transfered state
+- authorization code
+
+## [2.1.0] - 2020-07-02
+### Added
+- Dummy service.
 
 ## [2.0.2] - 2020-05-25
 ### Fixed

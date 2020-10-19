@@ -1,3 +1,4 @@
+using System;
 using HUF.Notifications.Runtime.API;
 using HUF.Notifications.Runtime.Data.Structs;
 
@@ -16,6 +17,12 @@ namespace HUF.NotificationsUnity.Runtime.Wrappers
 #else
             service = new Implementation.Dummy.DummyNotificationsService();
 #endif
+        }
+
+        public event Action<ConsentStatus> OnAskForPermissionComplete
+        {
+            add => service.OnAskForPermissionComplete += value;
+            remove => service.OnAskForPermissionComplete -= value;
         }
 
         public void Dispose()
@@ -46,6 +53,11 @@ namespace HUF.NotificationsUnity.Runtime.Wrappers
         public ConsentStatus GetConsentStatus()
         {
             return service.GetConsentStatus();
+        }
+
+        public void AskForPermission( bool registerForRemoteNotifications )
+        {
+            service.AskForPermission( registerForRemoteNotifications );
         }
     }
 }

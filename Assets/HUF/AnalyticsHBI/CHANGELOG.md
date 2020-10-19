@@ -1,3 +1,33 @@
+## Internal SDK
+HDS SDK Android v1.2.2
+HDS SDK iOS v1.2.2
+
+## [2.2.5] - 2020-09-09
+### Added
+- HDS SDK updated to 1.2.2
+- Reset session id if application is unfocused (minimized) for longer than 5 minutes
+- A different duration may be set using newly added function SetMinutesToResetSessionId
+
+## [2.2.5] - 2020-09-03
+### Changed
+- Initializing the module only once
+
+## [2.2.4] - 2020-08-26
+### Fixed
+- Issue preventing cloud package builder from attaching the documentation
+
+## [2.2.3] - 2020-07-24
+### Added
+- Parameters with invalid values (null, empty string, NaN) will not be logged
+
+## [2.2.2] - 2020-07-13
+### Added
+- Documentation
+
+## [2.2.1] - 2020-07-09
+### Changed
+- HDS SDK iOS updated to 1.2.1
+
 ## [2.2.0] - 2020-06-25
 ### Added
 - Dummy service

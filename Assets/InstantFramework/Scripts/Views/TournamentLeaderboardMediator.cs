@@ -8,11 +8,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
-<<<<<<< HEAD
 using TurboLabz.InstantGame;
-=======
-using System;
->>>>>>> 29a369d484774563085ef4384f36aa92e1c98824
 
 namespace TurboLabz.InstantFramework
 {

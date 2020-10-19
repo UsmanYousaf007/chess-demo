@@ -1,6 +1,10 @@
 using HUF.Auth.Runtime.API;
 using HUF.AuthSIWA.Runtime.Config;
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
 using HUF.AuthSIWA.Runtime.Implementation;
+#else
+using AuthSIWAService = HUF.Auth.Runtime.Implementation.DummyAuthService;
+#endif
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
@@ -10,17 +14,21 @@ namespace HUF.AuthSIWA.Runtime.API
 {
     public static class HAuthSIWA
     {
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( HAuth.logPrefix, nameof(HAuthSIWA) );
         static AuthSIWAService service;
-        static readonly HLogPrefix prefix = new HLogPrefix(nameof(HAuthSIWA));
 
         public static AuthSIWAService Service => service;
-
 
         /// <summary>
         /// Returns if AuthSIWAService is supported on device
         /// </summary>
         [PublicAPI]
-        public static bool IsSupported => AuthSIWAService.IsSupported;
+        public static bool IsSupported =>
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
+            AuthSIWAService.IsSupported;
+#else
+            false;
+#endif
 
         /// <summary>
         /// Returns UserName of currently signed-in user or empty string if user is not signed-in
@@ -30,12 +38,14 @@ namespace HUF.AuthSIWA.Runtime.API
         {
             get
             {
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
                 if (service != null)
                 {
                     return service.DisplayName;
                 }
 
-                HLog.LogWarning(prefix, "Can't get UserName, service is not initialized");
+                HLog.LogWarning(logPrefix, "Can't get UserName, service is not initialized");
+#endif
                 return string.Empty;
             }
         }
@@ -48,16 +58,17 @@ namespace HUF.AuthSIWA.Runtime.API
         {
             get
             {
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
                 if (service != null)
                 {
                     return service.Email;
                 }
-                
-                HLog.LogWarning(prefix, "Can't get Email, service is not initialized");
+                HLog.LogWarning(logPrefix, "Can't get Email, service is not initialized");
+#endif
                 return string.Empty;
             }
         }
-        
+
         /// <summary>
         /// Returns identity token of currently signed-in user or empty string if user is not signed-in
         /// </summary>
@@ -66,12 +77,14 @@ namespace HUF.AuthSIWA.Runtime.API
         {
             get
             {
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
                 if ( service != null )
                 {
                     return service.IdToken;
                 }
-                
-                HLog.LogWarning(prefix, "Can't get IdToken, service is not initialized");
+
+                HLog.LogWarning(logPrefix, "Can't get IdToken, service is not initialized");
+#endif
                 return string.Empty;
             }
         }
@@ -81,37 +94,44 @@ namespace HUF.AuthSIWA.Runtime.API
         {
             get
             {
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
                 if (service != null)
                 {
                     return service.AuthorizationCode;
                 }
 
-                HLog.LogWarning(prefix, "Can't get AuthorizationCode, service is not initialized");
+                HLog.LogWarning(logPrefix, "Can't get AuthorizationCode, service is not initialized");
+#endif
                 return string.Empty;
             }
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {
             bool hasConfig = HConfigs.HasConfig<AuthSIWAConfig>();
-            if (hasConfig && HConfigs.GetConfig<AuthSIWAConfig>().AutoInit)
+
+            if ( hasConfig && HConfigs.GetConfig<AuthSIWAConfig>().AutoInit )
             {
                 Init();
             }
         }
 
         /// <summary>
-        /// Use this method to initialize SignInWithApple auth service
+        /// Initializes SignInWithApple auth service.
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
-            if (!HAuth.IsServiceRegistered(AuthServiceName.SIWA))
-            {
-                service = new AuthSIWAService();
-                HAuth.TryRegisterService(service);
-            }
+            if ( HAuth.IsServiceRegistered( AuthServiceName.SIWA ) )
+                return;
+
+#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
+            service = new AuthSIWAService();
+#else
+            service = new AuthSIWAService( AuthServiceName.SIWA );
+#endif
+            HAuth.TryRegisterService( service );
         }
     }
 }

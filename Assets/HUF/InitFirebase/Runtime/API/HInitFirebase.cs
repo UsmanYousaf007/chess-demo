@@ -1,5 +1,6 @@
 ﻿using System;
 using HUF.InitFirebase.Runtime.Implementation;
+using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine.Events;
 
@@ -64,7 +65,15 @@ namespace HUF.InitFirebase.Runtime.API
             OnInitializationFailure += HandleInitializationEnd;
             OnInitializationSuccess += HandleInitializationEnd;
 
-            Init();
+            try
+            {
+                Init();
+            }
+            catch ( Exception exception )
+            {
+                HLog.LogError( new HLogPrefix( nameof(HInitFirebase) ), exception.ToString() );
+                HandleInitializationEnd();
+            }
         }
     }
 }

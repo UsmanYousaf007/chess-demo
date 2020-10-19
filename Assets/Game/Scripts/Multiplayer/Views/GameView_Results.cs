@@ -794,7 +794,7 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
 
-            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame);
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 
 
@@ -820,7 +820,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnBackToArenaButtonClicked()
         {
-            ShowInterstitialOnBack(AnalyticsContext.interstitial_tournament_endcard_continue);
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_tournament_endcard_continue, AdPlacements.Interstitial_tournament_end_co);
 
             audioService.PlayStandardClick();
             backToArenaSignal.Dispatch();
@@ -921,13 +921,14 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext)
+        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
         {
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
             vo.rewardType = GSBackendKeys.ClaimReward.NONE;
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
+            vo.placementId = placementId;
             playerModel.adContext = analyticsContext;
 
             if (!playerModel.HasSubscription())

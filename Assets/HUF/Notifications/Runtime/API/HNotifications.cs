@@ -7,17 +7,17 @@ namespace HUF.Notifications.Runtime.API
         static HLocalNotifications local;
 
         /// <summary>
-        /// Use to access Local notifications space.
+        /// Provides access to Local notifications.
         /// </summary>
         [PublicAPI]
-        public static HLocalNotifications Local => local ?? (local = new HLocalNotifications());
+        public static HLocalNotifications Local => local ?? ( local = new HLocalNotifications() );
 
         static HPushNotifications push;
 
         /// <summary>
-        /// Use to access Push notifications space.
+        /// Provides access to Push notifications.
         /// </summary>
         [PublicAPI]
-        public static HPushNotifications Push => push ?? (push = new HPushNotifications());
+        public static HPushNotifications Push => push ?? ( push = new HPushNotifications() );
     }
 }

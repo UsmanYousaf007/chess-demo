@@ -11,7 +11,7 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
 {
     public class TextureLocalHandler: BaseActionHandler<Texture2D>
     {
-        public TextureLocalHandler(string filePath, UnityAction<ObjectResultContainer<Texture2D>> completeHandler) 
+        public TextureLocalHandler(string filePath, UnityAction<ObjectResultContainer<Texture2D>> completeHandler)
             : base(filePath, completeHandler)
         {
         }
@@ -21,18 +21,22 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
             var url = new Uri($"file:///{StorageUtils.GetLocalFilePath(FilePath)}");
             CoroutineManager.StartCoroutine(DownloadFromUrl(url, false));
         }
-        
+
         protected IEnumerator DownloadFromUrl(Uri uri, bool shouldSave = true)
         {
             var request = UnityWebRequestTexture.GetTexture(uri);
             yield return request.SendWebRequest();
-            
+
+#if HUF_TIMESERVER
+            TimeServer.Runtime.Implementation.ExternalWebrequestConnector.HandleRequest( request );
+#endif
+
             if (request.isNetworkError || request.isHttpError)
             {
                 SendHandlerFail($"{request.error} \n on uri: {uri} ");
                 yield break;
             }
-            SendHandlerSuccess(DownloadHandlerTexture.GetContent(request), 
+            SendHandlerSuccess(DownloadHandlerTexture.GetContent(request),
                 shouldSave ? request.downloadHandler.data : null);
         }
     }

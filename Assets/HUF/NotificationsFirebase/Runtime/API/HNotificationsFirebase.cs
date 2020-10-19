@@ -13,7 +13,7 @@ namespace HUF.NotificationsFirebase.Runtime.API
         static FirebasePushNotificationsService firebaseNotifications;
 
         /// <summary>
-        /// Raw firebase message receiver
+        /// Raw Firebase message receiver.
         /// </summary>
         [PublicAPI]
         public static event EventHandler<MessageReceivedEventArgs> OnMessageReceived
@@ -23,29 +23,60 @@ namespace HUF.NotificationsFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to initialize Firebase Cloud Messaging (Firebase Notifications).
+        /// Returns whether Firebase Notifications is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized { private set; get; }
+
+        /// <summary>
+        /// Initializes Firebase Cloud Messaging (Firebase Notifications).
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
+            if ( IsInitialized )
+                return;
+
             firebaseNotifications = new FirebasePushNotificationsService();
             HNotifications.Push.RegisterService( firebaseNotifications );
             firebaseNotifications.InitializeNotifications();
+            IsInitialized = true;
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void AutoInit()
+        /// <summary>
+        /// Initializes Firebase Cloud Messaging (Firebase Notifications).
+        /// </summary>
+        /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
+        [PublicAPI]
+        public static void Init( Action callback )
         {
-            if (ShouldAutoInit())
+            Init();
+
+            if ( callback == null )
+                return;
+
+            void HandleInitComplete()
             {
-                Init();
+                firebaseNotifications.OnInitialized -= HandleInitComplete;
+                callback();
+            }
+
+            if ( firebaseNotifications.IsInitialized )
+                callback();
+            else
+            {
+                firebaseNotifications.OnInitialized += HandleInitComplete;
             }
         }
 
-        static bool ShouldAutoInit()
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        static void AutoInit()
         {
-            return HConfigs.HasConfig<FirebaseNotificationsConfig>() &&
-                   HConfigs.GetConfig<FirebaseNotificationsConfig>().AutoInit;
+            if ( HConfigs.HasConfig<FirebaseNotificationsConfig>() &&
+                 HConfigs.GetConfig<FirebaseNotificationsConfig>().AutoInit )
+            {
+                Init();
+            }
         }
     }
 }

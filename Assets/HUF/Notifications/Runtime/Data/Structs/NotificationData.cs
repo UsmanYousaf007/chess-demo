@@ -36,16 +36,16 @@ namespace HUF.Notifications.Runtime.Data.Structs
 
         /// <summary>
         /// Small icon is shown on Android status bar. Monochrome. <para/>
-        /// More info about icons configuration can be found in specific notification documentation. <para/>
-        /// The value is id given to specific icon in NotificationSettings.
+        /// More info about icon configuration can be found in specific notification documentation. <para/>
+        /// The value is an id given to specific icon in NotificationSettings.
         /// Custom icons are available only on Android platform.
         /// </summary>
         [PublicAPI] public string smallIcon = default;
 
         /// <summary>
         /// Large icon is shown on notification view.
-        /// More info about icons configuration can be found in specific notification documentation. <para/>
-        /// The value is id given to specific icon in NotificationSettings.
+        /// More info about icon configuration can be found in specific notification documentation. <para/>
+        /// The value is an id given to specific icon in NotificationSettings.
         /// Custom icons are available only on Android platform.
         /// </summary>
         [PublicAPI] public string largeIcon = default;
@@ -56,12 +56,12 @@ namespace HUF.Notifications.Runtime.Data.Structs
         [PublicAPI] public int delayInSeconds = 0;
 
         /// <summary>
-        /// Intent data in string that will be available thru use of <see cref="HLocalNotifications"/>.
+        /// Intent data in string that will be available through the use of <see cref="HLocalNotifications"/>.
         /// </summary>
         [PublicAPI] public string intentData = default;
 
         /// <summary>
-        /// Time when notification will be fired first time.
+        /// Time when notification will be fired for the first time.
         /// </summary>
         [PublicAPI]
         public DateTime FireTime => DateTime.Now.AddSeconds(delayInSeconds);

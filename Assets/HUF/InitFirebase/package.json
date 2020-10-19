@@ -1,12 +1,12 @@
 {
   "name": "com.huuuge.huf.firebase.wrapper",
   "displayName": "Firebase Wrapper",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "unity": "2018.4",
   "description": "This is base package for all other modules that uses Firebase API.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils@^2.2.0",
+      "com.huuuge.huf.utils@^2.7.5",
       "com.google.external-dependency-manager@^1.2.155",
       "com.huuuge.plugins.firebase@^6.14.1"
     ],
@@ -14,12 +14,12 @@
       "com.huuuge.plugins.externaldependencymanager",
       "com.google.firebase.app"
     ],
-    "date": "22.05.2020 10:07",
-    "commit": "bfc7ff1",
-    "build": "7",
+    "date": "10.08.2020 14:13",
+    "commit": "6187418",
+    "build": "13",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/InitFirebase",
-    "rollout": "13"
+    "rollout": "19"
   }
 }

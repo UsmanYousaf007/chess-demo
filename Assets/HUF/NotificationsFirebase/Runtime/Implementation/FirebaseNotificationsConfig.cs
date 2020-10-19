@@ -10,7 +10,7 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
     {
         public override void RegisterManualInitializers()
         {
-            AddManualInitializer( "Notifications - Firebase", HNotificationsFirebase.Init );
+            AddManualSynchronousInitializer( "Notifications - Firebase", HNotificationsFirebase.Init );
         }
     }
 }

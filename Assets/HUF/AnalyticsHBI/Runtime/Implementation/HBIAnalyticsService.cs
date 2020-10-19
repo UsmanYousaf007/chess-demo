@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using HUF.Analytics.Runtime.API;
 using HUF.Analytics.Runtime.Implementation;
+using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 using HBIAnalytics = huuuge.Analytics;
@@ -10,9 +13,10 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 {
     public class HBIAnalyticsService : IAnalyticsService
     {
-        readonly HLogPrefix prefix = new HLogPrefix( nameof( HBIAnalyticsService ) );
+        static readonly HLogPrefix prefix = new HLogPrefix( "HDS " + nameof(HBIAnalyticsService) );
 
         HBIAnalytics hbi;
+        int minutesToResetSessionId = 5;
 
         public string Name => AnalyticsServiceName.HBI;
         public bool IsInitialized => hbi != null && hbi.IsInitialized();
@@ -32,8 +36,10 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                 return;
             }
 
+            PauseManager.Instance.OnApplicationFocusChange += HandleApplicationFocus;
+
             hbi = new HBIAnalytics( config.ProjectName, config.Sku, Debug.isDebugBuild, config.Amazon ? "amazon" : "" );
-            HLog.LogImportant( prefix, $"HBI UserID: {UserId}" );
+            HLog.LogImportant( prefix, $"UserID: {UserId} | SessionID: {SessionId}" );
             model?.CompleteServiceInitialization( Name, IsInitialized );
         }
 
@@ -42,7 +48,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
         bool HasCorrectSettings( HBIAnalyticsConfig config )
         {
-            var configType = typeof(HBIAnalyticsConfig).Name;
+            string configType = nameof(HBIAnalyticsConfig);
 
             if ( config == null )
             {
@@ -56,13 +62,11 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                 return false;
             }
 
-            if ( config.Sku.Length > HBIAnalyticsConfig.MaxSKULength )
-            {
-                HLog.LogError( prefix, $"SKU is too long - check {configType}" );
-                return false;
-            }
+            if ( config.Sku.Length <= HBIAnalyticsConfig.MaxSKULength )
+                return true;
 
-            return true;
+            HLog.LogError( prefix, $"SKU is too long - check {configType}" );
+            return false;
         }
 
         public void LogEvent( AnalyticsEvent analyticsEvent )
@@ -98,24 +102,98 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
             hbi.AllowSendSensitiveData( consentStatus );
         }
 
+        public void SetMinutesToResetSessionId( int minutes )
+        {
+            minutesToResetSessionId = minutes;
+        }
+
         Dictionary<string, object> GetHBIConvertedParameters( Dictionary<string, object> input )
         {
-            var valueKey = AnalyticsEvent.EventConsts.VALUE_KEY;
+            const string valueKey = AnalyticsEvent.EventConsts.VALUE_KEY;
+            var output = new Dictionary<string, object>( input );
 
             if ( input.ContainsKey( valueKey ) && !IsIntegerLikeType( input[valueKey] ) )
             {
-                HLog.LogError( prefix, $" Value parameter could be only int/long/uint type." );
-                var output = new Dictionary<string, object>( input );
+                HLog.LogError( prefix, "Value parameter could be only int/long/uint type." );
                 output.Remove( valueKey );
-                return output;
             }
 
-            return input;
+            foreach ( var dic in input )
+            {
+                switch ( dic.Value )
+                {
+                    case null:
+                        HLog.LogError( prefix, $"Parameter {dic.Key} contains a null value, removing..." );
+                        output.Remove( dic.Key );
+                        break;
+                    case bool _:
+                    case int _:
+                    case long _:
+                        continue;
+                    case double d:
+                        if ( double.IsNaN( d ) )
+                        {
+                            HLog.LogError( prefix,
+                                $"Parameter {dic.Key} of double type contains a NaN value, removing..." );
+                            output.Remove( dic.Key );
+                        }
+
+                        break;
+                    case string s:
+                        if ( string.IsNullOrEmpty( s ) )
+                        {
+                            HLog.LogError( prefix,
+                                $"Parameter {dic.Key} of string type contains a null or empty value, removing..." );
+                            output.Remove( dic.Key );
+                        }
+
+                        break;
+                    case float f:
+                        if ( float.IsNaN( f ) )
+                        {
+                            HLog.LogError( prefix,
+                                $"Parameter {dic.Key} of double type contains a NaN value, removing..." );
+                            output.Remove( dic.Key );
+                            break;
+                        }
+
+                        HLog.LogWarning( prefix, $"Parameter {dic.Key} is of float type, converting to double..." );
+                        output[dic.Key] = Convert.ToDouble( dic.Value );
+                        break;
+                    case uint _:
+                        HLog.LogWarning( prefix, $"Parameter {dic.Key} is of uint type, converting to long..." );
+                        output[dic.Key] = Convert.ToInt64( dic.Value );
+                        break;
+                    default:
+                    {
+                        HLog.LogWarning( prefix,
+                            $"Parameter {dic.Key} is of unsupported type, converting to string..." );
+                        var toString = dic.Value.ToString();
+
+                        if ( toString.IsNullOrEmpty() )
+                            output.Remove( dic.Key );
+                        else
+                            output[dic.Key] = toString;
+                        break;
+                    }
+                }
+            }
+
+            return output;
         }
 
-        bool IsIntegerLikeType(object value)
+        bool IsIntegerLikeType( object value )
         {
             return value is int || value is long || value is uint;
+        }
+
+        void HandleApplicationFocus( bool pauseStatus )
+        {
+            if (pauseStatus && minutesToResetSessionId != 0)
+            {
+                hbi.ResetSession( minutesToResetSessionId );
+                HLog.LogImportant(prefix, $"Focus restored, SessionID: {SessionId}");
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
         public string ProviderId => "EditorAds";
         public bool IsInitialized => true;
 
-        public event UnityAction<IBannerCallbackData> OnBannerShown;
+        public event UnityAction<IBannerCallbackData, bool> OnBannerShown;
         public event UnityAction<IBannerCallbackData> OnBannerFailed;
         public event UnityAction<IBannerCallbackData> OnBannerClicked;
         public event UnityAction<IBannerCallbackData> OnBannerHidden;

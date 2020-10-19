@@ -1,3 +1,11 @@
+## [2.1.2] - 2020-09-07
+### Changed
+- Code refactoring
+
+## [2.1.1] - 2020-08-24
+### Added
+- Documentation
+
 ## [2.1.0] - 2020-06-26
 ### Added
 - Dummy service

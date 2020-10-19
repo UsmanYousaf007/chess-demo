@@ -4,7 +4,7 @@ namespace HUF.Ads.Runtime.API
 {
     public interface IBannerAdProvider : IAdProvider
     {
-        event UnityAction<IBannerCallbackData> OnBannerShown;
+        event UnityAction<IBannerCallbackData, bool> OnBannerShown;
         event UnityAction<IBannerCallbackData> OnBannerFailed;
         event UnityAction<IBannerCallbackData> OnBannerClicked;
         event UnityAction<IBannerCallbackData> OnBannerHidden;

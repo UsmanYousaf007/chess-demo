@@ -18,24 +18,24 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            if (adsService.IsRewardedVideoAvailable())
-            {
-                showAdSignal.Dispatch(resultAdsVO, true);
-            }
-            else if (adsService.IsInterstitialAvailable())
-            {
-                var vo = resultAdsVO;
-                vo.adsType = AdType.Interstitial;
-                vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
-                showAdSignal.Dispatch(vo, true);
-            }
-            else
-            {
-                var vo = resultAdsVO;
-                vo.adsType = AdType.Promotion;
-                vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
-                showAdSignal.Dispatch(vo, true);
-            }
+            //if (adsService.IsRewardedVideoAvailable(resultAdsVO.placementId))
+            //{
+            //    showAdSignal.Dispatch(resultAdsVO);
+            //}
+            //else if (adsService.IsInterstitialAvailable())
+            //{
+            //    var vo = resultAdsVO;
+            //    vo.adsType = AdType.Interstitial;
+            //    vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
+            //    showAdSignal.Dispatch(vo);
+            //}
+            //else
+            //{
+            //    var vo = resultAdsVO;
+            //    vo.adsType = AdType.Promotion;
+            //    vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
+            //    showAdSignal.Dispatch(vo);
+            //}
         }
     }
 }

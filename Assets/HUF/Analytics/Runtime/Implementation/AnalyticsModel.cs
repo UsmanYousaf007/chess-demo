@@ -7,12 +7,11 @@ namespace HUF.Analytics.Runtime.Implementation
 {
     public class AnalyticsModel
     {
-        const int CACHE_CAPACITY = 50;
-        
-        readonly HLogPrefix prefix = new HLogPrefix( nameof( AnalyticsModel ) );
+        readonly HLogPrefix prefix = new HLogPrefix( nameof(AnalyticsModel) );
         readonly Dictionary<string, IAnalyticsService> services = new Dictionary<string, IAnalyticsService>();
-        readonly Dictionary<string, List<AnalyticsEvent>> cache = new Dictionary<string, List<AnalyticsEvent>>( CACHE_CAPACITY );
-        
+        readonly Dictionary<string, CacheService> cache = new Dictionary<string, CacheService>();
+        int cacheSend = 0;
+
         public event UnityAction<bool> OnCollectSensitiveDataCallback;
         public event UnityAction<string, bool> OnServiceInitializationComplete;
 
@@ -20,26 +19,25 @@ namespace HUF.Analytics.Runtime.Implementation
         {
             return services.ContainsKey( service.Name );
         }
-        
+
         public bool TryRegisterService( IAnalyticsService service )
         {
             if ( IsAlreadyRegistered( service ) )
             {
                 HLog.LogWarning( prefix, $"Service {service.Name} is already registered." );
+
                 if ( !service.IsInitialized )
                 {
                     HLog.LogWarning( prefix, $"Service {service.Name} is not initialized." );
                 }
+
                 return false;
             }
 
             services.Add( service.Name, service );
-            cache.Add( service.Name, new List<AnalyticsEvent>() );
-            
-            if ( HAnalytics.IsGDPRAccepted )
-            {
-                service.Init( this );
-            }
+            cache.Add( service.Name, new CacheService( service.Name ) );
+
+            service.Init( this );
 
             return true;
         }
@@ -54,23 +52,30 @@ namespace HUF.Analytics.Runtime.Implementation
             }
 
             services.TryGetValue( serviceName, out var service );
-            
+
             if ( service == null )
             {
                 HLog.LogWarning( prefix, $"Unable to find {serviceName} service." );
                 OnServiceInitializationComplete?.Invoke( serviceName, false );
                 return;
             }
-            
-            CollectSensitiveData( HAnalytics.IsGDPRAccepted, service );
-            LogEventsFromCache( service );
+
+            if ( HAnalytics.IsGDPRAccepted )
+            {
+                CollectSensitiveData( HAnalytics.IsGDPRAccepted, service );
+            }
+
             OnServiceInitializationComplete?.Invoke( serviceName, true );
             HLog.Log( prefix, $"Service {serviceName} initialization completed." );
         }
-        
+
         public void LogEvent( Dictionary<string, object> analyticsParameters, params string[] serviceNames )
         {
+            if ( HAnalytics.GetGDPRConsent() == false)
+                return;
+
             var analyticsEvent = AnalyticsEvent.Create( analyticsParameters );
+
             if ( analyticsEvent != null )
             {
                 LogEvent( analyticsEvent, serviceNames );
@@ -79,44 +84,49 @@ namespace HUF.Analytics.Runtime.Implementation
 
         public void LogEvent( AnalyticsEvent analyticsEvent, params string[] serviceNames )
         {
+            if ( HAnalytics.GetGDPRConsent() == false)
+                return;
+
             if ( serviceNames.Length > 0 )
             {
                 foreach ( var serviceName in serviceNames )
                 {
-                    if ( services.TryGetValue( serviceName, out var service ) && !LogEvent( analyticsEvent, service ) )
+                    if ( services.TryGetValue( serviceName, out var service ) )
                     {
-                        HLog.Log( prefix, $"Event {analyticsEvent.EventName} cached for {serviceName}." );
-                        cache[serviceName].Add( analyticsEvent );
+                        LogEvent( analyticsEvent, service );
                     }
                 }
             }
-            else if( services.Count > 0 )
+            else if ( services.Count > 0 )
             {
                 foreach ( var service in services.Values )
                 {
-                    if ( !LogEvent( analyticsEvent, service ) )
-                    {
-                        HLog.Log( prefix, $"Event {analyticsEvent.EventName} cached for {service.Name}." );
-                        cache[service.Name].Add( analyticsEvent );
-                    }
+                    LogEvent( analyticsEvent, service );
                 }
             }
         }
-        
-        bool LogEvent( AnalyticsEvent analyticsEvent, IAnalyticsService service )
+
+        void LogEvent( AnalyticsEvent analyticsEvent, IAnalyticsService service )
         {
-            if ( service == null || !service.IsInitialized )
+            if ( service == null)
+                return;
+
+            if (!service.IsInitialized || HAnalytics.GetGDPRConsent() == null)
             {
-                return false;
+                HLog.Log( prefix, $"Event {analyticsEvent.EventName} cached for {service.Name}." );
+                cache[service.Name].AddEvent( analyticsEvent );
+                return;
             }
 
             HLog.Log( prefix, $"Log event: {analyticsEvent} to service: {service.Name}." );
             service.LogEvent( analyticsEvent );
-            return true;
         }
-        
-        public void LogMonetizationEvent(Dictionary<string, object> analyticsParameters, params string[] serviceNames)
+
+        public void LogMonetizationEvent( Dictionary<string, object> analyticsParameters, params string[] serviceNames )
         {
+            if ( HAnalytics.GetGDPRConsent() == false)
+                return;
+
             if ( !analyticsParameters.ContainsKey( AnalyticsMonetizationEvent.CENTS_KEY ) )
             {
                 HLog.LogWarning( prefix, $"Missing {AnalyticsMonetizationEvent.CENTS_KEY} parameter." );
@@ -130,93 +140,81 @@ namespace HUF.Analytics.Runtime.Implementation
             }
 
             var analyticsEvent = AnalyticsMonetizationEvent.Create( analyticsParameters, cents );
+
             if ( analyticsEvent != null )
             {
                 LogMonetizationEvent( analyticsEvent, serviceNames );
             }
         }
 
-        public void LogMonetizationEvent(AnalyticsMonetizationEvent monetizationEvent, params string[] serviceNames)
+        public void LogMonetizationEvent( AnalyticsMonetizationEvent monetizationEvent, params string[] serviceNames )
         {
+            if ( HAnalytics.GetGDPRConsent() == false)
+                return;
+
             if ( serviceNames.Length > 0 )
             {
                 foreach ( var serviceName in serviceNames )
                 {
-                    if ( services.TryGetValue( serviceName, out var service ) &&
-                         !LogMonetizationEvent( monetizationEvent, service ) )
+                    if ( services.TryGetValue( serviceName, out var service ) )
                     {
-                        HLog.Log( prefix, $"Event {monetizationEvent.EventName} cached for {service.Name}." );
-                        cache[service.Name].Add( monetizationEvent );
+                        LogMonetizationEvent( monetizationEvent, service );
                     }
                 }
             }
-            else if( services.Count > 0 )
+            else if ( services.Count > 0 )
             {
                 foreach ( var service in services.Values )
                 {
-                    if ( !LogMonetizationEvent( monetizationEvent, service ) )
-                    {
-                        HLog.Log( prefix, $"Event {monetizationEvent.EventName} cached for {service.Name}." );
-                        cache[service.Name].Add( monetizationEvent );
-                    }
+                    LogMonetizationEvent( monetizationEvent, service );
                 }
             }
         }
 
-        bool LogMonetizationEvent(AnalyticsMonetizationEvent monetizationEvent, IAnalyticsService service )
+        void LogMonetizationEvent( AnalyticsMonetizationEvent monetizationEvent, IAnalyticsService service )
         {
-            if ( service == null || !service.IsInitialized )
+            if ( service == null)
+                return;
+
+            if (!service.IsInitialized || HAnalytics.GetGDPRConsent() == null)
             {
-                return false;
+                HLog.Log( prefix, $"Event {monetizationEvent.EventName} cached for {service.Name}." );
+                cache[service.Name].AddEvent( monetizationEvent );
+                return;
             }
 
             HLog.Log( prefix, $"Log monetization event: {monetizationEvent}." );
             service.LogMonetizationEvent( monetizationEvent );
-            return true;
-        }
-        
-        void LogEventsFromCache( IAnalyticsService service )
-        {
-            if ( cache[service.Name].Count > 0 )
-            {
-                foreach ( var ev in cache[service.Name] )
-                {
-                    if ( ev is AnalyticsMonetizationEvent monetizationEvent )
-                    {
-                        LogMonetizationEvent( monetizationEvent, service );
-                    }
-                    else
-                    {
-                        LogEvent( ev, service );
-                    }
-                }
-            }
         }
 
         public void CollectSensitiveData( bool consentStatus )
         {
             HLog.Log( prefix, $"Set consent for all services to {consentStatus}." );
+
             foreach ( var service in services.Values )
             {
                 CollectSensitiveData( consentStatus, service );
             }
+
             OnCollectSensitiveDataCallback?.Invoke( consentStatus );
         }
 
         void CollectSensitiveData( bool consentStatus, IAnalyticsService service )
         {
-            if ( service != null )
+            if ( service == null || !service.IsInitialized )
+                return;
+
+            service.CollectSensitiveData( consentStatus );
+
+            if ( consentStatus )
             {
-                if ( service.IsInitialized )
-                {
-                    service.CollectSensitiveData( consentStatus );
-                }
-                else
-                {
-                    HLog.Log( prefix, $"Initializing service {service.Name}..." );
-                    service.Init( this );
-                }
+                SendCachedEvents( service );
             }
+        }
+
+        void SendCachedEvents( IAnalyticsService service)
+        {
+            cache[service.Name].SendEvents( cacheSend++ * ( 1f / (cache.Count + 1)));
         }
     }
 }

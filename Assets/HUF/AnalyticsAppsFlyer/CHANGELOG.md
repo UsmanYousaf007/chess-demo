@@ -1,10 +1,30 @@
 ## Internal SDK
-AppsFlyer Unity Plugin - v4.23.0
+AppsFlyer Unity Plugin - v5.4.2
+
+## [2.4.0] - 2020-09-16
+### Added
+- AppsFlyer Amazon integration
+
+
+## [2.3.2] - 2020-09-01
+### Changed
+- Initializing the module only once
+
+
+## [2.3.1] - 2020-08-26
+### Fixed
+- Issue preventing cloud package builder from attaching the documentation
+
+
+## [2.3.0] - 2020-07-16
+### Update
+- Update to v5.4.2
 
 
 ## [2.2.0] - 2020-06-16
 ### Added
 - Dummy service
+
 
 ## [2.1.0] - 2020-05-15
 ### Update

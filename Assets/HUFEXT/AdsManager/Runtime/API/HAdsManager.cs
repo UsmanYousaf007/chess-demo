@@ -40,21 +40,17 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Automatically initializes HUF Ads manager.
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
-        static void AutoInit()
-        {
-            if ( Config != null && Config.AutoInit )
-                Init();
-        }
-
-        /// <summary>
         /// Initializes HUF Ads manager.
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
+            if ( IsInitialized() )
+            {
+                HLog.Log( logPrefix, $"HUF Ads manager is already initialized" );
+                return;
+            }
+
             if ( Config != null )
             {
                 adsService = new HUFAdsService( new BaseAdMediation(), false );
@@ -66,14 +62,8 @@ namespace HUFEXT.AdsManager.Runtime.API
                 HLog.LogError( logPrefix, $"AdsManagerConfig does not exist" );
         }
 
-        static void HandleAdFetch( AdsManagerFetchCallbackData adData )
-        {
-            if ( adsService != null )
-                OnAdFetch.Dispatch( adData );
-        }
-
         /// <summary>
-        /// Use to check if Ads Manager is initialized.
+        /// Checks if the ads manager is initialized.
         /// </summary>
         /// <returns>Status of initialization</returns>
         [PublicAPI]
@@ -83,14 +73,14 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use this to check if an ad is loaded and ready to show. (Banners are always ready to show).
+        /// Checks if an ad is loaded and ready to show. (Banners are always ready to show).
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
         /// <returns>Ad status if it is ready to show</returns>
         [PublicAPI]
         public static bool CanShowAd( string placementId )
         {
-            if ( adsService != null && !placementId.IsNullOrEmpty())
+            if ( adsService != null && !placementId.IsNullOrEmpty() )
             {
                 foreach ( var mediation in mediationsList )
                 {
@@ -105,14 +95,14 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Call to show ad, if ad is not ready it will response on callback with false.
+        /// Shows an ad. If the ad is not ready, resultCallback will be dispatched.
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Shown ads status</param>
         [PublicAPI]
         public static void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
-            if ( adsService == null  || placementId.IsNullOrEmpty())
+            if ( adsService == null || placementId.IsNullOrEmpty() )
             {
                 resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
                 return;
@@ -131,10 +121,10 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to set default banner position. It applies to all new banners and doesn't destroy/move old ones.
+        /// Sets default banner position. It applies to all new banners and does not destroy/move old ones.
         /// </summary>
         /// <param name="position">new position</param>
-        /// <returns>if ads manager is not initialized it will return false</returns>
+        /// <returns>if the ads manager is not initialized, it will return false</returns>
         [PublicAPI]
         public static bool SetNewBannerPosition( BannerPosition position )
         {
@@ -154,9 +144,10 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to hide banner ad.
+        /// Hides the banner ad.
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
+        [PublicAPI]
         public static void HideBanner( string placementId )
         {
             if ( adsService == null )
@@ -175,7 +166,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to hide banner ad
+        /// Hides the banner ad.
         /// </summary>
         [PublicAPI]
         public static void HideBanner()
@@ -184,11 +175,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to show first banner ad from config on specific position - will apply to all
+        /// Shows first banner ad from config on specified position - will apply to all
         /// new banners like SetNewBannerPosition.
         /// </summary>
-        /// <param name="resultCallback">Did banner show correctly</param>
+        /// <param name="resultCallback">Did the banner show correctly</param>
         /// <param name="position">New position</param>
+        [PublicAPI]
         public static void ShowBanner( UnityAction<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
@@ -203,10 +195,10 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to show banner ad on specific position  - will apply to all new banners like SetNewBannerPosition.
+        /// Shows a banner ad on specified position  - will apply to all new banners like SetNewBannerPosition.
         /// </summary>
-        /// /// <param name="placementId">Ad placement id</param>
-        /// <param name="resultCallback">Did banner show correctly</param>
+        /// /// <param name="placementId">Ad placement ID</param>
+        /// <param name="resultCallback">Did the banner show correctly</param>
         /// <param name="position">New position</param>
         [PublicAPI]
         public static void ShowBanner(
@@ -219,10 +211,10 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to show banner ad on specific position  - will apply to all new banners like SetNewBannerPosition.
+        /// Shows a banner ad on specified position  - will apply to all new banners like SetNewBannerPosition.
         /// </summary>
-        /// /// <param name="placementId">Ad placement id</param>
-        /// <param name="resultCallback">Did banner show correct</param>
+        /// /// <param name="placementId">Ad placement ID</param>
+        /// <param name="resultCallback">Did the banner show correctly</param>
         [PublicAPI]
         public static void ShowBanner( string placementId, UnityAction<AdManagerCallback> resultCallback )
         {
@@ -230,12 +222,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Use to force ads manager to try showing banner constantly (if show fails then ads manager
-        /// will continue to fetch and banner ads) until HideBanner function is called.
+        /// Forces the ads manager to try to keep showing a banner constantly (if show fails, then the ads manager
+        /// will continue trying to fetch and show banner ads) until HideBanner function is called.
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
         /// <param name="position">New position</param>
-        /// <returns>if ads manager is not initialized it will return false</returns>
+        /// <returns>if the ads manager is not initialized, it will return false</returns>
         [PublicAPI]
         public static bool ShowBannerPersistent( string placementId,
             BannerPosition position = BannerPosition.BottomCenter )
@@ -250,9 +242,9 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Call to show interstitial.
+        /// Shows an interstitial ad.
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
         public static void ShowInterstitial( string placementId, UnityAction<AdManagerCallback> resultCallback )
@@ -261,7 +253,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Call to show default interstitial ad from config.
+        /// Shows default interstitial ad from config.
         /// </summary>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
@@ -277,9 +269,9 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Call to show rewarded.
+        /// Shows a rewarded ad.
         /// </summary>
-        /// <param name="placementId">Ad placement id</param>
+        /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
         public static void ShowRewarded( string placementId, UnityAction<AdManagerCallback> resultCallback )
@@ -288,9 +280,10 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Call to show default rewarded ad from config.
+        /// Shows default rewarded ad from config.
         /// </summary>
         /// <param name="resultCallback">Show status</param>
+        [PublicAPI]
         public static void ShowRewarded( UnityAction<AdManagerCallback> resultCallback )
         {
             if ( adsService == null )
@@ -303,20 +296,38 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Used by HUF to add additional alternative mediation
+        /// Registers additional alternative mediation.
         /// </summary>
         /// <param name="mediation">alternative mediation to check for ads</param>
+        [PublicAPI]
         public static void RegisterAlternativeMediation( HUFAdsService mediation )
         {
             if ( alternativeMediations.Contains( mediation ) )
             {
-                HLog.LogWarning( logPrefix, $"Don't add same mediation multiple times! {nameof(mediation)}" );
+                HLog.LogWarning( logPrefix, $"Do not add same mediation multiple times! {nameof(mediation)}" );
                 return;
             }
+
             alternativeMediations.Add( mediation );
             mediationsList.Add( mediation );
             mediation.SetBannerPosition( lastBannerPosition );
             mediation.OnAdFetch += HandleAdFetch;
+        }
+
+        /// <summary>
+        /// Automatically initializes HUF Ads Manager.
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        static void AutoInit()
+        {
+            if ( Config != null && Config.AutoInit )
+                Init();
+        }
+
+        static void HandleAdFetch( AdsManagerFetchCallbackData adData )
+        {
+            if ( adsService != null )
+                OnAdFetch.Dispatch( adData );
         }
     }
 }

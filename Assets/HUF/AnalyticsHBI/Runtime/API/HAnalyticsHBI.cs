@@ -17,33 +17,46 @@ namespace HUF.AnalyticsHBI.Runtime.API
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAnalyticsHBI) );
         static HBIAnalyticsService service;
 
-        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
-        static void AutoInit()
+        /// <summary>
+        /// Returns whether HAnalyticsHBI is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized { private set; get; } = false;
+
+        /// <summary>
+        /// Gets Session ID from HDS service.
+        /// </summary>
+        [PublicAPI]
+        public static string SessionId
         {
-#if !HUF_ANALYTICS_HBI_DUMMY
-            if ( HConfigs.HasConfig<HBIAnalyticsConfig>() && HConfigs.GetConfig<HBIAnalyticsConfig>().AutoInit )
-#endif
+            get
             {
-                Init();
+                if ( CheckInitialization() )
+                    return service.SessionId;
+
+                return string.Empty;
             }
         }
 
         /// <summary>
-        /// Use this method to initialize HDS analytics service
+        /// Initializes the HDS analytics service.
         /// </summary>
         [PublicAPI]
         public static void Init()
         {
+            if ( IsInitialized )
+                return;
+
 #if !HUF_ANALYTICS_HBI_DUMMY
             service = new HBIAnalyticsService();
 #else
             service = new HBIAnalyticsService( AnalyticsServiceName.HBI );
 #endif
-            HAnalytics.TryRegisterService( service );
+            IsInitialized = HAnalytics.TryRegisterService( service );
         }
 
         /// <summary>
-        /// Get User ID from HDS service
+        /// Gets User ID from HDS service.
         /// </summary>
         [PublicAPI]
         public static string UserId
@@ -57,18 +70,14 @@ namespace HUF.AnalyticsHBI.Runtime.API
             }
         }
 
-        /// <summary>
-        /// Get Session ID from HDS service
-        /// </summary>
-        [PublicAPI]
-        public static string SessionId
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
+        static void AutoInit()
         {
-            get
+#if !HUF_ANALYTICS_HBI_DUMMY
+            if ( HConfigs.HasConfig<HBIAnalyticsConfig>() && HConfigs.GetConfig<HBIAnalyticsConfig>().AutoInit )
+#endif
             {
-                if ( CheckInitialization() )
-                    return service.SessionId;
-
-                return string.Empty;
+                Init();
             }
         }
 

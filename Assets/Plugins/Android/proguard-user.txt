@@ -38,38 +38,23 @@
 -keepnames class com.twitter.sdk.android.core.identity.TwitterAuthClient
 #end of Assets/Firebase/Plugins/Android/proguardTemplate.txt
 
-#start of Assets/HUF/AdsAdMobMediation/Plugins/Android/proguardTemplate.txt
-#mediationtestsuite
--dontwarn com.google.android.ads.mediationtestsuite.**
--keep class com.google.android.ads.mediationtestsuite.** { *; }
--keep class com.google.ads.mediation.** { *; }
--keep class com.google.ads.mediation.sample.sdk.SampleErrorCode.** { *; }
--dontwarn com.google.android.ads.mediationtestsuite.**
-
-#admob
--keep class com.google.unity.** { *; }
--keep public class com.google.android.gms.ads.** { public *; }
--keep class com.google.android.gms.** { *; }
--keep public class com.google.ads.**{ public *; }
--keepattributes *Annotation*
-
-#vungle
--keep class com.vungle.** { *; }
+#start of Assets/HUF/AdsIronSourceMediation/Plugins/Android/proguardTemplate.txt
+# Vungle
+-keep class com.vungle.warren.** { *; }
 -dontwarn com.vungle.warren.error.VungleError$ErrorCode
--keep class com.vungle.publisher.AdConfig.** { *; }
 
-#vungle -> moatSDK
+# Moat SDK
 -keep class com.moat.** { *; }
 -dontwarn com.moat.**
 
-#vungle -> okio
+# Okio
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
-#vungle -> retrofit
+# Retrofit
 -dontwarn okio.**
 -dontwarn retrofit2.Platform$Java8
 
-#vungle -> Gson
+# Gson
 -keepattributes Signature
 -keepattributes *Annotation*
 -dontwarn sun.misc.**
@@ -78,88 +63,111 @@
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
-#vungle -> Google Android Advertising ID
+# Google Android Advertising ID
 -keep class com.google.android.gms.internal.** { *; }
 -dontwarn com.google.android.gms.ads.identifier.**
 
-#applovin
--dontwarn com.applovin.**
--keep class com.applovin.** { *; }
+# IronSource
+-keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface {
+    public *;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *; }
+-keep class com.ironsource.unity.androidbridge.** { *; }
 
-#facebook audience
--keep class com.facebook.ads.** { *; }
--dontwarn com.facebook.ads.**
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
+-dontwarn com.moat.**
+-keep class com.moat.** { public protected private *; }
 
-#inmobi
--keep class com.inmobi.** { *; }
--keep class com.inmobi.sdk.** { *; }
--keep class com.inmobi.sdk.InMobiSdk.** { *; }
--keep class jp.co.imobile.sdkads.android.** { *; }
--keep class jp.co.imobile.sdkads.android.ImobileSdkAd.** { *; }
--dontwarn com.inmobi.**
-
-#Unity
--keep class com.unity.** { *; }
 -keep class com.unity3d.ads.** {*;}
 -keep class com.unity3d.services.** {*;}
 
-#chartboost
--keep class com.chartboost.** { *; }
--keep class com.chartboost.sdk.** { *; }
--keep class com.chartboost.sdk.Chartboost.** { *; }
+# For communication with AdColony's WebView
+-keepclassmembers class * { 
+    @android.webkit.JavascriptInterface <methods>; 
+}
+# Keep ADCNative class members unobfuscated
+-keepclassmembers class com.adcolony.sdk.ADCNative** {
+    *;
+ }
+ 
+ -keep class com.chartboost.** { *; }
+ 
+ # Keep filenames and line numbers for stack traces
+ -keepattributes SourceFile,LineNumberTable
+ # Keep JavascriptInterface for WebView bridge
+ -keepattributes JavascriptInterface
+ # Sometimes keepattributes is not enough to keep annotations
+ -keep class android.webkit.JavascriptInterface {
+    *;
+ }
+ # Keep all classes in Unity Ads package
+ -keep class com.unity3d.ads.** {
+    *;
+ }
+ # Keep all classes in Unity Services package
+ -keep class com.unity3d.services.** {
+    *;
+ }
+ -dontwarn com.google.ar.core.**
+ -dontwarn com.unity3d.services.**
+ -dontwarn com.ironsource.adapters.unityads.**
+ 
+ -keepattributes Signature,InnerClasses,Exceptions,Annotation
+ -keep public class com.applovin.sdk.AppLovinSdk{ *; }
+ -keep public class com.applovin.sdk.AppLovin* { public protected *; }
+ -keep public class com.applovin.nativeAds.AppLovin* { public protected *; }
+ -keep public class com.applovin.adview.* { public protected *; }
+ -keep public class com.applovin.mediation.* { public protected *; }
+ -keep public class com.applovin.mediation.ads.* { public protected *; }
+ -keep public class com.applovin.impl.*.AppLovin { public protected *; }
+ -keep public class com.applovin.impl.**.*Impl { public protected *; }
+ -keepclassmembers class com.applovin.sdk.AppLovinSdkSettings { private java.util.Map localSettings; }
+ -keep class com.applovin.mediation.adapters.** { *; }
+ -keep class com.applovin.mediation.adapter.**{ *; }
+ 
+ -keep class com.facebook.** { *; }
+ 
+ -keepattributes SourceFile,LineNumberTable
+-keep class com.inmobi.** { *; }
+-dontwarn com.inmobi.**
+-keep public class com.google.android.gms.**
+-dontwarn com.google.android.gms.**
+-dontwarn com.squareup.picasso.**
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient{
+     public *;
+}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info{
+     public *;
+}
+# skip the Picasso library classes
+-keep class com.squareup.picasso.** {*;}
+-dontwarn com.squareup.picasso.**
+-dontwarn com.squareup.okhttp.**
+# skip Moat classes
+-keep class com.moat.** {*;}
+-dontwarn com.moat.**
+# skip AVID classes
+-keep class com.integralads.avid.library.* {*;}
 
-#adcolony
--keep class com.adcolony.** { *; }
--keep class com.adcolony.sdk.** { *; }
--keep class com.adcolony.sdk.AdColony.** { *; }
 
-#tapjoy
--keep class com.tapjoy.** { *; }
-
-#ironsource
--keep class com.ironsource.adapters.** { *; }
--keep class com.ironsource.unity.androidbridge.** { *; }
--keep class com.ironsource.mediationsdk.** { *; }
--dontwarn com.ironsource.mediationsdk.**
--dontwarn com.ironsource.adapters.**
-
-#mopub
--keepclassmembers class com.mopub.** { public *; }
--keep public class com.mopub.**
--keep class com.mopub.** { *; }
-
-# Support for Huuuge Ads
--keep class com.huuuge.** { *; }
-
-
-# Support for Yandex
--keep class com.yandex.** { *; }
-
-# Support for Mintegral
--keepattributes Signature   
--keepattributes *Annotation*   
--keep class com.mintegral.** {*; }  
--keep interface com.mintegral.** {*; }  
--keep interface androidx.** { *; }
--keep class androidx.** { *; }
--keep public class * extends androidx.** { *; }
--dontwarn com.mintegral.**   
+# Mintegral
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.mintegral.** {*; }
+-keep interface com.mintegral.** {*; }
+-keep class android.support.v4.** { *; }
+-dontwarn com.mintegral.**
 -keep class **.R$* { public static final int mintegral*; }
 -keep class com.alphab.** {*; }
 -keep interface com.alphab.** {*; }
-
-# Support for Verizon
--keep class com.verizon.** { *; }
-
-# Support for Ogury
--keep class com.ogury.** { *; }
--keep class io.presage.** { *; }
--keep interface com.ogury.** { *; }
--keep interface io.presage.** { *; }
-
-# Support for Fyber
--keep class com.fyber.** { *; }
-#end of Assets/HUF/AdsAdMobMediation/Plugins/Android/proguardTemplate.txt
+#end of Assets/HUF/AdsIronSourceMediation/Plugins/Android/proguardTemplate.txt
 
 #start of Assets/HUF/AnalyticsAppsFlyer/Plugins/Android/proguardTemplate.txt
 -keep class com.appsflyer.** { *; }
