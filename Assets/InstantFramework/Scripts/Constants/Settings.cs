@@ -26,5 +26,10 @@ namespace TurboLabz.InstantFramework
             public const long TIME_DISABLE_30MIN_INGAME_ADS = 20 * 60;  // After 20 minutes
         }
 
+        public class ABTest
+        {
+            public static string TEST_GROUP = "A";
+        }
+
     }
 }

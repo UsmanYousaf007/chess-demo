@@ -12,7 +12,8 @@ public class SplashLoader : MonoBehaviour {
 
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
-    public static string testGroup = "A";
+
+    [Inject] public ProfilePictureLoadedSignal signal { get; set; }
 
     public static bool FTUE
     {
@@ -92,8 +93,8 @@ public class SplashLoader : MonoBehaviour {
 
     private static void OnRemoteConfigsUpdated()
     {
-        testGroup = GameAnalytics.GetRemoteConfigsValueAsString("test_group", "A");
-        GameAnalytics.SetCustomDimension01(testGroup);
-        LogUtil.Log($"GA test group {testGroup}", "yellow");
+        Settings.ABTest.TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("test_group", "A");
+        GameAnalytics.SetCustomDimension01(Settings.ABTest.TEST_GROUP);
+        LogUtil.Log($"GA test group {Settings.ABTest.TEST_GROUP}", "yellow");
     }
 }

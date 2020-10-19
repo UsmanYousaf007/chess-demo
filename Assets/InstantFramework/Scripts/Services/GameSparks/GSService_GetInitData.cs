@@ -62,7 +62,15 @@ namespace TurboLabz.InstantFramework
             FillStoreSettingsModel(storeSettingsData);
 
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
-            FillAdsSettingsModel(adsSettingsData);
+            GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_AD_SETTINGS);
+            if (Settings.ABTest.TEST_GROUP != "A" && adsABTestSettingsData != null)
+            {
+                FillAdsSettingsModel(adsABTestSettingsData);
+            }
+            else
+            {
+                FillAdsSettingsModel(adsSettingsData);
+            }
 
             GSData inventorySettingsData = response.ScriptData.GetGSData(GSBackendKeys.ShopItem.INVENTORY_SETTINGS_REWARDED_VIDEO_COST);
             FillInventorySettings(inventorySettingsData);
