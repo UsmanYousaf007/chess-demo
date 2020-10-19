@@ -2352,14 +2352,6 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					EditorGUILayout.PropertyField(propUseHardwareDecoding, new GUIContent("Hardware Decoding"));
 				}
 
-				{
-					SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
-					if (propUseLowLatency != null)
-					{
-						EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
-					}
-				}
-
 				int audioModeIndex = 0;
 				{
 					SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
@@ -2818,13 +2810,6 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					}
 				}
 			}
-			{
-				SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
-				if (propUseLowLatency != null)
-				{
-					EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
-				}
-			}
 
 			int audioModeIndex = 0;
 			{
@@ -2890,13 +2875,6 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					{
 						ShowNoticeBox(MessageType.Info, "Recommend changing the texture filtering mode to Trilinear when using mip-maps.");
 					}
-				}
-			}
-			{
-				SerializedProperty propUseLowLatency = serializedObject.FindProperty(optionsVarName + ".useLowLatency");
-				if (propUseLowLatency != null)
-				{
-					EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
 				}
 			}
 

@@ -43,7 +43,7 @@ namespace RenderHeads.Media.AVProVideo
 			PlaylistItemChanged,// Triggered when the new item is played in the playlist
 			PlaylistFinished,	// Triggered when the playlist reaches the end
 
-			// TODO: 
+			// TODO:
 			//StartLoop,		// Triggered when the video starts and is in loop mode
 			//EndLoop,			// Triggered when the video ends and is in loop mode
 		}
@@ -123,6 +123,10 @@ namespace RenderHeads.Media.AVProVideo
 		bool	IsFinished();
 		bool	IsBuffering();
 
+		// Internal methods
+		bool 	IsSeekingStarted();
+		void	ResetEventState();
+
 		void	Play();
 		void	Pause();
 		void	Stop();
@@ -142,7 +146,7 @@ namespace RenderHeads.Media.AVProVideo
 
 		/// <summary>
 		/// The time seeked to will be within the range [timeMS-beforeMs, timeMS+afterMs] for efficiency.
-		/// Only supported on macOS, iOS and tvOS.  
+		/// Only supported on macOS, iOS and tvOS.
 		/// Other platforms will automatically pass through to Seek()
 		/// </summary>
 		void	SeekWithTolerance(float timeMs, float beforeMs, float afterMs);
@@ -210,6 +214,12 @@ namespace RenderHeads.Media.AVProVideo
 		void	SetKeyServerAuthToken(string token);
 		void	SetDecryptionKeyBase64(string key);
 		void	SetDecryptionKey(byte[] key);
+
+		// External playback support
+		bool	IsExternalPlaybackSupported();
+		bool	IsExternalPlaybackActive();
+		void	SetAllowsExternalPlayback(bool allowsExternalPlayback);
+		void	SetExternalPlaybackFillMode(ExternalPlaybackFillMode fillMode);
 	}
 
 	public interface IMediaInfo
@@ -230,7 +240,7 @@ namespace RenderHeads.Media.AVProVideo
 		int		GetVideoHeight();
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		/// <returns></returns>
 		Rect	GetCropRect();
@@ -438,6 +448,14 @@ namespace RenderHeads.Media.AVProVideo
 		CubeMap3x2,
 	}
 
+	// External playback support
+	public enum ExternalPlaybackFillMode
+	{
+		Resize,
+		ResizeAspect,
+		ResizeAspectFill,
+	};
+
 	public enum FileFormat
 	{
 		Unknown,
@@ -536,7 +554,7 @@ namespace RenderHeads.Media.AVProVideo
 
 	public static class Helper
 	{
-		public const string ScriptVersion = "1.11.3";
+		public const string ScriptVersion = "1.11.5";
 
 		public static string GetName(Platform platform)
 		{
@@ -556,7 +574,7 @@ namespace RenderHeads.Media.AVProVideo
 					result = platform.ToString();
 				break;
 			}
-			
+
 			return result;
 		}
 
@@ -967,7 +985,7 @@ namespace RenderHeads.Media.AVProVideo
 						m = Matrix4x4.TRS(new Vector3(inputTexture.width, inputTexture.height, 0f), Quaternion.identity, new Vector3(-1f, -1f, 1f));
 						break;
 				}
-				
+
 				// The above Blit can't flip unless using a material, so we use Graphics.DrawTexture instead
 				GL.InvalidateState();
 				GL.PushMatrix();

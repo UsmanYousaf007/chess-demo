@@ -42,6 +42,7 @@ namespace RenderHeads.Media.AVProVideo
 			_stallDetectionTimer = 0f;
 			_stallDetectionFrame = 0;
 			_lastError = ErrorCode.None;
+			_isSeekingStarted = false;
 		}
 
 		public abstract void		SetLooping(bool bLooping);
@@ -85,6 +86,11 @@ namespace RenderHeads.Media.AVProVideo
 		public virtual void			SetKeyServerAuthToken(string token) { }
 		public virtual void			SetDecryptionKeyBase64(string key) { }
 		public virtual void			SetDecryptionKey(byte[] key) { }
+
+		public virtual bool			IsExternalPlaybackSupported() { return false; }
+		public virtual bool			IsExternalPlaybackActive() { return false; }
+		public virtual void			SetAllowsExternalPlayback(bool allowsExternalPlayback) { }
+		public virtual void			SetExternalPlaybackFillMode(ExternalPlaybackFillMode fillMode) { }
 
 		public virtual int			GetTextureCount() { return 1; }
 		public abstract Texture		GetTexture(int index = 0);
@@ -235,6 +241,12 @@ namespace RenderHeads.Media.AVProVideo
 			return false;
 		}
 
+		// This is to fix the case where Seek() is called and the seek completes before the event code runs so IsSeeking() return false
+		// and the seek events are never triggered
+		protected bool _isSeekingStarted = false;
+		public bool IsSeekingStarted() { return (_isSeekingStarted || IsSeeking()); }
+		public void ResetEventState() { _isSeekingStarted = false;  }
+
 		private float _stallDetectionTimer;
 		private int _stallDetectionFrame;
 
@@ -314,5 +326,6 @@ namespace RenderHeads.Media.AVProVideo
 		public virtual void OnEnable()
 		{
 		}
+
 	}
 }
