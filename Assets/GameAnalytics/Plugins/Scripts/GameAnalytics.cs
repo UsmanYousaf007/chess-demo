@@ -106,7 +106,7 @@ namespace GameAnalyticsSDK
 
         void OnApplicationQuit()
         {
-#if (!UNITY_EDITOR && !UNITY_IOS && !UNITY_ANDROID && !UNITY_TVOS && !UNITY_WEBGL && !UNITY_TIZEN)
+#if (!UNITY_EDITOR && !UNITY_IOS && !UNITY_ANDROID && !UNITY_TVOS && !UNITY_WEBGL && !UNITY_TIZEN && !UNITY_SWITCH && !UNITY_PS4 && !UNITY_XBOXONE)
 #if (UNITY_WSA)
             onQuit();
 #else
@@ -623,15 +623,15 @@ namespace GameAnalyticsSDK
         }
 
         // ----------------------- REMOTE CONFIGS ---------------------- //
-		public static event Action OnRemoteConfigsUpdatedEvent;
+        public static event Action OnRemoteConfigsUpdatedEvent;
 
-		public void OnRemoteConfigsUpdated()
-		{
-			if(OnRemoteConfigsUpdatedEvent != null)
-			{
-				OnRemoteConfigsUpdatedEvent();
-			}
-		}
+        public void OnRemoteConfigsUpdated()
+        {
+            if(OnRemoteConfigsUpdatedEvent != null)
+            {
+                OnRemoteConfigsUpdatedEvent();
+            }
+        }
 
         public static void RemoteConfigsUpdated()
         {
@@ -648,18 +648,35 @@ namespace GameAnalyticsSDK
 
         public static string GetRemoteConfigsValueAsString(string key, string defaultValue)
         {
-			return GA_Wrapper.GetRemoteConfigsValueAsString(key, defaultValue);
+            return GA_Wrapper.GetRemoteConfigsValueAsString(key, defaultValue);
         }
 
         public static bool IsRemoteConfigsReady()
         {
-			return GA_Wrapper.IsRemoteConfigsReady();
+            return GA_Wrapper.IsRemoteConfigsReady();
         }
 
-		public static string GetRemoteConfigsContentAsString()
-		{
-			return GA_Wrapper.GetRemoteConfigsContentAsString();
-		}
+        public static string GetRemoteConfigsContentAsString()
+        {
+            return GA_Wrapper.GetRemoteConfigsContentAsString();
+        }
+
+        // ----------------------- A/B TESTING ---------------------- //
+        public static string GetABTestingId()
+        {
+            return GA_Wrapper.GetABTestingId();
+        }
+
+        public static string GetABTestingVariantId()
+        {
+            return GA_Wrapper.GetABTestingVariantId();
+        }
+
+        // ----------------------- MOPUB AD IMPRESSIONS ---------------------- //
+        public static void SubscribeMoPubImpressions()
+        {
+            GA_Wrapper.SubscribeMoPubImpressions();
+        }
 
         public static void StartTimer(string key)
         {

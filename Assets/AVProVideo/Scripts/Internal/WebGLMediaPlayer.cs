@@ -333,13 +333,14 @@ namespace RenderHeads.Media.AVProVideo
         public override void Seek(float ms)
         {
             Debug.Assert(_playerIndex != -1, "no player Seek");
+			_isSeekingStarted = true;
             AVPPlayerSeekToTime(_playerIndex, ms * 0.001f, false);
         }
 
         public override void SeekFast(float ms)
         {
             Debug.Assert(_playerIndex != -1, "no player SeekFast");
-
+			_isSeekingStarted = true;
             AVPPlayerSeekToTime(_playerIndex, ms * 0.001f, true);
         }
 

@@ -172,16 +172,19 @@ namespace RenderHeads.Media.AVProVideo
 
 		public override void Seek(float timeMs)
 		{
+			_isSeekingStarted = true;
 			_currentTime = timeMs;
 		}
 
 		public override void SeekFast(float timeMs)
 		{
+			_isSeekingStarted = true;
 			_currentTime = timeMs;
 		}
 
 		public override void SeekWithTolerance(float timeMs, float beforeMs, float afterMs)
 		{
+			_isSeekingStarted = true;
 			_currentTime = timeMs;
 		}
 

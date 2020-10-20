@@ -421,6 +421,7 @@ namespace RenderHeads.Media.AVProVideo
 
 		public override void Seek(float timeMs)
 		{
+			_isSeekingStarted = true;
 			if (m_Video != null)
 			{
 				m_Video.Call("Seek", Mathf.FloorToInt(timeMs));
@@ -429,6 +430,7 @@ namespace RenderHeads.Media.AVProVideo
 
 		public override void SeekFast(float timeMs)
 		{
+			_isSeekingStarted = true;
 			if (m_Video != null)
 			{
 				m_Video.Call("SeekFast", Mathf.FloorToInt(timeMs));
