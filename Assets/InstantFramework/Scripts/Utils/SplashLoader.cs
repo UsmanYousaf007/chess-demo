@@ -52,12 +52,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += RunInitPipiline;
+        HGenericGDPR.OnPolicyAccepted += OnPolicyAccepted;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= RunInitPipiline;
+        HGenericGDPR.OnPolicyAccepted -= OnPolicyAccepted;
     }
 
     void Start() 
@@ -71,6 +71,12 @@ public class SplashLoader : MonoBehaviour {
         {
             RunInitPipiline();
         }
+    }
+
+    void OnPolicyAccepted()
+    {
+        LogAnalytic(AnalyticsEventId.ftue_gdpr_accept);
+        RunInitPipiline();
     }
 
     void RunInitPipiline()

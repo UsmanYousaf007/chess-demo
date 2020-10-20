@@ -193,7 +193,7 @@ namespace TurboLabz.InstantFramework
             InboxBar item = obj.GetComponent<InboxBar>();
 
             item.timeStamp = 0;
-            
+
             item.thumbnailBg.sprite = null;// (Resources.Load("PK") as Image).sprite;
             item.headingText.text = "Congratulations!";
             item.subHeadingText.text = "You've been Promoted!";
@@ -242,6 +242,16 @@ namespace TurboLabz.InstantFramework
             inBoxBars.Remove(messageId);
             GameObject.Destroy(bar.gameObject);
             Sort();
+        }
+
+        public void ClearInbox()
+        {
+            foreach (var bar in inBoxBars)
+            {
+                GameObject.Destroy(bar.Value.gameObject);
+            }
+
+            inBoxBars.Clear();
         }
     }
 }

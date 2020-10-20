@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                     if (currentTimeUTCSeconds > joinedTournaments[i].endTimeUTCSeconds)
                     {
                         updateRemote = true;
-                        LogTournamentEndAnalytics(joinedTournaments[i]);
+                        //LogTournamentEndAnalytics(joinedTournaments[i]);
                     }
                 }
             }

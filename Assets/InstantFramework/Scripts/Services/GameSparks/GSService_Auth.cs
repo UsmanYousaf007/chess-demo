@@ -55,6 +55,11 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
+
+            clearInboxSignal.Dispatch();
+            inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+            GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
+            PopulateInboxModel(inBoxMessagesData);
         }
 
         private void onSignInWithAppleAuthSuccess(object r, Action<object> a)
@@ -64,6 +69,11 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
+
+            clearInboxSignal.Dispatch();
+            inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
+            GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
+            PopulateInboxModel(inBoxMessagesData);
         }
 
         private void onEmailAuthSuccess(object r, Action<object> a)
