@@ -103,7 +103,7 @@ namespace TurboLabz.InstantFramework
         public void OnBottomNavBackButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            audioService.PlayStandardClick();
+            //audioService.PlayStandardClick();
 
             TLUtils.LogUtil.Log("InBoxMediator::OnBottomNavBackButtonClicked()");
         }
@@ -118,6 +118,12 @@ namespace TurboLabz.InstantFramework
         public void OnInboxRemoveMessage(string messageId)
         {
             view.RemoveMessage(messageId);
+        }
+
+        [ListensTo(typeof(ClearInboxSignal))]
+        public void OnClearInbox()
+        {
+            view.ClearInbox();
         }
 
         [ListensTo(typeof(InboxFetchingMessagesSignal))]

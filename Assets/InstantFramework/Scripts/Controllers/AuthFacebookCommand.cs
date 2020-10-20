@@ -30,11 +30,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
 
         public override void Execute()
         {
@@ -147,6 +149,7 @@ namespace TurboLabz.InstantFramework
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(true);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
 
                 //in case if fb logged in user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())

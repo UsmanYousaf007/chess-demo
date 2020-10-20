@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
 
         // Dispatch Signals
         [Inject] public AuthSignInWithAppleResultSignal authSignInWithAppleResultSignal { get; set; }
@@ -23,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -92,6 +94,7 @@ namespace TurboLabz.InstantFramework
                 refreshFriendsSignal.Dispatch();
                 refreshCommunitySignal.Dispatch(true);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
 
                 //in case if siwa user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())
