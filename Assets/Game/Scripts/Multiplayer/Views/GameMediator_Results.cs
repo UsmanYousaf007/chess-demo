@@ -217,12 +217,20 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
-            analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
-            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ticketTransactionVO.consumeItemShortCode] += ticketTransactionVO.consumeQuantity;
-            currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
+            var joinedTournament = tournamentsModel.currentMatchTournament;
+            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == false)
+            {
+                var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
+                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ticketTransactionVO.consumeItemShortCode] += ticketTransactionVO.consumeQuantity;
+                currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
 
-            StartMatch(currency);
+                StartMatch(currency);
+            }
+            else
+            {
+                OnBackToArenaButtonClicked();
+            }
         }
 
         private void StartMatch(string currency)
