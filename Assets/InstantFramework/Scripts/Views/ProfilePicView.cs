@@ -198,9 +198,12 @@ namespace TurboLabz.InstantGame
 
         public void SetLeagueBorder(Sprite border)
         {
-            leagueBorder.gameObject.SetActive(border != null);
-            leagueBorder.sprite = border;
-            leagueBorder.SetNativeSize();
+            if (leagueBorder != null)
+            {
+                leagueBorder.gameObject.SetActive(border != null);
+                leagueBorder.sprite = border;
+                leagueBorder.SetNativeSize();
+            }
         }
     }
 }
