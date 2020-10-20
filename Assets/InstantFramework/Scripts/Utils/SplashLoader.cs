@@ -52,12 +52,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += GDPRAccepted;
+        HGenericGDPR.OnPolicyAccepted += RunInitPipiline;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= GDPRAccepted;
+        HGenericGDPR.OnPolicyAccepted -= RunInitPipiline;
     }
 
     void Start() 
@@ -71,12 +71,6 @@ public class SplashLoader : MonoBehaviour {
         {
             RunInitPipiline();
         }
-    }
-
-    void GDPRAccepted()
-    {
-        LogAnalytic(AnalyticsEventId.ftue_gdpr_accept);
-        RunInitPipiline();
     }
 
     void RunInitPipiline()
@@ -99,8 +93,8 @@ public class SplashLoader : MonoBehaviour {
 
     private static void OnRemoteConfigsUpdated()
     {
-        Settings.ABTest.TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("test_group", "A");
-        GameAnalytics.SetCustomDimension01(Settings.ABTest.TEST_GROUP);
-        LogUtil.Log($"GA test group {Settings.ABTest.TEST_GROUP}", "yellow");
+        Settings.ABTest.ADS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("ads_test", Settings.ABTest.ADS_TEST_GROUP_DEFAULT);
+        GameAnalytics.SetCustomDimension01(Settings.ABTest.ADS_TEST_GROUP);
+        LogUtil.Log($"GA test group {Settings.ABTest.ADS_TEST_GROUP}", "red");
     }
 }

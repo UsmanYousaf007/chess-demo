@@ -145,7 +145,7 @@ namespace TurboLabz.InstantFramework
         public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
 
         // AB Test Settings
-        public const string AB_TEST_AD_SETTINGS = "abTestAdSettings";
+        public const string AB_TEST_ADS_SETTINGS = "abTestAds";
 
         // Coin pack purchase
         public const string COINSPACK_COINS1_BOUGHT = "coins1Bought";

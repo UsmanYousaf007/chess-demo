@@ -28,7 +28,8 @@ namespace TurboLabz.InstantFramework
 
         public class ABTest
         {
-            public static string TEST_GROUP = "A";
+            public static string ADS_TEST_GROUP_DEFAULT = "ads_A";
+            public static string ADS_TEST_GROUP = "ads_A";
         }
 
     }

@@ -62,8 +62,8 @@ namespace TurboLabz.InstantFramework
             FillStoreSettingsModel(storeSettingsData);
 
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
-            GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_AD_SETTINGS);
-            if (Settings.ABTest.TEST_GROUP != "A" && adsABTestSettingsData != null)
+            GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_ADS_SETTINGS);
+            if (Settings.ABTest.ADS_TEST_GROUP != Settings.ABTest.ADS_TEST_GROUP_DEFAULT && adsABTestSettingsData != null)
             {
                 FillAdsSettingsModel(adsABTestSettingsData);
             }
