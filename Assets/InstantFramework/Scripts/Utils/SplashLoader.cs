@@ -13,6 +13,8 @@ public class SplashLoader : MonoBehaviour {
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
 
+    [Inject] public ProfilePictureLoadedSignal signal { get; set; }
+
     public static bool FTUE
     {
         get
@@ -38,6 +40,7 @@ public class SplashLoader : MonoBehaviour {
         Input.multiTouchEnabled = Settings.MULTI_TOUCH_ENABLED;
         Application.targetFrameRate = Settings.TARGET_FRAME_RATE;
         GameAnalytics.Initialize();
+        GameAnalytics.OnRemoteConfigsUpdatedEvent += OnRemoteConfigsUpdated;
         launchCode = 1;
         versionLabel.text = Application.version;
 
@@ -49,12 +52,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += GDPRAccepted;
+        HGenericGDPR.OnPolicyAccepted += RunInitPipiline;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= GDPRAccepted;
+        HGenericGDPR.OnPolicyAccepted -= RunInitPipiline;
     }
 
     void Start() 
@@ -68,12 +71,6 @@ public class SplashLoader : MonoBehaviour {
         {
             RunInitPipiline();
         }
-    }
-
-    void GDPRAccepted()
-    {
-        LogAnalytic(AnalyticsEventId.ftue_gdpr_accept);
-        RunInitPipiline();
     }
 
     void RunInitPipiline()
@@ -92,5 +89,12 @@ public class SplashLoader : MonoBehaviour {
 #endif
 
         LogUtil.Log($"{prefix} {evt}", "yellow");
+    }
+
+    private static void OnRemoteConfigsUpdated()
+    {
+        Settings.ABTest.ADS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("ads_test", Settings.ABTest.ADS_TEST_GROUP_DEFAULT);
+        GameAnalytics.SetCustomDimension01(Settings.ABTest.ADS_TEST_GROUP);
+        LogUtil.Log($"GA test group {Settings.ABTest.ADS_TEST_GROUP}", "red");
     }
 }
