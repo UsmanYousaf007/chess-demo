@@ -81,6 +81,8 @@ namespace TurboLabz.Multiplayer
             IPlayerModel playerModel = cmd.playerModel;
             Chessboard activeChessboard = cmd.activeChessboard;
 
+            cmd.activeMatchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
             // Setup the initial rotation and skin
             bool isPlayerWhite = (activeChessboard.playerColor == ChessColor.WHITE);
             SetupChessboardVO setupVO;
