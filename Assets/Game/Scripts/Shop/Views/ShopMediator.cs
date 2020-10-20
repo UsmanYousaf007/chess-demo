@@ -69,5 +69,12 @@ namespace TurboLabz.InstantFramework
         {
             view.ShowProcessing(blocker, processing);
         }
+
+        [ListensTo(typeof(ResetSubscirptionStatusSignal))]
+        public void OnResetSubcriptionStatus()
+        {
+            view.SetSubscriptionOwnedStatus();
+            view.SetBundle();
+        }
     }
 }
