@@ -5,6 +5,7 @@
 
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -24,6 +25,7 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodBoughtSignal virtualGoodBoughtSignal { get; set; }
@@ -83,6 +85,8 @@ namespace TurboLabz.InstantFramework
 
             var itemKey = vo.isPopup ? $"{vo.itemKey}Popup" : vo.itemKey;
             analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, CollectionsUtil.GetContextFromString(itemKey));
+
+            preferencesModel.intervalBetweenPregameAds = DateTime.Now;
         }
 
         private void OnItemUnlocked(string item)
