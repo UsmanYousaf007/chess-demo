@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
+        [Inject] public ResetSubscirptionStatusSignal resetSubscirptionStatusSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -155,6 +156,10 @@ namespace TurboLabz.InstantFramework
                 if (playerModel.HasSubscription())
                 {
                     updatePurchasedStoreItemSignal.Dispatch(metaDataModel.store.items[GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG]);
+                }
+                else
+                {
+                    resetSubscirptionStatusSignal.Dispatch();
                 }
             }
 

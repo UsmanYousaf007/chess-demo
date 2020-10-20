@@ -55,6 +55,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SPOT_INVENTORY_DLG)
             {
                 view.Hide();
+                customContext = string.Empty;
             }
         }
 

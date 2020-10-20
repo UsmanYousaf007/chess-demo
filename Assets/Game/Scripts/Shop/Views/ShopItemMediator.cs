@@ -74,5 +74,11 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
+
+        [ListensTo(typeof(ResetSubscirptionStatusSignal))]
+        public void OnResetSubcriptionStatus()
+        {
+            view.SetOwnedStatus();
+        }
     }
 }
