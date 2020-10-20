@@ -113,7 +113,7 @@ namespace TurboLabz.InstantGame
             playerProfilePicTappedSignal.Dispatch();
         }
 
-        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        //[ListensTo(typeof(PlayerModelUpdatedSignal))]
         public void OnPlayerModelUpdated(IPlayerModel playerModel)
         {
             var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());

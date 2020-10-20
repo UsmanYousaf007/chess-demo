@@ -346,7 +346,7 @@ namespace TurboLabz.InstantGame
 
             if (pic != null)
             {
-                SetProfilePic(pic);
+                //SetProfilePic(pic);
             }
         }
 

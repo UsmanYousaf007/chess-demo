@@ -31,6 +31,7 @@ namespace TurboLabz.InstantGame
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -80,6 +81,13 @@ namespace TurboLabz.InstantGame
             {
                 view.UpdateProfilePic(picture);
             }
+        }
+
+        [ListensTo(typeof(PlayerModelUpdatedSignal))]
+        public void OnPlayerModelUpdated(IPlayerModel playerModel)
+        {
+            var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            view.SetLeagueBorder(leagueAssets != null ? leagueAssets.ringSprite : null);
         }
     }
 }
