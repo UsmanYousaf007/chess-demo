@@ -416,10 +416,10 @@ namespace TurboLabz.CPU
             //resultsCollectRewardButton.gameObject.SetActive(!removeAds);
             //resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
 
-            if (removeAds)
-            {
-                resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
-            }
+            //if (removeAds)
+            //{
+            //    resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
+            //}
 
             int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, powerupUsage, playerWins);
 
@@ -428,9 +428,9 @@ namespace TurboLabz.CPU
             collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
             resultRewardCoins = rewardCoins;
 
-            dailogueBg.enabled = false;
-            earnRewardsSection.SetActive(!playerModel.HasSubscription());
-            dailogueBg.enabled = true;
+            //dailogueBg.enabled = false;
+            //earnRewardsSection.SetActive(!playerModel.HasSubscription());
+            //dailogueBg.enabled = true;
 
             var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
             rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);

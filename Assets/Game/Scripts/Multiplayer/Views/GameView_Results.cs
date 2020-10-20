@@ -573,10 +573,10 @@ namespace TurboLabz.Multiplayer
             //resultsCollectRewardButton.gameObject.SetActive(!vo.removeAds);
             //resultsCollectRewardButtonLabel.gameObject.SetActive(!vo.removeAds);
 
-            if (vo.removeAds)
-            {
-                resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
-            }
+            //if (vo.removeAds)
+            //{
+            //    resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
+            //}
 
             int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, vo.powerupUsedCount, playerWins);
 
@@ -599,9 +599,9 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                dailogueBg.enabled = false;
-                earnRewardsSection.SetActive(!playerModel.HasSubscription());
-                dailogueBg.enabled = true;
+                //dailogueBg.enabled = false;
+                //earnRewardsSection.SetActive(!playerModel.HasSubscription());
+                //dailogueBg.enabled = true;
 
                 var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
                 rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
