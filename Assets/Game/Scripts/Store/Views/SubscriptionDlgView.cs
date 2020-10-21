@@ -158,6 +158,7 @@ public class SubscriptionDlgView : View
         foreach (var t in subscriptionTiers)
         {
             t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
+            key = settingsModel.defaultSubscriptionKey;
 
             if (t.isSelected)
             {
