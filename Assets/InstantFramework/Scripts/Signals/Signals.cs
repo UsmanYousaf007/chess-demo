@@ -82,6 +82,7 @@ namespace TurboLabz.InstantFramework
     public class RemoveCommunityFriendSignal : Signal<string> { }
     public class RemoveRecentlyPlayedSignal : Signal<string, FriendsSubOp> { }
     public class UpdateFriendOnlineStatusSignal : Signal<ProfileVO> { }
+    public class ForceUpdateFriendOnlineStatusSignal : Signal<ProfileVO> { }
     public class ClearCommunitySignal : Signal { }
     public class ClearFriendsSignal : Signal { }
     public class ClearFriendSignal : Signal<string> { }
