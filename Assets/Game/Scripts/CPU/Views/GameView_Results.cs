@@ -477,7 +477,6 @@ namespace TurboLabz.CPU
             vo.challengeId = "";
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
-            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
             showRewardedAdSignal.Dispatch(vo);
         }
 
@@ -505,10 +504,7 @@ namespace TurboLabz.CPU
             vo.playerWins = playerWins;
             vo.placementId = AdPlacements.Interstitial_endgame;
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
-            if (!playerModel.HasSubscription())
-            {
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            }
+            
             showAdSignal.Dispatch(vo, false);
         }
 

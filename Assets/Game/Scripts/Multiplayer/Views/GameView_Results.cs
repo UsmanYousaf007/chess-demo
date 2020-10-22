@@ -706,7 +706,6 @@ namespace TurboLabz.Multiplayer
             vo.challengeId = challengeId;
             vo.playerWins = playerWins;
             playerModel.adContext = AnalyticsContext.rewarded;
-            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
             showRewardedAdSignal.Dispatch(vo);
         }
 
@@ -930,11 +929,6 @@ namespace TurboLabz.Multiplayer
             vo.playerWins = playerWins;
             vo.placementId = placementId;
             playerModel.adContext = analyticsContext;
-
-            if (!playerModel.HasSubscription())
-            {
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            }
 
             showAdSignal.Dispatch(vo, false);
         }

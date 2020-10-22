@@ -331,7 +331,7 @@ namespace TurboLabz.InstantFramework
                 vo.friendId = playerId;
                 vo.actionCode = "ChallengeClassic";
                 vo.placementId = AdPlacements.Interstitial_pregame;
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+
                 showAdSignal.Dispatch(vo, false);
                 return;
             }
@@ -354,7 +354,7 @@ namespace TurboLabz.InstantFramework
                 vo.friendId = playerId;
                 vo.isRanked = isRanked;
                 vo.placementId = AdPlacements.Interstitial_pregame;
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                
                 showAdSignal.Dispatch(vo, false);
                 return;
             }
@@ -400,7 +400,7 @@ namespace TurboLabz.InstantFramework
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
                 vo.placementId = AdPlacements.Interstitial_pregame;
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                
                 showAdSignal.Dispatch(vo, false);
                 return;
             }
@@ -419,7 +419,7 @@ namespace TurboLabz.InstantFramework
                 vo.adsType = AdType.Interstitial;
                 vo.actionCode = actionCode;
                 vo.placementId = AdPlacements.Interstitial_pregame;
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                
                 showAdSignal.Dispatch(vo, false);
                 return;
             }

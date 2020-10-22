@@ -132,6 +132,8 @@ namespace TurboLabz.InstantGame
             {
                 case AdType.Interstitial:
 
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+
                     Retain();
                     if (IsPregameAd())
                     {
@@ -208,6 +210,8 @@ namespace TurboLabz.InstantGame
                     break;
 
                 case AdType.RewardedVideo:
+
+                    analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
 
                     if (adsService.IsRewardedVideoAvailable(resultAdsVO.placementId))
                     {

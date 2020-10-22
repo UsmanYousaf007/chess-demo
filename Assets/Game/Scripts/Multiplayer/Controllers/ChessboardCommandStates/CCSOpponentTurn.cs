@@ -155,11 +155,6 @@ namespace TurboLabz.Multiplayer
                 vo.placementId = placementId;
                 cmd.playerModel.adContext = adContext;
 
-                if (!cmd.playerModel.HasSubscription())
-                {
-                    cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, adContext);
-                }
-
                 cmd.showAdSignal.Dispatch(vo, false);
 
                 matchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

@@ -102,11 +102,6 @@ namespace TurboLabz.CPU
                     vo.OnAdCompleteCallback = OnInGameAdComplete;
                     cmd.playerModel.adContext = AnalyticsContext.interstitial_in_game_cpu;
 
-                    if (!cmd.playerModel.HasSubscription())
-                    {
-                        cmd.analyticsService.Event(AnalyticsEventId.ad_user_requested, cmd.playerModel.adContext);
-                    }
-
                     cmd.showAdSignal.Dispatch(vo, false);
                 }
                 else
