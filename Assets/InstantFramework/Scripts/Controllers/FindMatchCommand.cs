@@ -5,6 +5,8 @@
 using UnityEngine;
 using TurboLabz.InstantGame;
 using strange.extensions.command.impl;
+using System.Collections;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -12,6 +14,7 @@ namespace TurboLabz.InstantFramework
     {
         // Paramaters
         [Inject] public string action { get; set; }
+        private IRoutineRunner routineRunner;
 
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
@@ -49,7 +52,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             Retain();
-
+            routineRunner = new NormalRoutineRunner();
             OfferDrawVO offerDrawVO = new OfferDrawVO();
             offerDrawVO.status = null;
             offerDrawVO.offeredBy = null;
@@ -110,6 +113,89 @@ namespace TurboLabz.InstantFramework
 
             matchInfoModel.activeChallengeId = challengeId;
 
+            if (matchInfoModel.activeMatch.isBotMatch == false)
+            {
+                StartGame(challengeId);
+            }
+            else
+            {
+                routineRunner.StartCoroutine(WaitBeforeGameStart(challengeId));
+            }
+
+            /*matchInfoModel.activeChallengeId = challengeId;
+
+            // Create and fill the opponent profile
+            ProfileVO pvo = GetOpponentProfile();
+
+            // Set the opponent info in the game view
+            updateOpponentProfileSignal.Dispatch(pvo);
+
+            // Set the finding match view to a found match state
+            matchFoundSignal.Dispatch(pvo);
+
+            // add friend
+            if (matchInfoModel.activeMatch.isBotMatch == false)
+            {
+                newFriendSignal.Dispatch(pvo.playerId, false);
+            }
+
+            // For quick match games, the flow continues from the get game start time signal
+            // where both clients start at a synch time stamp
+
+            getGameStartTimeSignal.Dispatch();
+
+            //Analytics
+            preferencesModel.gameStartCount++;
+            hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", matchInfoModel.activeMatch.isLongPlay ? "long_match" : "quick_match", challengeId);
+            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
+            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(matchInfoModel.activeMatch.isBotMatch ? AnalyticsContext.success_bot : AnalyticsContext.success));
+
+            // Grab the opponent profile pic if any
+            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
+            {
+                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                if (opponentPublicProfile.facebookUserId != null)
+                {
+                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
+                }
+            }
+            else
+            {
+                Release();
+            }*/
+        }
+
+        private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
+        {
+            // Todo: create a separate signal for just updating the opponent picture.
+            if (result == FacebookResult.SUCCESS)
+            {
+                //in case of abandon it will be null
+                if (matchInfoModel.activeMatch != null)
+                {
+                    matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
+
+                    ProfileVO pvo = GetOpponentProfile();
+                    updateOpponentProfileSignal.Dispatch(pvo);
+
+                    updateChatOpponentPicSignal.Dispatch(sprite);
+                }
+            }
+
+            Release();
+        }
+
+        int randomVal = 0;
+
+        IEnumerator WaitBeforeGameStart(string challengeId)
+        {
+            randomVal = Random.Range(1, 9);
+            yield return new WaitForSeconds(randomVal);
+            StartGame(challengeId);
+        }
+
+        private void StartGame(string challengeId)
+        {
             // Create and fill the opponent profile
             ProfileVO pvo = GetOpponentProfile();
 
@@ -149,26 +235,6 @@ namespace TurboLabz.InstantFramework
             {
                 Release();
             }
-        }
-
-        private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
-        {
-            // Todo: create a separate signal for just updating the opponent picture.
-            if (result == FacebookResult.SUCCESS)
-            {
-                //in case of abandon it will be null
-                if (matchInfoModel.activeMatch != null)
-                {
-                    matchInfoModel.activeMatch.opponentPublicProfile.profilePicture = sprite;
-
-                    ProfileVO pvo = GetOpponentProfile();
-                    updateOpponentProfileSignal.Dispatch(pvo);
-
-                    updateChatOpponentPicSignal.Dispatch(sprite);
-                }
-            }
-
-            Release();
         }
 
         private ProfileVO GetOpponentProfile()
