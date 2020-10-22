@@ -69,7 +69,7 @@ namespace TurboLabz.TLUtils
 
         public static AdPlacements GetAdPlacementsIdFromString(string id)
         {
-            if (stringToContextMap == null)
+            if (stringToAdPlacementMap == null)
             {
                 CreateStringToAdPlacementMap();
             }

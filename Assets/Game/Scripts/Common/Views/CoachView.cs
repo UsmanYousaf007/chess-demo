@@ -78,6 +78,8 @@ public class CoachView : MonoBehaviour
         line.gameObject.SetActive(true);
         normalPanel.bg.gameObject.SetActive(false);
         bestPanel.bg.gameObject.SetActive(false);
+        stickerBg.gameObject.SetActive(false);
+        stickerPieceIcon.gameObject.SetActive(false);
 
         moveMeterButton.SetAsLastSibling();
 
@@ -109,20 +111,20 @@ public class CoachView : MonoBehaviour
         stickerBg.sprite = coachVO.pieceName[0].Equals('W') ? stickerBgBlack : stickerBgWhite;
         stickerBg.rectTransform.position = stickerFromPosition;
 
-        var container = SkinContainer.LoadSkin(coachVO.activeSkinId);
-        if (container == null)
-        {
-            AssetBundle bundle = coachVO.downloadablesModel.downloadableItems[coachVO.activeSkinId].bundle;
-            container = bundle.LoadAsset<SkinContainer>(coachVO.activeSkinId);
-        }
-        stickerPieceIcon.sprite = container.GetSprite(coachVO.pieceName);
+        //var container = SkinContainer.LoadSkin(coachVO.activeSkinId);
+        //if (container == null)
+        //{
+        //    AssetBundle bundle = coachVO.downloadablesModel.downloadableItems[coachVO.activeSkinId].bundle;
+        //    container = bundle.LoadAsset<SkinContainer>(coachVO.activeSkinId);
+        //}
+        //stickerPieceIcon.sprite = container.GetSprite(coachVO.pieceName);
 
-        iTween.MoveTo(stickerBg.gameObject,
-            iTween.Hash(
-                "position", toScreenPosition,
-                "time", 1.0f,
-                "easetype", iTween.EaseType.easeOutExpo
-                ));
+        //iTween.MoveTo(stickerBg.gameObject,
+        //    iTween.Hash(
+        //        "position", toScreenPosition,
+        //        "time", 1.0f,
+        //        "easetype", iTween.EaseType.easeOutExpo
+        //        ));
 
         //detect direction of arrow
         directionVector = new Vector2(coachVO.toPosition.x < 0 ? 1 : -1, coachVO.fromPosition.y > coachVO.toPosition.y ? 1 : -1);
@@ -132,7 +134,7 @@ public class CoachView : MonoBehaviour
 
         //Invoke("OnCompleteStickerAnimation", 0.8f);
 
-        FadeIn();
+        //FadeIn();
     }
 
     private void OnCompleteStickerAnimation()
@@ -179,6 +181,11 @@ public class CoachView : MonoBehaviour
 
     public void Hide()
     {
+        if (Time.time < timeAtShow + IGNORE_CLOSE_DURATION)
+        {
+            return;
+        }
+
         arrowHead.transform.SetParent(coachPanel.transform, true);
         stickerBg.transform.SetParent(coachPanel.transform, true);
 
@@ -248,21 +255,21 @@ public class CoachView : MonoBehaviour
 
     private void Reset()
     {
-        line.SetAlpha(LINE_ALPHA_MAX);
-        arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //line.SetAlpha(LINE_ALPHA_MAX);
+        //arrowHead.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
 
-        if (coachVO.isBestMove)
-        {
-            bestPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            bestPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            bestPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        }
-        else
-        {
-            normalPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            normalPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-            normalPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
-        }
+        //if (coachVO.isBestMove)
+        //{
+        //    bestPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //    bestPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //    bestPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //}
+        //else
+        //{
+        //    normalPanel.bg.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //    normalPanel.icon.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //    normalPanel.text.CrossFadeAlpha(UI_ALPHA_MAX, RESET_FADE_DURATION, IGNORE_TIMESCALE_WHILE_FADE);
+        //}
 
         stickerBg.transform.localEulerAngles = Vector3.zero;
         stickerPieceIcon.transform.localEulerAngles = Vector3.zero;
