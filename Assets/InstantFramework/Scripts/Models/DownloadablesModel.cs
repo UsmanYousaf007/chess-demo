@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
             versionCache = new Dictionary<string, DownloadableItem>();
             LoadVersionCache();
             downloadableItems = versionCache;
-            LoadBundlesFromCachePreLaunch();
+            //LoadBundlesFromCachePreLaunch();
         }
 
         private void LoadBundlesFromCachePreLaunch()
