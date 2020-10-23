@@ -336,7 +336,6 @@ namespace TurboLabz.InstantFramework
                 vo.actionCode = "ChallengeClassic";
                 vo.placementId = AdPlacements.Interstitial_pregame;
                 showAdSignal.Dispatch(vo, false);
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 return;
             }
             tapLongMatchSignal.Dispatch(playerId, isRanked);
@@ -359,7 +358,6 @@ namespace TurboLabz.InstantFramework
                 vo.isRanked = isRanked;
                 vo.placementId = AdPlacements.Interstitial_pregame;
                 showAdSignal.Dispatch(vo, false);
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
                 return;
             }
 
