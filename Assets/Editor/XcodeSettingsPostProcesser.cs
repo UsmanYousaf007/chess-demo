@@ -116,7 +116,8 @@ public class XcodeSettingsPostProcesser
         rootDict.CreateArray(buildKey).AddString("remote-notification");
         rootDict.SetBoolean("GADIsAdManagerApp", true);
         rootDict.SetString("AppLovinSdkKey", "5c875d6cdbbaa3558555ce2e");
-
+        rootDict.SetString("Privacy - Photo Library Additions Usage Description", "Save media to Photos");
+        rootDict.SetString("Privacy - Camera Usage Description", "Capture media with camera");
         File.WriteAllText(plistPath, plist.WriteToString());
         File.WriteAllText(projPath, proj.WriteToString());
 
