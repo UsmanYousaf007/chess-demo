@@ -262,6 +262,10 @@ namespace TurboLabz.InstantGame
                 {
                     notification.titleLarge.text = "1-Minute Game";
                 }
+                else if (notificationVO.actionCode == FindMatchAction.ActionCode.Challenge3.ToString())
+                {
+                    notification.titleLarge.text = "3-Minute Game";
+                }
                 else if(notificationVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString())
                 {
                     notification.titleLarge.text = "5-Minute Game";

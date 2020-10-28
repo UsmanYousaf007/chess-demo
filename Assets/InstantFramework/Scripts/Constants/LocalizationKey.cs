@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         public const string BACK_TEXT = "backText";
         public const string UPGRADE_TEXT = "upgradeText";
         public const string MIN1_GAME_TEXT = "min1GameText";
+        public const string MIN3_GAME_TEXT = "min3GameText";
         public const string MIN5_GAME_TEXT = "min5GameText";
         public const string MIN10_GAME_TEXT = "min10GameText";
         public const string MIN30_GAME_TEXT = "min30GameText";

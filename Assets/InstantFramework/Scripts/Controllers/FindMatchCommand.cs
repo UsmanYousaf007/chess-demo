@@ -298,6 +298,16 @@ namespace TurboLabz.InstantFramework
             {
                 matchAnalyticsVO.matchType = "classic";
             }
+            else if (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random1.ToString())
+            {
+                matchAnalyticsVO.matchType = "1m";
+            }
+            else if (actionCode == FindMatchAction.ActionCode.Challenge3.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random3.ToString())
+            {
+                matchAnalyticsVO.matchType = "3m";
+            }
             else if (actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
                      actionCode == FindMatchAction.ActionCode.Random.ToString())
             {
@@ -313,17 +323,13 @@ namespace TurboLabz.InstantFramework
             {
                 matchAnalyticsVO.matchType = "30m";
             }
-            else if (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
-                     actionCode == FindMatchAction.ActionCode.Random1.ToString())
-            {
-                matchAnalyticsVO.matchType = "1m";
-            }
 
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString()  ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString()  ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()   ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 matchAnalyticsVO.friendType = "random";

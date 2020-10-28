@@ -23,7 +23,9 @@ namespace TurboLabz.InstantFramework
             Challenge10,
             Challenge30,
             Random1,
-            Challenge1
+            Challenge1,
+            Random3,
+            Challenge3
         }
 
         public enum NotificationStatus
