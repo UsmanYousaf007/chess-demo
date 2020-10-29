@@ -18,6 +18,9 @@ namespace TurboLabz.Multiplayer
 {
     public class CCSOpponentTurn : CCS
     {
+        private ChessboardCommand chessboardCommand;
+        private long adStartTime = 0;
+
         public override void RenderDisplayOnEnter(ChessboardCommand cmd)
         {
             // If we're starting a new game
@@ -97,7 +100,7 @@ namespace TurboLabz.Multiplayer
                     cmd.adsSettingsModel.showInGame30Min &&
                     chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
                 {
-                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_30_min, AdPlacements.interstitial_in_game_30_min);
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_30_min, AdPlacements.interstitial_in_game_30_min, OnShowAdComplete);
                 }
                 else if (matchInfo.isLongPlay &&
                     cmd.adsSettingsModel.showInGameClassic &&
@@ -143,21 +146,50 @@ namespace TurboLabz.Multiplayer
             return null;
         }
 
-        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext, AdPlacements placementId)
+        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext, AdPlacements placementId, Action OnAdCompleteCallback = null)
         {
             long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
             if (secondsSinceLastAdShown > cmd.adsSettingsModel.secondsBetweenIngameAds)
             {
+                chessboardCommand = cmd;
+
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
                 vo.rewardType = GSBackendKeys.ClaimReward.NONE;
                 vo.challengeId = challengeId;
                 vo.placementId = placementId;
+                vo.OnAdCompleteCallback = OnAdCompleteCallback;
                 cmd.playerModel.adContext = adContext;
 
-                cmd.showAdSignal.Dispatch(vo, false);
+                adStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-                matchInfo.lastAdShownUTC = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                cmd.showAdSignal.Dispatch(vo, false);
+            }
+        }
+
+        private void OnShowAdComplete()
+        {
+            long adTimeSpent = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - (adStartTime / 1000);
+            if (adTimeSpent > 2 && chessboardCommand != null)
+            {
+                chessboardCommand.stopTimersSignal.Dispatch();
+
+                IChessService chessService = chessboardCommand.chessService;
+                Chessboard chessboard = chessboardCommand.activeChessboard;
+
+                bool isPlayerTurn = (chessboard.playerColor == chessService.GetNextMoveColor());
+                RenderNewGame(chessboardCommand, isPlayerTurn);
+
+                if (isPlayerTurn)
+                {
+                    chessboardCommand.enablePlayerTurnInteraction.Dispatch();
+                }
+                else
+                {
+                    chessboardCommand.enableOpponentTurnInteraction.Dispatch();
+                }
+
+                adStartTime = 0;
             }
         }
     }
