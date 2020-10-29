@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         public override void Execute()
         {
@@ -189,7 +190,7 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator WaitBeforeGameStart(string challengeId)
         {
-            randomVal = Random.Range(1, 9);
+            randomVal = Random.Range(0, settingsModel.matchmakingRandomRange);
             yield return new WaitForSeconds(randomVal);
             StartGame(challengeId);
         }

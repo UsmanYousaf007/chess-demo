@@ -33,6 +33,8 @@ namespace TurboLabz.InstantFramework
         int dailyNotificationDeadlineHour { get; set; }
         string defaultSubscriptionKey { get; set; }
 
+        int matchmakingRandomRange { get; set; }
+
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);
     }

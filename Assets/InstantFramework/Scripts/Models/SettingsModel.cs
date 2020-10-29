@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         public int hintsAllowedPerGame { get; set; }
         public int dailyNotificationDeadlineHour { get; set; }
         public string defaultSubscriptionKey { get; set; }
+        public int matchmakingRandomRange { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
 
@@ -59,6 +60,7 @@ namespace TurboLabz.InstantFramework
             hintsAllowedPerGame = 0;
             dailyNotificationDeadlineHour = 0;
             defaultSubscriptionKey = "Subscription";
+            matchmakingRandomRange = 0;
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
         }
