@@ -35,12 +35,14 @@ namespace TurboLabz.InstantGame
         public int strengthUsedCount { get; set; }
         public int promotionCycleIndex { get; set; }
         public float timeSpent1mMatch { get; set; }
+        public float timeSpent3mMatch { get; set; }
         public float timeSpent5mMatch { get; set; }
         public float timeSpent10mMatch { get; set; }
         public float timeSpent30mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
         public float timeSpent1mTournament { get; set; }
+        public float timeSpent3mTournament { get; set; }
         public float timeSpent5mTournament { get; set; }
         public float timeSpent10mTournament { get; set; }
         public DateTime lastLaunchTime { get; set; }
@@ -71,6 +73,7 @@ namespace TurboLabz.InstantGame
         public string overallFavMode { get; set; }
         public int favModeCount { get; set; }
         public int gameCount1m { get; set; }
+        public int gameCount3m { get; set; }
         public int gameCount5m { get; set; }
         public int gameCount10m { get; set; }
         public int gameCount30m { get; set; }
@@ -127,6 +130,7 @@ namespace TurboLabz.InstantGame
             installDayGameCount = 0;
             favModeCount = 0;
             gameCount1m = 0;
+            gameCount3m = 0;
             gameCount5m = 0;
             gameCount10m = 0;
             gameCount30m = 0;
@@ -220,6 +224,11 @@ namespace TurboLabz.InstantGame
                     timeSpent1mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_1M_MATCH);
                 }
 
+                if (reader.HasKey(PrefKeys.TIME_SPENT_3M_MATCH))
+                {
+                    timeSpent1mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_3M_MATCH);
+                }
+
                 if (reader.HasKey(PrefKeys.TIME_SPENT_5M_MATCH))
                 {
                     timeSpent5mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_5M_MATCH);
@@ -233,6 +242,11 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_SPENT_1M_TOURNAMENT))
                 {
                     timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT);
+                }
+
+                if (reader.HasKey(PrefKeys.TIME_SPENT_3M_TOURNAMENT))
+                {
+                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT);
                 }
 
                 if (reader.HasKey(PrefKeys.TIME_SPENT_5M_TOURNAMENT))
@@ -385,6 +399,11 @@ namespace TurboLabz.InstantGame
                     gameCount1m = reader.Read<int>(PrefKeys.GAME_COUNT_1M);
                 }
 
+                if (reader.HasKey(PrefKeys.GAME_COUNT_3M))
+                {
+                    gameCount1m = reader.Read<int>(PrefKeys.GAME_COUNT_3M);
+                }
+
                 if (reader.HasKey(PrefKeys.GAME_COUNT_5M))
                 {
                     gameCount5m = reader.Read<int>(PrefKeys.GAME_COUNT_5M);
@@ -482,9 +501,11 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.STRENGTH_USED_COUNT, strengthUsedCount);
                 writer.Write<int>(PrefKeys.PROMOTION_CYCLE_INDEX, promotionCycleIndex);
                 writer.Write<float>(PrefKeys.TIME_SPENT_1M_MATCH, timeSpent1mMatch);
+                writer.Write<float>(PrefKeys.TIME_SPENT_3M_MATCH, timeSpent3mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT, timeSpent1mTournament);
+                writer.Write<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT, timeSpent3mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT, timeSpent5mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT, timeSpent10mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_30M_MATCH, timeSpent30mMatch);
@@ -517,6 +538,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<string>(PrefKeys.OVERALL_FAV_MODE, overallFavMode);
                 writer.Write<int>(PrefKeys.FAV_MODE_COUNT, favModeCount);
                 writer.Write<int>(PrefKeys.GAME_COUNT_1M, gameCount1m);
+                writer.Write<int>(PrefKeys.GAME_COUNT_3M, gameCount3m);
                 writer.Write<int>(PrefKeys.GAME_COUNT_5M, gameCount5m);
                 writer.Write<int>(PrefKeys.GAME_COUNT_10M, gameCount10m);
                 writer.Write<int>(PrefKeys.GAME_COUNT_30M, gameCount30m);

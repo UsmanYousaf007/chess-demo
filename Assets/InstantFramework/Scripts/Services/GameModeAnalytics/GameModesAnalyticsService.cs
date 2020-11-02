@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
             {
                 preferencesModel.timeSpentLongMatch += timeSpent;
             }
-            else if (matchInfo.isTenMinGame)
+            else if (matchInfo.gameTimeMode == GameTimeMode.TenMin)
             {
                 if (matchInfo.isTournamentMatch)
                 {
@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
                     preferencesModel.timeSpent10mMatch += timeSpent;
                 }
             }
-            else if (matchInfo.isOneMinGame)
+            else if (matchInfo.gameTimeMode == GameTimeMode.OneMin)
             {
                 if (matchInfo.isTournamentMatch)
                 {
@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
                     preferencesModel.timeSpent1mMatch += timeSpent;
                 }
             }
-            else if (matchInfo.isThirtyMinGame)
+            else if (matchInfo.gameTimeMode == GameTimeMode.ThirtyMin)
             {
                 preferencesModel.timeSpent30mMatch += timeSpent;
             }
@@ -65,10 +65,12 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event("cpu_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentCpuMatch));
             analyticsService.Event("classic_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpentLongMatch));
             analyticsService.Event("1m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mMatch));
+            analyticsService.Event("3m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent3mMatch));
             analyticsService.Event("5m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mMatch));
             analyticsService.Event("10m_regular_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mMatch));
             analyticsService.Event("30m_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent30mMatch));
             analyticsService.Event("1m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent1mTournament));
+            analyticsService.Event("3m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent3mTournament));
             analyticsService.Event("5m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent5mTournament));
             analyticsService.Event("10m_tournament_match", AnalyticsParameter.seconds, Mathf.RoundToInt(preferencesModel.timeSpent10mTournament));
         }
@@ -83,15 +85,19 @@ namespace TurboLabz.InstantFramework
             {
                 preferencesModel.gameCountLong++;
             }
-            else if (matchInfo.isTenMinGame)
-            {
-                preferencesModel.gameCount10m++;
-            }
-            else if (matchInfo.isOneMinGame)
+            else if (matchInfo.gameTimeMode == GameTimeMode.OneMin)
             {
                 preferencesModel.gameCount1m++;
             }
-            else if (matchInfo.isThirtyMinGame)
+            else if (matchInfo.gameTimeMode == GameTimeMode.ThreeMin)
+            {
+                preferencesModel.gameCount3m++;
+            }
+            else if (matchInfo.gameTimeMode == GameTimeMode.TenMin)
+            {
+                preferencesModel.gameCount10m++;
+            }
+            else if (matchInfo.gameTimeMode == GameTimeMode.ThirtyMin)
             {
                 preferencesModel.gameCount30m++;
             }
@@ -120,6 +126,11 @@ namespace TurboLabz.InstantFramework
             {
                 preferencesModel.favModeCount = preferencesModel.gameCount1m;
                 preferencesModel.overallFavMode = "1_min";
+            }
+            else if (preferencesModel.gameCount3m > preferencesModel.favModeCount)
+            {
+                preferencesModel.favModeCount = preferencesModel.gameCount5m;
+                preferencesModel.overallFavMode = "3_min";
             }
             else if (preferencesModel.gameCount5m > preferencesModel.favModeCount)
             {

@@ -17,7 +17,7 @@ namespace TurboLabz.Chess
         NONE,               // Used for hints
         CPU,                // For play vs computer
         ONLINE_1M,          // For online 1 m matches
-        ONLINE_3M,          // For online 5 m matches
+        ONLINE_3M,          // For online 3 m matches
         ONLINE_5M,          // For online 5 m matches
         ONLINE_10M,         // For online 10 m matches
     }

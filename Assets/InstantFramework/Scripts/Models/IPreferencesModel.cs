@@ -24,12 +24,14 @@ namespace TurboLabz.InstantFramework
         int strengthUsedCount { get; set; }
         int promotionCycleIndex { get; set; }
         float timeSpent1mMatch { get; set; }
+        float timeSpent3mMatch { get; set; }
         float timeSpent5mMatch { get; set; }
         float timeSpent10mMatch { get; set; }
         float timeSpent30mMatch { get; set; }
         float timeSpentLongMatch { get; set; }
         float timeSpentCpuMatch { get; set; }
         float timeSpent1mTournament { get; set; }
+        float timeSpent3mTournament { get; set; }
         float timeSpent5mTournament { get; set; }
         float timeSpent10mTournament { get; set; }
         DateTime lastLaunchTime { get; set; }
@@ -49,6 +51,7 @@ namespace TurboLabz.InstantFramework
         string overallFavMode { get; set; }
         int favModeCount { get; set; }
         int gameCount1m { get; set; }
+        int gameCount3m { get; set; }
         int gameCount5m { get; set; }
         int gameCount10m { get; set; }
         int gameCount30m { get; set; }

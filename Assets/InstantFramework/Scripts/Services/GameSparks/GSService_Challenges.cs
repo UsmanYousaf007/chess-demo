@@ -180,10 +180,29 @@ namespace TurboLabz.InstantFramework
             // Initialize fixed match data
             string shortCode = matchData.GetString(GSBackendKeys.Match.SHORT_CODE);
             var matchDuration = GSParser.GetSafeLong(matchData, GSBackendKeys.Match.DURATION);
+
             matchInfo.isLongPlay = (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE) ? true : false;
-            matchInfo.isTenMinGame = matchDuration == 10 * 60 * 1000;
-            matchInfo.isOneMinGame = matchDuration == 60 * 1000;
-            matchInfo.isThirtyMinGame = matchDuration == 30 * 60 * 1000;
+            if(matchDuration == 1 * 60 * 1000)
+            {
+                matchInfo.gameTimeMode = GameTimeMode.OneMin;
+            }
+            else if (matchDuration == 3 * 60 * 1000)
+            {
+                matchInfo.gameTimeMode = GameTimeMode.ThreeMin;
+            }
+            else if (matchDuration == 10 * 60 * 1000)
+            {
+                matchInfo.gameTimeMode = GameTimeMode.TenMin;
+            }
+            else if (matchDuration == 30 * 60 * 1000)
+            {
+                matchInfo.gameTimeMode = GameTimeMode.ThirtyMin;
+            }
+
+            //matchInfo.isTenMinGame = matchDuration == 10 * 60 * 1000;
+            //matchInfo.isOneMinGame = matchDuration == 60 * 1000;
+            //matchInfo.isThirtyMinGame = matchDuration == 30 * 60 * 1000;
+
             matchInfo.challengedId = matchData.GetString(GSBackendKeys.Match.CHALLENGED_ID);
             matchInfo.challengerId = matchData.GetString(GSBackendKeys.Match.CHALLENGER_ID);
             if (shortCode == GSBackendKeys.Match.LONG_MATCH_SHORT_CODE)

@@ -93,7 +93,7 @@ namespace TurboLabz.Multiplayer
 
                 // Show in game ad for 30min match mode here.
                 MatchInfo matchInfo = cmd.activeMatchInfo;
-                if (matchInfo.isThirtyMinGame &&
+                if (matchInfo.gameTimeMode == GameTimeMode.ThirtyMin &&
                     cmd.adsSettingsModel.showInGame30Min &&
                     chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
                 {
