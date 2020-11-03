@@ -42,6 +42,11 @@ namespace TurboLabz.InstantFramework
 
         public void LoadPromotion(bool promotionShownThisSession)
         {
+            if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
+            {
+                return;
+            }
+
             var showMultiplePromotionsPerSession = Settings.ABTest.PROMOTION_TEST_GROUP == "A" || Settings.ABTest.PROMOTION_TEST_GROUP == "B";
 
             if (showMultiplePromotionsPerSession || !promotionShownThisSession)
@@ -69,7 +74,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            var keyToDispatch = sequence[preferencesModel.currentPromotionIndex];
+            var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
             //TODO dispatch key here
         }
