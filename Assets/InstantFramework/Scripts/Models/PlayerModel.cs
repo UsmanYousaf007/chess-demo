@@ -189,7 +189,9 @@ namespace TurboLabz.InstantFramework
             //        (TimeUtil.TimeToExpireString(creationDate, adsSettingsModel.freeNoAdsPeriod) != null) ||
             //        (TimeUtil.TimeToExpireString(removeAdsTimeStamp, removeAdsTimePeriod) != null);
 
-            return HasSubscription() || OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK);
+            return HasSubscription()
+                || OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK)
+                || OwnsVGood(GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK);
         }
 
         public bool HasSubscription()

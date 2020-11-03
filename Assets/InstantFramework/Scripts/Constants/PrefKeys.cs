@@ -63,6 +63,7 @@ namespace TurboLabz.InstantGame
         public const string INVENTORY_TAB_VISITED = "inventoryTabVisited";
         public const string SHOP_TAB_VISITED = "shopTabVisited";
         public const string THEMES_TAB_VISITED = "themesTabVisited";
+        public const string CURRENT_PROMOTION_INDEX = "currentPromotionIndex";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";

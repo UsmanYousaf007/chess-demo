@@ -66,6 +66,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IGameModesAnalyticsService gameModesAnalyticsService { get; set; }
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IBackendService backendService { get; set; } // Temp fix for beta. Remove this later
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }

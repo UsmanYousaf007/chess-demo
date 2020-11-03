@@ -99,6 +99,9 @@ namespace TurboLabz.InstantFramework
             GSData leaguesData = response.ScriptData.GetGSData(GSBackendKeys.LEAGUE_SETTINGS);
             FillLeaguesModel(leaguesData);
 
+            GSData promotionsData = response.ScriptData.GetGSData(GSBackendKeys.PROMOTION_SETTINGS);
+            FillPromotionsData(promotionsData);
+
             tournamentsModel.lastFetchedTime = DateTime.UtcNow;
 
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
@@ -760,6 +763,25 @@ namespace TurboLabz.InstantFramework
                 GSParser.LogLeague(league);
 
                 leaguesModel.leagues.Add(id, league);
+            }
+        }
+
+        private void FillPromotionsData(GSData promotionsData)
+        {
+            if (promotionsData != null)
+            {
+                foreach (var entry in promotionsData.BaseData)
+                {
+                    var sequence = entry.Value as List<object>;
+                    var sequenceString = new List<string>();
+
+                    foreach (var item in sequence)
+                    {
+                        sequenceString.Add(item.ToString());
+                    }
+
+                    promotionsService.promotionsSequence.Add(sequenceString);
+                }
             }
         }
 

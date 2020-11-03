@@ -118,6 +118,9 @@ namespace TurboLabz.InstantFramework
         // Leagues
         public const string LEAGUE_SETTINGS = "leagueSettings";
 
+        // Promotions
+        public const string PROMOTION_SETTINGS = "promotionSettings";
+
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
         public const string ADS_MAX_IMPRESSIONS_PER_SLOT = "ADS_MAX_IMPRESSIONS_PER_SLOT";
@@ -335,6 +338,7 @@ namespace TurboLabz.InstantFramework
             public const string ALL_THEMES_PACK = "SpecialPackAllThemes";
             public const string ALL_LESSONS_PACK = "SpecialPackAllLessons";
             public const string REMOVE_ADS_PACK = "SpecialPackRemoveAds";
+            public const string SALE_REMOVE_ADS_PACK = "SalePackRemoveAds";
 
             public const string SPECIAL_ITEM_GEMS_BOOSTER = "SpecialItemGemsBooster";
             public const string SPECIAL_ITEM_TICKET = "SpecialItemTicket";
@@ -343,6 +347,9 @@ namespace TurboLabz.InstantFramework
             public const string SPECIAL_ITEM_RATING_BOOSTER = "SpecialItemRatingBooster";
             public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
             public const string DEFAULT_ITEMS_V1 = "DefaultOwnedItemsV1";
+
+            public const string SPECIAL_BUNDLE_WELCOME = "SpecialBundleWelcome";
+            public const string SPECIAL_BUNDLE_ELITE = "SpecialBundleElite";
 
             public static string GetOfferItemKey(string text)
             {

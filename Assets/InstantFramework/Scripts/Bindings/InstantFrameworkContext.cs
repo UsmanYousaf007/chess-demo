@@ -281,6 +281,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IProfilePicService>().To<ProfilePicService>().ToSingleton();
             injectionBinder.Bind<IDownloadablesService>().To<DownloadablesService>().ToSingleton();
             injectionBinder.Bind<ISchedulerService>().To<SchedulerService>().ToSingleton();
+            injectionBinder.Bind<IPromotionsService>().To<PromotionsService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

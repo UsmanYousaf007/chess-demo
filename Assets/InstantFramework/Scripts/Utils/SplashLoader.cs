@@ -101,6 +101,10 @@ public class SplashLoader : MonoBehaviour {
     {
         Settings.ABTest.ADS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("ads_test", Settings.ABTest.ADS_TEST_GROUP_DEFAULT);
         GameAnalytics.SetCustomDimension01(Settings.ABTest.ADS_TEST_GROUP);
-        LogUtil.Log($"GA test group {Settings.ABTest.ADS_TEST_GROUP}", "red");
+
+        Settings.ABTest.PROMOTION_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("promotions", Settings.ABTest.PROMOTION_TEST_GROUP_DEFAULT);
+        GameAnalytics.SetCustomDimension02(Settings.ABTest.PROMOTION_TEST_GROUP);
+
+        LogUtil.Log($"GA test group {Settings.ABTest.PROMOTION_TEST_GROUP}", "red");
     }
 }

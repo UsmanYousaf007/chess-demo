@@ -1,6 +1,4 @@
-﻿using TurboLabz.InstantFramework;
-
-namespace TurboLabz.InstantGame
+﻿namespace TurboLabz.InstantFramework
 {
     public struct PromotionVO
     {

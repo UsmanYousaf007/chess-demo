@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
         bool inventoryTabVisited { get; set; }
         bool shopTabVisited { get; set; }
         bool themesTabVisited { get; set; }
+        int currentPromotionIndex { get; set; }
 
         void ResetDailyPrefers();
 

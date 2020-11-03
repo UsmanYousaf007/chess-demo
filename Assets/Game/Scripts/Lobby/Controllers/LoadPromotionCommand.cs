@@ -155,7 +155,7 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.lobby_remove_ads,
                 condition = delegate
                 {
-                    return !(playerModel.HasSubscription() || playerModel.OwnsVGood(GSBackendKeys.ShopItem.REMOVE_ADS_PACK));
+                    return !playerModel.HasRemoveAds();
                 },
                 onClick = delegate
                 {
