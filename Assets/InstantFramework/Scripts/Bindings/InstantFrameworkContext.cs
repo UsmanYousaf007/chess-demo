@@ -171,6 +171,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RewardUnlockedSignal>().ToSingleton();
             injectionBinder.Bind<ThemeAlertDisableSignal>().ToSingleton();
             injectionBinder.Bind<ShowPromotionDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ClosePromotionUpdateDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ShowPromotionUpdateDlgSignal>().ToSingleton();
             injectionBinder.Bind<ClosePromotionDlgSignal>().ToSingleton();
             injectionBinder.Bind<SubscriptionDlgClosedSignal>().ToSingleton();
             injectionBinder.Bind<ShowAdSkippedDlgSignal>().ToSingleton();
@@ -374,6 +376,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<SoundView>().To<SoundMediator>();
             mediationBinder.Bind<PromotionDlgView>().To<PromotionDlgMediator>();
+            mediationBinder.Bind<PromotionUpdateDlgView>().To<PromotionUpdateDlgMediator>();
             mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();

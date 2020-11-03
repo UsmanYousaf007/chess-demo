@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IProfilePicService profilePicService { get; set; }
         [Inject] public ISchedulerService schedulerService { get; set; }
         [Inject] public IAppUpdateService appUpdateService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         public override void Execute()
         {
@@ -149,8 +150,9 @@ namespace TurboLabz.InstantFramework
             initBackendOnceSignal.Dispatch();
             setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
-            // loadPromotionSingal.Dispatch();
-            autoSubscriptionDialogueService.Show();
+            //loadPromotionSingal.Dispatch();
+            promotionsService.LoadPromotion(false);
+            //autoSubscriptionDialogueService.Show();
             pushNotificationService.Init();
             notificationsModel.Init();
             refreshFriendsSignal.Dispatch();

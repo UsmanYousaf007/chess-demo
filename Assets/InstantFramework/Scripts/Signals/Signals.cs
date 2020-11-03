@@ -145,7 +145,9 @@ namespace TurboLabz.InstantFramework
     public class RewardUnlockedSignal : Signal<string, int> { }
     public class ThemeAlertDisableSignal : Signal { }
     public class ShowPromotionDlgSignal : Signal<IPromise<AdsResult>, InternalAdType> { }
+    public class ShowPromotionUpdateDlgSignal : Signal<string> { }
     public class ClosePromotionDlgSignal : Signal { }
+    public class ClosePromotionUpdateDlgSignal : Signal { }
     public class SubscriptionDlgClosedSignal : Signal { }
     public class ShowAdSkippedDlgSignal : Signal { }
     public class DisableModalBlockersSignal : Signal { }
