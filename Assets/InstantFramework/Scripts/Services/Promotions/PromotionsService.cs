@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         // Dispatch Signals
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public ShowPromotionUpdateDlgSignal showPromotionUpdateDlgSignal { get; set; }
 
         private Dictionary<string, PromotionVO> promotionsMapping;
 
@@ -77,6 +78,7 @@ namespace TurboLabz.InstantFramework
             var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
             //TODO dispatch key here
+            showPromotionUpdateDlgSignal.Dispatch(promotionToDispatch);
         }
 
         private List<string> GetSequence()

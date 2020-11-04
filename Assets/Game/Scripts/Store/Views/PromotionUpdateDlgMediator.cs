@@ -29,13 +29,12 @@ public class PromotionUpdateDlgMediator : Mediator
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDailogue);
         view.purchaseSignal.AddListener(OnPurchase);
-        view.restorePurchasesSignal.AddListener(OnRestorePurchases);
     }
 
     [ListensTo(typeof(ShowPromotionUpdateDlgSignal))]
-    public void OnShowView(string key)
+    public void OnShowView(PromotionVO promotionVO)
     {
-        view.SetView(key);
+        view.SetView(promotionVO);
         view.Show();
     }
 
@@ -77,15 +76,5 @@ public class PromotionUpdateDlgMediator : Mediator
             analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, screenContext);
             OnCloseDailogue();
         }
-    }
-
-    private void OnRestorePurchases()
-    {
-        restorePurchasesSignal.Dispatch();
-
-#if UNITY_IOS
-        hAnalyticsService.LogEvent("restore_ios_iap_clicked", "menu", "subscription_popup");
-#endif
-
     }
 }

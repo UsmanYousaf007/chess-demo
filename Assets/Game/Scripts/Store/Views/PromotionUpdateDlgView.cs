@@ -11,8 +11,6 @@ public class PromotionUpdateDlgView : View
     public string key;
     public Text title;
     public Button closeButton;
-    public Text restorePurchaseText;
-    public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
     public GameObject uiBlocker;
@@ -30,29 +28,26 @@ public class PromotionUpdateDlgView : View
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
-    public Signal restorePurchasesSignal = new Signal();
 
     private StoreIconsContainer iconsContainer;
 
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
-        restorePurchaseButton.onClick.AddListener(OnRestorePurchaseClicked);
-        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
-    public void SetView(string _key)
+    public void SetView(PromotionVO promotionVO)
     {
-        key = _key;
+        key = promotionVO.key;
         var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
 
         title.text = storeItem.displayName;
-        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
+        purchaseButton.onClick.AddListener(promotionVO.onClick);
 
         // Fill only once
         iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
@@ -90,12 +85,6 @@ public class PromotionUpdateDlgView : View
     public bool IsVisible()
     {
         return gameObject.activeSelf;
-    }
-
-    private void OnRestorePurchaseClicked()
-    {
-        audioService.PlayStandardClick();
-        restorePurchasesSignal.Dispatch();
     }
 
     public void SetupPurchaseButton(bool isAvailable)

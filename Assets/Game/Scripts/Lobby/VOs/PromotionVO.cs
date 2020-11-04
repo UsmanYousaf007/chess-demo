@@ -7,7 +7,7 @@
         public delegate bool Condition();
         public Condition condition;
         public delegate void OnClick();
-        public OnClick onClick;
+        public UnityEngine.Events.UnityAction onClick;
         public AnalyticsContext analyticsContext;
     }
 }
