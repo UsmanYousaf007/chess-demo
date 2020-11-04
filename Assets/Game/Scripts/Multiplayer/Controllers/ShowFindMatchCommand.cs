@@ -78,8 +78,9 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            var joinedTournament = tournamentsModel.GetJoinedTournament(actionData.tournamentId);
             vo.isTournamentMatch = !string.IsNullOrEmpty(actionData.tournamentId);
-            vo.isTicketSpent = tournamentsModel.GetJoinedTournament(actionData.tournamentId).matchesPlayedCount > 0;
+            vo.isTicketSpent = joinedTournament != null && joinedTournament.matchesPlayedCount > 0;
 
             updateFindViewSignal.Dispatch(vo);
         }

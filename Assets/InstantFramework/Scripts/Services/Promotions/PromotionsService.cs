@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
 
         // Dispatch Signals
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
@@ -45,6 +46,7 @@ namespace TurboLabz.InstantFramework
         {
             if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
             {
+                autoSubscriptionDailogueService.Show();
                 return;
             }
 
