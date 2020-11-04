@@ -47,18 +47,10 @@ public class PromotionUpdateDlgMediator : Mediator
     private void OnCloseDailogue()
     {
         view.Hide();
-        appInfoModel.internalAdType = InternalAdType.NONE;
-        hAnalyticsService.LogEvent("internal_ad_closed", "monetization", "internal_fullscreen", screenContext);
-
-        if (promise != null)
-        {
-            promise.Dispatch(AdsResult.FINISHED);
-        }
     }
 
     private void OnPurchase()
     {
-        hAnalyticsService.LogEvent("internal_ad_clicked", "monetization", "internal_fullscreen", screenContext);
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
@@ -73,7 +65,6 @@ public class PromotionUpdateDlgMediator : Mediator
     {
         if (view.IsVisible())
         {
-            analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, screenContext);
             OnCloseDailogue();
         }
     }

@@ -70,12 +70,6 @@ public class PromotionUpdateDlgView : View
         closeDailogueSignal.Dispatch();
     }
 
-    private void OnPurchaseButtonClicked()
-    {
-        audioService.PlayStandardClick();
-        purchaseSignal.Dispatch();
-    }
-
     public void ShowProcessing(bool show, bool showProcessingUi)
     {
         processingUi.SetActive(showProcessingUi);
