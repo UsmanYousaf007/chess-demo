@@ -47,7 +47,7 @@ public class PromotionUpdateDlgView : View
 
         title.text = storeItem.displayName;
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
-        purchaseButton.onClick.AddListener(promotionVO.onClick);
+        purchaseButton.onClick.AddListener(() => promotionVO.onClick());
 
         // Fill only once
         iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
