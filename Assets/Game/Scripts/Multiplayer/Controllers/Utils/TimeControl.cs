@@ -209,7 +209,8 @@ namespace TurboLabz.Multiplayer
             state = State.OPPONENT_TIMER_RUNNING;
 
             swapTimestamp = DateTime.UtcNow;
-            opponentRealTimer = opponentDisplayTimer;
+            //opponentRealTimer = opponentDisplayTimer;
+            opponentDisplayTimer = opponentRealTimer;
             timerAtSwap = opponentRealTimer;
             lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
             runOpponentTimerCR = RunOpponentTimerCR();
