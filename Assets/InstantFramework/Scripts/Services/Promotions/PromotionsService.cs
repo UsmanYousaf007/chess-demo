@@ -83,7 +83,10 @@ namespace TurboLabz.InstantFramework
         {
             var daysCycle = Settings.ABTest.PROMOTION_TEST_GROUP == "A" || Settings.ABTest.PROMOTION_TEST_GROUP == "B" ? 2 : 5;
             var daysSincePlaying = (DateTime.Now - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).Days;
-            return promotionsSequence[daysSincePlaying % daysCycle];
+            var sequenceIndex = daysSincePlaying % daysCycle;
+            //swap 0 and 1 in case test groups are B or D
+            sequenceIndex = (Settings.ABTest.PROMOTION_TEST_GROUP == "B" || Settings.ABTest.PROMOTION_TEST_GROUP == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex; 
+            return promotionsSequence[sequenceIndex];
         }
 
         private void SetupPromotions()

@@ -14,7 +14,8 @@
 using TurboLabz.InstantFramework;
 using UnityEngine;
 using TurboLabz.TLUtils;
-
+using GameAnalyticsSDK;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -22,6 +23,9 @@ namespace TurboLabz.Multiplayer
     {
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
+        [Inject] public VirtualGoodBoughtSignal virtualGoodBoughtSignal { get; set; }
+
+        private FindViewVO vo;
 
         public void OnRegisterFind()
         {
@@ -57,6 +61,7 @@ namespace TurboLabz.Multiplayer
         {
             view.FindMatchTimeoutEnable(true, vo.timeoutSeconds);
             view.UpdateFind(vo);
+            this.vo = vo;
         }
 
 
@@ -70,6 +75,11 @@ namespace TurboLabz.Multiplayer
         {
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
             loadLobbySignal.Dispatch();
+
+            if (vo.isTournamentMatch && vo.isTicketSpent)
+            {
+                RefundTicket();
+            }
         }
 
         [ListensTo(typeof(UpdateFriendPicSignal))]
@@ -140,6 +150,21 @@ namespace TurboLabz.Multiplayer
             }
 
             return matchAnalyticsVO;
+        }
+
+        private void RefundTicket()
+        {
+            var transactionVO = new VirtualGoodsTransactionVO();
+            transactionVO.buyItemShortCode = GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET;
+            transactionVO.buyQuantity = 1;
+            virtualGoodBoughtSignal.AddOnce(OnTicketRefunded);
+            virtualGoodsTransactionSignal.Dispatch(transactionVO);
+        }
+
+        private void OnTicketRefunded(string key)
+        {
+            analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "refund", "match_not_found");
+            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][key] += 1;
         }
     }
 }

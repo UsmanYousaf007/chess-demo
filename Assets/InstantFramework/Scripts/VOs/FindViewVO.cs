@@ -15,5 +15,7 @@ namespace TurboLabz.InstantFramework
         public ProfileVO opponent;
 
         public int timeoutSeconds;
+        public bool isTournamentMatch;
+        public bool isTicketSpent;
     }
 }
