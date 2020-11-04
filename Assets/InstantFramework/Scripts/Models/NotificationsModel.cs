@@ -19,9 +19,7 @@ namespace TurboLabz.InstantFramework
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
-        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
-        [Inject] public ModelsSaveToDiskSignal modelsSaveToDiskSignal { get; set; }
-        [Inject] public AppResumedSignal appResumedSignal { get; set; }
+        [Inject] public GameAppEventSignal gameAppEventSignal { get; set; }
 
         //Dispatch Signals
         [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
@@ -36,10 +34,7 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             modelsResetSignal.AddListener(Reset);
-            modelsLoadFromDiskSignal.AddListener(LoadFromDisk);
-            modelsSaveToDiskSignal.AddListener(SaveToDisk);
-            appResumedSignal.AddListener(LoadFromDisk);
-            appResumedSignal.AddListener(Init);
+            gameAppEventSignal.AddListener(OnAppEventSignal);
         }
 
         // Constants
@@ -49,6 +44,20 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             registeredNotifications = new List<Notification>();
+        }
+
+        private void OnAppEventSignal(AppEvent appEvent)
+        {
+            switch (appEvent)
+            {
+                case AppEvent.RESUMED:
+                    Init();
+                    break;
+
+                case AppEvent.PAUSED:
+                    SaveToDisk();
+                    break;
+            }
         }
 
         private void LoadFromDisk()
@@ -166,6 +175,9 @@ namespace TurboLabz.InstantFramework
             //Clear all registered notifications
             //Local notifications will be registered when app is going to background
             HNotifications.Local.ClearAllNotifications();
+
+            //Load Notifications Data from disk
+            LoadFromDisk();
 
             //Remove notifications that has been sent locally on the device
             var notificationsToRemove = (from notificaiton in registeredNotifications
