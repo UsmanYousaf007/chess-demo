@@ -46,6 +46,7 @@ namespace TurboLabz.InstantGame
         public Sprite offline;
         public Sprite activeStatus;
         public Button viewProfileBtn;
+        bool status; 
 
         private string opponentId;
         private SpritesContainer defaultAvatarContainer;
@@ -101,6 +102,26 @@ namespace TurboLabz.InstantGame
                 else
                 {
                     onlineStatus.sprite = isOnline ? online : offline;
+                    status = isOnline;
+                }
+            }
+        }
+
+        public void ForceUpdateFriendOnlineStatusSignal(string friendId, bool isOnline, bool isActive)
+        {
+            if (friendId == opponentId)
+            {
+                if(status == false)
+                {
+                    if (!isOnline && isActive)
+                    {
+                        onlineStatus.sprite = activeStatus;
+                    }
+                    else
+                    {
+                        onlineStatus.sprite = isOnline ? online : offline;
+                        status = isOnline;
+                    }
                 }
             }
         }

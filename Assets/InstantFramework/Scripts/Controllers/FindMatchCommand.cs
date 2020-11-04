@@ -111,7 +111,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            /*matchInfoModel.activeChallengeId = challengeId;
+            matchInfoModel.activeChallengeId = challengeId;
 
             if (matchInfoModel.activeMatch.isBotMatch == false)
             {
@@ -120,9 +120,9 @@ namespace TurboLabz.InstantFramework
             else
             {
                 routineRunner.StartCoroutine(WaitBeforeGameStart(challengeId));
-            }*/
+            }
 
-            matchInfoModel.activeChallengeId = challengeId;
+            /*matchInfoModel.activeChallengeId = challengeId;
 
             // Create and fill the opponent profile
             ProfileVO pvo = GetOpponentProfile();
@@ -162,7 +162,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 Release();
-            }
+            }*/
         }
 
         private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)

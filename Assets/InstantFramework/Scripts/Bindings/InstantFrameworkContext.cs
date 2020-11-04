@@ -309,6 +309,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateProfileDialogSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendBarStatusSignal>().ToSingleton();
             injectionBinder.Bind<UpdateFriendOnlineStatusSignal>().ToSingleton();
+            injectionBinder.Bind<ForceUpdateFriendOnlineStatusSignal>().ToSingleton();
             injectionBinder.Bind<SplashWifiIsHealthySignal>().ToSingleton();
             injectionBinder.Bind<ShowSplashContentSignal>().ToSingleton();
             injectionBinder.Bind<UpdateManageBlockedFriendsViewSignal>().ToSingleton();

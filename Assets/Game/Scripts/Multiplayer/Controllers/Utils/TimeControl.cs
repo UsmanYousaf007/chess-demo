@@ -175,7 +175,7 @@ namespace TurboLabz.Multiplayer
                         playerDisplayTimer = playerRealTimer;
                     }
 
-                    if ((playerDisplayTimer.Seconds != lastPlayerTimerSeconds) || 
+                    if ((playerDisplayTimer.Seconds != lastPlayerTimerSeconds) ||
                         (playerDisplayTimer == TimeSpan.Zero))
                     {
                         lastPlayerTimerSeconds = playerDisplayTimer.Seconds;
@@ -209,11 +209,15 @@ namespace TurboLabz.Multiplayer
             state = State.OPPONENT_TIMER_RUNNING;
 
             swapTimestamp = DateTime.UtcNow;
+            opponentRealTimer = opponentDisplayTimer;
             timerAtSwap = opponentRealTimer;
             lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
             runOpponentTimerCR = RunOpponentTimerCR();
+            opponentRealTimerUpdated = false;
             routineRunner.StartCoroutine(runOpponentTimerCR);
         }
+
+        bool opponentRealTimerUpdated = false;
 
         private IEnumerator RunOpponentTimerCR()
         {
@@ -221,7 +225,14 @@ namespace TurboLabz.Multiplayer
             {
                 if (!isPaused)
                 {
+                    if (opponentRealTimerUpdated)
+                    {
+                        opponentDisplayTimer = opponentRealTimer;
+                        lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
+                    }
+
                     opponentRealTimer = timerAtSwap - (DateTime.UtcNow - swapTimestamp);
+                    opponentRealTimerUpdated = true;
 
                     if (opponentRealTimer < TimeSpan.Zero)
                     {
@@ -231,9 +242,10 @@ namespace TurboLabz.Multiplayer
                     if (opponentRealTimer < opponentDisplayTimer)
                     {
                         opponentDisplayTimer = opponentRealTimer;
+                        opponentRealTimerUpdated = false;
                     }
 
-                    if ((opponentDisplayTimer.Seconds != lastOpponentTimerSeconds) || 
+                    if ((opponentDisplayTimer.Seconds != lastOpponentTimerSeconds) ||
                         (opponentDisplayTimer == TimeSpan.Zero))
                     {
                         lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;

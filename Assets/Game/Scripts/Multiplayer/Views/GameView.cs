@@ -56,6 +56,9 @@ namespace TurboLabz.Multiplayer
         Coroutine opponentConnectionMonitorCR;
         Coroutine opponentAutoResignCR;
 
+        
+        [Inject] public ForceUpdateFriendOnlineStatusSignal forceUpdateFriendOnlineStatusSignal { get; set; }
+
         public void Show()
         {
             showBottomNavSignal.Dispatch(false);
@@ -197,11 +200,40 @@ namespace TurboLabz.Multiplayer
                 {
                     opponentConnectionMonitorLabel.gameObject.SetActive(true);
                     opponentAutoResignCR = StartCoroutine(AutoResignCountdown(timer));
+
+                    PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                    ProfileVO pvo = new ProfileVO();
+                    pvo.playerPic = publicProfile.profilePicture;
+                    pvo.playerName = publicProfile.name;
+                    pvo.eloScore = publicProfile.eloScore;
+                    pvo.countryId = publicProfile.countryId;
+                    pvo.playerId = publicProfile.playerId;
+                    pvo.avatarColorId = publicProfile.avatarBgColorId;
+                    pvo.avatarId = publicProfile.avatarId;
+                    pvo.isOnline = false;
+                    pvo.isActive = publicProfile.isActive;
+                    pvo.activity = null;
+                    pvo.isPremium = publicProfile.isSubscriber;
+                    forceUpdateFriendOnlineStatusSignal.Dispatch(pvo);
                 }
             }
             else
             {
                 opponentConnectionMonitorCR = routineRunner.StartCoroutine(OpponentConnectionMonitorCR());
+                PublicProfile publicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
+                ProfileVO pvo = new ProfileVO();
+                pvo.playerPic = publicProfile.profilePicture;
+                pvo.playerName = publicProfile.name;
+                pvo.eloScore = publicProfile.eloScore;
+                pvo.countryId = publicProfile.countryId;
+                pvo.playerId = publicProfile.playerId;
+                pvo.avatarColorId = publicProfile.avatarBgColorId;
+                pvo.avatarId = publicProfile.avatarId;
+                pvo.isOnline = publicProfile.isOnline;
+                pvo.isActive = publicProfile.isActive;
+                pvo.activity = null;
+                pvo.isPremium = publicProfile.isSubscriber;
+                forceUpdateFriendOnlineStatusSignal.Dispatch(pvo);
             }
         }
 
