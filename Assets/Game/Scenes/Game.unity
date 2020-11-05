@@ -420,9 +420,6 @@ MonoBehaviour:
   matchTypeObject: {fileID: 1357777214}
   isLongPlay: 0
   isRankedGame: 0
-  isTenMinGame: 0
-  isOneMinGame: 0
-  isThirtyMinGame: 0
   acceptButton: {fileID: 613190847}
   declineButton: {fileID: 1891510980}
   acceptDialog: {fileID: 525596577}
@@ -83978,7 +83975,7 @@ MonoBehaviour:
   Omer: {fileID: 475948730}
   Ali: {fileID: 802965410}
   Maryam: {fileID: 818767042}
-  environment: 7
+  environment: 0
   configURL: https://chess-star.s3.amazonaws.com/preview467.png
 --- !u!4 &1628862473
 Transform:
@@ -113765,6 +113762,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -78.6001
       objectReference: {fileID: 0}
+    - target: {fileID: 1770929833094863322, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -65.200195
+      objectReference: {fileID: 0}
     - target: {fileID: 5556719224594843709, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -113774,11 +113776,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: -78.241714
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770929833094863322, guid: 91a22b3c6348040ba9fe46b345aca015,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -65.200195
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91a22b3c6348040ba9fe46b345aca015, type: 3}
