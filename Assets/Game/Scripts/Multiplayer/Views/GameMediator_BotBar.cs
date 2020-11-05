@@ -29,7 +29,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnShareScreenClicked()
         {
-            screenCaptureService.CaptureScreenShot(view.logo);
+            screenCaptureService.CaptureScreenShot(view.logoObject.activeSelf ? null : view.logo);
             view.OpenShareDialog();
         }
 

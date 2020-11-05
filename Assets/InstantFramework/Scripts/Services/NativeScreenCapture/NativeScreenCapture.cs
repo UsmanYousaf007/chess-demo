@@ -42,6 +42,11 @@ namespace TurboLabz.InstantFramework
 
         private void AddLogo(Texture2D texture, Texture2D logo)
         {
+            if (logo == null)
+            {
+                return;
+            }
+
             int startx = (texture.width - logo.width) / 2;
             int starty = (int)(texture.height - (logo.height * 1.5f));
 
