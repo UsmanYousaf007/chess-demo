@@ -355,12 +355,13 @@ namespace TurboLabz.InstantFramework
             {
                 switch (text)
                 {
-                    case "No Ads": return "NoAds";
-                    case "Unlimited Learning Tools Usage": return "LearningTools";
-                    case "All Themes Unlocked": return "UnlockAllThemes";
-                    case "Premium Display Picture Frame": return "PremiumBorder";
-                    case "Increased Friends Limit": return "IncreasedFriendsLimit";
-                    case "More Simultaneous Classic Matches": return "MoreMatches";
+                    case "Go completely Ads free": return "NoAds";
+                    case "Unlock 40 professional chess lessons": return "Lessons";
+                    case "Access unlimited themes": return "Themes";
+                    case "Access unlimited hints": return "Powerups";
+                    case "Access unlimited daily games": return "Games";
+                    case "Increase your friends limits": return "Friends";
+                    case "Free daily Tournament Ticket": return "Tickets";
                 }
                 return "";
             }

@@ -66,10 +66,8 @@ public class SubscriptionDlgView : View
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
 
         var storeItem = storeSettingsModel.items[key];
-
         if (storeItem == null)
             return;
-
         SetupDefaultSubscriptionTier();
 
         // Fill only once
@@ -80,7 +78,7 @@ public class SubscriptionDlgView : View
             {
                 var offerObj = Instantiate(offerPrefab, offersContainer, false) as GameObject;
                 var text = offer.Trim();
-                offerObj.GetComponent<SubscriptionOffer>().Init(iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(text)), text);
+                offerObj.GetComponent<SubscriptionOffer>().Init(iconsContainer.GetSprite("Sub" + GSBackendKeys.ShopItem.GetOfferItemKey(text)), text);
             }
         }
     }
