@@ -118,12 +118,18 @@ namespace TurboLabz.Multiplayer
             {
                 matchAnalyticsVO.matchType = "1m";
             }
+            else if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Challenge3.ToString() ||
+                     FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString())
+            {
+                matchAnalyticsVO.matchType = "3m";
+            }
 
 
             if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 matchAnalyticsVO.friendType = "random";
