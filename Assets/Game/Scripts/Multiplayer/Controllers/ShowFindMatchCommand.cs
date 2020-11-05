@@ -54,9 +54,9 @@ namespace TurboLabz.InstantFramework
 
             vo.opponent.playerId = null;
 
-            if (actionData.action != FindMatchAction.ActionCode.Random.ToString() && actionData.action != FindMatchAction.ActionCode.RandomLong.ToString()
-                && actionData.action != FindMatchAction.ActionCode.Random10.ToString() && actionData.action != FindMatchAction.ActionCode.Random1.ToString()
-                && actionData.action != FindMatchAction.ActionCode.Random30.ToString())
+            if (actionData.action != FindMatchAction.ActionCode.Random1.ToString() && actionData.action != FindMatchAction.ActionCode.Random3.ToString()
+                && actionData.action != FindMatchAction.ActionCode.Random.ToString() && actionData.action != FindMatchAction.ActionCode.Random10.ToString()
+                && actionData.action != FindMatchAction.ActionCode.Random30.ToString() && actionData.action != FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 vo.opponent.playerId = actionData.opponentId;
 

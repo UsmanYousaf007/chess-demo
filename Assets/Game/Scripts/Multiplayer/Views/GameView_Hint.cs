@@ -170,7 +170,35 @@ namespace TurboLabz.Multiplayer
         {
             if (hintAdd.gameObject.activeSelf)
             {
-                var matchType = isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m";
+                //var matchType = isLongPlay ? "classic" : isTenMinGame ? "10m" : isOneMinGame ? "1m" : isThirtyMinGame ? "30m" : "5m";
+
+                var matchType = "";
+
+                if (isLongPlay)
+                {
+                    matchType = "classic";
+                }
+                else if (gameTimeMode == GameTimeMode.OneMin)
+                {
+                    matchType = "1min";
+                }
+                else if (gameTimeMode == GameTimeMode.ThreeMin)
+                {
+                    matchType = "3min";
+                }
+                else if (gameTimeMode == GameTimeMode.FiveMin)
+                {
+                    matchType = "5min";
+                }
+                else if (gameTimeMode == GameTimeMode.TenMin)
+                {
+                    matchType = "10min";
+                }
+                else if (gameTimeMode == GameTimeMode.ThirtyMin)
+                {
+                    matchType = "30min";
+                }
+
                 setSubscriptionContext.Dispatch($"{matchType}_move_meter");
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
                 OnParentHideAdBanner();

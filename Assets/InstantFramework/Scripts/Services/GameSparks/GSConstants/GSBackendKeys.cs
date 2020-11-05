@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
         public const string HINTS_ALLOWED = "hintsAllowedPerGame";
         public const string DAILY_NOTIFICATION_DEADLINE_HOUR = "dailyNotificationDeadlineHour";
         public const string DEFAULT_SUBSCRIPTION_KEY = "defaultSubscriptionKey";
+        public const string MATCHMAKING_RANDOM_RANGE = "matchmakingRandomRange";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";

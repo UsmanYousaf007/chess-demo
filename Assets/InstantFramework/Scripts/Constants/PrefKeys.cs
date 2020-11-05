@@ -32,12 +32,14 @@ namespace TurboLabz.InstantGame
         public const string STRENGTH_USED_COUNT = "strengthUsedCount";
         public const string PROMOTION_CYCLE_INDEX = "promotionCycleIndex";
         public const string TIME_SPENT_1M_MATCH = "timeSpent1mMatch";
+        public const string TIME_SPENT_3M_MATCH = "timeSpent3mMatch";
         public const string TIME_SPENT_5M_MATCH = "timeSpent5mMatch";
         public const string TIME_SPENT_10M_MATCH = "timeSpent10mMatch";
         public const string TIME_SPENT_30M_MATCH = "timeSpent30mMatch";
         public const string TIME_SPENT_LONG_MATCH = "timeSpentLongMatch";
         public const string TIME_SPENT_CPU_MATCH = "timeSpentCpuMatch";
         public const string TIME_SPENT_1M_TOURNAMENT = "timeSpent1mTournament";
+        public const string TIME_SPENT_3M_TOURNAMENT = "timeSpent3mTournament";
         public const string TIME_SPENT_5M_TOURNAMENT = "timeSpent5mTournament";
         public const string TIME_SPENT_10M_TOURNAMENT = "timeSpent10mTournament";
         public const string LAST_LAUNCH_TIME = "lastLaunchDay";
@@ -53,6 +55,7 @@ namespace TurboLabz.InstantGame
         public const string OVERALL_FAV_MODE = "overallFavMode";
         public const string FAV_MODE_COUNT = "favModeCount";
         public const string GAME_COUNT_1M = "gameCount1m";
+        public const string GAME_COUNT_3M = "gameCount3m";
         public const string GAME_COUNT_5M = "gameCount5m";
         public const string GAME_COUNT_10M = "gameCount10m";
         public const string GAME_COUNT_30M = "gameCount30m";

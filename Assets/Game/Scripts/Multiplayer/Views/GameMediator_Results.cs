@@ -247,6 +247,11 @@ namespace TurboLabz.Multiplayer
                     context = "1_min_bullet";
                     break;
 
+                case TournamentConstants.TournamentType.MIN_3:
+                    actionCode = FindMatchAction.ActionCode.Random3.ToString();
+                    context = "3_min_bullet";
+                    break;
+
                 case TournamentConstants.TournamentType.MIN_5:
                     actionCode = FindMatchAction.ActionCode.Random.ToString();
                     context = "5_min_blitz";

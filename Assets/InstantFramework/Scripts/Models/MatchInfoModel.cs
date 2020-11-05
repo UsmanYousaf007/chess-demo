@@ -17,6 +17,17 @@ namespace TurboLabz.InstantFramework
         Blocked
     };
 
+    public enum GameTimeMode
+    {
+        Default,
+        OneMin,
+        ThreeMin,
+        FiveMin,
+        TenMin,
+        ThirtyMin,
+        Long
+    };
+
     public class MatchInfo
     {
         public long gameStartTimeMilliseconds { get; set; }
@@ -28,7 +39,6 @@ namespace TurboLabz.InstantFramework
         public string acceptStatus { get; set; }
         public string challengerId { get; set; }
         public string challengedId { get; set; }
-        public bool isLongPlay { get; set; }
         public string winnerId { get; set; }
         public double gameDurationMs { get; set; }
         public long createTimeMs { get; set; }
@@ -36,16 +46,18 @@ namespace TurboLabz.InstantFramework
         public bool acceptedThisSession { get; set; }
         public int playerPowerupUsedCount { get; set; }
         public int opponentPowerupUsedCount { get; set; }
-        public bool isTenMinGame { get; set; }
         public string drawOfferStatus { get; set; }
         public string drawOfferedBy { get; set; }
-        public bool isOneMinGame { get; set; }
-        public bool isThirtyMinGame { get; set; }
         public string gameEndReason { get; set; }
         public bool isTournamentMatch { get; set; }
         public int tournamentMatchScore { get; set; }
         public int tournamentMatchWinTimeBonus { get; set; }
         public long lastAdShownUTC { get; set; }
+        public GameTimeMode gameTimeMode { get; set; }
+        //public bool isOneMinGame { get; set; }
+        //public bool isTenMinGame { get; set; }
+        //public bool isThirtyMinGame { get; set; }
+        public bool isLongPlay { get; set; }
 
         public bool isBotMatch
         {
@@ -73,16 +85,17 @@ namespace TurboLabz.InstantFramework
             acceptedThisSession = false;
             playerPowerupUsedCount = 0;
             opponentPowerupUsedCount = 0;
-            isTenMinGame = false;
+            //isTenMinGame = false;
             drawOfferStatus = null;
             drawOfferedBy = null;
-            isOneMinGame = false;
+            //isOneMinGame = false;
             gameEndReason = string.Empty;
-            isThirtyMinGame = false;
+            //isThirtyMinGame = false;
             isTournamentMatch = false;
             tournamentMatchScore = 0;
             tournamentMatchWinTimeBonus = 0;
             lastAdShownUTC = 0;
+            gameTimeMode = GameTimeMode.Default;
         }
     }
 

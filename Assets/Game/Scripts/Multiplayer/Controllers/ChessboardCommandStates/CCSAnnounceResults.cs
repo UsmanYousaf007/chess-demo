@@ -51,15 +51,19 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                if (cmd.matchInfoModel.activeMatch.isOneMinGame)
+                if (cmd.matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.OneMin)
                 {
                     matchAnalyticsVO.matchType = "1m";
                 }
-                else if (cmd.matchInfoModel.activeMatch.isTenMinGame)
+                else if (cmd.matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThreeMin)
+                {
+                    matchAnalyticsVO.matchType = "3m";
+                }
+                else if (cmd.matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.TenMin)
                 {
                     matchAnalyticsVO.matchType = "10m";
                 }
-                else if (cmd.matchInfoModel.activeMatch.isThirtyMinGame)
+                else if (cmd.matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThirtyMin)
                 {
                     matchAnalyticsVO.matchType = "30m";
                 }

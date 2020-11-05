@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         public override void Execute()
         {
@@ -189,7 +190,7 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator WaitBeforeGameStart(string challengeId)
         {
-            randomVal = Random.Range(1, 9);
+            randomVal = Random.Range(0, settingsModel.matchmakingRandomRange);
             yield return new WaitForSeconds(randomVal);
             StartGame(challengeId);
         }
@@ -298,6 +299,16 @@ namespace TurboLabz.InstantFramework
             {
                 matchAnalyticsVO.matchType = "classic";
             }
+            else if (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random1.ToString())
+            {
+                matchAnalyticsVO.matchType = "1m";
+            }
+            else if (actionCode == FindMatchAction.ActionCode.Challenge3.ToString() ||
+                     actionCode == FindMatchAction.ActionCode.Random3.ToString())
+            {
+                matchAnalyticsVO.matchType = "3m";
+            }
             else if (actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
                      actionCode == FindMatchAction.ActionCode.Random.ToString())
             {
@@ -313,17 +324,13 @@ namespace TurboLabz.InstantFramework
             {
                 matchAnalyticsVO.matchType = "30m";
             }
-            else if (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
-                     actionCode == FindMatchAction.ActionCode.Random1.ToString())
-            {
-                matchAnalyticsVO.matchType = "1m";
-            }
 
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString() ||
+            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString()  ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString()  ||
+                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()   ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString() ||
                 FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
             {
                 matchAnalyticsVO.friendType = "random";

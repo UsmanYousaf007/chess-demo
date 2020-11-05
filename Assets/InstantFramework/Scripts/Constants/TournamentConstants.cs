@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public class TournamentType
         {
             public const string MIN_1 = "1Min";
+            public const string MIN_3 = "3Min";
             public const string MIN_5 = "5Min";
             public const string MIN_10 = "10Min";
         }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
         public class TournamentName
         {
             public const string MIN_1 = "1 Min Bullet";
+            public const string MIN_3 = "3 Min Bullet";
             public const string MIN_5 = "5 Min Blitz";
             public const string MIN_10 = "10 Min Rapid";
         }

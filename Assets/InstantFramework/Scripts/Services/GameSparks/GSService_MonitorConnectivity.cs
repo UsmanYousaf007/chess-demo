@@ -91,15 +91,19 @@ namespace TurboLabz.InstantFramework
                 {
                     analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.long_match);
                 }
-                else if (matchInfoModel.activeMatch.isTenMinGame)
-                {
-                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.tenmin_match);
-                }
-                else if (matchInfoModel.activeMatch.isOneMinGame)
+                else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.OneMin)
                 {
                     analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.onemin_match);
                 }
-                else if (matchInfoModel.activeMatch.isThirtyMinGame)
+                else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThreeMin)
+                {
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.threemin_match);
+                }
+                else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.TenMin)
+                {
+                    analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.tenmin_match);
+                }
+                else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThirtyMin)
                 {
                     analyticsService.Event(AnalyticsEventId.gs_disconneced, AnalyticsContext.thirtymin_match);
                 }

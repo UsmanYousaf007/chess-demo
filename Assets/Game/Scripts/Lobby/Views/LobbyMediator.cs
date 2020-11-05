@@ -516,7 +516,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(RatingBoostAnimSignal))]
+        //[ListensTo(typeof(RatingBoostAnimSignal))]
         public void OnRatingBoostAnimation(int ratingBoost)
         {
             view.RatingBoostAnimation(ratingBoost);

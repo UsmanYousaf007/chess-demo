@@ -196,6 +196,7 @@ namespace TurboLabz.InstantFramework
         matchmaking,
         onemin_match,
         thirtymin_match,
+        threemin_match,
         ARM64,
         ARM,
 
