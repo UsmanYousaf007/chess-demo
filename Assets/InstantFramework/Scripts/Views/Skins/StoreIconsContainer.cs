@@ -10,6 +10,7 @@ using UnityEditor;
 namespace TurboLabz.InstantFramework
 {
     // Class name to match the script file name
+    [System.CLSCompliantAttribute(false)]
     [System.Serializable]
     public class StoreIconsContainer : ScriptableObject
     {

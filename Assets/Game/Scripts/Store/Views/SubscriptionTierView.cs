@@ -126,7 +126,7 @@ public class SubscriptionTierView : View
 
             //singleText.text = $"Upgrade with {(int)(savingsValue * 100)}% off, for {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)}/mo, billed annually";
             singleText.text = $"<b>{item.remoteProductCurrencyCode} {item.productPrice} / Year</b>";
-            infoText.text = $"(12 months at {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)} / mo. Save {(int)(savingsValue * 100)}%)";
+            infoText.text = $"12 months at {item.remoteProductCurrencyCode} {Math.Round(monthlyPrice, 2)} / mo. <b>SAVE! {(int)(savingsValue * 100)}%</b>";
             infoText.enabled = true;
         }
     }

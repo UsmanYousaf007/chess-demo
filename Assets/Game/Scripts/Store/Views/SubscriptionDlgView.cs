@@ -1,10 +1,14 @@
 ﻿using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
-using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
+using System.Collections;
+using TurboLabz.TLUtils;
 
+[System.CLSCompliantAttribute(false)]
 public class SubscriptionDlgView : View
 {
     public string key;
@@ -28,8 +32,23 @@ public class SubscriptionDlgView : View
     //Fetching data
     public GameObject thinking;
     public Image[] radioButtons;
+    public Image titleImg;
 
     public SubscriptionTierView[] subscriptionTiers;
+
+    [Header("Sale")]
+    public GameObject saleRibbon;
+    public Text megaSale;
+    public Text saleOfferPercentage;
+    public Text offText;
+    public TMP_Text limitedTimeOnlyText;
+    public Text endsInText;
+    public Text endsInTime;
+    public bool isSaleOffer;
+    Vector3 titleImgPos;
+    Vector3 offersContainerPos;
+    long endTimeUTCSeconds;
+    private WaitForSecondsRealtime waitForOneRealSecond;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -60,10 +79,13 @@ public class SubscriptionDlgView : View
 
     public void Init()
     {
+        waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
-        //restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
-        //termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
+        restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
+        termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
+        titleImgPos = titleImg.gameObject.transform.localPosition;
+        offersContainerPos = offersContainer.localPosition;
 
         var storeItem = storeSettingsModel.items[key];
         if (storeItem == null)
@@ -81,16 +103,41 @@ public class SubscriptionDlgView : View
                 offerObj.GetComponent<SubscriptionOffer>().Init(iconsContainer.GetSprite("Sub" + GSBackendKeys.ShopItem.GetOfferItemKey(text)), text);
             }
         }
+
+        limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} / Year</s>";
+
+        if (isSaleOffer)
+        {
+            saleRibbon.SetActive(true);
+            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, titleImg.gameObject.transform.localPosition.y - 100, titleImg.gameObject.transform.localPosition.z);
+            limitedTimeOnlyText.enabled = true;
+            endsInText.enabled = true;
+            offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, offersContainer.localPosition.y - 100, offersContainer.localPosition.z);
+            offerBg.gameObject.SetActive(false);
+            endsInTime.gameObject.SetActive(true);
+        }
+        else
+        {
+            saleRibbon.SetActive(false);
+            titleImg.gameObject.transform.localPosition = titleImgPos;
+            limitedTimeOnlyText.enabled = false;
+            endsInText.enabled = false;
+            offersContainer.localPosition = offersContainerPos;
+            offerBg.gameObject.SetActive(true);
+            endsInTime.gameObject.SetActive(false);
+        }
     }
 
     public void Show()
     {
         gameObject.SetActive(true);
+        StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+        StopCoroutine(CountdownTimer());
     }
 
     private void OnCloseButtonClicked()
@@ -158,12 +205,73 @@ public class SubscriptionDlgView : View
             t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
             key = settingsModel.defaultSubscriptionKey;
 
-            if (t.isSelected)
+            /*if (t.isSelected)
             {
                 t.transform.SetAsFirstSibling();
-            }
+            }*/
         }
 
+    }
+
+    /* The Code to get seconds left */
+    //Give the end time in digital format i.e. 21, 0, 0 == 9 pm 
+    public int getSecondsLeft(int hours, int minutes, int seconds)
+    {
+        //Create Desired time
+        DateTime target = new DateTime(0, 0, 0, hours, minutes, seconds);
+
+        //Get the current time
+        DateTime now = System.DateTime.Now;
+
+        //Convert both to seconds
+        int targetSec = target.Hour * 60 * 60 + target.Minute * 60 + target.Second;
+        int nowSec = now.Hour * 60 * 60 + now.Minute * 60 + now.Second;
+
+        TimeSpan timeLeft = target - now;
+        endsInTime.text = timeLeft.Hours + ":" + timeLeft.Minutes + ":" + timeLeft.Seconds;
+
+        //Get the difference in seconds
+        int diff = targetSec - nowSec;
+
+        return diff;
+    }
+
+    public void UpdateTime()
+    {
+        long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        if (timeLeft > 0)
+        {
+            timeLeft--;
+            var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+            endsInTime.text = timeLeftText;
+        }
+        else
+        {
+            endsInTime.text = "0:00";
+        }
+    }
+
+    IEnumerator CountdownTimer()
+    {
+        while (gameObject.activeInHierarchy)
+        {
+            yield return waitForOneRealSecond;
+
+            UpdateTime();
+        }
+
+        yield return null;
+    }
+
+    IEnumerator StartTimeRoutine()
+    {
+        int secsLeft = getSecondsLeft(24, 0, 0);
+        while (secsLeft > 0)
+        {
+            yield return new WaitForSeconds(1 / 60);
+            secsLeft = getSecondsLeft(24, 0, 0);
+        }
+        yield return null;
     }
 }
 

@@ -11,15 +11,10 @@
 /// [add_description_here]
 
 using UnityEngine;
-
 using strange.extensions.mediation.impl;
 using System.Collections.Generic;
-//using TurboLabz.Multiplayer;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
-using System;
 
 namespace TurboLabz.InstantFramework
 {

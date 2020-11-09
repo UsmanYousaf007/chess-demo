@@ -92,7 +92,7 @@ public class SubscriptionDlgMediator : Mediator
 
     private void OnCloseDailougeAnalytic()
     {
-        hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
+        //hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
         OnCloseDailogue();
     }
 

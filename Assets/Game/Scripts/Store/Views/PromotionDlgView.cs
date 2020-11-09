@@ -5,6 +5,7 @@ using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.CLSCompliantAttribute(false)]
 public class PromotionDlgView : View
 {
     public string key;

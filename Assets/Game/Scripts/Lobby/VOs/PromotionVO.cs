@@ -1,5 +1,6 @@
 ﻿namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliantAttribute(false)]
     public struct PromotionVO
     {
         public int cycleIndex;

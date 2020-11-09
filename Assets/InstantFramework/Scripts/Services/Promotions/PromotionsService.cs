@@ -79,7 +79,6 @@ namespace TurboLabz.InstantFramework
 
             var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
-            //TODO dispatch key here
             showPromotionUpdateDlgSignal.Dispatch(promotionToDispatch);
         }
 
