@@ -31,8 +31,8 @@ namespace TurboLabz.InstantFramework
             public static string ADS_TEST_GROUP_DEFAULT = "ads_A";
             public static string ADS_TEST_GROUP = "ads_A";
 
-            public static string PROMOTION_TEST_GROUP_DEFAULT = "E";
-            public static string PROMOTION_TEST_GROUP = "E";
+            public static string PROMOTION_TEST_GROUP_DEFAULT = "C";
+            public static string PROMOTION_TEST_GROUP = "A";
         }
     }
 }

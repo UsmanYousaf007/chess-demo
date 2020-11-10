@@ -10,12 +10,10 @@ public class PromotionEliteBundleDlgMediator : Mediator
     [Inject] public PromotionEliteBundleDlgView view { get; set; }
 
     // Services
-    [Inject] public IAnalyticsService analyticsService { get; set; }
-    [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+    [Inject] public IPromotionsService promotionsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-    [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
     //Models
@@ -38,15 +36,19 @@ public class PromotionEliteBundleDlgMediator : Mediator
         }
     }
 
-    [ListensTo(typeof(ClosePromotionUpdateDlgSignal))]
-    public void OnCloseDialogueSignal()
+    [ListensTo(typeof(NavigatorHideViewSignal))]
+    public void OnHideView(NavigatorViewId viewId)
     {
-        OnCloseDialogue();
+        if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
+        {
+            view.Hide();
+        }
     }
 
     private void OnCloseDialogue()
     {
-        view.Hide();
+        navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        promotionsService.LoadPromotion();
     }
 
     private void OnPurchase()

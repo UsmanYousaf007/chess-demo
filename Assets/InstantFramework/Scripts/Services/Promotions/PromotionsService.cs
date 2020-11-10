@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
     public class PromotionsService : IPromotionsService
     {
         public List<List<string>> promotionsSequence { get; set; }
+        public bool promotionShown { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -34,18 +35,20 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             promotionsSequence = new List<List<string>>();
+            promotionShown = false;
         }
 
-        public void LoadPromotion(bool promotionShownThisSession)
+        public void LoadPromotion()
         {
             if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
             {
+                promotionShown = false;
                 return;
             }
 
             var showMultiplePromotionsPerSession = Settings.ABTest.PROMOTION_TEST_GROUP == "A" || Settings.ABTest.PROMOTION_TEST_GROUP == "B";
 
-            if (showMultiplePromotionsPerSession || !promotionShownThisSession)
+            if (showMultiplePromotionsPerSession || !promotionShown)
             {
                 SelectAndDispatchPromotion();
             }
@@ -67,9 +70,11 @@ namespace TurboLabz.InstantFramework
 
             if (preferencesModel.currentPromotionIndex >= sequence.Count)
             {
+                promotionShown = false;
                 return;
             }
 
+            promotionShown = true;
             var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
             navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);

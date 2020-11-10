@@ -73,9 +73,9 @@ namespace TurboLabz.InstantGame
         public void ShowAreYouEnjoying()
         {
             gameObject.SetActive(true);
-            dlg.transform.localPosition = new Vector3(0f, Screen.height + 800, 0f);
+            //dlg.transform.localPosition = new Vector3(0f, Screen.height + 800, 0f);
 
-            Invoke("AnimateYouEnjoingDialog", RATEAPP_SHORT_DELAY_TIME);
+            //Invoke("AnimateYouEnjoingDialog", RATEAPP_SHORT_DELAY_TIME);
         }
 
         public void Hide()

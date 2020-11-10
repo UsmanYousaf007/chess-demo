@@ -377,7 +377,6 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<SoundView>().To<SoundMediator>();
             mediationBinder.Bind<PromotionDlgView>().To<PromotionDlgMediator>();
-            mediationBinder.Bind<PromotionChessSetsBundleDlgView>().To<PromotionChessSetsBundleDlgMediator>();
             mediationBinder.Bind<EarnRewardsView>().To<EarnRewardsMediator>();
             mediationBinder.Bind<SubscriptionTierView>().To<SubscriptionTierMediator>();
             mediationBinder.Bind<ManageSubscriptionView>().To<ManageSubscriptionMediator>();
@@ -398,6 +397,11 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LeaguePerksView>().To<LeaguePerksMediator>();
             mediationBinder.Bind<TournamentOverDlgView>().To<TournamentOverDlgMediator>();
             mediationBinder.Bind<SpotInventoryView>().To<SpotInventoryMediator>();
+            mediationBinder.Bind<PromotionChessCourseBundleDlgView>().To<PromotionChessCourseBundleDlgMediator>();
+            mediationBinder.Bind<PromotionChessSetsBundleDlgView>().To<PromotionChessSetsBundleDlgMediator>();
+            mediationBinder.Bind<PromotionEliteBundleDlgView>().To<PromotionEliteBundleDlgMediator>();
+            mediationBinder.Bind<PromotionRemoveAdsDlgView>().To<PromotionRemoveAdsDlgMediator>();
+            mediationBinder.Bind<PromotionWelcomeBundleDlgView>().To<PromotionWelcomeBundleDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

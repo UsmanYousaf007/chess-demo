@@ -151,7 +151,7 @@ namespace TurboLabz.InstantFramework
             setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
             //loadPromotionSingal.Dispatch();
-            promotionsService.LoadPromotion(false);
+            promotionsService.LoadPromotion();
             //autoSubscriptionDialogueService.Show();
             pushNotificationService.Init();
             notificationsModel.Init();
