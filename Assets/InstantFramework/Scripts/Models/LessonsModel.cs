@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Linq;
 using TurboLabz.InstantGame;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -120,6 +121,23 @@ namespace TurboLabz.InstantFramework
             return from lesson in lessonsMapping
                    where lesson.Value.Equals(topicId)
                    select lesson.Key;
+        }
+
+        public List<TopicVO> GetTopicsWithDurationInMinutes()
+        {
+            var rv = new List<TopicVO>();
+
+            foreach (var topic in topicsMapping)
+            {
+                var vo = new TopicVO();
+                vo.name = topic.Key;
+                vo.total = GetTotalLessonsCount(topic.Key);
+                vo.durationInMinutes = Mathf.RoundToInt(vo.total * (4.7f - ((float)vo.total / 12)));
+
+                rv.Add(vo);
+            }
+
+            return rv;
         }
     }
 }
