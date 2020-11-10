@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.CLSCompliantAttribute(false)]
-public class PromotionUpdateDlgView : View
+public class PromotionRemoveAdsDlgView : View
 {
     public string key;
     public Text title;
@@ -15,6 +15,8 @@ public class PromotionUpdateDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+
+    public bool isSaleOffer;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -34,20 +36,19 @@ public class PromotionUpdateDlgView : View
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
+        purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
-    public void SetView(PromotionVO promotionVO)
+    public void Init()
     {
-        key = promotionVO.key;
         var storeItem = storeSettingsModel.items[key];
 
         if (storeItem == null)
             return;
 
         title.text = storeItem.displayName;
-        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
-        purchaseButton.onClick.AddListener(() => promotionVO.onClick());
+        purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
 
         // Fill only once
         iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
@@ -68,6 +69,12 @@ public class PromotionUpdateDlgView : View
     {
         audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
+    }
+
+    private void OnPurchaseButtonClicked()
+    {
+        audioService.PlayStandardClick();
+        purchaseSignal.Dispatch();
     }
 
     public void ShowProcessing(bool show, bool showProcessingUi)

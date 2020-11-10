@@ -3,10 +3,10 @@ using strange.extensions.promise.api;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 
-public class PromotionUpdateDlgMediator : Mediator
+public class PromotionChessSetsBundleDlgMediator : Mediator
 {
     // View injection
-    [Inject] public PromotionUpdateDlgView view { get; set; }
+    [Inject] public PromotionChessSetsBundleDlgView view { get; set; }
 
     // Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -27,24 +27,26 @@ public class PromotionUpdateDlgMediator : Mediator
     public override void OnRegister()
     {
         view.InitOnce();
-        view.closeDailogueSignal.AddListener(OnCloseDailogue);
+        view.closeDailogueSignal.AddListener(OnCloseDialogue);
         view.purchaseSignal.AddListener(OnPurchase);
     }
 
-    [ListensTo(typeof(ShowPromotionUpdateDlgSignal))]
-    public void OnShowView(PromotionVO promotionVO)
+    [ListensTo(typeof(NavigatorShowViewSignal))]
+    public void OnShowView(NavigatorViewId viewId)
     {
-        view.SetView(promotionVO);
-        view.Show();
+        if (viewId == NavigatorViewId.PROMOTION_CHESS_SETS_BUNDLE_DLG)
+        {
+            view.Show();
+        }
     }
 
     [ListensTo(typeof(ClosePromotionUpdateDlgSignal))]
-    public void OnCloseDaiglogueSignal()
+    public void OnCloseDialogueSignal()
     {
-        OnCloseDailogue();
+        OnCloseDialogue();
     }
 
-    private void OnCloseDailogue()
+    private void OnCloseDialogue()
     {
         view.Hide();
     }
@@ -65,7 +67,7 @@ public class PromotionUpdateDlgMediator : Mediator
     {
         if (view.IsVisible())
         {
-            OnCloseDailogue();
+            OnCloseDialogue();
         }
     }
 }

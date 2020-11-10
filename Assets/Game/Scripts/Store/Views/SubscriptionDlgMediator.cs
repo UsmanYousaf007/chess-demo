@@ -58,25 +58,30 @@ public class SubscriptionDlgMediator : Mediator
         {
             view.Show();
 
-            preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
+        }else if(viewId == NavigatorViewId.SUBSCRIPTION_SALE_DLG)
+        {
+            view.isSaleOffer = true;
+            view.Show();
+        }
 
-            //analytics
-            analyticsFunnelId = new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, backendService.serverClock.currentTimestamp));
-            analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
-            cameFromState = navigatorModel.previousState;
-            cameFromScreen = cameFromState.ToString();
-            cameFromScreen = CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
-            cameFromScreen = appInfoModel.isAutoSubscriptionDlgShown ? autoSubscriptionDailogueService.IsShownFirstTime() ? "install_popup" : "auto_popup" : cameFromScreen;
-            var cameFromCustomContext = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ||
-                cameFromState.GetType().Equals(typeof(NSLessonTopics)) || cameFromState.GetType().Equals(typeof(NSLessonsView)) || cameFromState.GetType().Equals(typeof(NSLessonVideo));
-            cameFromScreen =  cameFromCustomContext ? context : cameFromScreen;
-            analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
-            hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
+        preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
 
-            if (SplashLoader.FTUE)
-            {
-                analyticsService.DesignEvent(AnalyticsEventId.ftue_intstall_popup);
-            }
+        //analytics
+        analyticsFunnelId = new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, backendService.serverClock.currentTimestamp));
+        analyticsService.ScreenVisit(AnalyticsScreen.subscription_dlg);
+        cameFromState = navigatorModel.previousState;
+        cameFromScreen = cameFromState.ToString();
+        cameFromScreen = CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
+        cameFromScreen = appInfoModel.isAutoSubscriptionDlgShown ? autoSubscriptionDailogueService.IsShownFirstTime() ? "install_popup" : "auto_popup" : cameFromScreen;
+        var cameFromCustomContext = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ||
+            cameFromState.GetType().Equals(typeof(NSLessonTopics)) || cameFromState.GetType().Equals(typeof(NSLessonsView)) || cameFromState.GetType().Equals(typeof(NSLessonVideo));
+        cameFromScreen = cameFromCustomContext ? context : cameFromScreen;
+        analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
+        hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
+
+        if (SplashLoader.FTUE)
+        {
+            analyticsService.DesignEvent(AnalyticsEventId.ftue_intstall_popup);
         }
     }
 

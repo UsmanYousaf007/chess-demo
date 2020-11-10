@@ -90,56 +90,56 @@ namespace TurboLabz.InstantFramework
             var removeAdsFull = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG,
                 condition = delegate { return !playerModel.HasRemoveAds(); }
             };
 
             var lessons = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.ALL_LESSONS_PACK,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_COURSE_DLG,
                 condition = delegate { return !playerModel.OwnsAllLessons(); }
             };
 
             var themes = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.ALL_THEMES_PACK,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_SETS_BUNDLE_DLG,
                 condition = delegate { return !playerModel.OwnsAllThemes(); }
             };
 
             var subscription = new PromoionDlgVO
             {
                 key = "Subscription",
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_SUBSCRIPTION_DLG,
                 condition = delegate { return !playerModel.HasSubscription(); }
             };
 
             var subscriptionSale = new PromoionDlgVO
             {
                 key = "SubscriptionAnnualSale",
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG,
                 condition = delegate { return !playerModel.HasSubscription(); }
             };
 
             var removeAdsSale = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG,
                 condition = delegate { return !playerModel.HasRemoveAds(); }
             };
 
             var welcomeBundle = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_WELCOME_BUNDLE_DLG,
                 condition = delegate { return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
             };
 
             var eliteBundle = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
-                navigatorEvent = NavigatorEvent.NONE,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG,
                 condition = delegate
                 {
                     return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME) 
