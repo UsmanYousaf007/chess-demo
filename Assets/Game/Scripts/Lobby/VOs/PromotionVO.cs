@@ -11,4 +11,13 @@
         public OnClick onClick;
         public AnalyticsContext analyticsContext;
     }
+
+    [System.CLSCompliantAttribute(false)]
+    public struct PromoionDlgVO
+    {
+        public string key;
+        public NavigatorEvent navigatorEvent;
+        public delegate bool Condition();
+        public Condition condition;
+    }
 }

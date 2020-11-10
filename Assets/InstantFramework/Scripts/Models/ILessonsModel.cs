@@ -21,5 +21,6 @@ namespace TurboLabz.InstantFramework
         string GetTopicId(string lesson);
         OrderedDictionary<string, List<TopicVO>> GetSectionsWithTopicVO(StoreIconsContainer iconsContainer);
         IEnumerable<string> GetLessonsByTopicId(string topicId);
+        List<TopicVO> GetTopicsWithDurationInMinutes();
     }
 }

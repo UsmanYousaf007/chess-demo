@@ -215,28 +215,44 @@ public class SubscriptionDlgView : View
 
     /* The Code to get seconds left */
     //Give the end time in digital format i.e. 21, 0, 0 == 9 pm 
-    public int getSecondsLeft(int hours, int minutes, int seconds)
+    public void UpdateTime(int hours, int minutes, int seconds)
     {
         //Create Desired time
-        DateTime target = new DateTime(0, 0, 0, hours, minutes, seconds);
-
+        DateTime target = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+        //DateTime target = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         //Get the current time
-        DateTime now = System.DateTime.Now;
+        DateTime now = DateTime.Now;
+        TimeSpan t = now.TimeOfDay;
 
         //Convert both to seconds
         int targetSec = target.Hour * 60 * 60 + target.Minute * 60 + target.Second;
         int nowSec = now.Hour * 60 * 60 + now.Minute * 60 + now.Second;
 
         TimeSpan timeLeft = target - now;
-        endsInTime.text = timeLeft.Hours + ":" + timeLeft.Minutes + ":" + timeLeft.Seconds;
+        if (timeLeft.Hours > 0)
+        {
+            endsInTime.text = timeLeft.Hours + ":" + timeLeft.Minutes + ":" + timeLeft.Seconds;
+        }
+        else if (timeLeft.Minutes > 0)
+        {
+            endsInTime.text = timeLeft.Minutes + ":" + timeLeft.Seconds;
+        }
+        else if (timeLeft.Seconds > 0)
+        {
+            endsInTime.text = timeLeft.Seconds.ToString();
+        }
+        else
+        {
+            endsInTime.gameObject.SetActive(false);
+        }
 
         //Get the difference in seconds
-        int diff = targetSec - nowSec;
+        //int diff = targetSec - nowSec;
 
-        return diff;
+        //return diff;
     }
 
-    public void UpdateTime()
+    /*public void UpdateTime()
     {
         long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         if (timeLeft > 0)
@@ -249,7 +265,7 @@ public class SubscriptionDlgView : View
         {
             endsInTime.text = "0:00";
         }
-    }
+    }*/
 
     IEnumerator CountdownTimer()
     {
@@ -257,22 +273,22 @@ public class SubscriptionDlgView : View
         {
             yield return waitForOneRealSecond;
 
-            UpdateTime();
+            UpdateTime(24, 0, 0);
         }
 
         yield return null;
     }
 
-    IEnumerator StartTimeRoutine()
+    /*IEnumerator StartTimeRoutine()
     {
-        int secsLeft = getSecondsLeft(24, 0, 0);
+        int secsLeft = GetSecondsLeft(24, 0, 0);
         while (secsLeft > 0)
         {
             yield return new WaitForSeconds(1 / 60);
-            secsLeft = getSecondsLeft(24, 0, 0);
+            secsLeft = GetSecondsLeft(24, 0, 0);
         }
         yield return null;
-    }
+    }*/
 }
 
 

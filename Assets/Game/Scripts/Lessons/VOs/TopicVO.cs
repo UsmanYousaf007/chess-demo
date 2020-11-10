@@ -14,5 +14,6 @@ namespace TurboLabz.InstantGame
         public int completed;
         public int total;
         public string section;
+        public int durationInMinutes;
     }
 }
