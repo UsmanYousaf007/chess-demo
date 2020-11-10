@@ -32,6 +32,16 @@ public class PromotionWelcomeBundleDlgMediator : Mediator
         }
     }
 
+    [ListensTo(typeof(StoreAvailableSignal))]
+    public void OnStoreAvailable(bool isAvailable)
+    {
+        if (!isAvailable)
+        {
+            view.Init();
+        }
+        view.SetupPurchaseButton(isAvailable);
+    }
+
     [ListensTo(typeof(NavigatorHideViewSignal))]
     public void OnHideView(NavigatorViewId viewId)
     {

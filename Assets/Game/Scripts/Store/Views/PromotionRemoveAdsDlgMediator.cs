@@ -27,6 +27,16 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         view.purchaseSignal.AddListener(OnPurchase);
     }
 
+    [ListensTo(typeof(StoreAvailableSignal))]
+    public void OnStoreAvailable(bool isAvailable)
+    {
+        if (!isAvailable)
+        {
+            view.Init();
+        }
+        view.SetupPurchaseButton(isAvailable);
+    }
+
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
