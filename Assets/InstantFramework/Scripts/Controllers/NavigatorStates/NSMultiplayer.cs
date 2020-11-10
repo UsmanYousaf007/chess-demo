@@ -150,6 +150,18 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSArenaView();
             }
+            else if (evt == NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG)
+            {
+                return new NSPromotionRemoveAdsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG)
+            {
+                return new NSPromotionRemoveAdsSaleDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG)
+            {
+                return new NSSubscriptionSaleDlg();
+            }
 
             return null;
         }

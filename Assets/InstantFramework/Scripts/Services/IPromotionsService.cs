@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
     public interface IPromotionsService 
     {
         List<List<string>> promotionsSequence { get; set; }
-        void LoadPromotion(bool promotionShownThisSession);
+        bool promotionShown { get; }
+        void LoadPromotion();
     }
 }

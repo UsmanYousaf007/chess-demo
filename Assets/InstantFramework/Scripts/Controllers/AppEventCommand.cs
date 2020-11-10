@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IPushNotificationService firebasePushNotificationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         //bool softReconnecting = false;
 
@@ -78,6 +79,11 @@ namespace TurboLabz.InstantFramework
                 }
 
                 navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+
+                if (promotionsService.promotionShown)
+                {
+                    promotionsService.LoadPromotion();
+                }
             }
             else if (appEvent == AppEvent.RESUMED)
             {

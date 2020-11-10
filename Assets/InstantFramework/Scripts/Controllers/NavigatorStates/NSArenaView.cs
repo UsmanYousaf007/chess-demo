@@ -70,6 +70,10 @@
             {
                 return new NSChestInfoDlgView();
             }
+            else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG)
+            {
+                return new NSSubscriptionSaleDlg();
+            }
 
             return null;
         }

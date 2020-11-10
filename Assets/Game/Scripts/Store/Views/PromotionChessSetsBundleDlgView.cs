@@ -23,7 +23,6 @@ public class PromotionChessSetsBundleDlgView : View
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
     [Inject] public IAudioService audioService { get; set; }
-    [Inject] public IPromotionsService promotionsService { get; set; }
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -60,7 +59,6 @@ public class PromotionChessSetsBundleDlgView : View
     public void Hide()
     {
         gameObject.SetActive(false);
-        promotionsService.LoadPromotion(true);
     }
 
     private void OnCloseButtonClicked()
