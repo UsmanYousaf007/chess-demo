@@ -602,7 +602,7 @@ namespace TurboLabz.InstantGame
 
         public void ResetDailyPrefers()
         {
-            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime();
             timeSpentCpuMatch = 0;
             timeSpentLongMatch = 0;
             timeSpent1mMatch = 0;

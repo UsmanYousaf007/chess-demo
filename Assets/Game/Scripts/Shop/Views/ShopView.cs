@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         private bool isSubscriber;
+        private bool isOnSale;
 
         public void Init()
         {
@@ -73,7 +74,7 @@ namespace TurboLabz.InstantFramework
         {
             SetBundle();
             SetSubscriptionOwnedStatus();
-            subscriptionButtonText.gameObject.SetActive(available);
+            subscriptionButtonText.gameObject.SetActive(available && !isOnSale);
             loading.SetActive(!available);
 
             if (available)
@@ -142,6 +143,7 @@ namespace TurboLabz.InstantFramework
         {
             if (saleKey.Equals(subscriptionSaleKey))
             {
+                isOnSale = true;
                 ShowSaleItems(true);
             }
         }

@@ -257,7 +257,7 @@ namespace TurboLabz.InstantFramework
 
         private void SendDailyAnalytics()
         {
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).Days;
+            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - preferencesModel.lastLaunchTime).Days;
 
             if (daysBetweenLastLogin >= 1)
             {

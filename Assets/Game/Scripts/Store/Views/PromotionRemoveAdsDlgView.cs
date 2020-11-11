@@ -29,76 +29,53 @@ public class PromotionRemoveAdsDlgView : View
     public Text endsInTime;
     private WaitForSecondsRealtime waitForOneRealSecond;
 
-    public bool isOnSale;
-    private StoreItem storeItem;
-    private StoreItem saleItem;
+    [HideInInspector] public bool isOnSale;
 
-    //Models 
+    private bool isStoreAvailable;
+    private bool isShown;
+    private Coroutine timer;
+
+    // Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-    [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-    //Services
+    // Services
     [Inject] public ILocalizationService localizationService { get; set; }
     [Inject] public IAudioService audioService { get; set; }
 
-    //Signals
+    // Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal<string> purchaseSignal = new Signal<string>();
-
-    private StoreIconsContainer iconsContainer;
 
     public void InitOnce()
     {
         waitForOneRealSecond = new WaitForSecondsRealtime(1f);
-        limitedTimeOnlyText.enabled = false;
-        SetupPurchaseButton(false);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-        iconsContainer = StoreIconsContainer.Load();
-        loading.SetActive(true);
     }
 
-    public void OnStoreAvailable(bool available)
+    public void OnStoreAvailable(bool isAvailable)
     {
-        storeItem = storeSettingsModel.items[shortCode];
-        if (storeItem == null)
-            return;
-        title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductPrice} only";
-        SetupSalePrice();
-        limitedTimeOnlyText.enabled = available;
-        loading.SetActive(available);
+        isStoreAvailable = isAvailable;
+        purchaseButton.interactable = isAvailable;
+        purchaseText.enabled = isAvailable;
+        loading.SetActive(!isAvailable);
+
+        if (isShown && isAvailable)
+        {
+            SetupPopup();
+        }
     }
 
     public void UpdateView()
     {
-        var key = shortCode;
+        isShown = true;
+        saleObj.SetActive(isOnSale);
+        goAdsFreeText.enabled = !isOnSale;
+        limitedTimeOnlyText.enabled = isOnSale && isStoreAvailable;
 
-        if (isOnSale)
-            key = saleShortCode;
-
-        var storeItem = storeSettingsModel.items[key];
-
-        if (storeItem == null)
-            return;
-        title.text = storeItem.displayName;
-
-        if(isOnSale)
+        if (isStoreAvailable)
         {
-            saleObj.SetActive(true);
-            goAdsFreeText.enabled = false;
-            closeButton.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -221f, closeButton.transform.localPosition.z);
-            title.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -14f, closeButton.transform.localPosition.z);
-            purchaseText.text = $"{saleItem.remoteProductPrice}";
-
-        }
-        else
-        {
-            saleObj.SetActive(false);
-            goAdsFreeText.enabled = true;
-            closeButton.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -103f, closeButton.transform.localPosition.z);
-            title.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, 0, closeButton.transform.localPosition.z);
-            purchaseText.text = $"{storeItem.remoteProductPrice} only";
+            SetupPopup();
         }
     }
 
@@ -106,26 +83,33 @@ public class PromotionRemoveAdsDlgView : View
     {
         UpdateView();
         gameObject.SetActive(true);
-        StartCoroutine(CountdownTimer());
+        timer = StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
-        StopCoroutine(CountdownTimer());
+        StopCoroutine(timer);
         gameObject.SetActive(false);
     }
 
-    private void SetupSalePrice()
+    private void SetupPopup()
     {
-        saleItem = storeSettingsModel.items[saleShortCode];
+        var storeItem = storeSettingsModel.items[shortCode];
+        var saleItem = storeSettingsModel.items[saleShortCode];
+        title.text = storeItem.displayName;
 
-        if (saleItem == null)
+        if (isOnSale)
         {
-            return;
+            purchaseText.text = saleItem.remoteProductPrice;
+            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
+            ribbonText.text = $"{(int)discount * 100}% OFF";
+            limitedTimeOnlyText.enabled = true;
         }
-        var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
-        limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
-        ribbonText.text = $"{(int)discount * 100}% OFF";
+        else
+        {
+            purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        }
     }
 
     private void OnCloseButtonClicked()
@@ -145,18 +129,12 @@ public class PromotionRemoveAdsDlgView : View
         return gameObject.activeSelf;
     }
 
-    public void SetupPurchaseButton(bool isAvailable)
-    {
-        purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
-    }
-
     IEnumerator CountdownTimer()
     {
         while (gameObject.activeInHierarchy)
         {
-            yield return waitForOneRealSecond;
             endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
+            yield return waitForOneRealSecond;
         }
 
         yield return null;

@@ -31,20 +31,14 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     public void OnStoreAvailable(bool isAvailable)
     {
         view.OnStoreAvailable(isAvailable);
-        view.SetupPurchaseButton(isAvailable);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG)
+        if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG || viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
         {
-            view.isOnSale = false;
-            view.Show();
-        }
-        else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
-        {
-            view.isOnSale = true;
+            view.isOnSale = viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG;
             view.Show();
         }
     }
