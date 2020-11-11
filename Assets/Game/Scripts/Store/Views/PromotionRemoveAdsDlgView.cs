@@ -56,11 +56,10 @@ public class PromotionRemoveAdsDlgView : View
     public void Init()
     {
         waitForOneRealSecond = new WaitForSecondsRealtime(1f);
-        var storeItem = storeSettingsModel.items[shortCode];
 
+        storeItem = storeSettingsModel.items[shortCode];
         if (storeItem == null)
             return;
-
         title.text = storeItem.displayName;
         purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
 
@@ -118,19 +117,9 @@ public class PromotionRemoveAdsDlgView : View
         {
             return;
         }
-
         var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
         limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductCurrencyCode}{storeItem.remoteProductPrice}</s>";
         ribbonText.text = $"{(int)discount * 100}% OFF";
-    }
-
-    public void SetupSale(string saleKey)
-    {
-        if (saleKey.Equals(saleShortCode))
-            return;
-
-        isOnSale = true;
-        UpdateView();
     }
 
     private void OnCloseButtonClicked()

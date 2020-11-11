@@ -42,10 +42,12 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     {
         if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG)
         {
+            view.isOnSale = false;
             view.Show();
         }
         else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
         {
+            view.isOnSale = true;
             view.Show();
         }
     }
@@ -83,11 +85,5 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         {
             OnCloseDialogue();
         }
-    }
-
-    [ListensTo(typeof(ActivePromotionSaleSingal))]
-    public void OnShowSale(string key)
-    {
-        view.SetupSale(key);
     }
 }
