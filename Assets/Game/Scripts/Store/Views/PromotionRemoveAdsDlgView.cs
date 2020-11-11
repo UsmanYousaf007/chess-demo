@@ -20,6 +20,7 @@ public class PromotionRemoveAdsDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
     public GameObject saleObj;
     public Text goAdsFreeText;
@@ -54,6 +55,7 @@ public class PromotionRemoveAdsDlgView : View
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
+        loading.SetActive(true);
     }
 
     public void OnStoreAvailable(bool available)
@@ -65,7 +67,7 @@ public class PromotionRemoveAdsDlgView : View
         purchaseText.text = $"{storeItem.remoteProductPrice} only";
         SetupSalePrice();
         limitedTimeOnlyText.enabled = available;
-        processingUi.SetActive(available);
+        loading.SetActive(available);
     }
 
     public void UpdateView()
@@ -188,6 +190,12 @@ public class PromotionRemoveAdsDlgView : View
         }
 
         yield return null;
+    }
+
+    public void ShowProcessing(bool show, bool showProcessingUi)
+    {
+        processingUi.SetActive(showProcessingUi);
+        uiBlocker.SetActive(show);
     }
 }
 

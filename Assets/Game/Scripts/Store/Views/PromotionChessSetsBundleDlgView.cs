@@ -13,7 +13,9 @@ public class PromotionChessSetsBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
+    public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -31,7 +33,7 @@ public class PromotionChessSetsBundleDlgView : View
 
     public void InitOnce()
     {
-        SetupPurchaseButton(false);
+        loading.SetActive(true);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
@@ -46,7 +48,7 @@ public class PromotionChessSetsBundleDlgView : View
 
         title.text = storeItem.displayName;
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
-        processingUi.SetActive(false);
+        loading.SetActive(false);
     }
 
     public void Show()
@@ -69,6 +71,12 @@ public class PromotionChessSetsBundleDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
+    }
+
+    public void ShowProcessing(bool show, bool showProcessingUi)
+    {
+        processingUi.SetActive(showProcessingUi);
+        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

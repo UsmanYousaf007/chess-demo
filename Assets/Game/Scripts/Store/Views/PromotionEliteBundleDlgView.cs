@@ -21,7 +21,9 @@ public class PromotionEliteBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
+    public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
     [Header("Items")]
     public Text gems;
@@ -47,10 +49,10 @@ public class PromotionEliteBundleDlgView : View
 
     public void InitOnce()
     {
+        loading.SetActive(true);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
-        processingUi.SetActive(true);
     }
 
     public void Init()
@@ -82,7 +84,7 @@ public class PromotionEliteBundleDlgView : View
                 }
             }
         }
-        processingUi.SetActive(false);
+        loading.SetActive(false);
     }
 
     public void Show()
@@ -99,6 +101,12 @@ public class PromotionEliteBundleDlgView : View
     {
         audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
+    }
+
+    public void ShowProcessing(bool show, bool showProcessingUi)
+    {
+        processingUi.SetActive(showProcessingUi);
+        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()
