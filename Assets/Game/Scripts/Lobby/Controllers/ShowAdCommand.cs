@@ -117,7 +117,7 @@ namespace TurboLabz.InstantGame
                     }
                     else
                     {
-                        resultAdsVO.OnAdCompleteCallback?.Invoke();
+                        resultAdsVO.OnAdCompleteCallback?.Invoke(false);
                         resultAdsVO.RemoveCallback();
                     }
                 }
@@ -364,7 +364,7 @@ namespace TurboLabz.InstantGame
 
             LoadGameStartSignal();
 
-            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.OnAdCompleteCallback?.Invoke(true);
             resultAdsVO.RemoveCallback();
         }
 
@@ -375,7 +375,7 @@ namespace TurboLabz.InstantGame
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
 
-            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.OnAdCompleteCallback?.Invoke(true);
             resultAdsVO.RemoveCallback();
         }
 
@@ -386,7 +386,7 @@ namespace TurboLabz.InstantGame
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             }
 
-            resultAdsVO.OnAdCompleteCallback?.Invoke();
+            resultAdsVO.OnAdCompleteCallback?.Invoke(true);
             resultAdsVO.RemoveCallback();
         }
 

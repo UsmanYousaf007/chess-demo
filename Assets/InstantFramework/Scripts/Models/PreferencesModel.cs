@@ -87,6 +87,7 @@ namespace TurboLabz.InstantGame
         public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         public int currentPromotionIndex { get; set; }
         public List<string> activePromotionSales { get; set; }
+        public bool inGameRemoveAdsPromotionShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -461,6 +462,11 @@ namespace TurboLabz.InstantGame
                     currentPromotionIndex = reader.Read<int>(PrefKeys.CURRENT_PROMOTION_INDEX);
                 }
 
+                if (reader.HasKey(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION))
+                {
+                    inGameRemoveAdsPromotionShown = reader.Read<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION);
+                }
+
                 var transactionKeys = dailyResourceManager.Keys.ToList();
 
                 foreach (var transaction in transactionKeys)
@@ -564,6 +570,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
                 writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
                 writer.Write<int>(PrefKeys.CURRENT_PROMOTION_INDEX, currentPromotionIndex);
+                writer.Write<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION, inGameRemoveAdsPromotionShown);
 
                 foreach (var transaction in dailyResourceManager)
                 {
@@ -612,6 +619,7 @@ namespace TurboLabz.InstantGame
             pregameAdsPerDayCount = 0;
             isFirstRankedGameOfTheDayFinished = false;
             currentPromotionIndex = 0;
+            inGameRemoveAdsPromotionShown = false;
             dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
             activePromotionSales = new List<string>();
 

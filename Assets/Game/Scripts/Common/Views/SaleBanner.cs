@@ -41,8 +41,8 @@ public class SaleBanner : MonoBehaviour
 
         loading.SetActive(!isStoreAvailable);
         button.interactable = isStoreAvailable;
-        originalPrice.gameObject.SetActive(isStoreAvailable);
-        newPrice.gameObject.SetActive(isStoreAvailable);
+        originalPrice.gameObject.SetActive(isStoreAvailable && saleActive);
+        newPrice.gameObject.SetActive(isStoreAvailable && saleActive);
         discountText.gameObject.SetActive(isStoreAvailable);
 
         if (isStoreAvailable)

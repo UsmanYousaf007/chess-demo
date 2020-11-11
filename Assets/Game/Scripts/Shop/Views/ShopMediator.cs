@@ -77,5 +77,11 @@ namespace TurboLabz.InstantFramework
             view.SetSubscriptionOwnedStatus();
             view.SetBundle();
         }
+
+        [ListensTo(typeof(ActivePromotionSaleSingal))]
+        public void OnShowSale(string key)
+        {
+            view.SetupSale(key);
+        }
     }
 }

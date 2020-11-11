@@ -1791,6 +1791,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8925774032801914318}
   - component: {fileID: 8139111193383404519}
+  - component: {fileID: 8107501518746283494}
+  - component: {fileID: 4606088442297323698}
   m_Layer: 5
   m_Name: PromotionRemoveAdsDlg
   m_TagString: Untagged
@@ -1840,6 +1842,43 @@ MonoBehaviour:
   uiBlocker: {fileID: 7489336053753306741}
   processingUi: {fileID: 5166707938117208748}
   isSaleOffer: 0
+--- !u!222 &8107501518746283494
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925774032801914317}
+  m_CullTransparentMesh: 0
+--- !u!114 &4606088442297323698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925774032801914317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.028301895, g: 0.027634397, b: 0.027634397, a: 0.392}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
 --- !u!1 &9027689104033566008
 GameObject:
   m_ObjectHideFlags: 0

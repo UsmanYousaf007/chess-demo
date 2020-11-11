@@ -23,6 +23,12 @@ namespace TurboLabz.InstantFramework
         public RectTransform layout;
         public GameObject uiBlocker;
         public GameObject processing;
+        public string subscriptionKey;
+        public string subscriptionSaleKey;
+        public Text subscriptionOriginalPrice;
+        public Text subscriptionNewPrice;
+        public Text subscriptionRibbonText;
+        public GameObject subscriptionRibbon;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -30,6 +36,7 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
@@ -47,6 +54,7 @@ namespace TurboLabz.InstantFramework
             ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
             subscriptionButton.onClick.AddListener(OnSubscirptionButtonClicked);
             subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
+            ShowSaleItems(false);
         }
 
         public void Show()
@@ -67,6 +75,11 @@ namespace TurboLabz.InstantFramework
             SetSubscriptionOwnedStatus();
             subscriptionButtonText.gameObject.SetActive(available);
             loading.SetActive(!available);
+
+            if (available)
+            {
+                SetupSalePrice();
+            }
         }
 
         public void SetSubscriptionOwnedStatus()
@@ -99,6 +112,38 @@ namespace TurboLabz.InstantFramework
         {
             uiBlocker.SetActive(showUiBlocked);
             processing.SetActive(showProcessing);
+        }
+
+        private void ShowSaleItems(bool show)
+        {
+            subscriptionOriginalPrice.gameObject.SetActive(show);
+            subscriptionNewPrice.gameObject.SetActive(show);
+            subscriptionRibbonText.gameObject.SetActive(show);
+            subscriptionButtonText.gameObject.SetActive(!show);
+        }
+
+        private void SetupSalePrice()
+        {
+            var saleItem = storeSettingsModel.items[subscriptionSaleKey];
+            var storeItem = storeSettingsModel.items[subscriptionKey];
+
+            if (saleItem == null || saleItem == null)
+            {
+                return;
+            }
+
+            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            subscriptionOriginalPrice.text = storeItem.remoteProductPrice;
+            subscriptionNewPrice.text = saleItem.remoteProductPrice;
+            subscriptionRibbonText.text = $"MEGA SALE! {(int)discount * 100}% OFF";
+        }
+
+        public void SetupSale(string saleKey)
+        {
+            if (saleKey.Equals(subscriptionSaleKey))
+            {
+                ShowSaleItems(true);
+            }
         }
     }
 }
