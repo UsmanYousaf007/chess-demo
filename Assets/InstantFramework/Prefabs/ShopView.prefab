@@ -3123,6 +3123,16 @@ PrefabInstance:
       propertyPath: shortCode
       value: SpecialPackRemoveAds
       objectReference: {fileID: 0}
+    - target: {fileID: 1570223182068221590, guid: 1985bb9cff8ed4bbaab7fedb73c629b1,
+        type: 3}
+      propertyPath: canGoOnSale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570223182068221590, guid: 1985bb9cff8ed4bbaab7fedb73c629b1,
+        type: 3}
+      propertyPath: saleShortCode
+      value: SalePackRemoveAds
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1985bb9cff8ed4bbaab7fedb73c629b1, type: 3}
 --- !u!224 &1068261994016348253 stripped

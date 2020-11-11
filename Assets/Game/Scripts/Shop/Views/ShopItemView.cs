@@ -37,12 +37,20 @@ namespace TurboLabz.InstantFramework
         public Text discountValue;
         public bool isSpot;
         public bool loadThumbnail = true;
+        public bool canGoOnSale;
+        public string saleShortCode;
+        public Text orignalPrice;
+        public Text newPrice;
+        public GameObject ribbon;
+        public Text ribbonText;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
+        private StoreItem saleItem;
         private static StoreIconsContainer iconsContainer;
         private static StoreThumbsContainer thumbsContainer;
         private bool isOwned;
+        private bool isOnSale;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -66,6 +74,8 @@ namespace TurboLabz.InstantFramework
             {
                 thumbsContainer = StoreThumbsContainer.Load();
             }
+
+            ShowSaleItems(false);
         }
 
         public void OnStoreAvailable(bool available)
@@ -128,11 +138,12 @@ namespace TurboLabz.InstantFramework
             if (available)
             {
                 price.text = storeItem.remoteProductPrice;
+                SetupSalePrice();
             }
 
             buyButton.interactable = available;
             thumbnailButton.enabled = available;
-            price.gameObject.SetActive(available);
+            price.gameObject.SetActive(available && !isOnSale);
             loading.SetActive(!available);
         }
 
@@ -145,7 +156,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            buyButtonSignal.Dispatch(shortCode);
+            buyButtonSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
         }
 
         public void SetOwnedStatus()
@@ -168,6 +179,43 @@ namespace TurboLabz.InstantFramework
                 ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
                 buyButton.gameObject.SetActive(!isOwned);
                 owned.SetActive(isOwned);
+            }
+        }
+
+        private void ShowSaleItems(bool show)
+        {
+            orignalPrice.gameObject.SetActive(show);
+            newPrice.gameObject.SetActive(show);
+            ribbon.gameObject.SetActive(show);
+            price.gameObject.SetActive(!show);
+        }
+
+        private void SetupSalePrice()
+        {
+            if (!canGoOnSale)
+            {
+                return;
+            }
+
+            saleItem = storeSettingsModel.items[saleShortCode];
+
+            if (saleItem == null)
+            {
+                return;
+            }
+
+            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            orignalPrice.text = storeItem.remoteProductPrice;
+            newPrice.text = saleItem.remoteProductPrice;
+            ribbonText.text = $"FIRE SALE! {(int)discount * 100}% OFF";
+        }
+
+        public void SetupSale(string saleKey)
+        {
+            if (canGoOnSale && saleKey.Equals(saleShortCode))
+            {
+                isOnSale = true;
+                ShowSaleItems(true);
             }
         }
     }
