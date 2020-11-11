@@ -48,22 +48,24 @@ public class PromotionRemoveAdsDlgView : View
 
     public void InitOnce()
     {
+        waitForOneRealSecond = new WaitForSecondsRealtime(1f);
+        limitedTimeOnlyText.enabled = false;
+        SetupPurchaseButton(false);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
     }
 
-    public void Init()
+    public void OnStoreAvailable(bool available)
     {
-        waitForOneRealSecond = new WaitForSecondsRealtime(1f);
-
         storeItem = storeSettingsModel.items[shortCode];
         if (storeItem == null)
             return;
         title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
-
+        purchaseText.text = $"{storeItem.remoteProductPrice} only";
         SetupSalePrice();
+        limitedTimeOnlyText.enabled = available;
+        processingUi.SetActive(available);
     }
 
     public void UpdateView()
@@ -85,7 +87,7 @@ public class PromotionRemoveAdsDlgView : View
             goAdsFreeText.enabled = false;
             closeButton.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -221f, closeButton.transform.localPosition.z);
             title.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -14f, closeButton.transform.localPosition.z);
-            purchaseText.text = $"{saleItem.remoteProductCurrencyCode} {saleItem.remoteProductPrice}";
+            purchaseText.text = $"{saleItem.remoteProductPrice}";
 
         }
         else
@@ -94,7 +96,7 @@ public class PromotionRemoveAdsDlgView : View
             goAdsFreeText.enabled = true;
             closeButton.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, -103f, closeButton.transform.localPosition.z);
             title.transform.localPosition = new Vector3(closeButton.transform.localPosition.x, 0, closeButton.transform.localPosition.z);
-            purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
+            purchaseText.text = $"{storeItem.remoteProductPrice} only";
         }
     }
 
@@ -118,7 +120,7 @@ public class PromotionRemoveAdsDlgView : View
             return;
         }
         var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
-        limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductCurrencyCode}{storeItem.remoteProductPrice}</s>";
+        limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
         ribbonText.text = $"{(int)discount * 100}% OFF";
     }
 
@@ -132,12 +134,6 @@ public class PromotionRemoveAdsDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

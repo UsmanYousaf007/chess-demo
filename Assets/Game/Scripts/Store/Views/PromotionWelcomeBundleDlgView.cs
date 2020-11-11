@@ -21,7 +21,6 @@ public class PromotionWelcomeBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
     public GameObject processingUi;
 
     [Header("Items")]
@@ -51,6 +50,7 @@ public class PromotionWelcomeBundleDlgView : View
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
+        processingUi.SetActive(true);
     }
 
     public void Init()
@@ -82,6 +82,7 @@ public class PromotionWelcomeBundleDlgView : View
                 }
             }
         }
+        processingUi.SetActive(false);
     }
 
     public void Show()
@@ -98,12 +99,6 @@ public class PromotionWelcomeBundleDlgView : View
     {
         audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

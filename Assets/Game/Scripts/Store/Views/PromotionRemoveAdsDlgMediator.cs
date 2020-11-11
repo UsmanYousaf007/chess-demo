@@ -30,10 +30,7 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (isAvailable)
-        {
-            view.Init();
-        }
+        view.OnStoreAvailable(isAvailable);
         view.SetupPurchaseButton(isAvailable);
     }
 
@@ -70,12 +67,6 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     private void OnPurchase(string shortCode)
     {
         purchaseStoreItemSignal.Dispatch(shortCode, true);
-    }
-
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
