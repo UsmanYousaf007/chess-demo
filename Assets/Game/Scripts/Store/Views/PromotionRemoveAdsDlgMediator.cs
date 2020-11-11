@@ -46,7 +46,6 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         }
         else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
         {
-            view.isSaleOffer = true;
             view.Show();
         }
     }
@@ -66,9 +65,9 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         promotionsService.LoadPromotion();
     }
 
-    private void OnPurchase()
+    private void OnPurchase(string shortCode)
     {
-        purchaseStoreItemSignal.Dispatch(view.key, true);
+        purchaseStoreItemSignal.Dispatch(shortCode, true);
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]
@@ -84,5 +83,11 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         {
             OnCloseDialogue();
         }
+    }
+
+    [ListensTo(typeof(ActivePromotionSaleSingal))]
+    public void OnShowSale(string key)
+    {
+        view.SetupSale(key);
     }
 }

@@ -14,7 +14,7 @@ public class LessonInfo : MonoBehaviour
     public void Init(string _title, string _lessons, string _time)
     {
         this.title.text = _title;
-        this.totalLessons.text = _lessons;
-        totalTime.text = _time;
+        this.totalLessons.text = _lessons + " Lessons";
+        totalTime.text = _time + "min";
     }
 }
