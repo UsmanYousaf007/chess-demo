@@ -106,10 +106,12 @@ public class PromotionRemoveAdsDlgView : View
     {
         UpdateView();
         gameObject.SetActive(true);
+        StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
+        StopCoroutine(CountdownTimer());
         gameObject.SetActive(false);
     }
 
@@ -149,44 +151,12 @@ public class PromotionRemoveAdsDlgView : View
         purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
     }
 
-    public void UpdateTime(int hours, int minutes, int seconds)
-    {
-        //Create Desired time
-        DateTime target = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
-        //Get the current time
-        DateTime now = DateTime.Now;
-        TimeSpan t = now.TimeOfDay;
-
-        //Convert both to seconds
-        int targetSec = target.Hour * 60 * 60 + target.Minute * 60 + target.Second;
-        int nowSec = now.Hour * 60 * 60 + now.Minute * 60 + now.Second;
-
-        TimeSpan timeLeft = target - now;
-        if (timeLeft.Hours > 0)
-        {
-            endsInTime.text = timeLeft.Hours + ":" + timeLeft.Minutes + ":" + timeLeft.Seconds;
-        }
-        else if (timeLeft.Minutes > 0)
-        {
-            endsInTime.text = timeLeft.Minutes + ":" + timeLeft.Seconds;
-        }
-        else if (timeLeft.Seconds > 0)
-        {
-            endsInTime.text = timeLeft.Seconds.ToString();
-        }
-        else
-        {
-            endsInTime.gameObject.SetActive(false);
-        }
-    }
-
     IEnumerator CountdownTimer()
     {
         while (gameObject.activeInHierarchy)
         {
             yield return waitForOneRealSecond;
-
-            UpdateTime(24, 0, 0);
+            endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
         }
 
         yield return null;
