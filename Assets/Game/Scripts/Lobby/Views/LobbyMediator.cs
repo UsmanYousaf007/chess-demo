@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -497,7 +498,7 @@ namespace TurboLabz.InstantFramework
 
         void OnUpgradeToPremiumClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            promotionsService.LoadSubscriptionPromotion();
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
 

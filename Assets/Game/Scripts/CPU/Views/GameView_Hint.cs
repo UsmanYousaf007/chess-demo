@@ -19,7 +19,8 @@ namespace TurboLabz.CPU
 {
     public partial class GameView
     {
-        
+        [Inject] public IPromotionsService promotionsService { get; set; }
+
         public Signal hintClickedSignal = new Signal();
 
         [Header("Hint")]
@@ -134,7 +135,7 @@ namespace TurboLabz.CPU
             if (hintAdd.gameObject.activeSelf)
             {
                 setSubscriptionContext.Dispatch("cpu_move_meter");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
                 EnableModalBlocker();

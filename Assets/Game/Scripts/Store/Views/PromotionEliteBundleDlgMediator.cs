@@ -39,7 +39,7 @@ public class PromotionEliteBundleDlgMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (!isAvailable)
+        if (isAvailable)
         {
             view.Init();
         }

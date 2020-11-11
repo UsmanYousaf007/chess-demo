@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
         public Vector3 scrollViewOrignalPosition;
         private StoreItem storeItem;
         private PromotionVO currentPromotion;
-        private IAPBanner iapBanner;
+        private SaleBanner saleBanner;
         private Vector3 playerProfileOriginalPosition;
 
 
@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public RectTransform shadow;
 
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         public void ShowPromotion(PromotionVO vo)
         {
@@ -65,6 +66,16 @@ namespace TurboLabz.InstantFramework
 
                     scrollRect.verticalNormalizedPosition = 1;
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
+
+                    saleBanner = spawnedBanner.GetComponent<SaleBanner>();
+
+                    if (saleBanner != null)
+                    {
+                        var isSaleActive = promotionsService.IsSaleActive(saleBanner.saleKey);
+                        var regularItem = metaDataModel.store.items[saleBanner.key];
+                        var saleItem = metaDataModel.store.items[saleBanner.saleKey];
+                        saleBanner.SetupSale(isSaleActive, regularItem, saleItem);
+                    }
                 }
                 else
                 {
@@ -82,9 +93,12 @@ namespace TurboLabz.InstantFramework
 
         public void SetPriceOfIAPBanner(bool isAvailable)
         {
-            if (isAvailable && iapBanner != null)
+            if (isAvailable && saleBanner != null)
             {
-                //iapBanner.price.text = storeItem.remoteProductPrice;
+                var isSaleActive = promotionsService.IsSaleActive(saleBanner.saleKey);
+                var regularItem = metaDataModel.store.items[saleBanner.key];
+                var saleItem = metaDataModel.store.items[saleBanner.saleKey];
+                saleBanner.SetupSale(isSaleActive, regularItem, saleItem);
             }
         }
 

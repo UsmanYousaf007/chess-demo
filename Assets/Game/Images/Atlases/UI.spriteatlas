@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 35303258
+    totalSpriteSurfaceArea: 35450072
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -101,6 +101,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4009b1a123bdc42fa94a5a42e45930d6, type: 3}
   - {fileID: 21300000, guid: 7cd782a1abc044268b596effc69c3215, type: 3}
   - {fileID: 21300000, guid: 960b91b114d4d4de8a15f49bb2087f30, type: 3}
+  - {fileID: 21300000, guid: c8cec2b1f348d49c8965d38292705aeb, type: 3}
   - {fileID: 21300000, guid: 8bccfab19c807492194b5d766acf6189, type: 3}
   - {fileID: 21300000, guid: ce6e5cb1a5a0a44499785d7613d222cb, type: 3}
   - {fileID: 21300000, guid: 7c4600c189b3f4458b5e558d650067d6, type: 3}
@@ -114,6 +115,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e1bb24025b00c4db980b808830553947, type: 3}
   - {fileID: 21300000, guid: 2f9b05027aaef484b862604255b3066a, type: 3}
   - {fileID: 21300000, guid: 68485112a256e46638260e8e22e00afe, type: 3}
+  - {fileID: 21300000, guid: b2299b12d65b54684baf22c1e7414317, type: 3}
   - {fileID: 21300000, guid: 1b6bbf1263e9041488cf9f8eded09639, type: 3}
   - {fileID: 21300000, guid: 48f3a02204db84afe83dfee8e5922e0d, type: 3}
   - {fileID: 21300000, guid: c05fe7320e69d41f6a16483412643ecf, type: 3}
@@ -445,6 +447,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 438ae17f923eb4e2cac27422a5773ed4, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
   - {fileID: 21300000, guid: ff18038f9ca7d4b008296de189bb3cbf, type: 3}
+  - {fileID: 21300000, guid: 083ad48fa0ed3439ebcbda94014b3694, type: 3}
   - {fileID: 21300000, guid: e756749fc0a924fa798beebdea4c6337, type: 3}
   - {fileID: 21300000, guid: f814669ff9b9d4fbd8c28b11fe4ac21d, type: 3}
   - {fileID: 21300000, guid: 38ce45af0bd964c4eb6443ac6ad5791a, type: 3}
@@ -510,6 +513,7 @@ SpriteAtlas:
   - FlagBorder
   - moveMeterPerfect
   - PlusIcon
+  - SaleRibbonShop
   - OnboardingCoach
   - PossibleMovesIndicator
   - GDPRStandardDlg
@@ -523,6 +527,7 @@ SpriteAtlas:
   - LessonIcon
   - AppleIcon
   - BtnNameEdit
+  - VipClubBannerText
   - GameTimeBtn
   - RoundEdgesGlow
   - GamesIconClr
@@ -854,6 +859,7 @@ SpriteAtlas:
   - BlueTick
   - InGameChessLogo
   - NavShopBg
+  - PromoBannerRibbon
   - InboxOpen
   - CollectRwdBanner
   - SpecialItemGemsBoosterIcon

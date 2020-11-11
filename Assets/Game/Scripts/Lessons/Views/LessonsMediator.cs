@@ -25,6 +25,7 @@ namespace TurboLabz.InstantGame
 
         //Analytics Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         //Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -113,7 +114,7 @@ namespace TurboLabz.InstantGame
             //else
             //{
             //    setSubscriptionContext.Dispatch($"lessons_{lesson.vo.section.ToLower().Replace(' ', '_')}");
-            //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            //    promotionsService.LoadSubscriptionPromotion();
             //}
         }
 

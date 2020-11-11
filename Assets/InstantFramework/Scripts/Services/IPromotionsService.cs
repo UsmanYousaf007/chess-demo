@@ -12,5 +12,8 @@ namespace TurboLabz.InstantFramework
         List<List<string>> promotionsSequence { get; set; }
         bool promotionShown { get; }
         void LoadPromotion();
+        void LoadRemoveAdsPromotion();
+        void LoadSubscriptionPromotion();
+        bool IsSaleActive(string key);
     }
 }

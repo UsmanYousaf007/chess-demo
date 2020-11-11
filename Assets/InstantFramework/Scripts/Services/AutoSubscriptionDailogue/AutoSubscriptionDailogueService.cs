@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         //Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -31,7 +32,7 @@ namespace TurboLabz.InstantFramework
             {
                 preferencesModel.autoSubscriptionDlgShownCount++;
                 appInfoModel.isAutoSubscriptionDlgShown = true;
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
                 subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
             }
         }

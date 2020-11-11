@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -241,7 +242,7 @@ namespace TurboLabz.InstantFramework
                 setSubscriptionContext.Dispatch($"lessons_{nextVideo.section.ToLower().Replace(' ', '_')}");
                 videoPlaybackService.Pause();
                 subscriptionDlgClosedSignal.AddOnce(OnSubscriptionDlgClosed);
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
             }
             else
             {

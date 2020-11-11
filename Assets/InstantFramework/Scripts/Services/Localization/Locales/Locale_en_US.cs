@@ -289,7 +289,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SHOP_SAVER_BUNDLES, "SAVER BUNDLES"},
                 { LocalizationKey.SHOP_SPECIAL_PACKS, "SPECIAL PACKS"},
                 { LocalizationKey.SHOP_GEM_PACKS, "GEM PACKS"},
-                { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "All Packs\nPremium Upgrade!"},
+                { LocalizationKey.SHOP_SUBSCRIPTION_STRIP, "VIP Club Membership"},
                 { LocalizationKey.SHOP_PURCHASED_DLG_GAINED, "You Gained:"},
                 { LocalizationKey.SHOP_PURHCASED_DLG_OK, "Got It"},
 
@@ -452,7 +452,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SETTINGS_SOUND_TITLE, "SOUND" },
                 { LocalizationKey.SETTINGS_SOUND_EFFECT, "Sound Effects" },
                 { LocalizationKey.SETTINGS_ACCOUNT_TITLE, "ACCOUNT" },
-                { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "Upgrade to Premium" },
+                { LocalizationKey.SETTINGS_ACCOUNT_UPGRADE_TO_PREMIUM, "VIP Club Membership" },
                 {LocalizationKey.SETTINGS_CHAT_ON_DISCORD, "Chat with us on Discord" },
                 { LocalizationKey.SETTINGS_ACCOUNT_PERSONALISED_ADS, "Personalised Ads" },
                 { LocalizationKey.SETTINGS_ACCOUNT_MANAGE_SUBSCRIPTION, "Manage Subscription" },

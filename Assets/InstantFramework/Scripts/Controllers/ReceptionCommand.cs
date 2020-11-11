@@ -151,13 +151,13 @@ namespace TurboLabz.InstantFramework
             setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
             //loadPromotionSingal.Dispatch();
-            promotionsService.LoadPromotion();
             //autoSubscriptionDialogueService.Show();
             pushNotificationService.Init();
             notificationsModel.Init();
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();
+            promotionsService.LoadPromotion();
         }
 
         private void UpdateProfilePic(ref bool picWait)
@@ -257,7 +257,7 @@ namespace TurboLabz.InstantFramework
 
         private void SendDailyAnalytics()
         {
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).TotalDays;
+            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - preferencesModel.lastLaunchTime).Days;
 
             if (daysBetweenLastLogin >= 1)
             {

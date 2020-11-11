@@ -150,7 +150,7 @@ namespace TurboLabz.Multiplayer
                 }
                 
                 setSubscriptionContext.Dispatch($"{matchType}_coach");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
                 EnableModalBlocker();

@@ -24,6 +24,7 @@ namespace TurboLabz.Multiplayer
         public Signal hintClickedSignal = new Signal();
 
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         [Header("Hint")]
         public GameObject hintFromIndicator;
@@ -200,7 +201,7 @@ namespace TurboLabz.Multiplayer
                 }
 
                 setSubscriptionContext.Dispatch($"{matchType}_move_meter");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
                 OnParentHideAdBanner();
                 subscriptionDlgClosedSignal.AddOnce(OnParentShowAdBanner);
                 EnableModalBlocker();

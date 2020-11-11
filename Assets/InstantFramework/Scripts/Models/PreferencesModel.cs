@@ -86,6 +86,7 @@ namespace TurboLabz.InstantGame
         public bool themesTabVisited { get; set; }
         public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         public int currentPromotionIndex { get; set; }
+        public List<string> activePromotionSales { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -477,6 +478,13 @@ namespace TurboLabz.InstantGame
                     }
                 }
 
+                int i = 0;
+                while (reader.HasKey($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}"))
+                {
+                    activePromotionSales.Add(reader.Read<string>($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}"));
+                    i++;
+                }
+
                 reader.Close();
             }
             catch (Exception e)
@@ -565,6 +573,13 @@ namespace TurboLabz.InstantGame
                     }
                 }
 
+                int i = 0;
+                foreach (var sale in activePromotionSales)
+                {
+                    writer.Write<string>($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}", sale);
+                    i++;
+                }
+
                 writer.Close();
             }
             catch (Exception e)
@@ -598,6 +613,7 @@ namespace TurboLabz.InstantGame
             isFirstRankedGameOfTheDayFinished = false;
             currentPromotionIndex = 0;
             dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
+            activePromotionSales = new List<string>();
 
             foreach (var key in PrefKeys.DAILY_RESOURCE_MAMANGER)
             {

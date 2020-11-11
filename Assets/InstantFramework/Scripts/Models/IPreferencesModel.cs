@@ -79,5 +79,6 @@ namespace TurboLabz.InstantFramework
         bool autoPromotionToQueen { get; set; }
 
         Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
+        List<string> activePromotionSales { get; set; }
     }
 }
