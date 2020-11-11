@@ -15,10 +15,13 @@ public class PromotionChessCourseBundleDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject lessonPrefab;
+    public Transform lessonsContainer;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public ILessonsModel lessonsModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
@@ -48,6 +51,16 @@ public class PromotionChessCourseBundleDlgView : View
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
 
         // Fill only once
+        if (lessonsContainer.childCount == 0)
+        {
+            //var lessons = storeItem.description.Split(',');
+            var lessons = lessonsModel.GetTopicsWithDurationInMinutes();
+            foreach (var lesson in lessons)
+            {
+                var lessonObj = Instantiate(lessonPrefab, lessonsContainer, false) as GameObject;
+                lessonObj.GetComponent<LessonInfo>().Init(lesson.name,lesson.total.ToString(), lesson.durationInMinutes.ToString());
+            }
+        }
         iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
     }
 
