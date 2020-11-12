@@ -173,7 +173,11 @@ namespace TurboLabz.InstantFramework
         tournament_first_game_start_location,
 
         //navigation
-        navigation_clicked
+        navigation_clicked,
+
+        //promotions
+        promotion_dlg_shown,
+        promotion_dlg_purchased
     }
 
     public enum AnalyticsContext
@@ -319,7 +323,16 @@ namespace TurboLabz.InstantFramework
         //navigation
         inventory,
         games,
-        arena
+        arena,
+
+        //promotions
+        remove_ads,
+        remove_ads_fire_sale,
+        welcome,
+        elite,
+        lessons_pack,
+        themes_pack,
+        annual_mega_sale
     }
 
     public enum AnalyticsParameter

@@ -10,6 +10,7 @@ public class PromotionChessCourseBundleDlgMediator : Mediator
 
     // Services
     [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public IAnalyticsService analyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -35,6 +36,7 @@ public class PromotionChessCourseBundleDlgMediator : Mediator
         if (viewId == NavigatorViewId.PROMOTION_CHESS_COURSE_DLG)
         {
             view.Show();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, AnalyticsContext.lessons_pack);
         }
     }
 
@@ -74,9 +76,10 @@ public class PromotionChessCourseBundleDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (view.IsVisible())
+        if (view.IsVisible() && item.key.Equals(view.key))
         {
             OnCloseDialogue();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, AnalyticsContext.lessons_pack);
         }
     }
 }

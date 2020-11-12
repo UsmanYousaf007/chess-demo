@@ -16,10 +16,12 @@ namespace TurboLabz.InstantFramework
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -101,6 +103,13 @@ namespace TurboLabz.InstantFramework
             promotionShown = true;
             var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
+
+            if (promotionToDispatch.key.Equals("Subscription"))
+            {
+                appInfoModel.isAutoSubscriptionDlgShown = true;
+                subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
+            }
+
             navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
 
             if (promotionToDispatch.isOnSale)

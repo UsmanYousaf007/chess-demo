@@ -72,6 +72,7 @@ public class SubscriptionDlgMediator : Mediator
             var cameFromCustomContext = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ||
                 cameFromState.GetType().Equals(typeof(NSLessonTopics)) || cameFromState.GetType().Equals(typeof(NSLessonsView)) || cameFromState.GetType().Equals(typeof(NSLessonVideo));
             cameFromScreen = cameFromCustomContext ? context : cameFromScreen;
+            cameFromScreen = view.isSaleOffer ? AnalyticsContext.annual_mega_sale.ToString() : cameFromScreen; 
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
 
@@ -94,7 +95,7 @@ public class SubscriptionDlgMediator : Mediator
 
     private void OnCloseDailougeAnalytic()
     {
-        //hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
+        hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
         OnCloseDailogue();
     }
 

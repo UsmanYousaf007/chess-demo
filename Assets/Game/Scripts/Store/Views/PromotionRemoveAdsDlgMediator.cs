@@ -11,6 +11,7 @@ public class PromotionRemoveAdsDlgMediator : Mediator
 
     // Services
     [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public IAnalyticsService analyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -40,6 +41,7 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         {
             view.isOnSale = viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG;
             view.Show();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, view.isOnSale? AnalyticsContext.remove_ads_fire_sale : AnalyticsContext.remove_ads);
         }
     }
 
@@ -72,9 +74,10 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (view.IsVisible())
+        if (view.IsVisible() && (item.key.Equals(view.shortCode) || item.key.Equals(view.saleShortCode)))
         {
             OnCloseDialogue();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, view.isOnSale ? AnalyticsContext.remove_ads_fire_sale : AnalyticsContext.remove_ads);
         }
     }
 }
