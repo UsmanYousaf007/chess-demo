@@ -62,7 +62,7 @@ public class PromotionEliteBundleDlgView : View
             return;
 
         title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        purchaseText.text = storeItem.remoteProductPrice;
 
         if (storeItem.bundledItems != null)
         {

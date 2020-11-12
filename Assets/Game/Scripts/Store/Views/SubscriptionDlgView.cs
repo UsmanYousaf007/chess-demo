@@ -255,8 +255,8 @@ public class SubscriptionDlgView : View
     {
         while (gameObject.activeInHierarchy)
         {
-            yield return waitForOneRealSecond;
             endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
+            yield return waitForOneRealSecond;
         }
 
         yield return null;

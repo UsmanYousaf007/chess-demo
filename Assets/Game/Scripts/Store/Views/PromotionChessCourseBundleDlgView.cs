@@ -48,7 +48,7 @@ public class PromotionChessCourseBundleDlgView : View
                 return;
 
             //title.text = storeItem.displayName;
-            purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON) + " " + storeItem.remoteProductPrice;
+            purchaseText.text = storeItem.remoteProductPrice;
         }
         else
         {

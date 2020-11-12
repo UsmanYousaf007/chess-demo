@@ -278,7 +278,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON, "Continue"},
                 { LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE, "Restore Purchase"},
                 { LocalizationKey.SUBSCRIPTION_DLG_PRIVACY_POLICY, "Privacy Policy"},
-                { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms of Use"},
+                { LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE, "Terms & Services"},
                 { LocalizationKey.SUBSCRIPTION_DLG_TERMS_AND_SERVICES, "Terms & Services"},
 
                 { LocalizationKey.PROMOTON_DLG_TITLE, "Premium Subscription"},

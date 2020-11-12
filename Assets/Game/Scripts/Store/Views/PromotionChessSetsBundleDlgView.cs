@@ -42,8 +42,8 @@ public class PromotionChessSetsBundleDlgView : View
         if (storeItem == null)
             return;
 
-        title.text = storeItem.displayName;
-        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.remoteProductPrice;
+        title.text = "10 beautiful chess sets and themes";
+        purchaseText.text = storeItem.remoteProductPrice;
     }
 
     public void Show()
