@@ -14,6 +14,7 @@ namespace TurboLabz.Multiplayer
         {
             view.InitSpecialHint();
             view.specialHintClickedSignal.AddListener(OnGetSpecialHint);
+            view.notEnoughSpecialHintsSingal.AddListener(OnNotEnoughSpeciallHints);
         }
 
         private void OnGetSpecialHint(VirtualGoodsTransactionVO vo)
@@ -86,6 +87,16 @@ namespace TurboLabz.Multiplayer
         public void OnCancelSpecialHint()
         {
             view.CancelSpecialHint();
+        }
+
+        private void OnNotEnoughSpeciallHints(VirtualGoodsTransactionVO vo)
+        {
+            hintTransactionVO = vo;
+            var spotInventoryParams = new LoadSpotInventoryParams();
+            spotInventoryParams.itemShortCode = vo.consumeItemShortCode;
+            spotInventoryParams.itemToUnclockShortCode = vo.consumeItemShortCode;
+            spotInventoryParams.challengeId = matchInfoModel.activeChallengeId;
+            loadSpotInventorySignal.Dispatch(spotInventoryParams);
         }
     }
 }

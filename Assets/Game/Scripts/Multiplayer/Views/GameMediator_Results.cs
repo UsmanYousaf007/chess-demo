@@ -329,6 +329,10 @@ namespace TurboLabz.Multiplayer
                     virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
                     virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
                 }
+                else if (key.Equals(view.specialHintShortCode))
+                {
+                    view.ProcessHint(hintTransactionVO);
+                }
             }
         }
     }

@@ -10,5 +10,6 @@ namespace TurboLabz.InstantFramework
         public long gemsCount;
         public Sprite icon;
         public string itemToUnlockShortCode;
+        public bool enableVideoButton;
     }
 }

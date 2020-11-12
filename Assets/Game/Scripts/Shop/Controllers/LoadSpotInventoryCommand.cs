@@ -1,4 +1,5 @@
 ﻿using strange.extensions.command.impl;
+using TurboLabz.Multiplayer;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -15,6 +16,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         public override void Execute()
         {
@@ -27,6 +29,12 @@ namespace TurboLabz.InstantFramework
             vo.gemsCount = playerModel.gems;
             vo.icon = StoreIconsContainer.Load().GetSprite(spotInventoryParams.itemShortCode);
             vo.itemToUnlockShortCode = spotInventoryParams.itemToUnclockShortCode;
+            vo.enableVideoButton = true;
+
+            if (!string.IsNullOrEmpty(spotInventoryParams.challengeId) && chessboardModel.isValidChallenge(spotInventoryParams.challengeId))
+            {
+                vo.enableVideoButton = chessboardModel.chessboards[spotInventoryParams.challengeId].backendPlayerTimer.TotalMinutes >= 3;
+            }
 
             updateSpotInventoryViewSignal.Dispatch(vo);
         }
