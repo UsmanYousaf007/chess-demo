@@ -30,23 +30,15 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (!isAvailable)
-        {
-            view.Init();
-        }
-        view.SetupPurchaseButton(isAvailable);
+        view.OnStoreAvailable(isAvailable);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG)
+        if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG || viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
         {
-            view.Show();
-        }
-        else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
-        {
-            view.isSaleOffer = true;
+            view.isOnSale = viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG;
             view.Show();
         }
     }
@@ -66,9 +58,9 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         promotionsService.LoadPromotion();
     }
 
-    private void OnPurchase()
+    private void OnPurchase(string shortCode)
     {
-        purchaseStoreItemSignal.Dispatch(view.key, true);
+        purchaseStoreItemSignal.Dispatch(shortCode, true);
     }
 
     [ListensTo(typeof(ShowProcessingSignal))]

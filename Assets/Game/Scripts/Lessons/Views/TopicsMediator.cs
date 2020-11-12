@@ -19,8 +19,9 @@ namespace TurboLabz.InstantGame
         [Inject] public LoadLessonsViewSignal loadLessonsViewSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
 
-        //Analytics Service
+        //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         //Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -92,7 +93,7 @@ namespace TurboLabz.InstantGame
             if (vo.isLocked)
             {
                 setSubscriptionContext.Dispatch($"lessons_{vo.section.ToLower().Replace(' ', '_')}");
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                promotionsService.LoadSubscriptionPromotion();
             }
             else
             {

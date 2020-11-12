@@ -41,10 +41,7 @@ public class PromotionChessCourseBundleDlgMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (!isAvailable)
-        {
-            view.Init();
-        }
+        view.Init(isAvailable);
         view.SetupPurchaseButton(isAvailable);
     }
 

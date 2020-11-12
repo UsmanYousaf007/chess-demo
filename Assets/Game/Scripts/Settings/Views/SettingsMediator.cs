@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         public override void OnRegister()
         {
@@ -83,7 +84,7 @@ namespace TurboLabz.InstantFramework
 
         void OnUpgradeToPremiumClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            promotionsService.LoadSubscriptionPromotion();
         }
 
         private void OnManageSubscriptionClicked()

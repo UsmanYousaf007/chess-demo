@@ -15,10 +15,14 @@ public class PromotionChessCourseBundleDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject lessonPrefab;
+    public Transform lessonsContainer;
+    public GameObject loading;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
     [Inject] public IMetaDataModel metaDataModel { get; set; }
+    [Inject] public ILessonsModel lessonsModel { get; set; }
 
     //Services
     [Inject] public ILocalizationService localizationService { get; set; }
@@ -28,27 +32,38 @@ public class PromotionChessCourseBundleDlgView : View
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
 
-    private StoreIconsContainer iconsContainer;
-
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-        iconsContainer = StoreIconsContainer.Load();
     }
 
-    public void Init()
+    public void Init(bool isAvailable)
     {
-        var storeItem = storeSettingsModel.items[key];
+        if (isAvailable)
+        {
+            var storeItem = storeSettingsModel.items[key];
 
-        if (storeItem == null)
-            return;
+            if (storeItem == null)
+                return;
 
-        title.text = storeItem.displayName;
-        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
-
-        // Fill only once
-        iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
+            title.text = storeItem.displayName;
+            purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON) + " " + storeItem.remoteProductPrice;
+        }
+        else
+        {
+            // Fill only once
+            if (lessonsContainer.childCount == 0)
+            {
+                //var lessons = storeItem.description.Split(',');
+                var lessons = lessonsModel.GetTopicsWithDurationInMinutes();
+                foreach (var lesson in lessons)
+                {
+                    var lessonObj = Instantiate(lessonPrefab, lessonsContainer, false) as GameObject;
+                    lessonObj.GetComponent<LessonInfo>().Init(lesson.name, lesson.total.ToString(), lesson.durationInMinutes.ToString());
+                }
+            }
+        }
     }
 
     public void Show()
@@ -87,7 +102,8 @@ public class PromotionChessCourseBundleDlgView : View
     public void SetupPurchaseButton(bool isAvailable)
     {
         purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        purchaseText.enabled = isAvailable;
+        loading.SetActive(!isAvailable);
     }
 }
 

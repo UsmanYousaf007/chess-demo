@@ -19,5 +19,6 @@
         public NavigatorEvent navigatorEvent;
         public delegate bool Condition();
         public Condition condition;
+        public bool isOnSale;
     }
 }

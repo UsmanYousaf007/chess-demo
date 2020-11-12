@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -48,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnSubscriptionButtonClickedSignal()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+            promotionsService.LoadSubscriptionPromotion();
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
@@ -75,6 +76,12 @@ namespace TurboLabz.InstantFramework
         {
             view.SetSubscriptionOwnedStatus();
             view.SetBundle();
+        }
+
+        [ListensTo(typeof(ActivePromotionSaleSingal))]
+        public void OnShowSale(string key)
+        {
+            view.SetupSale(key);
         }
     }
 }

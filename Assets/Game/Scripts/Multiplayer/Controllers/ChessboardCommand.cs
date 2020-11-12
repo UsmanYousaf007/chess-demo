@@ -83,6 +83,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         public Chessboard activeChessboard;
         public MatchInfo activeMatchInfo;

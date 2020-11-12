@@ -106,7 +106,7 @@ namespace TurboLabz.CPU
                 }
                 else
                 {
-                    OnInGameAdComplete();
+                    OnInGameAdComplete(false);
                 }
 
                 return null;
@@ -133,13 +133,19 @@ namespace TurboLabz.CPU
             return null;
         }
 
-        private void OnInGameAdComplete()
+        private void OnInGameAdComplete(bool adShown)
         {
             DoAiMove(chessboardCommand);
 
             // You can no longer go forward in history after making a move
             chessboardCommand.chessboardModel.trimmedMoveList.Clear();
             chessboardCommand.toggleStepForwardSignal.Dispatch(false);
+
+            if (adShown && !chessboardCommand.preferencesModel.inGameRemoveAdsPromotionShown)
+            {
+                chessboardCommand.preferencesModel.inGameRemoveAdsPromotionShown = true;
+                chessboardCommand.promotionsService.LoadRemoveAdsPromotion();
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ public class PromotionEliteBundleDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
     [Header("Items")]
     public Text gems;
@@ -61,7 +62,7 @@ public class PromotionEliteBundleDlgView : View
             return;
 
         title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
+        purchaseText.text = $"{storeItem.remoteProductPrice} only";
 
         if (storeItem.bundledItems != null)
         {
@@ -114,7 +115,8 @@ public class PromotionEliteBundleDlgView : View
     public void SetupPurchaseButton(bool isAvailable)
     {
         purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        purchaseText.enabled = isAvailable;
+        loading.SetActive(!isAvailable);
     }
 
     private void OnPurchaseButtonClicked()

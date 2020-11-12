@@ -4,63 +4,112 @@ using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
+using System.Collections;
+using TurboLabz.TLUtils;
 
 [System.CLSCompliantAttribute(false)]
 public class PromotionRemoveAdsDlgView : View
 {
-    public string key;
+    public string shortCode;
+    public string saleShortCode;
     public Text title;
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
-    public bool isSaleOffer;
+    public GameObject saleObj;
+    public Text goAdsFreeText;
+    public Text ribbonText;
+    public TMP_Text limitedTimeOnlyText;
+    public Text endsInTime;
+    private WaitForSecondsRealtime waitForOneRealSecond;
 
-    //Models 
+    [HideInInspector] public bool isOnSale;
+
+    private bool isStoreAvailable;
+    private bool isShown;
+    private Coroutine timer;
+
+    // Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-    [Inject] public IMetaDataModel metaDataModel { get; set; }
 
-    //Services
+    // Services
     [Inject] public ILocalizationService localizationService { get; set; }
     [Inject] public IAudioService audioService { get; set; }
 
-    //Signals
+    // Signals
     public Signal closeDailogueSignal = new Signal();
-    public Signal purchaseSignal = new Signal();
-
-    private StoreIconsContainer iconsContainer;
+    public Signal<string> purchaseSignal = new Signal<string>();
 
     public void InitOnce()
     {
+        waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-        iconsContainer = StoreIconsContainer.Load();
     }
 
-    public void Init()
+    public void OnStoreAvailable(bool isAvailable)
     {
-        var storeItem = storeSettingsModel.items[key];
+        isStoreAvailable = isAvailable;
+        purchaseButton.interactable = isAvailable;
+        purchaseText.enabled = isAvailable;
+        loading.SetActive(!isAvailable);
 
-        if (storeItem == null)
-            return;
+        if (isShown && isAvailable)
+        {
+            SetupPopup();
+        }
+    }
 
-        title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} only";
+    public void UpdateView()
+    {
+        isShown = true;
+        saleObj.SetActive(isOnSale);
+        goAdsFreeText.enabled = !isOnSale;
+        limitedTimeOnlyText.enabled = isOnSale && isStoreAvailable;
 
-        // Fill only once
-        iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
+        if (isStoreAvailable)
+        {
+            SetupPopup();
+        }
     }
 
     public void Show()
     {
+        UpdateView();
         gameObject.SetActive(true);
+        timer = StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
+        StopCoroutine(timer);
         gameObject.SetActive(false);
+    }
+
+    private void SetupPopup()
+    {
+        var storeItem = storeSettingsModel.items[shortCode];
+        var saleItem = storeSettingsModel.items[saleShortCode];
+        title.text = storeItem.displayName;
+
+        if (isOnSale)
+        {
+            purchaseText.text = saleItem.remoteProductPrice;
+            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
+            ribbonText.text = $"{(int)discount * 100}% OFF";
+            limitedTimeOnlyText.enabled = true;
+        }
+        else
+        {
+            purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        }
     }
 
     private void OnCloseButtonClicked()
@@ -72,13 +121,7 @@ public class PromotionRemoveAdsDlgView : View
     private void OnPurchaseButtonClicked()
     {
         audioService.PlayStandardClick();
-        purchaseSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
+        purchaseSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
     }
 
     public bool IsVisible()
@@ -86,10 +129,21 @@ public class PromotionRemoveAdsDlgView : View
         return gameObject.activeSelf;
     }
 
-    public void SetupPurchaseButton(bool isAvailable)
+    IEnumerator CountdownTimer()
     {
-        purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        while (gameObject.activeInHierarchy)
+        {
+            endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
+            yield return waitForOneRealSecond;
+        }
+
+        yield return null;
+    }
+
+    public void ShowProcessing(bool show, bool showProcessingUi)
+    {
+        processingUi.SetActive(showProcessingUi);
+        uiBlocker.SetActive(show);
     }
 }
 

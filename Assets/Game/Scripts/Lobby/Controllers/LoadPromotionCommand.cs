@@ -27,6 +27,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPromotionsService promotionsService { get; set; }
 
         private const int TOTAL_PROMOTIONS = 5;
         private static List<PromotionVO> promotionCycle;
@@ -211,7 +212,7 @@ namespace TurboLabz.InstantGame
                 onClick = delegate 
                 {
                     audioService.PlayStandardClick();
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SUBSCRIPTION_DLG);
+                    promotionsService.LoadSubscriptionPromotion();
                     analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_subscription_banner);
                 }
             };

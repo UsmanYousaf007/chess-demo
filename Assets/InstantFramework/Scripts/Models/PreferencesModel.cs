@@ -86,6 +86,8 @@ namespace TurboLabz.InstantGame
         public bool themesTabVisited { get; set; }
         public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         public int currentPromotionIndex { get; set; }
+        public List<string> activePromotionSales { get; set; }
+        public bool inGameRemoveAdsPromotionShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -460,6 +462,11 @@ namespace TurboLabz.InstantGame
                     currentPromotionIndex = reader.Read<int>(PrefKeys.CURRENT_PROMOTION_INDEX);
                 }
 
+                if (reader.HasKey(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION))
+                {
+                    inGameRemoveAdsPromotionShown = reader.Read<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION);
+                }
+
                 var transactionKeys = dailyResourceManager.Keys.ToList();
 
                 foreach (var transaction in transactionKeys)
@@ -475,6 +482,13 @@ namespace TurboLabz.InstantGame
                             dailyResourceManager[transaction][resource] = reader.Read<int>(key);
                         }
                     }
+                }
+
+                int i = 0;
+                while (reader.HasKey($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}"))
+                {
+                    activePromotionSales.Add(reader.Read<string>($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}"));
+                    i++;
                 }
 
                 reader.Close();
@@ -556,6 +570,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
                 writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
                 writer.Write<int>(PrefKeys.CURRENT_PROMOTION_INDEX, currentPromotionIndex);
+                writer.Write<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION, inGameRemoveAdsPromotionShown);
 
                 foreach (var transaction in dailyResourceManager)
                 {
@@ -563,6 +578,13 @@ namespace TurboLabz.InstantGame
                     {
                         writer.Write<int>($"{transaction.Key}{resource.Key}", resource.Value);
                     }
+                }
+
+                int i = 0;
+                foreach (var sale in activePromotionSales)
+                {
+                    writer.Write<string>($"{PrefKeys.ACTIVE_PROMOTION_SALES}{i}", sale);
+                    i++;
                 }
 
                 writer.Close();
@@ -580,7 +602,7 @@ namespace TurboLabz.InstantGame
 
         public void ResetDailyPrefers()
         {
-            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp);
+            lastLaunchTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime();
             timeSpentCpuMatch = 0;
             timeSpentLongMatch = 0;
             timeSpent1mMatch = 0;
@@ -597,7 +619,9 @@ namespace TurboLabz.InstantGame
             pregameAdsPerDayCount = 0;
             isFirstRankedGameOfTheDayFinished = false;
             currentPromotionIndex = 0;
+            inGameRemoveAdsPromotionShown = false;
             dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
+            activePromotionSales = new List<string>();
 
             foreach (var key in PrefKeys.DAILY_RESOURCE_MAMANGER)
             {

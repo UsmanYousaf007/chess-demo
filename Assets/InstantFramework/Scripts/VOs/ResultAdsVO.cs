@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
         public string tournamentId;
         public AdPlacements placementId;
 
-        public Action OnAdCompleteCallback;
+        public Action<bool> OnAdCompleteCallback;
 
         public void RemoveCallback()
         {

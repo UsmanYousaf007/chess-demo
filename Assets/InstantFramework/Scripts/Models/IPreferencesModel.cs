@@ -63,6 +63,7 @@ namespace TurboLabz.InstantFramework
         bool shopTabVisited { get; set; }
         bool themesTabVisited { get; set; }
         int currentPromotionIndex { get; set; }
+        bool inGameRemoveAdsPromotionShown { get; set; }
 
         void ResetDailyPrefers();
 
@@ -79,5 +80,6 @@ namespace TurboLabz.InstantFramework
         bool autoPromotionToQueen { get; set; }
 
         Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
+        List<string> activePromotionSales { get; set; }
     }
 }

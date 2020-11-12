@@ -15,6 +15,7 @@ public class PromotionChessSetsBundleDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -28,13 +29,10 @@ public class PromotionChessSetsBundleDlgView : View
     public Signal closeDailogueSignal = new Signal();
     public Signal purchaseSignal = new Signal();
 
-    private StoreIconsContainer iconsContainer;
-
     public void InitOnce()
     {
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
-        iconsContainer = StoreIconsContainer.Load();
     }
 
     public void Init()
@@ -45,10 +43,7 @@ public class PromotionChessSetsBundleDlgView : View
             return;
 
         title.text = storeItem.displayName;
-        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.productPrice;
-
-        // Fill only once
-        iconsContainer.GetSprite(GSBackendKeys.ShopItem.GetOfferItemKey(key));
+        purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON)+" "+storeItem.remoteProductPrice;
     }
 
     public void Show()
@@ -87,7 +82,8 @@ public class PromotionChessSetsBundleDlgView : View
     public void SetupPurchaseButton(bool isAvailable)
     {
         purchaseButton.interactable = isAvailable;
-        purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+        purchaseText.enabled = isAvailable;
+        loading.SetActive(!isAvailable);
     }
 }
 

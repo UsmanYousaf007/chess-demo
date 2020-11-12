@@ -66,6 +66,8 @@ namespace TurboLabz.InstantFramework
 
         public RectTransform selectedRT;
 
+        public GameObject saleRibbon;
+
         public Signal homeButtonClickedSignal = new Signal();
         public Signal friendsButtonClickedSignal = new Signal();
         public Signal inventoryButtonClickedSignal = new Signal();
@@ -95,6 +97,7 @@ namespace TurboLabz.InstantFramework
             shopButton.onClick.AddListener(ShopButtonClicked);
             arenaButton.onClick.AddListener(ArenaButtonClicked);
             UpdateButtons();
+            ShowSale(false);
         }
 
         IEnumerator WaitUntilEndOfFrame()
@@ -253,6 +256,11 @@ namespace TurboLabz.InstantFramework
         public void Show(bool value)
         {
             gameObject.SetActive(value);
+        }
+
+        public void ShowSale(bool show)
+        {
+            saleRibbon.SetActive(show);
         }
     }
 }

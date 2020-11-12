@@ -106,7 +106,7 @@ namespace TurboLabz.Multiplayer
                     cmd.adsSettingsModel.showInGameClassic &&
                     chessboard.backendPlayerTimer.Seconds < cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
                 {
-                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic, AdPlacements.Interstitial_in_game_classic);
+                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic, AdPlacements.Interstitial_in_game_classic, OnShowAdComplete);
                 }
 
                 return null;
@@ -146,7 +146,7 @@ namespace TurboLabz.Multiplayer
             return null;
         }
 
-        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext, AdPlacements placementId, Action OnAdCompleteCallback = null)
+        private void ShowInGameAd(string challengeId, MatchInfo matchInfo, ChessboardCommand cmd, AnalyticsContext adContext, AdPlacements placementId, Action<bool> OnAdCompleteCallback = null)
         {
             long secondsSinceLastAdShown = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - matchInfo.lastAdShownUTC) / 1000;
             if (secondsSinceLastAdShown > cmd.adsSettingsModel.secondsBetweenIngameAds)
@@ -167,7 +167,7 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnShowAdComplete()
+        private void OnShowAdComplete(bool adShown)
         {
             long adTimeSpent = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - (adStartTime / 1000);
             if (adTimeSpent > 2 && chessboardCommand != null)
@@ -190,6 +190,12 @@ namespace TurboLabz.Multiplayer
                 }
 
                 adStartTime = 0;
+
+                if (adShown && !chessboardCommand.preferencesModel.inGameRemoveAdsPromotionShown)
+                {
+                    chessboardCommand.preferencesModel.inGameRemoveAdsPromotionShown = true;
+                    chessboardCommand.promotionsService.LoadRemoveAdsPromotion();
+                }
             }
         }
     }
