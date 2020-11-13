@@ -192,6 +192,7 @@ namespace TurboLabz.InstantFramework
     public class ClearInboxSignal : Signal { }
     public class ResetSubscirptionStatusSignal : Signal { }
     public class ActivePromotionSaleSingal : Signal<string> { }
+    public class ShowFadeBlockerSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

@@ -42,7 +42,7 @@ public class PromotionChessSetsBundleDlgView : View
         if (storeItem == null)
             return;
 
-        title.text = "10 beautiful chess sets and themes";
+        title.text = "10 beautiful chess sets and themes!";
         purchaseText.text = storeItem.remoteProductPrice;
     }
 

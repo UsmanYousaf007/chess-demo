@@ -135,10 +135,10 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
             subscriptionOriginalPrice.text = storeItem.remoteProductPrice;
             subscriptionNewPrice.text = saleItem.remoteProductPrice;
-            subscriptionRibbonText.text = $"MEGA SALE! {(int)discount * 100}% OFF";
+            subscriptionRibbonText.text = $"MEGA SALE! {(int)(discount * 100)}% OFF";
         }
 
         public void SetupSale(string saleKey)

@@ -50,8 +50,8 @@ public class SaleBanner : MonoBehaviour
             originalPrice.text = originalItem.remoteProductPrice;
             newPrice.text = saleItem.remoteProductPrice;
 
-            var discount = 1 - (saleItem.productPrice / originalItem.productPrice);
-            discountText.text = $"OFF\n{(int)discount * 100}%";
+            var discount = 1 - (float)(saleItem.productPrice / originalItem.productPrice);
+            discountText.text = $"OFF\n{(int)(discount * 100)}%";
         }
     }
 }

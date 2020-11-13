@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
+        [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -111,6 +112,7 @@ namespace TurboLabz.InstantFramework
             }
 
             navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
+            showFadeBlockerSignal.Dispatch();
 
             if (promotionToDispatch.isOnSale)
             {

@@ -488,7 +488,7 @@ namespace TurboLabz.InstantGame
             loadChatSignal.Dispatch(notifications[0].notificationVO.senderPlayerId, false);
         }
 
-        void FadeBlocker()
+        public void FadeBlocker()
         {
             uiBlocker.color = Colors.WHITE_150;
             uiBlocker.gameObject.SetActive(true);
