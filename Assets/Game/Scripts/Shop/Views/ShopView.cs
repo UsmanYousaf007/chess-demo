@@ -75,6 +75,8 @@ namespace TurboLabz.InstantFramework
             SetBundle();
             SetSubscriptionOwnedStatus();
             subscriptionButtonText.gameObject.SetActive(available && !isOnSale);
+            subscriptionOriginalPrice.gameObject.SetActive(available && isOnSale);
+            subscriptionNewPrice.gameObject.SetActive(available && isOnSale);
             loading.SetActive(!available);
 
             if (available)

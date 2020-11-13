@@ -123,7 +123,7 @@ namespace TurboLabz.InstantFramework
         {
             var promotionTestGroup = GetPromotionTestGroup();
             var daysCycle = promotionTestGroup == "A" || promotionTestGroup == "B" ? 2 : 5;
-            var daysSincePlaying = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - preferencesModel.lastLaunchTime).Days;
+            var daysSincePlaying = (int)((TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalMinutes / 10);
             var sequenceIndex = daysSincePlaying % daysCycle;
             //swap 0 and 1 in case test groups are B or D
             sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex; 
