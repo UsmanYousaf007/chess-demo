@@ -103,7 +103,7 @@ public class PromotionRemoveAdsDlgView : View
             purchaseText.text = saleItem.remoteProductPrice;
             var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
             limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
-            ribbonText.text = ((int)(discount * 100)).ToString();
+            ribbonText.text = $"{(int)(discount * 100)}%";
             limitedTimeOnlyText.enabled = true;
         }
         else

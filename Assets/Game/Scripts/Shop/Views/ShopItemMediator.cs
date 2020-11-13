@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
         {
             view.SetOwnedStatus();
 
-            if (view.isActiveAndEnabled && view.shortCode.Equals(item.key))
+            if (view.isActiveAndEnabled && (view.shortCode.Equals(item.key) || (view.canGoOnSale && view.saleShortCode.Equals(item.key))))
             {
                 if (view.checkOwned)
                 {

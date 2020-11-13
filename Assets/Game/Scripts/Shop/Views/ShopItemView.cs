@@ -171,6 +171,10 @@ namespace TurboLabz.InstantFramework
                 {
                     isOwned = playerModel.OwnsAllLessons();
                 }
+                else if (shortCode.Equals(GSBackendKeys.ShopItem.REMOVE_ADS_PACK))
+                {
+                    isOwned = playerModel.HasRemoveAds();
+                }
                 else
                 {
                     isOwned = playerModel.HasSubscription() || playerModel.OwnsVGood(shortCode);

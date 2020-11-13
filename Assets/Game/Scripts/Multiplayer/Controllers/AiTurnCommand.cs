@@ -98,13 +98,13 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_3M;
             }
-            else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.FiveMin)
-            {
-                vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
-            }
             else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.TenMin)
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_10M;
+            }
+            else
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
             }
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
