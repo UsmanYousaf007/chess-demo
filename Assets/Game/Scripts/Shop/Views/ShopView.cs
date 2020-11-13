@@ -121,7 +121,7 @@ namespace TurboLabz.InstantFramework
         {
             subscriptionOriginalPrice.gameObject.SetActive(show);
             subscriptionNewPrice.gameObject.SetActive(show);
-            subscriptionRibbonText.gameObject.SetActive(show);
+            subscriptionRibbon.gameObject.SetActive(show);
             subscriptionButtonText.gameObject.SetActive(!show);
         }
 

@@ -152,10 +152,10 @@ public class SubscriptionDlgView : View
             ribbonText.text = $"{(int)discount * 100}%";
             limitedTimeOnlyText.enabled = true;
         }
-        else
-        {
-            purchaseText.text = $"{storeItem.remoteProductPrice} only";
-        }
+        //else
+        //{
+        //    purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        //}
     }
 
     public void UpdateView()
