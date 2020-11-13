@@ -55,6 +55,36 @@
                 {
                     return new NSLessonsView();
                 }
+                else if (viewId == NavigatorViewId.PROMOTION_CHESS_COURSE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionChessCourseDlg();
+                }
+                else if (viewId == NavigatorViewId.PROMOTION_CHESS_SETS_BUNDLE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionChessSetsBundleDlg();
+                }
+                else if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionEliteBundleDlg();
+                }
+                else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionRemoveAdsDlg();
+                }
+                else if (viewId == NavigatorViewId.PROMOTION_REMOVE_ADS_SALE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionRemoveAdsSaleDlg();
+                }
+                else if (viewId == NavigatorViewId.PROMOTION_WELCOME_BUNDLE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
+                    return new NSPromotionWelcomeBundleDlg();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
