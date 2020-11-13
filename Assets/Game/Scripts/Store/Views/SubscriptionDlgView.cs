@@ -172,8 +172,8 @@ public class SubscriptionDlgView : View
 
         if (isOnSale)
         {
-            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, titleImg.gameObject.transform.localPosition.y - 100, titleImg.gameObject.transform.localPosition.z);
-            offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, offersContainer.localPosition.y - 100, offersContainer.localPosition.z);
+            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, 683f, titleImg.gameObject.transform.localPosition.z);
+            offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, -846f, offersContainer.localPosition.z);
         }
         else
         {
