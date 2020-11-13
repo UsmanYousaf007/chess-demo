@@ -150,7 +150,7 @@ namespace TurboLabz.InstantGame
             nameConfirmDlgNoBtn.onClick.AddListener(nameConfirmDlgNoBtnClicked);
             nameConfirmDlg.SetActive(false);
 
-            closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
+            //closePhotoBtn.onClick.AddListener(CloseProfilePicDialog);
             closeSettingsDlgBtn.onClick.AddListener(closeSettingsDlgBtnClicked);
 
             supportButton.onClick.AddListener(OnSupportButtonClicked);

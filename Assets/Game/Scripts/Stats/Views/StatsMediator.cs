@@ -59,6 +59,8 @@ namespace TurboLabz.InstantGame
             view.supportButtonClicked.AddListener(OnSupportButtonClicked);
 
             view.restorePurchaseButtonClickedSignal.AddListener(OnRestorePurchases);
+
+            view.closePhotoBtn.onClick.AddListener(OnClickCloseProfilePicDialog);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -69,6 +71,10 @@ namespace TurboLabz.InstantGame
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.profile);
             }
+            else if (viewId == NavigatorViewId.CHANGE_PHOTO_DLG)
+            {
+                view.OpenProfilePicDialog();
+            }
         }
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
@@ -78,6 +84,15 @@ namespace TurboLabz.InstantGame
             {
                 view.Hide();
             }
+            else if (viewId == NavigatorViewId.CHANGE_PHOTO_DLG)
+            {
+                view.CloseProfilePicDialog();
+            }
+        }
+
+        public void OnClickCloseProfilePicDialog()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         private void OnSettingsButtonClicked()
@@ -170,7 +185,8 @@ namespace TurboLabz.InstantGame
         void OnUploadProfilPicBtnClicked()
         {
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.dlg_shown);
-            view.OpenProfilePicDialog();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHANGE_PHOTO_DLG);
+            //view.OpenProfilePicDialog();
         }
 
         void OnOpenSettingsBtnClicked()
