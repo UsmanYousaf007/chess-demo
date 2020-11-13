@@ -140,6 +140,15 @@ namespace TurboLabz.Multiplayer
                 delay = Random.Range(delayRange[0], delayRange[1]);
                 delay = delay * M1_DELAY_FACTOR;
             }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_3M)
+            {
+                const float M3_DELAY_FACTOR = 1.5f;
+
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_3.Length - 1);
+                float[] delayRange = AiMoveTimes.M_3[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+                delay = delay * M3_DELAY_FACTOR;
+            }
             else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_5M)
             {
                 int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_5.Length - 1);
