@@ -125,16 +125,16 @@ namespace TurboLabz.InstantFramework
         {
             var promotionTestGroup = GetPromotionTestGroup();
             var daysCycle = promotionTestGroup == "A" || promotionTestGroup == "B" ? 2 : 5;
-            var daysSincePlaying = (int)((TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalMinutes / 10);
+            var daysSincePlaying = (int)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalDays;
             var sequenceIndex = daysSincePlaying % daysCycle;
             //swap 0 and 1 in case test groups are B or D
-            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex; 
+            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex;
             return promotionsSequence[sequenceIndex];
         }
 
         private string SelectSalePromotion(string saleKey, string originalKey)
         {
-            return  IsSaleActive(saleKey) ? saleKey : originalKey;
+            return IsSaleActive(saleKey) ? saleKey : originalKey;
         }
 
         private void DispatchPromotion(string promotionKey)
