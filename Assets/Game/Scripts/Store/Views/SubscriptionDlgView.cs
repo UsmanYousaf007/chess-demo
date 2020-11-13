@@ -147,9 +147,9 @@ public class SubscriptionDlgView : View
         if (isOnSale)
         {
             purchaseText.text = saleItem.remoteProductPrice;
-            var discount = 1 - (saleItem.productPrice / storeItem.productPrice);
+            var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
             limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
-            ribbonText.text = $"{(int)discount * 100}%";
+            ribbonText.text = $"{(int)(discount * 100)}%";
             limitedTimeOnlyText.enabled = true;
         }
         //else
