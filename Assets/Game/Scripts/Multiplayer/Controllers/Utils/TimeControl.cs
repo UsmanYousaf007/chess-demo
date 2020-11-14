@@ -210,7 +210,7 @@ namespace TurboLabz.Multiplayer
 
             swapTimestamp = DateTime.UtcNow;
             //opponentRealTimer = opponentDisplayTimer;
-            opponentDisplayTimer = opponentRealTimer;
+            //opponentDisplayTimer = opponentRealTimer;
             timerAtSwap = opponentRealTimer;
             lastOpponentTimerSeconds = opponentDisplayTimer.Seconds;
             runOpponentTimerCR = RunOpponentTimerCR();
