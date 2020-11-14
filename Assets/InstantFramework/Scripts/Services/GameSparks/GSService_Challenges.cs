@@ -127,7 +127,7 @@ namespace TurboLabz.InstantFramework
                 GSData playerData = matchData.GetGSData(playerModel.id);
                 if (playerData != null)
                 {
-                    string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID);
+                    string tournamentId = GSParser.GetSafeString(playerData, GSBackendKeys.Tournament.TOURNAMENT_ID, string.Empty);
                     if (string.IsNullOrEmpty(tournamentId) == false)
                     {
                         matchInfoModel.matches[challengeId].isTournamentMatch = true;
