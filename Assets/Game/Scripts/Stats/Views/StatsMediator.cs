@@ -163,7 +163,8 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                view.CloseProfilePicDialog();
+                //view.CloseProfilePicDialog();
+                OnClickCloseProfilePicDialog();
                 view.OpenSettingsDialog();
             }
         }
@@ -177,7 +178,8 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                view.CloseProfilePicDialog();
+                //view.CloseProfilePicDialog();
+                OnClickCloseProfilePicDialog();
                 view.OpenSettingsDialog();
             }
         }
@@ -198,7 +200,8 @@ namespace TurboLabz.InstantGame
         [ListensTo(typeof(PhotoPickerCompleteSignal))]
         public void OnPhotoPickerComplete (PhotoVO photo)
         {
-            view.CloseProfilePicDialog();
+            //view.CloseProfilePicDialog();
+            OnClickCloseProfilePicDialog();
             view.ShowProcessing(true, true);
 
             if (photo != null)
