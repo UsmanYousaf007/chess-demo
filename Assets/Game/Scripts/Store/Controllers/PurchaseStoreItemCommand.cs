@@ -172,13 +172,13 @@ namespace TurboLabz.InstantFramework
 
             if (eventName.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen,
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen, item.key,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
 
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen);
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen, item.key);
             }
         }
 
