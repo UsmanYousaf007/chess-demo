@@ -97,8 +97,7 @@ public class SubscriptionDlgView : View
 
     public void HandleNotch()
     {
-
-        if (((Screen.width == 1125 && Screen.height == 2436) || (Screen.width == 1242 && Screen.height == 2688)))
+        if (NotchHandler.HasNotch())
         {
             titleImgPos = new Vector3(titleImgPos.x, titleImgPos.y - 100, titleImgPos.z);
             offersContainerPos = new Vector3(offersContainerPos.x, offersContainerPos.y - 250, offersContainerPos.z);
