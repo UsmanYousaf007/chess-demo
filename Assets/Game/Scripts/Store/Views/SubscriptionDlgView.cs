@@ -91,6 +91,19 @@ public class SubscriptionDlgView : View
         purchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_PURCHASE_BUTTON);
         titleImgPos = titleImg.gameObject.transform.localPosition;
         offersContainerPos = offersContainer.localPosition;
+
+        HandleNotch();
+    }
+
+    public void HandleNotch()
+    {
+
+        if (((Screen.width == 1125 && Screen.height == 2436) || (Screen.width == 1242 && Screen.height == 2688)))
+        {
+            titleImgPos = new Vector3(titleImgPos.x, titleImgPos.y - 100, titleImgPos.z);
+            offersContainerPos = new Vector3(offersContainerPos.x, offersContainerPos.y - 250, offersContainerPos.z);
+            saleRibbon.transform.localPosition = new Vector3(saleRibbon.transform.localPosition.x, saleRibbon.transform.localPosition.y - 100, saleRibbon.transform.localPosition.z);
+        }
     }
 
     public void OnStoreAvailable(bool isAvailable)
@@ -172,7 +185,7 @@ public class SubscriptionDlgView : View
 
         if (isOnSale)
         {
-            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, 683f, titleImg.gameObject.transform.localPosition.z);
+            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, titleImgPos.y-100, titleImg.gameObject.transform.localPosition.z);
             offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, offersContainerPos.y - 100, offersContainer.localPosition.z);
         }
         else
