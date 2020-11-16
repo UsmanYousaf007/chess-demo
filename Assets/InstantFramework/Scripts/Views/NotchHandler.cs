@@ -138,13 +138,14 @@ public class NotchHandler : MonoBehaviour {
     void Awake()
     {
         notchOverlay.SetActive(false);
+
+        if(!HasNotch())
+        {
+            return;
+        }
+
         #if UNITY_EDITOR
-        // Detect iphoneX emulation in editor
-        if (!((Screen.width == 1125 && Screen.height == 2436) || (Screen.width == 1242 && Screen.height == 2688))) return;
         notchOverlay.SetActive(true);
-        #else
-        // Detect notch presence
-        if (!(Screen.safeArea.height < Screen.height)) return;
         #endif
 
         // Do all the notchy adjustments
