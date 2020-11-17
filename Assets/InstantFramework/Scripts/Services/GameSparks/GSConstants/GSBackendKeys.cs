@@ -361,7 +361,7 @@ namespace TurboLabz.InstantFramework
                     case "Access unlimited themes": return "Theme";
                     case "Access unlimited game powerups": return "Powerups";
                     case "Access unlimited daily games": return "Games";
-                    case "Increase your friends limits": return "Friends";
+                    case "Increase your friends limit": return "Friends";
                     case "Free daily Tournament Ticket": return "Tickets";
                 }
                 return "";

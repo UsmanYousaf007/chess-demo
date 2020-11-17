@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
                 case AdPlacements.Rewarded_keys_popup:
                 case AdPlacements.Rewarded_rating_booster_popup:
                 case AdPlacements.Rewarded_tickets_popup:
+                case AdPlacements.Rewarded_hints_popup:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
                     break;
 
@@ -263,6 +264,7 @@ namespace TurboLabz.InstantFramework
 
                 if (!canShowBanner)
                 {
+                    GameAnalyticsSDK.GameAnalytics.NewErrorEvent(GameAnalyticsSDK.GAErrorSeverity.Debug, $"OnBannerShown.currentState.{currentState}");
                     HideBanner();
                 }
 

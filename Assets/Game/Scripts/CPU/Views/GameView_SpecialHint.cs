@@ -32,6 +32,7 @@ namespace TurboLabz.CPU
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal notEnoughGemsSignal = new Signal();
+        public Signal<VirtualGoodsTransactionVO> notEnoughSpecialHintsSingal = new Signal<VirtualGoodsTransactionVO>();
 
         public void InitSpecialHint()
         {
@@ -69,6 +70,7 @@ namespace TurboLabz.CPU
         public void UpdateSpecialHintButton(int usedCount)
         {
             hintCount--;
+            hintCount = hintCount < 0 ? 0 : hintCount;
             canUseSpecialHint = usedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
@@ -85,8 +87,8 @@ namespace TurboLabz.CPU
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
             specialHintGemsBg.gameObject.SetActive(false);
-            specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint && haveEnoughHints ? 1 : 0.5f);
-            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint && haveEnoughHints ? 1 : 0.5f);
+            specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialHintCountContainer.SetActive(!playerModel.HasSubscription());
         }
@@ -158,6 +160,8 @@ namespace TurboLabz.CPU
             if (canUseSpecialHint)
             {
                 var transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = specialHintShortCode;
+                transactionVO.consumeQuantity = 1;
 
                 if (haveEnoughHints)
                 {
@@ -165,11 +169,7 @@ namespace TurboLabz.CPU
                     {
                         transactionVO.consumeItemShortCode = "premium";
                     }
-                    else
-                    {
-                        transactionVO.consumeItemShortCode = specialHintShortCode;
-                        transactionVO.consumeQuantity = 1;
-                    }
+
                     ProcessHint(transactionVO);
                 }
                 //else if (haveEnoughGemsForHint)
@@ -178,14 +178,15 @@ namespace TurboLabz.CPU
                 //    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
                 //    ProcessHint(transactionVO);
                 //}
-                //else
-                //{
-                //    notEnoughGemsSignal.Dispatch();
-                //}
+                else
+                {
+                    EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                    notEnoughSpecialHintsSingal.Dispatch(transactionVO);
+                }
             }
         }
 
-        private void ProcessHint(VirtualGoodsTransactionVO vo)
+        public void ProcessHint(VirtualGoodsTransactionVO vo)
         {
             cancelHintSingal.Dispatch();
             specialHintThinkinig.SetActive(true);

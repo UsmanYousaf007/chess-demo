@@ -45,10 +45,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(StoreAvailableSignal))]
     public void OnStoreAvailable(bool isAvailable)
     {
-        if (!isAvailable)
-        {
-            view.Init();
-        }
+        view.OnStoreAvailable(isAvailable);
         view.SetupPurchaseButton(isAvailable);
     }
 
@@ -57,7 +54,7 @@ public class SubscriptionDlgMediator : Mediator
     {
         if ((viewId == NavigatorViewId.SUBSCRIPTION_DLG || viewId == NavigatorViewId.SUBSCRIPTION_SALE_DLG) && !view.IsVisible())
         {
-            view.isSaleOffer = viewId == NavigatorViewId.SUBSCRIPTION_SALE_DLG;
+            view.isOnSale = viewId == NavigatorViewId.SUBSCRIPTION_SALE_DLG;
             view.Show();
 
             preferencesModel.timeAtSubscrptionDlgShown = System.DateTime.Now;
@@ -72,6 +69,7 @@ public class SubscriptionDlgMediator : Mediator
             var cameFromCustomContext = cameFromState.GetType().Equals(typeof(NSMultiplayer)) || cameFromState.GetType().Equals(typeof(NSCPU)) ||
                 cameFromState.GetType().Equals(typeof(NSLessonTopics)) || cameFromState.GetType().Equals(typeof(NSLessonsView)) || cameFromState.GetType().Equals(typeof(NSLessonVideo));
             cameFromScreen = cameFromCustomContext ? context : cameFromScreen;
+            cameFromScreen = view.isOnSale ? AnalyticsContext.annual_mega_sale.ToString() : cameFromScreen; 
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
 
@@ -94,7 +92,7 @@ public class SubscriptionDlgMediator : Mediator
 
     private void OnCloseDailougeAnalytic()
     {
-        //hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
+        hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "x_button", analyticsFunnelId);
         OnCloseDailogue();
     }
 
@@ -114,9 +112,9 @@ public class SubscriptionDlgMediator : Mediator
 
     }
 
-    private void OnPurchase()
+    private void OnPurchase(string shortCode)
     {
-        purchaseStoreItemSignal.Dispatch(view.key, true);
+        purchaseStoreItemSignal.Dispatch(shortCode, true);
         hAnalyticsService.LogEvent("start_trial_clicked", "subscription", "subscription_popup", analyticsFunnelId);
     }
 
@@ -140,7 +138,7 @@ public class SubscriptionDlgMediator : Mediator
     [ListensTo(typeof(SelectTierSignal))]
     public void OnTierSelected(string key)
     {
-        view.key = key;
+        view.shortCode = key;
         view.offerBg.childAlignment = UnityEngine.TextAnchor.MiddleRight;
         view.offerBg.childAlignment = UnityEngine.TextAnchor.MiddleCenter;
     }

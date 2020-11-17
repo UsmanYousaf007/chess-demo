@@ -98,13 +98,13 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_3M;
             }
-            else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.FiveMin)
-            {
-                vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
-            }
             else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.TenMin)
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_10M;
+            }
+            else
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
             }
 
             IPromise<FileRank, FileRank, string> promise = chessAiService.GetAiMove(vo);
@@ -139,6 +139,15 @@ namespace TurboLabz.Multiplayer
                 float[] delayRange = AiMoveTimes.M_1[index];
                 delay = Random.Range(delayRange[0], delayRange[1]);
                 delay = delay * M1_DELAY_FACTOR;
+            }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_3M)
+            {
+                const float M3_DELAY_FACTOR = 1.5f;
+
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_3.Length - 1);
+                float[] delayRange = AiMoveTimes.M_3[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+                delay = delay * M3_DELAY_FACTOR;
             }
             else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_5M)
             {

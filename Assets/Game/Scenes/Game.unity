@@ -13710,6 +13710,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1584410071}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: ThinkingCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13814,14 +13822,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: ThinkingCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -18149,6 +18149,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1642018759}
     m_Modifications:
+    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
+      propertyPath: m_Name
+      value: Thinking
+      objectReference: {fileID: 0}
     - target: {fileID: 224550897347635884, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18253,10 +18257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1635734473610734, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
-      propertyPath: m_Name
-      value: Thinking
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b7f10b2adce04bffad6cbc4a667f3c8, type: 3}
@@ -58519,7 +58519,7 @@ RectTransform:
   - {fileID: 404876910}
   - {fileID: 514167903}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 38
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -80133,17 +80133,17 @@ RectTransform:
   - {fileID: 561966989}
   - {fileID: 607542325}
   - {fileID: 1677412314}
+  - {fileID: 1900671252}
   - {fileID: 1675565152}
   - {fileID: 132964565}
   - {fileID: 7479264564981784744}
   - {fileID: 6547660361372363053}
   - {fileID: 708720602}
-  - {fileID: 1900671252}
+  - {fileID: 1143783475}
   - {fileID: 1291811486}
   - {fileID: 1997636336}
   - {fileID: 2023727890}
   - {fileID: 9127065666094234404}
-  - {fileID: 1143783475}
   - {fileID: 1568624387}
   - {fileID: 715771923}
   m_Father: {fileID: 1780115401}
@@ -84515,7 +84515,7 @@ MonoBehaviour:
   Omer: {fileID: 475948730}
   Ali: {fileID: 802965410}
   Maryam: {fileID: 818767042}
-  environment: 0
+  environment: 2
   configURL: https://chess-star.s3.amazonaws.com/preview467.png
 --- !u!4 &1628862473
 Transform:
@@ -100451,7 +100451,7 @@ RectTransform:
   m_Children:
   - {fileID: 1129350259}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 33
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -102698,6 +102698,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: -43.014812
+      objectReference: {fileID: 0}
+    - target: {fileID: 8629058291730765377, guid: a25431447b1ce46569690a3cf64afcf9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.8999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 8629058291730765377, guid: a25431447b1ce46569690a3cf64afcf9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6699982
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a25431447b1ce46569690a3cf64afcf9, type: 3}

@@ -58,14 +58,14 @@ public class PromotionWelcomeBundleDlgView : View
             return;
 
         title.text = storeItem.displayName;
-        purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        purchaseText.text = storeItem.remoteProductPrice;
 
         if (storeItem.bundledItems != null)
         {
             if (storeItem.currency3Cost > 0)
             {
                 //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
-                currencyPayout.count.text = "Gems x"+storeItem.currency3Cost.ToString();
+                currencyPayout.count.text = "Gems "+storeItem.currency3Cost.ToString();
             }
 
             var i = 0;

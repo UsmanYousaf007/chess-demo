@@ -53,10 +53,15 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.3.1
-  Changes: '6.3.1
+  NewVersion: 6.3.3
+  Changes: '6.3.3
 
-    - improved user identifer flow for ios (ios)'
+    - updated impression events
+
+
+    6.3.2
+
+    - fixed www build errors on unity 2017'
   SignUpOpen: 0
   StudioName: Turbo Labz
   GameName: Chess Star
@@ -98,6 +103,7 @@ MonoBehaviour:
   - lesson_unlocked
   - shop
   - refund
+  - promotion_popup
   ResourceCurrencies:
   - gems
   - ratingBooster

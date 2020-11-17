@@ -507,12 +507,12 @@ namespace TurboLabz.InstantFramework
 
             if (name.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew",
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew", item.key,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew");
+                hAnalyticsService.LogMonetizationEvent(name, item.currency1Cost, "iap_purchase", $"subscription_{item.displayName.Replace(" ", "_")}", "autorenew", item.key);
             }
 
             if (name.Equals("completed"))

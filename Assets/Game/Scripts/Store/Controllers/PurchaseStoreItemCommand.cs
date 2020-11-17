@@ -152,7 +152,9 @@ namespace TurboLabz.InstantFramework
                 eventName = "completed";
                 if (isSubscriptionItem)
                 {
-                    analyticsService.Event(AnalyticsEventId.subscription_purchased, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
+                    analyticsService.Event(AnalyticsEventId.subscription_purchased,
+                        item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly :
+                        item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.yearly : AnalyticsContext.annual_mega_sale);
                 }
                 GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", cents, item.kind, item.displayName, "default");
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
@@ -170,13 +172,13 @@ namespace TurboLabz.InstantFramework
 
             if (eventName.Equals("failed"))
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen,
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen, item.key,
                     new KeyValuePair<string, object>("store_iap_id", metaDataModel.store.failedPurchaseTransactionId));
 
             }
             else
             {
-                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen);
+                hAnalyticsService.LogMonetizationEvent(eventName, cents, "iap_purchase", productName, cameFromScreen, item.key);
             }
         }
 

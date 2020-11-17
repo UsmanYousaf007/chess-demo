@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         Rewarded_rating_booster_popup,
         Rewarded_keys_popup,
         Rewarded_tickets_popup,
+        Rewarded_hints_popup,
         Interstitial_pregame,
         Interstitial_endgame,
         interstitial_in_game_cpu,

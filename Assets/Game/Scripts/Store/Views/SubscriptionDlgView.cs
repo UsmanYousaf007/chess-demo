@@ -11,7 +11,8 @@ using TurboLabz.TLUtils;
 [System.CLSCompliantAttribute(false)]
 public class SubscriptionDlgView : View
 {
-    public string key;
+    public string shortCode;
+    public string saleShortCode;
     public Text title;
     public GameObject offerPrefab;
     public Transform offersContainer;
@@ -24,6 +25,7 @@ public class SubscriptionDlgView : View
     public Button purchaseButton;
     public GameObject uiBlocker;
     public GameObject processingUi;
+    public GameObject loading;
     public VerticalLayoutGroup offerBg;
 
     public Button privacyPolicyButton;
@@ -44,10 +46,16 @@ public class SubscriptionDlgView : View
     public TMP_Text limitedTimeOnlyText;
     public Text endsInText;
     public Text endsInTime;
-    public bool isSaleOffer;
+    public Text ribbonText;
+    public GameObject saleObj;
+
+    [HideInInspector] public bool isOnSale;
+    private bool isStoreAvailable;
+    private bool isShown;
+    private Coroutine timer;
+
     Vector3 titleImgPos;
     Vector3 offersContainerPos;
-    long endTimeUTCSeconds;
     private WaitForSecondsRealtime waitForOneRealSecond;
 
     //Models 
@@ -62,7 +70,7 @@ public class SubscriptionDlgView : View
     //Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal restorePurchasesSignal = new Signal();
-    public Signal purchaseSignal = new Signal();
+    public Signal<string> purchaseSignal = new Signal<string>();
     public Signal showTermsSignal = new Signal();
 
     private StoreIconsContainer iconsContainer;
@@ -75,10 +83,7 @@ public class SubscriptionDlgView : View
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
         iconsContainer = StoreIconsContainer.Load();
-    }
 
-    public void Init()
-    {
         waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
         restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
@@ -87,10 +92,25 @@ public class SubscriptionDlgView : View
         titleImgPos = titleImg.gameObject.transform.localPosition;
         offersContainerPos = offersContainer.localPosition;
 
-        var storeItem = storeSettingsModel.items[key];
+        HandleNotch();
+    }
+
+    public void HandleNotch()
+    {
+        if (NotchHandler.HasNotch())
+        {
+            titleImgPos = new Vector3(titleImgPos.x, titleImgPos.y - 100, titleImgPos.z);
+            offersContainerPos = new Vector3(offersContainerPos.x, offersContainerPos.y - 250, offersContainerPos.z);
+            saleRibbon.transform.localPosition = new Vector3(saleRibbon.transform.localPosition.x, saleRibbon.transform.localPosition.y - 100, saleRibbon.transform.localPosition.z);
+        }
+    }
+
+    public void OnStoreAvailable(bool isAvailable)
+    {
+        SetupDefaultSubscriptionTier();
+        var storeItem = storeSettingsModel.items[shortCode];
         if (storeItem == null)
             return;
-        SetupDefaultSubscriptionTier();
 
         // Fill only once
         if (offersContainer.childCount == 0)
@@ -104,40 +124,107 @@ public class SubscriptionDlgView : View
             }
         }
 
-        limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductCurrencyCode} {storeItem.productPrice} / Year</s>";
+        isStoreAvailable = isAvailable;
+        loading.SetActive(!isAvailable);
 
-        if (isSaleOffer)
+        if (isShown && isAvailable)
         {
-            saleRibbon.SetActive(true);
-            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, titleImg.gameObject.transform.localPosition.y - 100, titleImg.gameObject.transform.localPosition.z);
+            SetupPopup();
+        }
+    }
+
+    public void SetupPurchaseButton(bool isAvailable)
+    {
+        purchaseButton.interactable = isAvailable;
+        purchaseText.enabled = isAvailable;
+        thinking.SetActive(!isAvailable);
+        foreach (var btn in radioButtons)
+        {
+            var tempColor = btn.color;
+            if (isAvailable)
+                tempColor.a = 1f;
+            else
+                tempColor.a = 0.3f;
+            btn.color = tempColor;
+        }
+        //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
+    }
+
+    private void SetupPopup()
+    {
+        var storeItem = storeSettingsModel.items[subscriptionTiers[1].key];
+        var saleItem = storeSettingsModel.items[saleShortCode];
+        title.text = storeItem.displayName;
+
+        if (isOnSale)
+        {
+            purchaseText.text = saleItem.remoteProductPrice;
+            var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
+            limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
+            ribbonText.text = $"{(int)(discount * 100)}%";
             limitedTimeOnlyText.enabled = true;
-            endsInText.enabled = true;
-            offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, offersContainer.localPosition.y - 100, offersContainer.localPosition.z);
-            offerBg.gameObject.SetActive(false);
-            endsInTime.gameObject.SetActive(true);
+        }
+        //else
+        //{
+        //    purchaseText.text = $"{storeItem.remoteProductPrice} only";
+        //}
+    }
+
+    public void UpdateView()
+    {
+        isShown = true;
+        saleObj.SetActive(isOnSale);
+        offerBg.gameObject.SetActive(!isOnSale);
+        limitedTimeOnlyText.enabled = isOnSale && isStoreAvailable;
+
+        if (isStoreAvailable)
+        {
+            SetupPopup();
+        }
+
+        if (isOnSale)
+        {
+            titleImg.gameObject.transform.localPosition = new Vector3(titleImg.gameObject.transform.localPosition.x, titleImgPos.y-100, titleImg.gameObject.transform.localPosition.z);
+            offersContainer.localPosition = new Vector3(offersContainer.localPosition.x, offersContainerPos.y - 100, offersContainer.localPosition.z);
         }
         else
         {
-            saleRibbon.SetActive(false);
             titleImg.gameObject.transform.localPosition = titleImgPos;
-            limitedTimeOnlyText.enabled = false;
-            endsInText.enabled = false;
             offersContainer.localPosition = offersContainerPos;
-            offerBg.gameObject.SetActive(true);
-            endsInTime.gameObject.SetActive(false);
+        }
+    }
+
+    private void SetupDefaultSubscriptionTier()
+    {
+        foreach (var t in subscriptionTiers)
+        {
+            t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
+            shortCode = settingsModel.defaultSubscriptionKey;
+
+            /*if (t.isSelected)
+            {
+                t.transform.SetAsFirstSibling();
+            }*/
         }
     }
 
     public void Show()
     {
+        UpdateView();
         gameObject.SetActive(true);
-        StartCoroutine(CountdownTimer());
+        timer = StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
-        StopCoroutine(CountdownTimer());
+        StopCoroutine(timer);
+    }
+
+    public void ShowProcessing(bool show, bool showProcessingUi)
+    {
+        processingUi.SetActive(showProcessingUi);
+        uiBlocker.SetActive(show);
     }
 
     private void OnCloseButtonClicked()
@@ -168,13 +255,7 @@ public class SubscriptionDlgView : View
     private void OnPurchaseButtonClicked()
     {
         audioService.PlayStandardClick();
-        purchaseSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
+        purchaseSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
     }
 
     public bool IsVisible()
@@ -182,43 +263,12 @@ public class SubscriptionDlgView : View
         return gameObject.activeSelf;
     }
 
-    public void SetupPurchaseButton(bool isAvailable)
-    {
-        purchaseButton.interactable = isAvailable;
-        thinking.SetActive(!isAvailable);
-        foreach(var btn in radioButtons)
-        {
-            var tempColor = btn.color;
-            if(isAvailable)
-                tempColor.a = 1f;
-            else
-                tempColor.a = 0.3f;
-            btn.color = tempColor;
-        }
-        //purchaseText.color = isAvailable ? Colors.WHITE : Colors.DISABLED_WHITE;
-    }
-
-    private void SetupDefaultSubscriptionTier()
-    {
-        foreach (var t in subscriptionTiers)
-        {
-            t.isSelected = t.key.Equals(settingsModel.defaultSubscriptionKey);
-            key = settingsModel.defaultSubscriptionKey;
-
-            /*if (t.isSelected)
-            {
-                t.transform.SetAsFirstSibling();
-            }*/
-        }
-
-    }
-
     IEnumerator CountdownTimer()
     {
         while (gameObject.activeInHierarchy)
         {
-            yield return waitForOneRealSecond;
             endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
+            yield return waitForOneRealSecond;
         }
 
         yield return null;

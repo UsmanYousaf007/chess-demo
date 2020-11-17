@@ -29,6 +29,7 @@ namespace TurboLabz.CPU
         [Inject] public PauseTimersSignal pauseTimersSignal { get; set; }
         [Inject] public ResumeTimersSignal resumeTimersSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
+        [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
 
         [Inject] public IBackendService backendService { get; set; }
 

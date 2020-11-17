@@ -53,5 +53,11 @@ namespace TurboLabz.InstantFramework
         {
             view.Pause(enable);
         }
+
+        [ListensTo(typeof(ShowFadeBlockerSignal))]
+        public void OnFadeBlocker()
+        {
+            view.FadeBlocker();
+        }
     }
 }

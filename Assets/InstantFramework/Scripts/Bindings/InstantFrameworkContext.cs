@@ -219,6 +219,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ClearInboxSignal>().ToSingleton();
             injectionBinder.Bind<ResetSubscirptionStatusSignal>().ToSingleton();
             injectionBinder.Bind<ActivePromotionSaleSingal>().ToSingleton();
+            injectionBinder.Bind<ShowFadeBlockerSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();

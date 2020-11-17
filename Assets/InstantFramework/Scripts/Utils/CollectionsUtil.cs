@@ -157,7 +157,7 @@ namespace TurboLabz.TLUtils
             stringToAdPlacementMap.Add("SpecialItemRatingBoosterPointsPopup", AdPlacements.Rewarded_rating_booster_popup);
             stringToAdPlacementMap.Add("SpecialItemKeyPointsPopup", AdPlacements.Rewarded_keys_popup);
             stringToAdPlacementMap.Add("SpecialItemTicketPointsPopup", AdPlacements.Rewarded_tickets_popup);
-
+            stringToAdPlacementMap.Add("SpecialItemHintPointsPopup", AdPlacements.Rewarded_hints_popup);
         }
     }
 }

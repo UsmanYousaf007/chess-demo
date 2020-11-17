@@ -92,11 +92,16 @@ namespace TurboLabz.InstantFramework
         {
             if (boughtGemsCount != null && gameObject.activeInHierarchy)
             {
-                boughtGemsCount.text = $"+{gems - long.Parse(gemsCount.text)}";
-                boughtGemsCount.transform.localPosition = Vector3.zero;
-                boughtGemsCount.gameObject.SetActive(true);
-                DOTween.ToAlpha(() => boughtGemsCount.color, x => boughtGemsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(gems));
-                boughtGemsCount.transform.DOMoveY(Screen.height, 3.0f);
+                var addedGems = gems - long.Parse(gemsCount.text);
+
+                if (addedGems > 0)
+                {
+                    boughtGemsCount.text = $"+{addedGems}";
+                    boughtGemsCount.transform.localPosition = Vector3.zero;
+                    boughtGemsCount.gameObject.SetActive(true);
+                    DOTween.ToAlpha(() => boughtGemsCount.color, x => boughtGemsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(gems));
+                    boughtGemsCount.transform.DOMoveY(Screen.height, 3.0f);
+                }
             }
 
             gemsCount.text = gems.ToString();

@@ -27,6 +27,7 @@ namespace TurboLabz.CPU
             view.InitSpecialHint();
             view.specialHintClickedSignal.AddListener(OnGetSpecialHint);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGems);
+            view.notEnoughSpecialHintsSingal.AddListener(OnNotEnoughSpeciallHints);
         }
 
         private void OnGetSpecialHint(VirtualGoodsTransactionVO vo)
@@ -118,6 +119,27 @@ namespace TurboLabz.CPU
         private void OnNotEnoughGems()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        private void OnNotEnoughSpeciallHints(VirtualGoodsTransactionVO vo)
+        {
+            transactionVO = vo;
+            var spotInventoryParams = new LoadSpotInventoryParams();
+            spotInventoryParams.itemShortCode = vo.consumeItemShortCode;
+            spotInventoryParams.itemToUnclockShortCode = vo.consumeItemShortCode;
+            loadSpotInventorySignal.Dispatch(spotInventoryParams);
+        }
+
+        [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
+        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                if (key.Equals(view.specialHintShortCode))
+                {
+                    view.ProcessHint(transactionVO);
+                }
+            }
         }
     }
 }

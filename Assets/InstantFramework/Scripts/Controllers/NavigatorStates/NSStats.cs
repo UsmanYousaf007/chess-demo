@@ -54,6 +54,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSettings();
             }
+            else if (evt == NavigatorEvent.SHOW_CHANGE_PHOTO_DLG)
+            {
+                return new NSChangePhotoDlg();
+            }
 
             return null;
         }

@@ -16,14 +16,17 @@ namespace TurboLabz.InstantFramework
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
+        [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -101,7 +104,15 @@ namespace TurboLabz.InstantFramework
             promotionShown = true;
             var promotionToDispatch = promotionsMapping[sequence[preferencesModel.currentPromotionIndex]];
             preferencesModel.currentPromotionIndex++;
+
+            if (promotionToDispatch.key.Equals("Subscription"))
+            {
+                appInfoModel.isAutoSubscriptionDlgShown = true;
+                subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
+            }
+
             navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
+            showFadeBlockerSignal.Dispatch();
 
             if (promotionToDispatch.isOnSale)
             {
@@ -114,16 +125,16 @@ namespace TurboLabz.InstantFramework
         {
             var promotionTestGroup = GetPromotionTestGroup();
             var daysCycle = promotionTestGroup == "A" || promotionTestGroup == "B" ? 2 : 5;
-            var daysSincePlaying = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - preferencesModel.lastLaunchTime).Days;
+            var daysSincePlaying = (int)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalDays;
             var sequenceIndex = daysSincePlaying % daysCycle;
             //swap 0 and 1 in case test groups are B or D
-            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex; 
+            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex;
             return promotionsSequence[sequenceIndex];
         }
 
         private string SelectSalePromotion(string saleKey, string originalKey)
         {
-            return  IsSaleActive(saleKey) ? saleKey : originalKey;
+            return IsSaleActive(saleKey) ? saleKey : originalKey;
         }
 
         private void DispatchPromotion(string promotionKey)

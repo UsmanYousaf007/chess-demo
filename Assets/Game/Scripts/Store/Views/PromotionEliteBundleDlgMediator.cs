@@ -1,7 +1,9 @@
-﻿using strange.extensions.mediation.impl;
+﻿using GameAnalyticsSDK;
+using strange.extensions.mediation.impl;
 using strange.extensions.promise.api;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 
 [System.CLSCompliant(false)]
 public class PromotionEliteBundleDlgMediator : Mediator
@@ -11,13 +13,13 @@ public class PromotionEliteBundleDlgMediator : Mediator
 
     // Services
     [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public IAnalyticsService analyticsService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
     //Models
-    [Inject] public IAppInfoModel appInfoModel { get; set; }
     [Inject] public IPreferencesModel preferencesModel { get; set; }
 
     public override void OnRegister()
@@ -33,6 +35,7 @@ public class PromotionEliteBundleDlgMediator : Mediator
         if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
         {
             view.Show();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, AnalyticsContext.elite);
         }
     }
 
@@ -75,9 +78,31 @@ public class PromotionEliteBundleDlgMediator : Mediator
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
-        if (view.IsVisible())
+        if (view.IsVisible() && view.key.Equals(item.key))
         {
             OnCloseDialogue();
+
+            //Analytics
+            var context = item.displayName.Replace(' ', '_').ToLower();
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, AnalyticsContext.elite);
+
+            if (item.bundledItems != null)
+            {
+                foreach (var bItem in item.bundledItems)
+                {
+                    analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(bItem.Key).ToString(), bItem.Value, "promotion_popup", context);
+
+                    if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE].ContainsKey(bItem.Key))
+                    {
+                        preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][bItem.Key] += bItem.Value;
+                    }
+                }
+            }
+
+            if (item.currency3Payout > 0)
+            {
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, "gems", item.currency3Payout, "promotion_popup", context);
+            }
         }
     }
 }

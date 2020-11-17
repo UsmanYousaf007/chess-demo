@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
             storeItem = vo.storeItem;
             currentRewardedPoints = vo.currentRewardedPoints;
             requiredRewardedPoints = vo.requiredRewardedPoints;
+            watchAdButton.interactable = vo.enableVideoButton;
 
             title.text = $"{localizationService.Get(LocalizationKey.SPOT_INVENTORY_TITLE)} {storeItem.displayName}s?";
             icon.sprite = vo.icon;

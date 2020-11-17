@@ -133,24 +133,24 @@ namespace TurboLabz.InstantFramework
             analyticsService.HEvent(name, ST1);
         }
 
-        public void LogMonetizationEvent(string name, int value, string ST1, string ST2)
+        public void LogMonetizationEvent(string name, int value, string ST1, string ST2, string storeItemKey)
         {
             analyticsEvent = new Dictionary<string, object>();
-            _LogMonetizationEvent(name, value, ST1, ST2);
+            _LogMonetizationEvent(name, value, ST1, ST2, storeItemKey);
             analyticsService.HEvent(name, ST1, ST2);
         }
 
-        public void LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3)
+        public void LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, string storeItemKey)
         {
             analyticsEvent = new Dictionary<string, object>();
-            _LogMonetizationEvent(name, value, ST1, ST2, ST3);
+            _LogMonetizationEvent(name, value, ST1, ST2, ST3, storeItemKey);
             analyticsService.HEvent(name, ST1, ST2, ST3);
         }
 
-        public void LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, params KeyValuePair<string, object>[] additionalParamters)
+        public void LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, string storeItemKey, params KeyValuePair<string, object>[] additionalParamters)
         {
             analyticsEvent = new Dictionary<string, object>();
-            _LogMonetizationEvent(name, value, ST1, ST2, ST3, additionalParamters);
+            _LogMonetizationEvent(name, value, ST1, ST2, ST3, storeItemKey, additionalParamters);
             analyticsService.HEvent(name, ST1, ST2, ST3);
         }
     
@@ -170,23 +170,23 @@ namespace TurboLabz.InstantFramework
             _LogMonetizationEvent(name, value);
         }
 
-        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2)
+        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string storeItemKey)
         {
             analyticsEvent.Add(AnalyticsEvent.EventConsts.ST2_KEY, ST2);
-            AddMonetizationParameters(ST2);
+            AddMonetizationParameters(ST2, storeItemKey);
             _LogMonetizationEvent(name, value, ST1);
         }
 
-        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3)
+        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, string storeItemKey)
         {
             analyticsEvent.Add(AnalyticsEvent.EventConsts.ST3_KEY, ST3);
-            _LogMonetizationEvent(name, value, ST1, ST2);
+            _LogMonetizationEvent(name, value, ST1, ST2, storeItemKey);
         }
 
-        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, params KeyValuePair<string, object>[] additionalParamters)
+        private void _LogMonetizationEvent(string name, int value, string ST1, string ST2, string ST3, string storeItemKey, params KeyValuePair<string, object>[] additionalParamters)
         {
             AddParameters(additionalParamters);
-            _LogMonetizationEvent(name, value, ST1, ST2, ST3);
+            _LogMonetizationEvent(name, value, ST1, ST2, ST3, storeItemKey);
         }
 
         public void LogMultiplayerGameEvent(string name, string ST1, string ST2, string challengeId)
@@ -220,10 +220,9 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add("power", playerModel.eloScore);
         }
 
-        private void AddMonetizationParameters(string ST2)
+        private void AddMonetizationParameters(string ST2, string storeItemKey)
         {
             var isYearly = ST2.ToLower().Contains("year");
-            var storeItemKey = isYearly ? "SubscriptionAnnual" : "Subscription";
             var storeItem = metaDataModel.store.items[storeItemKey];
 
             analyticsEvent.Add("funnel_instance_id", string.Concat(playerModel.id, metaDataModel.store.lastPurchaseAttemptTimestamp));
