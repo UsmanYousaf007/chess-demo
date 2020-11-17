@@ -154,11 +154,13 @@ public class BuildChess : MonoBehaviour
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(GameAnalyticsInternalBuildName);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = false;
+            LogUtil.Log("GASettings Version : " + GameAnalyticsInternalBuildName);
         }
         else
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
+            LogUtil.Log("GASettings Version : " + bundleVersion);
         }
     }
 
@@ -378,6 +380,13 @@ public class BuildChess : MonoBehaviour
 #endif
 
         LogUtil.Log("End Build iOS for Store", "yellow");
+
+#if SUBSCIPTION_TEST
+        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#else
+        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+#endif
+
     }
 
     [MenuItem("Build/Build Chess Andriod for Store", false, 15)]
@@ -396,6 +405,12 @@ public class BuildChess : MonoBehaviour
         ProcessBuild(buildPlayerOptions);
 #endif
         LogUtil.Log("End Build Android for Store");
+
+#if SUBSCIPTION_TEST
+        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#else
+        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+#endif
     }
 
     [MenuItem("Build/Apply Build Settings (iOS & Android)", false, 0)]
