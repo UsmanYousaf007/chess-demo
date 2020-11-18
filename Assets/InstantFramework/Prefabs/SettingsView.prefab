@@ -547,8 +547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 5, y: -4}
-  m_SizeDelta: {x: 10, y: 2}
+  m_AnchoredPosition: {x: 24.5, y: -4}
+  m_SizeDelta: {x: 49, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &908736877904425452
 CanvasRenderer:
@@ -3740,7 +3740,6 @@ MonoBehaviour:
   upgradeToPremiumText: {fileID: 8841252063822054048}
   chatOnDiscordBtn: {fileID: 8785870616398332558}
   chatOnDiscordText: {fileID: 3104466405904248745}
-  hufShowAdsTestSuite: {fileID: 0}
 --- !u!1 &5031467312402383041
 GameObject:
   m_ObjectHideFlags: 0
@@ -5221,7 +5220,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
-  m_Text: Terms of Use
+  m_Text: Terms & Services
 --- !u!114 &5418780747428586072
 MonoBehaviour:
   m_ObjectHideFlags: 0
