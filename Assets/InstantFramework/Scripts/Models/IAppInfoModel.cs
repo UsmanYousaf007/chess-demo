@@ -30,7 +30,7 @@ namespace TurboLabz.InstantFramework
         bool isVideoLoading { get; set; }
         bool isMandatoryUpdate { get; set; }
         string storeURL { get; set; }
-
+        int nthWinsRateApp { get; set; }      
     }
 
     public enum DisconnectStates

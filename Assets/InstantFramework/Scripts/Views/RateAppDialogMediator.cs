@@ -40,7 +40,8 @@ namespace TurboLabz.InstantFramework
             view.noDlgMaybeButton.onClick.AddListener(OnNotNow);
             view.yesDlgMaybeButton.onClick.AddListener(OnNotNow);
 
-            view.rateButton.onClick.AddListener(OnRate);
+            //view.rateButton.onClick.AddListener(OnRate);
+            view.starsClickedSignal.AddListener(OnRate);
 
             view.tellUsButton.onClick.AddListener(OnTellUsBtnClick);
         }
@@ -61,7 +62,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RATE_APP_DLG)
             {
                 view.Hide();
-                preferencesModel.hasRated = true;
+                //preferencesModel.hasRated = true;
             }
         }
 
@@ -81,9 +82,9 @@ namespace TurboLabz.InstantFramework
             view.ShowNoDialogue();
         }
 
-        private void OnRate()
+        private void OnRate(bool val)
         {
-            rateAppService.RateApp(true);
+            rateAppService.RateApp(val);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 

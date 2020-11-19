@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public bool isVideoLoading { get; set; }
         public bool isMandatoryUpdate { get; set; }
         public string storeURL { get; set; }
+        public int nthWinsRateApp { get; set; }
 
         public string privacyPolicyURL
         {
@@ -99,6 +100,7 @@ namespace TurboLabz.InstantFramework
             isVideoLoading = false;
             isMandatoryUpdate = false;
             storeURL = "";
+            nthWinsRateApp = 10;
 
         }
     }

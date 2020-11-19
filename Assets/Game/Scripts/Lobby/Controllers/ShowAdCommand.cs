@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IRateAppService rateAppService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -438,7 +439,15 @@ namespace TurboLabz.InstantGame
                                     (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
                                     actionCode == FindMatchAction.ActionCode.Random1.ToString());
 
-            if (isOneMinuteGame && adsSettingsModel.showPregameInOneMinute == false)
+            if (!preferencesModel.isRateAppDialogueFirstTimeShown && resultAdsVO.adsType == AdType.Interstitial)
+            {
+                retVal = false;
+            }
+            else if (resultAdsVO.adsType == AdType.Interstitial && !IsPregameAd() && rateAppService.CanShowRateDialogue())
+            {
+                retVal = false;
+            }
+            else if (isOneMinuteGame && adsSettingsModel.showPregameInOneMinute == false)
             {
                 retVal = false;
             }

@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public const string CONTACT_SUPPORT_URL = "contactSupportURL";
         public const string IS_MANDATORY_UPDATE = "isMandatoryUpdate";
         public const string APP_UPDATE_FLAG = "appUpdateFlag";
+        public const string NTH_WINS_APP_RATE_APP = "nthWinsRateApp";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
