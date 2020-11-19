@@ -327,6 +327,7 @@ namespace TurboLabz.InstantFramework
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
+            public const string SUBSCRIPTION_ANNUAL_SALE_TAG = "SubscriptionAnnualSale";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";

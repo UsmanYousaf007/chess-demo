@@ -222,14 +222,14 @@ namespace TurboLabz.InstantFramework
 
         private void SendAnalytics()
         {
-            if (playerModel.HasSubscription())
+            if (playerModel != null && playerModel.HasSubscription())
             {
-                var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
+                var context = playerModel.subscriptionType != null && playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
                 context = playerModel.isPremium ? AnalyticsContext.premium : context;
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
-            if (leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            if (leaguesModel != null && leaguesModel.leagues != null && leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
             {
                 analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
             }
@@ -237,7 +237,11 @@ namespace TurboLabz.InstantFramework
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
 
-            tournamentsModel.LogConcludedJoinedTournaments();
+            if (tournamentsModel != null)
+            {
+                tournamentsModel.LogConcludedJoinedTournaments();
+            }
+
             SendDailyAnalytics();
         }
 

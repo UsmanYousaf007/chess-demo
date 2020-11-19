@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
 
         private List<Notification> registeredNotifications;
+        private List<Coroutine> inGameScheduledNotifications;
 
         [PostConstruct]
         public void PostConstruct()
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             registeredNotifications = new List<Notification>();
+            inGameScheduledNotifications = new List<Coroutine>();
         }
 
         private void OnAppEventSignal(AppEvent appEvent)
@@ -55,8 +57,13 @@ namespace TurboLabz.InstantFramework
                     break;
 
                 case AppEvent.PAUSED:
+#if UNITY_EDITOR
+                case AppEvent.QUIT:
+#endif
+                    StopInGameScheduledNotifications();
                     SaveToDisk();
                     break;
+
             }
         }
 
@@ -118,13 +125,22 @@ namespace TurboLabz.InstantFramework
             }
 
             var delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp) / 1000;
-            routineRunner.StartCoroutine(ScheduleInGameNotification(notification, delayInSeconds));
+            var scheduledNotification = routineRunner.StartCoroutine(ScheduleInGameNotification(notification, delayInSeconds));
+            inGameScheduledNotifications.Add(scheduledNotification);
         }
 
         private IEnumerator ScheduleInGameNotification(Notification notification, int delayInSeconds)
         {
             yield return new WaitForSeconds(delayInSeconds);
             DisplayInGameNotification(notification);
+        }
+
+        private void StopInGameScheduledNotifications()
+        {
+            foreach (var notification in inGameScheduledNotifications)
+            {
+                routineRunner.StopCoroutine(notification);
+            }
         }
 
         private void DisplayInGameNotification(Notification notification)

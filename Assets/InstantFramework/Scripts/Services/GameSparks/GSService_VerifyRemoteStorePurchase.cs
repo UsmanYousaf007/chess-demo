@@ -56,6 +56,7 @@ namespace TurboLabz.InstantFramework
                 {
                     case GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG:
                     case GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG:
+                    case GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SALE_TAG:
                         playerModel.subscriptionExipryTimeStamp = subscriptionExpiryTimeStamp;
                         playerModel.renewDate = TimeUtil.ToDateTime(subscriptionExpiryTimeStamp).ToShortDateString();
                         playerModel.subscriptionType = subscriptionType;
