@@ -64,6 +64,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public Signal<bool> starsClickedSignal = new Signal<bool>();
+        public Signal tellUsClickedSignal = new Signal();
 
         public void Init()
         {
@@ -107,7 +108,7 @@ namespace TurboLabz.InstantGame
             preferencesModel.isRateAppDialogueFirstTimeShown = true;
             for (int i = 0; i < stars.Length; i++)
             {
-                stars[i].sprite = filledStar;
+                stars[i].sprite = emptyStar;
             }
             //dlg.transform.localPosition = new Vector3(0f, Screen.height + 800, 0f);
 
@@ -149,7 +150,7 @@ namespace TurboLabz.InstantGame
             }
             else
             {
-                starsClickedSignal.Dispatch(false);
+                tellUsClickedSignal.Dispatch();
             }
         }
     }

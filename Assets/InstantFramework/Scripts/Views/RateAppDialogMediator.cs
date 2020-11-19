@@ -43,7 +43,7 @@ namespace TurboLabz.InstantFramework
             //view.rateButton.onClick.AddListener(OnRate);
             view.starsClickedSignal.AddListener(OnRate);
 
-            view.tellUsButton.onClick.AddListener(OnTellUsBtnClick);
+            view.tellUsClickedSignal.AddListener(OnTellUsBtnClick);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
