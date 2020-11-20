@@ -10,6 +10,7 @@ using HUFEXT.GenericGDPR.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class SettingsView : View
     {
         public string key;

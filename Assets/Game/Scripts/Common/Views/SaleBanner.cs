@@ -15,6 +15,7 @@ public class SaleBanner : MonoBehaviour
     public Text discountText;
     public GameObject loading;
     public Button button;
+    public bool perYear = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class SaleBanner : MonoBehaviour
         if (isStoreAvailable)
         {
             originalPrice.text = originalItem.remoteProductPrice;
-            newPrice.text = saleItem.remoteProductPrice;
+            newPrice.text = perYear ? $"{saleItem.remoteProductPrice}/yr" : saleItem.remoteProductPrice;
 
             var discount = 1 - (float)(saleItem.productPrice / originalItem.productPrice);
             discountText.text = $"OFF\n{(int)(discount * 100)}%";

@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public const string CONTACT_SUPPORT_URL = "contactSupportURL";
         public const string IS_MANDATORY_UPDATE = "isMandatoryUpdate";
         public const string APP_UPDATE_FLAG = "appUpdateFlag";
+        public const string NTH_WINS_APP_RATE_APP = "nthWinsRateApp";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
@@ -327,6 +328,7 @@ namespace TurboLabz.InstantFramework
 
             public const string SUBSCRIPTION_SHOP_TAG = "Subscription";
             public const string SUBSCRIPTION_ANNUAL_SHOP_TAG = "SubscriptionAnnual";
+            public const string SUBSCRIPTION_ANNUAL_SALE_TAG = "SubscriptionAnnualSale";
 
             public const string SHOP_ITEM_TIER_COMMON = "Common";
             public const string SHOP_ITEM_TIER_RARE = "Rare";

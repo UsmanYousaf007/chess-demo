@@ -57,12 +57,15 @@ namespace TurboLabz.InstantFramework
 
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
+            appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
+            //appInfoModel.nthWinsRateApp = response.ScriptData.GetInt(GSBackendKeys.NTH_WINS_APP_RATE_APP).Value;
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
 
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_ADS_SETTINGS);
+
             if (Settings.ABTest.ADS_TEST_GROUP != Settings.ABTest.ADS_TEST_GROUP_DEFAULT && adsABTestSettingsData != null)
             {
                 FillAdsSettingsModel(adsABTestSettingsData);

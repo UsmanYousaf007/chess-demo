@@ -88,6 +88,7 @@ namespace TurboLabz.InstantGame
         public int currentPromotionIndex { get; set; }
         public List<string> activePromotionSales { get; set; }
         public bool inGameRemoveAdsPromotionShown { get; set; }
+        public bool isRateAppDialogueFirstTimeShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -145,6 +146,7 @@ namespace TurboLabz.InstantGame
             inventoryTabVisited = false;
             shopTabVisited = false;
             ResetDailyPrefers();
+            isRateAppDialogueFirstTimeShown = false;
         }
 
         private void LoadFromDisk()
@@ -467,6 +469,11 @@ namespace TurboLabz.InstantGame
                     inGameRemoveAdsPromotionShown = reader.Read<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION);
                 }
 
+                if (reader.HasKey(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME))
+                {
+                    isRateAppDialogueFirstTimeShown = reader.Read<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME);
+                }
+
                 var transactionKeys = dailyResourceManager.Keys.ToList();
 
                 foreach (var transaction in transactionKeys)
@@ -571,6 +578,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
                 writer.Write<int>(PrefKeys.CURRENT_PROMOTION_INDEX, currentPromotionIndex);
                 writer.Write<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION, inGameRemoveAdsPromotionShown);
+                writer.Write<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME, isRateAppDialogueFirstTimeShown);
 
                 foreach (var transaction in dailyResourceManager)
                 {
