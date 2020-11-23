@@ -68,7 +68,7 @@ namespace TurboLabz.InstantGame
 
         public void Init()
         {
-            titleLabel.text = localizationService.Get(LocalizationKey.RATE_APP_TITLE) + " " + Application.productName + "?";
+            titleLabel.text = localizationService.Get(LocalizationKey.RATE_APP_TITLE);
             yesButtonLabel.text = localizationService.Get(LocalizationKey.RATE_APP_LOVE);
             noButtonLabel.text = localizationService.Get(LocalizationKey.RATE_APP_IMPROVE);
 
