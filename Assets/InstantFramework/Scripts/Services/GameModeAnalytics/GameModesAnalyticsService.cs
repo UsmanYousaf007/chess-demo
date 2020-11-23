@@ -43,6 +43,17 @@ namespace TurboLabz.InstantFramework
                     preferencesModel.timeSpent1mMatch += timeSpent;
                 }
             }
+            else if (matchInfo.gameTimeMode == GameTimeMode.ThreeMin)
+            {
+                if (matchInfo.isTournamentMatch)
+                {
+                    preferencesModel.timeSpent3mTournament += timeSpent;
+                }
+                else
+                {
+                    preferencesModel.timeSpent3mMatch += timeSpent;
+                }
+            }
             else if (matchInfo.gameTimeMode == GameTimeMode.ThirtyMin)
             {
                 preferencesModel.timeSpent30mMatch += timeSpent;
@@ -129,7 +140,7 @@ namespace TurboLabz.InstantFramework
             }
             else if (preferencesModel.gameCount3m > preferencesModel.favModeCount)
             {
-                preferencesModel.favModeCount = preferencesModel.gameCount5m;
+                preferencesModel.favModeCount = preferencesModel.gameCount3m;
                 preferencesModel.overallFavMode = "3_min";
             }
             else if (preferencesModel.gameCount5m > preferencesModel.favModeCount)
