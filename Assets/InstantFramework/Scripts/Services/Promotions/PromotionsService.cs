@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
+        [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -71,7 +72,7 @@ namespace TurboLabz.InstantFramework
 
             if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
             {
-                promotionShown = false;
+                OnPromotionCycleOver();
                 return;
             }
 
@@ -81,6 +82,10 @@ namespace TurboLabz.InstantFramework
             if (showMultiplePromotionsPerSession || !promotionShown)
             {
                 SelectAndDispatchPromotion();
+            }
+            else
+            {
+                OnPromotionCycleOver();
             }
         }
 
@@ -97,7 +102,7 @@ namespace TurboLabz.InstantFramework
 
             if (preferencesModel.currentPromotionIndex >= sequence.Count)
             {
-                promotionShown = false;
+                OnPromotionCycleOver();
                 return;
             }
 
@@ -119,6 +124,12 @@ namespace TurboLabz.InstantFramework
                 preferencesModel.activePromotionSales.Add(promotionToDispatch.key);
                 activePromotionSaleSingal.Dispatch(promotionToDispatch.key);
             }
+        }
+
+        private void OnPromotionCycleOver()
+        {
+            promotionShown = false;
+            promotionCycleOverSignal.Dispatch();
         }
 
         private List<string> GetSequence()
