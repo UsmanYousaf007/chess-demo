@@ -173,7 +173,7 @@ namespace TurboLabz.InstantFramework
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
     public class UpdateBottomNavSignal : Signal<BottomNavView.ButtonId> { }
-    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxAddMessagesSignal : Signal { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
     public class LoadRewardsSignal : Signal { }
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }

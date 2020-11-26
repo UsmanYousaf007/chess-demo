@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISchedulerService schedulerService { get; set; }
         [Inject] public IAppUpdateService appUpdateService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public IRewardsService rewardsService { get; set; }
 
         public override void Execute()
         {

@@ -110,9 +110,9 @@ namespace TurboLabz.InstantFramework
                     DispatchInboxNotifications(newMsgs);
                 }
 
-                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
+                inboxAddMessagesSignal.Dispatch();
             }
 
             if (response.ScriptData.ContainsKey("inboxCount"))
