@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
         public void OnButtonClicked(string msgId)
         {
             TLUtils.LogUtil.Log("RewardDlgMediator::OnButtonClicked()");
-            //navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             view.Hide();
             backendService.InBoxOpCollect(msgId);
             _onCloseSignal?.Dispatch();
