@@ -3,12 +3,9 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
-using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
-using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,7 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
         [Inject] public DailyRewardsCycleOverSignal dailyRewardsOverSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
-        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -68,10 +64,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowDailyReward(string key, Signal onCloseSignal)
         {
-            if (TimeUtil.unixTimestampMilliseconds >= inboxModel.items[key].startTime)
-            {
-                loadRewardDlgViewSignal.Dispatch(key, onCloseSignal);
-            }
+            loadRewardDlgViewSignal.Dispatch(key, onCloseSignal);
         }
 
         private void SelectAndDispatchReward()
@@ -87,7 +80,7 @@ namespace TurboLabz.InstantFramework
             }
 
             List<string> keyList = new List<string>(rewards.Keys);
-            ShowDailyReward(keyList[0], loadLobbySignal);
+            ShowDailyReward(keyList[0], onCloseSignal);
             rewards.Remove(keyList[0]);
         }
 
@@ -106,12 +99,6 @@ namespace TurboLabz.InstantFramework
                     rewards.Add(obj.Key, obj.Value);
                 }
             }
-        }
-
-        public void OnRewardDlgClosed()
-        {
-            TLUtils.LogUtil.Log("DailyRewardService::OnRewardDlgClosed()");
-            loadLobbySignal.Dispatch();
         }
 
         private void OnRewardsCycleOver()

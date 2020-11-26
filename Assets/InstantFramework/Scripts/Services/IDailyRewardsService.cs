@@ -14,7 +14,6 @@ namespace TurboLabz.InstantFramework
     {
         bool dailyRewardShown { get; }
         void ShowDailyReward(string key, Signal onCloseSignal);
-        void OnRewardDlgClosed();
         void LoadDailyReward();
         void LoadDailyRewards();
     }
