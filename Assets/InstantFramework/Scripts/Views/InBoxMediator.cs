@@ -108,9 +108,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(InboxAddMessagesSignal))]
-        public void OnInboxAddMessages(Dictionary<string, InboxMessage> messages)
+        public void OnInboxAddMessages()
         {
-            view.AddMessages(messages);
+            view.AddMessages(inboxModel.items);
         }
 
         [ListensTo(typeof(InboxRemoveMessagesSignal))]

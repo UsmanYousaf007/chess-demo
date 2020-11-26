@@ -3,14 +3,11 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using System.Collections.Generic;
-using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
-using TurboLabz.InstantFramework;
 
 namespace TurboLabz.InstantFramework
 {
-    public interface IDailyRewardsService
+    public interface IRewardsService
     {
         bool dailyRewardShown { get; }
         void ShowDailyReward(string key, Signal onCloseSignal);

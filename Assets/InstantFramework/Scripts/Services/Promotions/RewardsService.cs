@@ -9,7 +9,7 @@ using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
-    public class DailyRewardsService : IDailyRewardsService
+    public class RewardsService : IRewardsService
     {
         public bool dailyRewardShown { get; set; }
         private Dictionary<string, InboxMessage> rewards = new Dictionary<string, InboxMessage>();
@@ -22,12 +22,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
         [Inject] public DailyRewardsCycleOverSignal dailyRewardsOverSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
+        [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -36,18 +38,22 @@ namespace TurboLabz.InstantFramework
         [PostConstruct]
         public void PostConstruct()
         {
-            promotionCycleOverSignal.AddListener(Reset);
+            promotionCycleOverSignal.AddListener(LoadDailyRewards);
+            inboxAddMessagesSignal.AddListener(LoadDailyRewards);
         }
 
-        private void Reset()
+        public void Init()
         {
             dailyRewardShown = false;
         }
 
         public void LoadDailyRewards()
         {
-            SetupRewards();
-            LoadDailyReward();
+            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY)
+            {
+                SetupRewards();
+                LoadDailyReward();
+            }
         }
 
         public void LoadDailyReward()
