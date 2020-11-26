@@ -826,7 +826,7 @@ namespace TurboLabz.InstantFramework
 
                         if (context != AnalyticsContext.unknown)
                         {
-                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "refund", "default");
 
                             if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(item.Key))
                             {

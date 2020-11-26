@@ -142,9 +142,9 @@ namespace TurboLabz.InstantFramework
                         //Analytics
                         var item = inboxModel.items[messageId];
                         var itemType = CollectionsUtil.GetContextFromState(item.type);
-                        itemType = !item.isDaily ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
+                        itemType = !string.IsNullOrEmpty(item.tournamentType) ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
                         var itemId = "subscription_daily_ticket";
-                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower() : itemId;
+                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower().Replace(" ", "_").Replace(".",string.Empty) : itemId;
                         itemId = !string.IsNullOrEmpty(item.tournamentType) ? $"rank{item.rankCount}" : itemId;
 
                         analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
