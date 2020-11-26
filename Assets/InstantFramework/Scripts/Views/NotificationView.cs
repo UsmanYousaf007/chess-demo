@@ -64,7 +64,6 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ShowViewBoardResultsPanelSignal showViewBoardResultsPanelSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
 
         // Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -424,7 +423,7 @@ namespace TurboLabz.InstantGame
 
                     if (tournamentAssets != null)
                     {
-                        loadInboxSignal.Dispatch();
+                       // loadRewardsSignal.Dispatch();
                     }
                     else
                     {
@@ -437,7 +436,7 @@ namespace TurboLabz.InstantGame
                         }
                         else if (notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
                         {
-                            loadInboxSignal.Dispatch();
+                            //loadRewardsSignal.Dispatch();
                         }
                     }
                 }
@@ -537,7 +536,6 @@ namespace TurboLabz.InstantGame
         private void LoadInbox()
         {
             audioService.PlayStandardClick();
-            loadInboxSignal.Dispatch();
         }
     }
 }

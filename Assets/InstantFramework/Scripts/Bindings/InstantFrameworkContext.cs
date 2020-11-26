@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             commandBinder.Bind<LoadArenaSignal>().To<LoadArenaCommand>();
-            commandBinder.Bind<LoadInboxSignal>().To<LoadInboxCommand>();
+            commandBinder.Bind<LoadRewardsSignal>().To<LoadRewardsCommand>();
 
 
             // Bind signals to models data loader commands
@@ -221,6 +221,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ActivePromotionSaleSingal>().ToSingleton();
             injectionBinder.Bind<ShowFadeBlockerSignal>().ToSingleton();
             injectionBinder.Bind<PromotionCycleOverSignal>().ToSingleton();
+            injectionBinder.Bind<DailyRewardsCycleOverSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -287,6 +288,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IDownloadablesService>().To<DownloadablesService>().ToSingleton();
             injectionBinder.Bind<ISchedulerService>().To<SchedulerService>().ToSingleton();
             injectionBinder.Bind<IPromotionsService>().To<PromotionsService>().ToSingleton();
+            injectionBinder.Bind<IDailyRewardsService>().To<DailyRewardsService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();

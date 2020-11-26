@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         //Services
@@ -77,7 +77,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnInboxButtonClicked()
         {
-            loadInboxSignal.Dispatch();
+            loadRewardsSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

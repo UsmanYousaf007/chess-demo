@@ -32,7 +32,7 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public ShowThemesInventoryTabSignal showThemesInventoryTabSignal { get; set; }
         [Inject] public ShareAppSignal shareAppSignal { get; set; }
 
@@ -128,7 +128,7 @@ namespace TurboLabz.InstantGame
 
         private void OnInboxButtonClicked()
         {
-            loadInboxSignal.Dispatch();
+            loadRewardsSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]
