@@ -9,9 +9,6 @@ namespace TurboLabz.InstantFramework
 {
     public interface IRewardsService
     {
-        bool dailyRewardShown { get; }
-        void ShowDailyReward(string key, Signal onCloseSignal);
-        void LoadDailyReward();
         void LoadDailyRewards();
     }
 }

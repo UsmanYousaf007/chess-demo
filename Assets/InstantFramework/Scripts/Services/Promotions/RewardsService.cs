@@ -11,7 +11,6 @@ namespace TurboLabz.InstantFramework
 {
     public class RewardsService : IRewardsService
     {
-        public bool dailyRewardShown { get; set; }
         private Dictionary<string, InboxMessage> rewards = new Dictionary<string, InboxMessage>();
 
         // Listen to signals
@@ -34,30 +33,40 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        private bool dailyRewardShown;
+        private bool isPromotionShownOnStart;
+        private bool callLock;
 
         [PostConstruct]
         public void PostConstruct()
         {
+            Init();
             promotionCycleOverSignal.AddListener(LoadDailyRewards);
             inboxAddMessagesSignal.AddListener(LoadDailyRewards);
         }
 
-        public void Init()
+        private void Init()
         {
+            isPromotionShownOnStart = false;
             dailyRewardShown = false;
         }
 
         public void LoadDailyRewards()
         {
-            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY)
+            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY && isPromotionShownOnStart)
             {
                 SetupRewards();
                 LoadDailyReward();
             }
         }
 
-        public void LoadDailyReward()
+        private void LoadDailyReward()
         {
+            if (callLock)
+                return;
+
+            callLock = true;
+
             if (!dailyRewardShown)
             {
                 SelectAndDispatchReward();
@@ -68,7 +77,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void ShowDailyReward(string key, Signal onCloseSignal)
+        private void ShowDailyReward(string key, Signal onCloseSignal)
         {
             loadRewardDlgViewSignal.Dispatch(key, onCloseSignal);
         }
@@ -109,6 +118,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardsCycleOver()
         {
+            callLock = false;
             dailyRewardShown = false;
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
         }
