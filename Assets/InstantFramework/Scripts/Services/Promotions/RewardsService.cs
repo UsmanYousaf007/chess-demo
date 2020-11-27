@@ -41,7 +41,6 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             Init();
-            promotionCycleOverSignal.AddListener(LoadDailyRewards);
             promotionCycleOverSignal.AddListener(SetPomotionFlag);
             inboxAddMessagesSignal.AddListener(LoadDailyRewards);
         }
@@ -55,6 +54,7 @@ namespace TurboLabz.InstantFramework
         private void SetPomotionFlag()
         {
             isPromotionShownOnStart = true;
+            LoadDailyRewards();
         }
 
         public void LoadDailyRewards()
