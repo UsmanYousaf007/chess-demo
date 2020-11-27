@@ -9,6 +9,5 @@ namespace TurboLabz.InstantFramework
 {
     public interface IRewardsService
     {
-        void LoadDailyRewards();
     }
 }

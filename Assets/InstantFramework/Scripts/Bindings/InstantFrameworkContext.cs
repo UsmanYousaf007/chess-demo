@@ -221,7 +221,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ActivePromotionSaleSingal>().ToSingleton();
             injectionBinder.Bind<ShowFadeBlockerSignal>().ToSingleton();
             injectionBinder.Bind<PromotionCycleOverSignal>().ToSingleton();
-            injectionBinder.Bind<DailyRewardsCycleOverSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();

@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.INBOX_VIEW, NavigatorViewId.LOBBY);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.INBOX_VIEW, NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -25,6 +25,11 @@
                 else if (viewId == NavigatorViewId.LOBBY)
                 {
                     return new NSLobby();
+                }
+                else if (viewId == NavigatorViewId.RATE_APP_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.REWARD_DLG);
+                    return new NSRateAppDlg();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_TOURNAMENT_LEADERBOARDS)

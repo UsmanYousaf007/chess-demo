@@ -11,36 +11,30 @@ namespace TurboLabz.InstantFramework
 {
     public class RewardsService : IRewardsService
     {
-        private Dictionary<string, InboxMessage> rewards = new Dictionary<string, InboxMessage>();
+        private Stack<string> rewards;
 
         // Listen to signals
         [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
+        [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
+        [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
         // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPreferencesModel preferencesModel { get; set; }
-        [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
-        [Inject] public DailyRewardsCycleOverSignal dailyRewardsOverSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
-        [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
-        private bool dailyRewardShown;
         private bool isPromotionShownOnStart;
-        private bool callLock;
 
         [PostConstruct]
         public void PostConstruct()
         {
-            Init();
+            modelsResetSignal.AddListener(Init);
             promotionCycleOverSignal.AddListener(SetPomotionFlag);
             inboxAddMessagesSignal.AddListener(LoadDailyRewards);
         }
@@ -48,7 +42,7 @@ namespace TurboLabz.InstantFramework
         private void Init()
         {
             isPromotionShownOnStart = false;
-            dailyRewardShown = false;
+            rewards = new Stack<string>();
         }
 
         private void SetPomotionFlag()
@@ -57,9 +51,10 @@ namespace TurboLabz.InstantFramework
             LoadDailyRewards();
         }
 
-        public void LoadDailyRewards()
+        private void LoadDailyRewards()
         {
-            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY && isPromotionShownOnStart)
+            if (isPromotionShownOnStart && (navigatorModel.currentViewId == NavigatorViewId.LOBBY ||
+                                            navigatorModel.currentViewId == NavigatorViewId.RATE_APP_DLG))
             {
                 SetupRewards();
                 LoadDailyReward();
@@ -68,65 +63,27 @@ namespace TurboLabz.InstantFramework
 
         private void LoadDailyReward()
         {
-            if (callLock)
-                return;
-
-            callLock = true;
-
-            if (!dailyRewardShown)
-            {
-                SelectAndDispatchReward();
-            }
-            else
-            {
-                OnRewardsCycleOver();
-            }
-        }
-
-        private void ShowDailyReward(string key, Signal onCloseSignal)
-        {
-            loadRewardDlgViewSignal.Dispatch(key, onCloseSignal);
-        }
-
-        private void SelectAndDispatchReward()
-        {
-            Signal onCloseSignal = new Signal();
-            onCloseSignal.AddListener(LoadDailyReward);
-
             if (rewards.Count == 0)
             {
-                dailyRewardShown = true;
-                LoadDailyReward();
                 return;
             }
 
-            List<string> keyList = new List<string>(rewards.Keys);
-            ShowDailyReward(keyList[0], onCloseSignal);
-            rewards.Remove(keyList[0]);
+            var onCloseSignal = new Signal();
+            onCloseSignal.AddListener(LoadDailyReward);
+            loadRewardDlgViewSignal.Dispatch(rewards.Pop(), onCloseSignal);
         }
 
         private void SetupRewards()
         {
-            foreach (KeyValuePair<string, InboxMessage> obj in inboxModel.items)
-            {
-                if (rewards.ContainsKey(obj.Key))
-                {
-                    rewards.Remove(obj.Key);
-                }
+            rewards.Clear();
 
-                InboxMessage msg = obj.Value;
-                if (TimeUtil.unixTimestampMilliseconds >= msg.startTime)
+            foreach (var msg in inboxModel.items)
+            {
+                if (TimeUtil.unixTimestampMilliseconds >= msg.Value.startTime)
                 {
-                    rewards.Add(obj.Key, obj.Value);
+                    rewards.Push(msg.Key);
                 }
             }
-        }
-
-        private void OnRewardsCycleOver()
-        {
-            callLock = false;
-            dailyRewardShown = false;
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
         }
     }
 }

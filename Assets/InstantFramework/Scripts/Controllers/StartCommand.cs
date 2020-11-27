@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
+        [Inject] public IRewardsService rewardsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
