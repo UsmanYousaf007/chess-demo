@@ -128,12 +128,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnPromotionCycleOver()
         {
-            if (promotionShown)
-            {
-                promotionCycleOverSignal.Dispatch();
-            }
-
             promotionShown = false;
+            promotionCycleOverSignal.Dispatch();
         }
 
         private List<string> GetSequence()
