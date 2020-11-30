@@ -11,8 +11,6 @@ namespace TurboLabz.InstantFramework
 {
     public class RewardsService : IRewardsService
     {
-        private Stack<string> rewards;
-
         // Listen to signals
         [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
@@ -30,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 
         private bool isPromotionShownOnStart;
+        private Stack<string> rewards;
 
         [PostConstruct]
         public void PostConstruct()

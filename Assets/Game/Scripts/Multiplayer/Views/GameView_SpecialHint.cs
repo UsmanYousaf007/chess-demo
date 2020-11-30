@@ -63,10 +63,14 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateSpecialHintButton(int hintUsedCount)
+        public void UpdateSpecialHintButton(int hintUsedCount, bool updateHintCount)
         {
-            hintCount--;
-            hintCount = hintCount < 0 ? 0 : hintCount;
+            if (updateHintCount)
+            {
+                hintCount--;
+                hintCount = hintCount < 0 ? 0 : hintCount;
+            }
+
             canUseSpecialHint = hintUsedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }

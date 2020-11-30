@@ -67,10 +67,14 @@ namespace TurboLabz.CPU
             }
         }
 
-        public void UpdateSpecialHintButton(int usedCount)
+        public void UpdateSpecialHintButton(int usedCount, bool updateHintCount)
         {
-            hintCount--;
-            hintCount = hintCount < 0 ? 0 : hintCount;
+            if (updateHintCount)
+            {
+                hintCount--;
+                hintCount = hintCount < 0 ? 0 : hintCount;
+            }
+
             canUseSpecialHint = usedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }

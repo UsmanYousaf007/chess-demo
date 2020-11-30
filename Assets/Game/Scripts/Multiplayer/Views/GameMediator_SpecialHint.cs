@@ -32,10 +32,11 @@ namespace TurboLabz.Multiplayer
         {
             if (result == BackendResult.SUCCESS)
             {
-                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount);
+                var isPremium = hintTransactionVO.consumeItemShortCode.Equals("premium");
+                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
 
-                if (!hintTransactionVO.consumeItemShortCode.Equals("premium"))
+                if (!isPremium)
                 {
                     analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(hintTransactionVO.consumeItemShortCode).ToString(), hintTransactionVO.consumeQuantity, "booster_used", "hint");
                     preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][hintTransactionVO.consumeItemShortCode] += hintTransactionVO.consumeQuantity;

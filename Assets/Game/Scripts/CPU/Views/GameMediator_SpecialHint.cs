@@ -49,11 +49,12 @@ namespace TurboLabz.CPU
         {
             if (result == BackendResult.SUCCESS)
             {
+                var isPremium = transactionVO.consumeItemShortCode.Equals("premium");
                 preferencesModel.cpuPowerUpsUsedCount++;
-                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount);
+                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
 
-                if (!transactionVO.consumeItemShortCode.Equals("premium"))
+                if (!isPremium)
                 {
                     analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "hint");
                     preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
