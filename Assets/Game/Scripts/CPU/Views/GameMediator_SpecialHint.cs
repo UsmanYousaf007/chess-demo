@@ -51,6 +51,10 @@ namespace TurboLabz.CPU
             {
                 var isPremium = transactionVO.consumeItemShortCode.Equals("premium");
                 preferencesModel.cpuPowerUpsUsedCount++;
+
+                if (preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
+                    preferencesModel.freeDailyHint = FreePowerUpStatus.CONSUMED;
+
                 view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
 
@@ -140,6 +144,11 @@ namespace TurboLabz.CPU
                 {
                     view.ProcessHint(transactionVO);
                 }
+            }
+
+            if (key.Equals(view.specialHintShortCode))
+            {
+                preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
             }
         }
     }

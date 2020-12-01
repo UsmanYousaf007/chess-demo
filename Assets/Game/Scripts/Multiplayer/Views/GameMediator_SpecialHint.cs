@@ -33,6 +33,9 @@ namespace TurboLabz.Multiplayer
             if (result == BackendResult.SUCCESS)
             {
                 var isPremium = hintTransactionVO.consumeItemShortCode.Equals("premium");
+                if (preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
+                    preferencesModel.freeDailyHint = FreePowerUpStatus.CONSUMED;
+
                 view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
 

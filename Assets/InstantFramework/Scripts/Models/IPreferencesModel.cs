@@ -9,6 +9,13 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
+    public enum FreePowerUpStatus
+    {
+        CONSUMED,
+        BOUGHT,
+        NOT_CONSUMED
+    }
+
     public interface IPreferencesModel
     {
         bool isAudioOn { get; set; }
@@ -82,5 +89,7 @@ namespace TurboLabz.InstantFramework
         Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         List<string> activePromotionSales { get; set; }
         bool isRateAppDialogueFirstTimeShown { get; set; }
+        FreePowerUpStatus freeDailyHint { get; set; }
+        FreePowerUpStatus freeDailyRatingBooster { get; set; }
     }
 }

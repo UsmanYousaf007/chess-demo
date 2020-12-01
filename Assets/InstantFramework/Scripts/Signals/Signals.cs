@@ -216,7 +216,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
-    public class RatingBoostAnimSignal : Signal<int> { }
+    public class RatingBoostedSignal : Signal<int> { }
 
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }

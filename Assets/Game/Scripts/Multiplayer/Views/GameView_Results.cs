@@ -41,6 +41,7 @@ namespace TurboLabz.Multiplayer
         public Text resultsRatingChangeLabel;
 
         public Button resultsBoostRatingButton;
+        public GameObject resultsFreeBoostRating;
         public Text resultsBoostRatingButtonLabel;
         public Text resultsRatingBoostedLabel;
         public Image resultsBoostRatingAdTVImage;
@@ -735,7 +736,12 @@ namespace TurboLabz.Multiplayer
                 transactionVO.consumeItemShortCode = resultsBoostRatingShortCode;
                 transactionVO.consumeQuantity = 1;
 
-                if (haveEnoughRatingBoosters)
+                if (preferencesModel.freeDailyRatingBooster == FreePowerUpStatus.NOT_CONSUMED)
+                {
+                    transactionVO.consumeItemShortCode = "premium";
+                    BoostRating(transactionVO);
+                }
+                else if (haveEnoughRatingBoosters)
                 {
                     BoostRating(transactionVO);
                 }
@@ -843,6 +849,7 @@ namespace TurboLabz.Multiplayer
                 resultsBoostRatingToolTip.gameObject.SetActive(false);
 
             resultsBoostRatingButton.interactable = true;
+            resultsFreeBoostRating.SetActive(false);
 
             if (enable)
             {
@@ -860,6 +867,7 @@ namespace TurboLabz.Multiplayer
                 }
 
                 resultsBoostRatingButton.GetComponent<Image>().color = c;
+                resultsFreeBoostRating.SetActive(preferencesModel.freeDailyRatingBooster == FreePowerUpStatus.NOT_CONSUMED);
             }
             else
             {
@@ -877,7 +885,15 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void PlayEloBoostedAnimation(int ratingBoosted)
+        public void OnRatingBoosted(int boostedRating)
+        {
+            resultsFreeBoostRating.SetActive(false);
+            if(preferencesModel.freeDailyRatingBooster == FreePowerUpStatus.NOT_CONSUMED)
+                preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.CONSUMED;
+            PlayEloBoostedAnimation(boostedRating);
+        }
+
+        private void PlayEloBoostedAnimation(int ratingBoosted)
         {
             if (addedAnimation != null)
             {

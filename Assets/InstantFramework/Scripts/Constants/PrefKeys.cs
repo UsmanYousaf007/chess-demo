@@ -70,7 +70,9 @@ namespace TurboLabz.InstantGame
         public const string ACTIVE_PROMOTION_SALES = "activePromotionSales";
         public const string IN_GAME_REMOVE_ADS_PROMOTION = "inGameRemoveAdsPromotionShown";
         public const string RATE_DLG_SHOWN_FIRST_TIME = "rateDialogueShownFirstTime";
-
+        public const string FREE_DAILY_HINT = "freeDailyHint";
+        public const string FREE_DAILY_RATING_BOOSTER = "freeDailyRatingBooster";
+        
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
         public const string PREGAME_ADS_PER_DAY_COUNT = "pregameAdsPerDayCount";
