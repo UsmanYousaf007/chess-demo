@@ -18,7 +18,7 @@ using System.Collections;
 namespace TurboLabz.InstantFramework
 {
     [CLSCompliant(false)]
-    public class CareerCarMediator : Mediator
+    public class CareerCardMediator : Mediator
     {
         // View injection
         [Inject] public CareerCardView view { get; set; }

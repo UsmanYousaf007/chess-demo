@@ -406,6 +406,9 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<PromotionEliteBundleDlgView>().To<PromotionEliteBundleDlgMediator>();
             mediationBinder.Bind<PromotionRemoveAdsDlgView>().To<PromotionRemoveAdsDlgMediator>();
             mediationBinder.Bind<PromotionWelcomeBundleDlgView>().To<PromotionWelcomeBundleDlgMediator>();
+            mediationBinder.Bind<CPUCardView>().To<CPUCardMediator>();
+            mediationBinder.Bind<LessonCardView>().To<LessonCardMediator>();
+            mediationBinder.Bind<CareerCardView>().To<CareerCardMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
