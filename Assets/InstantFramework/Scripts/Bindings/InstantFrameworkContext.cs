@@ -409,6 +409,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<CPUCardView>().To<CPUCardMediator>();
             mediationBinder.Bind<LessonCardView>().To<LessonCardMediator>();
             mediationBinder.Bind<CareerCardView>().To<CareerCardMediator>();
+            mediationBinder.Bind<NewLobbyView>().To<NewLobbyMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

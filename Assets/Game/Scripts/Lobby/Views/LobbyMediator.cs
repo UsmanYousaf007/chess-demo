@@ -111,7 +111,7 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
+        //[ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
@@ -129,7 +129,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(NavigatorHideViewSignal))]
+        //[ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
