@@ -61,7 +61,12 @@ namespace FM.Legacy{
 			numberOfTracks = transform.childCount;
 		}
 
-		public void SetOnItemSelectedCallback(OnItemSelected _itemSelected){
+        private void OnDisable()
+        {
+			pressed = false;    
+        }
+
+        public void SetOnItemSelectedCallback(OnItemSelected _itemSelected){
 			itemSelected = _itemSelected;
 		}
 
