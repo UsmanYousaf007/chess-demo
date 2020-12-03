@@ -83,7 +83,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
                 { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
                 { LocalizationKey.LIVE_TEXT, "LIVE" },
-                { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
+                { LocalizationKey.PLAYING_LEVEL, "Resume Level "},
 
                 #endregion
 
