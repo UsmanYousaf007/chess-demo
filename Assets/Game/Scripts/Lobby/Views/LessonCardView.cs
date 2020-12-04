@@ -29,27 +29,51 @@ namespace TurboLabz.InstantFramework
         public TMP_Text startButtonText;
         public Button startButton;
 
+        public Image lockIcon;
+
+        private VideoLessonVO lessonVO;
+        public GameObject lessonsCompletedSection;
+        public GameObject lessonsSection;
+        public GameObject processing;
+
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        //Signals
+        public Signal<VideoLessonVO> OnStartButtonClickedSignal = new Signal<VideoLessonVO>();
+
         public void Init()
         {
-            
+            startButton.onClick.AddListener(OnStartButtonClicked);
         }
 
         public void UpdateView(TopicsViewVO vo)
         {
-            //lessonsCompletedSection.SetActive(vo.allLessonsWatched);
-            /*lessonVO = vo.nextLesson;
+            lessonsCompletedSection.SetActive(vo.allLessonsWatched);
+            lessonsSection.SetActive(!vo.allLessonsWatched);
+            lessonVO = vo.nextLesson;
 
             if (!vo.allLessonsWatched)
             {
                 currentLessonIcon.sprite = vo.nextLesson.icon;
                 currentLessonName.text = vo.nextLesson.name;
-                nextLessonProgress.fillAmount = vo.nextLesson.progress;
             }
-            LayoutRebuilder.ForceRebuildLayoutImmediate(categoryContainer.GetComponent<RectTransform>());*/
+
+            lockIcon.enabled = lessonVO.isLocked;
+        }
+
+        void OnStartButtonClicked()
+        {
+            OnStartButtonClickedSignal.Dispatch(lessonVO);
+        }
+
+        public void UnlockNextLesson()
+        {
+            if (lessonVO != null)
+            {
+                lessonVO.isLocked = false;
+            }
         }
     }
 }

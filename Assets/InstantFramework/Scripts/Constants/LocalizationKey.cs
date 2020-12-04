@@ -371,6 +371,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_FRIENDS = "navFriends";
         public const string NAV_INVENTORY = "navInventory";
         public const string NAV_ARENA = "navArena";
+        public const string NAV_LESSON = "navLesson";
 
         #endregion
 

@@ -34,6 +34,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
         [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
+        [Inject] public UpdateTopiscViewSignal updateTopiscViewSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -53,6 +54,9 @@ namespace TurboLabz.InstantGame
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
+
+        private StoreIconsContainer iconsContainer;
 
         public override void Execute()
         {
@@ -62,6 +66,30 @@ namespace TurboLabz.InstantGame
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
             updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+
+
+            iconsContainer = StoreIconsContainer.Load();
+            var nextLesson = lessonsModel.GetNextLesson(playerModel.lastWatchedVideo);
+            var topicsVO = new TopicsViewVO();
+            if (string.IsNullOrEmpty(nextLesson))
+            {
+                topicsVO.allLessonsWatched = true;
+            }
+            else if (metaDataModel.store.items.ContainsKey(nextLesson))
+            {
+                var nextLessonVO = new VideoLessonVO();
+                nextLessonVO.name = metaDataModel.store.items[nextLesson].displayName;
+                nextLessonVO.videoId = nextLesson;
+                nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
+                nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
+                nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
+                nextLessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(nextLesson);
+                nextLessonVO.section = lessonsModel.topicsMapping[lessonsModel.lessonsMapping[nextLesson]];
+                topicsVO.nextLesson = nextLessonVO;
+            }
+            topicsVO.sections = lessonsModel.GetSectionsWithTopicVO(iconsContainer);
+            updateTopiscViewSignal.Dispatch(topicsVO);
+
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {

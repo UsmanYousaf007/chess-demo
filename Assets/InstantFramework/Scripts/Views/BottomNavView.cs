@@ -22,6 +22,7 @@ using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class BottomNavView : View
     {
         public enum ButtonId
@@ -30,7 +31,8 @@ namespace TurboLabz.InstantFramework
             Shop,
             Friends,
             Inventory,
-            Arena
+            Arena,
+            Lesson
         }
 
         public ButtonId buttonId;
@@ -42,24 +44,28 @@ namespace TurboLabz.InstantFramework
         public Text inventoryLabel;
         public Text shopLabel;
         public Text arenaLabel;
+        public Text lessonLabel;
 
         public GameObject homeSelected;
         public GameObject friendsSelected;
         public GameObject inventorySelected;
         public GameObject shopSelected;
         public GameObject arenaSelected;
+        public GameObject lessonSelected;
 
         public Button homeButton;
         public Button friendsButton;
         public Button inventoryButton;
         public Button shopButton;
         public Button arenaButton;
+        public Button lessonButton;
 
         public Image homeIcon;
         public Image friendsIcon;
         public Image inventoryIcon;
         public Image shopIcon;
         public Image arenaIcon;
+        public Image lessonIcon;
 
         public GameObject shopAlert;
         public GameObject inventoryAlert;
@@ -73,6 +79,7 @@ namespace TurboLabz.InstantFramework
         public Signal inventoryButtonClickedSignal = new Signal();
         public Signal shopButtonClickedSignal = new Signal();
         public Signal arenaButtonClickedSignal = new Signal();
+        public Signal lessonButtonClickedSignal = new Signal();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -90,12 +97,15 @@ namespace TurboLabz.InstantFramework
             inventoryLabel.text = localizationService.Get(LocalizationKey.NAV_INVENTORY);
             shopLabel.text = localizationService.Get(LocalizationKey.NAV_SHOP);
             arenaLabel.text = localizationService.Get(LocalizationKey.NAV_ARENA);
+            lessonLabel.text = localizationService.Get(LocalizationKey.NAV_LESSON);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
             friendsButton.onClick.AddListener(FriendsButtonClicked);
             inventoryButton.onClick.AddListener(InventoryButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
             arenaButton.onClick.AddListener(ArenaButtonClicked);
+            lessonButton.onClick.AddListener(LessonButtonClicked);
+
             UpdateButtons();
             ShowSale(false);
         }
@@ -169,6 +179,12 @@ namespace TurboLabz.InstantFramework
             arenaLabel.color = Colors.WHITE_150;
             arenaIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
 
+            lessonButton.interactable = true;
+            lessonSelected.SetActive(false);
+            lessonLabel.enabled = true;
+            lessonLabel.color = Colors.WHITE_150;
+            lessonIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
+
             if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
@@ -219,6 +235,16 @@ namespace TurboLabz.InstantFramework
                 //iTween.MoveTo(selectedImage.gameObject,
                 //iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
             }
+            else if (buttonId == ButtonId.Lesson)
+            {
+                lessonButton.interactable = false;
+                lessonSelected.SetActive(true);
+                //arenaLabel.enabled = false;
+                lessonLabel.color = Colors.YELLOW;
+                lessonIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
+                //iTween.MoveTo(selectedImage.gameObject,
+                //iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
+            }
         }
 
         void HomeButtonClicked()
@@ -237,6 +263,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             arenaButtonClickedSignal.Dispatch();
+        }
+
+        void LessonButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            lessonButtonClickedSignal.Dispatch();
         }
 
         void InventoryButtonClicked()

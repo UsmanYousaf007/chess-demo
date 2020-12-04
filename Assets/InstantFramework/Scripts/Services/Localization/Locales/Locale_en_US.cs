@@ -371,6 +371,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
                 { LocalizationKey.NAV_INVENTORY, "INVENTORY" },
                 { LocalizationKey.NAV_ARENA, "TOURNAMENT" },
+                { LocalizationKey.NAV_LESSON, "LESSONS" },
 
                 #endregion
 
