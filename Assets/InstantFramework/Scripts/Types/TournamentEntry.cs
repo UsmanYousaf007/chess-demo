@@ -6,6 +6,8 @@ namespace TurboLabz.InstantFramework
         public int score;
         public int rank;
         public int matchesPlayedCount;
+        public int matchesPlayedToday;
+        public int randomScoreFactor;
         public PublicProfile publicProfile;
     }
 }

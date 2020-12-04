@@ -552,13 +552,13 @@ namespace TurboLabz.InstantFramework
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
                 // Sort entries on score here
-                //tournamentEntries.Sort((x, y) =>
-                //    y.score.CompareTo(x.score));
+                SortTournamentEntries(tournamentEntries);
 
                 joinedTournament.entries = tournamentEntries;
 
-                var playerId = playerModel.id;
+                string playerId = playerModel.id;
 
+                // Rank and other entry updates
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
                     tournamentEntries[i].rank = i + 1;
@@ -586,19 +586,64 @@ namespace TurboLabz.InstantFramework
             return joinedTournament;
         }
 
+        private void SortTournamentEntries(List<TournamentEntry> entries)
+        {
+            TournamentEntry playerEntry = null;
+
+            // Remove player entry
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].publicProfile.playerId == playerModel.id)
+                {
+                    playerEntry = entries[i];
+                    entries.RemoveAt(i);
+
+                    break;
+                }
+            }
+
+            // Sort entries on score here
+            entries.Sort((x, y) =>
+                y.score.CompareTo(x.score));
+
+            // Add back player entry
+            bool inserted = false;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].score <= playerEntry.score)
+                {
+                    playerEntry.rank = i + 1;
+                    entries.Insert(i, playerEntry);
+                    inserted = true;
+                    break;
+                }
+            }
+
+            if (!inserted)
+            {
+                entries.Add(playerEntry);
+            }
+        }
+
         private List<TournamentEntry> ParseTournamentEntries(List<GSData> entriesGSData)
         {
             List<TournamentEntry> tournamentEntries = new List<TournamentEntry>();
             for (int i = 0; i < entriesGSData.Count; i++)
             {
+                GSData entryGSData = entriesGSData[i];
+
                 TournamentEntry tournamentEntry = new TournamentEntry();
-                tournamentEntry.rank = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.RANK);
-                tournamentEntry.score = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.SCORE);
-                tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+                tournamentEntry.rank = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.RANK);
+                tournamentEntry.score = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.SCORE);
+                tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+                tournamentEntry.matchesPlayedToday = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_TODAY);
+                tournamentEntry.randomScoreFactor = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.RANDOM_SCORE_FACTOR);
+
+                tournamentEntry.score += tournamentEntry.randomScoreFactor;
 
                 tournamentEntry.publicProfile = new PublicProfile();
-                GSData publicProfileData = entriesGSData[i].GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
-                string entryId = GSParser.GetSafeString(entriesGSData[i], GSBackendKeys.PlayerDetails.PLAYER_ID);
+                GSData publicProfileData = entryGSData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
+                string entryId = GSParser.GetSafeString(entryGSData, GSBackendKeys.PlayerDetails.PLAYER_ID);
                 GSParser.PopulatePublicProfile(tournamentEntry.publicProfile, publicProfileData, entryId);
 
                 tournamentEntries.Add(tournamentEntry);

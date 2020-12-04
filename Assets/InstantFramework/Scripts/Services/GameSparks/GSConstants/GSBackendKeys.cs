@@ -438,6 +438,8 @@ namespace TurboLabz.InstantFramework
             public const string ENTRIES = "entries";
             public const string SCORE = "score";
             public const string MATCHES_PLAYED_COUNT = "matchesPlayedCount";
+            public const string MATCHES_PLAYED_TODAY = "matchesPlayedToday";
+            public const string RANDOM_SCORE_FACTOR = "randomScoreFactor";
             public const string REWARDS = "rewards";
             public const string CONCLUDED = "concluded";
             public const string TOURNAMENT_MATCH_SCORE = "tournamentScore";
