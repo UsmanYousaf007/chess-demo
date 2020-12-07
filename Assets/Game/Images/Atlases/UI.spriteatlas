@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 18912553
+    totalSpriteSurfaceArea: 19036865
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -121,6 +121,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b2299b12d65b54684baf22c1e7414317, type: 3}
   - {fileID: 21300000, guid: 1b6bbf1263e9041488cf9f8eded09639, type: 3}
   - {fileID: 21300000, guid: 48f3a02204db84afe83dfee8e5922e0d, type: 3}
+  - {fileID: 21300000, guid: 13aec222bd028478382e71bc93c1e1a7, type: 3}
   - {fileID: 21300000, guid: c05fe7320e69d41f6a16483412643ecf, type: 3}
   - {fileID: 21300000, guid: 720bcb32f79844971b5cbdbed09d1ab4, type: 3}
   - {fileID: 21300000, guid: 6964af329868a41d5a706cf8a9bc25ab, type: 3}
@@ -218,6 +219,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5aa51dc51bcd644f8b6311661fd10b6a, type: 3}
   - {fileID: 21300000, guid: 1070a1e5e28b1430b9c1b70560272323, type: 3}
   - {fileID: 21300000, guid: 7ae353e533bfb492aa11982976211a42, type: 3}
+  - {fileID: 21300000, guid: 688f7ae55f7ce49e8a7765a853f5723f, type: 3}
   - {fileID: 21300000, guid: a8e05be51632f493cbe7a1e34e6aa65c, type: 3}
   - {fileID: 21300000, guid: 47ef5de5122024e7f982947b013b2fcf, type: 3}
   - {fileID: 21300000, guid: c7fd8306c75c2429c9190995aa1c0d3a, type: 3}
@@ -357,6 +359,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7c44d70b0d5a14bf180ec4dfc5b76dc0, type: 3}
   - {fileID: 21300000, guid: 84c71f0b7b27a4e37a8cc48e0361b28f, type: 3}
   - {fileID: 21300000, guid: b1b8e21be0dc143a2b2c92c7d11c4e58, type: 3}
+  - {fileID: 21300000, guid: ce3aef1bf57b0469787153e7fa9147ae, type: 3}
   - {fileID: 21300000, guid: 1966e72bd1d1c482eafde761280e4629, type: 3}
   - {fileID: 21300000, guid: dadc533b320e041fba65f59105ca3797, type: 3}
   - {fileID: 21300000, guid: fadd426b9f38d434e961d21df5d5b3d1, type: 3}
@@ -423,6 +426,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4e94dbad2bbb2482d8359a61da45bd21, type: 3}
   - {fileID: 21300000, guid: 3dd855bdd21a34c57a6cb4d6d5ae384a, type: 3}
   - {fileID: 21300000, guid: 446402cd7eb104dbab12aae71d79d696, type: 3}
+  - {fileID: 21300000, guid: 806532cd389b847949c859982e56bb0f, type: 3}
   - {fileID: 21300000, guid: 37a932dd30d0d42b78fd0a08973d4c5b, type: 3}
   - {fileID: 21300000, guid: 82cddeed1f81e4d76b234c9476463323, type: 3}
   - {fileID: 21300000, guid: 5a63310e10b194ea1ac78aba3516c80c, type: 3}
@@ -535,6 +539,7 @@ SpriteAtlas:
   - VipClubBannerText
   - GameTimeBtn
   - RoundEdgesGlow
+  - 30mBtn
   - GamesIconClr
   - 5
   - GemIcon
@@ -632,6 +637,7 @@ SpriteAtlas:
   - GemPack3000Icon
   - GlassTop
   - ClockBorderRect
+  - 5mBtn
   - RatingFloaterTexture
   - HeartIcon
   - LearnPromoBannerBg
@@ -771,6 +777,7 @@ SpriteAtlas:
   - GreenTick
   - strengthFillerOutline
   - FrameworkButton
+  - 3mBtn
   - GameLimitIcon
   - ChatMinIcon
   - AddCoinPlate
@@ -837,6 +844,7 @@ SpriteAtlas:
   - MoreMatchesIcon
   - 1MinBulletTile
   - AdvScenariosIcon
+  - 10mBtn
   - TimerIcon
   - InventoryTile
   - ExtraBadge

@@ -5,17 +5,38 @@
 
 using strange.extensions.mediation.impl;
 using UnityEngine;
+using UnityEngine.UI;
+using FM.Legacy;
+using System.Collections;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
+    public enum CardName
+    {
+        Computer,
+        Career,
+        Lesson
+    }
+
+    [System.CLSCompliant(false)]
     public class NewLobbyView : View
     {
         public Transform[] carouselItems;
         public RectTransform carousel;
+        public Scroller scroller;
 
         private Vector3[] carouselItemsOriginalPositions;
         private Vector3 carouselOriginalPosition;
         private Vector3 carouselOriginalSize;
+
+        public Image[] glow;
+
+        public Sprite computerCardGlow;
+        public Sprite careerCardGlow;
+        public Sprite lessonCardGlow;
+
+        private Coroutine animationCR;
 
         public void Init()
         {
@@ -27,6 +48,11 @@ namespace TurboLabz.InstantFramework
             {
                 carouselItemsOriginalPositions[i] = carouselItems[i].localPosition;
             }
+
+            Scroller.OnSettled += StartAnimation;
+            Scroller.CancelAnimation += CancelAnimation;
+
+            glow[scroller.GetCurrentItem()].DOFade(1, 1);
         }
 
         public void Show()
@@ -49,6 +75,31 @@ namespace TurboLabz.InstantFramework
             {
                 carouselItems[i].localPosition = carouselItemsOriginalPositions[i];
             }
+        }
+
+        public void StartAnimation()
+        {
+            animationCR = StartCoroutine(Animate());
+        }
+
+        public void CancelAnimation()
+        {
+            if (animationCR != null)
+            {
+                StopCoroutine(animationCR);
+                animationCR = null;
+            }
+            for (int i = 0; i < glow.Length; i++)
+            {
+                glow[i].DOKill();
+            }
+        }
+
+        IEnumerator Animate()
+        {
+            yield return new WaitForSeconds(1);
+            glow[scroller.GetLastItem()].DOFade(0, 1);
+            glow[scroller.GetCurrentItem()].DOFade(1, 1);
         }
     }
 }

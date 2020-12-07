@@ -38,6 +38,7 @@ namespace FM.Legacy{
 		#region PageSelector
 		private RectTransform selectedItem;
 		private int selectedItemIndex = 0;
+		private int lastItemIndex = 0;
 		private bool lerpToCurrentItem;
 		private float targetCenterPosition;
 		private float targetDiff;
@@ -57,6 +58,10 @@ namespace FM.Legacy{
 		// Orientation Manager
 		private bool horizontal = false;
 
+		public delegate void ClickAction();
+		public static event ClickAction OnSettled;
+		public static event ClickAction CancelAnimation;
+
 		void Awake(){
 			numberOfTracks = transform.childCount;
 		}
@@ -74,6 +79,7 @@ namespace FM.Legacy{
 			if(selectedItem != _selectedItem){
 				selectedItem = _selectedItem;
 				lerpToCurrentItem = true;
+				lastItemIndex = selectedItemIndex;
 				selectedItemIndex = index;
 				if(itemSelected != null){
 					itemSelected.OnCurrentItemSelected(selectedItemIndex);
@@ -96,6 +102,7 @@ namespace FM.Legacy{
 		}
 
 		public void SelectItem(int index, bool animate = false){
+			lastItemIndex = selectedItemIndex;
 			selectedItemIndex = index;
 			float position = (rectTransform.rect.width/2) - ((index * childRectTransform.rect.width) + childRectTransform.rect.width/2);
 			if(animate){
@@ -218,6 +225,8 @@ namespace FM.Legacy{
 					targetDiff = targetCenterPosition - selectedItem.position.x;
 					targetSelectPosition = transform.position.x + targetDiff;
 					targetAquired = true;
+					CancelAnimation();
+					OnSettled();
 				}
 
 				LerpResult lerpResult = Utils.ConstantLerp(new Vector3(transform.position.x, transform.position.y, transform.position.z), new Vector3(targetSelectPosition, transform.position.y, transform.position.z), extraSlideDuration, timeElapsedInLerp);
@@ -285,6 +294,11 @@ namespace FM.Legacy{
 
 		public int GetCurrentItem(){
 			return selectedItemIndex;
+		}
+
+		public int GetLastItem()
+		{
+			return lastItemIndex;
 		}
 
 		public void SlideRight(){

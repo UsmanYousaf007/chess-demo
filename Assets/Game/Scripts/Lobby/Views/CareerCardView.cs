@@ -22,19 +22,40 @@ namespace TurboLabz.InstantFramework
     {
         public TMP_Text subTitle;
 
-        public TMP_Text startGameText;
-        public Button startGameButton;
-
         public Image nextTitleTrophy;
         public Image nextTitle;
         public Image nextTitleGlow;
 
         public TMP_Text nextTitleText;
-        public TMP_Text neededTrophiesCount;
+
+        public TMP_Text trophiesLossLabel;
+        public TMP_Text trophiesCountOnLosses;
+
+        public RectTransform trophyProgressionBarFiller;
+        public GameObject trophyProgressionBar;
+        public TMP_Text playerTrophiesCountLabel;
+        private float trophyProgressionBarOriginalWidth;
+
+        public TMP_Text trophiesWinLabel;
+        public TMP_Text trophiesCountOnWins;
+
+        public Image bgImage;
+
+        public TMP_Text startGame3mText;
+        public Button startGame3mButton;
+
+        public TMP_Text startGame5mText;
+        public Button startGame5mButton;
+
+        public TMP_Text startGame10mText;
+        public Button startGame10mButton;
+
+        public TMP_Text startGame30mText;
+        public Button startGame30mButton;
 
         public void Init()
         {
-
+            trophyProgressionBarOriginalWidth = trophyProgressionBarFiller.sizeDelta.x;
         }
     }
 }
