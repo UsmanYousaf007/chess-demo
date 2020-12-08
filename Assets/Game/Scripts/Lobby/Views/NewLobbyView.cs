@@ -22,16 +22,9 @@ namespace TurboLabz.InstantFramework
     [System.CLSCompliant(false)]
     public class NewLobbyView : View
     {
-        public Transform[] carouselItems;
-        public RectTransform carousel;
-        public Scroller scroller;
-
-        private Vector3[] carouselItemsOriginalPositions;
-        private Vector3 carouselOriginalPosition;
-        private Vector3 carouselOriginalSize;
-
+        public Scaler[] carouselItems;
+        public Scroller carousel;
         public Image[] glow;
-
         public Sprite computerCardGlow;
         public Sprite careerCardGlow;
         public Sprite lessonCardGlow;
@@ -40,19 +33,17 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            carouselOriginalPosition = carousel.localPosition;
-            carouselOriginalSize = carousel.sizeDelta;
-            carouselItemsOriginalPositions = new Vector3[carouselItems.Length];
+            carousel.Setup();
 
-            for (int i = 0; i < carouselItems.Length; i++)
+            foreach (var item in carouselItems)
             {
-                carouselItemsOriginalPositions[i] = carouselItems[i].localPosition;
+                item.Setup();
             }
 
             Scroller.OnSettled += StartAnimation;
             Scroller.CancelAnimation += CancelAnimation;
 
-            glow[scroller.GetCurrentItem()].DOFade(1, 1);
+            glow[carousel.GetCurrentItem()].DOFade(1, 1);
         }
 
         public void Show()
@@ -68,12 +59,11 @@ namespace TurboLabz.InstantFramework
 
         private void Reset()
         {
-            carousel.localPosition = carouselOriginalPosition;
-            carousel.sizeDelta = carouselOriginalSize;
+            carousel.Reset();
 
-            for (int i = 0; i < carouselItems.Length; i++)
+            foreach (var item in carouselItems)
             {
-                carouselItems[i].localPosition = carouselItemsOriginalPositions[i];
+                item.Reset();
             }
         }
 
@@ -98,8 +88,8 @@ namespace TurboLabz.InstantFramework
         IEnumerator Animate()
         {
             yield return new WaitForSeconds(1);
-            glow[scroller.GetLastItem()].DOFade(0, 1);
-            glow[scroller.GetCurrentItem()].DOFade(1, 1);
+            glow[carousel.GetLastItem()].DOFade(0, 1);
+            glow[carousel.GetCurrentItem()].DOFade(1, 1);
         }
     }
 }

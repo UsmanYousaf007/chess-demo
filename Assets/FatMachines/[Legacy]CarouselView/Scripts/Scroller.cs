@@ -54,6 +54,8 @@ namespace FM.Legacy{
 
 		private OnItemSelected itemSelected;
 		private bool movingLeft = false;
+		private Vector3 originalPosition;
+		private Vector2 originalSize;
 
 		// Orientation Manager
 		private bool horizontal = false;
@@ -130,13 +132,8 @@ namespace FM.Legacy{
 		}
 
 		void Start () {
-			rectTransform = GetComponent<RectTransform>();
 			scrollPanel = GetComponent<Transform>();
-
-
-			Debug.Log(scrollPanel.position);
-			Debug.Log(scrollPanel.localPosition);
-
+			GetRectTransform();
 			UpdateScreenConfig();
 		}
 
@@ -327,6 +324,26 @@ namespace FM.Legacy{
 			return false;
 		}
 
+		public void Setup()
+		{
+			GetRectTransform();
+			originalPosition = rectTransform.localPosition;
+			originalSize = rectTransform.sizeDelta;
+		}
+
+        public void Reset()
+        {
+			rectTransform.localPosition = originalPosition;
+			rectTransform.sizeDelta = originalSize;
+        }
+
+		void GetRectTransform()
+		{
+			if (rectTransform == null)
+			{
+				rectTransform = GetComponent<RectTransform>();
+			}
+		}
 	}
 
 	public interface OnItemSelected{

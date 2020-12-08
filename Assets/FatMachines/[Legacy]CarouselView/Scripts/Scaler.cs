@@ -10,6 +10,7 @@ namespace FM.Legacy{
 		[SerializeField] private float minScale;
 		[SerializeField] private float maxScale;
 		[SerializeField] private float screenRatio;
+		[SerializeField] private bool isDefault;
 		private int index;
 
 		private Scroller parent;
@@ -20,12 +21,12 @@ namespace FM.Legacy{
 		public Transform left;
 		public Transform right;
 
+		private Vector3 originalPosition;
+
 		void Start(){
 			index = transform.GetSiblingIndex();
-
-			rectTransform = GetComponent<RectTransform>();
 			parent = transform.parent.GetComponent<Scroller>();
-			
+			GetRectTransform();
 			UpdateScreenConfig();
 		}
 
@@ -75,5 +76,24 @@ namespace FM.Legacy{
 			index = _index;
 		}
 
-	}
+		public void Setup()
+		{
+			GetRectTransform();
+			originalPosition = rectTransform.localPosition;
+		}
+
+		public void Reset()
+        {
+			rectTransform.localPosition = originalPosition;
+			rectTransform.localScale = isDefault ? new Vector3(maxScale, maxScale, 1) : new Vector3(minScale, minScale, 1);
+        }
+
+		void GetRectTransform()
+		{
+			if (rectTransform == null)
+			{
+				rectTransform = GetComponent<RectTransform>();
+			}
+		}
+    }
 }

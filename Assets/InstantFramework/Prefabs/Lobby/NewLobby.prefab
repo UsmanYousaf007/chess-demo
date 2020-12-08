@@ -237,6 +237,7 @@ MonoBehaviour:
   minScale: 0.9
   maxScale: 1
   screenRatio: 3
+  isDefault: 0
   left: {fileID: 7206903292923826936}
   right: {fileID: 7206903293159563049}
 --- !u!114 &7252183528589455351
@@ -254,6 +255,7 @@ MonoBehaviour:
   minScale: 0.9
   maxScale: 1
   screenRatio: 3
+  isDefault: 0
   left: {fileID: 7206903293159563049}
   right: {fileID: 7206903292714540080}
 --- !u!114 &7252183528489378340
@@ -271,6 +273,7 @@ MonoBehaviour:
   minScale: 0.9
   maxScale: 1
   screenRatio: 3
+  isDefault: 1
   left: {fileID: 7206903292714540080}
   right: {fileID: 7206903292923826936}
 --- !u!1 &7252183528136189911
@@ -404,24 +407,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217fcbfcb63d84615a8d018d2c8b7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards:
-  - cardName: 2
-    item: {fileID: 7206903292714540080}
-    glowSprite: {fileID: 21300000, guid: 1a92bbd1739e84f97bee8c8d144de328, type: 3}
-  - cardName: 1
-    item: {fileID: 7206903293159563049}
-    glowSprite: {fileID: 21300000, guid: 2beff9870ce9e4edb82d2fccfb0cb0a6, type: 3}
-  - cardName: 0
-    item: {fileID: 7206903292923826936}
-    glowSprite: {fileID: 21300000, guid: 302a9332ef16f4bee9086ff9c646545f, type: 3}
   carouselItems:
-  - {fileID: 7206903292714540080}
-  - {fileID: 7206903293159563049}
-  - {fileID: 7206903292923826936}
-  carousel: {fileID: 7252183528563604635}
-  scroller: {fileID: 7252183528563604632}
-  currentGlow: {fileID: 1997109289104906401}
-  lastGlow: {fileID: 7170264786886125394}
+  - {fileID: 7252183528363122991}
+  - {fileID: 7252183528489378340}
+  - {fileID: 7252183528589455351}
+  carousel: {fileID: 7252183528563604632}
   glow:
   - {fileID: 7170264786886125394}
   - {fileID: 1997109289104906401}
@@ -530,11 +520,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7252183528136189908}
     m_Modifications:
-    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyTopBar
-      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -640,6 +625,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyTopBar
+      objectReference: {fileID: 0}
     - target: {fileID: 2401890473734289711, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -705,11 +695,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7252183528563604635}
     m_Modifications:
-    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
-        type: 3}
-      propertyPath: m_Name
-      value: LessonsCard
-      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -814,6 +799,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
+        type: 3}
+      propertyPath: m_Name
+      value: LessonsCard
       objectReference: {fileID: 0}
     - target: {fileID: 3911210602649609294, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
@@ -1311,11 +1301,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7252183528563604635}
     m_Modifications:
-    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
-        type: 3}
-      propertyPath: m_Name
-      value: CPUCard
-      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1421,6 +1406,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
+        type: 3}
+      propertyPath: m_Name
+      value: CPUCard
+      objectReference: {fileID: 0}
     - target: {fileID: 2243080827602695138, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
       propertyPath: m_Enabled
@@ -1457,11 +1447,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7252183528136189908}
     m_Modifications:
-    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyBottomBar
-      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1566,6 +1551,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyBottomBar
       objectReference: {fileID: 0}
     - target: {fileID: 4647627785390284855, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}
