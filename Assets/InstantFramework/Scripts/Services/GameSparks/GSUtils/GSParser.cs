@@ -407,6 +407,10 @@ namespace TurboLabz.InstantFramework
                 var count = obj.Value;
                 league.dailyReward.Add(obj.Key, Int32.Parse(count.ToString()));
             }
+
+            var trophiesData = data.GetGSData("trophies");
+            league.winTrophies = GetSafeInt(trophiesData, "win");
+            league.lossTrophies = GetSafeInt(trophiesData, "loss");
         }
 
         public static void LogLeague(League league)
