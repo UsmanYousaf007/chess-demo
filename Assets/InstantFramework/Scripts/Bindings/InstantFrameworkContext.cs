@@ -322,6 +322,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
             injectionBinder.Bind<ProfilePictureLoadedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();   
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -410,6 +411,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LessonCardView>().To<LessonCardMediator>();
             mediationBinder.Bind<CareerCardView>().To<CareerCardMediator>();
             mediationBinder.Bind<NewLobbyView>().To<NewLobbyMediator>();
+            mediationBinder.Bind<LobbyProfileBarView>().To<LobbyProfileBarMediator>();
+            mediationBinder.Bind<LobbyTickerView>().To<LobbyTickerMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

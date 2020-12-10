@@ -54,6 +54,8 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
                 { LocalizationKey.DECLINE_TEXT, "Decline" },
                 { LocalizationKey.START_TEXT, "Start" },
+                { LocalizationKey.WIN_TEXT, "Win" },
+                { LocalizationKey.LOSS_TEXT, "Loss" },
 
                 #endregion
 

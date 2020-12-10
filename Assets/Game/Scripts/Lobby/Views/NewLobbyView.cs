@@ -25,10 +25,6 @@ namespace TurboLabz.InstantFramework
         public Scaler[] carouselItems;
         public Scroller carousel;
         public Image[] glow;
-        public Sprite computerCardGlow;
-        public Sprite careerCardGlow;
-        public Sprite lessonCardGlow;
-
         private Coroutine animationCR;
 
         public void Init()

@@ -18,10 +18,10 @@ using System.Collections;
 namespace TurboLabz.InstantFramework
 {
     [CLSCompliant(false)]
-    public class CareerCardMediator : Mediator
+    public class LobbyProfileBarMediator : Mediator
     {
         // View injection
-        [Inject] public CareerCardView view { get; set; }
+        [Inject] public LobbyProfileBarView view { get; set; }
 
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
@@ -34,10 +34,16 @@ namespace TurboLabz.InstantFramework
             view.Init();
         }
 
-        [ListensTo(typeof(UpdateLeagueProfileSignal))]
-        public void UpdateView(string id)
+        [ListensTo(typeof(UpdateProfileSignal))]
+        public void OnUpdateProfile(ProfileVO vo)
         {
-            view.UpdateView();
+            view.UpdateView(vo);
+        }
+
+        [ListensTo(typeof(UpdateEloScoresSignal))]
+        public void OnUpdateEloScoresSignal(EloVO vo)
+        {
+            view.UpdateEloScores(vo);
         }
     }
 }

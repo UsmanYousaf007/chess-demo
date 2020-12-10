@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 		// Dispatch signals
 		[Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
+        [Inject] public UpdateCareerCardSignal updateCareerCardSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -74,6 +75,7 @@ namespace TurboLabz.InstantFramework
             }
 
             updateProfileSignal.Dispatch(pvo);
+            updateCareerCardSignal.Dispatch();
         }
 
     }

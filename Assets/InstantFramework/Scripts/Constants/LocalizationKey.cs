@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
         public const string LIVE_TEXT = "liveText";
+        public const string WIN_TEXT = "winText";
+        public const string LOSS_TEXT = "lossText";
 
         #endregion
 
