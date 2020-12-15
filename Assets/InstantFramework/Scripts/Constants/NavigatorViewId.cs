@@ -90,6 +90,7 @@ namespace TurboLabz.InstantFramework
         PROMOTION_WELCOME_BUNDLE_DLG,
         PROMOTION_CHESS_SETS_BUNDLE_DLG,
         PROMOTION_CHESS_COURSE_DLG,
-        CHANGE_PHOTO_DLG
+        CHANGE_PHOTO_DLG,
+        LOGIN_DLG
     }
 }

@@ -105,7 +105,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
 
             mainText.font = font;
             footerText.font = font;
-            acceptPolicyButtonText.font = font;
+            //acceptPolicyButtonText.font = font;
             adsConsentToggleText.font = font;
             headerText.font = font;
         }
