@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public AuthFaceBookSignal authFaceBookSignal { get; set; }
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         //Services
         [Inject] public IPromotionsService promotionsService { get; set; }
@@ -86,6 +87,7 @@ namespace TurboLabz.InstantFramework
 
         private void CloseDlg()
         {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             promotionsService.LoadPromotion();
         }
     }
