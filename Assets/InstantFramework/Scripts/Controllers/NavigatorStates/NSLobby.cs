@@ -161,6 +161,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLoginDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_LEADERBOARD_VIEW)
+            {
+                return new NSLeaderboardView();
+            }
 
             return null;
         }

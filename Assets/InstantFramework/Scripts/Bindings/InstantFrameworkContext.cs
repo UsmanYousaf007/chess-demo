@@ -372,6 +372,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadTopicsViewSignal>().To<LoadTopicsViewCommand>();
             commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
             commandBinder.Bind<LoadRewardDlgViewSignal>().To<LoadRewardDlgCommand>();
+            commandBinder.Bind<LoadLeaderboardSignal>().To<LoadLeaderboardCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -415,6 +416,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<NewLobbyView>().To<NewLobbyMediator>();
             mediationBinder.Bind<LobbyProfileBarView>().To<LobbyProfileBarMediator>();
             mediationBinder.Bind<LobbyTickerView>().To<LobbyTickerMediator>();
+            mediationBinder.Bind<LeaderboardView>().To<LeaderboardMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

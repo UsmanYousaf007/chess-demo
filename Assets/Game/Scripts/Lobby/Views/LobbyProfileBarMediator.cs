@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public LoadLeaderboardSignal loadLeaderboardSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -32,6 +34,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            view.leaderboardButtonClickedSignal.AddListener(OnLeaderboardClicked);
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -44,6 +47,11 @@ namespace TurboLabz.InstantFramework
         public void OnUpdateEloScoresSignal(EloVO vo)
         {
             view.UpdateEloScores(vo);
+        }
+
+        public void OnLeaderboardClicked()
+        {
+            loadLeaderboardSignal.Dispatch();
         }
     }
 }

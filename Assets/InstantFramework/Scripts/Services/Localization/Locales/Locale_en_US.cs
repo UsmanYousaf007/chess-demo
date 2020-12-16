@@ -531,6 +531,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_REWARD_DLG_TROPHIES_ADDED, "Trophies already added to your account"},
                 #endregion
 
+                #region TournamentItem
+
+                { LocalizationKey.LEADERBOARD_WORLD, "WORLD"},
+                { LocalizationKey.LEADERBOARD_CHAMPIONSHIP, "CHAMPIONSHIP"},
+                { LocalizationKey.LEADERBOARD_RANK, "Rank"},
+                { LocalizationKey.LEADERBOARD_REWARDS, "Winnings"},
+                { LocalizationKey.LEADERBOARD_WINNINGS, "Rewards"},
+
+                #endregion
+
                 #region InBox
 
                 { LocalizationKey.INBOX_HEADING, "Inbox"},
