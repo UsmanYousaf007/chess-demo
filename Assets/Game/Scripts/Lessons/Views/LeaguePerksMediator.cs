@@ -48,7 +48,7 @@ namespace TurboLabz.InstantGame
 
         private void OnBackButtonClicked()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_ARENA);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         [ListensTo(typeof(UpdateLeagueProfileSignal))]

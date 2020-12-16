@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -32,12 +33,18 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
         }
 
         [ListensTo(typeof(UpdateLeagueProfileSignal))]
         public void UpdateView(string id)
         {
             view.UpdateView();
+        }
+
+        public void InfoButtonClicked()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
         }
     }
 }

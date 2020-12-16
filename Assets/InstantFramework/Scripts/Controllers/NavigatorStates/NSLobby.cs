@@ -165,6 +165,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLeaderboardView();
             }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW)
+            {
+                return new NSLeaguePerksView();
+            }
 
             return null;
         }

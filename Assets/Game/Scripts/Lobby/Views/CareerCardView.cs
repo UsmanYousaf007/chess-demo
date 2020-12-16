@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
         public TMP_Text trophiesWinLabel;
         public TMP_Text trophiesCountOnWins;
 
+        public Button infoButton;
+
         public Sprite bgImage;
 
         public TMP_Text startGame3mText;
@@ -62,6 +64,7 @@ namespace TurboLabz.InstantFramework
 
         //Signals
         public Signal<string> playMultiplayerButtonClickedSignal = new Signal<string>();
+        public Signal OnInfoBtnClickedSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -81,6 +84,8 @@ namespace TurboLabz.InstantFramework
             startGame5mText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
             startGame10mText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
             startGame30mText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
+
+            infoButton.onClick.AddListener(OnInfoBtnClicked);
 
             //bgImage.sprite = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
 
@@ -130,6 +135,11 @@ namespace TurboLabz.InstantFramework
         {
             Debug.Log("OnQuickMatchBtnClicked");
             playMultiplayerButtonClickedSignal.Dispatch(actionCode);
+        }
+
+        void OnInfoBtnClicked()
+        {
+            OnInfoBtnClickedSignal.Dispatch();
         }
     }
 }
