@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 21906700
+    totalSpriteSurfaceArea: 21952929
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -65,6 +65,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aa93e0606ad9049f8a679630ea1e61f3, type: 3}
   - {fileID: 21300000, guid: a88c73600ad14437aa221204f2c33521, type: 3}
   - {fileID: 21300000, guid: 68d334805ae194c68a9ad80770a7806e, type: 3}
+  - {fileID: 21300000, guid: 2876458065c3343dfb386abbce3670c5, type: 3}
   - {fileID: 21300000, guid: 4b911b803eb1d4e2b99697684c6e42fe, type: 3}
   - {fileID: 21300000, guid: 34ab1290915d74c169e38c209b16e2c8, type: 3}
   - {fileID: 21300000, guid: c1164490b8c224f79854de0cd854b014, type: 3}
@@ -150,6 +151,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3ec033e2ca4b64af7abb21319ab3b3e2, type: 3}
   - {fileID: 21300000, guid: 31b274e27ee1045e2862cb2eb71f7b33, type: 3}
   - {fileID: 21300000, guid: 8ce3bde2ed71b4cc0b067bad72ad2cfc, type: 3}
+  - {fileID: 21300000, guid: 558f17f2be795474eabf52aaa350ea9a, type: 3}
   - {fileID: 21300000, guid: 10e778f2f8e204dccb1428acbd6e4960, type: 3}
   - {fileID: 21300000, guid: 8429abf2e3d4143b1bb026e77455b426, type: 3}
   - {fileID: 21300000, guid: e23714035b1d047439525a3c62a1508f, type: 3}
@@ -311,6 +313,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
   - {fileID: 21300000, guid: fbfbc1a808c6845a592c2d77fd679892, type: 3}
   - {fileID: 21300000, guid: 9a17f6a890e4c4cc9bc06c7fd7cec3fa, type: 3}
+  - {fileID: 21300000, guid: 7aa353b83f2fc438a82febf616c27c03, type: 3}
   - {fileID: 21300000, guid: 817c6dc87df654c279c79037f3f4b421, type: 3}
   - {fileID: 21300000, guid: eab244d8e4b8a42bdb6bab012a1d4931, type: 3}
   - {fileID: 21300000, guid: ce36b7d88ec964ba2a28b41f2de19eb0, type: 3}
@@ -518,6 +521,7 @@ SpriteAtlas:
   - ScrollArrow
   - StarIcon
   - GemBaseNoShadow
+  - BetBtnMinus
   - LobbyBtn
   - AllPacksStrip
   - InventoryIconClr
@@ -603,6 +607,7 @@ SpriteAtlas:
   - PlayerActive
   - AvatarOutlinePremium
   - MenuDotsIcon
+  - BetBtnPlus
   - Switch
   - EpicChest
   - InviteUsIcon
@@ -764,6 +769,7 @@ SpriteAtlas:
   - DefeatIcon
   - TrophyIconClr
   - GoldBtn
+  - LessonIconClr
   - GradientGoldText
   - SubTicketsIcon
   - PlayBtnLessons

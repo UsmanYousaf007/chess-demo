@@ -22,6 +22,11 @@ namespace TurboLabz.InstantFramework
     [System.CLSCompliant(false)]
     public class NewLobbyView : View
     {
+        public Transform topNav;
+        public Transform topBar;
+        public Transform ticker;
+        public Transform bottomNav;
+
         public Scaler[] carouselItems;
         public Scroller carousel;
         public Image[] glow;
@@ -40,6 +45,8 @@ namespace TurboLabz.InstantFramework
             Scroller.CancelAnimation += CancelAnimation;
 
             glow[carousel.GetCurrentItem()].DOFade(1, 1);
+
+            HandleNotch();
         }
 
         public void Show()
@@ -86,6 +93,17 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForSeconds(1);
             glow[carousel.GetLastItem()].DOFade(0, 1);
             glow[carousel.GetCurrentItem()].DOFade(1, 1);
+        }
+
+        public void HandleNotch()
+        {
+            if (NotchHandler.HasNotch())
+            {
+                topNav.localPosition = new Vector3(topNav.localPosition.x, topNav.localPosition.y - 80, topNav.localPosition.z);
+                topBar.localPosition = new Vector3(topBar.localPosition.x, topBar.localPosition.y - 50, topBar.localPosition.z);
+                ticker.localPosition = new Vector3(ticker.localPosition.x, ticker.localPosition.y + 88, ticker.localPosition.z);
+                bottomNav.localPosition = new Vector3(bottomNav.localPosition.x, bottomNav.localPosition.y + 88, bottomNav.localPosition.z);
+            }
         }
     }
 }
