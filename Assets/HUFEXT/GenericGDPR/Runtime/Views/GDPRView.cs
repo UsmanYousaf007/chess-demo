@@ -7,6 +7,8 @@ using HUFEXT.GenericGDPR.Runtime.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TurboLabz.InstantFramework;
 
 namespace HUFEXT.GenericGDPR.Runtime.Views
 {
@@ -40,6 +42,9 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
         [SerializeField] Color linkColor = Color.blue;
         [SerializeField] List<ColorScheme> elements = new List<ColorScheme>();
 
+        [Header( "Tweening" )]
+        public CanvasGroup panel;
+
         public bool ViewIsValid => mainText != null &&
                                    footerText != null &&
                                    acceptPolicyButton != null &&
@@ -55,6 +60,8 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
                 footerText.gameObject.AddComponent<Hyperlink>();
                 Refresh( Debug.isDebugBuild ? forceLanguage : string.Empty );
                 acceptPolicyButton.onClick.AddListener( HGenericGDPR.AcceptPolicy );
+                panel.alpha = Settings.MIN_ALPHA;
+                panel.DOFade(Settings.MAX_ALPHA, Settings.TWEEN_DURATION);
             }
             else
             {

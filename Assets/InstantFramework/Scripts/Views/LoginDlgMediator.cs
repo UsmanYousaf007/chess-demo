@@ -1,4 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -45,23 +46,13 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(AuthFacebookResultSignal))]
         public void OnAuthFacebookResult(AuthFacebookResultVO vo)
         {
-            view.OnSignInCompleted();
-
-            if (vo.isSuccessful)
-            {
-                CloseDlg();
-            }
+            SignInCompleted(vo.isSuccessful);
         }
 
         [ListensTo(typeof(AuthSignInWithAppleResultSignal))]
         public void OnAuthSignInWithAppleResult(AuthSignInWIthAppleResultVO vo)
         {
-            view.OnSignInCompleted();
-
-            if (vo.isSuccessful)
-            {
-                CloseDlg();
-            }
+            SignInCompleted(vo.isSuccessful);
         }
 
         [ListensTo(typeof(LoginAsGuestSignal))]
@@ -87,8 +78,20 @@ namespace TurboLabz.InstantFramework
 
         private void CloseDlg()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            promotionsService.LoadPromotion();
+            view.view.DOFade(Settings.MIN_ALPHA, Settings.TWEEN_DURATION).OnComplete(() => {
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                promotionsService.LoadPromotion();
+            });
+        }
+
+        private void SignInCompleted(bool isSucccess)
+        {
+            view.OnSignInCompleted();
+
+            if (isSucccess)
+            {
+                CloseDlg();
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ using HUFEXT.GenericGDPR.Runtime.Views;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
+using TurboLabz.InstantFramework;
 
 namespace HUFEXT.GenericGDPR.Runtime.API
 {
@@ -221,14 +223,19 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         [PublicAPI]
         public static void Dispose()
         {
-            if( IsInitialized )
+            view.panel.DOFade(Settings.MIN_ALPHA, Settings.TWEEN_DURATION).OnComplete(DisposeImmediate);
+        }
+
+        private static void DisposeImmediate()
+        {
+            if (IsInitialized)
             {
-                Object.Destroy( canvas );
+                Object.Destroy(canvas);
                 canvas = null;
                 view = null;
             }
 
-            if ( config.DestroyOnAccept )
+            if (config.DestroyOnAccept)
             {
                 OnPolicyAccepted -= Dispose;
             }

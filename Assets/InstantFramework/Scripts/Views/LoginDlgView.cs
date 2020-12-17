@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -12,6 +13,8 @@ namespace TurboLabz.InstantFramework
         public Button guestButton;
         public RectTransform layout;
         public GameObject processing;
+        public Transform icon;
+        public CanvasGroup view;
 
         public Signal facebookLoginSignal = new Signal();
         public Signal siwaSignal = new Signal();
@@ -26,11 +29,14 @@ namespace TurboLabz.InstantFramework
             guestButton.onClick.AddListener(OnGuestButtonClicked);
             siwaButton.gameObject.SetActive(siwaSupported);
             LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            view.alpha = Settings.MAX_ALPHA;
+            icon.localScale = Settings.MIN_SCALE;
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            icon.DOScale(Settings.MAX_SCALE, Settings.TWEEN_DURATION);
         }
 
         public void Hide()
