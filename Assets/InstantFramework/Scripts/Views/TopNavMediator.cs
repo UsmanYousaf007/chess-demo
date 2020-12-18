@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
             view.addGemsButtonClickedSignal.AddListener(OnAddGemsButtonClicked);
             view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
             view.addCollectilesButtonClickedSignal.AddListener(OnAddCollectiblesButtonClicked);
+            view.addCoinsButtonClickedSignal.AddListener(OnAddCoinsButtonClicked);
         }
 
         public override void OnRemove()
@@ -66,6 +67,14 @@ namespace TurboLabz.InstantFramework
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
+        private void OnAddCoinsButtonClicked()
+        {
+            //TODO add implementation here
+            //preferencesModel.shopTabVisited = true;
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            //updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
+        }
+
         private void OnAddCollectiblesButtonClicked()
         {
             preferencesModel.inventoryTabVisited = true;
@@ -85,6 +94,7 @@ namespace TurboLabz.InstantFramework
         {
             view.UpdateGemsCount(inventory.gemsCount);
             view.UpdateCollectiblesCount();
+            view.UpdateCoinsCount(inventory.coinCount);
         }
 
         [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]

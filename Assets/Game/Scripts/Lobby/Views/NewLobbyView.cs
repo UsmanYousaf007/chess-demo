@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
     }
 
     [System.CLSCompliant(false)]
-    public class NewLobbyView : View
+    public partial class NewLobbyView : View
     {
         public Transform topNav;
         public Transform topBar;
@@ -31,6 +31,9 @@ namespace TurboLabz.InstantFramework
         public Scroller carousel;
         public Image[] glow;
         private Coroutine animationCR;
+
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
@@ -93,6 +96,11 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForSeconds(1);
             glow[carousel.GetLastItem()].DOFade(0, 1);
             glow[carousel.GetCurrentItem()].DOFade(1, 1);
+        }
+
+        public bool IsVisible()
+        {
+            return gameObject.activeSelf;
         }
 
         public void HandleNotch()

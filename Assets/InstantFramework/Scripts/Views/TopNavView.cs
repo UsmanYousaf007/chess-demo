@@ -21,10 +21,13 @@ namespace TurboLabz.InstantFramework
         public Button supportButton;
         public Button settingsButton;
         public Button addGemsButton;
+        public Button addCoinsButton;
         public Button addCollectilesButton;
         public Button inboxButton;
         public Text gemsCount;
+        public Text coinsCount;
         public Text boughtGemsCount;
+        public Text boughtCoinsCount;
         public Text messagesCount;
         public Image inboxNotification;
 
@@ -38,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public Signal addGemsButtonClickedSignal = new Signal();
         public Signal inboxButtonClickedSignal = new Signal();
         public Signal addCollectilesButtonClickedSignal = new Signal();
+        public Signal addCoinsButtonClickedSignal = new Signal();
 
         private Color originalColor;
 
@@ -50,6 +54,7 @@ namespace TurboLabz.InstantFramework
             addGemsButton.onClick.AddListener(OnAddGemsButtonClicked);
             inboxButton.onClick.AddListener(OnInboxButtonClicked);
             addCollectilesButton.onClick.AddListener(OnAddCollectiblesButtonClicked);
+            addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
 
             if (boughtGemsCount != null)
             {
@@ -74,6 +79,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             addGemsButtonClickedSignal.Dispatch();
+        }
+
+        private void OnAddCoinsButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            addCoinsButtonClickedSignal.Dispatch();
         }
 
         private void OnInboxButtonClicked()
@@ -105,6 +116,25 @@ namespace TurboLabz.InstantFramework
             }
 
             gemsCount.text = gems.ToString();
+        }
+
+        public void UpdateCoinsCount(long coins)
+        {
+            if (boughtCoinsCount != null && gameObject.activeInHierarchy)
+            {
+                var addedCoins = coins - long.Parse(gemsCount.text);
+
+                if (addedCoins > 0)
+                {
+                    boughtCoinsCount.text = $"+{addedCoins}";
+                    boughtCoinsCount.transform.localPosition = Vector3.zero;
+                    boughtCoinsCount.gameObject.SetActive(true);
+                    DOTween.ToAlpha(() => boughtCoinsCount.color, x => boughtCoinsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(coins));
+                    boughtCoinsCount.transform.DOMoveY(Screen.height, 3.0f);
+                }
+            }
+
+            coinsCount.text = coins.ToString();
         }
 
         public void UpdateMessagesCount(long messages)
