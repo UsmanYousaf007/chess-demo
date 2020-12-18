@@ -34,6 +34,8 @@ namespace TurboLabz.InstantFramework
 
         string playerId;
 
+        public TMP_Text leaderboardTimer;
+
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
