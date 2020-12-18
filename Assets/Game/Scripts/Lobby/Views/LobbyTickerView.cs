@@ -17,21 +17,13 @@ using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
-    [System.Serializable]
-    public struct PlayerEntry{
-        public string id;
-        public TMP_Text name;
-        public TMP_Text place;
-    }
-
     [CLSCompliant(false)]
     public class LobbyTickerView : View
     {
         public TMP_Text onlinePlayersCount;
         public TMP_Text gamesTodayCount;
+        public Ticker ticker;
 
-        public PlayerEntry[] entries;
-        
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -42,6 +34,13 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
 
+        public GameObject tickerItemPrefab;
+        private GameObjectsPool itemsPool;
+        public Transform parent;
+        public TMP_Text noPlayersText;
+
+        private List<TickerItem> playerItems = new List<TickerItem>();
+
         public void Init()
         {
         }
@@ -50,7 +49,76 @@ namespace TurboLabz.InstantFramework
         {
             onlinePlayersCount.text = "Active Players " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
             gamesTodayCount.text = "Games Today " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
+            //TODO send the parameter
+            PopulateTicker();
         }
 
+        void PopulateTicker()
+        {
+            //TODO send the parameter
+            //Populate();
+            ticker.StartTicker(playerItems);
+        }
+
+        private TickerItem AddPlayer()
+        {
+            GameObject obj = itemsPool.GetObject();
+            TickerItem item = obj.GetComponent<TickerItem>();
+            item.transform.SetParent(parent, false);
+            return item;
+        }
+
+        public void Populate(int count)
+        {
+            if (count == 0)
+            {
+                noPlayersText.enabled = true;
+            }
+            else
+            {
+                noPlayersText.enabled = false;
+                itemsPool = new GameObjectsPool(tickerItemPrefab, count);
+            }
+            //TODO send the parameter
+            //PopulateEntries();
+        }
+
+        public void PopulateEntries(JoinedTournamentData joinedTournament)
+        {
+            ClearBars();
+
+            int itemBarsCount = playerItems.Count;
+            if (itemBarsCount < joinedTournament.entries.Count)
+            {
+                for (int i = itemBarsCount; i < joinedTournament.entries.Count; i++)
+                {
+                    playerItems.Add(AddPlayer());
+                }
+            }
+
+            for (int i = 0; i < joinedTournament.entries.Count; i++)
+            {
+                var playerItem = playerItems[i];
+                PopulateBar(playerItem);
+            }
+        }
+
+        public void ClearBars()
+        {
+            for (int i = 0; i < playerItems.Count; i++)
+            {
+                playerItems[i].name.text = "";
+                playerItems[i].place.text = "";
+                itemsPool.ReturnObject(playerItems[i].gameObject);
+            }
+
+            playerItems.Clear();
+        }
+
+        private void PopulateBar(TickerItem playerBar)
+        {
+            //TODO send item value to populate  
+            playerBar.Populate();
+        }
     }
 }
