@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         long gems { get; set; }
         int trophies { get; set; }
         int league { get; set; }
+        long coins { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

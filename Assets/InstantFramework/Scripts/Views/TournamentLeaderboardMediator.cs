@@ -441,7 +441,7 @@ namespace TurboLabz.InstantFramework
             string tournamentId = _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode;
             if (adsSettingsModel.showPregameTournament == false || timeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
-                FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
+                //FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
             }
             else
             {

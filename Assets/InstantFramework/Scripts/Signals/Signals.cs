@@ -232,6 +232,6 @@ namespace TurboLabz.InstantFramework
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
 
-    public class UpdateCareerCardSignal : Signal{ }
+    public class UpdateCareerCardSignal : Signal<int>{ }
     public class LoadLeaderboardSignal : Signal { }
 }

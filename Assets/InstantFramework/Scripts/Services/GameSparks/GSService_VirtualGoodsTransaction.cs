@@ -56,6 +56,10 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.gems += boughtQuantity;
                     }
+                    else if (boughtShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+                    {
+                        playerModel.coins += boughtQuantity;
+                    }
                     else if (playerModel.inventory.ContainsKey(boughtShortCode))
                     {
                         playerModel.inventory[boughtShortCode] += boughtQuantity;
@@ -71,6 +75,10 @@ namespace TurboLabz.InstantFramework
                     if (consumedShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
                     {
                         playerModel.gems -= consumedQuantity;
+                    }
+                    else if (consumedShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+                    {
+                        playerModel.coins -= consumedQuantity;
                     }
                     else if (playerModel.inventory.ContainsKey(consumedShortCode))
                     {

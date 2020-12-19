@@ -91,6 +91,7 @@ namespace TurboLabz.InstantGame
         public bool isRateAppDialogueFirstTimeShown { get; set; }
         public FreePowerUpStatus freeDailyHint { get; set; }
         public FreePowerUpStatus freeDailyRatingBooster { get; set; }
+        public int gamesPlayedPerDay { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -488,6 +489,11 @@ namespace TurboLabz.InstantGame
                     freeDailyRatingBooster = reader.Read<FreePowerUpStatus>(PrefKeys.FREE_DAILY_RATING_BOOSTER);
                 }
 
+                if (reader.HasKey(PrefKeys.GAMES_PLAYED_PER_DAY))
+                {
+                    gamesPlayedPerDay = reader.Read<int>(PrefKeys.GAMES_PLAYED_PER_DAY);
+                }
+
                 var transactionKeys = dailyResourceManager.Keys.ToList();
 
                 foreach (var transaction in transactionKeys)
@@ -595,6 +601,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME, isRateAppDialogueFirstTimeShown);
                 writer.Write<FreePowerUpStatus>(PrefKeys.FREE_DAILY_HINT, freeDailyHint);
                 writer.Write<FreePowerUpStatus>(PrefKeys.FREE_DAILY_RATING_BOOSTER, freeDailyRatingBooster);
+                writer.Write<int>(PrefKeys.GAMES_PLAYED_PER_DAY, gamesPlayedPerDay);
 
                 foreach (var transaction in dailyResourceManager)
                 {
@@ -644,6 +651,7 @@ namespace TurboLabz.InstantGame
             isFirstRankedGameOfTheDayFinished = false;
             currentPromotionIndex = 0;
             inGameRemoveAdsPromotionShown = false;
+            gamesPlayedPerDay = 0;
             dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
             activePromotionSales = new List<string>();
 

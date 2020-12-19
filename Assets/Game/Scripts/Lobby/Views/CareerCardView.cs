@@ -57,19 +57,25 @@ namespace TurboLabz.InstantFramework
         public TMP_Text startGame30mText;
         public Button startGame30mButton;
 
+        public Button bettingPlus;
+        public Button bettingMinus;
+        public TMP_Text bettingValue;
+
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         //Signals
-        public Signal<string> playMultiplayerButtonClickedSignal = new Signal<string>();
+        public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
         public Signal OnInfoBtnClickedSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
 
         LeagueTierIconsContainer leagueTierIconsContainer;
+        int bettingIndex;
 
         public void Init()
         {
@@ -91,9 +97,12 @@ namespace TurboLabz.InstantFramework
 
             trophiesLossLabel.text = localizationService.Get(LocalizationKey.LOSS_TEXT);
             trophiesWinLabel.text = localizationService.Get(LocalizationKey.WIN_TEXT);
+
+            bettingPlus.onClick.AddListener(OnIncrementBetting);
+            bettingMinus.onClick.AddListener(OnDecrementBetting);
         }
 
-        public void UpdateView()
+        public void UpdateView(int bettingIndex)
         {
             trophiesCountOnLosses.text = leaguesModel.leagues[playerModel.league.ToString()].lossTrophies.ToString();
             trophiesCountOnWins.text = leaguesModel.leagues[playerModel.league.ToString()].winTrophies.ToString();
@@ -105,6 +114,9 @@ namespace TurboLabz.InstantFramework
             bgImage = leagueAssets.cardBg;
 
             SetupTrophyProgressionBar(playerModel.trophies);
+
+            this.bettingIndex = bettingIndex;
+            SetupBetting();
         }
 
         private void SetupTrophyProgressionBar(int currentTrophies)
@@ -134,12 +146,40 @@ namespace TurboLabz.InstantFramework
         void OnStartGameBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
-            playMultiplayerButtonClickedSignal.Dispatch(actionCode);
+            if (playerModel.coins >= settingsModel.bettingIncrements[bettingIndex])
+            {
+                playMultiplayerButtonClickedSignal.Dispatch(actionCode, settingsModel.bettingIncrements[bettingIndex]);
+            }
         }
 
         void OnInfoBtnClicked()
         {
             OnInfoBtnClickedSignal.Dispatch();
+        }
+
+        void OnIncrementBetting()
+        {
+            bettingIndex++;
+            SetupBetting();
+        }
+
+        void OnDecrementBetting()
+        {
+            bettingIndex--;
+            SetupBetting();
+        }
+
+        void SetupBetting()
+        {
+            var lastBettingIndex = bettingIndex >= settingsModel.bettingIncrements.Count - 1;
+            bettingIndex = lastBettingIndex ? settingsModel.bettingIncrements.Count - 1 : bettingIndex;
+            bettingPlus.interactable = !lastBettingIndex;
+
+            var firstBettingIndex = bettingIndex <= 0;
+            bettingIndex = firstBettingIndex ? 0 : bettingIndex;
+            bettingMinus.interactable = !firstBettingIndex;
+
+            bettingValue.text = settingsModel.bettingIncrements[bettingIndex].ToString("N0");
         }
     }
 }

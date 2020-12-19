@@ -420,7 +420,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            FindMatchAction.Random(findMatchSignal, actionCode);
+            //FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
         private void OnClassicMatchBtnClicked()
@@ -440,7 +440,7 @@ namespace TurboLabz.InstantFramework
             }
 
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
-            FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
+            //FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
 
         private void OnLessonsBtnClicked()

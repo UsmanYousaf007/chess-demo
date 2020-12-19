@@ -37,5 +37,8 @@ namespace TurboLabz.InstantFramework
 
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);
+
+        List<long> bettingIncrements { get; set; }
+        List<float> defaultBetIncrementByGamesPlayed { get; set; }
     }
 }

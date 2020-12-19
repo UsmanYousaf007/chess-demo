@@ -281,7 +281,7 @@ namespace TurboLabz.Multiplayer
             long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
             if (adsSettingsModel.showPregameTournament == false || tournamentTimeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
-                FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+                //FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
             }
             else
             {

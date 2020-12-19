@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
         bool themesTabVisited { get; set; }
         int currentPromotionIndex { get; set; }
         bool inGameRemoveAdsPromotionShown { get; set; }
+        int gamesPlayedPerDay { get; set; }
 
         void ResetDailyPrefers();
 

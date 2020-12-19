@@ -111,6 +111,8 @@ namespace TurboLabz.InstantFramework
             GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
             PopulateInboxModel(inBoxMessagesData);
 
+            settingsModel.bettingIncrements = response.ScriptData.GetLongList(GSBackendKeys.BETTING_INCREMENTS);
+            settingsModel.defaultBetIncrementByGamesPlayed = response.ScriptData.GetFloatList(GSBackendKeys.BET_INCREMENT_BY_GAMES_PLAYED);
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
@@ -214,6 +216,8 @@ namespace TurboLabz.InstantFramework
             {
                 playerModel.gems = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.GEMS).Value;
             }
+
+            playerModel.coins = GSParser.GetSafeLong(playerDetailsData, GSBackendKeys.PlayerDetails.COINS);
 
             // Split name to first and last initial
             // TODO: split in View

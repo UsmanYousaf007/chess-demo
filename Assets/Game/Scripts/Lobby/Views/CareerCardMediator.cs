@@ -26,25 +26,54 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public FindMatchSignal findMatchSignal { get; set; }
+        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+
+        //Listerners
+        [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+
+        private MatchInfoVO matchInfoVO;
 
         public override void OnRegister()
         {
             view.Init();
             view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
+            view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMatch);
         }
 
-        [ListensTo(typeof(UpdateLeagueProfileSignal))]
-        public void UpdateView(string id)
+        [ListensTo(typeof(UpdateCareerCardSignal))]
+        public void UpdateView(int bettingIndex)
         {
-            view.UpdateView();
+            view.UpdateView(bettingIndex);
         }
 
         public void InfoButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
+        }
+
+        private void OnPlayMatch(string actionCode, long betValue)
+        {
+            matchInfoVO = new MatchInfoVO();
+            matchInfoVO.actionCode = actionCode;
+            matchInfoVO.betValue = betValue;
+
+            var transactionVO = new VirtualGoodsTransactionVO();
+            transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+            transactionVO.consumeQuantity = (int)betValue;
+            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+            virtualGoodsTransactionSignal.Dispatch(transactionVO);
+        }
+
+        private void OnTransactionResult(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                FindMatchAction.Random(findMatchSignal, matchInfoVO);
+            }
         }
     }
 }
