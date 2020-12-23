@@ -1,3 +1,4 @@
+using System;
 using Firebase.Messaging;
 using HUF.InitFirebase.Runtime.API;
 using HUF.InitFirebase.Runtime.Config;
@@ -18,6 +19,7 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
         bool isInitializing = false;
 
         public event UnityAction OnInitialized;
+        //public event Action OnInitialized;
         public event UnityAction<string> OnNotificationReceived;
 
         public bool IsInitialized => !cachedToken.IsNullOrEmpty();

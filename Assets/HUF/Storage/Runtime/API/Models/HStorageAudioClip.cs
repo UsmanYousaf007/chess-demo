@@ -16,12 +16,12 @@ namespace HUF.Storage.Runtime.API.Models
         }
 
         /// <summary>
-        /// Gets audio clip either from remote or local storage. Complete handler is method that will handle download process after
-        /// its completed. If success Container will have path to file and audio clip. If failure Container will have path to file
-        /// and failure reason. 
+        /// Gets the audio clip either from the remote or local storage. The handler will be called after the process 
+        /// is completed. If it was successful, the container will contain the path to the file and the audio clip.
+        /// If it has failed, the container will contain the path to the file and the failure reason. 
         /// </summary>
-        /// <param name="filePath">Path to file (database part added automatically)</param>
-        /// <param name="resultHandler">Download completion handler</param>
+        /// <param name="filePath">A path to the file (database part added automatically).</param>
+        /// <param name="resultHandler">A download completion handler.</param>
         [PublicAPI]
         public void Get(string filePath, UnityAction<ObjectResultContainer<AudioClip>> resultHandler)
         {
@@ -29,12 +29,12 @@ namespace HUF.Storage.Runtime.API.Models
         }
 
         /// <summary>
-        /// Downloads audio clip from remote storage. Complete handler is method that will handle download process after
-        /// its completed. If success Container will have path to file and audio clip. If failure Container will have path to file
-        /// and failure reason. 
+        /// Downloads the audio clip from the remote storage. The handler will be called after the download process
+        /// is completed. If it was successful, the container will contain the path to the file and the audio clip.
+        /// If it has failed, the container will contain the path to the file and the failure reason. 
         /// </summary>
-        /// <param name="filePath">Path to file (database part added automatically)</param>
-        /// <param name="resultHandler">Download completion handler</param>
+        /// <param name="filePath">A path to the file (database part added automatically).</param>
+        /// <param name="resultHandler">A download completion handler.</param>
         [PublicAPI]
         public void Download(string filePath, UnityAction<ObjectResultContainer<AudioClip>> resultHandler)
         {

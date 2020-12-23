@@ -65,6 +65,9 @@ allprojects {
         maven {
             url "https://jitpack.io/" // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISVungleAdapterDependencies.xml:8
         }
+        maven {
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:20, Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22, Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20, Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:20, Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:20
+        }
         mavenLocal()
         jcenter()
         mavenCentral()
@@ -101,8 +104,20 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.4.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISAdMobAdapterDependencies.xml:8
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/IronSourceSDKDependencies.xml:17
     implementation 'com.google.android.gms:play-services-base:17.2.1' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISChartboostAdapterDependencies.xml:22
+    implementation 'com.google.android.gms:play-services-base:17.4.0' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:17
     implementation 'com.google.android.gms:play-services-basement:17.2.1' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/IronSourceSDKDependencies.xml:25
     implementation 'com.google.android.play:core:1.7.3' // Assets/AppUpdate/hardartcore/In-App Updates/Editor/InAppUpdatesAndroidDependencies.xml:7
+    implementation 'com.google.firebase:firebase-analytics:17.5.0' // Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:15
+    implementation 'com.google.firebase:firebase-app-unity:6.16.1' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22
+    implementation 'com.google.firebase:firebase-auth:19.3.2' // Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:13
+    implementation 'com.google.firebase:firebase-auth-unity:6.16.1' // Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20
+    implementation 'com.google.firebase:firebase-common:19.3.1' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:13
+    implementation 'com.google.firebase:firebase-config:19.2.0' // Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:13
+    implementation 'com.google.firebase:firebase-config-unity:6.16.1' // Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:20
+    implementation 'com.google.firebase:firebase-messaging:20.2.4' // Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:13
+    implementation 'com.google.firebase:firebase-messaging-unity:6.16.1' // Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:20
+    implementation 'com.google.firebase:firebase-storage:19.2.0' // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:13
+    implementation 'com.google.firebase:firebase-storage-unity:6.16.1' // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:20
     implementation 'com.hyprmx.android:HyprMX-SDK:5.1.2' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISHyprMXAdapterDependencies.xml:8
     implementation 'com.inmobi.monetization:inmobi-ads:9.1.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISInMobiAdapterDependencies.xml:15
     implementation 'com.ironsource.adapters:adcolonyadapter:4.3.4' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISAdColonyAdapterDependencies.xml:16

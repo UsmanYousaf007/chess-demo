@@ -1,3 +1,13 @@
+## [2.0.5] - 2020-11-13
+### Fixed
+- Crashes when downloading the same sprite more than once
+
+
+## [2.0.4] - 2020-10-23
+### Added
+- Documentation
+
+
 ## [2.0.3] - 2020-09-17
 ### Added
 - Hufdefine file

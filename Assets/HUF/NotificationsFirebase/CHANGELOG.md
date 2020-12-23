@@ -1,3 +1,16 @@
+## [2.4.0] - 2020-11-13
+### Change
+- Moved Firebase to Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 6.16.1
+
+
+## [2.3.1] - 2020-09-28
+### Added
+Documentation
+
+
 ## [2.3.0] - 2020-09-07
 ### Added
 - HIP support
@@ -6,13 +19,16 @@
 ### Changed
 - Initializing the module only once
 
+
 ## [2.2.0] - 2020-05-22
 ### Added
 - Exposed Firebase's message event
 
+
 ## [2.1.0] - 2020-05-21
 ### Changed
 - move back to HUF Firebase
+
 
 ## [2.0.1] - 2020-05-08
 ### Added
@@ -20,6 +36,7 @@
 
 ### Removed
 - HUF Firebase dependencies
+
 
 ## [2.0.0] - 2020-04-06
 ### Added

@@ -801,14 +801,16 @@ namespace TurboLabz.Multiplayer
         {
             //toggleBannerSignal.Dispatch(false);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
-          
-            IPromise promise = HCrossPromo.OpenPanel();
+            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+        }
 
-            if (promise != null)
-            {
-                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
-                promise.Then(ToggleBannerSignalFunc);
-            }
+        private void ToggleBannerSignalFunc()
+        {
+            appInfoModel.internalAdType = InternalAdType.NONE;
+            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
+            //toggleBannerSignal.Dispatch(true);
         }
 
         private void OnPlayTournamentMatchButtonClicked()
@@ -823,12 +825,6 @@ namespace TurboLabz.Multiplayer
 
             audioService.PlayStandardClick();
             backToArenaSignal.Dispatch();
-        }
-
-        private void ToggleBannerSignalFunc()
-        {
-            appInfoModel.internalAdType = InternalAdType.NONE;
-            //toggleBannerSignal.Dispatch(true);
         }
 
         private void SetupRatingBoostButton(bool enable)

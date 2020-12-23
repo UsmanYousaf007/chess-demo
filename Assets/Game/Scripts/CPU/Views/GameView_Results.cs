@@ -529,19 +529,15 @@ namespace TurboLabz.CPU
         {
             //toggleBannerSignal.Dispatch(false);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
-
-            IPromise promise = HCrossPromo.OpenPanel();
-
-            if (promise != null)
-            {
-                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
-                promise.Then(ToggleBannerSignalFunc);
-            }
+            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
         }
 
         private void ToggleBannerSignalFunc()
         {
             appInfoModel.internalAdType = InternalAdType.NONE;
+            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
             //toggleBannerSignal.Dispatch(true);
         }
 
