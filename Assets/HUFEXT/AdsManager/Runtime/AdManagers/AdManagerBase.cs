@@ -150,11 +150,11 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         protected void HandleEnded( AdCallback callbackData )
         {
-            if ( callbackData.PlacementId != adPlacementData.PlacementId )
+            if ( callbackData.PlacementId != shownPlacementId && callbackData.PlacementId != adPlacementData.PlacementId)
                 return;
 
             HLog.Log( logPrefix,
-                $"HandleEnded {adPlacementData.PlacementId} Result: {callbackData.Result.ToString()}" );
+                $"HandleEnded {shownPlacementId} Result: {callbackData.Result.ToString()}" );
             AdEnded( callbackData.Result );
         }
 

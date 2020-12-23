@@ -51,6 +51,41 @@ public class BuildChess : MonoBehaviour
         }
     }
 
+    //This function set the backend envirnoment
+    private static void SetGameEnvironment()
+    {
+        int envNumber = 0;
+
+        string versionNumber = Environment.GetEnvironmentVariable("ENVIRONMENT_NUMBER");
+        string versionString = Environment.GetEnvironmentVariable("VERSION_STRING");
+
+        if (versionNumber != null)
+        {
+            envNumber = Int32.Parse(versionNumber);
+        }
+
+        LogUtil.Log("UNITY _____ envNumber : " + envNumber);
+        LogUtil.Log("UNITY _____ versionString : " + versionString);
+
+        if (envNumber == (int)GameSparksConfig.Environment.LivePreview)
+        {
+            ChessTools.SetGamesparksEnvLivePreview(); 
+        }
+        else if (envNumber == (int)GameSparksConfig.Environment.Live)
+        {
+            ChessTools.SetGamesparksEnvLive();
+        }
+        else if (envNumber == (int)GameSparksConfig.Environment.URLBased)
+        {
+            ChessTools.SetGamesparksEnvURLBased();
+        }
+        else
+        {
+            ChessTools.SetGamesparksEnvDevelopment();
+        }
+
+    }
+
     private static void ProcessSkinLinks()
     {
         LogUtil.Log("Process skin links", "yellow");
@@ -356,9 +391,16 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build Android Development");
     }
 
