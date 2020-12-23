@@ -1,3 +1,16 @@
+## [2.2.0] - 2020-11-13
+### Change
+- Moved Firebase to Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 6.16.1
+
+
+## [2.1.1] - 2020-09-22
+### Added
+- Documentation
+
+
 ## [2.1.0] - 2020-05-21
 ### Changed
 - move back to HUF Firebase
