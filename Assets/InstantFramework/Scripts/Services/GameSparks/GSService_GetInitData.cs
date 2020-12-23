@@ -200,6 +200,7 @@ namespace TurboLabz.InstantFramework
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
             playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
             playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+            playerModel.trophies2 = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
             playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))

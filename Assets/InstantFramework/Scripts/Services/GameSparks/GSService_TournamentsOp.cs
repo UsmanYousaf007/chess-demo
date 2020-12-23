@@ -85,15 +85,28 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (response.ScriptData.ContainsKey("league"))
+            var playerModelUpdated = false;
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.LEAGUE))
             {
-                playerModel.league = response.ScriptData.GetInt("league").Value;
-                playerModelUpdatedSignal.Dispatch(playerModel);
+                playerModel.league = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
+                playerModelUpdated = true;
             }
 
-            if (response.ScriptData.ContainsKey("trophies"))
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.TROPHIES))
             {
-                playerModel.trophies = response.ScriptData.GetInt("trophies").Value;
+                playerModel.trophies = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+                playerModelUpdated = true;
+            }
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.TROPHIES2))
+            {
+                playerModel.trophies2 = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
+                playerModelUpdated = true;
+            }
+
+            if (playerModelUpdated)
+            {
                 playerModelUpdatedSignal.Dispatch(playerModel);
             }
 

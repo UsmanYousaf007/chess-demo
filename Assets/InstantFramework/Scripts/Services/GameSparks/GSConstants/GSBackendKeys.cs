@@ -539,6 +539,7 @@ namespace TurboLabz.InstantFramework
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
             public const string GEMS = "gems";
             public const string TROPHIES = "trophies";
+            public const string TROPHIES2 = "trophies2";
             public const string LEAGUE = "league";
             public const string COINS = "coins";
         }

@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public string uploadedPicId { get; set; }
         public long gems { get; set; }
         public int trophies { get; set; }
+        public int trophies2 { get; set; }
         public int league { get; set; }
         public long coins { get; set; }
 
@@ -120,6 +121,7 @@ namespace TurboLabz.InstantFramework
             subscriptionType = "";
             gems = 0;
             trophies = 0;
+            trophies2 = 0;
             league = 0;
             coins = 0;
 
