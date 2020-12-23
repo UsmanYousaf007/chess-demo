@@ -26,7 +26,25 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Returns last successful UTC cache refresh timestamp. Mind it is not secure time.
+        /// Raised when the service is fully initialized.
+        /// </summary>
+        [PublicAPI]
+        public static event UnityAction OnInitComplete;
+
+        /// <summary>
+        /// Raised when fetching is completed successfully.
+        /// </summary>
+        [PublicAPI]
+        public static event UnityAction OnFetchComplete;
+
+        /// <summary>
+        /// Raised when fetching fails.
+        /// </summary>
+        [PublicAPI]
+        public static event UnityAction OnFetchFail;
+
+        /// <summary>
+        /// Returns last successful UTC cache refresh timestamp. Note that it is not a secure time.
         /// </summary>
         [PublicAPI]
         public static long? CacheTimestamp
@@ -34,43 +52,30 @@ namespace HUF.RemoteConfigs.Runtime.API
             get
             {
                 bool? hasCache = HasAnyCache();
+
                 if ( !hasCache.HasValue )
                     return null;
 
                 int timestamp = PlayerPrefs.GetInt( GetServiceCacheKey() );
-
                 return UTC_OFFSET + timestamp;
             }
         }
 
         /// <summary>
-        /// Is set to TRUE if service handled fetch(successfully or not) at least once
+        /// Returns whether the service successfully handled fetching at least once.
         /// </summary>
-        [PublicAPI] public static bool IsFetchHandled { get; private set; }
+        [PublicAPI]
+        public static bool IsFetchHandled { get; private set; }
 
         /// <summary>
-        /// Is set to TRUE if service is fully initialized and FALSE otherwise
+        /// Returns whether the service is fully initialized.
         /// </summary>
-        [PublicAPI] public static bool IsInitialized =>
+        [PublicAPI]
+        public static bool IsInitialized =>
             remoteConfigsService != null && remoteConfigsService.IsInitialized;
 
         /// <summary>
-        /// Occurs when service service is fully initialized
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnInitComplete;
-
-        /// <summary>
-        /// Dispatched when fetch is completed successfully.
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnFetchComplete;
-
-        /// <summary>
-        /// Dispatched when fetch failed. Provides reason as string
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnFetchFail;
-
-        /// <summary>
-        /// Returns true if service has cache present (RemoteConfigs successfully fetched at least once)
+        /// Returns whether the service has cache present (RemoteConfigs was successfully fetched at least once).
         /// </summary>
         [PublicAPI]
         public static bool? HasAnyCache()
@@ -82,7 +87,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Registers config service. If there is already registered service the services are swapped.
+        /// Registers a config service. If an already registered service exists, it will be replaced by the new one.
         /// Could be used to add custom <see cref="IRemoteConfigsService"/> implementation.
         /// </summary>
         /// <param name="configsService">Service to init</param>
@@ -90,9 +95,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         public static void RegisterService( IRemoteConfigsService configsService )
         {
             DisconnectCallbacks();
-
             remoteConfigsService = configsService;
-
             remoteConfigsService.OnFetchFailed += HandleFetchFailed;
             remoteConfigsService.OnFetchComplete += HandleFetchComplete;
 
@@ -103,7 +106,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Starts fetch process for remote configs.
+        /// Starts fetching process for remote configs.
         /// </summary>
         [PublicAPI]
         public static void Fetch()
@@ -121,7 +124,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Returns all values downloaded from remote as dictionary with configId.
+        /// Returns all values downloaded from the remote as dictionary with configId.
         /// Returns values from remote if fetch was successful and empty dict in any other case.
         /// </summary>
         [PublicAPI]
@@ -141,7 +144,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Applies value from remote to specific config.
+        /// Applies values from remote to a specific config.
         /// </summary>
         /// <typeparam name="T">Config type to be applied</typeparam>
         [PublicAPI]
@@ -152,7 +155,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         }
 
         /// <summary>
-        /// Applies value from remote for all configs.
+        /// Applies values from remote to all configs.
         /// </summary>
         [PublicAPI]
         public static void ApplyAllConfigs()
@@ -163,7 +166,7 @@ namespace HUF.RemoteConfigs.Runtime.API
 
         static void DisconnectCallbacks()
         {
-            if (remoteConfigsService == null)
+            if ( remoteConfigsService == null )
                 return;
 
             remoteConfigsService.OnInitComplete -= HandleInitComplete;
@@ -192,7 +195,7 @@ namespace HUF.RemoteConfigs.Runtime.API
             if ( !remoteConfigsService.SupportsCaching )
                 return;
 
-            PlayerPrefs.SetInt( GetServiceCacheKey(), (int)(DateTime.UtcNow.ToFileTimeUtc() - UTC_OFFSET ) );
+            PlayerPrefs.SetInt( GetServiceCacheKey(), (int)( DateTime.UtcNow.ToFileTimeUtc() - UTC_OFFSET ) );
         }
 
         static bool IsServiceAttached()

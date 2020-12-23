@@ -30,18 +30,31 @@ namespace HUF.Auth.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when Sign In completed. <para />
+        /// Occurs when Sign In is completed. <para />
         /// Auth service name is available in the parameter. <para/>
-        /// Bool parameter defines if sign in is ended with success. <para/>
+        /// Bool parameter defines if sign in had ended with success. <para/>
         /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
+        [Obsolete("OnSignIn event is deprecated, please use OnSignInResult instead.")]
         public static event UnityAction<string, bool> OnSignIn
         {
             add => AuthModel.OnSignIn += value;
             remove => AuthModel.OnSignIn -= value;
         }
 
+        /// <summary>
+        /// Occurs when Sign In is completed. <para />
+        /// Auth service name is available in the parameter. <para/>
+        /// Enum parameter defines if sign in had ended with success. <para/>
+        /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
+        /// </summary>
+        [PublicAPI]
+        public static event UnityAction<string, AuthSignInResult> OnSignInResult
+        {
+            add => AuthModel.OnSignInResult += value;
+            remove => AuthModel.OnSignInResult -= value;
+        }
         /// <summary>
         /// Occurs when Sign Out is completed. Auth service name is passed as the parameter. <para/>
         /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.

@@ -3,6 +3,7 @@ using HUF.Auth.Runtime.API;
 using HUF.AuthFirebase.Runtime.Config;
 using HUF.AuthFirebase.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,10 +13,10 @@ namespace HUF.AuthFirebase.Runtime.API
     public static class HAuthFirebase
     {
         static FirebaseAuthService service;
-        static readonly string className = typeof(HAuthFirebase).Name;
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HAuth.logPrefix, nameof(HAuthFirebase) );
 
         /// <summary>
-        /// Returns UserName of currently signed-in user or empty string if user is not signed-in
+        /// Returns the UserName of currently signed-in user or empty string if no user is signed-in.
         /// </summary>
         [PublicAPI]
         public static string UserName
@@ -33,7 +34,7 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Returns PhotoUrl as System.Uri object of currently signed-in user or null if user is not signed-in
+        /// Returns the PhotoUrl as a System.Uri object of currently signed-in user or null if no user is signed-in.
         /// </summary>
         [PublicAPI]
         public static Uri PhotoUrl
@@ -51,7 +52,7 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Returns Email of currently signed-in user or empty string if user is not signed-in
+        /// Returns the Email of the currently signed-in user or empty string if no user is signed-in.
         /// </summary>
         [PublicAPI]
         public static string Email
@@ -69,8 +70,8 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when signing in to Firebase with Facebook credentials succeed <para />
-        /// Bool parameter = true if it was the first login to Firebase through this Facebook account, false otherwise <para/>
+        /// Raised when signing in to Firebase with Facebook credentials succeed. <para />
+        /// Bool parameter = true if it was the first login to Firebase through this Facebook account, false otherwise.<para/>
         /// </summary>
         [PublicAPI]
         public static event UnityAction<bool> OnSignInWithFacebookSuccess
@@ -92,7 +93,7 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when signing in to Firebase with Facebook credentials failed <para />
+        /// Raised when signing in to Firebase with Facebook credentials failed. <para />
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnSignInWithFacebookFailure
@@ -124,7 +125,7 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to initialize Firebase auth service
+        /// Initializes the Firebase auth service.
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -137,9 +138,9 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to initialize Firebase auth service
+        /// Initializes the Firebase auth service.
         /// </summary>
-        /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
+        /// <param name="callback">A callback invoked after initialization is finished regardless of the outcome.</param>
         [PublicAPI]
         public static void Init( Action callback )
         {
@@ -160,10 +161,10 @@ namespace HUF.AuthFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to Sign in to Firebase using Facebook access token
+        /// Sign in to the Firebase using a Facebook access token.
         /// </summary>
-        /// <param name="accessToken">Facebook user access token</param>
-        /// <returns>Returns TRUE if signing-in call succeed. Returns FALSE otherwise.</returns>
+        /// <param name="accessToken">An facebook user access token.</param>
+        /// <returns>Returns TRUE if signing-in call succeeds. Returns FALSE otherwise.</returns>
         [PublicAPI]
         public static bool SignInWithFacebook(string accessToken)
         {
@@ -178,7 +179,7 @@ namespace HUF.AuthFirebase.Runtime.API
 
         static void LogServiceNotInitializedWarning(string message)
         {
-            Debug.LogWarning($"[{className}] {message}, service is not initialized");
+            HLog.LogWarning(  logPrefix, $"{message}, service is not initialized");
         }
     }
 }
