@@ -1,27 +1,29 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Views
 {
     public abstract class PackageManagerView
     {
-        public virtual Models.PackageManagerViewType Type => Models.PackageManagerViewType.Unknown;
         protected PackageManagerWindow window = null;
 
         protected PackageManagerView( PackageManagerWindow parent )
         {
             window = parent;
         }
-        
+
+        public virtual Models.PackageManagerViewType Type => Models.PackageManagerViewType.Unknown;
+
         public void Repaint()
         {
             if ( window == null )
             {
                 return;
             }
-            
+
             OnGUI();
         }
+
+        public virtual void OnEventCompleted( Models.PackageManagerViewEvent ev ) { }
 
         protected void RegisterEvent( Models.PackageManagerViewEvent ev )
         {
@@ -29,15 +31,10 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 return;
             }
-            
+
             window.RegisterEvent( ev );
         }
 
-        public virtual void OnEventCompleted( Models.PackageManagerViewEvent ev )
-        {
-            
-        }
-        
         protected virtual void OnGUI() { }
     }
 }

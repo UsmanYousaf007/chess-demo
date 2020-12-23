@@ -30,7 +30,7 @@ namespace HUFEXT.PackageManager.Editor.Models
         }
         public static string ID => new Token().id;
 
-        private Token()
+        Token()
         {
             Core.Registry.Load( Keys.CACHE_AUTH_TOKEN_KEY, this, Core.CachePolicy.EncodedEditorPrefs );
         }

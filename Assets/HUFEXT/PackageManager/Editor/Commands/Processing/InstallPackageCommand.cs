@@ -7,7 +7,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
     public class InstallPackageCommand : Core.Command.Base
     {
         public string packageName;
-        
+
         static InstallPackageCommand()
         {
             AssetDatabase.importPackageStarted += OnImportStarted;
@@ -15,11 +15,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             AssetDatabase.importPackageCancelled += OnImportCancelled;
             AssetDatabase.importPackageFailed += OnImportFailed;
         }
-        
+
         public override void Execute()
         {
             var path = Utils.Common.GetPackagePath( packageName );
-            
+
             if ( !File.Exists( path ) )
             {
                 Core.Registry.Push( Models.Keys.PACKAGE_MANAGER_LAST_IMPORT_FAILED );
@@ -28,7 +28,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             }
 
             Core.Packages.Installing = true;
-            
+
             // Special case. When package import starts it will reload scripts and run GC after complete.
             // All callbacks will be cleared.
             Complete( true );
@@ -41,17 +41,19 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             Core.Registry.Remove( Models.Keys.PACKAGE_MANAGER_LAST_IMPORT_FAILED );
             Utils.Common.Log( $"Import started: {packageName}" );
         }
-        
+
         static void OnImportCompleted( string packageName )
         {
             Core.Registry.Save( Models.Keys.CACHE_LAST_IMPORTED_PACKAGE_NAME_KEY, packageName );
             Utils.Common.Log( $"Import completed: {packageName}" );
-
             var path = Utils.Common.GetPackagePath( packageName );
+
             if ( File.Exists( path ) )
             {
                 File.Delete( path );
             }
+
+            Utils.Common.RebuildDefines();
         }
 
         static void OnImportCancelled( string packageName )

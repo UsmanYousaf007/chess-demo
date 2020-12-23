@@ -9,9 +9,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
 {
     public class GetUnityPackagesCommand : Core.Command.Base
     {
-        readonly List<Models.PackageManifest> packages = new List<Models.PackageManifest>(); 
+        readonly List<Models.PackageManifest> packages = new List<Models.PackageManifest>();
         UnityEditor.PackageManager.Requests.ListRequest unityPackagesRequest;
-        
+
         public override void Execute()
         {
             unityPackagesRequest = UnityEditor.PackageManager.Client.List( false );
@@ -28,10 +28,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             {
                 Core.Packages.ClearUnityData();
             }
-            
+
             EditorApplication.update -= WaitForUnityResponse;
-            
-            base.Complete( result, PlayerPrefs.GetString( Models.Keys.CACHE_PACKAGE_UNITY_REGISTRY_KEY ) ); // serializedData
+
+            base.Complete( result,
+                PlayerPrefs.GetString( Models.Keys.CACHE_PACKAGE_UNITY_REGISTRY_KEY ) ); // serializedData
         }
 
         void WaitForUnityResponse()
@@ -46,12 +47,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             {
                 switch ( unityPackagesRequest.Status )
                 {
-                    case StatusCode.Success: 
+                    case StatusCode.Success:
                         ConvertUnityPackageInfo( unityPackagesRequest.Result );
                         Complete( true );
                         break;
-                    
-                    default: 
+                    default:
                         Complete( false );
                         break;
                 }
