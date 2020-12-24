@@ -1,6 +1,14 @@
 ## Internal SDK
 Sign in with Apple Github Plugin v1.3.0
 
+## [2.3.0] - 2020-10-22
+### Added
+- OnSignInResult event
+
+## [2.2.2] - 2020-10-15
+### Fixed
+- UserName convertion to string in UserInfo
+
 ## [2.2.1] - 2020-08-13
 ### Fixed
 - convertion from bytes[] to string in UserInfo

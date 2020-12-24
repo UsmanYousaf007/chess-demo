@@ -89,23 +89,6 @@ namespace HUF.AuthSIWA.Runtime.API
             }
         }
 
-        [PublicAPI]
-        public static string AuthorizationCode
-        {
-            get
-            {
-#if UNITY_IOS && !HUF_AUTH_SIWA_DUMMY
-                if (service != null)
-                {
-                    return service.AuthorizationCode;
-                }
-
-                HLog.LogWarning(logPrefix, "Can't get AuthorizationCode, service is not initialized");
-#endif
-                return string.Empty;
-            }
-        }
-
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {

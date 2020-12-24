@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         private void OnLogin(string name, AuthSignInResult result)
         {
             HAuthSIWA.Service.OnSignInResult -= OnLogin;
-            promise.Dispatch(result == AuthSignInResult.Success, HAuthSIWA.AuthorizationCode);
+            promise.Dispatch(result == AuthSignInResult.Success, HAuthSIWA.Service.AuthorizationCode);
             promise = null;
         }
 
@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
 
         public string GetTokenId()
         {
-            return HAuthSIWA.AuthorizationCode;
+            return HAuthSIWA.Service.AuthorizationCode;
         }
 
         private void Init()
