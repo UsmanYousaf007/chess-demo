@@ -169,6 +169,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLeaguePerksView();
             }
+            else if (evt == NavigatorEvent.SHOW_SELECT_TIME_MODE)
+            {
+                return new NSSelectTimeMode();
+            }
 
             return null;
         }

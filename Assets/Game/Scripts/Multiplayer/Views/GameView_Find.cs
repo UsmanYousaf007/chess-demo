@@ -94,25 +94,25 @@ namespace TurboLabz.Multiplayer
 
         private string GetMode(string action)
         {
-            if(action == "Random10" || action == "Challenge10")
+            if (action == "Random1" || action == "Challenge1")
             {
-                return "10m";
-            }
-            else if (action == "Random1" || action == "Challenge1")
-            {
-                return "1m";
+                return "1M";
             }
             else if (action == "Random3" || action == "Challenge3")
             {
-                return "3m";
+                return "3M";
+            }
+            else if (action == "Random10" || action == "Challenge10")
+            {
+                return "10M";
             }
             else if (action == "Random30" || action == "Challenge30")
             {
-                return "30m";
+                return "30M";
             }
             else 
             {
-                return "5m";
+                return "5M";
             }
         }
 

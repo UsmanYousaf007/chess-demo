@@ -18,10 +18,10 @@ using System.Collections;
 namespace TurboLabz.InstantFramework
 {
     [CLSCompliant(false)]
-    public class CareerCardMediator : Mediator
+    public class SelectTimeModeMediator : Mediator
     {
         // View injection
-        [Inject] public CareerCardView view { get; set; }
+        [Inject] public SelectTimeModeView view { get; set; }
 
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
@@ -40,24 +40,25 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
-            view.OnPlayButtonClickedSignal.AddListener(PlayButtonClicked);
-            view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
+            view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMatch);
         }
 
-        [ListensTo(typeof(UpdateCareerCardSignal))]
-        public void UpdateView(int bettingIndex)
+        [ListensTo(typeof(NavigatorShowViewSignal))]
+        public void OnShowView(NavigatorViewId viewId)
         {
-            view.UpdateView(bettingIndex);
+            if (viewId == NavigatorViewId.SELECT_TIME_MODE)
+            {
+                view.Show();
+            }
         }
 
-        public void InfoButtonClicked()
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
-        }
-
-        public void PlayButtonClicked()
-        {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
+            if (viewId == NavigatorViewId.SELECT_TIME_MODE)
+            {
+                view.Hide();
+            }
         }
 
         private void OnPlayMatch(string actionCode, long betValue)

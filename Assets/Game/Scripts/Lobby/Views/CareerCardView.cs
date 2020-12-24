@@ -61,6 +61,8 @@ namespace TurboLabz.InstantFramework
         public Button bettingMinus;
         public TMP_Text bettingValue;
 
+        public Button playBtn;
+
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -70,6 +72,7 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
         public Signal OnInfoBtnClickedSignal = new Signal();
+        public Signal OnPlayButtonClickedSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -100,6 +103,8 @@ namespace TurboLabz.InstantFramework
 
             bettingPlus.onClick.AddListener(OnIncrementBetting);
             bettingMinus.onClick.AddListener(OnDecrementBetting);
+
+            playBtn.onClick.AddListener(OnPlayButtonClicked);
         }
 
         public void UpdateView(int bettingIndex)
@@ -167,6 +172,11 @@ namespace TurboLabz.InstantFramework
         {
             bettingIndex--;
             SetupBetting();
+        }
+
+        void OnPlayButtonClicked()
+        {
+            OnPlayButtonClickedSignal.Dispatch();
         }
 
         void SetupBetting()

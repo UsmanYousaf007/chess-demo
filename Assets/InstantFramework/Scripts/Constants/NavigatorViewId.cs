@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
         PROMOTION_CHESS_COURSE_DLG,
         CHANGE_PHOTO_DLG,
         LOGIN_DLG,
-        LEADERBOARD_VIEW
+        LEADERBOARD_VIEW,
+        SELECT_TIME_MODE
     }
 }
