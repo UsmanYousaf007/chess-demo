@@ -333,6 +333,10 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
@@ -353,6 +357,10 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
@@ -374,6 +382,10 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
 #if !UNITY_CLOUD_BUILD
@@ -413,6 +425,10 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(false);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
@@ -440,6 +456,10 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(false);
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
 
