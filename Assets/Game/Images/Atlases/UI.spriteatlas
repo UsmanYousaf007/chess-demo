@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 21983454
+    totalSpriteSurfaceArea: 22144531
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -313,6 +313,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a671fb788740a4e29a23369e16c2b329, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
   - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
+  - {fileID: 21300000, guid: 468b8898a93cd4f2fafa81bbf132b495, type: 3}
   - {fileID: 21300000, guid: fbfbc1a808c6845a592c2d77fd679892, type: 3}
   - {fileID: 21300000, guid: 9a17f6a890e4c4cc9bc06c7fd7cec3fa, type: 3}
   - {fileID: 21300000, guid: 7aa353b83f2fc438a82febf616c27c03, type: 3}
@@ -491,6 +492,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c1c8b56fb1e174322a7e971b7b552c8c, type: 3}
   - {fileID: 21300000, guid: f0a77b6fe70a14e5ea78c69417484dc0, type: 3}
   - {fileID: 21300000, guid: 438ae17f923eb4e2cac27422a5773ed4, type: 3}
+  - {fileID: 21300000, guid: 476c967f93efb473599873571a190b66, type: 3}
   - {fileID: 21300000, guid: e52b4a7f946b44bafb58cf9980fde362, type: 3}
   - {fileID: 21300000, guid: ff18038f9ca7d4b008296de189bb3cbf, type: 3}
   - {fileID: 21300000, guid: 083ad48fa0ed3439ebcbda94014b3694, type: 3}
@@ -507,6 +509,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7dae30ef437a74293924bc219896ab69, type: 3}
   - {fileID: 21300000, guid: f6f792ff7786941ec92d2b32296017fa, type: 3}
   - {fileID: 21300000, guid: 4aa5c8ff471904a1682a70cb85e1c2a6, type: 3}
+  - {fileID: 21300000, guid: 56c649ff12c5f4892b8fd28262c077cd, type: 3}
   m_PackedSpriteNamesToIndex:
   - ToolTipBubble
   - PlayComputerMatchPattern
@@ -773,6 +776,7 @@ SpriteAtlas:
   - CheckerBoardButtonBg
   - LoginGraphic
   - DefeatIcon
+  - BankIcon
   - TrophyIconClr
   - GoldBtn
   - LessonIconClr
@@ -951,6 +955,7 @@ SpriteAtlas:
   - SunRaysStrong
   - ClockIcon
   - BlueTick
+  - PowerPlayBtn
   - InGameChessLogo
   - NavShopBg
   - PromoBannerRibbon
@@ -967,5 +972,6 @@ SpriteAtlas:
   - BucksIcon
   - LearningToolsIcon
   - CoachOnboardingBg
+  - PowerPlayGrphic
   m_Tag: UI
   m_IsVariant: 0

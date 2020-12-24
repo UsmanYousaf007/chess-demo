@@ -14,6 +14,9 @@ namespace TurboLabz.InstantFramework
         public ProfileVO player;
         public ProfileVO opponent;
 
+        public bool powerMode;
+        public string gameMode;
+        public long bettingCoins;
         public int timeoutSeconds;
         public bool isTournamentMatch;
         public bool isTicketSpent;

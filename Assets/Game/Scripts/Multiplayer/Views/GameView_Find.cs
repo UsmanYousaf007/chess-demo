@@ -19,6 +19,7 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using TurboLabz.InstantGame;
 using System;
+using TMPro;
 
 namespace TurboLabz.Multiplayer
 {
@@ -54,6 +55,11 @@ namespace TurboLabz.Multiplayer
         public Signal findMatchTimeoutSignal = new Signal();
         private string oppoenentId;
 
+        public TMP_Text gameModeLabel;
+        public TMP_Text bettingCoins;
+        public Image powerPlayModeOn;
+        public Image powerPlayModeOff;
+
         public void InitFind()
         {
             playerFindProfilePic.sprite = defaultAvatar;
@@ -86,11 +92,41 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        private string GetMode(string action)
+        {
+            if(action == "Random10" || action == "Challenge10")
+            {
+                return "10m";
+            }
+            else if (action == "Random1" || action == "Challenge1")
+            {
+                return "1m";
+            }
+            else if (action == "Random3" || action == "Challenge3")
+            {
+                return "3m";
+            }
+            else if (action == "Random30" || action == "Challenge30")
+            {
+                return "30m";
+            }
+            else 
+            {
+                return "5m";
+            }
+        }
+
         public void UpdateFind(FindViewVO vo)
         {
             findAvatarRoller.gameObject.SetActive(false);
             opponentFindProfile.SetActive(false);
             playerId = vo.player.playerId;
+
+            powerPlayModeOn.enabled = vo.powerMode;
+            powerPlayModeOff.enabled = !vo.powerMode;
+            gameModeLabel.text = GetMode(vo.gameMode) + " Chess";
+            bettingCoins.text = vo.bettingCoins.ToString();
+
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
             SetLeagueBorder(playerFindLeageBorder, vo.player.leagueBorder);
