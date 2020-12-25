@@ -257,7 +257,13 @@ namespace TurboLabz.Multiplayer
 
         private void OnShowLogo()
         {
-            logoObject.SetActive(playerModel.HasRemoveAds());
+            bool logoActive = false;
+
+            if (playerModel.HasRemoveAds() || adsSettingsModel.isBannerEnabled == false)
+                logoActive = true;
+
+            logoObject.SetActive(logoActive);
+
         }
     }
 }

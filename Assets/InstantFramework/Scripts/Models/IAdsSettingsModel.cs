@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         bool showInGameCPU { get; set; }
         bool showInGame30Min { get; set; }
         bool showInGameClassic { get; set; }
+        bool isBannerEnabled { get; set; }
     }
 }
 
