@@ -94,10 +94,11 @@ dependencies {
     implementation 'com.appsflyer:unity-wrapper:5.4.2' // Assets/HUF/AnalyticsAppsFlyer/SDK/AppsFlyer/Editor/AppsFlyerDependencies.xml:8
     implementation 'com.chartboost:chartboost-sdk:8.1.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISChartboostAdapterDependencies.xml:15
     implementation 'com.facebook.android:audience-network-sdk:6.2.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFacebookAdapterDependencies.xml:8
-    implementation 'com.facebook.android:facebook-applinks:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:6
-    implementation 'com.facebook.android:facebook-core:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:5
-    implementation 'com.facebook.android:facebook-login:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
-    implementation 'com.facebook.android:facebook-share:[5,5.14)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
+    implementation 'com.facebook.android:facebook-applinks:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:6
+    implementation 'com.facebook.android:facebook-core:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:5
+    implementation 'com.facebook.android:facebook-gamingservices:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:9
+    implementation 'com.facebook.android:facebook-login:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
+    implementation 'com.facebook.android:facebook-share:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
     implementation 'com.fyber.vamp:core-sdk:7.7.3' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:8
     implementation 'com.fyber.vamp:mraid-kit:7.7.3' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:24
     implementation 'com.fyber.vamp:video-kit:7.7.3' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:16
