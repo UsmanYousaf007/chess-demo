@@ -627,6 +627,7 @@ namespace TurboLabz.InstantFramework
 
             if (!inserted)
             {
+                playerEntry.rank = entries.Count;
                 entries.Add(playerEntry);
             }
         }
@@ -642,8 +643,6 @@ namespace TurboLabz.InstantFramework
                 tournamentEntry.rank = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.RANK);
                 tournamentEntry.score = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.SCORE);
                 tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
-                tournamentEntry.matchesPlayedToday = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_TODAY);
-                tournamentEntry.randomScoreFactor = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.RANDOM_SCORE_FACTOR);
 
                 tournamentEntry.score += tournamentEntry.randomScoreFactor;
 
