@@ -153,6 +153,26 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionSaleDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
+            {
+                return new NSRewardDlgView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LOGIN_DLG)
+            {
+                return new NSLoginDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEADERBOARD_VIEW)
+            {
+                return new NSLeaderboardView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW)
+            {
+                return new NSLeaguePerksView();
+            }
+            else if (evt == NavigatorEvent.SHOW_SELECT_TIME_MODE)
+            {
+                return new NSSelectTimeMode();
+            }
 
             return null;
         }

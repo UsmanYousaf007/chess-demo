@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
         public const string LIVE_TEXT = "liveText";
+        public const string WIN_TEXT = "winText";
+        public const string LOSS_TEXT = "lossText";
 
         #endregion
 
@@ -297,6 +299,9 @@ namespace TurboLabz.InstantFramework
         public const string INVENTORY_GET_MORE = "inventoryGetMore";
         public const string INVENTORY_YOU_OWN = "inventoryYouOwn";
 
+        public const string LEADERBOARD_WORLD = "leaderboardWorld";
+        public const string LEADERBOARD_CHAMPIONSHIP = "leaderboardChampionship";
+
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
         public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
@@ -371,6 +376,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_FRIENDS = "navFriends";
         public const string NAV_INVENTORY = "navInventory";
         public const string NAV_ARENA = "navArena";
+        public const string NAV_LESSON = "navLesson";
 
         #endregion
 
@@ -525,6 +531,14 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT = "tournamentChestContentDialogueOkayButtonText";
 
         public const string TOURNAMENT_REWARD_DLG_TROPHIES_ADDED = "tournamentRewardDlgTrophiesAdded";
+
+        #endregion
+
+        #region TournamentItem
+
+        public const string LEADERBOARD_RANK = "leaderboardRank";
+        public const string LEADERBOARD_WINNINGS = "leaderboardWinnings";
+        public const string LEADERBOARD_REWARDS = "leaderboardRewards";
 
         #endregion
 

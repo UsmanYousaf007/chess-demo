@@ -132,6 +132,9 @@ namespace TurboLabz.InstantFramework
                     {
                         matchInfoModel.matches[challengeId].isTournamentMatch = true;
                     }
+
+                    matchInfoModel.matches[challengeId].betValue = GSParser.GetSafeLong(playerData, GSBackendKeys.ChallengeData.BET_VALUE);
+                    matchInfoModel.matches[challengeId].powerMode = GSParser.GetSafeBool(playerData, GSBackendKeys.ChallengeData.POWER_MODE);
                 }
             }
 
@@ -419,8 +422,6 @@ namespace TurboLabz.InstantFramework
                 // Tournament has ended
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = tournament;
-
-                loadInboxSignal.Dispatch();
             }
             else
             {
@@ -438,7 +439,6 @@ namespace TurboLabz.InstantFramework
                 if (tournamentsModel.HasTournamentEnded(joinedTournament))
                 {
                     backendService.InBoxOpGet();
-                    //loadInboxSignal.Dispatch();
                 }
 
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);

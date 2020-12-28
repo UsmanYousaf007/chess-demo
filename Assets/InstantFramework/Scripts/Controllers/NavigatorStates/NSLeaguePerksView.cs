@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.ARENA_VIEW, NavigatorViewId.LOBBY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -17,8 +17,11 @@
                 {
                     cmd.loadArenaSignal.Dispatch();
                     return null;
+                }else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
-                 //   return null;
+                //   return null;
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {

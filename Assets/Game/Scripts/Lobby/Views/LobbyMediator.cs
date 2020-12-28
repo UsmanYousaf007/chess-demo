@@ -111,7 +111,7 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
+        //[ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
@@ -129,7 +129,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(NavigatorHideViewSignal))]
+        //[ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
@@ -420,7 +420,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            FindMatchAction.Random(findMatchSignal, actionCode);
+            //FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
         private void OnClassicMatchBtnClicked()
@@ -440,7 +440,7 @@ namespace TurboLabz.InstantFramework
             }
 
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
-            FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
+            //FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
 
         private void OnLessonsBtnClicked()

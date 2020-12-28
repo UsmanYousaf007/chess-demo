@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class InventoryItemView : View
     {
         public string shortCode;
@@ -272,6 +273,5 @@ namespace TurboLabz.InstantFramework
         {
             rewardedVideoProgressBar.sizeDelta = new Vector2(value, rewardedVideoProgressBar.sizeDelta.y);
         }
-
     }
 }

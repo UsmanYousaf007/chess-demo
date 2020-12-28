@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LeagueTierIcons
   m_EditorClassIdentifier: 
   assets:
-  - typeName: BRONZE
+  - typeName: NO RANK
     typeID: 0
     chestSprite: {fileID: 21300000, guid: eadb53761fa2e406e8575e2ac9e51104, type: 3}
     trophySprite: {fileID: 21300000, guid: f348b2c92c3354f79a672474f2c8c8e6, type: 3}
@@ -22,7 +22,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: 4d54a033e54004daba811a4c70a90d49,
       type: 3}
     borderColor: {r: 1, g: 0.6627451, b: 0.41960785, a: 1}
-  - typeName: SILVER
+    nameImg: {fileID: 0}
+    trophyImg: {fileID: 0}
+    cardBg: {fileID: 0}
+    glowBg: {fileID: 0}
+  - typeName: ROOKIE
     typeID: 1
     chestSprite: {fileID: 21300000, guid: aac833b4b0a554233b6e65f8785374db, type: 3}
     trophySprite: {fileID: 21300000, guid: e044c284155894dd1932ed4eb26704db, type: 3}
@@ -31,7 +35,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: b30434b6ffade473e81602678bce5b78,
       type: 3}
     borderColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
-  - typeName: GOLD
+    nameImg: {fileID: 21300000, guid: 5bc93537de40d4411834a2ea9f4c5168, type: 3}
+    trophyImg: {fileID: 21300000, guid: a2cee7202499842ada5207072710ad72, type: 3}
+    cardBg: {fileID: 21300000, guid: 73b766646c87145639c46d086902becf, type: 3}
+    glowBg: {fileID: 21300000, guid: 2beff9870ce9e4edb82d2fccfb0cb0a6, type: 3}
+  - typeName: NOVICE
     typeID: 2
     chestSprite: {fileID: 21300000, guid: c07e2d3eb32004c0f9426453efab71ec, type: 3}
     trophySprite: {fileID: 21300000, guid: 65380127a4aa34a5aa5dce4c94875c65, type: 3}
@@ -40,7 +48,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: 7c9c6627f1938412083d26c970b45350,
       type: 3}
     borderColor: {r: 0.9411765, g: 0.7882353, b: 0.4117647, a: 1}
-  - typeName: PLATINUM
+    nameImg: {fileID: 21300000, guid: 77358a5d36c33455fa609c1efa3c928d, type: 3}
+    trophyImg: {fileID: 21300000, guid: 7c79b59c3b25f44a8a88047f8db1a19f, type: 3}
+    cardBg: {fileID: 21300000, guid: 34a9ba5d6b6a34c4395b5d6b781a34ec, type: 3}
+    glowBg: {fileID: 21300000, guid: 398cbd340776e4df7b518bec1702feab, type: 3}
+  - typeName: JR. PRO
     typeID: 3
     chestSprite: {fileID: 21300000, guid: 1599d3e807ee244358e40726294a6395, type: 3}
     trophySprite: {fileID: 21300000, guid: 44fe0ec500ec24c59867408ac5f0bd1c, type: 3}
@@ -49,7 +61,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: 1c60ab206279447ada5c65d43900c586,
       type: 3}
     borderColor: {r: 0.5647059, g: 0.88235295, b: 0.8627451, a: 1}
-  - typeName: EMERALD
+    nameImg: {fileID: 21300000, guid: f8f7ff55a4ce0434a997c27236ae963f, type: 3}
+    trophyImg: {fileID: 21300000, guid: f4544856ca8c34a6a96b2f55ea51d0c8, type: 3}
+    cardBg: {fileID: 21300000, guid: 3b48d9262d70e467fab3ba28d9bf45c5, type: 3}
+    glowBg: {fileID: 21300000, guid: 3a6c5acfe60a54f9b82dba6720977116, type: 3}
+  - typeName: PRO
     typeID: 4
     chestSprite: {fileID: 21300000, guid: a35b179e770974925b60e0b3ad7b2089, type: 3}
     trophySprite: {fileID: 21300000, guid: 4dbee57453da24215ab1b3d161b5beeb, type: 3}
@@ -58,7 +74,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: 23b036ef5812d4226ae8e24a30fa6dc3,
       type: 3}
     borderColor: {r: 0.57254905, g: 0.88235295, b: 0.5647059, a: 1}
-  - typeName: SAPPHIRE
+    nameImg: {fileID: 21300000, guid: 330e1164b93c549cd9b03398bd8d699b, type: 3}
+    trophyImg: {fileID: 21300000, guid: 375708e9436c6441f838601d7d9820c9, type: 3}
+    cardBg: {fileID: 21300000, guid: 73256258577244aa38be3c960152a8c2, type: 3}
+    glowBg: {fileID: 21300000, guid: c7b17180b541d4b218e06a7b44683d41, type: 3}
+  - typeName: MASTER
     typeID: 5
     chestSprite: {fileID: 21300000, guid: bade1ff2355de4b17bf3ca9b096ba190, type: 3}
     trophySprite: {fileID: 21300000, guid: 5fff5923bc4b74dabaf381ac84860f5a, type: 3}
@@ -67,7 +87,11 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: 21bcf6b3e456b435c9f77f3bc281e635,
       type: 3}
     borderColor: {r: 0.17254902, g: 0.6, b: 1, a: 1}
-  - typeName: DIAMOND
+    nameImg: {fileID: 21300000, guid: 76ed4a0f8af4240eda7923ddfd14ddf7, type: 3}
+    trophyImg: {fileID: 21300000, guid: c56c718af37d54dcd807bd0a74c2ce4e, type: 3}
+    cardBg: {fileID: 21300000, guid: f64d147016d3c4399a0ce6d5e10e71b3, type: 3}
+    glowBg: {fileID: 21300000, guid: f7e6f4937a8df4d588bb0de65d08293e, type: 3}
+  - typeName: GRANDMASTER
     typeID: 6
     chestSprite: {fileID: 21300000, guid: 554b60960a34444f7b84bbc3b7cca483, type: 3}
     trophySprite: {fileID: 21300000, guid: 2e16302f2c08d4fce92818fa34370999, type: 3}
@@ -76,3 +100,20 @@ MonoBehaviour:
     textUnderlaySprite: {fileID: 21300000, guid: f820dc5529f2d48cab8ef5368af82c0d,
       type: 3}
     borderColor: {r: 0.70980394, g: 0.75686276, b: 1, a: 1}
+    nameImg: {fileID: 21300000, guid: d68bad8f939f548f9a8fab976af598a2, type: 3}
+    trophyImg: {fileID: 21300000, guid: 3a6775fb78fc7435da28a2e75fefa923, type: 3}
+    cardBg: {fileID: 21300000, guid: 289a99c8129fd45faab43559dfa626c7, type: 3}
+    glowBg: {fileID: 21300000, guid: be04d23dbafd04791bb69dbd98562a94, type: 3}
+  - typeName: LEGEND
+    typeID: 7
+    chestSprite: {fileID: 21300000, guid: 554b60960a34444f7b84bbc3b7cca483, type: 3}
+    trophySprite: {fileID: 21300000, guid: 2e16302f2c08d4fce92818fa34370999, type: 3}
+    ringSprite: {fileID: 21300000, guid: e5bca6ea284a84468b8de83051faf299, type: 3}
+    bgSprite: {fileID: 21300000, guid: 0ec098adec3cd48cea3c3d5d0552cc75, type: 3}
+    textUnderlaySprite: {fileID: 21300000, guid: f820dc5529f2d48cab8ef5368af82c0d,
+      type: 3}
+    borderColor: {r: 0.70980394, g: 0.75686276, b: 1, a: 1}
+    nameImg: {fileID: 21300000, guid: edc386e8b06104af591ba81f3dd515c4, type: 3}
+    trophyImg: {fileID: 21300000, guid: 3a5fdfbb30cb24f679606f9cd9d43815, type: 3}
+    cardBg: {fileID: 21300000, guid: 5d508777e22bc45c48d9bab3a5ab9884, type: 3}
+    glowBg: {fileID: 21300000, guid: 71774d5a813a9456e847f00d38aa447c, type: 3}

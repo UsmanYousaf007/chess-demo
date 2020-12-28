@@ -20,11 +20,12 @@ namespace TurboLabz.InstantFramework
 
         public Text wifiWarning;
         public Text userMessage;
-        public GameObject connectingDots;
+        public CanvasGroup connectingDots;
 
         public void Init()
         {
             wifiWarning.gameObject.SetActive(false);
+            connectingDots.alpha = Settings.MIN_ALPHA;
         }
 
         public void Show()
@@ -59,8 +60,9 @@ namespace TurboLabz.InstantFramework
 
         public void ShowContent(bool show)
         {
-            connectingDots.SetActive(show);
+            connectingDots.gameObject.SetActive(show);
             userMessage.gameObject.SetActive(show);
+            connectingDots.DOFade(Settings.MAX_ALPHA, Settings.TWEEN_DURATION);
         }
     }
 }

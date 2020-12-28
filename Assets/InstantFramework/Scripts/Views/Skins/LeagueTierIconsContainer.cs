@@ -9,6 +9,7 @@ using UnityEditor;
 namespace TurboLabz.InstantFramework
 {
     // Class name to match the script file name
+    [System.CLSCompliant(false)]
     [System.Serializable]
     public class LeagueTierIconsContainer : ScriptableObject
     {
@@ -55,6 +56,10 @@ namespace TurboLabz.InstantFramework
             public Sprite bgSprite;
             public Sprite textUnderlaySprite;
             public Color borderColor;
+            public Sprite nameImg;
+            public Sprite trophyImg;
+            public Sprite cardBg;
+            public Sprite glowBg;
         }
 
 #if UNITY_EDITOR

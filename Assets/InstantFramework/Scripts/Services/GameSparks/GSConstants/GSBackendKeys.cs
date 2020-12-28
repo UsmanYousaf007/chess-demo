@@ -55,6 +55,8 @@ namespace TurboLabz.InstantFramework
         public const string DAILY_NOTIFICATION_DEADLINE_HOUR = "dailyNotificationDeadlineHour";
         public const string DEFAULT_SUBSCRIPTION_KEY = "defaultSubscriptionKey";
         public const string MATCHMAKING_RANDOM_RANGE = "matchmakingRandomRange";
+        public const string BETTING_INCREMENTS = "bettingIncrements";
+        public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -255,6 +257,8 @@ namespace TurboLabz.InstantFramework
             public const string GAME_END_TIME = "gameEndTime";
             public const string OPPONENT_ELO_SCORE = "opponentEloScore";
             public const string BOT_DIFFICULTY = "botDifficulty";
+            public const string BET_VALUE = "betValue";
+            public const string POWER_MODE = "powerMode";
         }
 
         // Resume
@@ -537,7 +541,9 @@ namespace TurboLabz.InstantFramework
             public const string LAST_WATCHED_VIDEO = "lastWatchedVideoId";
             public const string GEMS = "gems";
             public const string TROPHIES = "trophies";
+            public const string TROPHIES2 = "trophies2";
             public const string LEAGUE = "league";
+            public const string COINS = "coins";
         }
 
         public static class Match

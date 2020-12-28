@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISchedulerService schedulerService { get; set; }
         [Inject] public IAppUpdateService appUpdateService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
 
         public override void Execute()
         {
@@ -157,7 +158,16 @@ namespace TurboLabz.InstantFramework
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();
-            promotionsService.LoadPromotion();
+
+            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
+            if (!socailLoggedIn)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
+            }
+            else
+            {
+                promotionsService.LoadPromotion();
+            }
         }
 
         private void UpdateProfilePic(ref bool picWait)

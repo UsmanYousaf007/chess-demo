@@ -19,5 +19,7 @@ namespace TurboLabz.InstantFramework
         public string name;
         public int qualifyTrophies;
         public Dictionary<string, int> dailyReward;
+        public int winTrophies;
+        public int lossTrophies;
     }
 }

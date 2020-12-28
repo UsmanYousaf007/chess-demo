@@ -111,6 +111,8 @@ namespace TurboLabz.InstantFramework
             GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
             PopulateInboxModel(inBoxMessagesData);
 
+            settingsModel.bettingIncrements = response.ScriptData.GetLongList(GSBackendKeys.BETTING_INCREMENTS);
+            settingsModel.defaultBetIncrementByGamesPlayed = response.ScriptData.GetFloatList(GSBackendKeys.BET_INCREMENT_BY_GAMES_PLAYED);
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
@@ -198,6 +200,7 @@ namespace TurboLabz.InstantFramework
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
             playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
             playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+            playerModel.trophies2 = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
             playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
@@ -214,6 +217,8 @@ namespace TurboLabz.InstantFramework
             {
                 playerModel.gems = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.GEMS).Value;
             }
+
+            playerModel.coins = GSParser.GetSafeLong(playerDetailsData, GSBackendKeys.PlayerDetails.COINS);
 
             // Split name to first and last initial
             // TODO: split in View
@@ -247,9 +252,9 @@ namespace TurboLabz.InstantFramework
             {
                 Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
                 FillInbox(dict, inBoxMessagesData);
-                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
+                inboxAddMessagesSignal.Dispatch(); 
             }
         }
 
@@ -521,12 +526,13 @@ namespace TurboLabz.InstantFramework
                 joinedTournament.grandPrize = grandPrize;
             }
 
-            var rewards = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            var rewards = tournamentGSData.GetGSData(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                for (int i = 0; i < rewards.Count; i++)
+                var rewardsListForLeague = rewards.GetGSDataList(playerModel.league.ToString());
+                for (int i = 0; i < rewardsListForLeague.Count; i++)
                 {
-                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    TournamentReward reward = ParseTournamentReward(rewardsListForLeague[i]);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (joinedTournament.rewardsDict.ContainsKey(j))
@@ -715,12 +721,13 @@ namespace TurboLabz.InstantFramework
                 liveTournament.grandPrize = grandPrize;
             }
 
-            var rewards = liveTournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            var rewards = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                for (int i = 0; i < rewards.Count; i++)
+                var rewardsListForLeague = rewards.GetGSDataList(playerModel.league.ToString());
+                for (int i = 0; i < rewardsListForLeague.Count; i++)
                 {
-                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    TournamentReward reward = ParseTournamentReward(rewardsListForLeague[i]);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (liveTournament.rewardsDict.ContainsKey(j))
@@ -871,7 +878,7 @@ namespace TurboLabz.InstantFramework
 
                         if (context != AnalyticsContext.unknown)
                         {
-                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "refund", "default");
 
                             if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(item.Key))
                             {

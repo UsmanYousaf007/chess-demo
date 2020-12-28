@@ -67,6 +67,15 @@ namespace TurboLabz.InstantFramework
                 {
                     analyticsService.Event(AnalyticsEventId.key_obtained_gem, AnalyticsContext.inventory);
                 }
+
+                if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
+                {
+                    preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
+                }
+                else if(item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
+                {
+                    preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
+                }
             }
         }
 
@@ -101,6 +110,16 @@ namespace TurboLabz.InstantFramework
                         break;
 
                     case InventoryVideoResult.ITEM_UNLOCKED:
+
+                        if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
+                        {
+                            preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
+                        }
+                        else if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
+                        {
+                            preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
+                        }
+
                         if (view.gameObject.activeInHierarchy)
                         {
                             analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");

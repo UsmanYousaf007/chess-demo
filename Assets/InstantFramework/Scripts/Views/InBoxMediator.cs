@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public OnTournamentEndRewardViewClickedSignal tournamentEndRewardClickedSignal { get; set; }
 
         // Services
@@ -109,9 +108,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(InboxAddMessagesSignal))]
-        public void OnInboxAddMessages(Dictionary<string, InboxMessage> messages)
+        public void OnInboxAddMessages()
         {
-            view.AddMessages(messages);
+            view.AddMessages(inboxModel.items);
         }
 
         [ListensTo(typeof(InboxRemoveMessagesSignal))]
@@ -135,7 +134,6 @@ namespace TurboLabz.InstantFramework
         public void OnRewardDlgClosed()
         {
             TLUtils.LogUtil.Log("InBoxMediator::OnRewardDlgClosed()");
-            loadInboxSignal.Dispatch();
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.CLSCompliant(false)]
 public class ResultDialog : MonoBehaviour
 {
     public Image resultsGameImage;

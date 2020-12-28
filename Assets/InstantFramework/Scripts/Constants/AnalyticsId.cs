@@ -324,6 +324,7 @@ namespace TurboLabz.InstantFramework
         inventory,
         games,
         arena,
+        lesson,
 
         //promotions
         remove_ads,

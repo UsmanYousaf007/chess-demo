@@ -11,6 +11,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.CPU;
 using TurboLabz.Multiplayer;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TurboLabz.InstantGame
 {
@@ -33,6 +34,9 @@ namespace TurboLabz.InstantGame
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
+        [Inject] public UpdateTopiscViewSignal updateTopiscViewSignal { get; set; }
+        [Inject] public UpdateCareerCardSignal updateCareerCardSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -52,6 +56,9 @@ namespace TurboLabz.InstantGame
         [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILessonsModel lessonsModel { get; set; }
+
+        private StoreIconsContainer iconsContainer;
 
         public override void Execute()
         {
@@ -61,6 +68,30 @@ namespace TurboLabz.InstantGame
             resetActiveMatchSignal.Dispatch();
             loadCPUGameDataSignal.Dispatch();
             updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+
+
+            iconsContainer = StoreIconsContainer.Load();
+            var nextLesson = lessonsModel.GetNextLesson(playerModel.lastWatchedVideo);
+            var topicsVO = new TopicsViewVO();
+            if (string.IsNullOrEmpty(nextLesson))
+            {
+                topicsVO.allLessonsWatched = true;
+            }
+            else if (metaDataModel.store.items.ContainsKey(nextLesson))
+            {
+                var nextLessonVO = new VideoLessonVO();
+                nextLessonVO.name = metaDataModel.store.items[nextLesson].displayName;
+                nextLessonVO.videoId = nextLesson;
+                nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
+                nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
+                nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
+                nextLessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(nextLesson);
+                nextLessonVO.section = lessonsModel.topicsMapping[lessonsModel.lessonsMapping[nextLesson]];
+                topicsVO.nextLesson = nextLessonVO;
+            }
+            topicsVO.sections = lessonsModel.GetSectionsWithTopicVO(iconsContainer);
+            updateTopiscViewSignal.Dispatch(topicsVO);
+
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
             {
@@ -80,15 +111,17 @@ namespace TurboLabz.InstantGame
             LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
             updateMenuViewSignal.Dispatch(vo);
+            loadRewardsSignal.Dispatch();
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
+            DispatchCareerCardSignal();
 
             if (rateAppService.CanShowRateDialogue())
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
             }
-
+            
             if (preferencesModel.isLobbyLoadedFirstTime)
             {
                 loadPromotionSingal.Dispatch();
@@ -143,6 +176,36 @@ namespace TurboLabz.InstantGame
 
             updateProfileSignal.Dispatch(pvo);
             updateLeagueProfileSignal.Dispatch(playerModel.league.ToString());
+        }
+
+        private void DispatchCareerCardSignal()
+        {
+            var gamesPlayedIndex = preferencesModel.gamesPlayedPerDay;
+            var lastIndex = metaDataModel.settingsModel.defaultBetIncrementByGamesPlayed.Count - 1;
+            gamesPlayedIndex = gamesPlayedIndex >= lastIndex ? lastIndex : gamesPlayedIndex;
+            var coinsToBet = playerModel.coins * metaDataModel.settingsModel.defaultBetIncrementByGamesPlayed[gamesPlayedIndex];
+            var betIndex = 0;
+
+            for (int i = 0; i < metaDataModel.settingsModel.bettingIncrements.Count; i++)
+            {
+                if (coinsToBet <= metaDataModel.settingsModel.bettingIncrements[i])
+                {
+                    if (i == 0)
+                    {
+                        betIndex = i;
+                        break;
+                    }
+
+                    var diff1 = Mathf.Abs(coinsToBet - metaDataModel.settingsModel.bettingIncrements[i - 1]);
+                    var diff2 = Mathf.Abs(coinsToBet - metaDataModel.settingsModel.bettingIncrements[i]);
+                    betIndex = diff1 < diff2 ? i - 1 : i;
+                    break;
+                }
+
+                betIndex = i;
+            }
+
+            updateCareerCardSignal.Dispatch(betIndex);
         }
 
         private void DispatchRemoveAdsSignal() 

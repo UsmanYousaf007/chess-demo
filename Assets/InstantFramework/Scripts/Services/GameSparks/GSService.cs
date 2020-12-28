@@ -34,7 +34,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSuccessSignal { get; set; }
         [Inject] public PlayerModelUpdatedSignal playerModelUpdatedSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public ClearInboxSignal clearInboxSignal { get; set; }
 
         // Models

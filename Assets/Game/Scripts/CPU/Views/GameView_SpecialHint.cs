@@ -22,6 +22,7 @@ namespace TurboLabz.CPU
         public Sprite notEnoughGemsSprite;
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
+        public GameObject specialFreeHintContainer;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -67,10 +68,14 @@ namespace TurboLabz.CPU
             }
         }
 
-        public void UpdateSpecialHintButton(int usedCount)
+        public void UpdateSpecialHintButton(int usedCount, bool updateHintCount)
         {
-            hintCount--;
-            hintCount = hintCount < 0 ? 0 : hintCount;
+            if (updateHintCount)
+            {
+                hintCount--;
+                hintCount = hintCount < 0 ? 0 : hintCount;
+            }
+
             canUseSpecialHint = usedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
@@ -83,7 +88,7 @@ namespace TurboLabz.CPU
             }
 
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints =  hintCount > 0 || playerModel.HasSubscription();
+            haveEnoughHints = hintCount > 0 || playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
             specialHintGemsBg.gameObject.SetActive(false);
@@ -91,6 +96,7 @@ namespace TurboLabz.CPU
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialHintCountContainer.SetActive(!playerModel.HasSubscription());
+            specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
         }
 
         public void ToggleSpecialHintButton(bool on)
@@ -165,11 +171,10 @@ namespace TurboLabz.CPU
 
                 if (haveEnoughHints)
                 {
-                    if (playerModel.HasSubscription())
+                    if (playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
                     {
                         transactionVO.consumeItemShortCode = "premium";
                     }
-
                     ProcessHint(transactionVO);
                 }
                 //else if (haveEnoughGemsForHint)

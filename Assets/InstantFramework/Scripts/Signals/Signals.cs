@@ -173,9 +173,9 @@ namespace TurboLabz.InstantFramework
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
     public class UpdateBottomNavSignal : Signal<BottomNavView.ButtonId> { }
-    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxAddMessagesSignal : Signal { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
-    public class LoadInboxSignal : Signal { }
+    public class LoadRewardsSignal : Signal { }
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
     public class LoadRewardDlgViewSignal : Signal<string, Signal> { }
@@ -193,6 +193,8 @@ namespace TurboLabz.InstantFramework
     public class ResetSubscirptionStatusSignal : Signal { }
     public class ActivePromotionSaleSingal : Signal<string> { }
     public class ShowFadeBlockerSignal : Signal { }
+    public class PromotionCycleOverSignal : Signal { }
+    public class LoginAsGuestSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -215,7 +217,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
-    public class RatingBoostAnimSignal : Signal<int> { }
+    public class RatingBoostedSignal : Signal<int> { }
 
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
@@ -229,4 +231,7 @@ namespace TurboLabz.InstantFramework
 
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
+
+    public class UpdateCareerCardSignal : Signal<int>{ }
+    public class LoadLeaderboardSignal : Signal { }
 }

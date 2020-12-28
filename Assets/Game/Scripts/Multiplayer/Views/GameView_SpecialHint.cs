@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
         private StoreItem hintsStoreItem;
         private int hintsAllowedPerGame;
         private int hintCount;
+        public GameObject specialFreeHintContainer;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal<VirtualGoodsTransactionVO> notEnoughSpecialHintsSingal = new Signal<VirtualGoodsTransactionVO>();
@@ -63,10 +64,14 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateSpecialHintButton(int hintUsedCount)
+        public void UpdateSpecialHintButton(int hintUsedCount, bool updateHintCount)
         {
-            hintCount--;
-            hintCount = hintCount < 0 ? 0 : hintCount;
+            if (updateHintCount)
+            {
+                hintCount--;
+                hintCount = hintCount < 0 ? 0 : hintCount;
+            }
+
             canUseSpecialHint = hintUsedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
@@ -79,7 +84,7 @@ namespace TurboLabz.Multiplayer
             }
 
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = hintCount > 0 || playerModel.HasSubscription();
+            haveEnoughHints = hintCount > 0 || playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
             specialHintGemsBg.gameObject.SetActive(false);
@@ -87,6 +92,7 @@ namespace TurboLabz.Multiplayer
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialHintCountContainer.SetActive(!playerModel.HasSubscription());
+            specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
         }
 
         public void ToggleSpecialHintButton(bool on)
@@ -161,11 +167,10 @@ namespace TurboLabz.Multiplayer
 
                 if (haveEnoughHints)
                 {
-                    if (playerModel.HasSubscription())
+                    if (playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
                     {
                         transactionVO.consumeItemShortCode = "premium";
                     }
-
                     ProcessHint(transactionVO);
                 }
                 //else if (haveEnoughGemsForHint)

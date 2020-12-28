@@ -37,7 +37,9 @@ namespace TurboLabz.InstantFramework
         string uploadedPicId { get; set; }
         long gems { get; set; }
         int trophies { get; set; }
+        int trophies2 { get; set; }
         int league { get; set; }
+        long coins { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

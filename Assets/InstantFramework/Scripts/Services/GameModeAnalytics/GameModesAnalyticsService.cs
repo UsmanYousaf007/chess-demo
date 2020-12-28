@@ -88,6 +88,8 @@ namespace TurboLabz.InstantFramework
 
         public void ProcessGameCount(MatchInfo matchInfo = null)
         {
+            preferencesModel.gamesPlayedPerDay++;
+
             if (matchInfo == null)
             {
                 preferencesModel.gameCountCPU++;

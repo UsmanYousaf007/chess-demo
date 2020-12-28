@@ -1,16 +1,17 @@
 ﻿using strange.extensions.mediation.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
     public class SkillLevelDlgView : View
     {
-        public GameObject mainPanel;
         public Button yesButton;
         public Button noButton;
-        public Transform startPivot;
-        public Transform endPivot;
+        public Image icon;
+        public CanvasGroup view;
+        public CanvasGroup buttons;
 
         private const string BEGINNER_STR = "beginner";
         private const string DEFAULT_STR = "default";
@@ -28,8 +29,6 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
-            mainPanel.transform.localPosition = startPivot.localPosition;
-
             yesButton.onClick.AddListener(() =>
             {
                 OnButtonClicked(BEGINNER_STR);
@@ -39,30 +38,30 @@ namespace TurboLabz.InstantFramework
             {
                 OnButtonClicked(DEFAULT_STR);
             });
+
+            buttons.alpha = Settings.MIN_ALPHA;
+            icon.transform.localScale = Settings.MIN_SCALE;
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
-            iTween.MoveTo(mainPanel,
-                iTween.Hash(
-                    "position",endPivot.localPosition,
-                    "time", 0.3f,
-                    "islocal", true
-                ));
+            buttons.DOFade(Settings.MAX_ALPHA, Settings.TWEEN_DURATION);
+            icon.transform.DOScale(Settings.MAX_SCALE, Settings.TWEEN_DURATION);
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-            mainPanel.transform.localPosition = startPivot.localPosition;
         }
 
         private void OnButtonClicked(string skillLevel)
         {
             playerModel.skillLevel = skillLevel;
-            GotoReception();
-            Hide();
+            view.DOFade(Settings.MIN_ALPHA, Settings.TWEEN_DURATION).OnComplete(() => {
+                GotoReception();
+                Hide();
+            });
         }
 
         private void GotoReception()

@@ -44,16 +44,18 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
-                { LocalizationKey.MIN1_GAME_TEXT, "1 Min" },
-                { LocalizationKey.MIN3_GAME_TEXT, "3 Min" },
-                { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
-                { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
-                { LocalizationKey.MIN30_GAME_TEXT, "30 Min" },
+                { LocalizationKey.MIN1_GAME_TEXT, "1m" },
+                { LocalizationKey.MIN3_GAME_TEXT, "3m" },
+                { LocalizationKey.MIN5_GAME_TEXT, "5m" },
+                { LocalizationKey.MIN10_GAME_TEXT, "10m" },
+                { LocalizationKey.MIN30_GAME_TEXT, "30m" },
                 { LocalizationKey.ON_TEXT, "On" },
                 { LocalizationKey.OFF_TEXT, "Off" },
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
                 { LocalizationKey.DECLINE_TEXT, "Decline" },
                 { LocalizationKey.START_TEXT, "Start" },
+                { LocalizationKey.WIN_TEXT, "Win" },
+                { LocalizationKey.LOSS_TEXT, "Loss" },
 
                 #endregion
 
@@ -83,7 +85,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
                 { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
                 { LocalizationKey.LIVE_TEXT, "LIVE" },
-                { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
+                { LocalizationKey.PLAYING_LEVEL, "Resume Level "},
 
                 #endregion
 
@@ -371,6 +373,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
                 { LocalizationKey.NAV_INVENTORY, "INVENTORY" },
                 { LocalizationKey.NAV_ARENA, "TOURNAMENT" },
+                { LocalizationKey.NAV_LESSON, "LESSONS" },
 
                 #endregion
 
@@ -526,6 +529,16 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT, "Got it"},
 
                 { LocalizationKey.TOURNAMENT_REWARD_DLG_TROPHIES_ADDED, "Trophies already added to your account"},
+                #endregion
+
+                #region TournamentItem
+
+                { LocalizationKey.LEADERBOARD_WORLD, "WORLD"},
+                { LocalizationKey.LEADERBOARD_CHAMPIONSHIP, "CHAMPIONSHIP"},
+                { LocalizationKey.LEADERBOARD_RANK, "Rank"},
+                { LocalizationKey.LEADERBOARD_REWARDS, "Winnings"},
+                { LocalizationKey.LEADERBOARD_WINNINGS, "Rewards"},
+
                 #endregion
 
                 #region InBox

@@ -16,7 +16,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public CancelHintSingal cancelHintSingal { get; set; }
-        [Inject] public RatingBoostAnimSignal ratingBoostAnimSignal { get; set; }
+        [Inject] public RatingBoostedSignal ratingBoostedSignal { get; set; }
 
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
                 vo.playerEloScore = playerModel.eloScore;
                 updateEloScoresSignal.Dispatch(vo);
 
-                ratingBoostAnimSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
+                ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
                 analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
                 LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
             }

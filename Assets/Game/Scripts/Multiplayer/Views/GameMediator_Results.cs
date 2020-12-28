@@ -151,12 +151,12 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        [ListensTo(typeof(RatingBoostAnimSignal))]
-        public void OnRatingBoostAnimation(int ratingBoost)
+        [ListensTo(typeof(RatingBoostedSignal))]
+        public void OnRatingBoosted(int ratingBoost)
         {
             if (view.IsVisible())
             {
-                view.PlayEloBoostedAnimation(ratingBoost);
+                view.OnRatingBoosted(ratingBoost);
             }
         }
 
@@ -281,7 +281,7 @@ namespace TurboLabz.Multiplayer
             long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
             if (adsSettingsModel.showPregameTournament == false || tournamentTimeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
-                FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
+                //FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
             }
             else
             {
@@ -321,6 +321,7 @@ namespace TurboLabz.Multiplayer
             {
                 if (key.Equals(view.resultsBoostRatingShortCode))
                 {
+                    preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
                     view.BoostRating(ratingBoosterTransactionVO);
                 }
                 else if (key.Equals(view.tournamentMatchResultDialog.ticketsShortCode))
@@ -331,6 +332,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else if (key.Equals(view.specialHintShortCode))
                 {
+                    preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
                     view.ProcessHint(hintTransactionVO);
                 }
             }

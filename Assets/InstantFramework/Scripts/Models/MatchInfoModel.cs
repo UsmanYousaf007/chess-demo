@@ -58,6 +58,8 @@ namespace TurboLabz.InstantFramework
         //public bool isTenMinGame { get; set; }
         //public bool isThirtyMinGame { get; set; }
         public bool isLongPlay { get; set; }
+        public long betValue { get; set; }
+        public bool powerMode { get; set; }
 
         public bool isBotMatch
         {

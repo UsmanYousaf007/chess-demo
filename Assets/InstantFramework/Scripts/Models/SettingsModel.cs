@@ -29,6 +29,8 @@ namespace TurboLabz.InstantFramework
         public int matchmakingRandomRange { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
+        public List<long> bettingIncrements { get; set; }
+        public List<float> defaultBetIncrementByGamesPlayed { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -63,6 +65,8 @@ namespace TurboLabz.InstantFramework
             matchmakingRandomRange = 0;
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
+            bettingIncrements = new List<long>();
+            defaultBetIncrementByGamesPlayed = new List<float>();
         }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)

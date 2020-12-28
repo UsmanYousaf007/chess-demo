@@ -43,7 +43,9 @@ namespace TurboLabz.InstantFramework
         public string uploadedPicId { get; set; }
         public long gems { get; set; }
         public int trophies { get; set; }
+        public int trophies2 { get; set; }
         public int league { get; set; }
+        public long coins { get; set; }
 
         public string name
         {
@@ -119,7 +121,9 @@ namespace TurboLabz.InstantFramework
             subscriptionType = "";
             gems = 0;
             trophies = 0;
+            trophies2 = 0;
             league = 0;
+            coins = 0;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -227,7 +231,7 @@ namespace TurboLabz.InstantFramework
         public PlayerInventoryVO GetPlayerInventory()
         {
             PlayerInventoryVO playerInventoryVO = new PlayerInventoryVO();
-            playerInventoryVO.coinCount = bucks;
+            playerInventoryVO.coinCount = coins;
             playerInventoryVO.hintCount = PowerUpHintCount;
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;

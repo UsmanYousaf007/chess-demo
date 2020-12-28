@@ -99,6 +99,7 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("RewardDailyLeague", "daily_league_reward");
             stateToContextMap.Add("RewardTournamentEnd", "tournament_reward");
             stateToContextMap.Add("TournamentLeaderboard", "tournament_main");
+            stateToContextMap.Add("RewardLeaguePromotion", "league_progression_rewards");
         }
 
         private static void CreateStringToContextMap()

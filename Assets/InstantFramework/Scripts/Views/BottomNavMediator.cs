@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -39,6 +40,7 @@ namespace TurboLabz.InstantFramework
             view.inventoryButtonClickedSignal.AddListener(OnInventoryButtonClicked);
             view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
             view.arenaButtonClickedSignal.AddListener(OnArenaButtonClicked);
+            view.lessonButtonClickedSignal.AddListener(OnLessonsButtonClicked);
         }
 
         public override void OnRemove()
@@ -68,6 +70,13 @@ namespace TurboLabz.InstantFramework
             loadArenaSignal.Dispatch();
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
             analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.arena);
+        }
+
+        void OnLessonsButtonClicked()
+        {
+            loadTopicsViewSignal.Dispatch();
+            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Lesson);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.lesson);
         }
 
         void OnInventoryButtonClicked()

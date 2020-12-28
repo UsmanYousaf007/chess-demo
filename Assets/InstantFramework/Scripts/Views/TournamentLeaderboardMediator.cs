@@ -25,7 +25,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
@@ -340,7 +339,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardClosed()
         {
-            loadInboxSignal.Dispatch();
             UnlockTournament();
 
             if (goBackToArena)
@@ -443,7 +441,7 @@ namespace TurboLabz.InstantFramework
             string tournamentId = _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode;
             if (adsSettingsModel.showPregameTournament == false || timeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
-                FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
+                //FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
             }
             else
             {
