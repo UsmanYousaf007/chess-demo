@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
             view.Init();
             view.OnPlayButtonClickedSignal.AddListener(PlayButtonClicked);
             view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
+            view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
         }
 
         [ListensTo(typeof(UpdateCareerCardSignal))]
@@ -81,6 +82,11 @@ namespace TurboLabz.InstantFramework
             {
                 FindMatchAction.Random(findMatchSignal, matchInfoVO);
             }
+        }
+
+        private void OnNotEnoughCoinsSignal()
+        {
+
         }
     }
 }

@@ -10,7 +10,7 @@
         public override NS HandleEvent(NavigatorEvent evt)
         {
             NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG,
-                NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
+                NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW, NavigatorViewId.SELECT_TIME_MODE);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -45,6 +45,11 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
                     return new NSSpotInventory();
+                }
+                else if (viewId == NavigatorViewId.SELECT_TIME_MODE)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSSelectTimeMode();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)

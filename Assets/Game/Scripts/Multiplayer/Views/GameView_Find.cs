@@ -59,6 +59,7 @@ namespace TurboLabz.Multiplayer
         public TMP_Text bettingCoins;
         public Image powerPlayModeOn;
         public Image powerPlayModeOff;
+        private long betValue;
 
         public void InitFind()
         {
@@ -121,6 +122,7 @@ namespace TurboLabz.Multiplayer
             findAvatarRoller.gameObject.SetActive(false);
             opponentFindProfile.SetActive(false);
             playerId = vo.player.playerId;
+            betValue = vo.bettingCoins;
 
             powerPlayModeOn.enabled = vo.powerMode;
             powerPlayModeOff.enabled = !vo.powerMode;
@@ -244,7 +246,15 @@ namespace TurboLabz.Multiplayer
             //opponentPremiumBorder.SetActive(vo.isPremium);
             SetLeagueBorder(opponentFindLeagueBorder, vo.leagueBorder);
             searchingLabel.color = Colors.YELLOW;
-            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
+            if (betValue > 0)
+            {
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_PLACING_BET);
+                //TODO animate coins into bank
+            }
+            else
+            {
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
+            }
         }
 
         private void RollOpponentProfilePicture()

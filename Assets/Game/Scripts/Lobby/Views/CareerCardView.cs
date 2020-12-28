@@ -73,6 +73,7 @@ namespace TurboLabz.InstantFramework
         public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
         public Signal OnInfoBtnClickedSignal = new Signal();
         public Signal<long> OnPlayButtonClickedSignal = new Signal<long>();
+        public Signal notEnoughCoinsSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -176,7 +177,14 @@ namespace TurboLabz.InstantFramework
 
         void OnPlayButtonClicked()
         {
-            OnPlayButtonClickedSignal.Dispatch(settingsModel.bettingIncrements[bettingIndex]);
+            if (playerModel.coins >= settingsModel.bettingIncrements[bettingIndex])
+            {
+                OnPlayButtonClickedSignal.Dispatch(settingsModel.bettingIncrements[bettingIndex]);
+            }
+            else
+            {
+                notEnoughCoinsSignal.Dispatch();
+            }
         }
 
         void SetupBetting()
