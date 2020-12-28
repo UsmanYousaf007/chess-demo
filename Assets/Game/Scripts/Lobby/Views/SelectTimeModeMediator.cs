@@ -24,10 +24,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public SelectTimeModeView view { get; set; }
 
         //Dispatch signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -36,11 +36,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
 
         private MatchInfoVO matchInfoVO;
+        private long betValue;
 
         public override void OnRegister()
         {
             view.Init();
             view.playMultiplayerButtonClickedSignal.AddListener(OnPlayMatch);
+            view.powerModeButtonClickedSignal.AddListener(OnPowerModeButtonClicked);
+            view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
+            view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -61,11 +65,19 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnPlayMatch(string actionCode, long betValue)
+        [ListensTo(typeof(UpdateTimeSelectDlgSignal))]
+        public void UpdateView(long betValue)
+        {
+            this.betValue = betValue;
+            view.UpdateView(betValue);
+        }
+
+        private void OnPlayMatch(string actionCode, bool isPowerMode)
         {
             matchInfoVO = new MatchInfoVO();
             matchInfoVO.actionCode = actionCode;
             matchInfoVO.betValue = betValue;
+            matchInfoVO.powerMode = isPowerMode;
 
             var transactionVO = new VirtualGoodsTransactionVO();
             transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
@@ -79,6 +91,30 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 FindMatchAction.Random(findMatchSignal, matchInfoVO);
+            }
+        }
+
+        private void OnPowerModeButtonClicked()
+        {
+            purchaseStoreItemSignal.Dispatch(view.shortCode, true);
+        }
+
+        private void OnNotEnoughCoinsSignal()
+        {
+
+        }
+
+        private void OnNotEnoughGemsSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+        public void OnItemPurchased(StoreItem item, PurchaseResult result)
+        {
+            if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode) && view.gameObject.activeInHierarchy)
+            {
+                view.OnEnablePowerMode();
             }
         }
     }

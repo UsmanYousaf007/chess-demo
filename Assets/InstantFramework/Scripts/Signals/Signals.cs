@@ -234,4 +234,5 @@ namespace TurboLabz.InstantFramework
 
     public class UpdateCareerCardSignal : Signal<int>{ }
     public class LoadLeaderboardSignal : Signal { }
+    public class UpdateTimeSelectDlgSignal : Signal<long> { }
 }
