@@ -12,9 +12,25 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
+        // Models
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+        [Inject] public ILeaderboardModel leaderboardModel { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
+        }
+
+        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateView()
+        {
+            view.UpdateView(tournamentsModel.GetJoinedTournament());
+        }
+
+        [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
+        public void OnUpdateAllStarLeaderboard()
+        {
+            view.UpdateView(leaderboardModel.allStarLeaderboardEntries);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

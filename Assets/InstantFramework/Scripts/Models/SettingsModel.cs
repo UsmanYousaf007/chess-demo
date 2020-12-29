@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         public int dailyNotificationDeadlineHour { get; set; }
         public string defaultSubscriptionKey { get; set; }
         public int matchmakingRandomRange { get; set; }
+        public long allStarLeaderboardLastFetchTime { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         public List<long> bettingIncrements { get; set; }

@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         string defaultSubscriptionKey { get; set; }
 
         int matchmakingRandomRange { get; set; }
+        long allStarLeaderboardLastFetchTime { get; set; }
 
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);

@@ -531,9 +531,6 @@ namespace TurboLabz.InstantFramework
                 liveTournamentGO.SetActive(true);
                 liveTournamentGOText.text = "JOINED";
                 tournamentSectionEmptySpace.SetActive(true);
-                chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).chestType);
-                trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
-                tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
 
                 endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
 

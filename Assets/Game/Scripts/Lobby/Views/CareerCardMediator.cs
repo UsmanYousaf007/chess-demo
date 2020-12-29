@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         private MatchInfoVO matchInfoVO;
 
@@ -77,7 +78,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                FindMatchAction.Random(findMatchSignal, matchInfoVO);
+                FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
             }
         }
     }

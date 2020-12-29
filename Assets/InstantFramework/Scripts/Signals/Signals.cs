@@ -11,7 +11,7 @@ using strange.extensions.promise.api;
 
 namespace TurboLabz.InstantFramework
 {
-    public class ReconnectionCompleteSignal : Signal {}
+    public class ReconnectionCompleteSignal : Signal { }
     public class StartSignal : Signal { }
     public class AppEventSignal : Signal<AppEvent> { }
     public class GameAppEventSignal : Signal<AppEvent> { }
@@ -64,7 +64,7 @@ namespace TurboLabz.InstantFramework
     public class SplashWifiIsHealthySignal : Signal { }
     public class ShowSplashContentSignal : Signal<bool> { }
     public class ResetCapturedPiecesSignal : Signal { }
-    public class UpdateSearchResultsSignal : Signal<bool> {}
+    public class UpdateSearchResultsSignal : Signal<bool> { }
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> { }
     public class HaltSignal : Signal<BackendResult> { }
     public class UpdatePlayerRewardsPointsSignal : Signal<float, float> { }
@@ -124,7 +124,7 @@ namespace TurboLabz.InstantFramework
     public class RestorePurchasesSignal : Signal { }
     public class NewFriendAddedSignal : Signal<string> { }
     public class NotificationRecievedSignal : Signal<NotificationVO> { }
-    public class PreShowNotificationSignal : Signal{ }
+    public class PreShowNotificationSignal : Signal { }
     public class ShowViewBoardResultsPanelSignal : Signal<bool> { }
     public class PostShowNotificationSignal : Signal { }
     public class ResumeMatchSignal : Signal<NavigatorViewId> { }
@@ -232,6 +232,10 @@ namespace TurboLabz.InstantFramework
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
 
-    public class UpdateCareerCardSignal : Signal<int>{ }
+    public class UpdateCareerCardSignal : Signal<int> { }
     public class LoadLeaderboardSignal : Signal { }
+
+    // All star leaderboard
+    public class GetAllStarLeaderboardSignal : Signal { }
+    public class UpdateAllStarLeaderboardSignal : Signal { }
 }

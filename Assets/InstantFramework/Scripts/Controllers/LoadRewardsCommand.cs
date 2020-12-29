@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             var diffInSeconds = (DateTime.UtcNow - inboxModel.lastFetchedTime).TotalSeconds;
-            if (diffInSeconds > GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+            if (diffInSeconds > GSSettings.LEADERBOARDS_FETCH_GAP_TIME)
             {
                 backendService.InBoxOpGet();
             }

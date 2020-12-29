@@ -25,11 +25,12 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal fetchLeaderboardSignal { get; set; }
         [Inject] public LoadLeaderboardSignal loadLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -51,6 +52,9 @@ namespace TurboLabz.InstantFramework
 
         public void OnLeaderboardClicked()
         {
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+            fetchLeaderboardSignal.Dispatch(joinedTournament.id, false);
+
             loadLeaderboardSignal.Dispatch();
         }
     }

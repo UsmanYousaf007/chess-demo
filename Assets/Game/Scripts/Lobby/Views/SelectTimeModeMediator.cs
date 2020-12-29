@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
 
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -78,7 +79,7 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                FindMatchAction.Random(findMatchSignal, matchInfoVO);
+                FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
             }
         }
     }

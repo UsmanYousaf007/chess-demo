@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using strange.extensions.signal.impl;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TurboLabz.InstantGame;
-using TMPro;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -22,6 +19,7 @@ namespace TurboLabz.InstantFramework
         public Button chestButton;
         public Image chestImage;
         public Image gemImage;
+        public Image flagImage;
         public TMP_Text rewardText;
 
         public Sprite[] rankSprites;
@@ -31,27 +29,25 @@ namespace TurboLabz.InstantFramework
 
         public SkinLink skinLink;
 
-        [HideInInspector]
-        public TournamentEntry entry;
-        [HideInInspector]
-        public LeaderboardReward reward;
+        private TournamentEntry _entry;
+        private TournamentReward _reward;
 
-        public void Populate(TournamentEntry _entry, LeaderboardReward entryReward, bool isPlayer)
+        public void Populate(TournamentEntry entry, TournamentReward entryReward, bool isPlayer)
         {
-            entry = _entry;
-            this.reward = entryReward;
+            _entry = entry;
+            _reward = entryReward;
 
-            playerRankCountText.text = entry.rank.ToString();
+            playerRankCountText.text = _entry.rank.ToString();
             trophiesRewardCountText.text = entryReward.trophies.ToString();
 
-            playerNameText.text = !isPlayer ? entry.publicProfile.name : "You";
+            playerNameText.text = !isPlayer ? _entry.publicProfile.name : "You";
             playerNameText.gameObject.SetActive(true);
             //playerPanel.SetActive(isPlayer);
 
-            playerScoreCountText.text = entry.score.ToString();
+            playerScoreCountText.text = _entry.score.ToString();
 
             profile.gameObject.SetActive(true);
-            profile.UpdateView(entry.publicProfile);
+            profile.UpdateView(_entry.publicProfile);
 
             if (entryReward.chestType == null || entryReward.chestType == "")
             {
@@ -68,11 +64,39 @@ namespace TurboLabz.InstantFramework
                 rewardText.text = "Level " + entryReward.quantity;
             }
 
-            SetRankIcon(entry.rank);
-            skinLink.InitPrefabSkin();
+            SetRankIcon(_entry.rank);
+            //skinLink.InitPrefabSkin();
         }
 
-        public void SetRankIcon(int rank)
+        public void Populate(AllStarLeaderboardEntry entry, bool isPlayer)
+        {
+            playerRankCountText.text = entry.rank.ToString();
+
+            playerNameText.text = !isPlayer ? entry.name : "You";
+            playerNameText.gameObject.SetActive(true);
+
+            playerScoreCountText.text = entry.score.ToString();
+
+            profile.gameObject.SetActive(true);
+
+            PublicProfile profileVO = new PublicProfile();
+            profileVO.countryId = entry.countryId;
+            profileVO.playerId = entry.playerId;
+            profileVO.league = entry.league;
+            profileVO.name = entry.name;
+            profileVO.uploadedPicId = entry.uploadedPicId;
+            profile.UpdateView(profileVO);
+
+            if (flagImage != null)
+            {
+                flagImage.sprite = Flags.GetFlag(entry.countryId);
+            }
+
+            SetRankIcon(this._entry.rank);
+            //skinLink.InitPrefabSkin();
+        }
+
+        private void SetRankIcon(int rank)
         {
             rankIcon.enabled = true;
             playerRankCountText.enabled = false;
@@ -98,34 +122,6 @@ namespace TurboLabz.InstantFramework
                 gemImage.enabled = true;
                 chestImage.enabled = false;
             }
-        }
-
-        public void Populate(int rank, LeaderboardReward entryReward)
-        {
-            entry = null;
-            this.reward = entryReward;
-
-            playerRankCountText.text = rank.ToString();
-            trophiesRewardCountText.text = entryReward.trophies.ToString();
-
-            playerNameText.gameObject.SetActive(false);
-            profile.gameObject.SetActive(false);
-
-            if (entryReward.chestType == "")
-            {
-                chestImage.enabled = false;
-                chestButton.interactable = false;
-            }
-            else
-            {
-                ChestIconsContainer container = ChestIconsContainer.Load();
-                chestImage.sprite = container.GetChest(entryReward.chestType);
-                chestImage.enabled = true;
-                chestButton.interactable = true;
-            }
-
-            SetRankIcon(entry.rank);
-            skinLink.InitPrefabSkin();
         }
     }
 }

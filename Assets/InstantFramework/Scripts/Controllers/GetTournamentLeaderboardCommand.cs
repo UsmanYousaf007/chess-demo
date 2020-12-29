@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
             if (joinedTournament != null)
             {
                 var lastFetchedTimeDelta = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - joinedTournament.lastFetchedTimeUTCSeconds;
-                if (lastFetchedTimeDelta >= GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+                if (lastFetchedTimeDelta >= GSSettings.LEADERBOARDS_FETCH_GAP_TIME)
                 {
                     backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
                 }

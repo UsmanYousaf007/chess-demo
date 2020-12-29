@@ -85,5 +85,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> InBoxOpCollect(string messageId);
         IPromise<BackendResult> GetDownloadableContentUrl(string shortCode, Action<object> onSuccessExternal);
 
+        IPromise<BackendResult> GetAllStarLeaderboard();
     }
 }

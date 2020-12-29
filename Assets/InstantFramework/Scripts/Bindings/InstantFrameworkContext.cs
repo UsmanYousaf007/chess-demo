@@ -263,7 +263,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceIOS>().ToSingleton();
 #else
             injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceEditor>().ToSingleton();
-            
+
 #endif
 
 
@@ -324,7 +324,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
             injectionBinder.Bind<ProfilePictureLoadedSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();   
+            injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateAllStarLeaderboardSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -344,6 +345,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IDownloadablesModel>().To<DownloadablesModel>().ToSingleton();
             injectionBinder.Bind<ILeaguesModel>().To<LeaguesModel>().ToSingleton();
             injectionBinder.Bind<INotificationsModel>().To<NotificationsModel>().ToSingleton();
+            injectionBinder.Bind<ILeaderboardModel>().To<LeaderboardModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -373,6 +375,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
             commandBinder.Bind<LoadRewardDlgViewSignal>().To<LoadRewardDlgCommand>();
             commandBinder.Bind<LoadLeaderboardSignal>().To<LoadLeaderboardCommand>();
+            commandBinder.Bind<GetAllStarLeaderboardSignal>().To<GetAllStarLeaderboardCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
