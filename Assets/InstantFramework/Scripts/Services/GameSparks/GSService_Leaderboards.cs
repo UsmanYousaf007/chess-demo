@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
             this.onSuccess = onSuccess;
 
             new LeaderboardDataRequest()
-                .SetLeaderboardShortCode("leaderboardShortCode")
+                .SetLeaderboardShortCode(leaderboardShortCode)
                 .SetEntryCount(EntryCount)
                 .Send(OnRequestSuccess, OnRequestFailure);
 
