@@ -80,6 +80,11 @@ namespace TurboLabz.Multiplayer
             {
                 RefundTicket();
             }
+
+            if (vo.bettingCoins > 0)
+            {
+                RefundCoins(vo.bettingCoins);
+            }
         }
 
         [ListensTo(typeof(UpdateFriendPicSignal))]
@@ -164,6 +169,14 @@ namespace TurboLabz.Multiplayer
             transactionVO.buyItemShortCode = GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET;
             transactionVO.buyQuantity = 1;
             virtualGoodBoughtSignal.AddOnce(OnTicketRefunded);
+            virtualGoodsTransactionSignal.Dispatch(transactionVO);
+        }
+
+        private void RefundCoins(long value)
+        {
+            var transactionVO = new VirtualGoodsTransactionVO();
+            transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+            transactionVO.buyQuantity = (int)value;
             virtualGoodsTransactionSignal.Dispatch(transactionVO);
         }
 

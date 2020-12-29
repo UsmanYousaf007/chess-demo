@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
 
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -43,6 +44,7 @@ namespace TurboLabz.InstantFramework
             view.Init();
             view.OnPlayButtonClickedSignal.AddListener(PlayButtonClicked);
             view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
+            view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
         }
 
         [ListensTo(typeof(UpdateCareerCardSignal))]
@@ -56,9 +58,10 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW);
         }
 
-        public void PlayButtonClicked()
+        public void PlayButtonClicked(long betValue)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
+            updateTimeSelectDlgSignal.Dispatch(betValue);
         }
 
         private void OnPlayMatch(string actionCode, long betValue)
@@ -80,6 +83,11 @@ namespace TurboLabz.InstantFramework
             {
                 FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
             }
+        }
+
+        private void OnNotEnoughCoinsSignal()
+        {
+
         }
     }
 }

@@ -195,7 +195,7 @@ namespace TurboLabz.InstantFramework
         public const string MULTIPLAYER_FOUND = "multiplayerFound";
         public const string QUICK_MATCH_FAILED = "quickMatchFailed";
         public const string QUICK_MATCH_FAILED_REASON = "quickMatchFailedReason";
-
+        public const string MULTIPLAYER_PLACING_BET = "multiplayerPlacingBet";
         public const string QUICK_MATCH_EXPIRED = "quickMatchExpired";
         public const string QUICK_MATCH_EXPIRED_REASON = "quickMatchExpiredReason";
 

@@ -238,4 +238,5 @@ namespace TurboLabz.InstantFramework
     // All star leaderboard
     public class GetAllStarLeaderboardSignal : Signal { }
     public class UpdateAllStarLeaderboardSignal : Signal { }
+    public class UpdateTimeSelectDlgSignal : Signal<long> { }
 }

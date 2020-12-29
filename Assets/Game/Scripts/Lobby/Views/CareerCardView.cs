@@ -45,17 +45,17 @@ namespace TurboLabz.InstantFramework
 
         public Sprite bgImage;
 
-        public TMP_Text startGame3mText;
-        public Button startGame3mButton;
+        //public TMP_Text startGame3mText;
+        //public Button startGame3mButton;
 
-        public TMP_Text startGame5mText;
-        public Button startGame5mButton;
+        //public TMP_Text startGame5mText;
+        //public Button startGame5mButton;
 
-        public TMP_Text startGame10mText;
-        public Button startGame10mButton;
+        //public TMP_Text startGame10mText;
+        //public Button startGame10mButton;
 
-        public TMP_Text startGame30mText;
-        public Button startGame30mButton;
+        //public TMP_Text startGame30mText;
+        //public Button startGame30mButton;
 
         public Button bettingPlus;
         public Button bettingMinus;
@@ -72,7 +72,8 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
         public Signal OnInfoBtnClickedSignal = new Signal();
-        public Signal OnPlayButtonClickedSignal = new Signal();
+        public Signal<long> OnPlayButtonClickedSignal = new Signal<long>();
+        public Signal notEnoughCoinsSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -85,14 +86,14 @@ namespace TurboLabz.InstantFramework
             trophyProgressionBarOriginalWidth = trophyProgressionBarFiller.sizeDelta.x;
             leagueTierIconsContainer = leagueTierIconsContainer == null ? LeagueTierIconsContainer.Load() : leagueTierIconsContainer;
 
-            startGame3mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random3.ToString()); });
-            startGame5mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
-            startGame10mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
-            startGame30mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random30.ToString()); });
-            startGame3mText.text = localizationService.Get(LocalizationKey.MIN3_GAME_TEXT);
-            startGame5mText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
-            startGame10mText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
-            startGame30mText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
+            //startGame3mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random3.ToString()); });
+            //startGame5mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
+            //startGame10mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
+            //startGame30mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random30.ToString()); });
+            //startGame3mText.text = localizationService.Get(LocalizationKey.MIN3_GAME_TEXT);
+            //startGame5mText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
+            //startGame10mText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
+            //startGame30mText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
 
             infoButton.onClick.AddListener(OnInfoBtnClicked);
 
@@ -176,7 +177,14 @@ namespace TurboLabz.InstantFramework
 
         void OnPlayButtonClicked()
         {
-            OnPlayButtonClickedSignal.Dispatch();
+            if (playerModel.coins >= settingsModel.bettingIncrements[bettingIndex])
+            {
+                OnPlayButtonClickedSignal.Dispatch(settingsModel.bettingIncrements[bettingIndex]);
+            }
+            else
+            {
+                notEnoughCoinsSignal.Dispatch();
+            }
         }
 
         void SetupBetting()

@@ -326,6 +326,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ProfilePictureLoadedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();
             injectionBinder.Bind<UpdateAllStarLeaderboardSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTimeSelectDlgSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

@@ -203,6 +203,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a game" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED, "Match Expired" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED_REASON, "You took too long to respond" },
+                { LocalizationKey.MULTIPLAYER_PLACING_BET, "Placing bet..." },
 
                 #endregion
 
