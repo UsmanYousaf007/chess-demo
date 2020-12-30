@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 45315420432130341}
   - component: {fileID: 45315420432130338}
   - component: {fileID: 45315420432130339}
+  - component: {fileID: 8185509350857244598}
   m_Layer: 5
   m_Name: DialogBg
   m_TagString: Untagged
@@ -81,6 +82,19 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8185509350857244598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45315420432130342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa0c544727e64017a59ac7e0e13821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceImage: {fileID: 0}
 --- !u!1 &45315421121953025
 GameObject:
   m_ObjectHideFlags: 0

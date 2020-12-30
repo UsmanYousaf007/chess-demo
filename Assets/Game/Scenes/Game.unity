@@ -8027,6 +8027,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8185509350857244598, guid: c8e348a7ec3ad4f73858f8ecc9da49e3,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 105294782}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8e348a7ec3ad4f73858f8ecc9da49e3, type: 3}
 --- !u!224 &148284224 stripped
@@ -119014,11 +119019,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewLobby
       objectReference: {fileID: 0}
-    - target: {fileID: 4229506162656780503, guid: c8f9528f16a5a41b281e9c1691bcc9c5,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 92.1001
-      objectReference: {fileID: 0}
     - target: {fileID: 7252183528400087642, guid: c8f9528f16a5a41b281e9c1691bcc9c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -119124,6 +119124,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4229506162656780503, guid: c8f9528f16a5a41b281e9c1691bcc9c5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 92.1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656442586583377010, guid: c8f9528f16a5a41b281e9c1691bcc9c5,
+        type: 3}
+      propertyPath: sourceImage
+      value: 
+      objectReference: {fileID: 160507675}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f9528f16a5a41b281e9c1691bcc9c5, type: 3}
 --- !u!114 &7409511278300187993
