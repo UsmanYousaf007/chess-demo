@@ -86,7 +86,6 @@ namespace TurboLabz.Multiplayer
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
             haveEnoughHints = hintCount > 0 || playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
-            specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
             specialHintGemsBg.gameObject.SetActive(false);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);

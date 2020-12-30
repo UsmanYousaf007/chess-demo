@@ -14,10 +14,27 @@ namespace TurboLabz.InstantFramework
     {
         public Dictionary<string, League> leagues { get; set; }
 
+        [Inject] public IPlayerModel playerModel { get; set; }
+
+
         [PostConstruct]
         public void PostConstruct()
         {
             leagues = new Dictionary<string, League>();
         }
+
+        public League GetCurrentLeagueInfo()
+        {
+            var rv = new League();
+            var playerLeague = playerModel.league.ToString();
+
+            if (leagues.ContainsKey(playerLeague))
+            {
+                rv = leagues[playerLeague];
+            }
+
+            return rv;
+        }
+
     }
 }

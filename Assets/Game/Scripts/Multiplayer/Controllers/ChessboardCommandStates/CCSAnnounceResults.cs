@@ -34,6 +34,10 @@ namespace TurboLabz.Multiplayer
             vo.tournamentMatch = cmd.matchInfoModel.activeMatch.isTournamentMatch;
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
             vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
+            vo.betValue = cmd.activeMatchInfo.betValue;
+            vo.powerMode = cmd.activeMatchInfo.powerMode;
+            vo.earnedStars = cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;
+            vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;

@@ -34,5 +34,10 @@ namespace TurboLabz.Multiplayer
         public bool tournamentMatch;
         public int tournamentMatchScore;
         public int winTimeBonus;
+
+        public long betValue;
+        public bool powerMode;
+        public int earnedStars;
+        public StoreItem rewardDoubleStoreItem;
     }
 }

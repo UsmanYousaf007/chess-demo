@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
     public interface ILeaguesModel
     {
         Dictionary<string, League> leagues { get; set; }
+        League GetCurrentLeagueInfo();
     }
 
     public class League

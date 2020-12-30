@@ -46,8 +46,7 @@ namespace TurboLabz.Multiplayer
 
         private string challengeId;
         private VirtualGoodsTransactionVO ratingBoosterTransactionVO;
-        private VirtualGoodsTransactionVO ticketTransactionVO;
-        private string spotInventoryPurchaseType;
+        private VirtualGoodsTransactionVO rewardDoubleTransactionVO;
 
         public void OnRegisterResults()
         {
@@ -58,8 +57,8 @@ namespace TurboLabz.Multiplayer
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
             view.boostRatingSignal.AddListener(OnBoostRating);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
-            view.playTournamentMatchSignal.AddListener(OnPlayTournamentMatchButtonClicked);
             view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
+            view.doubleRewardSignal.AddListener(OnDoubleReward);
         }
 
         public void OnRemoveResults()
@@ -94,7 +93,6 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(UpdateResultDialogSignal))]
         public void OnUpdateResults(ResultsVO vo)
         {
-            view.UpdateDialogueType(vo.tournamentMatch);
             view.UpdateResultsDialog(vo);
         }
 
@@ -128,6 +126,13 @@ namespace TurboLabz.Multiplayer
             virtualGoodsTransactionSignal.Dispatch(vo);
         }
 
+        private void OnDoubleReward(VirtualGoodsTransactionVO vo)
+        {
+            rewardDoubleTransactionVO = vo;
+            virtualGoodsTransactionResultSignal.AddOnce(OnRewardDoubled);
+            virtualGoodsTransactionSignal.Dispatch(vo);
+        }
+
         private void OnTransactionResult(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
@@ -138,7 +143,17 @@ namespace TurboLabz.Multiplayer
                 backendService.ClaimReward(jsonData);
 
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(ratingBoosterTransactionVO.consumeItemShortCode).ToString(), ratingBoosterTransactionVO.consumeQuantity, "booster_used", "rating_booster");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
+                //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
+            }
+        }
+
+        private void OnRewardDoubled(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                view.OnRewardDoubled();
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(rewardDoubleTransactionVO.consumeItemShortCode).ToString(), rewardDoubleTransactionVO.consumeQuantity, "booster_used", "2x_reward");
+                //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
             }
         }
 
@@ -160,139 +175,9 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnNotEnoughItemsToBoost(VirtualGoodsTransactionVO vo)
+        private void OnNotEnoughItemsToBoost()
         {
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-            ratingBoosterTransactionVO = vo;
-            var spotInventoryParams = new LoadSpotInventoryParams();
-            spotInventoryParams.itemShortCode = vo.consumeItemShortCode;
-            spotInventoryParams.itemToUnclockShortCode = vo.consumeItemShortCode;
-            loadSpotInventorySignal.Dispatch(spotInventoryParams);
-        }
-
-        private void OnPlayTournamentMatchButtonClicked()
-        {
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == true)
-            {
-                OnBackToArenaButtonClicked();
-                return;
-            }
-
-            ticketTransactionVO = new VirtualGoodsTransactionVO();
-            ticketTransactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
-            ticketTransactionVO.consumeQuantity = 1;
-
-            if (view.haveEnoughItems)
-            {
-                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
-            }
-            //else if (view.haveEnoughGems)
-            //{
-            //    transactionVO = new VirtualGoodsTransactionVO();
-            //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-            //    transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
-            //    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-            //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            //}
-            else
-            {
-                //SpotPurchaseMediator.customContext = "tournament_end_card";
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-
-                SpotInventoryMediator.customContext = "tournament_end_card";
-                var spotInventoryParams = new LoadSpotInventoryParams();
-                spotInventoryParams.itemShortCode = ticketTransactionVO.consumeItemShortCode;
-                spotInventoryParams.itemToUnclockShortCode = ticketTransactionVO.consumeItemShortCode;
-                loadSpotInventorySignal.Dispatch(spotInventoryParams);
-                spotInventoryPurchaseType = string.Empty;
-            }            
-        }
-
-        private void OnItemConsumed(BackendResult result)
-        {
-            if (result != BackendResult.SUCCESS)
-            {
-                return;
-            }
-
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == false)
-            {
-                var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ticketTransactionVO.consumeItemShortCode] += ticketTransactionVO.consumeQuantity;
-                currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
-
-                StartMatch(currency);
-            }
-            else
-            {
-                OnBackToArenaButtonClicked();
-            }
-        }
-
-        private void StartMatch(string currency)
-        {
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            string tournamentType = joinedTournament.type;
-            string actionCode;
-            string context;
-
-            switch (tournamentType)
-            {
-                case TournamentConstants.TournamentType.MIN_1:
-                    actionCode = FindMatchAction.ActionCode.Random1.ToString();
-                    context = "1_min_bullet";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_3:
-                    actionCode = FindMatchAction.ActionCode.Random3.ToString();
-                    context = "3_min_bullet";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_5:
-                    actionCode = FindMatchAction.ActionCode.Random.ToString();
-                    context = "5_min_blitz";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_10:
-                    actionCode = FindMatchAction.ActionCode.Random10.ToString();
-                    context = "10_min_rapid";
-                    break;
-
-                default:
-                    actionCode = FindMatchAction.ActionCode.Random.ToString();
-                    context = "5_min_blitz";
-                    break;
-            }
-
-            tournamentsModel.currentMatchTournamentType = tournamentType;
-            tournamentsModel.currentMatchTournament = joinedTournament;
-            joinedTournament.locked = true;
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.end_game_card);
-            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
-
-            // Show tournament pre-game ad here.
-            var currentTournament = tournamentsModel.currentMatchTournament;
-            long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
-            if (adsSettingsModel.showPregameTournament == false || tournamentTimeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
-            {
-                //FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
-            }
-            else
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_tournament_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.actionCode = actionCode;
-                vo.tournamentId = joinedTournament.id;
-                vo.placementId = AdPlacements.Interstitial_tournament_pre;
-                showAdSignal.Dispatch(vo, false);
-            }
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 
         private void OnBackToArenaButtonClicked()
@@ -311,30 +196,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.SetupBoostPrice();
                 view.SetupSpecialHintButton();
-            }
-        }
-
-        [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
-        {
-            if (view.isActiveAndEnabled)
-            {
-                if (key.Equals(view.resultsBoostRatingShortCode))
-                {
-                    preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
-                    view.BoostRating(ratingBoosterTransactionVO);
-                }
-                else if (key.Equals(view.tournamentMatchResultDialog.ticketsShortCode))
-                {
-                    spotInventoryPurchaseType = purchaseType;
-                    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                    virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
-                }
-                else if (key.Equals(view.specialHintShortCode))
-                {
-                    preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
-                    view.ProcessHint(hintTransactionVO);
-                }
+                view.SetupRewardDoublerPrice();
             }
         }
     }

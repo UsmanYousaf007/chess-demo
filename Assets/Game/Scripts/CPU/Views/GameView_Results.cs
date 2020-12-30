@@ -114,26 +114,26 @@ namespace TurboLabz.CPU
 
         public void InitResults()
         {
-            InitResultsCPU();
+            //InitResultsCPU();
 
-            // Button listeners
-            resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
-            resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
-            resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
-            resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
+            //// Button listeners
+            //resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
+            //resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
+            //resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
+            //resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            //showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
 
-            // Text Labels
-            resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
-            resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
-            resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
-            earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
-            resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
-            resultsBoostRatingTooltipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
+            //// Text Labels
+            //resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
+            //resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
+            //resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
+            //earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            //resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
+            //resultsBoostRatingTooltipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
 
-            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
-            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
-            SetupRatingBoostButton();
+            //resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
+            //rewardBarOriginalWidth = rewardBar.sizeDelta.x;
+            //SetupRatingBoostButton();
         }
 
         public void CleanupResults()
