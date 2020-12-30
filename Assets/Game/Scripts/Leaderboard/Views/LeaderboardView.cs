@@ -35,7 +35,8 @@ namespace TurboLabz.InstantFramework
         public Image playerTitleImg;
         public Button backButton;
 
-        public Transform listContainer;
+        public Transform championshipLeaderboardListContainer;
+        public Transform allStarLeaderboardListContainer;
         public GameObject championshipLeaderboardPlayerBarPrefab;
         public GameObject allStarLeaderboardPlayerBarPrefab;
         public ScrollRect scrollView;
@@ -151,7 +152,7 @@ namespace TurboLabz.InstantFramework
             {
                 for (int i = itemBarsCount; i < joinedTournament.entries.Count; i++)
                 {
-                    championshipleaderboardPlayerBars.Add(AddPlayerBar());
+                    championshipleaderboardPlayerBars.Add(AddPlayerBar(championshipBarsPool, championshipLeaderboardListContainer));
                 }
             }
 
@@ -170,13 +171,13 @@ namespace TurboLabz.InstantFramework
             {
                 for (int i = itemBarsCount; i < allStarLeaderboardEntries.Count; i++)
                 {
-                    allStarPlayerBars.Add(AddPlayerBar());
+                    allStarPlayerBars.Add(AddPlayerBar(allStarBarsPool, allStarLeaderboardListContainer));
                 }
             }
 
             for (int i = 0; i < allStarLeaderboardEntries.Count; i++)
             {
-                PopulateBar(championshipleaderboardPlayerBars[i], allStarLeaderboardEntries[i]);
+                PopulateBar(allStarPlayerBars[i], allStarLeaderboardEntries[i]);
             }
         }
 
@@ -230,11 +231,11 @@ namespace TurboLabz.InstantFramework
             scrollView.verticalNormalizedPosition = 1;
         }
 
-        private LeaderboardPlayerBar AddPlayerBar()
+        private LeaderboardPlayerBar AddPlayerBar(GameObjectsPool pool, Transform parent)
         {
-            GameObject obj = championshipBarsPool.GetObject();
+            GameObject obj = pool.GetObject();
             LeaderboardPlayerBar item = obj.GetComponent<LeaderboardPlayerBar>();
-            item.transform.SetParent(listContainer, false);
+            item.transform.SetParent(parent, false);
             AddPlayerBarListeners(item);
             item.gameObject.SetActive(true);
             return item;
@@ -286,13 +287,13 @@ namespace TurboLabz.InstantFramework
 
         private void AddPlayerBarListeners(LeaderboardPlayerBar playerBar)
         {
-            playerBar.button.onClick.AddListener(() =>
+            playerBar.button?.onClick.AddListener(() =>
             {
                 //playerBarClickedSignal.Dispatch(playerBar);
                 audioService.PlayStandardClick();
             });
 
-            playerBar.chestButton.onClick.AddListener(() =>
+            playerBar.chestButton?.onClick.AddListener(() =>
             {
                 //playerBarChestClickSignal.Dispatch(playerBar.reward);
                 audioService.PlayStandardClick();
@@ -301,8 +302,8 @@ namespace TurboLabz.InstantFramework
 
         private void RemovePlayerBarListeners(LeaderboardPlayerBar playerBar)
         {
-            playerBar.button.onClick.RemoveAllListeners();
-            playerBar.chestButton.onClick.RemoveAllListeners();
+            playerBar.button?.onClick.RemoveAllListeners();
+            playerBar.chestButton?.onClick.RemoveAllListeners();
         }
 
         private void OnBackButtonClicked()

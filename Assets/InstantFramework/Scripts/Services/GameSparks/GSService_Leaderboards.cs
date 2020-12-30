@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
             foreach (LeaderboardDataResponse._LeaderboardData entry in response.Data)
             {
                 AllStarLeaderboardEntry leaderboardEntry = new AllStarLeaderboardEntry();
+                leaderboardEntry.playerId = entry.JSONData["userId"].ToString();
                 leaderboardEntry.rank = (int)entry.Rank;
                 leaderboardEntry.score = int.Parse(entry.JSONData["Score"].ToString());
                 leaderboardEntry.uploadedPicId = entry.JSONData["DpUrl"].ToString();

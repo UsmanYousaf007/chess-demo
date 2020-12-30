@@ -92,7 +92,7 @@ namespace TurboLabz.InstantFramework
                 flagImage.sprite = Flags.GetFlag(entry.countryId);
             }
 
-            SetRankIcon(this._entry.rank);
+            SetRankIcon(entry.rank);
             //skinLink.InitPrefabSkin();
         }
 
@@ -100,8 +100,15 @@ namespace TurboLabz.InstantFramework
         {
             rankIcon.enabled = true;
             playerRankCountText.enabled = false;
-            gemImage.enabled = false;
-            chestImage.enabled = true;
+
+            if (gemImage != null)
+            {
+                gemImage.enabled = false;
+            }
+            if (chestImage != null)
+            {
+                chestImage.enabled = true;
+            }
 
             if (rank == 1)
             {
@@ -119,8 +126,15 @@ namespace TurboLabz.InstantFramework
             {
                 rankIcon.enabled = false;
                 playerRankCountText.enabled = true;
-                gemImage.enabled = true;
-                chestImage.enabled = false;
+
+                if (gemImage != null)
+                {
+                    gemImage.enabled = true;
+                }
+                if (chestImage != null)
+                {
+                    chestImage.enabled = false;
+                }
             }
         }
     }

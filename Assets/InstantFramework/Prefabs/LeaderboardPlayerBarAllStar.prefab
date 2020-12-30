@@ -241,8 +241,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 133.9, y: 0}
-  m_SizeDelta: {x: 271.8, y: 0}
+  m_AnchoredPosition: {x: 107.32, y: 0}
+  m_SizeDelta: {x: 218.65, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &746976389187302262
 CanvasRenderer:
@@ -358,6 +358,7 @@ MonoBehaviour:
   chestButton: {fileID: 0}
   chestImage: {fileID: 0}
   gemImage: {fileID: 0}
+  flagImage: {fileID: 0}
   rewardText: {fileID: 0}
   rankSprites:
   - {fileID: 21300000, guid: 6e65078966ff340049209cc975d87968, type: 3}
@@ -366,16 +367,6 @@ MonoBehaviour:
   profile: {fileID: 5245371167578708055}
   playerPanel: {fileID: 2752019648988526469}
   skinLink: {fileID: 1591658477151738667}
-  reward:
-    type: 
-    quantity: 0
-    trophies: 0
-    chestType: 
-    gems: 0
-    hints: 0
-    ratingBoosters: 0
-    minRank: 0
-    maxRank: 0
 --- !u!1 &1366134410891639826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,10 +1171,10 @@ RectTransform:
   m_Father: {fileID: 1291499761997378164}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 571, y: 0}
-  m_SizeDelta: {x: 241.3, y: 103.05}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -149, y: 0}
+  m_SizeDelta: {x: 241.29999, y: 103.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7269267164723919759
 CanvasRenderer:
@@ -1774,7 +1765,7 @@ PrefabInstance:
     - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 369.8
+      value: 316.65002
       objectReference: {fileID: 0}
     - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
         type: 3}
@@ -1835,6 +1826,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401630300366643692, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401630300366643692, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401630300366643692, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7, type: 3}
