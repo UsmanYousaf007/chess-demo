@@ -196,16 +196,22 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(JoinedTournamentData joinedTournament)
         {
-            _joinedTournament = joinedTournament;
-            PopulateEntries(_joinedTournament);
-            Sort();
+            if (joinedTournament != null)
+            {
+                _joinedTournament = joinedTournament;
+                PopulateEntries(_joinedTournament);
+                Sort();
+            }
         }
 
         public void UpdateView(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
         {
-            _allStarLeaderboardEntries = allStarLeaderboardEntries;
-            PopulateEntries(_allStarLeaderboardEntries);
-            Sort();
+            if (allStarLeaderboardEntries != null)
+            {
+                _allStarLeaderboardEntries = allStarLeaderboardEntries;
+                PopulateEntries(_allStarLeaderboardEntries);
+                Sort();
+            }
         }
 
         private void Sort()
