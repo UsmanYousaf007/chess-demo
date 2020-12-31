@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal fetchLeaderboardSignal { get; set; }
-        [Inject] public LoadLeaderboardSignal loadLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
@@ -55,7 +54,8 @@ namespace TurboLabz.InstantFramework
             JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
             fetchLeaderboardSignal.Dispatch(joinedTournament.id, false);
 
-            loadLeaderboardSignal.Dispatch();
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEADERBOARD_VIEW);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
     }
 }

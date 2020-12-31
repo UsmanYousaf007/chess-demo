@@ -130,6 +130,10 @@ namespace TurboLabz.InstantFramework
                         {
                             playerModel.gems += qtyInt;
                         }
+                        else if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+                        {
+                            playerModel.coins += qtyInt;
+                        }
                         else if (playerModel.inventory.ContainsKey(itemShortCode))
                         {
                             playerModel.inventory[itemShortCode] += qtyInt;

@@ -173,6 +173,14 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSelectTimeMode();
             }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_RESULT_DLG)
+            {
+                return new NSChampionshipResultDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG)
+            {
+                return new NSChampionshipNewRankDlg();
+            }
 
             return null;
         }
