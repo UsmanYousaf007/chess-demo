@@ -42,6 +42,7 @@ namespace TurboLabz.Multiplayer
         public Text resultsFriendlyLabel;
         public Text resultsRatingValueLabel;
         public Text resultsRatingChangeLabel;
+        public GameObject resultsRatingContainer;
 
         public Button resultsBoostRatingButton;
         public Text resultsBoostRatingAddedCount;
@@ -123,6 +124,7 @@ namespace TurboLabz.Multiplayer
             showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
             resultsDoubleRewardButton.onClick.AddListener(OnRewardDoublerClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
+            resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
             originalColor = resultsBoostRatingAddedCount.color;
         }
@@ -378,13 +380,14 @@ namespace TurboLabz.Multiplayer
         private void SetupResultsLayout()
         {
             resultsBoostRatingButton.gameObject.SetActive(!isDraw);
-            resultsBetReversedLabel.gameObject.SetActive(isDraw && !isRankedGame);
-            resultsRewardLabel.gameObject.SetActive(playerWins && !isRankedGame);
-            resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && !isRankedGame);
-            resultsRewardsStars.gameObject.SetActive(playerWins && !isRankedGame);
-            resultsDoubleRewardButton.gameObject.SetActive(playerWins && !isRankedGame);
-            resultsContinueButton.gameObject.SetActive(playerWins && !isRankedGame);
-            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || isRankedGame);
+            resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
+            resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
+            resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
+            resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
+            resultsDoubleRewardButton.gameObject.SetActive(playerWins && isRankedGame);
+            resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
+            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+            resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(false);
         }
 
@@ -480,7 +483,7 @@ namespace TurboLabz.Multiplayer
                 transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
                 transactionVO.consumeQuantity = rewardDoublerStoreItem.currency3Cost;
                 transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-                transactionVO.buyQuantity = (int)resultsBetValue;
+                transactionVO.buyQuantity = (int)resultsBetValue * 2;
                 doubleRewardSignal.Dispatch(transactionVO);
                 SetupRewardsDoublerButton(false);
             }
@@ -573,7 +576,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnRewardDoubled()
         {
-            resultsEarnedCoinsLabel.text = $"{resultsBetValue * 2}";
+            resultsEarnedCoinsLabel.text = $"{resultsBetValue * 4}";
         }
 
         private void PlayEloBoostedAnimation(int ratingBoosted)
