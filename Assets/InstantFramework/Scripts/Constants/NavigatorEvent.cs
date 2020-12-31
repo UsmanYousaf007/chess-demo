@@ -85,6 +85,7 @@ namespace TurboLabz.InstantFramework
         SHOW_CHANGE_PHOTO_DLG,
         SHOW_LOGIN_DLG,
         SHOW_LEADERBOARD_VIEW,
-        SHOW_SELECT_TIME_MODE
+        SHOW_SELECT_TIME_MODE,
+        SHOW_CHAMPIONSHIP_RESULT_DLG
     }
 }

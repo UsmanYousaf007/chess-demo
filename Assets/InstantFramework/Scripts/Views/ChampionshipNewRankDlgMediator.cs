@@ -3,10 +3,10 @@ using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
-    public class LeaderboardMediator : Mediator
+    public class ChampionshipNewRankDlgMediator : Mediator
     {
         //View Injection
-        [Inject] public LeaderboardView view { get; set; }
+        [Inject] public ChampionshipNewRankDlgView view { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
-        [Inject] public ILeaderboardModel leaderboardModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -23,25 +23,19 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            view.backSignal.AddListener(OnBackPressed);
+            view.continueBtnClickedSignal.AddListener(OnContinuePressed);
         }
 
         [ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateView()
         {
-            view.UpdateView(tournamentsModel.GetJoinedTournament());
-        }
-
-        [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
-        public void OnUpdateAllStarLeaderboard()
-        {
-            view.UpdateView(leaderboardModel.allStarLeaderboardEntries);
+            view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
+            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -50,26 +44,14 @@ namespace TurboLabz.InstantFramework
 
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
-        {                                
-            if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
+        {
+            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
                 view.Hide();
             }
         }
 
-        [ListensTo(typeof(UpdateProfileSignal))]
-        public void OnUpdateProfile(ProfileVO vo)
-        {
-            view.UpdateView(vo);
-        }
-
-        [ListensTo(typeof(StoreAvailableSignal))]
-        public void OnStoreAvailable(bool isAvailable)
-        {
-            view.OnDataAvailable(isAvailable);
-        }
-
-        private void OnBackPressed()
+        private void OnContinuePressed()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }

@@ -57,7 +57,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models 
-        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -100,6 +99,14 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             //endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+
+            ClearBars(allStarPlayerBars, allStarBarsPool);
+
+            if (_joinedTournament != null)
+            {
+                PopulateEntries(_joinedTournament);
+            }
+
             SetupTab(championship, world);
             gameObject.SetActive(true);
             worldAlert.SetActive(!preferencesModel.themesTabVisited);
@@ -140,7 +147,6 @@ namespace TurboLabz.InstantFramework
                 playerTitleLabel.gameObject.SetActive(false);
                 playerTitleImg.gameObject.SetActive(true);
             }
-
         }
 
         public void PopulateEntries(JoinedTournamentData joinedTournament)
@@ -260,8 +266,6 @@ namespace TurboLabz.InstantFramework
                 loadPicVO.saveOnDisk = false;
                 loadPictureSignal.Dispatch(loadPicVO);
             }
-
-            playerBar.Populate(entry, reward, isPlayerStrip);
         }
 
         private void PopulateBar(LeaderboardPlayerBar playerBar, AllStarLeaderboardEntry entry)
