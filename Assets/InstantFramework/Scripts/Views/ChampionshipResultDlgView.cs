@@ -101,10 +101,7 @@ namespace TurboLabz.InstantFramework
                 leaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
 
-            if (scrollView.content != null)
-            {
-                scrollView.verticalNormalizedPosition = 1;
-            }
+            scrollView.verticalNormalizedPosition = 1;
         }
 
         protected void UpdateRank(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
