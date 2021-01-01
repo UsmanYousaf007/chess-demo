@@ -131,6 +131,7 @@ namespace TurboLabz.InstantFramework
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
             item.currency3Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY3COST);
+            item.currency4Cost = GetSafeLong(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY4COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
 
 #if UNITY_IOS
@@ -163,10 +164,12 @@ namespace TurboLabz.InstantFramework
                 item.currency1Payout = item.currency1Cost;
                 item.currency2Payout = item.currency2Cost;
                 item.currency3Payout = item.currency3Cost;
+                item.currency4Payout = item.currency4Cost;
 
                 item.currency1Cost = 0;
                 item.currency2Cost = 0;
                 item.currency3Cost = 0;
+                item.currency4Cost = 0;
             }
 
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);

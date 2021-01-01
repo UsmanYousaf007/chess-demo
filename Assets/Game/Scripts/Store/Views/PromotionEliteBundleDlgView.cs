@@ -31,6 +31,7 @@ public class PromotionEliteBundleDlgView : View
     public Text ratingBoosters;
     public Text keys;
     public ShopPayout currencyPayout;
+    public ShopPayout currency2Payout;
     public ShopPayout[] payouts;
 
     //Models 
@@ -64,25 +65,31 @@ public class PromotionEliteBundleDlgView : View
         title.text = storeItem.displayName;
         purchaseText.text = storeItem.remoteProductPrice;
 
-        if (storeItem.bundledItems != null)
+        //if (storeItem.bundledItems != null)
+        //{
+        if (storeItem.currency3Cost > 0)
         {
-            if (storeItem.currency3Cost > 0)
-            {
-                //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
-                currencyPayout.count.text = "Gems "+storeItem.currency3Cost.ToString();
-            }
-
-            var i = 0;
-            foreach (var item in storeItem.bundledItems)
-            {
-                if (i < payouts.Length)
-                {
-                    //payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
-                    payouts[i].count.text = $"{storeSettingsModel.items[item.Key].displayName} x{item.Value}";
-                    i++;
-                }
-            }
+            //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+            currencyPayout.count.text = storeItem.currency3Cost.ToString();
         }
+
+        if (storeItem.currency4Cost > 0)
+        {
+            //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+            currency2Payout.count.text = storeItem.currency4Cost.ToString();
+        }
+
+        //var i = 0;
+        //foreach (var item in storeItem.bundledItems)
+        //{
+        //    if (i < payouts.Length)
+        //    {
+        //        //payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
+        //        payouts[i].count.text = $"{storeSettingsModel.items[item.Key].displayName} x{item.Value}";
+        //        i++;
+        //    }
+        //}
+        //}
     }
 
     public void Show()

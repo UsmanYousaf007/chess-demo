@@ -19,7 +19,6 @@ namespace TurboLabz.InstantGame
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
-        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
 
@@ -30,8 +29,6 @@ namespace TurboLabz.InstantGame
         //Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public ILessonsModel lessonsModel { get; set; }
-
-        private VirtualGoodsTransactionVO transactionVO;
 
         public override void OnRegister()
         {
@@ -122,29 +119,13 @@ namespace TurboLabz.InstantGame
         {
             view.audioService.PlayStandardClick();
 
-            transactionVO = new VirtualGoodsTransactionVO();
-            transactionVO.buyItemShortCode = lesson.vo.videoId;
-            transactionVO.buyQuantity = 1;
-            transactionVO.consumeItemShortCode = lesson.vo.unlockItem.key;
-            transactionVO.consumeQuantity = 1;
-
-            if (lesson.haveEnoughItemsToUnlock)
+            if (lesson.haveEnoughGemsToUnlock)
             {
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+                purchaseStoreItemSignal.Dispatch(lesson.vo.videoId, true);
             }
-            //else if (lesson.haveEnoughGemsToUnlock)
-            //{
-            //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-            //    transactionVO.consumeQuantity = lesson.vo.unlockItem.currency3Cost;
-            //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            //}
             else
             {
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-                var spotInventoryParams = new LoadSpotInventoryParams();
-                spotInventoryParams.itemShortCode = lesson.vo.unlockItem.key;
-                spotInventoryParams.itemToUnclockShortCode = lesson.vo.videoId;
-                loadSpotInventorySignal.Dispatch(spotInventoryParams);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }
         }
 
@@ -174,12 +155,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        [ListensTo(typeof(VirtualGoodBoughtSignal))]
-        public void OnItemUnlocked(string itemShortCode)
+        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+        public void OnItemUnlocked(StoreItem item, PurchaseResult result)
         {
-            if (view.isActiveAndEnabled)
+            if (result == PurchaseResult.PURCHASE_SUCCESS && view.isActiveAndEnabled)
             {
-                view.UnlockLesson(itemShortCode, transactionVO);
+                view.UnlockLesson(item.key);
             }
         }
 
@@ -193,16 +174,6 @@ namespace TurboLabz.InstantGame
         public void OnShowProcessing(bool blocker, bool processing)
         {
             view.processing.SetActive(blocker);
-        }
-
-        [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
-        {
-            if (view.isActiveAndEnabled)
-            {
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
-                analyticsService.Event(purchaseType.Equals("rv") ? AnalyticsEventId.key_obtained_rv : AnalyticsEventId.key_obtained_gem, AnalyticsContext.lessons);
-            }
         }
     }
 }
