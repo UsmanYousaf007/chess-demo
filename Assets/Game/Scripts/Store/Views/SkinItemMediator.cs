@@ -12,16 +12,13 @@ public class SkinItemMediator : Mediator
     //Dispatch Signals
     [Inject] public SetSkinSignal setSkinSignal { get; set; }
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-    [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
-    [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
+    [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
 
     //Services
     [Inject] public IAnalyticsService analyticsService { get; set; }
 
     //Models
     [Inject] public IPreferencesModel preferencesModel { get; set; }
-
-    private VirtualGoodsTransactionVO transactionVO;
 
     public override void OnRegister()
     {
@@ -35,21 +32,15 @@ public class SkinItemMediator : Mediator
         setSkinSignal.Dispatch(key);
     }
 
-    private void OnUnlockItem(VirtualGoodsTransactionVO vo)
+    private void OnUnlockItem(string shortCode)
     {
-        transactionVO = vo;
-        virtualGoodsTransactionSignal.Dispatch(vo);
+        purchaseStoreItemSignal.Dispatch(shortCode, true);
     }
 
-    private void OnNotEnoughCurrency(VirtualGoodsTransactionVO vo)
+    private void OnNotEnoughCurrency()
     {
-        transactionVO = vo;
         //SpotPurchaseMediator.customContext = "themes";
-        //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-        var spotInventoryParams = new LoadSpotInventoryParams();
-        spotInventoryParams.itemShortCode = view.unlockItemKey;
-        spotInventoryParams.itemToUnclockShortCode = view.Key;
-        loadSpotInventorySignal.Dispatch(spotInventoryParams);
+        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
@@ -76,24 +67,13 @@ public class SkinItemMediator : Mediator
         view.UpdateView();
     }
 
-    [ListensTo(typeof(VirtualGoodBoughtSignal))]
-    public void OnItemUnlocked(string itemShortCode)
+    [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+    public void OnItemPurchased(StoreItem item, PurchaseResult result)
     {
-        if (itemShortCode.Equals(view.Key))
+        if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.Key))
         {
             view.PlayAnimation();
-            analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "theme_unlocked", itemShortCode);
-            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
-        }
-    }
-
-    [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-    public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
-    {
-        if (key.Equals(view.Key))
-        {
-            virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            analyticsService.Event(purchaseType.Equals("rv") ? AnalyticsEventId.key_obtained_rv : AnalyticsEventId.key_obtained_gem, AnalyticsContext.themes);
+            analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", view.Price, "theme_unlocked", view.Key);
         }
     }
 }

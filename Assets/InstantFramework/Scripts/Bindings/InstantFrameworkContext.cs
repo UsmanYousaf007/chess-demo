@@ -424,6 +424,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SelectTimeModeView>().To<SelectTimeModeMediator>();
             mediationBinder.Bind<ChampionshipResultDlgMediator>().To<ChampionshipResultDlgMediator>();
             mediationBinder.Bind<ChampionshipNewRankDlgView>().To<ChampionshipNewRankDlgMediator>();
+            mediationBinder.Bind<ShopCoinItemView>().To<ShopCoinItemMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
         public const string SHOP_ITEM_CURRENCY1COST = "currency1Cost";
         public const string SHOP_ITEM_CURRENCY2COST = "currency2Cost";
         public const string SHOP_ITEM_CURRENCY3COST = "currency3Cost";
+        public const string SHOP_ITEM_CURRENCY4COST = "currency4Cost";
         public const string SHOP_ITEM_MAX_QUANTITY = "maxQuantity";
         public const string SHOP_ITEM_UNLOCKATLEVEL = "unlockAtLevel";
         public const string SHOP_ITEM_CURRENCY1PAYOUT = "currency1Cost";

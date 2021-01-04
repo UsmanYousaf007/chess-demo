@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
         public string shortCode;
         public Text title;
         public ShopPayout currencyPayout;
-        public ShopPayout[] payouts;
+        public ShopPayout currency2Payout;
         public Text price;
         public Button buyButton;
         public GameObject loading;
@@ -92,7 +92,7 @@ namespace TurboLabz.InstantFramework
 
             if (!isInitlialised)
             {
-                title.text = isGems ? storeItem.displayName.Split(' ')[0] : storeItem.displayName;
+                title.text = isGems ? storeItem.displayName.Split(' ')[0] : isBundle ? storeItem.description : storeItem.displayName;
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
                 buyButton.onClick.AddListener(OnBuyButtonClicked);
@@ -103,7 +103,7 @@ namespace TurboLabz.InstantFramework
                     thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
                 }
 
-                if (isBundle && storeItem.bundledItems != null)
+                if (isBundle)
                 {
                     if (storeItem.currency3Cost > 0)
                     {
@@ -111,15 +111,10 @@ namespace TurboLabz.InstantFramework
                         currencyPayout.count.text = storeItem.currency3Cost.ToString();
                     }
 
-                    var i = 0;
-                    foreach (var item in storeItem.bundledItems)
+                    if (storeItem.currency4Cost > 0)
                     {
-                        if (i < payouts.Length)
-                        {
-                            payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
-                            payouts[i].count.text = $"{item.Value} {storeSettingsModel.items[item.Key].displayName}";
-                            i++;
-                        }
+                        currency2Payout.icon.sprite = iconsContainer.GetSprite("Coin");
+                        currency2Payout.count.text = storeItem.currency4Cost.ToString("N0");
                     }
                 }
 

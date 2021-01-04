@@ -183,7 +183,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UnlockLesson(string lessonId, VirtualGoodsTransactionVO transactionVO)
+        public void UnlockLesson(string lessonId)
         {
             var lesson = (from lessonTile in lessonTiles
                           where lessonTile.vo.videoId.Equals(lessonId)
@@ -194,8 +194,7 @@ namespace TurboLabz.InstantGame
                 lesson.Unlock();
                 analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", lesson.vo.storeItem.currency3Cost, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
             }
         }
 

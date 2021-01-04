@@ -372,7 +372,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "SHOP" },
                 { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
-                { LocalizationKey.NAV_INVENTORY, "INVENTORY" },
+                { LocalizationKey.NAV_INVENTORY, "CHESS SETS" },
                 { LocalizationKey.NAV_ARENA, "TOURNAMENT" },
                 { LocalizationKey.NAV_LESSON, "LESSONS" },
 

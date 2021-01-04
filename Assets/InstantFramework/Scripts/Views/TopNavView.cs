@@ -9,6 +9,7 @@ using strange.extensions.signal.impl;
 using DG.Tweening;
 using UnityEngine;
 using System;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -55,11 +56,16 @@ namespace TurboLabz.InstantFramework
             inboxButton.onClick.AddListener(OnInboxButtonClicked);
             addCollectilesButton.onClick.AddListener(OnAddCollectiblesButtonClicked);
             addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
+            originalColor = Colors.WHITE;
 
             if (boughtGemsCount != null)
             {
                 boughtGemsCount.gameObject.SetActive(false);
-                originalColor = boughtGemsCount.color;
+            }
+
+            if (boughtCoinsCount != null)
+            {
+                boughtCoinsCount.gameObject.SetActive(false);
             }
         }
 
@@ -110,7 +116,7 @@ namespace TurboLabz.InstantFramework
                     boughtGemsCount.text = $"+{addedGems}";
                     boughtGemsCount.transform.localPosition = Vector3.zero;
                     boughtGemsCount.gameObject.SetActive(true);
-                    DOTween.ToAlpha(() => boughtGemsCount.color, x => boughtGemsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(gems));
+                    DOTween.ToAlpha(() => boughtGemsCount.color, x => boughtGemsCount.color = x, 0.0f, 3.0f).OnComplete(OnGemsFadeComplete);
                     boughtGemsCount.transform.DOMoveY(Screen.height, 3.0f);
                 }
             }
@@ -122,14 +128,14 @@ namespace TurboLabz.InstantFramework
         {
             if (boughtCoinsCount != null && gameObject.activeInHierarchy)
             {
-                var addedCoins = coins - long.Parse(gemsCount.text);
+                var addedCoins = coins - long.Parse(coinsCount.text);
 
                 if (addedCoins > 0)
                 {
                     boughtCoinsCount.text = $"+{addedCoins}";
                     boughtCoinsCount.transform.localPosition = Vector3.zero;
                     boughtCoinsCount.gameObject.SetActive(true);
-                    DOTween.ToAlpha(() => boughtCoinsCount.color, x => boughtCoinsCount.color = x, 0.0f, 3.0f).OnComplete(() => OnFadeComplete(coins));
+                    DOTween.ToAlpha(() => boughtCoinsCount.color, x => boughtCoinsCount.color = x, 0.0f, 3.0f).OnComplete(OnCoinsFadeComplete);
                     boughtCoinsCount.transform.DOMoveY(Screen.height, 3.0f);
                 }
             }
@@ -152,10 +158,16 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnFadeComplete(long gems)
+        private void OnGemsFadeComplete()
         {
             boughtGemsCount.color = originalColor;
             boughtGemsCount.gameObject.SetActive(false);
+        }
+
+        private void OnCoinsFadeComplete()
+        {
+            boughtCoinsCount.color = originalColor;
+            boughtCoinsCount.gameObject.SetActive(false);
         }
 
         public void UpdateCollectiblesCount()

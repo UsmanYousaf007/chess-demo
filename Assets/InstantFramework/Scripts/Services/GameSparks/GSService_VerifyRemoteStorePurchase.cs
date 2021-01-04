@@ -37,6 +37,10 @@ namespace TurboLabz.InstantFramework
             int? gems = res.GetInt(GSBackendKeys.PlayerDetails.GEMS);
             playerModel.gems += gems != null ? gems.Value : 0;
 
+            // Process coins
+            long? coins = res.GetLong(GSBackendKeys.PlayerDetails.COINS);
+            playerModel.coins += coins != null ? coins.Value : 0;
+
             // Process goods
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)

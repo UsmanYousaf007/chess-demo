@@ -9,33 +9,18 @@ namespace TurboLabz.InstantFramework
     [CLSCompliant(false)]
     public class InventoryView : View
     {
-        [Serializable]
-        public class InventoryTab
-        {
-            public Button button;
-            public Text title;
-            public Image selected;
-            public GameObject tab;
-            public Image unSelected;
-        }
-
-        public InventoryTab specialItem;
-        public InventoryTab themes;
         public SkinItemView[] skinMenuItems;
         public Button themesBanner;
-        public GameObject themesAlert;
         public GameObject processing;
         public Text heading;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models 
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Signals
         public Signal applyThemeSignal = new Signal();
@@ -49,20 +34,14 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             heading.text = localizationService.Get(LocalizationKey.NAV_INVENTORY).ToUpper();
-            specialItem.title.text = localizationService.Get(LocalizationKey.INVENTORY_SPECIAL_ITEMS);
-            themes.title.text = localizationService.Get(LocalizationKey.CPU_MENU_THEMES);
-            specialItem.button.onClick.AddListener(OnClickSpecialItems);
-            themes.button.onClick.AddListener(OnClickThemes);
             themesBanner.onClick.AddListener(OnThemesBannerClicked);
         }
 
         public void Show()
         {
             showBottomNavSignal.Dispatch(true);
-            SetupTab(specialItem, themes);
             gameObject.SetActive(true);
             originalSkinId = playerModel.activeSkinId;
-            themesAlert.SetActive(!preferencesModel.themesTabVisited);
         }
 
         public void Hide()
@@ -87,38 +66,6 @@ namespace TurboLabz.InstantFramework
         public void ShowProcessing(bool show)
         {
             processing.SetActive(show);
-        }
-
-        private void OnClickSpecialItems()
-        {
-            audioService.PlayStandardClick();
-            SetupTab(specialItem, themes);
-            applyThemeSignal.Dispatch();
-        }
-
-        public void OnClickThemes()
-        {
-            audioService.PlayStandardClick();
-            originalSkinId = playerModel.activeSkinId;
-            preferencesModel.themesTabVisited = true;
-            themesAlert.SetActive(false);
-            SetupTab(themes, specialItem);
-
-            if (isThemeBannerShown)
-            {
-                analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.unlock_all_themes);
-                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
-            }
-        }
-
-        private void SetupTab(InventoryTab newTab, InventoryTab oldTab)
-        {
-            newTab.selected.enabled = true;
-            oldTab.selected.enabled = false;
-            newTab.tab.SetActive(true);
-            oldTab.tab.SetActive(false);
-            newTab.unSelected.enabled = false;
-            oldTab.unSelected.enabled = true;
         }
 
         private void SetupSkinItems()
