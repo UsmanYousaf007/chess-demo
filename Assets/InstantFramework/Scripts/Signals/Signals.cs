@@ -195,6 +195,9 @@ namespace TurboLabz.InstantFramework
     public class ShowFadeBlockerSignal : Signal { }
     public class PromotionCycleOverSignal : Signal { }
     public class LoginAsGuestSignal : Signal { }
+    public class LoadSpotCoinPurchaseSignal : Signal<long> { }
+    public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>> { }
+    public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

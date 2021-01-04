@@ -44,9 +44,9 @@ namespace TurboLabz.InstantFramework
             SetupLoading(true);
         }
 
-        public void OnStoreAvailable(bool available)
+        public void OnStoreAvailable(bool available, bool forceUpdate = false)
         {
-            if (storeItem == null && storeSettingsModel.items.ContainsKey(shortCode))
+            if ((storeItem == null || forceUpdate) && storeSettingsModel.items.ContainsKey(shortCode))
             {
                 storeItem = storeSettingsModel.items[shortCode];
             }
@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (!isInitlialised)
+            if (!isInitlialised || forceUpdate)
             {
                 title.text = storeItem.displayName.Split(' ')[0];
                 icon.sprite = iconsContainer.GetSprite(shortCode);
@@ -119,6 +119,12 @@ namespace TurboLabz.InstantFramework
             }
 
             haveEnoughGems = playerModel.gems >= storeItem.currency3Payout;
+        }
+
+        public void Setup(string key)
+        {
+            shortCode = key;
+            OnStoreAvailable(true, true);
         }
     }
 }

@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public Text newPrice;
         public GameObject ribbon;
         public Text ribbonText;
+        public GameObject offBadage;
+        public Text offBadgeText;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -125,6 +127,12 @@ namespace TurboLabz.InstantFramework
                     discountObj.SetActive(true);
                     discountAmount.text = $"{discountPercentage * 100}% Bonus";
                     discountValue.text = $"{(int)(storeItem.currency3Payout - (storeItem.currency3Payout * discountPercentage))}";
+                }
+
+                if (isGems)
+                {
+                    offBadage.SetActive(!(string.IsNullOrEmpty(storeItem.description) || string.IsNullOrWhiteSpace(storeItem.description)));
+                    offBadgeText.text = storeItem.description;
                 }
 
                 isInitlialised = true;

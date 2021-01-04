@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         RATE_APP_DLG,
         CONFIRM_NEW_GAME_DLG,
         SPOT_PURCHASE_DLG,
+        SPOT_COIN_PURCHASE_DLG,
         PURCHASED_DLG,
         SHARE_SCREEN_DIALOG,
         SKILL_LEVEL_DLG,

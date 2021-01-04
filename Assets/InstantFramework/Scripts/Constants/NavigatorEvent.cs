@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         SHOW_STATS,
         SHOW_STORE,
         SHOW_SPOT_PURCHASE,
+        SHOW_SPOT_COIN_PURCHASE,
         SHOW_FRIENDS,
         SHOW_BUY_DLG,
         SHOW_NOT_ENOUGH_DLG,

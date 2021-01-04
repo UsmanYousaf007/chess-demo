@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
+        [Inject] public LoadSpotCoinPurchaseSignal loadSpotCoinPurchaseSignal { get; set; }
 
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -85,9 +86,9 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnNotEnoughCoinsSignal()
+        private void OnNotEnoughCoinsSignal(long betValue)
         {
-
+            loadSpotCoinPurchaseSignal.Dispatch(betValue);
         }
     }
 }

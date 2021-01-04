@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         lessons_play,
         inventory,
         spot_purchase_dlg,
+        spot_coin_purchase_dlg,
         arena,
         tournament_leaderboard,
         inbox,

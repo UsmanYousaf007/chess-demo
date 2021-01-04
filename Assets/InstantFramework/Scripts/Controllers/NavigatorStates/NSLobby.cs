@@ -181,6 +181,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChampionshipNewRankDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_COIN_PURCHASE)
+            {
+                return new NSSpotCoinPurchaseDlg();
+            }
 
             return null;
         }

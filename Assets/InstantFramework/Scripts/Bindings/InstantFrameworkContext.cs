@@ -113,6 +113,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
             commandBinder.Bind<GetProfilePictureSignal>().To<GetProfilePictureCommand>();
             commandBinder.Bind<LoadSpotInventorySignal>().To<LoadSpotInventoryCommand>();
+            commandBinder.Bind<LoadSpotCoinPurchaseSignal>().To<LoadSpotCoinPurchaseCommand>();
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
@@ -222,6 +223,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowFadeBlockerSignal>().ToSingleton();
             injectionBinder.Bind<PromotionCycleOverSignal>().ToSingleton();
             injectionBinder.Bind<LoginAsGuestSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSpotCoinsPurchaseDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSpotCoinsWatchAdDlgSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -425,6 +428,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ChampionshipResultDlgMediator>().To<ChampionshipResultDlgMediator>();
             mediationBinder.Bind<ChampionshipNewRankDlgView>().To<ChampionshipNewRankDlgMediator>();
             mediationBinder.Bind<ShopCoinItemView>().To<ShopCoinItemMediator>();
+            mediationBinder.Bind<SpotCoinPurchaseView>().To<SpotCoinPurchaseMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

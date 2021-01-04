@@ -8,11 +8,15 @@ namespace TurboLabz.InstantFramework
     public class SpotPurchaseView : View
     {
         public Text title;
-        public Text subTitle;
         public Button close;
         public GameObject uiBlocker;
         public GameObject processing;
-        public Text finePrint;
+        public Button showMoreButton;
+        public Button showLessButton;
+        public GameObject moreOffers;
+        public RectTransform[] layouts;
+        public Transform bgGlow;
+        public Transform bgGlowPivot;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -24,14 +28,15 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             title.text = localizationService.Get(LocalizationKey.SPOT_PURHCASE_TITLE);
-            subTitle.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_SUB_TITLE);
-            finePrint.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_FINE_PRINT);
             close.onClick.AddListener(OnCloseButtonClicked);
+            showMoreButton.onClick.AddListener(() => ButtonClicked(true));
+            showLessButton.onClick.AddListener(() => ButtonClicked(false));
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            SetupLayout(false);
         }
 
         public void Hide()
@@ -49,6 +54,30 @@ namespace TurboLabz.InstantFramework
         {
             uiBlocker.SetActive(showUiBlocked);
             processing.SetActive(showProcessing);
+        }
+
+        private void ButtonClicked(bool showMore)
+        {
+            audioService.PlayStandardClick();
+            SetupLayout(showMore);
+        }
+
+        private void SetupLayout(bool showMore)
+        {
+            showMoreButton.gameObject.SetActive(!showMore);
+            showLessButton.gameObject.SetActive(showMore);
+            moreOffers.SetActive(showMore);
+            RebuildLayouts();
+        }
+
+        private void RebuildLayouts()
+        {
+            foreach (var layout in layouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
+
+            bgGlow.position = bgGlowPivot.position;
         }
     }
 }
