@@ -5,29 +5,45 @@ namespace TurboLabz.InstantFramework
 {
     public class GameObjectsPool
     {
+        private static Dictionary<string, List<GameObject>> POOLS_LIST = new Dictionary<string, List<GameObject>>();
+        private static Dictionary<string, int> POOL_COUNT = new Dictionary<string, int>();
+
         private GameObject _poolParent;
         private GameObject _prefab;
         private List<GameObject> _pool;
 
-        public GameObjectsPool(GameObject friendBarPrefab, int initialPoolCount = 0)
+        public GameObjectsPool(GameObject prefab, int initialPoolCount = 0)
         {
-            _prefab = friendBarPrefab;
+            _prefab = prefab;
 
-            _poolParent = new GameObject(friendBarPrefab.name + "_pool");
-
-            if (initialPoolCount > 0)
+            string poolName = prefab.name + "_pool";
+            if (POOLS_LIST.ContainsKey(poolName))
             {
-                _pool = new List<GameObject>(initialPoolCount + 1);
-
-                for (int i = 0; i < initialPoolCount; i++)
-                {
-                    GameObject obj = GameObject.Instantiate(_prefab);
-                    ReturnObject(obj);
-                }
+                _poolParent = GameObject.Find(poolName);
+                _pool = POOLS_LIST[poolName];
+                POOL_COUNT[poolName]++;
             }
             else
             {
-                _pool = new List<GameObject>();
+                _poolParent = new GameObject(poolName);
+
+                if (initialPoolCount > 0)
+                {
+                    _pool = new List<GameObject>(initialPoolCount);
+
+                    for (int i = 0; i < initialPoolCount; i++)
+                    {
+                        GameObject obj = GameObject.Instantiate(_prefab);
+                        ReturnObject(obj);
+                    }
+                }
+                else
+                {
+                    _pool = new List<GameObject>();
+                }
+
+                POOLS_LIST.Add(poolName, _pool);
+                POOL_COUNT.Add(poolName, 1);
             }
         }
 
@@ -66,8 +82,14 @@ namespace TurboLabz.InstantFramework
 
         public void Destroy()
         {
-            _pool = null;
-            GameObject.Destroy(_poolParent);
+            string poolName = _prefab.name + "_pool";
+            POOLS_LIST.Remove(poolName);
+            POOL_COUNT[poolName]--;
+            if (POOL_COUNT[poolName] == 0)
+            {
+                _pool = null;
+                GameObject.Destroy(_poolParent);
+            }
         }
 
         ~GameObjectsPool()
