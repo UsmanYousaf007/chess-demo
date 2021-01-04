@@ -98,7 +98,10 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            //endTimeUTCSeconds = liveTournamentData.endTimeUTCSeconds - (TournamentConstants.BUFFER_TIME_MINS * 60);
+            if (_joinedTournament != null)
+            {
+                endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
+            }
 
             ClearBars(allStarPlayerBars, allStarBarsPool);
 
@@ -110,12 +113,12 @@ namespace TurboLabz.InstantFramework
             SetupTab(championship, world);
             gameObject.SetActive(true);
             worldAlert.SetActive(!preferencesModel.themesTabVisited);
-            //StartCoroutine(CountdownTimer());
+            StartCoroutine(CountdownTimer());
         }
 
         public void Hide()
         {
-            //StopCoroutine(CountdownTimer());
+            StopCoroutine(CountdownTimer());
             gameObject.SetActive(false);
         }
 
@@ -131,7 +134,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void UpdateView(ProfileVO vo)
+        public void UpdateLeague()
         {
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (playerModel.league == 0)

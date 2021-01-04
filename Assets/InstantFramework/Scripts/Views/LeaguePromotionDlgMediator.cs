@@ -3,17 +3,16 @@ using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
-    public class ChampionshipNewRankDlgMediator : Mediator
+    public class LeaguePromotionDlgMediator : Mediator
     {
         //View Injection
-        [Inject] public ChampionshipNewRankDlgView view { get; set; }
+        [Inject] public LeaguePromotionDlgView view { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
-        [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
 
         // Signals
@@ -23,21 +22,20 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+            //view.continueBtnClickedSignal.AddListener(OnContinuePressed);
         }
 
-        [ListensTo(typeof(UpdateTournamentsViewSignal))]
-        public void UpdateView()
-        {
-            view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
-        }
+        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
+        //public void UpdateView()
+        //{
+        //    view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+        //}
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
-                view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }

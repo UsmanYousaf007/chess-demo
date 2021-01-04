@@ -3,10 +3,10 @@ using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
-    public class ChampionshipNewRankDlgMediator : Mediator
+    public class DailyRewardDlgMediator : Mediator
     {
         //View Injection
-        [Inject] public ChampionshipNewRankDlgView view { get; set; }
+        [Inject] public DailyRewardDlgView view { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -23,21 +23,20 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
 
-            view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+            //view.continueBtnClickedSignal.AddListener(OnContinuePressed);
         }
 
-        [ListensTo(typeof(UpdateTournamentsViewSignal))]
-        public void UpdateView()
-        {
-            view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
-        }
+        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
+        //public void UpdateView()
+        //{
+        //    view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+        //}
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
-                view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
