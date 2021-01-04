@@ -96,6 +96,8 @@ namespace TurboLabz.InstantFramework
         SELECT_TIME_MODE,
         CHAMPIONSHIP_RESULT_DLG,
         CHAMPIONSHIP_NEW_RANK_DLG,
-        DAILY_REWARD_DLG
+        DAILY_REWARD_DLG,
+        LEAGUE_PROMOTION_DLG,
+        REWARD_DLG_V2
     }
 }
