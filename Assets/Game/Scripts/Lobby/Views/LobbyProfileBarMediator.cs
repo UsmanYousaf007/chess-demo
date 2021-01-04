@@ -54,8 +54,8 @@ namespace TurboLabz.InstantFramework
             JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
             fetchLeaderboardSignal.Dispatch(joinedTournament.id, false);
 
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEADERBOARD_VIEW);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEADERBOARD_VIEW);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
     }
 }

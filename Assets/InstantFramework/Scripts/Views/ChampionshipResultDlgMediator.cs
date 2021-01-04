@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
+                view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }

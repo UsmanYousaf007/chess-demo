@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
             {
+                view.UpdateLeague();
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
@@ -57,11 +58,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(UpdateProfileSignal))]
-        public void OnUpdateProfile(ProfileVO vo)
-        {
-            view.UpdateView(vo);
-        }
+        //[ListensTo(typeof(UpdateProfileSignal))]
+        //public void OnUpdateProfile(ProfileVO vo)
+        //{
+        //    view.UpdateView();
+        //}
 
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)

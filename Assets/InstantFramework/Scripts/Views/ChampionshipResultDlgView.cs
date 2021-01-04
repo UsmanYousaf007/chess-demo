@@ -50,17 +50,17 @@ namespace TurboLabz.InstantFramework
             continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());
         }
 
-        public void Show()
+        public virtual void Show()
         {
             gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             gameObject.SetActive(false);
         }
 
-        public void UpdateView(string playerId, JoinedTournamentData joinedTournament)
+        public virtual void UpdateView(string playerId, JoinedTournamentData joinedTournament)
         {
             if (joinedTournament != null)
             {
@@ -104,7 +104,7 @@ namespace TurboLabz.InstantFramework
             scrollView.verticalNormalizedPosition = 1;
         }
 
-        protected void UpdateRank(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
+        public void UpdateRank(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
         {
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (playerModel.league == 0)
