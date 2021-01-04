@@ -84,9 +84,9 @@ namespace TurboLabz.Multiplayer
             }
 
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = hintCount > 0 || playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
+            haveEnoughHints = playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
-            specialHintGemsBg.gameObject.SetActive(false);
+            specialHintGemsBg.gameObject.SetActive(true);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
@@ -160,28 +160,26 @@ namespace TurboLabz.Multiplayer
         {
             if (canUseSpecialHint)
             {
-                var transactionVO = new VirtualGoodsTransactionVO();
-                transactionVO.consumeItemShortCode = specialHintShortCode;
-                transactionVO.consumeQuantity = 1;
-
                 if (haveEnoughHints)
                 {
-                    if (playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
-                    {
-                        transactionVO.consumeItemShortCode = "premium";
-                    }
+                    var transactionVO = new VirtualGoodsTransactionVO();
+                    transactionVO.consumeItemShortCode = "premium";
+                    transactionVO.consumeQuantity = 1;
                     ProcessHint(transactionVO);
                 }
-                //else if (haveEnoughGemsForHint)
-                //{
-                //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                //    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
-                //    ProcessHint(transactionVO);
-                //}
+                else if (haveEnoughGemsForHint)
+                {
+                    var transactionVO = new VirtualGoodsTransactionVO();
+                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
+                    transactionVO.buyItemShortCode = specialHintShortCode;
+                    transactionVO.buyQuantity = 1;
+                    ProcessHint(transactionVO);
+                }
                 else
                 {
                     EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
-                    notEnoughSpecialHintsSingal.Dispatch(transactionVO);
+                    notEnoughGemsSignal.Dispatch();
                 }
             }
         }
