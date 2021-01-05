@@ -35,6 +35,8 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             view.leaderboardButtonClickedSignal.AddListener(OnLeaderboardClicked);
+            view.chestButtonClickedSignal.AddListener(OnChestClicked);
+
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -56,6 +58,11 @@ namespace TurboLabz.InstantFramework
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEADERBOARD_VIEW);
             //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+        }
+
+        public void OnChestClicked()
+        {
+            Debug.Log("OnChestClicked . . . . ");
         }
     }
 }

@@ -160,7 +160,7 @@ namespace TurboLabz.InstantFramework
             SendAnalytics();
 
             var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-            if (!socailLoggedIn)
+            if (!socailLoggedIn && SplashLoader.FTUE)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
             }

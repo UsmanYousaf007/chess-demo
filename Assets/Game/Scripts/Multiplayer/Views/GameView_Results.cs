@@ -384,9 +384,9 @@ namespace TurboLabz.Multiplayer
             resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
             resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
-            resultsDoubleRewardButton.gameObject.SetActive(playerWins && isRankedGame);
-            resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
-            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+            resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
+            resultsContinueButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
+            resultsContinueButton2.gameObject.SetActive(true/*!playerWins || isDraw || !isRankedGame*/);
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(false);
         }

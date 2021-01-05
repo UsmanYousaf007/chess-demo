@@ -102,12 +102,12 @@ namespace TurboLabz.Multiplayer
                 {
                     ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_30_min, AdPlacements.interstitial_in_game_30_min, OnShowAdComplete);
                 }
-                else if (matchInfo.isLongPlay &&
-                    cmd.adsSettingsModel.showInGameClassic &&
-                    chessboard.backendPlayerTimer.TotalSeconds > cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
-                {
-                    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic, AdPlacements.Interstitial_in_game_classic, OnShowAdComplete);
-                }
+                //else if (matchInfo.isLongPlay &&
+                //    cmd.adsSettingsModel.showInGameClassic &&
+                //    chessboard.backendPlayerTimer.TotalSeconds > cmd.adsSettingsModel.secondsElapsedDisable30MinInGame)
+                //{
+                //    ShowInGameAd(cmd.matchInfoModel.activeChallengeId, matchInfo, cmd, AnalyticsContext.interstitial_in_game_classic, AdPlacements.Interstitial_in_game_classic, OnShowAdComplete);
+                //}
 
                 return null;
             }

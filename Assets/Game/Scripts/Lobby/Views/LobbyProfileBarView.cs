@@ -31,6 +31,9 @@ namespace TurboLabz.InstantFramework
         public Button leaderboardButton;
 
         public Image playerTitleImg;
+        public Button chestButton;
+        public TMP_Text chestTimeText;
+
 
         string playerId;
 
@@ -39,9 +42,13 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+
 
         //Signals
         public Signal leaderboardButtonClickedSignal = new Signal();
+        public Signal chestButtonClickedSignal = new Signal();
+
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -49,6 +56,21 @@ namespace TurboLabz.InstantFramework
         public void Init()
         {
             leaderboardButton.onClick.AddListener(OnLeaderboardBtnClicked);
+            chestButton.onClick.AddListener(OnChestButtonClicked);
+
+            var currentTime = backendService.serverClock.currentTimestamp;
+            var diff = currentTime - playerModel.chestUnlockTimestamp;
+
+
+            if (diff > 0)
+            {
+                chestTimeText.text = "CLAIM";
+            }
+            else
+            {
+                chestTimeText.text = "sec " + diff + "left";
+            }
+
         }
 
         public void UpdateView(ProfileVO vo)
@@ -89,6 +111,11 @@ namespace TurboLabz.InstantFramework
         void OnLeaderboardBtnClicked()
         {
             leaderboardButtonClickedSignal.Dispatch();
+        }
+
+        void OnChestButtonClicked()
+        {
+            chestButtonClickedSignal.Dispatch();
         }
     }
 }

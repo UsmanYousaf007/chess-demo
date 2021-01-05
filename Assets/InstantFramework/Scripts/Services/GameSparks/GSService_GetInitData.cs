@@ -220,6 +220,11 @@ namespace TurboLabz.InstantFramework
 
             playerModel.coins = GSParser.GetSafeLong(playerDetailsData, GSBackendKeys.PlayerDetails.COINS);
 
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP))
+            {
+                playerModel.chestUnlockTimestamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP).Value;
+            }
+
             // Split name to first and last initial
             // TODO: split in View
             //playerModel.name = FormatUtil.SplitFirstLastNameInitial(playerModel.name);

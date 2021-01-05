@@ -1,41 +1,58 @@
-﻿using strange.extensions.command.impl;
-using TurboLabz.InstantFramework;
+﻿using GameSparks.Core;
+using strange.extensions.command.impl;
+using TurboLabz.TLUtils;
 
-namespace TurboLabz.InstantGame
+namespace TurboLabz.InstantFramework
 {
     public class ShowRewardedAdCommand : Command
     {
         // Parameters
-        [Inject] public ResultAdsVO resultAdsVO { get; set; }
+        [Inject] public AdPlacements adPlacement { get; set; }
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public RewardedVideoResultSignal rewardedVideoResultSignal { get; set; }
 
         public override void Execute()
         {
-            //if (adsService.IsRewardedVideoAvailable(resultAdsVO.placementId))
-            //{
-            //    showAdSignal.Dispatch(resultAdsVO);
-            //}
-            //else if (adsService.IsInterstitialAvailable())
-            //{
-            //    var vo = resultAdsVO;
-            //    vo.adsType = AdType.Interstitial;
-            //    vo.rewardType = GSBackendKeys.ClaimReward.TYPE_MATCH_WIN;
-            //    showAdSignal.Dispatch(vo);
-            //}
-            //else
-            //{
-            //    var vo = resultAdsVO;
-            //    vo.adsType = AdType.Promotion;
-            //    vo.rewardType = GSBackendKeys.ClaimReward.TYPE_PROMOTION;
-            //    showAdSignal.Dispatch(vo);
-            //}
+            if (!adsService.IsRewardedVideoAvailable(adPlacement))
+            {
+                rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
+                return;
+            }
+
+            Retain();
+            adsService.ShowRewardedVideo(adPlacement).Then(OnVideoShown);
+        }
+
+        private void OnVideoShown(AdsResult result)
+        {
+            if (result != AdsResult.FINISHED)
+            {
+                rewardedVideoResultSignal.Dispatch(AdsResult.FAILED, adPlacement);
+                Release();
+                return;
+            }
+
+            var jsonData = new GSRequestData().AddString("rewardType", CollectionsUtil.GetRewardTypeFromAdPlacement(adPlacement));
+            backendService.ClaimReward(jsonData).Then(OnRewardClaimed);
+        }
+
+        private void OnRewardClaimed(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
+            {
+                rewardedVideoResultSignal.Dispatch(AdsResult.FINISHED, adPlacement);
+            }
+            else
+            {
+                rewardedVideoResultSignal.Dispatch(AdsResult.FAILED, adPlacement);
+            }
+
+            Release();
         }
     }
 }

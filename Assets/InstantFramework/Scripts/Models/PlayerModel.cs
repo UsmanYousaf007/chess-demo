@@ -64,6 +64,8 @@ namespace TurboLabz.InstantFramework
         public int adLifetimeImpressions { get; set; }
         public long removeAdsTimeStamp { get; set; }
         public int removeAdsTimePeriod { get; set; }
+        public long chestUnlockTimestamp { get; set; }
+
 
         // Inventory
         public string activeSkinId { get; set; } = null;    
@@ -132,6 +134,7 @@ namespace TurboLabz.InstantFramework
             playerFriendsCount = 0;
             isFBConnectRewardClaimed = false;
             cpuPowerupUsedCount = 0;
+            chestUnlockTimestamp = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();
