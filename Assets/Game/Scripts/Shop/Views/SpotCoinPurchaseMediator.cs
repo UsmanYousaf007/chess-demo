@@ -10,13 +10,13 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IAdsService adsService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
 
         private long betValue;
 
@@ -79,16 +79,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnWatchAdSignal()
         {
-            adsService.ShowRewardedVideo(AdPlacements.Rewarded_coins_purchase).Then((res) => {
-                if (res == AdsResult.FINISHED)
-                {
-                    var vo = new VirtualGoodsTransactionVO();
-                    vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-                    vo.buyQuantity = 2000;
-                    virtualGoodsTransactionResultSignal.AddOnce(OnVirtualGoodTranscationCompleted);
-                    virtualGoodsTransactionSignal.Dispatch(vo);
-                }
-            });
+            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_coins_purchase);
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && result == AdsResult.FINISHED && adPlacement == AdPlacements.Rewarded_coins_purchase)
+            {
+                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS);
+            }
         }
 
         private void OnBuySignal(StoreItem storeItem)

@@ -31,15 +31,58 @@ namespace TurboLabz.InstantFramework
                 var data = response.ScriptData;
                 var rewardType = GSParser.GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
 
-                if (rewardType == GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
+                switch (rewardType)
                 {
-                    EloVO vo = new EloVO();
-                    playerModel.eloScore += GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
-                    vo.playerEloScore = playerModel.eloScore;
-                    updateEloScoresSignal.Dispatch(vo);
-                    ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
-                    analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
-                }                
+                    case GSBackendKeys.ClaimReward.TYPE_BOOST_RATING:
+                        EloVO vo = new EloVO();
+                        playerModel.eloScore += GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+                        vo.playerEloScore = playerModel.eloScore;
+                        updateEloScoresSignal.Dispatch(vo);
+                        ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
+                        analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
+                        break;
+
+                    case GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE:
+                    case GSBackendKeys.ClaimReward.TYPE_DAILY:
+                        ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO));
+                        break;
+
+                    case GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST:
+                        ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO));
+                        playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
+                        break;
+                }             
+            }
+        }
+
+        private void ParseRewards(GSData data)
+        {
+            if (data != null)
+            {
+                foreach (var reward in data.BaseData)
+                {
+                    var rewardCode = reward.Key;
+                    var rewardQuantity = int.Parse(reward.Value.ToString());
+
+                    if (rewardCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
+                    {
+                        playerModel.gems += rewardQuantity;
+                    }
+                    else if (rewardCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+                    {
+                        playerModel.coins += rewardQuantity;
+                    }
+                    else if (playerModel.inventory.ContainsKey(rewardCode))
+                    {
+                        playerModel.inventory[rewardCode] += rewardQuantity;
+                    }
+                    else
+                    {
+                        playerModel.inventory.Add(rewardCode, rewardQuantity);
+                    }
+                }
+
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
     }

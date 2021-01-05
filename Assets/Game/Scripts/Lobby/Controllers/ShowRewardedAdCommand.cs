@@ -11,8 +11,6 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals

@@ -1,5 +1,6 @@
-﻿using strange.extensions.mediation.impl;
-using TurboLabz.InstantGame;
+﻿using TurboLabz.InstantGame;
+using strange.extensions.signal.impl;
+using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -11,6 +12,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -19,23 +21,19 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
+        private Signal _onCloseSignal;
+
         public override void OnRegister()
         {
             view.Init();
 
-            //view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+            view._collectBtnClickedSignal.AddListener(OnCollectButtonClicked);
         }
-
-        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
-        //public void UpdateView()
-        //{
-        //    view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
-        //}
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
+            if (viewId == NavigatorViewId.DAILY_REWARD_DLG)
             {
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -45,15 +43,25 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
+            if (viewId == NavigatorViewId.DAILY_REWARD_DLG)
             {
                 view.Hide();
             }
         }
 
-        private void OnContinuePressed()
+        [ListensTo(typeof(UpdateRewardDlgViewSignal))]
+        public void OnUpdate(RewardDlgVO vo)
+        {
+            _onCloseSignal = vo.onCloseSignal;
+            view.UpdateView(vo);
+        }
+
+        public void OnCollectButtonClicked(string msgId)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            view.Hide();
+            backendService.InBoxOpCollect(msgId);
+            _onCloseSignal?.Dispatch();
         }
     }
 }

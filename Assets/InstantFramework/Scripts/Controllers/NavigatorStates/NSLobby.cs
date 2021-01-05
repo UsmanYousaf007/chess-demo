@@ -185,6 +185,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSpotCoinPurchaseDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_DAILY_REWARD_DLG)
+            {
+                return new NSDailyRewardDlg();
+            }
 
             return null;
         }
