@@ -85,10 +85,19 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && result == AdsResult.FINISHED && adPlacement == AdPlacements.Rewarded_coins_purchase)
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_coins_purchase)
             {
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-                OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS);
+                switch (result)
+                {
+                    case AdsResult.FINISHED:
+                        view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                        OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS);
+                        break;
+
+                    case AdsResult.NOT_AVAILABLE:
+                        view.toolTip.SetActive(true);
+                        break;
+                }
             }
         }
 

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public Text coinsText;
         public Text gemsText;
         public Button closeButton2;
+        public GameObject toolTip;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
