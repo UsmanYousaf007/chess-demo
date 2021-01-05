@@ -1,6 +1,4 @@
-﻿using TurboLabz.InstantGame;
-using strange.extensions.signal.impl;
-using strange.extensions.mediation.impl;
+﻿using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,13 +13,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 
         // Models
-        [Inject] public ITournamentsModel tournamentsModel { get; set; }
-        [Inject] public IPlayerModel playerModel { get; set; }
-
+        
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
 
-        private Signal _onCloseSignal;
+        private RewardDlgVO _dailyRewardVO;
 
         public override void OnRegister()
         {
@@ -52,16 +49,25 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateRewardDlgViewSignal))]
         public void OnUpdate(RewardDlgVO vo)
         {
-            _onCloseSignal = vo.onCloseSignal;
+            _dailyRewardVO = vo;
             view.UpdateView(vo);
         }
 
         public void OnCollectButtonClicked(string msgId)
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             view.Hide();
             backendService.InBoxOpCollect(msgId);
-            _onCloseSignal?.Dispatch();
+            _dailyRewardVO.onCloseSignal?.Dispatch();
+
+            // Dispatch rewards sequence signal here
+            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO();
+            for (int i = 0; i < _dailyRewardVO.rewardShortCodes.Count; i++)
+            {
+                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(_dailyRewardVO.rewardShortCodes[i], _dailyRewardVO.GetRewardItemQty(i)));
+            }
+            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
         }
     }
 }

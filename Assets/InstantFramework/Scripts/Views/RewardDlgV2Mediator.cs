@@ -1,5 +1,4 @@
 ﻿using strange.extensions.mediation.impl;
-using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -13,28 +12,31 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
-
+        
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+        private RewardDlgV2VO _rewardDlgVO;
 
         public override void OnRegister()
         {
             view.Init();
-
-            //view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+            view.ContinueButtonSignal.AddListener(OnContinuePressed);
         }
 
-        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
-        //public void UpdateView()
-        //{
-        //    view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
-        //}
+        [ListensTo(typeof(UpdateRewardDlgV2ViewSignal))]
+        public void UpdateView(RewardDlgV2VO vo)
+        {
+            _rewardDlgVO = vo;
+            view.UpdateView(vo.Rewards[0]);
+
+            vo.Rewards.RemoveAt(0);
+        }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
+            if (viewId == NavigatorViewId.REWARD_DLG_V2)
             {
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -44,7 +46,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
+            if (viewId == NavigatorViewId.REWARD_DLG_V2)
             {
                 view.Hide();
             }
@@ -52,7 +54,22 @@ namespace TurboLabz.InstantFramework
 
         private void OnContinuePressed()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            // TODO: play collect animation.
+            OnCollectAnimationComplete();
+        }
+
+        private void OnCollectAnimationComplete()
+        {
+            if (_rewardDlgVO.Rewards.Count > 0)
+            {
+                view.UpdateView(_rewardDlgVO.Rewards[0]);
+
+                _rewardDlgVO.Rewards.RemoveAt(0);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            }
         }
     }
 }

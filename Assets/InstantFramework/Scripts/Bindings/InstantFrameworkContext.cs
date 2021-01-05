@@ -330,6 +330,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();
             injectionBinder.Bind<UpdateAllStarLeaderboardSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTimeSelectDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRewardDlgV2ViewSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -430,6 +431,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ShopCoinItemView>().To<ShopCoinItemMediator>();
             mediationBinder.Bind<SpotCoinPurchaseView>().To<SpotCoinPurchaseMediator>();
             mediationBinder.Bind<DailyRewardDlgView>().To<DailyRewardDlgMediator>();
+            mediationBinder.Bind<RewardDlgV2View>().To<RewardDlgV2Mediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

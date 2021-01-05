@@ -198,6 +198,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSpotCoinPurchaseSignal : Signal<long> { }
     public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>> { }
     public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem> { }
+    public class UpdateRewardDlgV2ViewSignal : Signal<RewardDlgV2VO> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

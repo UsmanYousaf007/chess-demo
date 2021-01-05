@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.88235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -626,6 +626,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c78a467433e842a3b2642035dbf9844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rewardContainers:
+  - shortCode: gems
+    containerParent: {fileID: 7424840452111227538}
+    quantityText: {fileID: 7424840451758359101}
+  - shortCode: coins
+    containerParent: {fileID: 7912787266493062654}
+    quantityText: {fileID: 7912787265223272742}
+  - shortCode: trophies
+    containerParent: {fileID: 7912787266526412887}
+    quantityText: {fileID: 7912787265333453862}
+  _continueButton: {fileID: 4488015408131302909}
 --- !u!1 &7424840450089529041
 GameObject:
   m_ObjectHideFlags: 0
