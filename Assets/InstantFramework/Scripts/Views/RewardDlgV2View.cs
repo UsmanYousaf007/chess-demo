@@ -6,6 +6,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
 using System;
 using DG.Tweening;
 using strange.extensions.signal.impl;
@@ -16,6 +17,8 @@ namespace TurboLabz.InstantFramework
     [CLSCompliant(false)]
     public class RewardDlgV2View : View
     {
+        [SerializeField] private GameObject _rvReelsPanel;
+        [SerializeField] private TextMeshProUGUI _watchingVideoText;
         [SerializeField] private RewardUIContainer[] _rewardContainers;
         [SerializeField] private Button _continueButton;
 
@@ -39,7 +42,7 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(false);
         }
 
-        public void UpdateView(RewardDlgV2VO.Reward reward)
+        public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false)
         {
             for (int i = 0; i < _rewardContainers.Length; i++)
             {
@@ -50,6 +53,9 @@ namespace TurboLabz.InstantFramework
                     _rewardContainers[i].containerParent.SetActive(true);
                 }
             }
+
+            _rvReelsPanel.gameObject.SetActive(rewardedVideoWatched);
+            _watchingVideoText.gameObject.SetActive(rewardedVideoWatched);
         }
     }
 }

@@ -16,15 +16,14 @@ namespace TurboLabz.InstantFramework
     [CLSCompliant(false)]
     public class DailyRewardDlgView : View
     {
-        [SerializeField] private RewardUIContainer [] _rewardContainers;
+        [SerializeField] private RewardUIContainer[] _rewardContainers;
         
         public Button _collectBtn;
         public Button _collect2xBtn;
+        public GameObject toolTip;
 
-        public Signal<string> _collectBtnClickedSignal = new Signal<string>();
-        public Signal<string> _collect2xBtnClickedSignal = new Signal<string>();
-
-        private string messageId;
+        public Signal _collectBtnClickedSignal = new Signal();
+        public Signal _collect2xBtnClickedSignal = new Signal();
 
         public void Init()
         {
@@ -35,13 +34,15 @@ namespace TurboLabz.InstantFramework
 
             _collectBtn.onClick.AddListener(() =>
             {
-                _collectBtnClickedSignal?.Dispatch(messageId);
+                _collectBtnClickedSignal?.Dispatch();
             });
 
             _collect2xBtn.onClick.AddListener(() =>
             {
-                _collect2xBtnClickedSignal?.Dispatch(messageId);
+                _collect2xBtnClickedSignal?.Dispatch();
             });
+
+            toolTip.SetActive(false);
         }
 
         public void Show()
@@ -56,8 +57,6 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(RewardDlgVO vo)
         {
-            messageId = vo.msgId;
-
             for (int j = 0; j < _rewardContainers.Length; j++)
             {
                 _rewardContainers[j].containerParent.SetActive(false);

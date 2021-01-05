@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(RewardDlgV2VO vo)
         {
             _rewardDlgVO = vo;
-            view.UpdateView(vo.Rewards[0]);
+            view.UpdateView(vo.Rewards[0], _rewardDlgVO.RVWatched);
 
             vo.Rewards.RemoveAt(0);
         }
@@ -62,7 +62,7 @@ namespace TurboLabz.InstantFramework
         {
             if (_rewardDlgVO.Rewards.Count > 0)
             {
-                view.UpdateView(_rewardDlgVO.Rewards[0]);
+                view.UpdateView(_rewardDlgVO.Rewards[0], _rewardDlgVO.RVWatched);
 
                 _rewardDlgVO.Rewards.RemoveAt(0);
             }

@@ -39,9 +39,6 @@ namespace TurboLabz.InstantFramework
         protected GameObjectsPool championshipBarsPool;
         protected List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
 
-        protected WaitForSecondsRealtime waitForOneRealSecond;
-        protected long endTimeUTCSeconds;
-
         public virtual void Init()
         {
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
