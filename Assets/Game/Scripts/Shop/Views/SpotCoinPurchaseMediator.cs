@@ -79,7 +79,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnWatchAdSignal()
         {
-            adsService.ShowRewardedVideo(AdPlacements.Rewarded_hints).Then((res) => {
+            adsService.ShowRewardedVideo(AdPlacements.Rewarded_coins_purchase).Then((res) => {
                 if (res == AdsResult.FINISHED)
                 {
                     var vo = new VirtualGoodsTransactionVO();

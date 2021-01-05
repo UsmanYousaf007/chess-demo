@@ -225,6 +225,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<LoginAsGuestSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSpotCoinsPurchaseDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateSpotCoinsWatchAdDlgSignal>().ToSingleton();
+            injectionBinder.Bind<RewardedVideoResultSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();

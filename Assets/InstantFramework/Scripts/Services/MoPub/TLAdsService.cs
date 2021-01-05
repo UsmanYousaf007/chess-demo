@@ -51,21 +51,14 @@ namespace TurboLabz.InstantFramework
 
             switch (placementId)
             {
-                case AdPlacements.Rewarded_hints:
-                case AdPlacements.Rewarded_keys:
-                case AdPlacements.Rewarded_rating_booster:
-                case AdPlacements.Rewarded_tickets:
-                case AdPlacements.Rewarded_keys_popup:
-                case AdPlacements.Rewarded_rating_booster_popup:
-                case AdPlacements.Rewarded_tickets_popup:
-                case AdPlacements.Rewarded_hints_popup:
+                case AdPlacements.Rewarded_daily_reward:
+                case AdPlacements.Rewarded_lobby_chest:
+                case AdPlacements.Rewarded_coins_purchase:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
                     break;
 
                 case AdPlacements.Interstitial_endgame:
                 case AdPlacements.Interstitial_pregame:
-                case AdPlacements.Interstitial_tournament_end_co:
-                case AdPlacements.Interstitial_tournament_pre:
                 case AdPlacements.interstitial_in_game_30_min:
                 case AdPlacements.interstitial_in_game_cpu:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial);

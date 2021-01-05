@@ -28,15 +28,18 @@ namespace TurboLabz.InstantFramework
             LogEventResponse response = (LogEventResponse)r;
             if (response != null && response.ScriptData != null)
             {
-                GSParser.PopulateAdsRewardData(playerModel, response.ScriptData);
+                var data = response.ScriptData;
+                var rewardType = GSParser.GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
 
-                EloVO vo = new EloVO();
-                vo.playerEloScore = playerModel.eloScore;
-                updateEloScoresSignal.Dispatch(vo);
-
-                ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
-                analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
-                LogUtil.Log(string.Format("Found ads reward data index {0} current {1} required {2}", playerModel.rewardIndex, playerModel.rewardCurrentPoints, playerModel.rewardPointsRequired));
+                if (rewardType == GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
+                {
+                    EloVO vo = new EloVO();
+                    playerModel.eloScore += GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+                    vo.playerEloScore = playerModel.eloScore;
+                    updateEloScoresSignal.Dispatch(vo);
+                    ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
+                    analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
+                }                
             }
         }
     }

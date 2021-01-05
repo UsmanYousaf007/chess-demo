@@ -450,7 +450,7 @@ namespace TurboLabz.InstantFramework
                 vo.adsType = AdType.Interstitial;
                 vo.actionCode = actionCode;
                 vo.tournamentId = tournamentId;
-                vo.placementId = AdPlacements.Interstitial_tournament_pre;
+                //vo.placementId = AdPlacements.Interstitial_tournament_pre;
                 showAdSignal.Dispatch(vo, false);
             }
         }

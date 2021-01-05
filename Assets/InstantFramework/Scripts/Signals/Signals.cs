@@ -97,7 +97,7 @@ namespace TurboLabz.InstantFramework
     public class LoadFriendsSignal : Signal { }
     public class ShareAppSignal : Signal { }
     public class ShowAdSignal : Signal<ResultAdsVO, bool> { }
-    public class ShowRewardedAdSignal : Signal<ResultAdsVO> { }
+    public class ShowRewardedAdSignal : Signal<AdPlacements> { }
     public class ToggleBannerSignal : Signal<bool> { }
     public class PauseNotificationsSignal : Signal<bool> { }
     public class RequestToggleBannerSignal : Signal { }
@@ -198,6 +198,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSpotCoinPurchaseSignal : Signal<long> { }
     public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>> { }
     public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem> { }
+    public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

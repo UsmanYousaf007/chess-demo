@@ -378,7 +378,7 @@ namespace TurboLabz.InstantFramework
 
         public static class ClaimReward
         {
-            public const string REWARD_INFO = "rewardInfo";
+            public const string REWARD_INFO = "reward";
             public const string BUCKS = "bucks";
             public const string AD_LIFETIME_IMPRESSIONS = "adLifetimeImpressions";
 
@@ -391,6 +391,9 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_PROMOTION = "rewardMatchPromotional";
             public const string TYPE_BOOST_RATING = "ratingBoostTier1";
             public const string TYPE_GIFT = "giftReward";
+            public const string TYPE_DAILY = "dailyReward";
+            public const string TYPE_LOBBY_CHEST = "chestCoinsReward";
+            public const string TYPE_COINS_PURCHASE = "coinPurchaseReward";
             public const string CLAIM_REWARD_TYPE = "claimRewardType";
 
             public const string NONE = "none";
