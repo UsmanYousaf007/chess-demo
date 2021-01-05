@@ -544,6 +544,7 @@ namespace TurboLabz.InstantFramework
             public const string TROPHIES2 = "trophies2";
             public const string LEAGUE = "league";
             public const string COINS = "coins";
+            public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
         }
 
         public static class Match
