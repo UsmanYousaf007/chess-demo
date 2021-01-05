@@ -50,6 +50,13 @@ namespace TurboLabz.InstantGame
             else if (msg.type == "RewardDailyLeague")
             {
                 vo = BuildVORewardRewardDailyLeague(inboxMessageId);
+
+                vo.msgId = inboxMessageId;
+                vo.onCloseSignal = onCloseSignal;
+                updateRewardDlgViewSignal.Dispatch(vo);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_DAILY_REWARD_DLG);
+
+                return;
             }
             else if (msg.type == "RewardDailySubscription")
             {
