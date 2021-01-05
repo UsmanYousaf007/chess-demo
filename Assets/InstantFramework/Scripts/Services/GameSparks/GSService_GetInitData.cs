@@ -523,6 +523,7 @@ namespace TurboLabz.InstantFramework
             joinedTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
             joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
             joinedTournament.ended = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.CONCLUDED);
+            joinedTournament.matchesPlayedCount = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
 
             var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
             if (grandPrizeGSData != null)
@@ -563,8 +564,8 @@ namespace TurboLabz.InstantFramework
             {
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
-                // Sort entries on score here
-                SortTournamentEntries(tournamentEntries);
+                // Sort entries on score here, and Update rank
+                SortTournamentEntriesAndUpdateRank(tournamentEntries);
 
                 joinedTournament.entries = tournamentEntries;
 
@@ -573,12 +574,12 @@ namespace TurboLabz.InstantFramework
                 // Rank and other entry updates
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
-                    tournamentEntries[i].rank = i + 1;
-                    if (tournamentEntries[i].publicProfile.playerId == playerId)
-                    {
-                        joinedTournament.rank = tournamentEntries[i].rank;
-                        joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
-                    }
+                    //tournamentEntries[i].rank = i + 1;
+                    //if (tournamentEntries[i].publicProfile.playerId == playerId)
+                    //{
+                    //    joinedTournament.rank = tournamentEntries[i].rank;
+                    //    joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
+                    //}
 
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
                     {
@@ -598,7 +599,7 @@ namespace TurboLabz.InstantFramework
             return joinedTournament;
         }
 
-        private void SortTournamentEntries(List<TournamentEntry> entries)
+        private void SortTournamentEntriesAndUpdateRank(List<TournamentEntry> entries)
         {
             TournamentEntry playerEntry = null;
 

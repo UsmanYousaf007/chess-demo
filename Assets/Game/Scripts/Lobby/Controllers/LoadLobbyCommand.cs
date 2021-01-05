@@ -149,6 +149,12 @@ namespace TurboLabz.InstantGame
                     SplashLoader.FTUE = false;
                 });
             }
+
+            if (metaDataModel.ShowChampionshipNewRankDialog)
+            {
+                metaDataModel.ShowChampionshipNewRankDialog = false;
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+            }
         }
 
         private void DispatchProfileSignal() 

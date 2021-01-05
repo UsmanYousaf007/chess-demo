@@ -10,6 +10,8 @@ namespace TurboLabz.InstantFramework
 {
     public interface IMetaDataModel
     {
+        bool ShowChampionshipNewRankDialog { get; set; }
+
         IAppInfoModel appInfo  { get; set; }
         IStoreSettingsModel store { get; set; }
         IAdsSettingsModel adsSettings { get; set; }
