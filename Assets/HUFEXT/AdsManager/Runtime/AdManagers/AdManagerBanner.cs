@@ -32,7 +32,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             isFetchingBanner = true;
             HLog.Log( logPrefix, $"ShowAd {adPlacementData.PlacementId}" );
             base.ShowAd( resultCallback, alternativeAdPlacement );
-            adsService.Mediation.ShowBanner( adPlacementData.PlacementId );
+            adsService.Mediation.ShowBanner( shownPlacementId );
         }
 
         protected override void StartFetching()
@@ -51,7 +51,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         void HandleShown( AdCallback callbackData )
         {
-            if ( callbackData.PlacementId != adPlacementData.PlacementId )
+            if ( callbackData.PlacementId != shownPlacementId )
                 return;
 
             if ( callbackData.Result != AdResult.Completed )

@@ -48,7 +48,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         public WrapperSIWA ServiceComponent => wrapperSiwa;
         public event UnityAction<string> OnInitialized;
         public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, bool> OnSignIn;
+        public event UnityAction<string, AuthSignInResult> OnSignInResult;
         public event UnityAction<string> OnSignOutComplete;
 
         WrapperSIWA wrapperSiwa;
@@ -72,7 +72,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
 
             if ( IsSupported && IsSignedIn )
             {
-                wrapperSiwa.AuthManager.GetCredentialState(userInfo.userId, 
+                wrapperSiwa.AuthManager.GetCredentialState(userInfo.userId,
                     CredentialStateSuccessCallback, CredentialStateErrorCallback);
             }
         }
@@ -81,7 +81,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         {
             HLog.LogWarning( logPrefix,
                 $"SignIn failed, reason: {error.LocalizedFailureReason}, code: {error.Code}" );
-            OnSignIn.Dispatch( Name, false );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.ConnectionFailure );
         }
 
         private void CredentialStateSuccessCallback(CredentialState credentialState)
@@ -97,7 +97,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
                     OnSignOutComplete.Dispatch( Name );
                     break;
                 case CredentialState.Authorized:
-                    OnSignIn.Dispatch( Name, true );
+                    OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
                     break;
                 case CredentialState.Transferred:
                     wrapperSiwa.AuthManager.QuickLogin(new AppleAuthQuickLoginArgs(), TransferedSuccessCallback, LoginErrorCallback);
@@ -133,7 +133,7 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         private void LoginErrorCallback(IAppleError error)
         {
             HLog.Log( logPrefix, error.LocalizedFailureReason);
-            OnSignIn.Dispatch( Name, false );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.ConnectionFailure );
         }
 
         private void TransferedSuccessCallback(ICredential credential)
@@ -147,12 +147,12 @@ namespace HUF.AuthSIWA.Runtime.Implementation
                 userInfo.userId = newInfo.userId;
                 HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
                 HLog.Log( logPrefix, "Authentication succeed." );
-                OnSignIn.Dispatch( Name, true );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
             }
             else
             {
                 HLog.LogError( logPrefix, "appleIdCredential is null." );
-                OnSignIn.Dispatch( Name, false );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
             }
         }
 
@@ -167,12 +167,12 @@ namespace HUF.AuthSIWA.Runtime.Implementation
                 userInfo = UserInfo.BuildFromIAppleIDCredential(appleIdCredential);
                 HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
                 HLog.Log( logPrefix, "Authentication succeed." );
-                OnSignIn.Dispatch( Name, true );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
             }
             else
             {
                 HLog.LogError( logPrefix, "appleIdCredential is null." );
-                OnSignIn.Dispatch( Name, false );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
             }
         }
 

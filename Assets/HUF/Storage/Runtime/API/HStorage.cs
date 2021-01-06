@@ -13,7 +13,7 @@ namespace HUF.Storage.Runtime.API
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HStorage) );
 
         static StorageModel storageModel;
-        static StorageModel StorageModel => storageModel ?? (storageModel = new StorageModel());
+        static StorageModel StorageModel => storageModel ?? ( storageModel = new StorageModel() );
 
         static HStorageTexture texture;
         static HStorageAudioClip audioClip;
@@ -21,37 +21,37 @@ namespace HUF.Storage.Runtime.API
         static HStorageBytes bytes;
 
         /// <summary>
-        /// Provides methods to get Texture2D from Storage.
+        /// Provides access to Storage Texture API.
         /// </summary>
         [PublicAPI]
-        public static HStorageTexture Texture => texture ?? (texture = new HStorageTexture(StorageModel));
+        public static HStorageTexture Texture => texture ?? ( texture = new HStorageTexture( StorageModel ) );
 
         /// <summary>
-        /// Provides methods to get AudioClip from Storage.
+        /// Provides access to Storage AudioClip API.
         /// </summary>
         [PublicAPI]
-        public static HStorageAudioClip AudioClip => audioClip ?? (audioClip = new HStorageAudioClip(StorageModel));
+        public static HStorageAudioClip AudioClip => audioClip ?? ( audioClip = new HStorageAudioClip( StorageModel ) );
 
         /// <summary>
-        /// Provides methods to get Asset Bundles from Storage.
+        /// Provides access to Storage Asset Bundles API.
         /// </summary>
         [PublicAPI]
         public static HStorageAssetBundle AssetBundle =>
-            assetBundle ?? (assetBundle = new HStorageAssetBundle(StorageModel));
+            assetBundle ?? ( assetBundle = new HStorageAssetBundle( StorageModel ) );
 
         /// <summary>
-        /// Provides methods to get byte[] from Storage.
+        /// Provides access to Storage Bytes API.
         /// </summary>
         [PublicAPI]
-        public static HStorageBytes Bytes => bytes ?? (bytes = new HStorageBytes(StorageModel));
+        public static HStorageBytes Bytes => bytes ?? ( bytes = new HStorageBytes( StorageModel ) );
 
         /// <summary>
-        /// Registers download service.
+        /// Registers a download service.
         /// </summary>
-        /// <param name="downloadService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
+        /// <param name="downloadService">A service to be registered</param>
+        /// <returns>True, if the service was registered; false otherwise</returns>
         [PublicAPI]
-        public static bool TryRegisterDownloadService(IDownloadService downloadService)
+        public static bool TryRegisterDownloadService( IDownloadService downloadService )
         {
             return LogServiceRegistration(
                 StorageModel.TryRegisterService( new StorageDownloadModel( downloadService ) ),
@@ -60,25 +60,25 @@ namespace HUF.Storage.Runtime.API
         }
 
         /// <summary>
-        /// Gives information if file at specific path has update available. Complete handler value
-        /// <see cref="MetadataResultContainer"/> IsUpdateAvailable is set to true if file was not downloaded yet,
-        /// or update is available. Otherwise false.
+        /// Gives information if the file at the specified path has an update available. The handler value
+        /// <see cref="MetadataResultContainer"/> IsUpdateAvailable is set to true if the file was not downloaded yet,
+        /// or an update is available. Otherwise false.
         /// </summary>
-        /// <param name="filePath">Path to file</param>
-        /// <param name="completeHandler">Handler of action completed</param>
+        /// <param name="filePath">A path to the file</param>
+        /// <param name="completeHandler">A metadata result handler</param>
         [PublicAPI]
-        public static void IsUpdateAvailable(string filePath, UnityAction<MetadataResultContainer> completeHandler)
+        public static void IsUpdateAvailable( string filePath, UnityAction<MetadataResultContainer> completeHandler )
         {
-            StorageModel.DownloadService?.GetUpdateInfo(filePath, completeHandler);
+            StorageModel.DownloadService?.GetUpdateInfo( filePath, completeHandler );
         }
 
         /// <summary>
-        /// Tries to register upload service.
+        /// Tries to register an upload service.
         /// </summary>
-        /// <param name="uploadService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
+        /// <param name="uploadService">A service to be registered</param>
+        /// <returns>True, if the service was registered; false otherwise</returns>
         [PublicAPI]
-        public static bool TryRegisterUploadService(IUploadService uploadService)
+        public static bool TryRegisterUploadService( IUploadService uploadService )
         {
             return LogServiceRegistration(
                 StorageModel.TryRegisterService( new StorageUploadModel( uploadService ) ),
@@ -87,46 +87,46 @@ namespace HUF.Storage.Runtime.API
         }
 
         /// <summary>
-        /// Starts uploading file. Complete handler is method that will handle upload process after its completion.
+        /// Starts uploading the file. The handler will be called after the upload process is completed.
         /// </summary>
-        /// <param name="objectToUpload">Object to upload</param>
-        /// <param name="filePath">Path that object will be saved to</param>
-        /// <param name="uploadTaskResult">Upload result handler</param>
+        /// <param name="objectToUpload">An object to upload</param>
+        /// <param name="filePath">A path that object will be saved to</param>
+        /// <param name="uploadTaskResult">A upload result handler</param>
         [PublicAPI]
-        public static void UploadFile(object objectToUpload, string filePath,
-            UnityAction<StorageResultContainer> uploadTaskResult)
+        public static void UploadFile( object objectToUpload,
+            string filePath,
+            UnityAction<StorageResultContainer> uploadTaskResult )
         {
-            StorageModel.UploadService?.UploadFile(filePath, objectToUpload, uploadTaskResult);
+            StorageModel.UploadService?.UploadFile( filePath, objectToUpload, uploadTaskResult );
         }
 
         /// <summary>
-        /// Tries to register removal service.
+        /// Tries to register a removal service.
         /// </summary>
-        /// <param name="removeService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
+        /// <param name="removeService">A service to be registered</param>
+        /// <returns>True, if the service was registered; false otherwise</returns>
         [PublicAPI]
-        public static bool TryRegisterRemoveService(IRemoveService removeService)
+        public static bool TryRegisterRemoveService( IRemoveService removeService )
         {
             return LogServiceRegistration(
                 StorageModel.TryRegisterService( new StorageRemoveModel( removeService ) ),
                 removeService.GetType()
             );
-
         }
 
         /// <summary>
-        /// Removes file at given path. Handler will be called after removal process is completed.
+        /// Removes the file at the given path. The handler will be called after the removal process is completed.
         /// </summary>
-        /// <param name="filePath">Path to file that will be removed</param>
-        /// <param name="handleRemoveCompleted">Handler of removal process</param>
+        /// <param name="filePath">A path to the file that will be removed</param>
+        /// <param name="handleRemoveCompleted">A handler of the removal process</param>
         [PublicAPI]
-        public static void RemoveFile(string filePath, UnityAction<StorageResultContainer> handleRemoveCompleted)
+        public static void RemoveFile( string filePath, UnityAction<StorageResultContainer> handleRemoveCompleted )
         {
-            StorageModel.RemoveService?.RemoveFile(filePath, handleRemoveCompleted);
+            StorageModel.RemoveService?.RemoveFile( filePath, handleRemoveCompleted );
         }
 
         /// <summary>
-        /// Disposes Storage service.
+        /// Disposes of the Storage services.
         /// </summary>
         [PublicAPI]
         public static void DisposeServices()
@@ -141,7 +141,6 @@ namespace HUF.Storage.Runtime.API
                 HLog.Log( logPrefix, $"Service {type} registered" );
             else
                 HLog.LogError( logPrefix, $"Unable to register service {type}" );
-
             return result;
         }
     }

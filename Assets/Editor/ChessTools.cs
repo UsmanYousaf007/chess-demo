@@ -148,6 +148,17 @@ public partial class ChessTools : EditorWindow
         }
     }
 
+    public static void SetGamesparksEnvURLBased()
+    {
+        LogUtil.Log("Switch to GS Config URLBased", "yellow");
+        bool status = SetGameSparksEnvironment(GameSparksConfig.Environment.URLBased);
+
+        if (status == false)
+        {
+            LogUtil.Log("Error: Failed to switch gamesparks environment!", "red");
+        }
+    }
+
     private static GameObject FindSceneRootGameObject(Scene scene, string name)
     {
         GameObject[] rootObjs = scene.GetRootGameObjects();
@@ -205,8 +216,9 @@ public partial class ChessTools : EditorWindow
     {
         Validate();
         Scene scene = EditorSceneManager.GetActiveScene();
+        LogUtil.Log("SwitchScene gameSceneFiles index" + index);
 
-        if (scene.path != gameSceneFiles[index])
+        if (index >= 0 && scene.path != gameSceneFiles[index])
         {
             scene = EditorSceneManager.OpenScene(gameSceneFiles[index]);
         }

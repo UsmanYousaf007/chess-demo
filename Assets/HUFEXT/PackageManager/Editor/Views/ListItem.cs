@@ -6,18 +6,16 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public abstract class ListItem
     {
-        const  float    ITEM_HEIGHT = 30f;
-        static GUIStyle NO_MARGINS  = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
-            
-        public virtual PackageListView.ItemType Type   { get; }
-        public PackageManagerWindow Window { private set; get; }
+        const float ITEM_HEIGHT = 30f;
+        static GUIStyle NO_MARGINS = new GUIStyle {margin = new RectOffset( 0, 0, 0, 0 )};
 
         public ListItem( PackageManagerWindow window )
         {
             Window = window;
         }
-        
-        public virtual void DrawContent( Rect rect ) { }
+
+        public virtual PackageListView.ItemType Type { get; }
+        public PackageManagerWindow Window { private set; get; }
 
         public void Draw()
         {
@@ -25,7 +23,10 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 DrawContent( v.rect );
             }
+
             HGUI.HorizontalSeparator();
         }
+
+        public virtual void DrawContent( Rect rect ) { }
     }
 }

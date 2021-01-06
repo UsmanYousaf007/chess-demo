@@ -1,105 +1,84 @@
 <dependencies>
   <packages>
-    <package>com.adcolony:sdk:4.2.2</package>
+    <package>com.adcolony:sdk:4.2.4</package>
     <package>com.android.installreferrer:installreferrer:1.1.2</package>
     <package>com.android.support:appcompat-v7:25.3.1</package>
     <package>com.android.support:cardview-v7:25.3.1</package>
     <package>com.android.support:customtabs:25.3.1</package>
     <package>com.android.support:customtabs:28.0.0</package>
     <package>com.android.support:recyclerview-v7:28.0.0</package>
-    <package>com.android.support:support-annotations:25.1.0</package>
     <package>com.android.support:support-v4:25.3.1</package>
     <package>com.android.support:support-v4:28.0.0</package>
-    <package>com.applovin:applovin-sdk:9.13.4</package>
+    <package>com.applovin:applovin-sdk:9.14.6</package>
     <package>com.appsflyer:af-android-sdk:5.4.1</package>
     <package>com.appsflyer:unity-wrapper:5.4.2</package>
     <package>com.chartboost:chartboost-sdk:8.1.0</package>
-    <package>com.facebook.android:audience-network-sdk:6.0.0</package>
-    <package>com.facebook.android:facebook-applinks:[5,5.14)</package>
-    <package>com.facebook.android:facebook-core:[5,5.14)</package>
-    <package>com.facebook.android:facebook-login:[5,5.14)</package>
-    <package>com.facebook.android:facebook-share:[5,5.14)</package>
-    <package>com.google.android.gms:play-services-ads:19.3.0</package>
+    <package>com.facebook.android:audience-network-sdk:6.2.0</package>
+    <package>com.facebook.android:facebook-applinks:[8.0, 9)</package>
+    <package>com.facebook.android:facebook-core:[8.0, 9)</package>
+    <package>com.facebook.android:facebook-gamingservices:[8.0, 9)</package>
+    <package>com.facebook.android:facebook-login:[8.0, 9)</package>
+    <package>com.facebook.android:facebook-share:[8.0, 9)</package>
+    <package>com.fyber.vamp:core-sdk:7.7.3</package>
+    <package>com.fyber.vamp:mraid-kit:7.7.3</package>
+    <package>com.fyber.vamp:video-kit:7.7.3</package>
+    <package>com.google.android.gms:play-services-ads:19.4.0</package>
     <package>com.google.android.gms:play-services-ads-identifier:17.0.0</package>
-    <package>com.google.android.gms:play-services-appinvite:18.0.0</package>
     <package>com.google.android.gms:play-services-base:17.2.1</package>
+    <package>com.google.android.gms:play-services-base:17.4.0</package>
     <package>com.google.android.gms:play-services-basement:17.2.1</package>
     <package>com.google.android.play:core:1.7.3</package>
-    <package>com.google.firebase:firebase-analytics:17.4.1</package>
-    <package>com.google.firebase:firebase-analytics-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-app-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-auth:19.3.1</package>
-    <package>com.google.firebase:firebase-auth-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-common:19.3.0</package>
-    <package>com.google.firebase:firebase-config:19.1.4</package>
-    <package>com.google.firebase:firebase-config-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-crashlytics:17.0.0</package>
-    <package>com.google.firebase:firebase-crashlytics-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-database:19.3.0</package>
-    <package>com.google.firebase:firebase-database-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-dynamic-links-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-firestore:21.4.3</package>
-    <package>com.google.firebase:firebase-firestore-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-functions:19.0.2</package>
-    <package>com.google.firebase:firebase-functions-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-iid:20.1.7</package>
-    <package>com.google.firebase:firebase-instance-id-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-messaging:20.1.7</package>
-    <package>com.google.firebase:firebase-messaging-unity:6.15.0</package>
-    <package>com.google.firebase:firebase-storage:19.1.1</package>
-    <package>com.google.firebase:firebase-storage-unity:6.15.0</package>
-    <package>com.hyprmx.android:HyprMX-SDK:5.1.0</package>
-    <package>com.inmobi.monetization:inmobi-ads:9.0.8</package>
-    <package>com.ironsource.adapters:adcolonyadapter:4.3.2</package>
-    <package>com.ironsource.adapters:admobadapter:4.3.13</package>
+    <package>com.google.firebase:firebase-analytics:17.5.0</package>
+    <package>com.google.firebase:firebase-app-unity:6.16.1</package>
+    <package>com.google.firebase:firebase-auth:19.3.2</package>
+    <package>com.google.firebase:firebase-auth-unity:6.16.1</package>
+    <package>com.google.firebase:firebase-common:19.3.1</package>
+    <package>com.google.firebase:firebase-config:19.2.0</package>
+    <package>com.google.firebase:firebase-config-unity:6.16.1</package>
+    <package>com.google.firebase:firebase-messaging:20.2.4</package>
+    <package>com.google.firebase:firebase-messaging-unity:6.16.1</package>
+    <package>com.google.firebase:firebase-storage:19.2.0</package>
+    <package>com.google.firebase:firebase-storage-unity:6.16.1</package>
+    <package>com.hyprmx.android:HyprMX-SDK:5.1.2</package>
+    <package>com.inmobi.monetization:inmobi-ads:9.1.0</package>
+    <package>com.ironsource.adapters:adcolonyadapter:4.3.4</package>
+    <package>com.ironsource.adapters:admobadapter:4.3.14</package>
     <package>com.ironsource.adapters:amazonadapter:4.3.2</package>
     <package>com.ironsource.adapters:amazonsdk:5.9.0@jar</package>
-    <package>com.ironsource.adapters:applovinadapter:4.3.16</package>
+    <package>com.ironsource.adapters:applovinadapter:4.3.20</package>
     <package>com.ironsource.adapters:chartboostadapter:4.3.4</package>
-    <package>com.ironsource.adapters:facebookadapter:4.3.20</package>
-    <package>com.ironsource.adapters:hyprmxadapter:4.1.6</package>
-    <package>com.ironsource.adapters:inmobiadapter:4.3.6</package>
-    <package>com.ironsource.adapters:tapjoyadapter:4.1.13</package>
-    <package>com.ironsource.adapters:unityadsadapter:4.3.6</package>
-    <package>com.ironsource.adapters:vungleadapter:4.3.3</package>
-    <package>com.ironsource.sdk:mediationsdk:7.0.1.1</package>
+    <package>com.ironsource.adapters:facebookadapter:4.3.23</package>
+    <package>com.ironsource.adapters:fyberadapter:4.3.9</package>
+    <package>com.ironsource.adapters:hyprmxadapter:4.1.7</package>
+    <package>com.ironsource.adapters:inmobiadapter:4.3.8</package>
+    <package>com.ironsource.adapters:tapjoyadapter:4.1.15</package>
+    <package>com.ironsource.adapters:unityadsadapter:4.3.8</package>
+    <package>com.ironsource.adapters:vungleadapter:4.3.7</package>
+    <package>com.ironsource.sdk:mediationsdk:7.0.4.1</package>
     <package>com.parse.bolts:bolts-android:1.4.0</package>
     <package>com.squareup.picasso:picasso:2.71828</package>
-    <package>com.tapjoy:tapjoy-android-sdk:12.6.1</package>
-    <package>com.unity3d.ads:unity-ads:3.4.8</package>
-    <package>com.vungle:publisher-sdk-android:6.7.1</package>
+    <package>com.tapjoy:tapjoy-android-sdk:12.7.1</package>
+    <package>com.unity3d.ads:unity-ads:3.5.1</package>
+    <package>com.vungle:publisher-sdk-android:6.8.1</package>
   </packages>
   <files>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/6.15.0/firebase-analytics-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/6.15.0/firebase-analytics-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.15.0/firebase-app-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.15.0/firebase-app-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-auth-unity/6.15.0/firebase-auth-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-auth-unity/6.15.0/firebase-auth-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-config-unity/6.15.0/firebase-config-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-config-unity/6.15.0/firebase-config-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-crashlytics-unity/6.15.0/firebase-crashlytics-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-crashlytics-unity/6.15.0/firebase-crashlytics-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-database-unity/6.15.0/firebase-database-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-database-unity/6.15.0/firebase-database-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-dynamic-links-unity/6.15.0/firebase-dynamic-links-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-dynamic-links-unity/6.15.0/firebase-dynamic-links-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-firestore-unity/6.15.0/firebase-firestore-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-firestore-unity/6.15.0/firebase-firestore-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/6.15.0/firebase-functions-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-functions-unity/6.15.0/firebase-functions-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-instance-id-unity/6.15.0/firebase-instance-id-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-instance-id-unity/6.15.0/firebase-instance-id-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-messaging-unity/6.15.0/firebase-messaging-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-messaging-unity/6.15.0/firebase-messaging-unity-6.15.0.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-storage-unity/6.15.0/firebase-storage-unity-6.15.0.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-storage-unity/6.15.0/firebase-storage-unity-6.15.0.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.16.1/firebase-app-unity-6.16.1.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.16.1/firebase-app-unity-6.16.1.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-auth-unity/6.16.1/firebase-auth-unity-6.16.1.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-auth-unity/6.16.1/firebase-auth-unity-6.16.1.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-config-unity/6.16.1/firebase-config-unity-6.16.1.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-config-unity/6.16.1/firebase-config-unity-6.16.1.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-messaging-unity/6.16.1/firebase-messaging-unity-6.16.1.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-messaging-unity/6.16.1/firebase-messaging-unity-6.16.1.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-storage-unity/6.16.1/firebase-storage-unity-6.16.1.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-storage-unity/6.16.1/firebase-storage-unity-6.16.1.pom</file>
   </files>
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
     <setting name="bundleId" value="com.turbolabz.instantchess.android.googleplay" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradlePropertiesTemplateEnabled" value="False" />
     <setting name="gradleTemplateEnabled" value="True" />
     <setting name="installAndroidPackages" value="True" />
     <setting name="localMavenRepoDir" value="Assets/GeneratedLocalRepo" />

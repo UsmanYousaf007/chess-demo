@@ -6,39 +6,10 @@ namespace HUFEXT.PackageManager.Editor.Core
 {
     public static class Command
     {
-        public class Base
-        {
-            Base executeAfter = null;
-
-            public string data = string.Empty;
-            public bool lastResult = false;
-            public UnityAction<bool, string> OnComplete;
-        
-            public virtual void Execute() {}
-
-            public void SetNextCommand(Base command)
-            {
-                executeAfter = command;
-            }
-            
-            protected virtual void Complete( bool result, string serializedData = "" )
-            {
-                this.Log( $"Completed with result: {result.ToString()} and data: '{serializedData}'." );
-                OnComplete?.Invoke( result, serializedData );
-
-                if ( executeAfter != null )
-                {
-                    executeAfter.data = serializedData;
-                    executeAfter.lastResult = result;
-                    Command.Execute( executeAfter );
-                }
-            }
-        }
-        
         static readonly Queue<Base> commandQueue = new Queue<Base>();
 
         public static bool QueueIsEmpty => commandQueue.Count == 0;
-        
+
         public static void Execute( Base command )
         {
             command.Log( "Execute as default." );
@@ -53,8 +24,8 @@ namespace HUFEXT.PackageManager.Editor.Core
                 commandQueue.Clear();
             }
         }
-        
-        public static void BindAndExecute(params Base[] commands)
+
+        public static void BindAndExecute( params Base[] commands )
         {
             var commandsCount = commands.Length;
 
@@ -76,6 +47,35 @@ namespace HUFEXT.PackageManager.Editor.Core
         {
             commandQueue.Enqueue( command );
             command.Log( $"Command enqueued {commandQueue.Count}." );
+        }
+
+        public class Base
+        {
+            Base executeAfter = null;
+
+            public string data = string.Empty;
+            public bool lastResult = false;
+            public UnityAction<bool, string> OnComplete;
+
+            public virtual void Execute() { }
+
+            public void SetNextCommand( Base command )
+            {
+                executeAfter = command;
+            }
+
+            protected virtual void Complete( bool result, string serializedData = "" )
+            {
+                this.Log( $"Completed with result: {result.ToString()} and data: '{serializedData}'." );
+                OnComplete?.Invoke( result, serializedData );
+
+                if ( executeAfter != null )
+                {
+                    executeAfter.data = serializedData;
+                    executeAfter.lastResult = result;
+                    Command.Execute( executeAfter );
+                }
+            }
         }
     }
 }

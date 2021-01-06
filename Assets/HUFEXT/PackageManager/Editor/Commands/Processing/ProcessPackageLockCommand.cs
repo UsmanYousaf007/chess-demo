@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,8 +8,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
 {
     public class ProcessPackageLockCommand : Core.Command.Base
     {
-        private static bool downloadingPackage = false;
-        
+        static bool downloadingPackage = false;
+
         public override void Execute()
         {
             if ( !Core.Packages.Locked )
@@ -25,7 +27,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 Complete( false );
                 return;
             }
-            
+
             if ( locked.Items.Count == 0 )
             {
                 Core.Packages.RemoveLock();
@@ -37,31 +39,47 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             }
 
             Core.Packages.Installing = true;
-            
             var dependency = locked.Items[0];
 
-            if ( !dependency.name.Contains( ".huuuge." ) )
+            if ( !dependency.IsHufPackage )
             {
+                Common.Log( $"UPM dependency: {dependency.name}@{dependency.version}" );
+                var request = UnityEditor.PackageManager.Client.List();
+                int i = 0;
+
+                while ( !request.IsCompleted )
+                    i = 1;
+                var unityPackages = request.Result.ToList();
+                var unityPackage = unityPackages.FirstOrDefault( p => p.name == dependency.name );
+
                 if ( string.IsNullOrEmpty( dependency.version ) )
                 {
-                    UnityEditor.PackageManager.Client.Add( dependency.name );
+                    if ( unityPackage == null )
+                    {
+                        Common.Log( "Adding UPM dependency" );
+                        UnityEditor.PackageManager.Client.Add( dependency.name );
+                    }
                 }
                 else
                 {
-                    UnityEditor.PackageManager.Client.Add( $"{dependency.name}@{dependency.version}" );
+                    if ( unityPackage == null ||
+                         VersionComparer.Compare( dependency.version, unityPackage.version, true ) > 0 )
+                    {
+                        Common.Log( "Adding UPM dependency" );
+                        UnityEditor.PackageManager.Client.Add( $"{dependency.name}@{dependency.version}" );
+                    }
                 }
-                
+
                 locked.Items.RemoveAt( 0 );
                 Core.Registry.Save( Models.Keys.FILE_PACKAGE_LOCK, locked, Core.CachePolicy.File );
                 Complete( true );
                 return;
             }
-            
+
             var package = packages.Find( p => p.name == dependency.name );
-            
             locked.Items.RemoveAt( 0 );
             Core.Registry.Save( Models.Keys.FILE_PACKAGE_LOCK, locked, Core.CachePolicy.File );
-            
+
             if ( package == null )
             {
                 Core.Packages.RemoveLock();
@@ -77,20 +95,22 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             }
 
             downloadingPackage = true;
+            var dependencyChannel = dependency.channel.ToString().ToLower();
 
-            var dependencyChannel = package.huf.channel;
-            
             if ( dependency.version.Contains( "-" ) )
             {
                 dependencyChannel = dependency.version.Split( '-' )[1];
             }
 
+            Utils.Common.Log(
+                $"Downloading package {package.name} from {dependencyChannel} channel" );
+
             Core.Command.Execute( new Connection.DownloadPackageCommand()
             {
-                scope       = package.huf.scope,
-                channel     = dependencyChannel,
+                scope = dependency.scope,
+                channel = dependencyChannel,
                 packageName = dependency.name,
-                version     = dependency.version.Split( '-' )[0],
+                version = dependency.version.Split( '-' )[0],
                 OnComplete = ( success, serializedData ) =>
                 {
                     if ( !success )
@@ -98,11 +118,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                         SendRequestForLatestPackage( package );
                         return;
                     }
-                    
+
                     InstallPackageIfExistInCache( package );
                 }
             } );
-            
             Complete( true );
         }
 
@@ -117,15 +136,15 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             if ( File.Exists( Utils.Common.GetPackagePath( package.name ) ) )
             {
                 downloadingPackage = false;
+
                 Core.Command.Execute( new RemovePackageCommand
                 {
                     path = package.huf.path,
-                    OnComplete = (r, d) => Core.Command.Execute( new InstallPackageCommand
+                    OnComplete = ( r, d ) => Core.Command.Execute( new InstallPackageCommand
                     {
                         packageName = package.name
-                    })
+                    } )
                 } );
-                
                 return true;
             }
 
@@ -136,11 +155,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         {
             Core.Command.Execute( new Connection.DownloadPackageCommand()
             {
-                scope       = package.huf.scope,
-                channel     = package.huf.channel,
+                scope = package.huf.scope,
+                channel = package.huf.channel,
                 packageName = package.name,
-                version     = package.huf.config.latestVersion,
-                OnComplete  = ( success, serializedData ) =>
+                version = package.huf.config.latestVersion,
+                OnComplete = ( success, serializedData ) =>
                 {
                     if ( !success )
                     {

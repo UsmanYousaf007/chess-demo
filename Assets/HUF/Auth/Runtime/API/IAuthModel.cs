@@ -6,6 +6,7 @@ namespace HUF.Auth.Runtime.API
     {
         event UnityAction<string> OnInitialized;
         event UnityAction<string, bool> OnSignIn;
+        event UnityAction<string, AuthSignInResult> OnSignInResult;
         event UnityAction<string> OnSignOutComplete;
 
         bool TryRegisterService( IAuthService service );

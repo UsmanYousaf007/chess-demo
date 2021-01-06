@@ -30,6 +30,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
 
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
 
         [Header("Main View")]
         public Camera chessboardCamera;
@@ -257,7 +259,13 @@ namespace TurboLabz.Multiplayer
 
         private void OnShowLogo()
         {
-            logoObject.SetActive(playerModel.HasRemoveAds());
+            bool logoActive = false;
+
+            if (playerModel.HasRemoveAds() || adsSettingsModel.isBannerEnabled == false)
+                logoActive = true;
+
+            logoObject.SetActive(logoActive);
+
         }
     }
 }

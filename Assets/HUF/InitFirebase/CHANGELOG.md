@@ -1,3 +1,16 @@
+## [2.2.0] - 2020-11-13
+### Change
+- Moved Firebase to Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 6.16.1
+
+
+## [2.1.2] - 2020-10-15
+### Added
+- Documentation
+
+
 ## [2.1.1] - 2020-07-16
 ### Added
 - Added GoogleUtilities pod to dependencies to fix iOS build errors

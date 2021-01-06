@@ -21,7 +21,7 @@ namespace HUFEXT.PackageManager.Editor.Core
     [System.Serializable]
     public class RouteBuilder
     {
-        private string route;
+        string route;
         public string Value => route;
 
         internal RouteBuilder( string path )
@@ -54,7 +54,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         {
             if ( request == null )
             {
-                Debug.LogError( "Unable to send null request. Please check your authorization token." );
+                Utils.Common.LogError( "Unable to send null request. Please check your authorization token." );
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             EditorApplication.update += UpdateRequest;
         }
 
-        private void UpdateRequest()
+        void UpdateRequest()
         {
             if ( request == null || request.isHttpError || request.isNetworkError )
             {

@@ -11,10 +11,10 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
     public static class HRemoteConfigsFirebase
     {
         /// <summary>
-        /// Returns whether Firebase Remote Config is initialized.
+        /// Returns whether Firebase Remote Configs is initialized.
         /// </summary>
         [PublicAPI]
-        public static bool IsInitialized { private set; get; } = false;
+        public static bool IsInitialized { private set; get; }
 
         static FirebaseRemoteConfigsConfig config;
 
@@ -29,8 +29,8 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Initializes Firebase Remote Config.
-        /// <returns> Whether or not initialization will take place</returns>
+        /// Initializes Firebase Remote Configs.
+        /// <returns> Whether or not the initialization will take place</returns>
         /// </summary>
         [PublicAPI]
         public static bool Init()
@@ -53,9 +53,9 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Initializes Firebase Remote Config.
+        /// Initializes Firebase Remote Configs.
         /// </summary>
-        /// <param name="callback">Callback invoked after initialization is done (regardless of the outcome)</param>
+        /// <param name="callback">A callback invoked after the initialization is done (regardless of the outcome).</param>
         [PublicAPI]
         public static void Init( Action callback )
         {
@@ -80,7 +80,7 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Automatically initializes Firebase Remote Config. Can be disabled from FirebaseRemoteConfigConfig.
+        /// Automatically initializes Firebase Remote Configs. Can be disabled from FirebaseRemoteConfigsConfig.
         /// </summary>
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()

@@ -1,6 +1,20 @@
+##[1.5.3] - 2020-12-10
+## Fixed
+- Send correct placement id when trying to show all ad types.
+
+
+##[1.5.2] - 2020-12-09
+## Fixed
+- Send correct placement id when trying to show rewarded ad.
+
+
+##[1.5.1] - 2020-12-09
+## Fixed
+- Editor ads when using AppLovin MAX
+
 
 ##[1.5.0] - 2020-09-18
-##Changed
+## Changed
 - Handling change in banner show event
 
 
