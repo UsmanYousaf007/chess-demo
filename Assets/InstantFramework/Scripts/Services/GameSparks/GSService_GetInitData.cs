@@ -565,7 +565,7 @@ namespace TurboLabz.InstantFramework
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
                 // Sort entries on score here, and Update rank
-                SortTournamentEntriesAndUpdateRank(tournamentEntries);
+                SortTournamentEntries(tournamentEntries);
 
                 joinedTournament.entries = tournamentEntries;
 
@@ -574,13 +574,8 @@ namespace TurboLabz.InstantFramework
                 // Rank and other entry updates
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
-                    //tournamentEntries[i].rank = i + 1;
-                    //if (tournamentEntries[i].publicProfile.playerId == playerId)
-                    //{
-                    //    joinedTournament.rank = tournamentEntries[i].rank;
-                    //    joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
-                    //}
-
+                    tournamentEntries[i].rank = i + 1;
+                    
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
                     {
                         var leagueAssets = tournamentsModel.GetLeagueSprites(tournamentEntries[i].publicProfile.league.ToString());
@@ -599,7 +594,7 @@ namespace TurboLabz.InstantFramework
             return joinedTournament;
         }
 
-        private void SortTournamentEntriesAndUpdateRank(List<TournamentEntry> entries)
+        private void SortTournamentEntries(List<TournamentEntry> entries)
         {
             TournamentEntry playerEntry = null;
 
@@ -625,7 +620,6 @@ namespace TurboLabz.InstantFramework
             {
                 if (entries[i].score <= playerEntry.score)
                 {
-                    playerEntry.rank = i + 1;
                     entries.Insert(i, playerEntry);
                     inserted = true;
                     break;
@@ -634,7 +628,6 @@ namespace TurboLabz.InstantFramework
 
             if (!inserted)
             {
-                playerEntry.rank = entries.Count;
                 entries.Add(playerEntry);
             }
         }

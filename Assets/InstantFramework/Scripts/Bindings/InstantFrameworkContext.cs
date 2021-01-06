@@ -201,6 +201,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateTournamentLeaderboardViewSignal>().ToSingleton();
             injectionBinder.Bind<ToggleLeaderboardViewNavButtons>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<ResetTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateChampionshipResultDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLiveTournamentRewardsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
@@ -428,7 +430,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<LobbyTickerView>().To<LobbyTickerMediator>();
             mediationBinder.Bind<LeaderboardView>().To<LeaderboardMediator>();
             mediationBinder.Bind<SelectTimeModeView>().To<SelectTimeModeMediator>();
-            mediationBinder.Bind<ChampionshipResultDlgMediator>().To<ChampionshipResultDlgMediator>();
+            mediationBinder.Bind<ChampionshipResultDlgView>().To<ChampionshipResultDlgMediator>();
             mediationBinder.Bind<ChampionshipNewRankDlgView>().To<ChampionshipNewRankDlgMediator>();
             mediationBinder.Bind<ShopCoinItemView>().To<ShopCoinItemMediator>();
             mediationBinder.Bind<SpotCoinPurchaseView>().To<SpotCoinPurchaseMediator>();

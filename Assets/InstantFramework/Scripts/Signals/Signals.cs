@@ -214,6 +214,8 @@ namespace TurboLabz.InstantFramework
     public class UpdateTournamentLeaderboardViewSignal : Signal { }
     public class ToggleLeaderboardViewNavButtons : Signal<bool> { }
     public class UpdateTournamentsViewSignal : Signal { }
+    public class ResetTournamentsViewSignal : Signal { }
+    public class UpdateChampionshipResultDlgSignal : Signal<RewardDlgVO> { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
     public class UnlockCurrentJoinedTournamentSignal : Signal { }
