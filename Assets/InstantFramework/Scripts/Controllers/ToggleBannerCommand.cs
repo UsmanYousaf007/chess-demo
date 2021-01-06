@@ -24,6 +24,8 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
 
         public override void Execute()
         {
@@ -39,7 +41,7 @@ namespace TurboLabz.InstantFramework
                  currentState == typeof(NSCPU) ||
                 (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer)));
 
-            if (canShowBanner)
+            if (canShowBanner && adsSettingsModel.isBannerEnabled)
             {
                 adsService.ShowBanner();
             }

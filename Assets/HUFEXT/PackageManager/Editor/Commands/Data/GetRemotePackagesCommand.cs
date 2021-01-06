@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Commands.Data
@@ -20,10 +21,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
                         Models.Token.Invalidate();
                         Complete( false );
                     }
-                    
+
                     SendRequestForCurrentChannel();
                 }
-            });
+            } );
         }
 
         protected override void Complete( bool result, string serializedData = "" )
@@ -36,76 +37,101 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             {
                 Core.Packages.ClearRemoteData();
             }
-            
+
             base.Complete( result, serializedData );
         }
 
         void SendRequestForCurrentChannel()
         {
             Utils.Common.Log( $"Downloading packages from {Core.Packages.Channel.ToString()} channel." );
-            
+
             switch ( Core.Packages.Channel )
             {
-                case Models.PackageChannel.Stable: FetchRemotePackages( Models.Keys.Routing.STABLE_CHANNEL ); 
+                case Models.PackageChannel.Stable:
+                case Models.PackageChannel.Preview:
+                case Models.PackageChannel.Experimental:
+                    FetchRemotePackages( Models.Keys.Routing.STABLE_CHANNEL );
                     break;
-                case Models.PackageChannel.Preview: FetchRemotePackages( Models.Keys.Routing.PREVIEW_CHANNEL ); 
+                case Models.PackageChannel.Development:
+                    FetchDevelopmentPackages();
                     break;
-                case Models.PackageChannel.Experimental: FetchRemotePackages( Models.Keys.Routing.EXPERIMENTAL_CHANNEL );
-                    break;
-                case Models.PackageChannel.Development: FetchDevelopmentPackages(); break;
-                default: Complete( false, "Unsupported channel." );
+                default:
+                    Complete( false, "Unsupported channel." );
                     return;
             }
         }
-        
+
         void FetchRemotePackages( string channelName )
         {
             var route = Core.Request.CreateRoute( Models.Keys.Routing.API.LATEST_PACKAGES )
-                            .Set( Models.Keys.Routing.Tag.CHANNEL, channelName )
-                            .Value;
+                .Set( Models.Keys.Routing.Tag.CHANNEL, channelName )
+                .Value;
 
-            var request = new Core.Request( route, response =>
-            {
-                if ( response.status == Core.RequestStatus.Failure )
+            var request = new Core.Request( route,
+                response =>
                 {
-                    Complete( false, $"Unable to fetch remote packages from {channelName}. Response is failure." );
-                    return;
-                }
-
-                var manifests = Utils.Common.FromJsonToArray<Models.PackageManifest>( response.text );
-                foreach ( var manifest in manifests )
-                {
-                    if ( packages.Exists( package => package.name == manifest.name ) )
+                    if ( response.status == Core.RequestStatus.Failure )
                     {
-                        var existing = packages.Find( package => package.name == manifest.name );
-                        if ( Utils.VersionComparer.Compare( manifest.version, ">=", existing.version ) )
-                        {
-                            packages.Remove( packages.Find( package => package.name == manifest.name ) );
-                        }
-                        else continue;
+                        Complete( false, $"Unable to fetch remote packages from {channelName}. Response is failure." );
+                        return;
                     }
-                    
-                    manifest.ParseVersion();
-                    manifest.huf.status = Models.PackageStatus.NotInstalled;
-                    manifest.huf.isLocal = false;
-                    packages.Add( manifest );
-                }
 
-                if ( channelName == Models.Keys.Routing.STABLE_CHANNEL )
-                {
-                    FetchRemotePackages( Models.Keys.Routing.PREVIEW_CHANNEL );
-                    return;
-                }
-                
-                Complete( true );
-            } );
-            
+                    var manifests = Utils.Common.FromJsonToArray<Models.PackageManifest>( response.text );
+
+                    foreach ( var manifest in manifests )
+                    {
+                        if ( packages.Exists( p => p.name == manifest.name ) )
+                        {
+                            if ( channelName != Core.Packages.Channel.ToString().ToLower() )
+                                continue;
+
+                            var package = packages.Find( p => p.name == manifest.name );
+                            package.huf.scopes.Add( manifest.huf.scope );
+                            manifest.huf.scopes = package.huf.scopes;
+
+                            if ( package.huf.channel != manifest.huf.channel ||
+                                 manifest.IsVersionHigherTo( package ) )
+                            {
+                                packages.Remove( package );
+                                AddPackage( manifest );
+                            }
+                        }
+                        else
+                        {
+                            manifest.huf.scopes.Add( manifest.huf.scope );
+                            AddPackage( manifest );
+                        }
+                    }
+
+                    if ( channelName == Models.Keys.Routing.STABLE_CHANNEL )
+                    {
+                        FetchRemotePackages( Models.Keys.Routing.PREVIEW_CHANNEL );
+                        return;
+                    }
+
+                    if ( channelName == Models.Keys.Routing.PREVIEW_CHANNEL )
+                    {
+                        FetchRemotePackages( Models.Keys.Routing.EXPERIMENTAL_CHANNEL );
+                        return;
+                    }
+
+                    Complete( true );
+                } );
             request.Send();
+
+            void AddPackage( Models.PackageManifest package )
+            {
+                package.ParseVersion();
+                package.huf.status = Models.PackageStatus.NotInstalled;
+                package.huf.isLocal = false;
+                packages.Add( package );
+            }
         }
 
         void FetchDevelopmentPackages()
         {
             Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, out string devEnvPath );
+
             if ( string.IsNullOrEmpty( devEnvPath ) )
             {
                 Complete( false, "Development environment path is empty." );
@@ -122,7 +148,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             var directories = Directory.GetFiles( devEnvPath,
                 Models.Keys.Filesystem.MANIFEST_EXTENSION,
                 SearchOption.AllDirectories );
-            
+
             foreach ( var path in directories )
             {
                 var manifest = Models.PackageManifest.ParseManifest( path );
@@ -131,7 +157,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
 
                 var configPath = path.Replace( Models.Keys.Filesystem.MANIFEST_EXTENSION,
                     Models.Keys.Filesystem.CONFIG_EXTENSION );
-                
+
                 if ( File.Exists( configPath ) )
                 {
                     var config = new Models.PackageConfig();
@@ -139,10 +165,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
                     manifest.huf.config = config;
                     manifest.huf.config.latestVersion = manifest.version;
                 }
-                
+
                 packages.Add( manifest );
             }
-            
+
             Complete( true );
         }
     }

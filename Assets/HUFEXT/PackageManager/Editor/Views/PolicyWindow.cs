@@ -6,18 +6,18 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PolicyWindow : EditorWindow
     {
-        private Vector2 scroll;
-        private string license;
-        private string developerId = string.Empty;
-        private string accessKey = string.Empty;
-        private bool licenseAccepted;
-        private bool waitForValidation = false;
+        Vector2 scroll;
+        string license;
+        string developerId = string.Empty;
+        string accessKey = string.Empty;
+        bool licenseAccepted;
+        bool waitForValidation = false;
         
         public static void Init()
         {
             if ( !File.Exists( Models.Keys.Views.Policy.LICENSE_PATH ) )
             {
-                Debug.LogError( "[PackageManager] Unable to find LICENSE file. Please re-install package." );
+                Utils.Common.LogError( "Unable to find LICENSE file. Please re-install package." );
                 return;
             }
             
@@ -69,11 +69,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                 return true;
             }
                 
-            Debug.LogError( "[PackageManager] Unable to find LICENSE file. Please re-install package." );
+            Utils.Common.LogError( "Unable to find LICENSE file. Please re-install package." );
             return false;
         }
         
-        private void DrawLicense()
+        void DrawLicense()
         {
             EditorGUILayout.LabelField( Models.Keys.Views.Policy.LICENSE, EditorStyles.boldLabel );
             Utils.HGUI.HorizontalSeparator();
@@ -94,7 +94,7 @@ namespace HUFEXT.PackageManager.Editor.Views
             Utils.HGUI.HorizontalSeparator();
         }
 
-        private void DrawCredentials()
+        void DrawCredentials()
         {
             using( new EditorGUI.DisabledGroupScope( waitForValidation ) )
             {

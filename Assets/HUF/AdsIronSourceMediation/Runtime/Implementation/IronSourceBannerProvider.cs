@@ -19,6 +19,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         float shownBannerHeight;
 
         bool isLoaded = false;
+        bool HideOnLoad = false;
 
         public IronSourceBannerProvider( IronSourceBaseProvider baseProvider )
             : base( baseProvider, PlacementType.Banner ) { }
@@ -42,6 +43,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
 
         bool ShowBanner( AdPlacementData data, BannerPosition position )
         {
+            HideOnLoad = false;
             lastPlacementId = data.PlacementId;
             IronSource.Agent.loadBanner( bannerSize, position.ToIronSourceBannerPosition(), data.PlacementId );
             IronSource.Agent.displayBanner();
@@ -53,6 +55,11 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
             if ( lastPlacementId == null )
                 return;
 
+            if ( isLoaded == false )
+            {
+                HideOnLoad = true;
+                return;
+            }
             isLoaded = false;
             IronSource.Agent.hideBanner();
             IronSource.Agent.destroyBanner();
@@ -80,6 +87,14 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         {
             bool isRefresh = isLoaded;
             isLoaded = true;
+
+            if ( HideOnLoad )
+            {
+                HideOnLoad = false;
+                Hide();
+                return;
+            }
+
             HLog.Log( logPrefix, $"Banner ad loaded, is refresh {isRefresh}" );
             shownBannerHeight = HAdsUtils.ConvertDpToPixels( CalculateBannerHeightInDp( bannerSize ) );
             OnBannerShown.Dispatch( new BannerCallbackData( ProviderId, lastPlacementId, shownBannerHeight ), isRefresh);

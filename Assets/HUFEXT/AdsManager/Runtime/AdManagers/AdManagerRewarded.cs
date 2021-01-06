@@ -33,7 +33,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             base.ShowAd( resultCallback, alternativeAdPlacement );
-            adsService.Mediation.ShowRewarded( adPlacementData.PlacementId );
+            adsService.Mediation.ShowRewarded( shownPlacementId );
         }
 
         protected override void SendAdEvent( AdResult result, string placementId )

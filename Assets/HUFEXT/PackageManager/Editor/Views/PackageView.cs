@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using HUFEXT.PackageManager.Editor.Models;
+using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,11 +12,18 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public class PackageView : PackageManagerView
     {
-        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.PackageView;
-        
         const float BUTTON_WIDTH = 120.0f;
         readonly float BUTTON_HEIGHT = EditorGUIUtility.singleLineHeight;
-        
+
+        readonly GUIStyle importantStyle = new GUIStyle()
+        {
+            normal = {textColor = Color.red},
+            margin = new RectOffset( 5, 5, 0, 2 ),
+            fontStyle = FontStyle.Bold,
+            wordWrap = true,
+            fontSize = 12
+        };
+
         Vector2 leftSideScroll;
         Vector2 rightSideScroll;
 
@@ -20,6 +31,8 @@ namespace HUFEXT.PackageManager.Editor.Views
         {
             window = parent;
         }
+
+        public override Models.PackageManagerViewType Type => Models.PackageManagerViewType.PackageView;
 
         public override void OnEventCompleted( Models.PackageManagerViewEvent ev )
         {
@@ -30,7 +43,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                     owner = Type,
                     eventType = Models.EventType.SelectPackage,
                     data = window.state.selectedPackage.name
-                });
+                } );
             }
         }
 
@@ -41,17 +54,22 @@ namespace HUFEXT.PackageManager.Editor.Views
                 using ( new GUILayout.VerticalScope() )
                 {
                     GUILayout.FlexibleSpace();
+
                     using ( new GUILayout.HorizontalScope() )
                     {
                         GUILayout.FlexibleSpace();
                         GUILayout.Label( "No package selected.", EditorStyles.centeredGreyMiniLabel );
                         GUILayout.FlexibleSpace();
                     }
+
                     GUILayout.FlexibleSpace();
                 }
 
                 return;
             }
+
+            if ( window.state.originalSelectedPackage == null )
+                window.state.originalSelectedPackage = window.state.selectedPackage;
 
             using ( new GUILayout.VerticalScope() )
             {
@@ -74,40 +92,86 @@ namespace HUFEXT.PackageManager.Editor.Views
             using ( new GUILayout.HorizontalScope() )
             {
                 EditorGUILayout.Space();
-                GUILayout.Label( $"{package.displayName} {package.huf.version}", new GUIStyle( EditorStyles.label )
-                {
-                    fontStyle = FontStyle.Bold,
-                    fontSize = 18
-                } );
+
+                GUILayout.Label( $"{package.displayName} {package.huf.version}",
+                    new GUIStyle( EditorStyles.label )
+                    {
+                        fontStyle = FontStyle.Bold,
+                        fontSize = 18
+                    } );
                 GUILayout.FlexibleSpace();
                 DrawPackageActionButtons( package );
                 EditorGUILayout.Space();
             }
         }
-        
+
         void DrawPackageActionButtons( Models.PackageManifest package )
         {
             switch ( package.huf.status )
             {
+                case Models.PackageStatus.Git:
+                case Models.PackageStatus.GitUpdate:
+                case Models.PackageStatus.GitError:
+                    if ( GUILayout.Button( "Install Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+                    {
+                        Core.Command.Enqueue( new Commands.Processing.PackageLockCommand()
+                        {
+                            data = Utils.Common.FromListToJson(
+                                package.huf.dependencies.Where( p => !p.Contains( ".huuuge." ) )
+                                    .Select( p => new Models.Dependency( p ) ).ToList() ),
+                            lastResult = true
+                        } );
+                        Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                    }
+
+                    if ( GUILayout.Button( "Install all Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+                    {
+                        var dependencies = new List<Dependency>();
+
+                        foreach ( var pack in Core.Packages.Local )
+                        {
+                            foreach ( var dependency in pack.huf.dependencies.Where( p => !p.Contains( ".huuuge." ) )
+                                .Select( p => new Models.Dependency( p ) ) )
+                            {
+                                var existingDependency = dependencies.FirstOrDefault( d => d.name == dependency.name );
+
+                                if ( existingDependency == null )
+                                {
+                                    dependencies.Add( dependency );
+                                }
+                                else if ( dependency.IsVersionHigherTo( existingDependency ) )
+                                {
+                                    dependencies.Remove( existingDependency );
+                                    dependencies.Add( dependency );
+                                }
+                            }
+                        }
+
+                        Core.Command.Enqueue( new Commands.Processing.PackageLockCommand()
+                        {
+                            data = Utils.Common.FromListToJson( dependencies ),
+                            lastResult = true
+                        } );
+                        Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                    }
+
+                    break;
                 case Models.PackageStatus.NotInstalled:
                 case Models.PackageStatus.ForceUpdate:
                 case Models.PackageStatus.UpdateAvailable:
                 case Models.PackageStatus.Migration:
                 case Models.PackageStatus.Development:
                 {
-                    var update = package.huf.status != Models.PackageStatus.NotInstalled ||
-                                 package.huf.status == Models.PackageStatus.Development;
-                    
+                    var update = package.huf.status != Models.PackageStatus.NotInstalled;
                     var label = !update ? "Install" : $"Update to {package.huf.config.latestVersion}";
-                    
-                    if ( GUILayout.Button( label,GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+
+                    if ( GUILayout.Button( label, GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        Core.Registry.ClearCache();
                         RegisterEvent( new Models.PackageManagerViewEvent
                         {
-                            owner     = Type,
+                            owner = Type,
                             eventType = Models.EventType.InstallPackage,
-                            data      = package.ToString()
+                            data = package.ToString()
                         } );
                     }
 
@@ -115,49 +179,49 @@ namespace HUFEXT.PackageManager.Editor.Views
                     {
                         using ( new EditorGUI.DisabledScope( !package.huf.config.packageCanBeRemoved ) )
                         {
-                            if ( GUILayout.Button( "Remove", 
-                                                   GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+                            if ( GUILayout.Button( "Remove",
+                                GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                             {
-                                Core.Registry.ClearCache();
                                 RegisterEvent( new Models.PackageManagerViewEvent
                                 {
-                                    owner     = Type,
+                                    owner = Type,
                                     eventType = Models.EventType.RemovePackage,
-                                    data      = package.ToString()
+                                    data = package.ToString()
                                 } );
                             }
                         }
                     }
+
                     break;
                 }
-
                 case Models.PackageStatus.Installed:
                 case Models.PackageStatus.Embedded:
                 case Models.PackageStatus.Conflict:
                 {
                     if ( GUILayout.Button( "Remove", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        Core.Registry.ClearCache();
                         RegisterEvent( new Models.PackageManagerViewEvent
                         {
-                            owner     = Type,
+                            owner = Type,
                             eventType = Models.EventType.RemovePackage,
-                            data      = package.ToString()
+                            data = package.ToString()
                         } );
                     }
+
                     break;
                 }
             }
         }
-        
+
         void DrawBasicInfo( Models.PackageManifest package )
         {
             var style = new GUIStyle( EditorStyles.label );
+
             using ( new GUILayout.VerticalScope() )
             {
                 using ( var scope = new GUILayout.ScrollViewScope( leftSideScroll,
-                                                                   GUILayout.MinWidth( 330f ), 
-                                                                   GUILayout.ExpandWidth( true ) ) )
+                    GUILayout.MinWidth( 330f ),
+                    GUILayout.ExpandWidth( true ) ) )
                 {
                     leftSideScroll = scope.scrollPosition;
                     EditorGUILayout.Space();
@@ -166,6 +230,16 @@ namespace HUFEXT.PackageManager.Editor.Views
                     EditorGUILayout.Space();
                     DrawAdditionalButtons( package );
                     EditorGUILayout.Space();
+
+                    if ( !string.IsNullOrEmpty( package.unity ) )
+                    {
+                        GUILayout.Label( "Supported Unity versions", EditorStyles.boldLabel );
+
+                        GUILayout.Label( ProcessSupportedUnityVersions( package.unity ),
+                            package.SupportsCurrentUnityVersion ? style : importantStyle );
+                        EditorGUILayout.Space();
+                    }
+
                     GUILayout.Label( "Author", EditorStyles.boldLabel );
                     GUILayout.Label( package.author.name, style );
                     EditorGUILayout.Space();
@@ -177,57 +251,87 @@ namespace HUFEXT.PackageManager.Editor.Views
                     GUILayout.FlexibleSpace();
                 }
             }
+
+            string ProcessSupportedUnityVersions( string supportedUnityVersions )
+            {
+                string[] versionRanges = supportedUnityVersions.Replace( " ", "" ).Split( ',' );
+                StringBuilder stringBuilder = new StringBuilder();
+
+                foreach ( var versionRange in versionRanges )
+                {
+                    if ( stringBuilder.Length > 0 )
+                        stringBuilder.Append( ", " );
+                    stringBuilder.Append( versionRange.Contains( "-" ) ? versionRange : $"{versionRange} and up" );
+                }
+
+                return stringBuilder.ToString();
+            }
         }
 
         void DrawMetadataInfo( Models.PackageManifest package )
-        {            
+        {
             GUILayout.Label( "Metadata", EditorStyles.boldLabel );
-            GUILayout.Label( "Version: " + package.version );
+            GUILayout.Label( $"Version: {package.version}" );
 
-            if ( !string.IsNullOrEmpty( package.huf.commit) )
+            if ( !string.IsNullOrEmpty( package.huf.commit ) )
             {
-                GUILayout.Label( $"Build: {package.huf.commit}-b{package.huf.build}");
+                GUILayout.Label( $"Build: {package.huf.commit}-b{package.huf.build}" );
                 GUILayout.Label( $"Build Time: {package.huf.date}" );
             }
-            
+
             if ( !string.IsNullOrEmpty( package.huf.rollout ) )
             {
-                GUILayout.Label( "Rollout: " + package.huf.rollout );
+                GUILayout.Label( $"Rollout: {package.huf.rollout}" );
             }
-            
+
             if ( package.huf.isLocal )
             {
                 GUILayout.Label( "This package is local." );
             }
-            else if( !string.IsNullOrEmpty( package.huf.config.latestVersion ) )
+            else if ( !string.IsNullOrEmpty( package.huf.config.latestVersion ) )
             {
-                GUILayout.Label( "Latest version: " + package.huf.config.latestVersion );
+                GUILayout.Label( $"Latest version: {package.huf.config.latestVersion}" );
             }
-            
+
             if ( !string.IsNullOrEmpty( package.huf.path ) )
             {
-                GUILayout.Label( "Path: " + package.huf.path );
+                GUILayout.Label( $"Path: {package.huf.path}" );
             }
         }
 
         void DrawDependenciesInfo( Models.PackageManifest package )
         {
-            if ( package == null || package.huf.dependencies.Count == 0 )
+            if ( package == null )
             {
                 return;
             }
 
-            GUILayout.Label( "Dependencies", EditorStyles.boldLabel );
-            foreach ( var dependency in package.huf.dependencies )
+            if ( package.huf.dependencies.Count > 0 )
+                DrawDependenciesInfo( "Dependencies", package.huf.dependencies );
+
+            if ( package.huf.optionalDependencies.Count > 0 )
             {
-                GUILayout.Label( "• " + dependency, new GUIStyle( EditorStyles.label )
-                {
-                    fontStyle = FontStyle.Normal,
-                    fontSize  = 10
-                } );
+                if ( package.huf.dependencies.Count > 0 )
+                    EditorGUILayout.Space();
+                DrawDependenciesInfo( "Optional dependencies", package.huf.optionalDependencies );
             }
         }
-        
+
+        void DrawDependenciesInfo( string title, List<string> dependencies )
+        {
+            GUILayout.Label( title, EditorStyles.boldLabel );
+
+            foreach ( var dependency in dependencies )
+            {
+                GUILayout.Label( $"• {dependency}",
+                    new GUIStyle( EditorStyles.label )
+                    {
+                        fontStyle = FontStyle.Normal,
+                        fontSize = 10
+                    } );
+            }
+        }
+
         void DrawExcludedInfo( Models.PackageManifest package )
         {
             if ( package == null || package.huf.exclude.Count == 0 )
@@ -238,50 +342,47 @@ namespace HUFEXT.PackageManager.Editor.Views
             GUILayout.Label( new GUIContent( "Conflicts",
                     "This package cannot be installed with following packages" ),
                 EditorStyles.boldLabel );
-            
+
             foreach ( var dependency in package.huf.exclude )
             {
-                GUILayout.Label( "• " + dependency, new GUIStyle( EditorStyles.label )
-                {
-                    fontStyle = FontStyle.Normal,
-                    fontSize  = 10
-                } );
+                GUILayout.Label( $"• {dependency}",
+                    new GUIStyle( EditorStyles.label )
+                    {
+                        fontStyle = FontStyle.Normal,
+                        fontSize = 10
+                    } );
             }
         }
-        
+
         void DrawDetailedInfo( Models.PackageManifest package )
         {
             using ( new GUILayout.VerticalScope() )
             {
-                using( var scope = new GUILayout.ScrollViewScope( rightSideScroll ) )
+                using ( var scope = new GUILayout.ScrollViewScope( rightSideScroll ) )
                 {
                     rightSideScroll = scope.scrollPosition;
-                    
+
                     using ( new GUILayout.HorizontalScope() )
                     {
                         GUILayout.Label( "Description", EditorStyles.boldLabel );
                         GUILayout.FlexibleSpace();
                     }
-                    
+
                     EditorGUILayout.Space();
+
                     if ( !string.IsNullOrEmpty( package.huf.message ) )
                     {
                         GUILayout.Label( "Read before installing this package", EditorStyles.boldLabel );
-                        GUILayout.Label( package.huf.message, new GUIStyle( EditorStyles.label )
-                        {
-                            normal = { textColor = Color.red },
-                            fontStyle = FontStyle.Bold,
-                            wordWrap = true,
-                            fontSize = 12
-                        } );
+                        GUILayout.Label( package.huf.message, importantStyle );
                         EditorGUILayout.Space();
                     }
-                    
-                    GUILayout.Label( package.description, new GUIStyle( EditorStyles.label )
-                    {
-                        fontSize = 12, 
-                        wordWrap = true
-                    } );
+
+                    GUILayout.Label( package.description,
+                        new GUIStyle( EditorStyles.label )
+                        {
+                            fontSize = 12,
+                            wordWrap = true
+                        } );
 
                     if ( package.huf.details.Count > 0 )
                     {
@@ -289,17 +390,21 @@ namespace HUFEXT.PackageManager.Editor.Views
                         DrawDetailsData( package );
                     }
 
-                    var changelogPath = package.huf.path + "/CHANGELOG.md";
+                    var changelogPath = $"{package.huf.path}/CHANGELOG.md";
+
                     if ( File.Exists( changelogPath ) )
                     {
                         EditorGUILayout.Space();
-                        using ( new GUILayout.VerticalScope(  ) )
+
+                        using ( new GUILayout.VerticalScope() )
                         {
                             var changelog = File.ReadAllText( changelogPath );
-                            GUILayout.Label( changelog, new GUIStyle( EditorStyles.label )
-                            {
-                                wordWrap = true
-                            } );
+
+                            GUILayout.Label( changelog,
+                                new GUIStyle( EditorStyles.label )
+                                {
+                                    wordWrap = true
+                                } );
                         }
                     }
                 }
@@ -314,42 +419,50 @@ namespace HUFEXT.PackageManager.Editor.Views
                 {
                     for ( int i = 0; i < package.huf.details.Count; ++i )
                     {
-                        GUILayout.Label( package.huf.details[i], new GUIStyle( EditorStyles.label )
-                        {
-                            fontSize = 10
-                        } );
+                        GUILayout.Label( package.huf.details[i],
+                            new GUIStyle( EditorStyles.label )
+                            {
+                                fontSize = 10
+                            } );
                     }
                 }
             }
         }
-        
+
         void DrawAdditionalButtons( Models.PackageManifest package )
         {
             using ( new GUILayout.HorizontalScope() )
             {
-                // For now. TODO: In next update this should be reworked.
-                using ( new EditorGUI.DisabledScope( true ) )
+                if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
                 {
-                    if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
+                    try
                     {
-                        try
+                        var directoryInfo = new DirectoryInfo( $"{package.huf.path}/Documentation~" );
+
+                        if ( !directoryInfo.Exists )
+                            directoryInfo = new DirectoryInfo( $"{package.huf.path}/Documentation" );
+
+                        if ( directoryInfo.Exists )
                         {
-                            var directoryInfoVariable = new DirectoryInfo( $"{package.huf.path}/Documentation~" );
-                            var files = directoryInfoVariable.GetFiles( "*.md", SearchOption.AllDirectories );
-                            foreach ( var file in files )
-                            {
-                                EditorUtility.RevealInFinder( file.FullName );
-                            }
+                            var files = directoryInfo.GetFiles( "*.md", SearchOption.AllDirectories );
 
                             if ( files.Length == 0 )
                             {
                                 UnableToFindDocumentationDialog();
                             }
+                            else
+                            {
+                                EditorUtility.RevealInFinder( files[0].FullName );
+                            }
                         }
-                        catch ( Exception )
+                        else
                         {
                             UnableToFindDocumentationDialog();
                         }
+                    }
+                    catch ( Exception )
+                    {
+                        UnableToFindDocumentationDialog();
                     }
                 }
 
@@ -357,26 +470,31 @@ namespace HUFEXT.PackageManager.Editor.Views
                 {
                     return;
                 }
-                
-                using ( new EditorGUI.DisabledScope( package.huf.config.previewVersions.Count == 0 &&
-                                                     package.huf.config.stableVersions.Count == 0 && 
-                                                     package.huf.config.experimentalVersions.Count == 0 ) )
+
+                var originalSelectedPackage = window.state.originalSelectedPackage;
+
+                //using window.state.originalSelectedPackage as DownloadPackageManifestCommand() does not get versions
+                using ( new EditorGUI.DisabledScope(
+                    originalSelectedPackage.huf.config.previewVersions.Count == 0 &&
+                    originalSelectedPackage.huf.config.stableVersions.Count == 0 &&
+                    originalSelectedPackage.huf.config.experimentalVersions.Count == 0 ) )
                 {
                     if ( GUILayout.Button( "Other versions", EditorStyles.popup ) )
                     {
                         var menu = new GenericMenu();
+
                         DisplayVersionsMenu( ref menu,
-                            ref package.huf.config.stableVersions,
+                            originalSelectedPackage.huf.config.stableVersions,
                             Models.Keys.Routing.STABLE_CHANNEL,
                             package );
-                        
+
                         DisplayVersionsMenu( ref menu,
-                            ref package.huf.config.previewVersions,
+                            originalSelectedPackage.huf.config.previewVersions,
                             Models.Keys.Routing.PREVIEW_CHANNEL,
                             package );
 
                         DisplayVersionsMenu( ref menu,
-                            ref package.huf.config.experimentalVersions,
+                            originalSelectedPackage.huf.config.experimentalVersions,
                             Models.Keys.Routing.EXPERIMENTAL_CHANNEL,
                             package );
                         menu.ShowAsContext();
@@ -391,40 +509,66 @@ namespace HUFEXT.PackageManager.Editor.Views
                 "Documentation is not found for this package.",
                 "Ok" );
         }
-        
-        void DisplayVersionsMenu( ref GenericMenu menu, ref List<string> versions, string channel, Models.PackageManifest package )
+
+        void DisplayVersionsMenu( ref GenericMenu menu,
+            List<Models.Version> versions,
+            string channel,
+            Models.PackageManifest package )
         {
+            versions.Sort( ( v1, v2 ) => VersionComparer.Compare( v2.version, v1.version ) );
+
             foreach ( var version in versions )
             {
-                if ( Utils.VersionComparer.Compare( package.version, "=", version ) )
+                if ( channel == package.huf.channel &&
+                     Utils.VersionComparer.Compare( package.version, "=", version.version ) )
                 {
-                    menu.AddDisabledItem( new GUIContent( $"{channel}/{version}" ),
-                                          package.huf.status == Models.PackageStatus.Installed );
+                    menu.AddDisabledItem( new GUIContent( $"{channel}/{version.version}" ),
+                        IsPackageCurrentlyInstalled( version.version ) );
                 }
                 else
                 {
-                    menu.AddItem( new GUIContent( $"{channel}/{version}" ), false, () =>
-                    {
-                        Core.Command.Execute( new Commands.Connection.DownloadPackageManifestCommand
+                    menu.AddItem( new GUIContent( $"{channel}/{version.version}" ),
+                        IsPackageCurrentlyInstalled( version.version ),
+                        () =>
                         {
-                            version = version,
-                            channel = channel,
-                            packageName = package.name,
-                            scope = package.huf.scope,
-                            OnComplete = ( success, serializedData ) =>
+                            if ( window.state.originalSelectedPackage.version == version.version )
                             {
-                                if ( !success )
-                                {
-                                    return;
-                                }
-                                
-                                package = Models.PackageManifest.ParseManifest( serializedData, true );
-                                window.state.selectedPackage = package;
+                                window.state.selectedPackage = window.state.originalSelectedPackage;
+                                window.state.selectedPackage.CheckIfCurrentUnitySupportsThisPackage();
+                                return;
                             }
-                        });
-                    } );
+
+                            Core.Command.Execute( new Commands.Connection.DownloadPackageManifestCommand()
+                            {
+                                version = version.version,
+                                channel = channel,
+                                packageName = package.name,
+                                scope = string.IsNullOrEmpty( version.scope ) ? package.huf.scope : version.scope,
+                                OnComplete = ( success, serializedData ) =>
+                                {
+                                    if ( !success )
+                                    {
+                                        return;
+                                    }
+
+                                    package = Models.PackageManifest.ParseManifest( serializedData, true );
+                                    window.state.selectedPackage = package;
+                                    window.state.selectedPackage.CheckIfCurrentUnitySupportsThisPackage();
+                                }
+                            } );
+                        } );
                 }
             }
+        }
+
+        bool IsPackageCurrentlyInstalled( string version )
+        {
+            if ( window.state.originalSelectedPackage.IsInstalled )
+                return Utils.VersionComparer.Compare( window.state.originalSelectedPackage.version,
+                    "=",
+                    version );
+
+            return false;
         }
     }
 }

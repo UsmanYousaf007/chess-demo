@@ -24,15 +24,15 @@ namespace TurboLabz.InstantFramework
         public IPromise<bool, string> Login()
         {
             promise = new Promise<bool, string>();
-            HAuthSIWA.Service.OnSignIn += OnLogin;
+            HAuthSIWA.Service.OnSignInResult += OnLogin;
             HAuthSIWA.Service.SignIn();
             return promise;
         }
 
-        private void OnLogin(string name, bool success)
+        private void OnLogin(string name, AuthSignInResult result)
         {
-            HAuthSIWA.Service.OnSignIn -= OnLogin;
-            promise.Dispatch(success, HAuthSIWA.AuthorizationCode);
+            HAuthSIWA.Service.OnSignInResult -= OnLogin;
+            promise.Dispatch(result == AuthSignInResult.Success, HAuthSIWA.AuthorizationCode);
             promise = null;
         }
 

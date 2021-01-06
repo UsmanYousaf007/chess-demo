@@ -1,3 +1,7 @@
+## [2.2.0] - 2020-10-22
+### Added
+- OnSignInResult event
+
 ## [2.1.2] - 2020-09-07
 ### Changed
 - Code refactoring

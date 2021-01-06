@@ -30,6 +30,8 @@ namespace TurboLabz.InstantFramework
         public bool showInGameCPU { get; set; }
         public bool showInGame30Min { get; set; }
         public bool showInGameClassic { get; set; }
+        public bool isBannerEnabled { get; set; }
+
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -51,6 +53,7 @@ namespace TurboLabz.InstantFramework
             minutesForVictoryInternalAd = 0;
             autoSubscriptionDlgThreshold = 0;
             daysPerAutoSubscriptionDlgThreshold = 0;
+            isBannerEnabled = true;
         }
     }
 }

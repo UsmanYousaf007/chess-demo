@@ -21,6 +21,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
+#import <FBSDKGamingServicesKit/FBSDKGamingServicesKit.h>
 #import <Foundation/NSJSONSerialization.h>
 
 #include "FBUnitySDKDelegate.h"
@@ -244,7 +245,7 @@ isPublishPermLogin:(BOOL)isPublishPermLogin
     [feedParameters setObject:sourceStr forKey:@"source"];
   }
 
-  linkContent.feedParameters = feedParameters;
+  [linkContent addParameters:feedParameters bridgeOptions:FBSDKShareBridgeOptionsDefault];
   [self shareContentWithRequestId:requestId
                      shareContent:linkContent
                        dialogMode:FBSDKShareDialogModeFeedWeb];
@@ -477,6 +478,11 @@ extern "C" {
     [FBSDKSettings setAdvertiserIDCollectionEnabled:advertiserIDCollectionEnabledID];
   }
 
+  BOOL IOSFBAdvertiserTrackingEnabled(BOOL advertiserTrackingEnabled)
+  {
+    return [FBSDKSettings setAdvertiserTrackingEnabled:advertiserTrackingEnabled];
+  }
+
   char* IOSFBSdkVersion()
   {
     const char* string = [[FBSDKSettings sdkVersion] UTF8String];
@@ -488,6 +494,95 @@ extern "C" {
   void IOSFBSetUserID(const char *userID)
   {
     [FBSDKAppEvents setUserID:[FBUnityUtility stringFromCString:userID]];
+  }
+
+  void IOSFBOpenGamingServicesFriendFinder(int requestId)
+  {
+    [FBSDKFriendFinderDialog
+       launchFriendFinderDialogWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success || error) {
+            [FBUnityUtility sendErrorToUnity:FBUnityMessageName_OnFriendFinderComplete error:error requestId:requestId];
+        } else {
+           [FBUnityUtility sendMessageToUnity:FBUnityMessageName_OnFriendFinderComplete
+                                    userData:NULL
+                                    requestId:requestId];
+        }
+      }];
+  }
+
+  void IOSFBSetDataProcessingOptions(
+    const char** options,
+    int numOptions,
+    int country,
+    int state) {
+    NSMutableArray<NSString*>* array = [[NSMutableArray alloc] init];
+    for (int i = 0; i < numOptions; i++) {
+      NSString* option = [FBUnityUtility stringFromCString:options[i]];
+      if (option) {
+        [array addObject:option];
+      }
+    }
+    [FBSDKSettings setDataProcessingOptions:array country:country state:state];
+  }
+
+  void IOSFBUploadImageToMediaLibrary(int requestId,
+                                      const char *caption,
+                                      const char *imageUri,
+                                      bool shouldLaunchMediaDialog)
+  {
+    NSString *captionString = [FBUnityUtility stringFromCString:caption];
+    NSString *imageUriString = [FBUnityUtility stringFromCString:imageUri];
+    UIImage *image = [UIImage imageWithContentsOfFile:imageUriString];
+
+    FBSDKGamingImageUploaderConfiguration *config =
+    [[FBSDKGamingImageUploaderConfiguration alloc]
+      initWithImage:image
+      caption:captionString
+      shouldLaunchMediaDialog:shouldLaunchMediaDialog ? YES: NO];
+
+    [FBSDKGamingImageUploader
+      uploadImageWithConfiguration:config
+      andResultCompletionHandler:^(BOOL success, id result, NSError * _Nullable error) {
+        if (!success || error) {
+          [FBUnityUtility sendErrorToUnity:FBUnityMessageName_OnUploadImageToMediaLibraryComplete
+            error:error
+            requestId:requestId];
+        } else {
+          [FBUnityUtility sendMessageToUnity:FBUnityMessageName_OnUploadImageToMediaLibraryComplete
+            userData:@{@"id":result[@"id"]}
+            requestId:requestId];
+        }
+    }];
+
+  }
+
+  void IOSFBUploadVideoToMediaLibrary(int requestId,
+                                      const char *caption,
+                                      const char *videoUri)
+  {
+    NSString *captionString = [FBUnityUtility stringFromCString:caption];
+    NSString *videoUriString = [FBUnityUtility stringFromCString:videoUri];
+    NSURL *videoURL = [NSURL fileURLWithPath:videoUriString];
+
+    FBSDKGamingVideoUploaderConfiguration *config =
+    [[FBSDKGamingVideoUploaderConfiguration alloc]
+      initWithVideoURL:videoURL
+      caption:captionString];
+
+    [FBSDKGamingVideoUploader
+      uploadVideoWithConfiguration:config
+      andResultCompletionHandler:^(BOOL success, id result, NSError * _Nullable error) {
+        if (!success || error) {
+          [FBUnityUtility sendErrorToUnity:FBUnityMessageName_OnUploadVideoToMediaLibraryComplete
+            error:error
+            requestId:requestId];
+        } else {
+          [FBUnityUtility sendMessageToUnity:FBUnityMessageName_OnUploadVideoToMediaLibraryComplete
+            userData:@{@"id":result[@"id"]}
+            requestId:requestId];
+        }
+    }];
+
   }
 
   char* IOSFBGetUserID()

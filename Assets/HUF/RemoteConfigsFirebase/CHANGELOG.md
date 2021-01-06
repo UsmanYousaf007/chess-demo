@@ -1,3 +1,16 @@
+## [3.2.0] - 2020-11-13
+### Change
+- Moved Firebase to Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 6.16.1
+
+
+## [3.1.2] - 2020-09-09
+### Added
+- Documentation
+
+
 ## [3.1.1] - 2020-09-07
 ### Changed
 - Initializing the module only once

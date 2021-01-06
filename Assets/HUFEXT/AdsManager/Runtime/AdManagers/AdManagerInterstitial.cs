@@ -27,7 +27,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             base.ShowAd( resultCallback, alternativeAdPlacement );
-            adsService.Mediation.ShowInterstitial( adPlacementData.PlacementId );
+            adsService.Mediation.ShowInterstitial( shownPlacementId );
         }
 
         protected override void SendAdEvent( AdResult result, string placementId )

@@ -150,7 +150,12 @@ namespace TurboLabz.CPU
 
         private void OnShowLogo()
         {
-            logo.SetActive(playerModel.HasRemoveAds());
+            bool logoActive = false;
+
+            if (playerModel.HasRemoveAds() || adsSettingsModel.isBannerEnabled == false)
+                logoActive = true;
+
+            logo.SetActive(logoActive);
         }
     }
 }

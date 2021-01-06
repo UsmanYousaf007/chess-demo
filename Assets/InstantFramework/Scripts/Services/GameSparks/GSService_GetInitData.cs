@@ -286,6 +286,8 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.secondsBetweenIngameAds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_BETWEEN_INGAME_AD) * 60;
             adsSettingsModel.secondsLeftDisableTournamentPregame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_LEFT_DISABLE_TOURNAMENT_ADS) * 60;
             adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
+            adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
+
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

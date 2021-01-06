@@ -181,8 +181,8 @@ namespace TurboLabz.InstantGame
                             {
                                 if (playerModel.adContext == AnalyticsContext.interstitial_endgame)
                                 {
+                                    routineRunner.StartCoroutine(LoadLobbyWithDelay());
                                     promise.Then(InterstitialAdCompleteHandler);
-                                    promise.Then(LoadLobby);
                                     promise.Then(ClaimReward);
                                     promise.Then(ShowPromotionOnVictory);
                                 }
@@ -339,6 +339,12 @@ namespace TurboLabz.InstantGame
             {
                 showPromotionDlgSignal.Dispatch(null, InternalAdType.FORCED_ON_WIN);
             }
+        }
+
+        IEnumerator LoadLobbyWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            LoadLobby();
         }
 
         private void LoadLobby(AdsResult result = AdsResult.FINISHED)

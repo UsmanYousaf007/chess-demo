@@ -13,15 +13,14 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
                     new Models.ScopedRegistryWrapper
                     {
                         name = "Game Package Registry by Google",
-                        url  = Models.Keys.GOOGLE_SCOPED_REGISTRY_KEY,
+                        url = Models.Keys.GOOGLE_SCOPED_REGISTRY_KEY,
                         scopes = new List<string>
                         {
                             "com.google"
                         }
                     }
                 }
-            });
-            
+            } );
             Complete( true );
         }
     }
