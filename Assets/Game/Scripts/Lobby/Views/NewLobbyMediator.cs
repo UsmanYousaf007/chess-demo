@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -38,6 +39,24 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
+        }
+
+        [ListensTo(typeof(ShowPromotionSignal))]
+        public void OnShowPromotion(PromotionVO vo)
+        {
+            view.ShowPromotion(vo);
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            view.SetPriceOfIAPBanner(isAvailable);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnRemoveLobbyPromotion(StoreItem item)
+        {
+            view.RemovePromotion(item.key);
         }
     }
 }

@@ -81,7 +81,7 @@ namespace TurboLabz.Multiplayer
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
-        public Signal<string, VirtualGoodsTransactionVO> boostRatingSignal = new Signal<string, VirtualGoodsTransactionVO>();
+        public Signal<string> boostRatingSignal = new Signal<string>();
         public Signal refreshLobbySignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
         public Signal backToArenaSignal = new Signal();
@@ -462,10 +462,9 @@ namespace TurboLabz.Multiplayer
             {
                 if (haveEnoughGemsForRatingBooster)
                 {
-                    var transactionVO = new VirtualGoodsTransactionVO();
-                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                    transactionVO.consumeQuantity = ratingBoosterStoreItem.currency3Cost;
-                    BoostRating(transactionVO);
+                    boostRatingSignal.Dispatch(challengeId);
+                    SetupRatingBoostButton(false);
+                    resultsBoostRatingButton.interactable = false;
                 }
                 else
                 {
@@ -491,13 +490,6 @@ namespace TurboLabz.Multiplayer
             {
                 notEnoughGemsSignal.Dispatch();
             }
-        }
-
-        public void BoostRating(VirtualGoodsTransactionVO transactionVO)
-        {
-            boostRatingSignal.Dispatch(challengeId, transactionVO);
-            SetupRatingBoostButton(false);
-            resultsBoostRatingButton.interactable = false;
         }
 
         private void OnResultsDeclinedButtonClicked()

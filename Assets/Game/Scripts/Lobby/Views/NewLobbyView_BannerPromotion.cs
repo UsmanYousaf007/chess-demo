@@ -9,10 +9,7 @@ namespace TurboLabz.InstantFramework
     public partial class NewLobbyView : View
     {
         [Header("Lobby Promotions")]
-        public Transform loadPromotionAt;
-        public Transform promotionContainer;
-        public GameObject playerProfile;
-        public Transform movePlayerProfileToPivot;
+        public RectTransform promotionContainer;
 
         private GameObject spawnedBanner;
         private PromotionVO currentPromotion;
@@ -37,16 +34,9 @@ namespace TurboLabz.InstantFramework
 
                 if (prefabToInstantiate != null)
                 {
-                    spawnedBanner = Instantiate(prefabToInstantiate, loadPromotionAt.position, Quaternion.identity, promotionContainer) as GameObject;
-                    //scrollRect.transform.localPosition = moveScrollViewTo.localPosition;
-
-                    //scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, setScrollViewportBottomTo);
-                    //scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, -setScrollViewportTopTo);
-                    
-
-                    //scrollRect.verticalNormalizedPosition = 1;
+                    spawnedBanner = Instantiate(prefabToInstantiate, promotionContainer) as GameObject;
+                    spawnedBanner.transform.SetAsFirstSibling();
                     spawnedBanner.GetComponent<Button>().onClick.AddListener(() => vo.onClick());
-
                     saleBanner = spawnedBanner.GetComponent<SaleBanner>();
 
                     if (saleBanner != null)
@@ -62,12 +52,8 @@ namespace TurboLabz.InstantFramework
                     LogUtil.Log(string.Format("Banner Promotion: resource against key '{0}' not found", vo.key), "red");
                 }
             }
-            else
-            {
-                //scrollRect.transform.localPosition = scrollViewOrignalPosition;
-                //scrollViewport.offsetMin = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalBottom);
-                //scrollViewport.offsetMax = new Vector2(scrollViewport.offsetMin.x, scrollViewportOrginalTop);
-            }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(promotionContainer);
         }
 
         public void SetPriceOfIAPBanner(bool isAvailable)

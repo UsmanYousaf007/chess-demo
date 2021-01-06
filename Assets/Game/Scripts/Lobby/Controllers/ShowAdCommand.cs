@@ -275,29 +275,30 @@ namespace TurboLabz.InstantGame
         string challengeId = "";
         private void ClaimReward(AdsResult result)
         {
-            if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
-            {
-                adsRewardData = playerModel.GetAdsRewardsData();
+            //if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
+            //{
+            //    adsRewardData = playerModel.GetAdsRewardsData();
 
-                GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
-                                                            .AddString("challengeId", resultAdsVO.challengeId);
+            //    GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
+            //                                                .AddString("challengeId", resultAdsVO.challengeId);
 
-                backendService.ClaimReward(jsonData).Then(OnClaimReward);
-            }
-            else if (result == AdsResult.SKIPPED)
-            {
-                if (!preferencesModel.isSkipVideoDlgShown)
-                {
-                    preferencesModel.isSkipVideoDlgShown = true;
-                    showAdSkippedDlgSignal.Dispatch();
-                }
+            //    backendService.ClaimReward(jsonData).Then(OnClaimReward);
+            //}
+            //else if (result == AdsResult.SKIPPED)
+            //{
+            //    if (!preferencesModel.isSkipVideoDlgShown)
+            //    {
+            //        preferencesModel.isSkipVideoDlgShown = true;
+            //        showAdSkippedDlgSignal.Dispatch();
+            //    }
 
-                Release();
-            }
-            else
-            {
-                Release();
-            }
+            //    Release();
+            //}
+            //else
+            //{
+            //    Release();
+            //}
+            Release();
         }
 
         private void OnClaimReward(BackendResult result)

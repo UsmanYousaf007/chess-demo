@@ -44,8 +44,6 @@ namespace TurboLabz.Multiplayer
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
-        private string challengeId;
-        private VirtualGoodsTransactionVO ratingBoosterTransactionVO;
         private VirtualGoodsTransactionVO rewardDoubleTransactionVO;
 
         public void OnRegisterResults()
@@ -118,12 +116,11 @@ namespace TurboLabz.Multiplayer
             refreshCommunitySignal.Dispatch(false);
         }
 
-        private void OnBoostRating(string challengeId, VirtualGoodsTransactionVO vo)
+        private void OnBoostRating(string challengeId)
         {
-            ratingBoosterTransactionVO = vo;
-            this.challengeId = challengeId;
-            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
-            virtualGoodsTransactionSignal.Dispatch(vo);
+            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
+                                              .AddString("challengeId", challengeId);
+            backendService.ClaimReward(jsonData);
         }
 
         private void OnDoubleReward(VirtualGoodsTransactionVO vo)
@@ -131,20 +128,6 @@ namespace TurboLabz.Multiplayer
             rewardDoubleTransactionVO = vo;
             virtualGoodsTransactionResultSignal.AddOnce(OnRewardDoubled);
             virtualGoodsTransactionSignal.Dispatch(vo);
-        }
-
-        private void OnTransactionResult(BackendResult result)
-        {
-            if (result == BackendResult.SUCCESS)
-            {
-                var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
-                                                  .AddString("challengeId", challengeId);
-
-                backendService.ClaimReward(jsonData);
-
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(ratingBoosterTransactionVO.consumeItemShortCode).ToString(), ratingBoosterTransactionVO.consumeQuantity, "booster_used", "rating_booster");
-                //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
-            }
         }
 
         private void OnRewardDoubled(BackendResult result)

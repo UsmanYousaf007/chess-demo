@@ -34,11 +34,13 @@ namespace TurboLabz.InstantFramework
                 switch (rewardType)
                 {
                     case GSBackendKeys.ClaimReward.TYPE_BOOST_RATING:
-                        EloVO vo = new EloVO();
-                        playerModel.eloScore += GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+                        var vo = new EloVO();
+                        var eloChange = GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+                        playerModel.eloScore += eloChange;
                         vo.playerEloScore = playerModel.eloScore;
                         updateEloScoresSignal.Dispatch(vo);
-                        ratingBoostedSignal.Dispatch(GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.Rewards.RATING_BOOST));
+                        ratingBoostedSignal.Dispatch(eloChange);
+                        playerModel.gems -= GSParser.GetSafeInt(data, GSBackendKeys.PlayerDetails.GEMS);
                         analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
                         break;
 
@@ -51,7 +53,9 @@ namespace TurboLabz.InstantFramework
                         ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO));
                         playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
                         break;
-                }             
+                }
+
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
 
@@ -81,8 +85,6 @@ namespace TurboLabz.InstantFramework
                         playerModel.inventory.Add(rewardCode, rewardQuantity);
                     }
                 }
-
-                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
     }

@@ -50,7 +50,7 @@ namespace TurboLabz.InstantFramework
             onlinePlayersCount.text = "Active Players " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
             gamesTodayCount.text = "Games Today " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
             //TODO send the parameter
-            PopulateTicker();
+            //PopulateTicker();
         }
 
         void PopulateTicker()
