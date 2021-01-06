@@ -167,7 +167,7 @@ namespace TurboLabz.InstantGame
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
             pvo.isPremium = playerModel.HasSubscription();
-
+            pvo.trophies2 = playerModel.trophies2;
             var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
 

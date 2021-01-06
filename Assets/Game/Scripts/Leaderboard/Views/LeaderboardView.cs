@@ -370,9 +370,8 @@ namespace TurboLabz.InstantFramework
         {
             while (gameObject.activeInHierarchy)
             {
-                yield return waitForOneRealSecond;
-
                 UpdateTime();
+                yield return waitForOneRealSecond;
             }
 
             yield return null;
@@ -389,7 +388,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                countdownTimerText.text = "0:00";
+                countdownTimerText.text = "0s";
             }
         }
     }

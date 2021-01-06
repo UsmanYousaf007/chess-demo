@@ -24,9 +24,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public LobbyProfileBarView view { get; set; }
 
         //Dispatch signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal fetchLeaderboardSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+        [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -51,18 +52,50 @@ namespace TurboLabz.InstantFramework
             view.UpdateEloScores(vo);
         }
 
-        public void OnLeaderboardClicked()
+        [ListensTo(typeof(NavigatorHideViewSignal))]
+        public void OnHideView(NavigatorViewId viewId)
+        {
+            if (viewId == NavigatorViewId.LOBBY)
+            {
+                view.Hide();
+            }
+        }
+
+        private void OnLeaderboardClicked()
         {
             JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
             fetchLeaderboardSignal.Dispatch(joinedTournament.id, false);
-
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEADERBOARD_VIEW);
             //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
 
-        public void OnChestClicked()
+        private void OnChestClicked()
         {
-            Debug.Log("OnChestClicked . . . . ");
+            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_lobby_chest);
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest && result == AdsResult.FINISHED)
+            {
+                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                view.SetupChest();
+
+                var rewardDlgVO = new RewardDlgV2VO();
+                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
+                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            }
+        }
+
+        [ListensTo(typeof(RewardedVideoAvailableSignal))]
+        public void OnRewardedVideoAvailable(AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest)
+            {
+                view.SetupChest();
+            }
         }
     }
 }

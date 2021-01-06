@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
                 _rewardContainers[i].containerParent.SetActive(false);
                 if (_rewardContainers[i].shortCode == reward.ShortCode)
                 {
-                    _rewardContainers[i].quantityText.text = reward.Quantity.ToString();
+                    _rewardContainers[i].quantityText.text = reward.Quantity.ToString("N0");
                     _rewardContainers[i].containerParent.SetActive(true);
                 }
             }

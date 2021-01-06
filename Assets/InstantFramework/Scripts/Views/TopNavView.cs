@@ -56,7 +56,7 @@ namespace TurboLabz.InstantFramework
             addGemsButton.onClick.AddListener(OnAddGemsButtonClicked);
             inboxButton.onClick.AddListener(OnInboxButtonClicked);
             addCollectilesButton.onClick.AddListener(OnAddCollectiblesButtonClicked);
-            addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
+            addCoinsButton.onClick.AddListener(OnAddGemsButtonClicked);
             originalColor = Colors.WHITE;
 
             if (boughtGemsCount != null)

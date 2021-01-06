@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         public string uploadedPicId;
         public int league;
         public Sprite leagueBorder;
+        public int trophies2;
 
         public string name
         {

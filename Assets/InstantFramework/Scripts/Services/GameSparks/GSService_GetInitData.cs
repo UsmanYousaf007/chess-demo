@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
             appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
-            //appInfoModel.nthWinsRateApp = response.ScriptData.GetInt(GSBackendKeys.NTH_WINS_APP_RATE_APP).Value;
+            appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);

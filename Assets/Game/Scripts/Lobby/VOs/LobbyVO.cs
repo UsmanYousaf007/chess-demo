@@ -22,6 +22,7 @@ namespace TurboLabz.InstantGame
         public long playerBucks;
 		public string activeSkinId;
         public int onlineCount;
+        public int gamesTodayCount;
 
         public LobbyVO(ICPUGameModel cpuGameModel, IPlayerModel playerModel, IMetaDataModel metaDataModel)
         {
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantGame
         	activeSkinId = playerModel.activeSkinId;
 			playerBucks = playerModel.bucks;
             onlineCount = metaDataModel.appInfo.onlineCount;
+            gamesTodayCount = metaDataModel.appInfo.gamesPlayedCount;
         }
     }
 }

@@ -17,6 +17,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
 
+        //Dispatch Signals
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -38,6 +41,15 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Hide();
+            }
+        }
+
+        [ListensTo(typeof(PlayerProfilePicTappedSignal))]
+        public void OnPlayerProfileButtonTapped()
+        {
+            if (gameObject.activeSelf)
+            {
+                loadStatsSignal.Dispatch();
             }
         }
 
