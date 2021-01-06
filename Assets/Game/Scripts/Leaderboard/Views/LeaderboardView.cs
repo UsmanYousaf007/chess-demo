@@ -214,6 +214,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void ResetChampionshipView()
+        {
+            ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
+        }
+
         public void UpdateView(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
         {
             if (allStarLeaderboardEntries != null)
