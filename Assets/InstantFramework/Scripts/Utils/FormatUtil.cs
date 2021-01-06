@@ -16,7 +16,7 @@ namespace TurboLabz.TLUtils
     {
         public static string AbbreviateNumber(long value)
         {
-            string abbreviation = value.ToString();
+            string abbreviation = value.ToString("N0");
 
             if (value >= 1000000000)
             {

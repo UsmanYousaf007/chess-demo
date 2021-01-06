@@ -161,7 +161,14 @@ namespace TurboLabz.TLUtils
             {
                 return "< 1h";
             }
+        }
 
+        public static string FormatSecondsToMinutes(long seconds)
+        {
+            var min = seconds / 60;
+            var sec = seconds % 60;
+
+            return string.Format("{0:00}:{1:00} min", min, sec);
         }
 
         public static string DateTimeToRelativeTime(DateTime dateTime)

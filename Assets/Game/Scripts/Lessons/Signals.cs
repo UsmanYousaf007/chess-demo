@@ -16,4 +16,5 @@ namespace TurboLabz.InstantGame
     public class UpdateLessonsViewSignal : Signal<LessonsViewVO> { }
     public class LoadLessonsViewSignal : Signal<TopicVO> { }
     public class LoadVideoSignal : Signal<VideoLessonVO> { }
+    public class UpdateLessonCardSignal : Signal<VideoLessonVO, bool> { }
 }
