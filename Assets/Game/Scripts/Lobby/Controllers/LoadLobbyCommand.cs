@@ -81,6 +81,7 @@ namespace TurboLabz.InstantGame
                 nextLessonVO.storeItem = metaDataModel.store.items[nextLesson];
                 nextLessonVO.name = nextLessonVO.storeItem.displayName;
                 nextLessonVO.videoId = nextLesson;
+                nextLessonVO.icon = StoreIconsContainer.Load().GetSprite(lessonsModel.GetTopicId(nextLesson));
                 nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
                 nextLessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(nextLesson);
                 nextLessonVO.duration = lessonsModel.GetLessonDuration(nextLesson);
