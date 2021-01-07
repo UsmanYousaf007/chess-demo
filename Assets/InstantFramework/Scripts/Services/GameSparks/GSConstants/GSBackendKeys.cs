@@ -59,6 +59,11 @@ namespace TurboLabz.InstantFramework
         public const string BETTING_INCREMENTS = "bettingIncrements";
         public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
 
+        //free hint Settings
+        public const string FREE_HINT_THRESHOLDS = "freeHintThresholds";
+        public const string ADV_THRESHOLDS = "advantage";
+        public const string HINTS_PURCHASED_THRESHOLDS = "hintsPurchased";
+
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
         public const string SHOP_ITEM_TAGS = "tags";

@@ -98,4 +98,5 @@ namespace TurboLabz.Multiplayer
     public class ShowCoachOnboardingTooltipSignal : Signal<bool> { }
     public class SetupSpecialHintSignal : Signal<SpecialHintVO> { }
     public class SpecialHintAvailableSignal : Signal<bool> { }
+    public class FreeHintAvailableSignal : Signal<bool> { }
 }

@@ -80,6 +80,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowCoachOnboardingTooltipSignal>().ToSingleton();
             injectionBinder.Bind<SetupSpecialHintSignal>().ToSingleton();
             injectionBinder.Bind<SpecialHintAvailableSignal>().ToSingleton();
+            injectionBinder.Bind<FreeHintAvailableSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();

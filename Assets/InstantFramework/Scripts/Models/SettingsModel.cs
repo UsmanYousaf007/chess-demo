@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
         public List<long> bettingIncrements { get; set; }
         public List<float> defaultBetIncrementByGamesPlayed { get; set; }
 
+        public int advantageThreshold { get; set; }
+        public int purchasedHintsThreshold { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -68,6 +71,8 @@ namespace TurboLabz.InstantFramework
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
             bettingIncrements = new List<long>();
             defaultBetIncrementByGamesPlayed = new List<float>();
+            advantageThreshold = 0;
+            purchasedHintsThreshold = 0;
         }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)

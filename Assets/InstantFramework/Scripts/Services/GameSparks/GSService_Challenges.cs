@@ -136,6 +136,8 @@ namespace TurboLabz.InstantFramework
                     matchInfoModel.matches[challengeId].betValue = GSParser.GetSafeLong(playerData, GSBackendKeys.ChallengeData.BET_VALUE);
                     matchInfoModel.matches[challengeId].powerMode = GSParser.GetSafeBool(playerData, GSBackendKeys.ChallengeData.POWER_MODE);
                 }
+
+                preferencesModel.freeHint = FreePowerUpStatus.NOT_CONSUMED;
             }
 
             UpdateMatch(challengeId, matchData);

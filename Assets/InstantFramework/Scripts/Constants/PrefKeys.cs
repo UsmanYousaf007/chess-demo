@@ -74,6 +74,8 @@ namespace TurboLabz.InstantGame
         public const string FREE_DAILY_RATING_BOOSTER = "freeDailyRatingBooster";
         public const string GAMES_PLAYED_PER_DAY = "gamesPlayedPerDay";
 
+        public const string FREE_HINT = "freeHint";
+
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
         public const string PREGAME_ADS_PER_DAY_COUNT = "pregameAdsPerDayCount";

@@ -21,6 +21,7 @@ namespace TurboLabz.CPU
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
         public GameObject specialFreeHintContainer;
+        public GameObject freeHintTooltip;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -86,14 +87,15 @@ namespace TurboLabz.CPU
             }
 
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
+            haveEnoughHints = playerModel.HasSubscription();// || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintGemsBg.gameObject.SetActive(true);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
-            specialHintCountContainer.SetActive(!playerModel.HasSubscription());
-            specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
+            //specialHintCountContainer.SetActive(!playerModel.HasSubscription());
+            //specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
+            freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
         }
 
         public void ToggleSpecialHintButton(bool on)

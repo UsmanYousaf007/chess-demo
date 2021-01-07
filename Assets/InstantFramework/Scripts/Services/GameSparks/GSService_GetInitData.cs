@@ -114,6 +114,9 @@ namespace TurboLabz.InstantFramework
             settingsModel.bettingIncrements = response.ScriptData.GetLongList(GSBackendKeys.BETTING_INCREMENTS);
             settingsModel.defaultBetIncrementByGamesPlayed = response.ScriptData.GetFloatList(GSBackendKeys.BET_INCREMENT_BY_GAMES_PLAYED);
 
+            GSData freeHintSettingsData = response.ScriptData.GetGSData(GSBackendKeys.FREE_HINT_THRESHOLDS);
+            ParseFreeHintSettings(freeHintSettingsData);
+
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
                 SendDefaultItemsOwnedAnalytics();
@@ -784,6 +787,14 @@ namespace TurboLabz.InstantFramework
 
             return null;
         }
+
+
+        private void ParseFreeHintSettings(GSData freeHintData)
+        {
+            settingsModel.advantageThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.ADV_THRESHOLDS);
+            settingsModel.purchasedHintsThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.HINTS_PURCHASED_THRESHOLDS);
+        }
+
 
         private void FillInbox(IDictionary<string, InboxMessage> targetList, GSData targetData)
         {
