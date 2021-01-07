@@ -69,6 +69,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSubscriptionSaleDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
+            }
 
             return null;
         }

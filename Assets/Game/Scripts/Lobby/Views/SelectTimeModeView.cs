@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public Image gemIcon;
         public TMP_Text gemCost;
         public string shortCode;
+        public Button closeButton;
 
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
@@ -52,9 +53,11 @@ namespace TurboLabz.InstantFramework
         public Signal powerModeButtonClickedSignal = new Signal();
         public Signal notEnoughCoinsSignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
+        public Signal closeButtonSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         private StoreItem storeItem;
         private bool isPowerModeOn;
@@ -66,6 +69,7 @@ namespace TurboLabz.InstantFramework
             startGame5mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
             startGame10mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
             startGame30mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random30.ToString()); });
+            closeButton.onClick.AddListener(OnCloseButtonClicked);
             startGame3mText.text = localizationService.Get(LocalizationKey.MIN3_GAME_TEXT);
             startGame5mText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
             startGame10mText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
@@ -141,6 +145,12 @@ namespace TurboLabz.InstantFramework
         public void OnEnablePowerMode()
         {
             SetupState(true);
+        }
+
+        private void OnCloseButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            closeButtonSignal.Dispatch();
         }
     }
 }

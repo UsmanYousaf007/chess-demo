@@ -182,6 +182,7 @@ namespace TurboLabz.CPU
                 }
                 else
                 {
+                    audioService.PlayStandardClick();
                     EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                     notEnoughGemsSignal.Dispatch();
                 }

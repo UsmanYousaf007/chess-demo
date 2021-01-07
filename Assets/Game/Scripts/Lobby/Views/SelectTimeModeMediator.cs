@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
             view.powerModeButtonClickedSignal.AddListener(OnPowerModeButtonClicked);
             view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
+            view.closeButtonSignal.AddListener(OnCloseSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -108,6 +109,11 @@ namespace TurboLabz.InstantFramework
         private void OnNotEnoughGemsSignal()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        private void OnCloseSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         [ListensTo(typeof(PurchaseStoreItemResultSignal))]
