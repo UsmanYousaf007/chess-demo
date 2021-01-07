@@ -61,6 +61,15 @@ namespace TurboLabz.InstantFramework
 
         public void PlayButtonClicked(long betValue)
         {
+            if (!playerModel.HasSubscription())
+            {
+                playerModel.adContext = AnalyticsContext.interstitial_pregame;
+                ResultAdsVO vo = new ResultAdsVO();
+                vo.adsType = AdType.Interstitial;
+                vo.placementId = AdPlacements.Interstitial_pregame;
+                showAdSignal.Dispatch(vo, false);
+            }
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
             updateTimeSelectDlgSignal.Dispatch(betValue);
         }

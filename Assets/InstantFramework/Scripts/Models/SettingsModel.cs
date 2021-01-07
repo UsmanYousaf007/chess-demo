@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
         public int advantageThreshold { get; set; }
         public int purchasedHintsThreshold { get; set; }
+        public int powerModeFreeHints { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -73,6 +74,7 @@ namespace TurboLabz.InstantFramework
             defaultBetIncrementByGamesPlayed = new List<float>();
             advantageThreshold = 0;
             purchasedHintsThreshold = 0;
+            powerModeFreeHints = 0;
         }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)

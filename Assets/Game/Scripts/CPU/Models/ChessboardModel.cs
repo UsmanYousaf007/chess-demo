@@ -61,6 +61,8 @@ namespace TurboLabz.CPU
         public bool inPlaybackMode { get; set; }
         public bool inSafeMode { get; set; }
         public string previousPlayerTurnFen { get; set; }
+        public bool powerMode { get; set; }
+        public int freeHints { get; set; }
 
         public void Reset()
         {
@@ -105,6 +107,8 @@ namespace TurboLabz.CPU
             inPlaybackMode = false;
             inSafeMode = false;
             previousPlayerTurnFen = null;
+            powerMode = false;
+            freeHints = 0;
         }
     }
 }

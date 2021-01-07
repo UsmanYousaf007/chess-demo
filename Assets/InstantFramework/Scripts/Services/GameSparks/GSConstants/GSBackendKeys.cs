@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         public const string MATCHMAKING_RANDOM_RANGE = "matchmakingRandomRange";
         public const string BETTING_INCREMENTS = "bettingIncrements";
         public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
+        public const string POWER_MODE_FREE_HINTS = "powerModeFreeHints";
 
         //free hint Settings
         public const string FREE_HINT_THRESHOLDS = "freeHintThresholds";
@@ -268,6 +269,7 @@ namespace TurboLabz.InstantFramework
             public const string BOT_DIFFICULTY = "botDifficulty";
             public const string BET_VALUE = "betValue";
             public const string POWER_MODE = "powerMode";
+            public const string FREE_HINTS = "freeHints";
         }
 
         // Resume

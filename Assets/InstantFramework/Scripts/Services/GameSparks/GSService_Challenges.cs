@@ -135,6 +135,7 @@ namespace TurboLabz.InstantFramework
 
                     matchInfoModel.matches[challengeId].betValue = GSParser.GetSafeLong(playerData, GSBackendKeys.ChallengeData.BET_VALUE);
                     matchInfoModel.matches[challengeId].powerMode = GSParser.GetSafeBool(playerData, GSBackendKeys.ChallengeData.POWER_MODE);
+                    matchInfoModel.matches[challengeId].freeHints = GSParser.GetSafeInt(playerData, GSBackendKeys.ChallengeData.FREE_HINTS);
                 }
 
                 preferencesModel.freeHint = FreePowerUpStatus.NOT_CONSUMED;

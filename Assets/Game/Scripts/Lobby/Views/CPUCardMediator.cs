@@ -27,9 +27,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
         public override void OnRegister()
         {
@@ -63,11 +65,17 @@ namespace TurboLabz.InstantFramework
                 ResultAdsVO vo = new ResultAdsVO();
                 vo.adsType = AdType.Interstitial;
                 vo.placementId = AdPlacements.Interstitial_pregame;
-
                 showAdSignal.Dispatch(vo, false);
-                return;
             }
-            startCPUGameSignal.Dispatch();
+
+            if (cpuGameModel.inProgress)
+            {
+                startCPUGameSignal.Dispatch(false);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_POWER_MODE);
+            }
         }
 
         [ListensTo(typeof(UpdateMenuViewSignal))]

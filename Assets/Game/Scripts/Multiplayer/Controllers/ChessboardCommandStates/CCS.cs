@@ -89,6 +89,7 @@ namespace TurboLabz.Multiplayer
             setupVO.isPlayerWhite = isPlayerWhite;
             setupVO.isLongPlay = cmd.activeMatchInfo.isLongPlay;
             setupVO.isRanked = cmd.activeMatchInfo.isRanked;
+            setupVO.powerMode = cmd.activeMatchInfo.powerMode;
             //setupVO.isTenMinGame = cmd.activeMatchInfo.isTenMinGame;
             //setupVO.isOneMinGame = cmd.activeMatchInfo.isOneMinGame;
             //setupVO.isThirtyMinGame = cmd.activeMatchInfo.isThirtyMinGame;
@@ -142,6 +143,7 @@ namespace TurboLabz.Multiplayer
                 specialHintVO.isAvailable = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount < cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
                 specialHintVO.hintsAllowedPerGame = cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
                 specialHintVO.hintCount = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT);
+                specialHintVO.powerModeHints = cmd.matchInfoModel.activeMatch.freeHints;
                 cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
             }
                 

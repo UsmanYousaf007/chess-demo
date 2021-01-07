@@ -436,6 +436,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SpotCoinPurchaseView>().To<SpotCoinPurchaseMediator>();
             mediationBinder.Bind<DailyRewardDlgView>().To<DailyRewardDlgMediator>();
             mediationBinder.Bind<RewardDlgV2View>().To<RewardDlgV2Mediator>();
+            mediationBinder.Bind<CPUPowerModeView>().To<CPUPowerModeMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

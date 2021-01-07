@@ -197,6 +197,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRewardDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_POWER_MODE)
+            {
+                return new NSCPUPowerMode();
+            }
 
             return null;
         }

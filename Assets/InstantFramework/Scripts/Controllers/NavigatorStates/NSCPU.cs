@@ -88,6 +88,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSpotInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_POWER_PLAY)
+            {
+                return new NSCPUPowerplay();
+            }
 
             return null;
         }

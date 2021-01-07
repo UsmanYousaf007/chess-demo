@@ -6,14 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-using TurboLabz.TLUtils;
 using System;
 using TMPro;
-using System.Collections.Generic;
-using System.Text;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
-using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -40,10 +34,9 @@ namespace TurboLabz.InstantFramework
         public TMP_Text gemCost;
         public string shortCode;
         public Button closeButton;
+        public TMP_Text freeHintsText;
 
         //Models
-        [Inject] public ILeaguesModel leaguesModel { get; set; }
-        [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -102,15 +95,18 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            SetupState(false);
+            freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
+            SetupState(isPowerModeOn);
         }
 
         void OnStartGameBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
+            audioService.PlayStandardClick();
             if (playerModel.coins >= betValue)
             {
                 playMultiplayerButtonClickedSignal.Dispatch(actionCode, isPowerModeOn);
+                isPowerModeOn = false;
             }
             else
             {
@@ -120,6 +116,7 @@ namespace TurboLabz.InstantFramework
 
         void OnPowerPlayButtonClicked()
         {
+            audioService.PlayStandardClick();
             if (playerModel.gems >= storeItem.currency3Cost)
             {
                 powerModeButtonClickedSignal.Dispatch();
@@ -144,6 +141,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnEnablePowerMode()
         {
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             SetupState(true);
         }
 
