@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public ResetTournamentsViewSignal resetTournamentsViewSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
         private RewardDlgVO _dailyRewardVO;
 
@@ -35,14 +36,17 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateView()
         {
-            view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+            }
         }
 
-        [ListensTo(typeof(ResetTournamentsViewSignal))]
-        public void ResetView()
-        {
-            view.ResetView();
-        }
+        //[ListensTo(typeof(ResetTournamentsViewSignal))]
+        //public void ResetView()
+        //{
+        //    view.ResetView();
+        //}
 
         [ListensTo(typeof(UpdateChampionshipResultDlgSignal))]
         public void UpdateReward(RewardDlgVO vo)
@@ -55,6 +59,16 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                {
+                    view.UpdateView(playerModel.id, joinedTournament);
+                }
+                else
+                {
+                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                }
+
                 view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -67,6 +81,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
                 view.Hide();
+                view.ResetView();
             }
         }
 
@@ -84,7 +99,7 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
 
             tournamentsModel.RemoveFromJoinedTournament(tournamentsModel.GetJoinedTournament().id);
-            resetTournamentsViewSignal.Dispatch();
+            //resetTournamentsViewSignal.Dispatch();
             backendService.TournamentsOpGetJoinedTournaments();
         }
 

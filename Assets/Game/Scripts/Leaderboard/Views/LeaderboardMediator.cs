@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public GetAllStarLeaderboardSignal getAllStarLeaderboardSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -29,14 +30,17 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateView()
         {
-            view.UpdateView(tournamentsModel.GetJoinedTournament());
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.UpdateView(tournamentsModel.GetJoinedTournament());
+            }
         }
 
-        [ListensTo(typeof(ResetTournamentsViewSignal))]
-        public void ResetView()
-        {
-            view.ResetChampionshipView();
-        }
+        //[ListensTo(typeof(ResetTournamentsViewSignal))]
+        //public void ResetView()
+        //{
+        //    view.ResetChampionshipView();
+        //}
 
         [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
         public void OnUpdateAllStarLeaderboard()
@@ -49,6 +53,16 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
             {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                {
+                    view.UpdateView(tournamentsModel.GetJoinedTournament());
+                }
+                else
+                {
+                    getAllStarLeaderboardSignal.Dispatch();
+                }
+
                 view.UpdateLeague();
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -61,6 +75,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
             {
                 view.Hide();
+                view.ResetChampionshipView();
             }
         }
 

@@ -79,6 +79,10 @@ public class BuildChess : MonoBehaviour
         {
             ChessTools.SetGamesparksEnvURLBased();
         }
+        else if (envNumber == (int)GameSparksConfig.Environment.Sami)
+        {
+            ChessTools.SetGamesparksEnvSami();
+        }
         else
         {
             ChessTools.SetGamesparksEnvDevelopment();

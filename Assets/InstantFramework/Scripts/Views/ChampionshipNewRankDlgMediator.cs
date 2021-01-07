@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -29,20 +30,33 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateView()
         {
-            view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+            }
         }
 
-        [ListensTo(typeof(ResetTournamentsViewSignal))]
-        public void ResetView()
-        {
-            view.ResetView();
-        }
+        //[ListensTo(typeof(ResetTournamentsViewSignal))]
+        //public void ResetView()
+        //{
+        //    view.ResetView();
+        //}
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                {
+                    view.UpdateView(playerModel.id, joinedTournament);
+                }
+                else
+                {
+                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                }
+
                 view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
@@ -55,6 +69,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
                 view.Hide();
+                view.ResetView();
             }
         }
 
