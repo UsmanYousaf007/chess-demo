@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG, NavigatorViewId.SHOP,
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG, NavigatorViewId.SHOP, NavigatorViewId.LOBBY,
                 NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW, NavigatorViewId.SELECT_TIME_MODE, NavigatorViewId.SPOT_COIN_PURCHASE_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
@@ -17,6 +17,10 @@
                 if (viewId == NavigatorViewId.INVENTORY)
                 {
                     return new NSInventory();
+                }
+                else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {

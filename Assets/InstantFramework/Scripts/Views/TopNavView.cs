@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public Signal addCoinsButtonClickedSignal = new Signal();
 
         private Color originalColor;
+        private long totalCoins;
 
         [Inject] public IPlayerModel playerModel { get; set; }
 
@@ -55,7 +56,7 @@ namespace TurboLabz.InstantFramework
             addGemsButton.onClick.AddListener(OnAddGemsButtonClicked);
             inboxButton.onClick.AddListener(OnInboxButtonClicked);
             addCollectilesButton.onClick.AddListener(OnAddCollectiblesButtonClicked);
-            addCoinsButton.onClick.AddListener(OnAddCoinsButtonClicked);
+            addCoinsButton.onClick.AddListener(OnAddGemsButtonClicked);
             originalColor = Colors.WHITE;
 
             if (boughtGemsCount != null)
@@ -128,7 +129,7 @@ namespace TurboLabz.InstantFramework
         {
             if (boughtCoinsCount != null && gameObject.activeInHierarchy)
             {
-                var addedCoins = coins - long.Parse(coinsCount.text);
+                var addedCoins = coins - totalCoins;
 
                 if (addedCoins > 0)
                 {
@@ -140,7 +141,8 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            coinsCount.text = coins.ToString();
+            coinsCount.text = coins.ToString("N0");
+            totalCoins = coins;
         }
 
         public void UpdateMessagesCount(long messages)

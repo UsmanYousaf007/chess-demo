@@ -12,6 +12,8 @@ namespace TurboLabz.InstantFramework
     // Does not have a lifecycle (reset/load etc)
     public class MetaDataModel : IMetaDataModel
     {
+        public bool ShowChampionshipNewRankDialog { get; set; }
+
         public IAppInfoModel appInfo { get; set; } = null;
         public IStoreSettingsModel store { get; set; } = null;
         public IAdsSettingsModel adsSettings { get; set; } = null;

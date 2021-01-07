@@ -12,8 +12,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
                 Complete( false );
                 return;
             }
-            
+
             Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_NEXT_AUTO_FETCH, out int next );
+
             if ( Core.Packages.Empty || Utils.Common.GetTimestamp() >= next )
             {
                 Core.Command.Execute( new Processing.RefreshPackagesCommand() );

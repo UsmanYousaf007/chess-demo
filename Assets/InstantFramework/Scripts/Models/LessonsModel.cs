@@ -132,12 +132,25 @@ namespace TurboLabz.InstantFramework
                 var vo = new TopicVO();
                 vo.name = topic.Key;
                 vo.total = GetTotalLessonsCount(topic.Key);
-                vo.durationInMinutes = Mathf.RoundToInt(vo.total * (4.7f - ((float)vo.total / 12)));
+                vo.durationInMinutes = CalculateTopicDuration(vo.total);
 
                 rv.Add(vo);
             }
 
             return rv;
+        }
+
+        private int CalculateTopicDuration(int lessonsCount)
+        {
+            return Mathf.RoundToInt(lessonsCount * (4.7f - ((float)lessonsCount / 12)));
+        }
+
+        public long GetLessonDuration(string lessonId)
+        {
+            var topic = lessonsMapping[lessonId];
+            var totalLessons = GetTotalLessonsCount(topic);
+            var topicDuration = CalculateTopicDuration(totalLessons) * 60;
+            return topicDuration / totalLessons;
         }
     }
 }

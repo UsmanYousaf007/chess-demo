@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
         public TMP_Text subTitle;
         public TMP_Text chooseDifficultyText;
 
-        public TMP_Text startGameBtnText;
         public Button startGameButton;
 
         public TMP_Text easyLabel;
@@ -38,8 +37,6 @@ namespace TurboLabz.InstantFramework
 
         public TMP_Text playComputerLevelTxt;
         public GameObject chooseDifficulty;
-
-        public GameObject watchAdIcon;
 
         private bool isCPUGameInProgress;
 
@@ -60,7 +57,6 @@ namespace TurboLabz.InstantFramework
             startGameButton.onClick.AddListener(OnStartGameButtonClicked);
             easyLabel.text = localizationService.Get(LocalizationKey.EASY);
             hardLabel.text = localizationService.Get(LocalizationKey.HARD);
-            startGameBtnText.text = localizationService.Get(LocalizationKey.PLAY);
         }
 
         public void UpdateView(LobbyVO vo)
@@ -71,13 +67,11 @@ namespace TurboLabz.InstantFramework
                 playComputerLevelTxt.text = localizationService.Get(LocalizationKey.PLAYING_LEVEL) + vo.selectedStrength;
                 playComputerLevelTxt.gameObject.SetActive(true);
                 chooseDifficulty.SetActive(false);
-                watchAdIcon.SetActive(false);
             }
             else
             {
                 playComputerLevelTxt.gameObject.SetActive(false);
                 chooseDifficulty.SetActive(true);
-                watchAdIcon.SetActive(true);
             }
         }
 

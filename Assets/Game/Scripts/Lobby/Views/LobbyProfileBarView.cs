@@ -9,11 +9,8 @@ using strange.extensions.signal.impl;
 using TurboLabz.TLUtils;
 using System;
 using TMPro;
-using System.Collections.Generic;
-using System.Text;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
 using System.Collections;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -24,53 +21,43 @@ namespace TurboLabz.InstantFramework
         public Text playerTitleLabel;
         public TMP_Text eloScoreValue;
         public TMP_Text currentTrophies;
-
         public Image playerFlag;
-
         public TMP_Text leaderboardText;
         public Button leaderboardButton;
-
         public Image playerTitleImg;
         public Button chestButton;
         public TMP_Text chestTimeText;
-
-
-        string playerId;
-
         public TMP_Text leaderboardTimer;
+        public GameObject championShipTrophies;
+        public RectTransform[] layouts;
+        public Image chestVideoIcon;
+        public Sprite videoAvailable;
+        public Sprite videoNotAvailable;
+        public TMP_Text chestTapToOpen;
+        public GameObject chestTimer;
+
+        private long endTimeUTCSeconds;
+        private long chestTimeUTC;
+        private bool chestTimeOver;
 
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IBackendService backendService { get; set; }
 
-
         //Signals
         public Signal leaderboardButtonClickedSignal = new Signal();
         public Signal chestButtonClickedSignal = new Signal();
 
-
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         public void Init()
         {
             leaderboardButton.onClick.AddListener(OnLeaderboardBtnClicked);
             chestButton.onClick.AddListener(OnChestButtonClicked);
-
-            var currentTime = backendService.serverClock.currentTimestamp;
-            var diff = currentTime - playerModel.chestUnlockTimestamp;
-
-
-            if (diff > 0)
-            {
-                chestTimeText.text = "CLAIM";
-            }
-            else
-            {
-                chestTimeText.text = "sec " + diff + "left";
-            }
-
         }
 
         public void UpdateView(ProfileVO vo)
@@ -78,14 +65,15 @@ namespace TurboLabz.InstantFramework
             playerName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
-            playerId = vo.playerId;
+            championShipTrophies.SetActive(vo.trophies2 > 0);
+            currentTrophies.text = vo.trophies2.ToString();
 
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (leagueAssets != null)
             {
                 if (playerModel.league == 0)
                 {
-                    playerTitleLabel.text = "NO RANK";
+                    playerTitleLabel.text = "TRAINEE";
                     playerTitleLabel.gameObject.SetActive(true);
                     playerTitleImg.gameObject.SetActive(false);
                 }
@@ -93,14 +81,41 @@ namespace TurboLabz.InstantFramework
                 {
                     playerTitleLabel.text = leagueAssets.typeName;
                     playerTitleImg.sprite = leagueAssets.nameImg;
+                    playerTitleImg.SetNativeSize();
                     playerTitleLabel.gameObject.SetActive(false);
                     playerTitleImg.gameObject.SetActive(true);
                 }
             }
-           /* if (playerScoreLeague != null)
+
+            var joinedTournamet = tournamentsModel.GetJoinedTournament();
+            if (joinedTournamet != null)
             {
-                LayoutRebuilder.ForceRebuildLayoutImmediate(playerScoreLeague);
-            }*/
+                endTimeUTCSeconds = joinedTournamet.endTimeUTCSeconds;
+                StartCoroutine(CountdownLeaderboardTimer());
+            }
+            else
+            {
+                leaderboardTimer.text = "Awaiting Results";
+            }
+
+            SetupChest();
+            StartCoroutine(CountdownChestTimer());
+            RebuildLayout();
+        }
+
+        public void SetupChest()
+        {
+            var isUnlocked = playerModel.chestUnlockTimestamp <= backendService.serverClock.currentTimestamp;
+            var isAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
+            chestTimeUTC = playerModel.chestUnlockTimestamp;
+            SetupChestState(isUnlocked);
+            SetupVideoIcon(isAvailable, isUnlocked);
+        }
+
+        public void Hide()
+        {
+            StopCoroutine(CountdownLeaderboardTimer());
+            StopCoroutine(CountdownChestTimer());
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -110,12 +125,95 @@ namespace TurboLabz.InstantFramework
 
         void OnLeaderboardBtnClicked()
         {
+            audioService.PlayStandardClick();
             leaderboardButtonClickedSignal.Dispatch();
         }
 
         void OnChestButtonClicked()
         {
+            audioService.PlayStandardClick();
             chestButtonClickedSignal.Dispatch();
+        }
+
+        IEnumerator CountdownLeaderboardTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                UpdateLeaderboardTime();
+                yield return new WaitForSecondsRealtime(1);
+            }
+
+            yield return null;
+        }
+
+        void UpdateLeaderboardTime()
+        {
+            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            if (timeLeft > 0)
+            {
+                timeLeft--;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
+                leaderboardTimer.text = timeLeftText;
+            }
+            else
+            {
+                leaderboardTimer.text = "0s";
+            }
+        }
+
+        IEnumerator CountdownChestTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                UpdateChestTime();
+                yield return new WaitForSecondsRealtime(1);
+            }
+
+            yield return null;
+        }
+
+        void UpdateChestTime()
+        {
+            var timeLeft = chestTimeUTC - backendService.serverClock.currentTimestamp;
+            if (timeLeft > 0)
+            {
+                timeLeft -= 1000;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+                chestTimeText.text = timeLeftText;
+
+                if (chestTimeOver)
+                {
+                    chestTimeOver = false;
+                    RebuildLayout();
+                }
+            }
+            else
+            {
+                chestTimeText.text = "0s";
+                chestTimeOver = true;
+                SetupChest();
+            }
+        }
+
+        void SetupChestState(bool unlocked)
+        {
+            chestTapToOpen.gameObject.SetActive(unlocked);
+            chestTimer.SetActive(!unlocked);
+            chestButton.interactable = unlocked;
+        }
+
+        void SetupVideoIcon(bool available, bool unlocked)
+        {
+            chestVideoIcon.color = unlocked ? Colors.WHITE : Colors.DISABLED_WHITE;
+            chestVideoIcon.sprite = available && unlocked ? videoAvailable : videoNotAvailable;
+        }
+
+        void RebuildLayout()
+        {
+            foreach (var layout in layouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
         }
     }
 }

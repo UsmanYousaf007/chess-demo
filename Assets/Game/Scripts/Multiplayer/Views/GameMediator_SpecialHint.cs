@@ -33,8 +33,9 @@ namespace TurboLabz.Multiplayer
             if (result == BackendResult.SUCCESS)
             {
                 var isPremium = hintTransactionVO.consumeItemShortCode.Equals("premium");
-                if (preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
-                    preferencesModel.freeDailyHint = FreePowerUpStatus.CONSUMED;
+                if (preferencesModel.freeHint.HasFlag(FreePowerUpStatus.NOT_CONSUMED | FreePowerUpStatus.AVAILABLE))
+                    preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
+
 
                 view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
@@ -91,6 +92,15 @@ namespace TurboLabz.Multiplayer
         public void OnCancelSpecialHint()
         {
             view.CancelSpecialHint();
+        }
+
+        [ListensTo(typeof(FreeHintAvailableSignal))]
+        public void OnFreeHintAvailable(bool isFreeHintAvailable)
+        {
+            if (view.IsVisible())
+            {
+                view.SetupSpecialHintButton();
+            }
         }
 
         private void OnNotEnoughSpeciallHints(VirtualGoodsTransactionVO vo)

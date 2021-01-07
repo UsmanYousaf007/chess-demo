@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         public const string IS_MANDATORY_UPDATE = "isMandatoryUpdate";
         public const string APP_UPDATE_FLAG = "appUpdateFlag";
         public const string NTH_WINS_APP_RATE_APP = "nthWinsRateApp";
+        public const string GAMES_PLAYED_TODAY = "todayGamesCount";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";
@@ -57,6 +58,11 @@ namespace TurboLabz.InstantFramework
         public const string MATCHMAKING_RANDOM_RANGE = "matchmakingRandomRange";
         public const string BETTING_INCREMENTS = "bettingIncrements";
         public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
+
+        //free hint Settings
+        public const string FREE_HINT_THRESHOLDS = "freeHintThresholds";
+        public const string ADV_THRESHOLDS = "advantage";
+        public const string HINTS_PURCHASED_THRESHOLDS = "hintsPurchased";
 
         // Shop settings
         public const string SHOP_SETTINGS = "shopSettings";
@@ -151,6 +157,8 @@ namespace TurboLabz.InstantFramework
         public const string MINUTES_BETWEEN_INGAME_AD = "minutesBetweenIngameAds";
         public const string MINUTES_LEFT_DISABLE_TOURNAMENT_ADS = "minutesLeftDisableTournamentPregame";
         public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
+        public const string ENABLE_BANNER_ADS = "enableBannerAds";
+
 
         // AB Test Settings
         public const string AB_TEST_ADS_SETTINGS = "abTestAds";

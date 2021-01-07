@@ -35,7 +35,7 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
         [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
-        [Inject] public UpdateTopiscViewSignal updateTopiscViewSignal { get; set; }
+        [Inject] public UpdateLessonCardSignal updateLessonCardSignal { get; set; }
         [Inject] public UpdateCareerCardSignal updateCareerCardSignal { get; set; }
 
         // Services
@@ -58,8 +58,6 @@ namespace TurboLabz.InstantGame
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public ILessonsModel lessonsModel { get; set; }
 
-        private StoreIconsContainer iconsContainer;
-
         public override void Execute()
         {
             toggleBannerSignal.Dispatch(false);
@@ -70,27 +68,26 @@ namespace TurboLabz.InstantGame
             updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
 
 
-            iconsContainer = StoreIconsContainer.Load();
             var nextLesson = lessonsModel.GetNextLesson(playerModel.lastWatchedVideo);
-            var topicsVO = new TopicsViewVO();
+            var nextLessonVO = new VideoLessonVO();
+            var allLessonsWatched = false;
+
             if (string.IsNullOrEmpty(nextLesson))
             {
-                topicsVO.allLessonsWatched = true;
+                allLessonsWatched = true;
             }
             else if (metaDataModel.store.items.ContainsKey(nextLesson))
             {
-                var nextLessonVO = new VideoLessonVO();
-                nextLessonVO.name = metaDataModel.store.items[nextLesson].displayName;
+                nextLessonVO.storeItem = metaDataModel.store.items[nextLesson];
+                nextLessonVO.name = nextLessonVO.storeItem.displayName;
                 nextLessonVO.videoId = nextLesson;
-                nextLessonVO.icon = iconsContainer.GetSprite(lessonsModel.GetTopicId(nextLesson));
+                nextLessonVO.icon = StoreIconsContainer.Load().GetSprite(lessonsModel.GetTopicId(nextLesson));
                 nextLessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(nextLesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
-                nextLessonVO.progress = (float)playerModel.GetVideoProgress(nextLesson) / 100f;
                 nextLessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(nextLesson);
-                nextLessonVO.section = lessonsModel.topicsMapping[lessonsModel.lessonsMapping[nextLesson]];
-                topicsVO.nextLesson = nextLessonVO;
+                nextLessonVO.duration = lessonsModel.GetLessonDuration(nextLesson);
             }
-            topicsVO.sections = lessonsModel.GetSectionsWithTopicVO(iconsContainer);
-            updateTopiscViewSignal.Dispatch(topicsVO);
+
+            updateLessonCardSignal.Dispatch(nextLessonVO, allLessonsWatched);
 
 
             if (facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn())
@@ -149,6 +146,12 @@ namespace TurboLabz.InstantGame
                     SplashLoader.FTUE = false;
                 });
             }
+
+            if (metaDataModel.ShowChampionshipNewRankDialog)
+            {
+                metaDataModel.ShowChampionshipNewRankDialog = false;
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+            }
         }
 
         private void DispatchProfileSignal() 
@@ -165,7 +168,7 @@ namespace TurboLabz.InstantGame
             pvo.avatarId = playerModel.avatarId;
             pvo.avatarColorId = playerModel.avatarBgColorId;
             pvo.isPremium = playerModel.HasSubscription();
-
+            pvo.trophies2 = playerModel.trophies2;
             var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
 

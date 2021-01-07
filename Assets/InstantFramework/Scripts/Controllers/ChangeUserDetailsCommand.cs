@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
             pvo.avatarColorId = playerModel.avatarBgColorId;
             var leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             pvo.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
+            pvo.trophies2 = playerModel.trophies2;
 
             if (pvo.isFacebookLoggedIn && pvo.playerPic == null)
             {

@@ -68,10 +68,10 @@ namespace TurboLabz.InstantFramework
                     analyticsService.Event(AnalyticsEventId.key_obtained_gem, AnalyticsContext.inventory);
                 }
 
-                if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
-                {
-                    preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
-                }
+                //if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
+                //{
+                //    preferencesModel.freeHint = FreePowerUpStatus.BOUGHT;
+                //}
                 else if(item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
                 {
                     preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
 
                         if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
                         {
-                            preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
+                            //preferencesModel.freeHint = FreePowerUpStatus.BOUGHT;
                         }
                         else if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
                         {

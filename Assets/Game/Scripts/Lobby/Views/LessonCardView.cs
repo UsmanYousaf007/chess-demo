@@ -21,51 +21,76 @@ namespace TurboLabz.InstantFramework
     public class LessonCardView : View
     {
         public TMP_Text subTitle;
-
-        public Image currentLessonIcon;
         public TMP_Text currentLessonName;
-        public TMP_Text currentTopic;
-
         public TMP_Text startButtonText;
+        public TMP_Text duration;
+        public Button viewAllButton;
         public Button startButton;
-
-        public Image lockIcon;
 
         private VideoLessonVO lessonVO;
         public GameObject lessonsCompletedSection;
         public GameObject lessonsSection;
         public GameObject processing;
+        public GameObject lessonLocked;
+        public Text lessonLockedName;
+        public Text lessonLockedDuration;
+        public Text lessonLockedCost;
+        public Button lessonLockedClose;
+        public Button lessonLockedBuy;
+
+        public string NextLessonId { get { return lessonVO != null ? lessonVO.videoId : string.Empty; } }
+        public int LessonCost { get { return lessonVO.storeItem.currency3Cost; } }
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
         //Signals
-        public Signal<VideoLessonVO> OnStartButtonClickedSignal = new Signal<VideoLessonVO>();
+        public Signal<VideoLessonVO> startButtonClickedSignal = new Signal<VideoLessonVO>();
+        public Signal viewAllButtonClickedSignal = new Signal();
+        public Signal<string> buyLessonClickedSingal = new Signal<string>();
 
         public void Init()
         {
             startButton.onClick.AddListener(OnStartButtonClicked);
+            viewAllButton.onClick.AddListener(OnViewAllButtonClicked);
+            lessonLockedClose.onClick.AddListener(() => lessonLocked.SetActive(false));
+            lessonLockedBuy.onClick.AddListener(OnBuyLessonButtonClickedSignal);
+            lessonLocked.SetActive(false);
         }
 
-        public void UpdateView(TopicsViewVO vo)
+        public void UpdateView(VideoLessonVO vo, bool allLessonsWatched)
         {
-            lessonsCompletedSection.SetActive(vo.allLessonsWatched);
-            lessonsSection.SetActive(!vo.allLessonsWatched);
-            lessonVO = vo.nextLesson;
+            lessonsCompletedSection.SetActive(allLessonsWatched);
+            lessonsSection.SetActive(!allLessonsWatched);
+            lessonVO = vo;
 
-            if (!vo.allLessonsWatched)
+            if (!allLessonsWatched)
             {
-                currentLessonIcon.sprite = vo.nextLesson.icon;
-                currentLessonName.text = vo.nextLesson.name;
+                currentLessonName.text = lessonVO.name;
+                duration.text = TimeUtil.FormatSecondsToMinutes(lessonVO.duration);
+                lessonLockedName.text = lessonVO.name;
+                lessonLockedDuration.text = duration.text;
+                lessonLockedCost.text = lessonVO.storeItem.currency3Cost.ToString();
             }
-
-            lockIcon.enabled = lessonVO.isLocked;
         }
 
         void OnStartButtonClicked()
         {
-            OnStartButtonClickedSignal.Dispatch(lessonVO);
+            audioService.PlayStandardClick();
+            PlayNextLesson();
+        }
+
+        void OnViewAllButtonClicked()
+        {
+            audioService.PlayStandardClick();
+            viewAllButtonClickedSignal.Dispatch();
+        }
+
+        void OnBuyLessonButtonClickedSignal()
+        {
+            audioService.PlayStandardClick();
+            buyLessonClickedSingal.Dispatch(lessonVO.storeItem.key);
         }
 
         public void UnlockNextLesson()
@@ -74,6 +99,11 @@ namespace TurboLabz.InstantFramework
             {
                 lessonVO.isLocked = false;
             }
+        }
+
+        public void PlayNextLesson()
+        {
+            startButtonClickedSignal.Dispatch(lessonVO);
         }
     }
 }

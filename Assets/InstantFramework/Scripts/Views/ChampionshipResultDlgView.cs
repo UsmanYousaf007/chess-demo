@@ -66,6 +66,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void ResetView()
+        {
+            ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
+        }
+
         public void PopulateEntries(string playerId, JoinedTournamentData joinedTournament)
         {
             ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);

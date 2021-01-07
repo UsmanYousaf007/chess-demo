@@ -13,16 +13,15 @@ namespace HUF.Auth.Runtime.Implementation
         public string UserId => string.Empty;
         public string UserName => string.Empty;
         public bool IsInitialized => true;
+        public event UnityAction<string> OnInitialized;
+        public event UnityAction OnInitializationFailure;
+        public event UnityAction<string, AuthSignInResult> OnSignInResult;
+        public event UnityAction<string> OnSignOutComplete;
 
         public DummyAuthService( string nameSuffix )
         {
             Name = nameSuffix;
         }
-
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, bool> OnSignIn;
-        public event UnityAction<string> OnSignOutComplete;
 
         public void Init()
         {
@@ -33,7 +32,7 @@ namespace HUF.Auth.Runtime.Implementation
         public bool SignIn()
         {
             HLog.Log( logPrefix, $"SignIn {Name}" );
-            OnSignIn.Dispatch( Name, false );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
             return true;
         }
 

@@ -39,5 +39,11 @@ namespace TurboLabz.InstantFramework
         {
             //view.UpdateView();
         }
+
+        [ListensTo(typeof(UpdateMenuViewSignal))]
+        public void OnUpdateView(LobbyVO vo)
+        {
+            view.UpdateView(vo);
+        }
     }
 }

@@ -24,11 +24,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public LessonCardView view { get; set; }
 
         //Dispatch signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
-        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
-        [Inject] public SetSubscriptionContext setSubscriptionContext { get; set; }
         [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -40,38 +39,53 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
-            view.OnStartButtonClickedSignal.AddListener(OnStartBtnClicked);
+            view.startButtonClickedSignal.AddListener(OnStartBtnClicked);
+            view.viewAllButtonClickedSignal.AddListener(OnViewAllButtonClickedSignal);
+            view.buyLessonClickedSingal.AddListener(OnUnlockVideo);
         }
 
         private void OnStartBtnClicked(VideoLessonVO vo)
         {
-            //loadTopicsViewSignal.Dispatch();
             if (vo.isLocked)
             {
-                setSubscriptionContext.Dispatch($"lessons_{vo.section.ToLower().Replace(' ', '_')}");
-                promotionsService.LoadSubscriptionPromotion();
+                view.lessonLocked.SetActive(true);
             }
             else
             {
                 view.processing.SetActive(true);
                 appInfoModel.isVideoLoading = true;
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_TOPICS_VIEW);
                 loadVideoSignal.Dispatch(vo);
             }
         }
 
-        //Listeners
-        [ListensTo(typeof(UpdateTopiscViewSignal))]
-        public void OnUpdateView(TopicsViewVO vo)
+        private void OnViewAllButtonClickedSignal()
         {
-            view.UpdateView(vo);
+            loadTopicsViewSignal.Dispatch();
+        }
+
+        private void OnUnlockVideo(string videoId)
+        {
+            if (playerModel.gems >= view.LessonCost)
+            {
+                purchaseStoreItemSignal.Dispatch(videoId, true);
+            }
+            else
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }
+        }
+
+        //Listeners
+        [ListensTo(typeof(UpdateLessonCardSignal))]
+        public void OnUpdateView(VideoLessonVO vo, bool allLessonsUnclocked)
+        {
+            view.UpdateView(vo, allLessonsUnclocked);
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnSubscriptionPurchased(StoreItem item)
         {
-            if (view.isActiveAndEnabled &&
-               (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK)))
+            if (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
             {
                 view.UnlockNextLesson();
             }
@@ -98,6 +112,16 @@ namespace TurboLabz.InstantFramework
                     appInfoModel.isVideoLoading = false;
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSON_VIDEO);
                 }
+            }
+        }
+
+        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
+        public void OnItemUnlocked(StoreItem item, PurchaseResult result)
+        {
+            if (result == PurchaseResult.PURCHASE_SUCCESS && view.isActiveAndEnabled && item.key.Equals(view.NextLessonId))
+            {
+                view.UnlockNextLesson();
+                view.PlayNextLesson();
             }
         }
     }

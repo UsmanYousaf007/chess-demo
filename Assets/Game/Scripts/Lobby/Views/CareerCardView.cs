@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
 
         public Image nextTitleTrophy;
         public Image nextTitle;
-        public Sprite nextTitleGlow;
+        public Image nextTitleGlow;
 
         public TMP_Text nextTitleText;
 
@@ -43,23 +43,11 @@ namespace TurboLabz.InstantFramework
 
         public Button infoButton;
 
-        public Sprite bgImage;
-
-        //public TMP_Text startGame3mText;
-        //public Button startGame3mButton;
-
-        //public TMP_Text startGame5mText;
-        //public Button startGame5mButton;
-
-        //public TMP_Text startGame10mText;
-        //public Button startGame10mButton;
-
-        //public TMP_Text startGame30mText;
-        //public Button startGame30mButton;
+        public Image bgImage;
 
         public Button bettingPlus;
         public Button bettingMinus;
-        public TMP_Text bettingValue;
+        public Text bettingValue;
 
         public Button playBtn;
 
@@ -86,19 +74,7 @@ namespace TurboLabz.InstantFramework
             trophyProgressionBarOriginalWidth = trophyProgressionBarFiller.sizeDelta.x;
             leagueTierIconsContainer = leagueTierIconsContainer == null ? LeagueTierIconsContainer.Load() : leagueTierIconsContainer;
 
-            //startGame3mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random3.ToString()); });
-            //startGame5mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
-            //startGame10mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
-            //startGame30mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random30.ToString()); });
-            //startGame3mText.text = localizationService.Get(LocalizationKey.MIN3_GAME_TEXT);
-            //startGame5mText.text = localizationService.Get(LocalizationKey.MIN5_GAME_TEXT);
-            //startGame10mText.text = localizationService.Get(LocalizationKey.MIN10_GAME_TEXT);
-            //startGame30mText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
-
             infoButton.onClick.AddListener(OnInfoBtnClicked);
-
-            //bgImage.sprite = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
-
             trophiesLossLabel.text = localizationService.Get(LocalizationKey.LOSS_TEXT);
             trophiesWinLabel.text = localizationService.Get(LocalizationKey.WIN_TEXT);
 
@@ -110,14 +86,14 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(int bettingIndex)
         {
-            trophiesCountOnLosses.text = leaguesModel.leagues[playerModel.league.ToString()].lossTrophies.ToString();
+            trophiesCountOnLosses.text = $"-{leaguesModel.leagues[playerModel.league.ToString()].lossTrophies}";
             trophiesCountOnWins.text = leaguesModel.leagues[playerModel.league.ToString()].winTrophies.ToString();
 
             var leagueAssets = tournamentsModel.GetLeagueSprites((playerModel.league + 1).ToString());
             nextTitleTrophy.sprite = leagueAssets.trophyImg;
             nextTitle.sprite = leagueAssets.nameImg;
-            nextTitleGlow = leagueAssets.glowBg;
-            bgImage = leagueAssets.cardBg;
+            nextTitleGlow.sprite = leagueAssets.glowBg;
+            bgImage.sprite = leagueAssets.cardBg;
 
             SetupTrophyProgressionBar(playerModel.trophies);
 
@@ -197,7 +173,7 @@ namespace TurboLabz.InstantFramework
             bettingIndex = firstBettingIndex ? 0 : bettingIndex;
             bettingMinus.interactable = !firstBettingIndex;
 
-            bettingValue.text = settingsModel.bettingIncrements[bettingIndex].ToString("N0");
+            bettingValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex]);
         }
     }
 }

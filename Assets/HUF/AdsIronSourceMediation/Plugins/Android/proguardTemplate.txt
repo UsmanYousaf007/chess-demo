@@ -116,13 +116,22 @@
 -keep class com.integralads.avid.library.* {*;}
 
 
-# Mintegral
--keepattributes Signature
--keepattributes *Annotation*
--keep class com.mintegral.** {*; }
--keep interface com.mintegral.** {*; }
--keep class android.support.v4.** { *; }
--dontwarn com.mintegral.**
--keep class **.R$* { public static final int mintegral*; }
--keep class com.alphab.** {*; }
--keep interface com.alphab.** {*; }
+-keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface {
+    public *;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *;
+}
+-keep class com.ironsource.unity.androidbridge.** { *;
+}
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}

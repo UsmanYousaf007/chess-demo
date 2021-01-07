@@ -7,11 +7,11 @@ namespace HUFEXT.PackageManager.Editor.Core
 {
     public enum CachePolicy
     {
-        File               = 0,
-        Prefs              = 1,
-        EditorPrefs        = 4,
-        EncodedFile        = 2,
-        EncodedPrefs       = 3,
+        File = 0,
+        Prefs = 1,
+        EditorPrefs = 4,
+        EncodedFile = 2,
+        EncodedPrefs = 3,
         EncodedEditorPrefs = 5
     }
 
@@ -20,17 +20,19 @@ namespace HUFEXT.PackageManager.Editor.Core
     internal static class Registry
     {
         [Serializable]
-        public class CacheData : Utils.Common.Wrapper<string> {}
-        
+        public class CacheData : Utils.Common.Wrapper<string> { }
+
         static CacheData CachedData
         {
             get
             {
                 var data = new CacheData();
+
                 if ( PlayerPrefs.HasKey( Models.Keys.CACHE_DATA_KEY ) )
                 {
                     EditorJsonUtility.FromJsonOverwrite( PlayerPrefs.GetString( Models.Keys.CACHE_DATA_KEY ), data );
                 }
+
                 return data;
             }
 
@@ -44,6 +46,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         static void RegisterPath( string path )
         {
             var data = CachedData;
+
             if ( !data.Items.Contains( path ) )
             {
                 data.Items.Add( path );
@@ -59,6 +62,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         static void UnregisterPath( string path )
         {
             var data = CachedData;
+
             if ( data.Items.Remove( path ) )
             {
                 CachedData = data;
@@ -85,7 +89,7 @@ namespace HUFEXT.PackageManager.Editor.Core
         static void RemoveCacheDirectory()
         {
             if ( Directory.Exists( Models.Keys.CACHE_DIRECTORY ) &&
-                 new DirectoryInfo( Models.Keys.CACHE_DIRECTORY ).GetFiles().Length == 0)
+                 new DirectoryInfo( Models.Keys.CACHE_DIRECTORY ).GetFiles().Length == 0 )
             {
                 FileUtil.DeleteFileOrDirectory( Models.Keys.CACHE_DIRECTORY );
             }
@@ -104,10 +108,12 @@ namespace HUFEXT.PackageManager.Editor.Core
             else if ( File.Exists( path ) )
             {
                 File.Delete( path );
+
                 if ( File.Exists( $"{path}.meta" ) )
                 {
                     File.Delete( $"{path}.meta" );
                 }
+
                 RemoveCacheDirectory();
             }
         }
@@ -123,12 +129,14 @@ namespace HUFEXT.PackageManager.Editor.Core
             {
                 RemoveInternal( item );
             }
+
             PlayerPrefs.DeleteKey( Models.Keys.CACHE_DATA_KEY );
         }
-        
+
         static bool SaveAsPrefs<T>( string path, T obj, bool encode, bool useEditor = false ) where T : class
         {
             var data = encode ? Encode( EditorJsonUtility.ToJson( obj ) ) : EditorJsonUtility.ToJson( obj );
+
             if ( useEditor )
             {
                 EditorPrefs.SetString( path, data );
@@ -138,27 +146,31 @@ namespace HUFEXT.PackageManager.Editor.Core
                 PlayerPrefs.SetString( path, data );
                 PlayerPrefs.Save();
             }
+
             RegisterPath( path );
             return useEditor ? EditorPrefs.HasKey( path ) : PlayerPrefs.HasKey( path );
         }
 
         static bool LoadFromPrefs<T>( string path, T obj, bool decode, bool useEditor = false ) where T : class
         {
-            var data = useEditor ? EditorPrefs.GetString( path, string.Empty ) : 
-                           PlayerPrefs.GetString( path, string.Empty );
-            
+            var data = useEditor
+                ? EditorPrefs.GetString( path, string.Empty )
+                : PlayerPrefs.GetString( path, string.Empty );
+
             if ( !string.IsNullOrEmpty( data ) )
             {
                 var plainData = decode ? Decode( data ) : data;
                 EditorJsonUtility.FromJsonOverwrite( plainData, obj );
                 return true;
             }
+
             return false;
         }
 
         static bool SaveAsFile<T>( string path, T obj, bool encode ) where T : class
         {
             var cacheDirectory = Path.GetDirectoryName( path );
+
             if ( cacheDirectory != null && !Directory.Exists( cacheDirectory ) )
             {
                 Directory.CreateDirectory( cacheDirectory );
@@ -175,6 +187,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             if ( File.Exists( path ) )
             {
                 var data = File.ReadAllText( path );
+
                 if ( !string.IsNullOrEmpty( data ) )
                 {
                     var plainData = decode ? Decode( data ) : data;
@@ -182,6 +195,7 @@ namespace HUFEXT.PackageManager.Editor.Core
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -206,7 +220,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             RegisterPath( path );
             return PlayerPrefs.HasKey( path );
         }
-        
+
         public static bool Save( string path, string value )
         {
             PlayerPrefs.SetString( path, value );
@@ -214,7 +228,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             RegisterPath( path );
             return PlayerPrefs.HasKey( path );
         }
-        
+
         public static bool Load<T>( string path, T obj, CachePolicy policy ) where T : class
         {
             switch ( policy )
@@ -234,7 +248,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             value = PlayerPrefs.GetInt( path, 0 );
             return PlayerPrefs.HasKey( path );
         }
-        
+
         public static bool Load( string path, out string value )
         {
             value = PlayerPrefs.GetString( path, string.Empty );
@@ -247,7 +261,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             Load( path, obj, policy );
             return obj;
         }
-        
+
         public static void Remove( string path )
         {
             RemoveInternal( path );
@@ -255,23 +269,27 @@ namespace HUFEXT.PackageManager.Editor.Core
         }
 
         public static void ClearCache()
-        {     
+        {
             if ( Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
             {
                 Directory.Delete( Models.Keys.CACHE_DIRECTORY, true );
             }
         }
-        
-        public static bool SaveInCache<T>( string path, T obj, bool encode = false ) where T : class 
+
+        public static bool SaveInCache<T>( string path, T obj, bool encode = false ) where T : class
         {
-            return Save( $"{Models.Keys.CACHE_DIRECTORY}/{path}", obj, encode ? CachePolicy.EncodedFile : CachePolicy.File );
+            return Save( $"{Models.Keys.CACHE_DIRECTORY}/{path}",
+                obj,
+                encode ? CachePolicy.EncodedFile : CachePolicy.File );
         }
 
         public static bool LoadFromCache<T>( T obj, string path, bool decode = false ) where T : class
         {
-            return Load( $"{Models.Keys.CACHE_DIRECTORY}/{path}", obj, decode ? CachePolicy.EncodedFile : CachePolicy.File );
+            return Load( $"{Models.Keys.CACHE_DIRECTORY}/{path}",
+                obj,
+                decode ? CachePolicy.EncodedFile : CachePolicy.File );
         }
-        
+
         public static void RemoveFromCache( string path )
         {
             Remove( $"{Models.Keys.CACHE_DIRECTORY}/{path}" );
@@ -290,7 +308,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             {
                 return false;
             }
-            
+
             Remove( key );
             return true;
         }

@@ -48,9 +48,9 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(LobbyVO lobbyVO)
         {
             onlinePlayersCount.text = "Active Players " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
-            gamesTodayCount.text = "Games Today " + FormatUtil.AbbreviateNumber(lobbyVO.onlineCount);
+            gamesTodayCount.text = "Games Today " + FormatUtil.AbbreviateNumber(lobbyVO.gamesTodayCount);
             //TODO send the parameter
-            PopulateTicker();
+            //PopulateTicker();
         }
 
         void PopulateTicker()

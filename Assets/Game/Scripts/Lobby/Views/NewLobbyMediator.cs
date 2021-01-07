@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using strange.extensions.mediation.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -15,6 +16,9 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+
+        //Dispatch Signals
+        [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -38,6 +42,33 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
             }
+        }
+
+        [ListensTo(typeof(PlayerProfilePicTappedSignal))]
+        public void OnPlayerProfileButtonTapped()
+        {
+            if (gameObject.activeSelf)
+            {
+                loadStatsSignal.Dispatch();
+            }
+        }
+
+        [ListensTo(typeof(ShowPromotionSignal))]
+        public void OnShowPromotion(PromotionVO vo)
+        {
+            view.ShowPromotion(vo);
+        }
+
+        [ListensTo(typeof(StoreAvailableSignal))]
+        public void OnStoreAvailable(bool isAvailable)
+        {
+            view.SetPriceOfIAPBanner(isAvailable);
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnRemoveLobbyPromotion(StoreItem item)
+        {
+            view.RemovePromotion(item.key);
         }
     }
 }

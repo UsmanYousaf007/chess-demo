@@ -49,7 +49,7 @@ namespace TurboLabz.InstantFramework
 
             glow[carousel.GetCurrentItem()].DOFade(1, 1);
 
-            HandleNotch();
+            //HandleNotch();
         }
 
         public void Show()

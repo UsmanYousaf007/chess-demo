@@ -200,6 +200,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem> { }
     public class UpdateRewardDlgV2ViewSignal : Signal<RewardDlgV2VO> { }
     public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
+    public class RewardedVideoAvailableSignal : Signal<AdPlacements> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -213,6 +214,8 @@ namespace TurboLabz.InstantFramework
     public class UpdateTournamentLeaderboardViewSignal : Signal { }
     public class ToggleLeaderboardViewNavButtons : Signal<bool> { }
     public class UpdateTournamentsViewSignal : Signal { }
+    public class ResetTournamentsViewSignal : Signal { }
+    public class UpdateChampionshipResultDlgSignal : Signal<RewardDlgVO> { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
     public class UnlockCurrentJoinedTournamentSignal : Signal { }

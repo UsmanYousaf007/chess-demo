@@ -12,22 +12,22 @@ namespace HUFEXT.PackageManager.Editor.Utils
     public class BuildReportPreprocess : IPreprocessBuildWithReport
     {
         public int callbackOrder => 0;
-        
+
         public enum ReportStatus
         {
             Success = 0,
             Failed
         }
 
-        private static Dictionary<string, string> buildParameters;
-        private static UnityEditor.PackageManager.Requests.ListRequest packagesRequest;
+        static Dictionary<string, string> buildParameters;
+        static UnityEditor.PackageManager.Requests.ListRequest packagesRequest;
 
         static UnityAction<Dictionary<string, string>> OnReportGenerationCompleted;
 
         public static ReportStatus GenerateBuildInfo( UnityAction<Dictionary<string, string>> response )
         {
             var status = ReportStatus.Success;
-            
+
             if ( !Models.Token.Exists )
             {
                 return ReportStatus.Failed;
@@ -35,13 +35,13 @@ namespace HUFEXT.PackageManager.Editor.Utils
 
             buildParameters = new Dictionary<string, string>()
             {
-                { Models.Keys.BuildEventKey.DEV_ID, Models.Token.ID },
-                { Models.Keys.BuildEventKey.PACKAGE_NAME, PlayerSettings.applicationIdentifier },
-                { Models.Keys.BuildEventKey.VERSION, PlayerSettings.bundleVersion },
-                { Models.Keys.BuildEventKey.BUILD_TIME, DateTime.Now.ToString( CultureInfo.InvariantCulture ) },
-                { Models.Keys.BuildEventKey.UNITY_VERSION, Application.unityVersion },
-                { Models.Keys.BuildEventKey.OS, SystemInfo.operatingSystem },
-                { Models.Keys.BuildEventKey.PLATFORM, EditorUserBuildSettings.activeBuildTarget.ToString() },
+                {Models.Keys.BuildEventKey.DEV_ID, Models.Token.ID},
+                {Models.Keys.BuildEventKey.PACKAGE_NAME, PlayerSettings.applicationIdentifier},
+                {Models.Keys.BuildEventKey.VERSION, PlayerSettings.bundleVersion},
+                {Models.Keys.BuildEventKey.BUILD_TIME, DateTime.Now.ToString( CultureInfo.InvariantCulture )},
+                {Models.Keys.BuildEventKey.UNITY_VERSION, Application.unityVersion},
+                {Models.Keys.BuildEventKey.OS, SystemInfo.operatingSystem},
+                {Models.Keys.BuildEventKey.PLATFORM, EditorUserBuildSettings.activeBuildTarget.ToString()},
             };
 
             switch ( EditorUserBuildSettings.activeBuildTarget )
@@ -64,18 +64,18 @@ namespace HUFEXT.PackageManager.Editor.Utils
             {
                 var name = string.Empty;
                 var arr = package.name.Split( '.' );
+
                 if ( arr.Length > 0 )
                 {
                     name = arr.Last();
                 }
+
                 buildParameters[Models.Keys.BuildEventKey.HUF_PACKAGE + name] = package.version;
             }
 
             OnReportGenerationCompleted = response;
-
             packagesRequest = UnityEditor.PackageManager.Client.List( true );
             EditorApplication.update += FetchUnityPackages;
-
             return status;
         }
 
@@ -87,10 +87,12 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 {
                     var name = string.Empty;
                     var arr = package.name.Split( '.' );
+
                     if ( arr.Length > 0 )
                     {
                         name = arr.Last();
                     }
+
                     buildParameters[Models.Keys.BuildEventKey.UNITY_PACKAGE + name] = package.version;
                 }
             }
@@ -105,15 +107,15 @@ namespace HUFEXT.PackageManager.Editor.Utils
 
         public static string SerializeReport( Dictionary<string, string> dict )
         {
-            var entries = dict.Select(d => $"    \"{d.Key}\": \"{d.Value}\"" );
-            return "{\n" + string.Join(",\n", entries) + "\n}";
+            var entries = dict.Select( d => $"    \"{d.Key}\": \"{d.Value}\"" );
+            return $"{{\n{string.Join( ",\n", entries )}\n}}";
         }
-        
+
         public void OnPreprocessBuild( UnityEditor.Build.Reporting.BuildReport report )
         {
             GenerateBuildInfo( Reporter.Send );
         }
-        
+
 #if HPM_DEV_MODE
         [MenuItem("HUF/Debug/Send Test HBI report")]
         public static void SendTestReport()

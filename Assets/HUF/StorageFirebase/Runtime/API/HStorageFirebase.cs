@@ -76,36 +76,36 @@ namespace HUF.StorageFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Tries to register Download Service.
+        /// Tries to register a download service.
         /// </summary>
-        /// <returns>True if service registered successfully, false otherwise</returns>
+        /// <returns>True if the service was registered successfully, false otherwise</returns>
         [PublicAPI]
         public static bool TryInitDownloadService()
         {
             return HInitFirebase.IsInitialized && HStorage.TryRegisterDownloadService(
-                       new FirebaseStorageDownloadService( FirebaseStorage.DefaultInstance ) );
+                new FirebaseStorageDownloadService( FirebaseStorage.DefaultInstance ) );
         }
 
         /// <summary>
-        /// Tries to register Upload Service.
+        /// Tries to register an upload service.
         /// </summary>
-        /// <returns>True if service registered successfully, false otherwise</returns>
+        /// <returns>True if the service was registered successfully, false otherwise</returns>
         [PublicAPI]
         public static bool TryInitUploadService()
         {
             return HInitFirebase.IsInitialized && HStorage.TryRegisterUploadService(
-                       new FirebaseStorageUploadService( FirebaseStorage.DefaultInstance ) );
+                new FirebaseStorageUploadService( FirebaseStorage.DefaultInstance ) );
         }
 
         /// <summary>
-        /// Tries to register Remove Service.
+        /// Tries to register a remove service.
         /// </summary>
-        /// <returns>True if service registered successfully, false otherwise</returns>
+        /// <returns>True if the service was registered successfully, false otherwise</returns>
         [PublicAPI]
         public static bool TryInitRemoveService()
         {
             return HInitFirebase.IsInitialized && HStorage.TryRegisterRemoveService(
-                       new FirebaseStorageRemoveService( FirebaseStorage.DefaultInstance ) );
+                new FirebaseStorageRemoveService( FirebaseStorage.DefaultInstance ) );
 
             ;
         }

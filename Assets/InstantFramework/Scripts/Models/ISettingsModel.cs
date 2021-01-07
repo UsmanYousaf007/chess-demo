@@ -41,5 +41,8 @@ namespace TurboLabz.InstantFramework
 
         List<long> bettingIncrements { get; set; }
         List<float> defaultBetIncrementByGamesPlayed { get; set; }
+
+        int advantageThreshold { get; set; }
+        int purchasedHintsThreshold { get; set; }
     }
 }

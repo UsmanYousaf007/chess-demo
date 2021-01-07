@@ -111,18 +111,17 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
                     adsConfig = adsProviderConfigs[0];
 
-                    if ( adsProviderConfigs.Count > 1 )
-                    {
-                        var adMediationName = HAds.Interstitial.GetAdProviderName().ToLower();
+                    if ( adsProviderConfigs.Count <= 1 )
+                        return adsConfig;
 
-                        foreach ( var adConfig in adsProviderConfigs )
-                        {
-                            if ( adConfig.name.ToLower().Contains( adMediationName ) )
-                            {
-                                adsConfig = adConfig;
-                                break;
-                            }
-                        }
+                    for ( var index = 0; index < adsProviderConfigs.Count; index++ )
+                    {
+                        if ( adsProviderConfigs[index].ConfigId.Contains( "HADS" ) ||
+                             adsProviderConfigs[index].ConfigId.Contains( "Huuuge" ) )
+                            continue;
+
+                        adsConfig = adsProviderConfigs[index];
+                        break;
                     }
                 }
 

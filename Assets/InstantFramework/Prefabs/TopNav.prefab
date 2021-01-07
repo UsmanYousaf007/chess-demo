@@ -67,6 +67,7 @@ MonoBehaviour:
   gemsCount: {fileID: 1729398880320329743}
   coinsCount: {fileID: 2110339695881300353}
   boughtGemsCount: {fileID: 0}
+  boughtCoinsCount: {fileID: 0}
   messagesCount: {fileID: 900247852977755894}
   inboxNotification: {fileID: 8276561547277201255}
   ticketsCount: {fileID: 5947591591281948918}
@@ -223,9 +224,9 @@ RectTransform:
   m_Father: {fileID: 224843665634925016}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 35.59375, y: -64.99988}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.00012207031}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &1270158909178276422
@@ -610,8 +611,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -382, y: -4.15}
-  m_SizeDelta: {x: 218.97, y: 82.7}
+  m_AnchoredPosition: {x: -444, y: -4.15}
+  m_SizeDelta: {x: 330, y: 82.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &515803389081536790
 CanvasRenderer:
@@ -1928,7 +1929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8688161746215203885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1944,10 +1945,10 @@ RectTransform:
   m_Father: {fileID: 1278041102191969633}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 11, y: -41.6}
-  m_SizeDelta: {x: 46, y: 39}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 85, y: 0}
+  m_SizeDelta: {x: 53, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4091216272535862949
 CanvasRenderer:
@@ -1977,7 +1978,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6fc5bfebb751d485d99ca3b3d74cb669, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4f22353889a11496e8fda29eb79a5b1a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2150,8 +2151,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.86, y: 7.8}
-  m_SizeDelta: {x: 121.85, y: 49.5}
+  m_AnchoredPosition: {x: 27, y: 7.8}
+  m_SizeDelta: {x: 210.7, y: 49.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8547685978662857715
 CanvasRenderer:
@@ -2832,10 +2833,10 @@ RectTransform:
   m_Father: {fileID: 8688161746215203885}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0.79999924}
-  m_SizeDelta: {x: 50, y: 57.7}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1792773128269266028
 CanvasRenderer:
@@ -2897,7 +2898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5800223844990997393
 RectTransform:
   m_ObjectHideFlags: 0

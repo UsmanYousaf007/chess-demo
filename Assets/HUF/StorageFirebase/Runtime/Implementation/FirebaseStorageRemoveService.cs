@@ -1,6 +1,8 @@
 using System.Text;
 using Firebase.Storage;
+#if HUF_AUTH_FIREBASE
 using HUF.Auth.Runtime.API;
+#endif
 using HUF.Storage.Runtime.API;
 using HUF.Storage.Runtime.API.Structs;
 using HUF.StorageFirebase.Runtime.API;
@@ -26,6 +28,7 @@ namespace HUF.StorageFirebase.Runtime.Implementation
 
         public void RemoveFile( string pathToFile, UnityAction<StorageResultContainer> completeHandler )
         {
+#if HUF_AUTH_FIREBASE
             if ( !HAuth.IsSignedIn( AuthServiceName.FIREBASE ) )
             {
                 completeHandler.Dispatch( new StorageResultContainer( pathToFile,
@@ -57,6 +60,9 @@ namespace HUF.StorageFirebase.Runtime.Implementation
             var fileReference = storageReference.GetReferenceFromUrl( databaseUrlPath );
             var storageRemoveHandler = new StorageRemoveHandler( firebasePath, completeHandler );
             storageRemoveHandler.StartRemove( fileReference );
+#else
+            HLog.LogError( logPrefix, "Firebase Auth package is needed to remove files!" );
+#endif
         }
 
         public void Dispose()

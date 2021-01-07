@@ -26,6 +26,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
 
+        //Dispatch Signals
+        [Inject] public RewardedVideoAvailableSignal rewardedVideoAvailableSignal { get; set; }
+
         private IPromise<AdsResult> adEndedPromise;
         private long videoStartTime = 0;
 
@@ -55,6 +58,7 @@ namespace TurboLabz.InstantFramework
                 case AdPlacements.Rewarded_lobby_chest:
                 case AdPlacements.Rewarded_coins_purchase:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
+                    rewardedVideoAvailableSignal.Dispatch(placementId);
                     break;
 
                 case AdPlacements.Interstitial_endgame:

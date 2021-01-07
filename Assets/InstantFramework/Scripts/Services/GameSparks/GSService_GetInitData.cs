@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
             appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
-            //appInfoModel.nthWinsRateApp = response.ScriptData.GetInt(GSBackendKeys.NTH_WINS_APP_RATE_APP).Value;
+            appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
@@ -113,6 +113,9 @@ namespace TurboLabz.InstantFramework
 
             settingsModel.bettingIncrements = response.ScriptData.GetLongList(GSBackendKeys.BETTING_INCREMENTS);
             settingsModel.defaultBetIncrementByGamesPlayed = response.ScriptData.GetFloatList(GSBackendKeys.BET_INCREMENT_BY_GAMES_PLAYED);
+
+            GSData freeHintSettingsData = response.ScriptData.GetGSData(GSBackendKeys.FREE_HINT_THRESHOLDS);
+            ParseFreeHintSettings(freeHintSettingsData);
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
@@ -286,6 +289,8 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.secondsBetweenIngameAds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_BETWEEN_INGAME_AD) * 60;
             adsSettingsModel.secondsLeftDisableTournamentPregame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_LEFT_DISABLE_TOURNAMENT_ADS) * 60;
             adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
+            adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
+
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
@@ -523,6 +528,7 @@ namespace TurboLabz.InstantFramework
             joinedTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
             joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
             joinedTournament.ended = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.CONCLUDED);
+            joinedTournament.matchesPlayedCount = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
 
             var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
             if (grandPrizeGSData != null)
@@ -563,7 +569,7 @@ namespace TurboLabz.InstantFramework
             {
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
-                // Sort entries on score here
+                // Sort entries on score here, and Update rank
                 SortTournamentEntries(tournamentEntries);
 
                 joinedTournament.entries = tournamentEntries;
@@ -574,12 +580,7 @@ namespace TurboLabz.InstantFramework
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
                     tournamentEntries[i].rank = i + 1;
-                    if (tournamentEntries[i].publicProfile.playerId == playerId)
-                    {
-                        joinedTournament.rank = tournamentEntries[i].rank;
-                        joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
-                    }
-
+                    
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
                     {
                         var leagueAssets = tournamentsModel.GetLeagueSprites(tournamentEntries[i].publicProfile.league.ToString());
@@ -624,7 +625,6 @@ namespace TurboLabz.InstantFramework
             {
                 if (entries[i].score <= playerEntry.score)
                 {
-                    playerEntry.rank = i + 1;
                     entries.Insert(i, playerEntry);
                     inserted = true;
                     break;
@@ -633,7 +633,6 @@ namespace TurboLabz.InstantFramework
 
             if (!inserted)
             {
-                playerEntry.rank = entries.Count;
                 entries.Add(playerEntry);
             }
         }
@@ -788,6 +787,14 @@ namespace TurboLabz.InstantFramework
 
             return null;
         }
+
+
+        private void ParseFreeHintSettings(GSData freeHintData)
+        {
+            settingsModel.advantageThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.ADV_THRESHOLDS);
+            settingsModel.purchasedHintsThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.HINTS_PURCHASED_THRESHOLDS);
+        }
+
 
         private void FillInbox(IDictionary<string, InboxMessage> targetList, GSData targetData)
         {

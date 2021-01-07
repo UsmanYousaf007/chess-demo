@@ -329,7 +329,9 @@ namespace TurboLabz.InstantFramework
             }
             publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
             publicProfile.league = GetSafeInt(publicProfileData, GSBackendKeys.PublicProfile.LEAGUE);
-           // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
+            publicProfile.trophies2 = GetSafeInt(publicProfileData, GSBackendKeys.PlayerDetails.TROPHIES2);
+
+            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
             publicProfile.totalGamesLost = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_LOST).Value;

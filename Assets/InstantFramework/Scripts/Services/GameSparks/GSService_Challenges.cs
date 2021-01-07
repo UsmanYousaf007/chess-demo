@@ -136,6 +136,8 @@ namespace TurboLabz.InstantFramework
                     matchInfoModel.matches[challengeId].betValue = GSParser.GetSafeLong(playerData, GSBackendKeys.ChallengeData.BET_VALUE);
                     matchInfoModel.matches[challengeId].powerMode = GSParser.GetSafeBool(playerData, GSBackendKeys.ChallengeData.POWER_MODE);
                 }
+
+                preferencesModel.freeHint = FreePowerUpStatus.NOT_CONSUMED;
             }
 
             UpdateMatch(challengeId, matchData);
@@ -409,6 +411,7 @@ namespace TurboLabz.InstantFramework
             JoinedTournamentData joinedTournament = null;
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
+            int previousRank = tournament.rank;
 
             if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {
@@ -422,6 +425,8 @@ namespace TurboLabz.InstantFramework
                 // Tournament has ended
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = tournament;
+
+                // TODO: Show championship result dialog here.
             }
             else
             {
@@ -443,6 +448,11 @@ namespace TurboLabz.InstantFramework
 
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = joinedTournament;
+
+                if (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank > previousRank)
+                {
+                    metaDataModel.ShowChampionshipNewRankDialog = true;
+                }
             }
 
             updateTournamentsViewSignal.Dispatch();

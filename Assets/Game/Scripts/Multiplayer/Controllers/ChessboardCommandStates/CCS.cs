@@ -125,6 +125,10 @@ namespace TurboLabz.Multiplayer
 
             if (activeChessboard.gameEndReason == GameEndReason.NONE)
             {
+                /////CHEEECK FREE HINT HERE TOO////////////////////////
+
+
+
                 // Initialize the game powerups
                 cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
                 cmd.turnSwapSignal.Dispatch(isPlayerTurn);
@@ -157,12 +161,27 @@ namespace TurboLabz.Multiplayer
         protected void RenderOpponentMove(ChessboardCommand cmd)
         {
             // Update the view with the opponent move
+            
             cmd.activeChessboard.opponentMoveRenderComplete = false;
             MoveVO moveVO = GetMoveVO(cmd.activeChessboard, false);
             cmd.updateOpponentMoveSignal.Dispatch(moveVO);
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
             cmd.onboardingTooltipSignal.Dispatch(moveVO);
+
+            Chessboard chessboard = cmd.activeChessboard;
+            int advantage = cmd.chessService.GetScore(chessboard.opponentColor);
+
+            bool isFreeHintAvailable = advantage >= cmd.metaDataModel.settingsModel.advantageThreshold
+                                        && (!cmd.playerModel.inventory.ContainsKey(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT)
+                                        || (cmd.playerModel.inventory[GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT] < cmd.metaDataModel.settingsModel.purchasedHintsThreshold))
+                                        && !cmd.activeMatchInfo.powerMode
+                                        && cmd.preferencesModel.freeHint.Equals(FreePowerUpStatus.NOT_CONSUMED);
+
+            if (isFreeHintAvailable)
+                cmd.preferencesModel.freeHint |= FreePowerUpStatus.AVAILABLE;
+
+            cmd.freeHintAvailableSignal.Dispatch(isFreeHintAvailable);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)

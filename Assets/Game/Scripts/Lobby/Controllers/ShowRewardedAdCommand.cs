@@ -21,6 +21,13 @@ namespace TurboLabz.InstantFramework
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {
                 rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
+
+                //Special case for lobby chest
+                if (adPlacement == AdPlacements.Rewarded_lobby_chest)
+                {
+                    OnVideoShown(AdsResult.FINISHED);
+                }
+
                 return;
             }
 

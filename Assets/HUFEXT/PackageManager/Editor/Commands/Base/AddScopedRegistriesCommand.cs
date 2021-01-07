@@ -7,26 +7,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
 {
     public class AddScopedRegistriesCommand : Core.Command.Base
     {
-        [Serializable]
-        internal class ManifestWrapper
-        {
-            public string dependencies = string.Empty;
-            public List<Models.ScopedRegistryWrapper> scopedRegistries = new List<Models.ScopedRegistryWrapper>();
-        }
-
         const string DEPENDENCIES_PATTERN = @"""dependencies"":";
-        
-        public List<Models.ScopedRegistryWrapper> registries;
-        
-        protected override void Complete( bool result, string serializedData = "" )
-        {
-            if ( result )
-            {
-                Debug.Log( "Scoped registries added." );
-            }
 
-            base.Complete( result, serializedData );
-        }
+        public List<Models.ScopedRegistryWrapper> registries;
 
         public override void Execute()
         {
@@ -35,10 +18,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
                 Complete( false );
                 return;
             }
-            
+
             var path = Path.Combine( Directory.GetParent( Application.dataPath ).FullName,
                 Models.Keys.Filesystem.UNITY_PACKAGES_MANIFEST_FILE );
-            
+
             if ( !File.Exists( path ) )
             {
                 Complete( false );
@@ -53,9 +36,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
             {
                 Complete( false );
             }
-            
+
             var dependencies = rawManifest.Substring( start, length );
-            
             var manifest = new ManifestWrapper();
             JsonUtility.FromJsonOverwrite( rawManifest, manifest );
 
@@ -65,11 +47,28 @@ namespace HUFEXT.PackageManager.Editor.Commands.Base
                 {
                     manifest.scopedRegistries.Add( reg );
                     var json = JsonUtility.ToJson( manifest, true );
-                    File.WriteAllText( path, json.Replace( DEPENDENCIES_PATTERN + " \"\"", dependencies ) );
+                    File.WriteAllText( path, json.Replace( $"{DEPENDENCIES_PATTERN} \"\"", dependencies ) );
                 }
             }
-            
+
             Complete( true );
+        }
+
+        protected override void Complete( bool result, string serializedData = "" )
+        {
+            if ( result )
+            {
+                Debug.Log( "Scoped registries added." );
+            }
+
+            base.Complete( result, serializedData );
+        }
+
+        [Serializable]
+        internal class ManifestWrapper
+        {
+            public string dependencies = string.Empty;
+            public List<Models.ScopedRegistryWrapper> scopedRegistries = new List<Models.ScopedRegistryWrapper>();
         }
     }
 }

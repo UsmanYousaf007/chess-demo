@@ -1,3 +1,7 @@
+## [2.1.1] - 2020-09-09
+### Added
+- Documentation
+
 ## [2.1.0] - 2020-05-15
 ### Added
 - Cache details: support, presence and timestamp

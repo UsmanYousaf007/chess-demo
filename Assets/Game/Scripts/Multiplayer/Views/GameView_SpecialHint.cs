@@ -20,6 +20,7 @@ namespace TurboLabz.Multiplayer
         public Text specialHintTooltipText;
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
+        public GameObject freeHintTooltip;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -78,20 +79,24 @@ namespace TurboLabz.Multiplayer
 
         public void SetupSpecialHintButton()
         {
+           
             if (hintsStoreItem == null)
             {
                 return;
             }
 
+
+            specialHintGemsBg.gameObject.SetActive(!preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = playerModel.HasSubscription() || preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED;
+            haveEnoughHints = playerModel.HasSubscription() || preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE);
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
-            specialHintGemsBg.gameObject.SetActive(true);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
-            specialHintCountContainer.SetActive(!playerModel.HasSubscription());
-            specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
+            specialFreeHintContainer.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+            freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+            
         }
 
         public void ToggleSpecialHintButton(bool on)
@@ -158,8 +163,10 @@ namespace TurboLabz.Multiplayer
 
         private void SpecialHintButtonClicked()
         {
+            //max
             if (canUseSpecialHint)
             {
+                //premium hints
                 if (haveEnoughHints)
                 {
                     var transactionVO = new VirtualGoodsTransactionVO();
@@ -167,6 +174,7 @@ namespace TurboLabz.Multiplayer
                     transactionVO.consumeQuantity = 1;
                     ProcessHint(transactionVO);
                 }
+                //buy hints
                 else if (haveEnoughGemsForHint)
                 {
                     var transactionVO = new VirtualGoodsTransactionVO();
@@ -178,6 +186,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
+                    audioService.PlayStandardClick();
                     EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
                     notEnoughGemsSignal.Dispatch();
                 }

@@ -12,13 +12,13 @@ namespace HUF.InitFirebase.Runtime.API
         static IFirebaseInitializer Initializer => initializer ?? (initializer = new FirebaseInitializer());
 
         /// <summary>
-        /// Returns TRUE if Firebase is already initialized correctly.
+        /// Returns whether Firebase is initialized.
         /// </summary>
         [PublicAPI]
         public static bool IsInitialized => Initializer.IsInitialized;
 
         /// <summary>
-        /// Occurs when Firebase initialization finish with success.
+        /// Raised when Firebase initialization finishes successfully.
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnInitializationSuccess
@@ -28,7 +28,7 @@ namespace HUF.InitFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Occurs when Firebase initialization fail.
+        /// Raised when Firebase initialization fails.
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnInitializationFailure
@@ -38,10 +38,10 @@ namespace HUF.InitFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Initialize Firebase. Initialization is asynchronous so
-        /// after calling Init method you should wait for <para />
-        /// <see cref="OnInitializationSuccess"/> if initialization complete with success <para />
-        /// or for <see cref="OnInitializationFailure"/> if initialization fail.
+        /// <para>Initializes Firebase.</para>
+        /// <para>The initialization is asynchronous so
+        /// subscribing to <see cref="OnInitializationSuccess"/>
+        /// and <see cref="OnInitializationFailure"/> is recommended.</para>
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -50,9 +50,9 @@ namespace HUF.InitFirebase.Runtime.API
         }
 
         /// <summary>
-        /// Initialize Firebase. Initialization is asynchronous and could be done later. <para />
+        /// Initializes Firebase. The initialization is asynchronous.
         /// </summary>
-        /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
+        /// <param name="callback">A callback invoked after the initialization finishes regardless of the outcome.</param>
         public static void Init( Action callback )
         {
             void HandleInitializationEnd()

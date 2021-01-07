@@ -46,7 +46,7 @@ namespace HUF.NotificationsFirebase.Runtime.API
         /// <summary>
         /// Initializes Firebase Cloud Messaging (Firebase Notifications).
         /// </summary>
-        /// <param name="callback">Callback invoked after initialization is finished regardless of the outcome</param>
+        /// <param name="callback">A callback invoked after the initialization is finished regardless of the outcome.</param>
         [PublicAPI]
         public static void Init( Action callback )
         {

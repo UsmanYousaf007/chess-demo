@@ -33,7 +33,8 @@ namespace TurboLabz.InstantFramework
                 }
                 else if (viewId == NavigatorViewId.LOBBY)
                 {
-                    return new NSLobby();
+                    cmd.loadLobbySignal.Dispatch();
+                    return null;
                 }
             }
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
@@ -67,6 +68,10 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG)
             {
                 return new NSSubscriptionSaleDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
             }
 
             return null;

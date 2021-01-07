@@ -52,8 +52,8 @@ namespace TurboLabz.CPU
                 var isPremium = transactionVO.consumeItemShortCode.Equals("premium");
                 preferencesModel.cpuPowerUpsUsedCount++;
 
-                if (preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED)
-                    preferencesModel.freeDailyHint = FreePowerUpStatus.CONSUMED;
+                //if (preferencesModel.freeHint == FreePowerUpStatus.NOT_CONSUMED)
+                //    preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
 
                 view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium);
                 getHintSignal.Dispatch(true);
@@ -148,7 +148,7 @@ namespace TurboLabz.CPU
 
             if (key.Equals(view.specialHintShortCode))
             {
-                preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
+                //preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
             }
         }
     }

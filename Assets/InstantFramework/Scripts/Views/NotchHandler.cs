@@ -120,6 +120,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform tounamentsLeaderboardScrollViewport;
     public RectTransform tournamentsLeaderboardNotEnteredBar;
 
+    [Header("New Lobby")]
+    public RectTransform newLobbyContent;
+
     public static bool HasNotch()
     {
 #if UNITY_EDITOR
@@ -149,7 +152,7 @@ public class NotchHandler : MonoBehaviour {
         // TOP NAVS
         foreach (RectTransform tfm in topNavs)
         {
-            SetY(tfm, -165f);
+            SetY(tfm, -120f);
         }
 
         foreach (RectTransform tfm in secondTierTopNavs)
@@ -159,7 +162,7 @@ public class NotchHandler : MonoBehaviour {
 
         foreach (RectTransform tfm in botNavs)
         {
-            SetY(tfm, 192f);
+            SetY(tfm, 152f);
         }
 
         //SetY(mainBottomNav, 167f);
@@ -189,10 +192,10 @@ public class NotchHandler : MonoBehaviour {
 
         // FRIENDS
         //SetY(friendsScrollView, -31f - 100f);
-        SetTop(friendsViewPort, -336f);
-        SetBottom(friendsViewPort, 260f);
-        SetY(friendsScrollViewTopShadow, -10);
-        SetY(friendsSecondTierTopNav, -163);
+        SetTop(friendsViewPort, -290f);
+        SetBottom(friendsViewPort, 220f);
+        SetY(friendsScrollViewTopShadow, -297);
+        SetY(friendsSecondTierTopNav, -123);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);
@@ -240,30 +243,30 @@ public class NotchHandler : MonoBehaviour {
         SetY(manageSubscriptionBottomNav, 60);
 
         // Blocked Friends
-        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 295);
-        blockedFriendsScrollViewPort.offsetMax = new Vector2(blockedFriendsScrollViewPort.offsetMax.x, -324);
-        SetY(blockedFriendsSecondTierTopNav, -165);
+        SetTop(blockedFriendsScrollViewPort, -270f);
+        SetBottom(blockedFriendsScrollViewPort, 200f);
+        SetY(blockedFriendsSecondTierTopNav, -123);
    
         //Lesson Views
         SetY(topicsViewBottomNav, 89f);
-        SetTop(topicsScrollView, -223f);
+        SetTop(topicsScrollView, -190f);
         SetBottom(topicsScrollView, 213f);
         SetY(lessonsViewBottomNav, 89f);
-        SetTop(lessonsScrollView, -208f);
+        SetTop(lessonsScrollView, -165f);
         SetBottom(lessonsScrollView, 213f);
         SetY(lessonVideoPlayerTopBar, -113f);
         SetY(lessonVideoPlayerBottomNav, 91f);
 
         //Shop
-        SetTop(shopScrollViewport, -220f);
-        SetBottom(shopScrollViewport, 260f);
+        SetTop(shopScrollViewport, -278f);
+        SetBottom(shopScrollViewport, 220f);
         shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
         //Inventory
-        SetTop(inventoryThemesScrollViewport, -314f);
-        SetBottom(inventoryThemesScrollViewport, 260f);
-        SetY(inventoryTitleBar, -240f);
-        SetY(inventoryShawdow, -326f);
+        SetTop(inventoryThemesScrollViewport, -252f);
+        SetBottom(inventoryThemesScrollViewport, 220f);
+        SetY(inventoryTitleBar, -173f);
+        SetY(inventoryShawdow, -262f);
 
         //Inbox
         SetTop(inboxItemsContainer, -213f);
@@ -290,6 +293,10 @@ public class NotchHandler : MonoBehaviour {
         SetBottom(tounamentsLeaderboardScrollViewport, 429f);
 
         SetY(tournamentsLeaderboardNotEnteredBar, 538f);
+
+        //New Lobby Content
+        SetTop(newLobbyContent, -185f);
+        SetBottom(newLobbyContent, 215f);
     }
 
     void SetY(RectTransform tfm, float y)

@@ -32,6 +32,12 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(tournamentsModel.GetJoinedTournament());
         }
 
+        [ListensTo(typeof(ResetTournamentsViewSignal))]
+        public void ResetView()
+        {
+            view.ResetChampionshipView();
+        }
+
         [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
         public void OnUpdateAllStarLeaderboard()
         {
