@@ -59,6 +59,8 @@ namespace TurboLabz.CPU
 				writer.Write<ChessColor>(SaveKeys.PLAYER_COLOR, chessboardModel.playerColor);
 				writer.Write<ChessColor>(SaveKeys.OPPONENT_COLOR, chessboardModel.opponentColor);
 				writer.Write<bool>(SaveKeys.USED_HELP, chessboardModel.usedHelp);
+				writer.Write<bool>(SaveKeys.POWER_MODE, chessboardModel.powerMode);
+				writer.Write<int>(SaveKeys.FREE_HINTS, chessboardModel.freeHints);
 
 				List<string> moveListJson = new List<string>();
 

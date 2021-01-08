@@ -37,7 +37,7 @@ namespace TurboLabz.Multiplayer
                     preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
 
 
-                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium);
+                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium, matchInfoModel.activeMatch.freeHints);
                 getHintSignal.Dispatch(true);
 
                 if (!isPremium)

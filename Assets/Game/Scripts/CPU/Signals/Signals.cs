@@ -20,7 +20,7 @@ namespace TurboLabz.CPU
     // CPU GAME
     public class SaveGameSignal : Signal {}
     public class LoadGameSignal : Signal {}
-    public class StartCPUGameSignal : Signal {}
+    public class StartCPUGameSignal : Signal<bool> {}
     public class DevFenValueChangedSignal : Signal<string> {}
     public class ChessboardEventSignal : Signal<ChessboardEvent> {}
     public class SetupChessboardSignal : Signal<SetupChessboardVO> {}

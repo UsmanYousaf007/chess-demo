@@ -60,6 +60,8 @@ namespace TurboLabz.CPU
         bool isUndo { get; set; }
         bool inSafeMode { get; set; }
         string previousPlayerTurnFen { get; set; }
+        bool powerMode { get; set; }
+        int freeHints { get; set; }
 
         void Reset();
     }

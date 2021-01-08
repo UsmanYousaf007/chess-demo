@@ -98,16 +98,15 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            if (_joinedTournament != null)
+            ClearBars(allStarPlayerBars, allStarBarsPool);
+            if (_joinedTournament != null && _joinedTournament.entries.Count > 0)
             {
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
-            }
-
-            ClearBars(allStarPlayerBars, allStarBarsPool);
-
-            if (_joinedTournament != null)
-            {
                 PopulateEntries(_joinedTournament);
+            }
+            else
+            {
+                getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
             }
 
             SetupTab(championship, world);
@@ -211,6 +210,9 @@ namespace TurboLabz.InstantFramework
                 _joinedTournament = joinedTournament;
                 PopulateEntries(_joinedTournament);
                 Sort();
+
+                endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
+                StartCoroutine(CountdownTimer());
             }
         }
 
@@ -329,7 +331,7 @@ namespace TurboLabz.InstantFramework
 
             ClearBars(allStarPlayerBars, allStarBarsPool);
 
-            if (_joinedTournament != null)
+            if (_joinedTournament != null && _joinedTournament.entries.Count > 0)
             {
                 PopulateEntries(_joinedTournament);
             }

@@ -90,6 +90,11 @@ namespace TurboLabz.InstantFramework
                     if (!string.IsNullOrEmpty(challengeId) && matchInfoModel.matches.ContainsKey(challengeId))
                     {
                         matchInfoModel.matches[challengeId].playerPowerupUsedCount++;
+
+                        if (matchInfoModel.matches[challengeId].freeHints > 0)
+                        {
+                            matchInfoModel.matches[challengeId].freeHints--;
+                        }
                     }
                 }
             }

@@ -422,9 +422,9 @@ namespace TurboLabz.InstantGame
                 tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
             }
             
-            else
+            else if (resultAdsVO.actionCode == "CPU")
             {
-                startCPUGameSignal.Dispatch();
+                startCPUGameSignal.Dispatch(false);
             }
 
             Release();

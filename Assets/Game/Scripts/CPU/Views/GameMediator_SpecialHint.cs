@@ -16,6 +16,7 @@ namespace TurboLabz.CPU
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -52,10 +53,15 @@ namespace TurboLabz.CPU
                 var isPremium = transactionVO.consumeItemShortCode.Equals("premium");
                 preferencesModel.cpuPowerUpsUsedCount++;
 
+                if (chessboardModel.freeHints > 0)
+                {
+                    chessboardModel.freeHints--;
+                }
+
                 //if (preferencesModel.freeHint == FreePowerUpStatus.NOT_CONSUMED)
                 //    preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
 
-                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium);
+                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium, chessboardModel.freeHints);
                 getHintSignal.Dispatch(true);
 
                 if (!isPremium)

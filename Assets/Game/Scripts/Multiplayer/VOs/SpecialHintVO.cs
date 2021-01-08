@@ -7,5 +7,6 @@
         public int hintsAllowedPerGame;
         public bool isPlayerTurn;
         public int hintCount;
+        public int powerModeHints;
     }
 }

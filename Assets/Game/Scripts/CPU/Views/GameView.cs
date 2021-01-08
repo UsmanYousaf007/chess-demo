@@ -46,7 +46,7 @@ namespace TurboLabz.CPU
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
         public GameObject logo;
-
+        
         private bool menuButtonWasActive;
 
         public void Show()
@@ -70,6 +70,7 @@ namespace TurboLabz.CPU
             OnParentShowSpecialHint();
             EnableSafeButton();
             OnShowLogo();
+            OnParentShowPowerplay();
             showAdOnBack = false;
         }
 
