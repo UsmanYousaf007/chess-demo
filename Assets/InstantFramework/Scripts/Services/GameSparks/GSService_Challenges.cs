@@ -369,6 +369,7 @@ namespace TurboLabz.InstantFramework
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;
+                playerModel.trophies = GSParser.GetSafeInt(updatedStatsData, GSBackendKeys.PlayerDetails.TROPHIES);
 
                 if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
                 {

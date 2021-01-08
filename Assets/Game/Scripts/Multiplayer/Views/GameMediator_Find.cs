@@ -76,10 +76,10 @@ namespace TurboLabz.Multiplayer
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
             loadLobbySignal.Dispatch();
 
-            if (vo.isTournamentMatch && vo.isTicketSpent)
-            {
-                RefundTicket();
-            }
+            //if (vo.isTournamentMatch && vo.isTicketSpent)
+            //{
+            //    RefundTicket();
+            //}
 
             if (vo.bettingCoins > 0)
             {

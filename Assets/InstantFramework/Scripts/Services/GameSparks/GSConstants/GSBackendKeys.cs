@@ -376,7 +376,7 @@ namespace TurboLabz.InstantFramework
                 {
                     case "Go completely Ads free": return "NoAds";
                     case "Unlock 40 professional chess lessons": return "Lessons";
-                    case "Access unlimited themes": return "Theme";
+                    case "Access unlimited Chess Sets": return "Theme";
                     case "Access unlimited game powerups": return "Powerups";
                     case "Access unlimited daily games": return "Games";
                     case "Increase your friends limit": return "Friends";

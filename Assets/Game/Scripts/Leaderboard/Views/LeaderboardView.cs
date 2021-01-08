@@ -138,7 +138,7 @@ namespace TurboLabz.InstantFramework
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (playerModel.league == 0)
             {
-                playerTitleLabel.text = "NO RANK";
+                playerTitleLabel.text = "TRAINEE";
                 playerTitleLabel.gameObject.SetActive(true);
                 playerTitleImg.gameObject.SetActive(false);
             }
