@@ -247,6 +247,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 785910674d1a04d25a5716b9563dda75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTitleImg: {fileID: 4466642769719656804}
+  _dailyRewardPerksContainers:
+  - shortCode: gems
+    containerParent: {fileID: 5003980843547213030}
+    quantityText: {fileID: 5003980843865465929}
+  - shortCode: coins
+    containerParent: {fileID: 5003980845047464723}
+    quantityText: {fileID: 5003980844085411853}
+  _rewardContainers:
+  - shortCode: gems
+    containerParent: {fileID: 4466642771486974505}
+    quantityText: {fileID: 4466642770185979764}
+  - shortCode: coins
+    containerParent: {fileID: 4466642770421285076}
+    quantityText: {fileID: 4466642771413418107}
+  playerPic: {fileID: 8674060380823775308}
+  rewardsSubHeadingText: {fileID: 4466642771586537560}
+  collectBtn: {fileID: 2032039470761673609}
 --- !u!1 &2032039469958502767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,12 +2769,12 @@ PrefabInstance:
     - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 374
+      value: 347.8
       objectReference: {fileID: 0}
     - target: {fileID: 3914719835623322339, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 413.6
+      value: 384.5
       objectReference: {fileID: 0}
     - target: {fileID: 770215236143774911, guid: c9c6868d114c845969a71638185ffa23,
         type: 3}
@@ -2959,6 +2977,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c6868d114c845969a71638185ffa23, type: 3}
+--- !u!114 &8674060380823775308 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5016095306862191003, guid: c9c6868d114c845969a71638185ffa23,
+    type: 3}
+  m_PrefabInstance: {fileID: 4466642771172395479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a824cd02b2b1c461b9176001d2a1a026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7024935669570662755 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6665650889358244020, guid: c9c6868d114c845969a71638185ffa23,

@@ -197,6 +197,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSRewardDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PROMOTION_DLG)
+            {
+                return new NSLeaguePromotionDlg();
+            }
 
             return null;
         }

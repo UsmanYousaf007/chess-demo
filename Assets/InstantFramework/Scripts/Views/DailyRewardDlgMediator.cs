@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
             _dailyRewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
-            RewardDlgV2VO rewardDlgVO = CreateRewardDlgV2VO(false);
+            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, false);
             updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
         }
@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
                         _dailyRewardVO.onCloseSignal?.Dispatch();
 
                         // Dispatch rewards sequence signal here
-                        RewardDlgV2VO rewardDlgVO = CreateRewardDlgV2VO(true);
+                        RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, true);
                         updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                         navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
 
@@ -103,23 +103,6 @@ namespace TurboLabz.InstantFramework
                         break;
                 }
             }
-        }
-
-        private RewardDlgV2VO CreateRewardDlgV2VO(bool videoWatched)
-        {
-            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO();
-            rewardDlgVO.RVWatched = videoWatched;
-            for (int i = 0; i < _dailyRewardVO.rewardShortCodes.Count; i++)
-            {
-                int quantity = _dailyRewardVO.GetRewardItemQty(i);
-                if (videoWatched)
-                {
-                    quantity *= 2;
-                }
-                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(_dailyRewardVO.rewardShortCodes[i], quantity));
-            }
-
-            return rewardDlgVO;
         }
     }
 }

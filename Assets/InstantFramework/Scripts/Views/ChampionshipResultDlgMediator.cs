@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ResetTournamentsViewSignal resetTournamentsViewSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
-        private RewardDlgVO _dailyRewardVO;
+        private RewardDlgVO _rewardVO;
 
         public override void OnRegister()
         {
@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateChampionshipResultDlgSignal))]
         public void UpdateReward(RewardDlgVO vo)
         {
-            _dailyRewardVO = vo;
+            _rewardVO = vo;
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -90,34 +90,17 @@ namespace TurboLabz.InstantFramework
             audioService.Play(audioService.sounds.SFX_CLICK);
 
             view.Hide();
-            backendService.InBoxOpCollect(_dailyRewardVO.msgId);
-            _dailyRewardVO.onCloseSignal?.Dispatch();
+            backendService.InBoxOpCollect(_rewardVO.msgId);
+            _rewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
-            RewardDlgV2VO rewardDlgVO = CreateRewardDlgV2VO(false);
+            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
             updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
 
             tournamentsModel.RemoveFromJoinedTournament(tournamentsModel.GetJoinedTournament().id);
             //resetTournamentsViewSignal.Dispatch();
             backendService.TournamentsOpGetJoinedTournaments();
-        }
-
-        private RewardDlgV2VO CreateRewardDlgV2VO(bool videoWatched)
-        {
-            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO();
-            rewardDlgVO.RVWatched = videoWatched;
-            for (int i = 0; i < _dailyRewardVO.rewardShortCodes.Count; i++)
-            {
-                int quantity = _dailyRewardVO.GetRewardItemQty(i);
-                if (videoWatched)
-                {
-                    quantity *= 2;
-                }
-                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(_dailyRewardVO.rewardShortCodes[i], quantity));
-            }
-
-            return rewardDlgVO;
         }
     }
 }

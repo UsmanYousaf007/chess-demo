@@ -31,5 +31,21 @@ namespace TurboLabz.InstantFramework
         {
             Rewards = new List<Reward>();
         }
+
+        public RewardDlgV2VO(RewardDlgVO dailyRewardVO, bool videoWatched = false)
+        {
+            Rewards = new List<Reward>();
+
+            RVWatched = videoWatched;
+            for (int i = 0; i < dailyRewardVO.rewardShortCodes.Count; i++)
+            {
+                int quantity = dailyRewardVO.GetRewardItemQty(i);
+                if (videoWatched)
+                {
+                    quantity *= 2;
+                }
+                Rewards.Add(new RewardDlgV2VO.Reward(dailyRewardVO.rewardShortCodes[i], quantity));
+            }
+        }
     }
 }

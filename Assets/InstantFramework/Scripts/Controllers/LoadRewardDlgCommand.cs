@@ -30,6 +30,7 @@ namespace TurboLabz.InstantGame
         [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public UpdateRewardDlgViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public UpdateChampionshipResultDlgSignal updateChampionshipResultDlgViewSignal { get; set; }
+        [Inject] public UpdateLeaguePromotionDlgViewSignal updateLeaguePromotionDlgViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -56,6 +57,13 @@ namespace TurboLabz.InstantGame
             else if (msg.type == "RewardLeaguePromotion")
             {
                 vo = BuildVORewardRewardLeaguePromotion(inboxMessageId);
+
+                vo.msgId = inboxMessageId;
+                vo.onCloseSignal = onCloseSignal;
+                updateLeaguePromotionDlgViewSignal.Dispatch(vo);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PROMOTION_DLG);
+
+                return;
             }
             else if (msg.type == "RewardDailyLeague")
             {

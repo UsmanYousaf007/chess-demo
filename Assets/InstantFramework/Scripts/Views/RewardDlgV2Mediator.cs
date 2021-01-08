@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Models
         
@@ -54,6 +55,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnContinuePressed()
         {
+            audioService.Play(audioService.sounds.SFX_CLICK);
+
             // TODO: play collect animation.
             OnCollectAnimationComplete();
         }
