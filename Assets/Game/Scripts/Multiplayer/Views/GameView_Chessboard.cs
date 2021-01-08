@@ -596,6 +596,9 @@ namespace TurboLabz.Multiplayer
 
             ToggleTopPanel(true);
             SetMatchType();
+
+            powerModeImage.gameObject.SetActive(isRankedGame);
+            powerModeImage.sprite = vo.powerMode ? powerPlayOnSprite : powerPlayOffSprite;
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)

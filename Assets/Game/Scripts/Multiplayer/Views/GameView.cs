@@ -47,6 +47,7 @@ namespace TurboLabz.Multiplayer
 		public GameObject rankedObject;
 		public Text matchTypeText;
 		public GameObject matchTypeObject;
+        public Image powerModeImage;
 
 		[HideInInspector] public bool isLongPlay;
         [HideInInspector] public bool isRankedGame;

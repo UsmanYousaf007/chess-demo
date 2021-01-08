@@ -400,7 +400,7 @@ namespace TurboLabz.InstantFramework
                 showAdSignal.Dispatch(vo, false);
                 return;
             }
-            startCPUGameSignal.Dispatch();
+            startCPUGameSignal.Dispatch(false);
         }
 
         private void OnQuickMatchBtnClicked(string actionCode)

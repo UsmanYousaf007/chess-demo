@@ -21,6 +21,8 @@ namespace TurboLabz.Multiplayer
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
         public GameObject freeHintTooltip;
+        public GameObject specialHintPowerModeHints;
+        public Text specialHintPowerModeHintsCount;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -28,6 +30,7 @@ namespace TurboLabz.Multiplayer
         private StoreItem hintsStoreItem;
         private int hintsAllowedPerGame;
         private int hintCount;
+        private int powerModeHints;
         public GameObject specialFreeHintContainer;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
@@ -55,6 +58,7 @@ namespace TurboLabz.Multiplayer
             canUseSpecialHint = vo.isAvailable;
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             hintCount = vo.hintCount;
+            powerModeHints = vo.powerModeHints;
             SetupSpecialHintButton();
             specialHintTooltipText.text = $"*Only {hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
             specialHintToolTip.SetActive(!canUseSpecialHint);
@@ -65,7 +69,7 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateSpecialHintButton(int hintUsedCount, bool updateHintCount)
+        public void UpdateSpecialHintButton(int hintUsedCount, bool updateHintCount, int powerModeHints)
         {
             if (updateHintCount)
             {
@@ -73,30 +77,29 @@ namespace TurboLabz.Multiplayer
                 hintCount = hintCount < 0 ? 0 : hintCount;
             }
 
+            this.powerModeHints = powerModeHints;
             canUseSpecialHint = hintUsedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
 
         public void SetupSpecialHintButton()
         {
-           
             if (hintsStoreItem == null)
             {
                 return;
             }
 
-
-            specialHintGemsBg.gameObject.SetActive(!preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
-
+            specialHintGemsBg.gameObject.SetActive(!preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) && powerModeHints <= 0);
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = playerModel.HasSubscription() || preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE);
+            haveEnoughHints = preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) || powerModeHints > 0;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialFreeHintContainer.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
             freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
-            
+            specialHintPowerModeHints.SetActive(powerModeHints > 0);
+            specialHintPowerModeHintsCount.text = powerModeHints.ToString();
         }
 
         public void ToggleSpecialHintButton(bool on)

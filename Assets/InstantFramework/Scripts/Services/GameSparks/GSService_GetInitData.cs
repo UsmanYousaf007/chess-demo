@@ -317,6 +317,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.dailyNotificationDeadlineHour = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.DAILY_NOTIFICATION_DEADLINE_HOUR);
             settingsModel.defaultSubscriptionKey = GSParser.GetSafeString(gsSettingsData, GSBackendKeys.DEFAULT_SUBSCRIPTION_KEY, "Subscription");
             settingsModel.matchmakingRandomRange = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.MATCHMAKING_RANDOM_RANGE);
+            settingsModel.powerModeFreeHints = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.POWER_MODE_FREE_HINTS);
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {

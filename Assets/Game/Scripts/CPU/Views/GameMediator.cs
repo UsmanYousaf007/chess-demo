@@ -48,6 +48,7 @@ namespace TurboLabz.CPU
             OnRegisterInfo();
             OnRegisterStep();
             OnRegisterSpecialHint();
+            OnRegisterPowerplay();
         }
 
         public override void OnRemove()
@@ -58,6 +59,7 @@ namespace TurboLabz.CPU
             OnRemoveResults();
             OnRemoveScore();
             OnRemoveMenu();
+            OnRemovePowerplay();
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -66,6 +68,8 @@ namespace TurboLabz.CPU
             if (viewId == NavigatorViewId.CPU) 
             {
                 view.Show();
+                view.SetupPowerplayImage(chessboardModel.powerMode);
+                view.SetupStepButtons();
                 backendService.OnlineCheckerAddListener(OnInternetConnectedTicked);
             }
         }

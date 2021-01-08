@@ -201,6 +201,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLeaguePromotionDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU_POWER_MODE)
+            {
+                return new NSCPUPowerMode();
+            }
 
             return null;
         }

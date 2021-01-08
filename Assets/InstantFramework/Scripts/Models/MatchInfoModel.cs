@@ -60,6 +60,7 @@ namespace TurboLabz.InstantFramework
         public bool isLongPlay { get; set; }
         public long betValue { get; set; }
         public bool powerMode { get; set; }
+        public int freeHints { get; set; }
 
         public bool isBotMatch
         {
@@ -98,6 +99,7 @@ namespace TurboLabz.InstantFramework
             tournamentMatchWinTimeBonus = 0;
             lastAdShownUTC = 0;
             gameTimeMode = GameTimeMode.Default;
+            freeHints = 0;
         }
     }
 
