@@ -25,7 +25,7 @@ namespace TurboLabz.InstantFramework
 
             if (betValue <= settingsModel.bettingIncrements[0])
             {
-                updateSpotCoinsWatchAdDlgSignal.Dispatch(betValue, storeSettingsModel.items["CoinPack1"]);
+                updateSpotCoinsWatchAdDlgSignal.Dispatch(betValue, storeSettingsModel.items["CoinPack1"], AdPlacements.Rewarded_coins_purchase);
             }
             else
             {

@@ -156,7 +156,7 @@ namespace TurboLabz.InstantGame
                 {
                     audioService.PlayStandardClick();
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
-                    updateSpotCoinsWatchAdDlgSignal.Dispatch(0, storeSettingsModel.items["CoinPack1"]);
+                    updateSpotCoinsWatchAdDlgSignal.Dispatch(0, storeSettingsModel.items["CoinPack1"], AdPlacements.Rewarded_coins_banner);
                     analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_out_of_coins);
                 }
             };

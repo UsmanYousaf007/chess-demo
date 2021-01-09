@@ -96,6 +96,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest)
             {
+                view.isVideoAvailable = true;
                 view.SetupChest();
             }
         }

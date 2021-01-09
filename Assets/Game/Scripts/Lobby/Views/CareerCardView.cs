@@ -57,6 +57,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         //Signals
         public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
@@ -66,11 +67,14 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         LeagueTierIconsContainer leagueTierIconsContainer;
         int bettingIndex;
         int minimumBettingIndex;
         bool minimumBetReached;
+        bool defaultBetIndexUsed;
 
         public void Init()
         {
@@ -102,6 +106,7 @@ namespace TurboLabz.InstantFramework
 
             bettingIndex = vo.betIndex;
             minimumBettingIndex = vo.minimumBetIndex;
+            defaultBetIndexUsed = true;
             SetupBetting();
 
             tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}%";
@@ -142,29 +147,37 @@ namespace TurboLabz.InstantFramework
 
         void OnInfoBtnClicked()
         {
+            audioService.PlayStandardClick();
             OnInfoBtnClickedSignal.Dispatch();
         }
 
         void OnIncrementBetting()
         {
+            audioService.PlayStandardClick();
             bettingIndex++;
+            defaultBetIndexUsed = false;
             SetupBetting();
         }
 
         void OnDecrementBetting()
         {
+            audioService.PlayStandardClick();
+
             if (minimumBetReached)
             {
                 lowBetTooltip.SetActive(true);
                 return;
             }
 
+            defaultBetIndexUsed = false;
             bettingIndex--;
             SetupBetting();
         }
 
         void OnPlayButtonClicked()
         {
+            audioService.PlayStandardClick();
+
             if (playerModel.coins >= settingsModel.bettingIncrements[bettingIndex])
             {
                 OnPlayButtonClickedSignal.Dispatch(settingsModel.bettingIncrements[bettingIndex]);
@@ -173,6 +186,12 @@ namespace TurboLabz.InstantFramework
             {
                 notEnoughCoinsSignal.Dispatch(settingsModel.bettingIncrements[bettingIndex]);
             }
+
+            var defaultIndexUsed = defaultBetIndexUsed ? "used" : "not_used";
+            var gamesPlayedIndex = preferencesModel.gamesPlayedPerDay;
+            var lastIndex = settingsModel.defaultBetIncrementByGamesPlayed.Count - 1;
+            gamesPlayedIndex = gamesPlayedIndex >= lastIndex ? lastIndex : gamesPlayedIndex;
+            analyticsService.Event(AnalyticsEventId.bet_increment_default, AnalyticsParameter.context, $"default_{gamesPlayedIndex + 1}_{defaultIndexUsed}");
         }
 
         void SetupBetting()

@@ -168,6 +168,19 @@ namespace TurboLabz.InstantFramework
             Print(eventStr);
         }
 
+        public void DesignEvent(AnalyticsEventId evt, params string[] contexts)
+        {
+            var eventStr = evt.ToString();
+
+            foreach (var context in contexts)
+            {
+                eventStr += $":{context}";
+            }
+
+            GameAnalytics.NewDesignEvent(eventStr);
+            Print(eventStr);
+        }
+
         public void HEvent(string evt, params string[] param)
         {
             var evtStr = evt;

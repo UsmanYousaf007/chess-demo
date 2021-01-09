@@ -41,10 +41,6 @@ namespace TurboLabz.InstantGame
         public float timeSpent30mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
-        public float timeSpent1mTournament { get; set; }
-        public float timeSpent3mTournament { get; set; }
-        public float timeSpent5mTournament { get; set; }
-        public float timeSpent10mTournament { get; set; }
         public DateTime lastLaunchTime { get; set; }
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
@@ -247,26 +243,6 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
                 {
                     timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_1M_TOURNAMENT))
-                {
-                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_3M_TOURNAMENT))
-                {
-                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_5M_TOURNAMENT))
-                {
-                    timeSpent5mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_10M_TOURNAMENT))
-                {
-                    timeSpent10mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT);
                 }
 
                 if (reader.HasKey(PrefKeys.TIME_SPENT_30M_MATCH))
@@ -553,10 +529,6 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_3M_MATCH, timeSpent3mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
-                writer.Write<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT, timeSpent1mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT, timeSpent3mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT, timeSpent5mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT, timeSpent10mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_30M_MATCH, timeSpent30mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
@@ -644,9 +616,6 @@ namespace TurboLabz.InstantGame
             timeSpent5mMatch = 0;
             timeSpent10mMatch = 0;
             timeSpent30mMatch = 0;
-            timeSpent1mTournament = 0;
-            timeSpent5mTournament = 0;
-            timeSpent10mTournament = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;

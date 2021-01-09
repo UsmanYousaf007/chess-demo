@@ -468,6 +468,7 @@ namespace TurboLabz.Multiplayer
                 }
                 else
                 {
+                    SpotPurchaseMediator.analyticsContext = "rating_booster";
                     notEnoughGemsSignal.Dispatch();
                 }
             }
@@ -488,6 +489,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
+                SpotPurchaseMediator.analyticsContext = "coin_doubler";
                 notEnoughGemsSignal.Dispatch();
             }
         }

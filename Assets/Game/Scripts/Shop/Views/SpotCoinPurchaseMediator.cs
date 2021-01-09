@@ -17,9 +17,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
-                [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
+        [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
+
+        //Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         private long betValue;
+        private AdPlacements adPlacement;
+        private bool adView = false;
 
         public override void OnRegister()
         {
@@ -53,17 +58,20 @@ namespace TurboLabz.InstantFramework
         {
             this.betValue = betValue;
             view.UpdateView(packs);
+            adView = false;
         }
 
         [ListensTo(typeof(UpdateSpotCoinsWatchAdDlgSignal))]
-        public void OnUpdateAdView(long betValue, StoreItem storeItem)
+        public void OnUpdateAdView(long betValue, StoreItem storeItem, AdPlacements adPlacement)
         {
             this.betValue = betValue;
+            this.adPlacement = adPlacement;
             view.UpdateAdDlg(storeItem);
+            adView = true;
         }
 
         [ListensTo(typeof(VirtualGoodBoughtSignal))]
-        public void OnCoinsPurchased(string shortCode)
+        public void OnCoinsPurchased(string shortCode, int quantity)
         {
             if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
@@ -78,6 +86,13 @@ namespace TurboLabz.InstantFramework
                 {
                     loadCareerCardSignal.Dispatch();
                 }
+
+                if (quantity > 0)
+                {
+                    var state = adView ? 1 : 2;
+                    analyticsService.Event(AnalyticsEventId.coin_popup_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack_state_{state}");
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "spot_purchase", $"coins_{quantity}_state_{state}");
+                }
             }
         }
 
@@ -88,19 +103,19 @@ namespace TurboLabz.InstantFramework
 
         private void OnWatchAdSignal()
         {
-            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_coins_purchase);
+            showRewardedAdSignal.Dispatch(adPlacement);
         }
 
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_coins_purchase)
+            if (view.isActiveAndEnabled && adPlacement == this.adPlacement)
             {
                 switch (result)
                 {
                     case AdsResult.FINISHED:
                         view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-                        OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS);
+                        OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS, 0);
                         break;
 
                     case AdsResult.NOT_AVAILABLE:
@@ -112,13 +127,21 @@ namespace TurboLabz.InstantFramework
 
         private void OnBuySignal(StoreItem storeItem)
         {
-            var vo = new VirtualGoodsTransactionVO();
-            vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-            vo.buyQuantity = (int)storeItem.currency4Payout;
-            vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-            vo.consumeQuantity = storeItem.currency3Payout;
-            virtualGoodsTransactionResultSignal.AddOnce(OnVirtualGoodTranscationCompleted);
-            virtualGoodsTransactionSignal.Dispatch(vo);
+            if (playerModel.gems >= storeItem.currency3Payout)
+            {
+                var vo = new VirtualGoodsTransactionVO();
+                vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+                vo.buyQuantity = (int)storeItem.currency4Payout;
+                vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                vo.consumeQuantity = storeItem.currency3Payout;
+                virtualGoodsTransactionResultSignal.AddOnce(OnVirtualGoodTranscationCompleted);
+                virtualGoodsTransactionSignal.Dispatch(vo);
+            }
+            else
+            {
+                SpotPurchaseMediator.analyticsContext = $"{storeItem.currency4Payout}_coins_pack_state_1";
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }
         }
 
         private void OnVirtualGoodTranscationCompleted(BackendResult res)

@@ -57,6 +57,8 @@ namespace TurboLabz.InstantFramework
                 case AdPlacements.Rewarded_daily_reward:
                 case AdPlacements.Rewarded_lobby_chest:
                 case AdPlacements.Rewarded_coins_purchase:
+                case AdPlacements.Rewarded_coins_banner:
+                case AdPlacements.Rewarded_coins_popup:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
                     rewardedVideoAvailableSignal.Dispatch(placementId);
                     break;

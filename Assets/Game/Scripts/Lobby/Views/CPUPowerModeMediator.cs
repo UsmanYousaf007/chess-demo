@@ -13,6 +13,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
 
+        //Service
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -52,6 +55,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotEnoughGemsSignal()
         {
+            SpotPurchaseMediator.analyticsContext = "cpu_pre_game_power_mode";
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 
@@ -66,6 +70,8 @@ namespace TurboLabz.InstantFramework
             if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.shortCode) && view.isActiveAndEnabled)
             {
                 view.OnEnablePowerMode();
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.cpu_pre_game_power_mode);
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "booster_used", AnalyticsContext.cpu_pre_game_power_mode.ToString());
             }
         }
     }

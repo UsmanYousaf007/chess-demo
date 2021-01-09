@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                SpotPurchaseMediator.analyticsContext = "lesson";
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }
         }

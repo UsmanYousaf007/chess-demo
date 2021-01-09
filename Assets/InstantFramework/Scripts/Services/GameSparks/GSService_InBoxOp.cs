@@ -144,21 +144,27 @@ namespace TurboLabz.InstantFramework
                         }
 
                         //Analytics
+                        var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
                         var item = inboxModel.items[messageId];
                         var itemType = CollectionsUtil.GetContextFromState(item.type);
-                        itemType = !string.IsNullOrEmpty(item.tournamentType) ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
-                        var itemId = "subscription_daily_ticket";
-                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower().Replace(" ", "_").Replace(".",string.Empty) : itemId;
-                        itemId = !string.IsNullOrEmpty(item.tournamentType) ? $"rank{item.rankCount}" : itemId;
-
-                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
-                            CollectionsUtil.GetContextFromString(itemShortCode).ToString(),
-                            qtyInt, itemType, itemId);
-
-                        if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(itemShortCode))
+                        var itemId = string.Empty;
+                        
+                        switch (item.type)
                         {
-                            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][itemShortCode] += qtyInt;
+                            case "RewardTournamentEnd":
+                                itemId = $"rank{item.rankCount}_{leagueName}";
+                                break;
+
+                            case "RewardDailyLeague":
+                                itemId = itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS) ? $"{leagueName}_gems" : GSBackendKeys.PlayerDetails.COINS;
+                                break;
+
+                            case "RewardLeaguePromotion":
+                                itemId = item.league.ToLower().Replace(" ", "_").Replace(".", string.Empty);
+                                break;
                         }
+
+                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(itemShortCode).ToString(), qtyInt, itemType, itemId);
                         //Analyttics end
                     }
                 }

@@ -38,6 +38,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
+        //Services
+        [Inject] public IAnalyticsService analyticsService { get; set; }
+
         private MatchInfoVO matchInfoVO;
 
         public override void OnRegister()
@@ -70,8 +73,10 @@ namespace TurboLabz.InstantFramework
                 showAdSignal.Dispatch(vo, false);
             }
 
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
             updateTimeSelectDlgSignal.Dispatch(betValue);
+            analyticsService.Event(AnalyticsEventId.bet_increment_used, AnalyticsParameter.context, betValue.ToString("N0"));
         }
 
         private void OnPlayMatch(string actionCode, long betValue)

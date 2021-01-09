@@ -39,7 +39,7 @@ public class SkinItemMediator : Mediator
 
     private void OnNotEnoughCurrency()
     {
-        //SpotPurchaseMediator.customContext = "themes";
+        SpotPurchaseMediator.analyticsContext = "theme";
         navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
     }
 
@@ -73,7 +73,8 @@ public class SkinItemMediator : Mediator
         if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(view.Key))
         {
             view.PlayAnimation();
-            analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", view.Price, "theme_unlocked", view.Key);
+            analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.theme);
+            analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "theme_unlocked", item.displayName.ToLower().Replace(" ","_"));
         }
     }
 }

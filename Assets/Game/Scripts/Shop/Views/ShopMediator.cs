@@ -83,5 +83,15 @@ namespace TurboLabz.InstantFramework
         {
             view.SetupSale(key);
         }
+
+        [ListensTo(typeof(VirtualGoodBoughtSignal))]
+        public void OnCoinsPurchased(string shortCode, int quantity)
+        {
+            if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+            {
+                analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack");
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "shop", $"coins_{quantity}");
+            }
+        }
     }
 }

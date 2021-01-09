@@ -239,9 +239,9 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
-            if (leaguesModel != null && leaguesModel.leagues != null && leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            if (leaguesModel != null)
             {
-                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
+                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.GetCurrentLeagueInfo().name.Replace(" ","_").Replace(".",string.Empty).ToLower());
             }
 
             // Logging target architecture event
@@ -278,15 +278,12 @@ namespace TurboLabz.InstantFramework
                 gameModesAnalyticsService.LogTimeSpent();
                 gameModesAnalyticsService.LogInstallDayData();
 
-                analyticsService.Event(AnalyticsEventId.trophies_earned, AnalyticsParameter.count, playerModel.trophies);
+                //analyticsService.Event(AnalyticsEventId.trophies_earned, AnalyticsParameter.count, playerModel.trophies);
 
                 analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.gems, playerModel.gems);
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.tickets, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.rating_boosters, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.hints, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.keys, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY));
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.coins, playerModel.coins);
 
-                SendResourceManagerAnalytics();
+                //SendResourceManagerAnalytics();
                 preferencesModel.ResetDailyPrefers();
             }
         }

@@ -166,7 +166,7 @@ namespace TurboLabz.InstantGame
             if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0])
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
-                updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"]);
+                updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
             }
         }
 
