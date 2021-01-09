@@ -202,6 +202,8 @@ namespace TurboLabz.InstantFramework
     public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
     public class RewardedVideoAvailableSignal : Signal<AdPlacements> { }
     public class UpdateLeaguePromotionDlgViewSignal : Signal<RewardDlgVO> { }
+    public class LoadCareerCardSignal : Signal { }
+    public class RateAppDlgClosedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -241,7 +243,7 @@ namespace TurboLabz.InstantFramework
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
 
-    public class UpdateCareerCardSignal : Signal<int> { }
+    public class UpdateCareerCardSignal : Signal<CareerCardVO> { }
     public class LoadLeaderboardSignal : Signal { }
 
     // All star leaderboard

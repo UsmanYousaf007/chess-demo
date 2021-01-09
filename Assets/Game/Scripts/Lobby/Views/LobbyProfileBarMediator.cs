@@ -28,6 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
+        [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -86,6 +87,7 @@ namespace TurboLabz.InstantFramework
                 rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+                loadCareerCardSignal.Dispatch();
             }
         }
 

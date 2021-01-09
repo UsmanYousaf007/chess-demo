@@ -3,17 +3,11 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 
-using UnityEngine.UI;
-
 namespace TurboLabz.InstantFramework
 {
     public class CareerCardVO
     {
-        public string playerLeagueTitle;
-        public string playerLeagueID;
-        public Image playerLeagueThumbnailImage;
-        public int playerTrophiesCount;
-        public int playerRankCount;
-        public Image playerRankStatusImage;
+        public int betIndex;
+        public int minimumBetIndex;
     }
 }

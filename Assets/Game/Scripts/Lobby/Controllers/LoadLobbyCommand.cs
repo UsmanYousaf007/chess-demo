@@ -23,7 +23,6 @@ namespace TurboLabz.InstantGame
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
         [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
-
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
         [Inject] public FriendsShowConnectFacebookSignal friendsShowConnectFacebookSignal { get; set; }
@@ -36,7 +35,9 @@ namespace TurboLabz.InstantGame
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
         [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateLessonCardSignal updateLessonCardSignal { get; set; }
-        [Inject] public UpdateCareerCardSignal updateCareerCardSignal { get; set; }
+        [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
+        [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
+        [Inject] public UpdateSpotCoinsWatchAdDlgSignal updateSpotCoinsWatchAdDlgSignal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -112,11 +113,17 @@ namespace TurboLabz.InstantGame
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
-            DispatchCareerCardSignal();
+
+            loadCareerCardSignal.Dispatch();
 
             if (rateAppService.CanShowRateDialogue())
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+                rateAppDlgClosedSignal.AddOnce(ShowOutOfCoinsPopup);
+            }
+            else
+            {
+                ShowOutOfCoinsPopup();
             }
             
             if (preferencesModel.isLobbyLoadedFirstTime)
@@ -154,6 +161,15 @@ namespace TurboLabz.InstantGame
             }
         }
 
+        private void ShowOutOfCoinsPopup()
+        {
+            if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0])
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
+                updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"]);
+            }
+        }
+
         private void DispatchProfileSignal() 
         {
             ProfileVO pvo = new ProfileVO();
@@ -179,36 +195,6 @@ namespace TurboLabz.InstantGame
 
             updateProfileSignal.Dispatch(pvo);
             updateLeagueProfileSignal.Dispatch(playerModel.league.ToString());
-        }
-
-        private void DispatchCareerCardSignal()
-        {
-            var gamesPlayedIndex = preferencesModel.gamesPlayedPerDay;
-            var lastIndex = metaDataModel.settingsModel.defaultBetIncrementByGamesPlayed.Count - 1;
-            gamesPlayedIndex = gamesPlayedIndex >= lastIndex ? lastIndex : gamesPlayedIndex;
-            var coinsToBet = playerModel.coins * metaDataModel.settingsModel.defaultBetIncrementByGamesPlayed[gamesPlayedIndex];
-            var betIndex = 0;
-
-            for (int i = 0; i < metaDataModel.settingsModel.bettingIncrements.Count; i++)
-            {
-                if (coinsToBet <= metaDataModel.settingsModel.bettingIncrements[i])
-                {
-                    if (i == 0)
-                    {
-                        betIndex = i;
-                        break;
-                    }
-
-                    var diff1 = Mathf.Abs(coinsToBet - metaDataModel.settingsModel.bettingIncrements[i - 1]);
-                    var diff2 = Mathf.Abs(coinsToBet - metaDataModel.settingsModel.bettingIncrements[i]);
-                    betIndex = diff1 < diff2 ? i - 1 : i;
-                    break;
-                }
-
-                betIndex = i;
-            }
-
-            updateCareerCardSignal.Dispatch(betIndex);
         }
 
         private void DispatchRemoveAdsSignal() 

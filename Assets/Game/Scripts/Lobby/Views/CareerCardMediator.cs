@@ -49,9 +49,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateCareerCardSignal))]
-        public void UpdateView(int bettingIndex)
+        public void UpdateView(CareerCardVO vo)
         {
-            view.UpdateView(bettingIndex);
+            view.UpdateView(vo);
         }
 
         public void InfoButtonClicked()

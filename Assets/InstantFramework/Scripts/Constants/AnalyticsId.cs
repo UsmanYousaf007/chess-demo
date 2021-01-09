@@ -294,6 +294,7 @@ namespace TurboLabz.InstantFramework
         lobby_themes_pack,
         lobby_remove_ads,
         lobby_collect_rewards,
+        lobby_out_of_coins,
         unlock_all_themes,
         unlock_all_lessons,
         lobby_update_banner,

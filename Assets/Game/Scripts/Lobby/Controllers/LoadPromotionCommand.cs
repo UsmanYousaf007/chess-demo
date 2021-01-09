@@ -16,12 +16,14 @@ namespace TurboLabz.InstantGame
         [Inject] public ShowPromotionSignal showPromotionSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+        [Inject] public UpdateSpotCoinsWatchAdDlgSignal updateSpotCoinsWatchAdDlgSignal { get; set; }
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -44,7 +46,12 @@ namespace TurboLabz.InstantGame
             {
                 return;
             }
-            
+
+            if (ShowCoinsBanner())
+            {
+                return;
+            }
+
             Init();
             IncrementPromotionCycleIndex();
 
@@ -128,6 +135,36 @@ namespace TurboLabz.InstantGame
                 analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.lobby_update_banner);
                 showPromotionSignal.Dispatch(gameUpdateItem);
                 //routineRunner.StartCoroutine(LoadNextPromotionAfter(180f));
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ShowCoinsBanner()
+        {
+            var coinsBanner = new PromotionVO
+            {
+                cycleIndex = 1,
+                key = LobbyPromotionKeys.COINS_BANNER,
+                analyticsContext = AnalyticsContext.lobby_out_of_coins,
+                condition = delegate
+                {
+                    return playerModel.coins < settingsModel.bettingIncrements[0];
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
+                    updateSpotCoinsWatchAdDlgSignal.Dispatch(0, storeSettingsModel.items["CoinPack1"]);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_out_of_coins);
+                }
+            };
+
+            if (coinsBanner.condition())
+            {
+                analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.lobby_out_of_coins);
+                showPromotionSignal.Dispatch(coinsBanner);
                 return true;
             }
 

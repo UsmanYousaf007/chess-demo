@@ -229,6 +229,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateSpotCoinsWatchAdDlgSignal>().ToSingleton();
             injectionBinder.Bind<RewardedVideoResultSignal>().ToSingleton();
             injectionBinder.Bind<RewardedVideoAvailableSignal>().ToSingleton();
+            injectionBinder.Bind<RateAppDlgClosedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -386,6 +387,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadRewardDlgViewSignal>().To<LoadRewardDlgCommand>();
             commandBinder.Bind<LoadLeaderboardSignal>().To<LoadLeaderboardCommand>();
             commandBinder.Bind<GetAllStarLeaderboardSignal>().To<GetAllStarLeaderboardCommand>();
+            commandBinder.Bind<LoadCareerCardSignal>().To<LoadCareerCardCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();

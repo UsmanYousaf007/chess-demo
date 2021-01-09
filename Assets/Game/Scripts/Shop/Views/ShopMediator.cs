@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
             view.SetSubscriptionOwnedStatus();
             view.SetBundle();
 
-            if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
+            if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG) && view.isActiveAndEnabled)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
                 updateShopBundlePurchasedViewSignal.Dispatch(item);

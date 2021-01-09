@@ -48,7 +48,8 @@ namespace TurboLabz.InstantFramework
         public Button bettingPlus;
         public Button bettingMinus;
         public Text bettingValue;
-
+        public GameObject lowBetTooltip;
+        public Text tooltipText;
         public Button playBtn;
 
         //Models
@@ -68,6 +69,8 @@ namespace TurboLabz.InstantFramework
 
         LeagueTierIconsContainer leagueTierIconsContainer;
         int bettingIndex;
+        int minimumBettingIndex;
+        bool minimumBetReached;
 
         public void Init()
         {
@@ -84,7 +87,7 @@ namespace TurboLabz.InstantFramework
             playBtn.onClick.AddListener(OnPlayButtonClicked);
         }
 
-        public void UpdateView(int bettingIndex)
+        public void UpdateView(CareerCardVO vo)
         {
             trophiesCountOnLosses.text = $"-{leaguesModel.leagues[playerModel.league.ToString()].lossTrophies}";
             trophiesCountOnWins.text = leaguesModel.leagues[playerModel.league.ToString()].winTrophies.ToString();
@@ -97,8 +100,11 @@ namespace TurboLabz.InstantFramework
 
             SetupTrophyProgressionBar(playerModel.trophies);
 
-            this.bettingIndex = bettingIndex;
+            bettingIndex = vo.betIndex;
+            minimumBettingIndex = vo.minimumBetIndex;
             SetupBetting();
+
+            tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}%";
         }
 
         private void SetupTrophyProgressionBar(int currentTrophies)
@@ -147,6 +153,12 @@ namespace TurboLabz.InstantFramework
 
         void OnDecrementBetting()
         {
+            if (minimumBetReached)
+            {
+                lowBetTooltip.SetActive(true);
+                return;
+            }
+
             bettingIndex--;
             SetupBetting();
         }
@@ -172,6 +184,9 @@ namespace TurboLabz.InstantFramework
             var firstBettingIndex = bettingIndex <= 0;
             bettingIndex = firstBettingIndex ? 0 : bettingIndex;
             bettingMinus.interactable = !firstBettingIndex;
+
+            minimumBetReached = bettingIndex <= minimumBettingIndex;
+            bettingMinus.image.color = minimumBetReached ? Colors.DISABLED_WHITE : Color.white;
 
             bettingValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex]);
         }

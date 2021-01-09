@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+                [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
 
         private long betValue;
 
@@ -67,8 +68,16 @@ namespace TurboLabz.InstantFramework
             if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
                 OnCloseDlgSignal();
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
-                updateTimeSelectDlgSignal.Dispatch(betValue);
+
+                if (betValue > 0)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
+                    updateTimeSelectDlgSignal.Dispatch(betValue);
+                }
+                else
+                {
+                    loadCareerCardSignal.Dispatch();
+                }
             }
         }
 
