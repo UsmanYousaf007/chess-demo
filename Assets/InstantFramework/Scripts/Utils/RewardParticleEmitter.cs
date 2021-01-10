@@ -12,6 +12,12 @@ public class RewardParticleEmitter : MonoBehaviour
     public int numParticles;
     public GameObject targetObject;
 
+    public void PlayFx(int a_numParticles)
+    {
+        numParticles = a_numParticles;
+        PlayFx();
+    }
+
     public void PlayFx()
     {
         for (int i = 0; i < numParticles; i++)
