@@ -15,7 +15,6 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
-        [Inject] public CancelHintSingal cancelHintSingal { get; set; }
         [Inject] public RatingBoostedSignal ratingBoostedSignal { get; set; }
 
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
@@ -31,35 +30,32 @@ namespace TurboLabz.InstantFramework
                 var data = response.ScriptData;
                 var rewardType = GSParser.GetSafeString(data, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
 
-                switch (rewardType)
+                if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_BOOST_RATING))
                 {
-                    case GSBackendKeys.ClaimReward.TYPE_BOOST_RATING:
-                        var vo = new EloVO();
-                        var eloChange = GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
-                        playerModel.eloScore += eloChange;
-                        vo.playerEloScore = playerModel.eloScore;
-                        updateEloScoresSignal.Dispatch(vo);
-                        ratingBoostedSignal.Dispatch(eloChange);
-                        playerModel.gems -= GSParser.GetSafeInt(data, GSBackendKeys.PlayerDetails.GEMS);
-                        analyticsService.Event(AnalyticsEventId.booster_used, AnalyticsContext.rating_booster);
-                        break;
+                    var vo = new EloVO();
+                    var eloChange = GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
+                    var gemsCosumed = GSParser.GetSafeInt(data, GSBackendKeys.PlayerDetails.GEMS);
+                    playerModel.eloScore += eloChange;
+                    vo.playerEloScore = playerModel.eloScore;
+                    updateEloScoresSignal.Dispatch(vo);
+                    ratingBoostedSignal.Dispatch(eloChange, gemsCosumed);
+                    playerModel.gems -= gemsCosumed;
+                }
+                else
+                {
+                    ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);
 
-                    case GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE:
-                    case GSBackendKeys.ClaimReward.TYPE_DAILY:
-                        ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO));
-                        break;
-
-                    case GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST:
-                        ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO));
+                    if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST))
+                    {
                         playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
-                        break;
+                    }
                 }
 
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
 
-        private void ParseRewards(GSData data)
+        private void ParseRewards(GSData data, string rewardType)
         {
             if (data != null)
             {
@@ -84,6 +80,30 @@ namespace TurboLabz.InstantFramework
                     {
                         playerModel.inventory.Add(rewardCode, rewardQuantity);
                     }
+
+                    //Analytics
+                    var itemId = string.Empty;
+                    var itemType = "rv_popup";
+
+                    switch (rewardType)
+                    {
+                        case GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST:
+                            itemId = "lobby_coins_chest_timer_end";
+                            break;
+
+                        case GSBackendKeys.ClaimReward.TYPE_DAILY:
+                            var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+                            itemId = rewardCode.Equals(GSBackendKeys.PlayerDetails.GEMS) ? $"{leagueName}_double_gems" : "double_coins";
+                            itemType = "daily_league_reward";
+                            break;
+
+                        case GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE:
+                            itemId = playerModel.adContext.ToString().Replace("rewarded_", string.Empty);
+                            break;
+                    }
+
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(rewardCode).ToString(), rewardQuantity, itemType, itemId);
+                    //Analytics End
                 }
             }
         }

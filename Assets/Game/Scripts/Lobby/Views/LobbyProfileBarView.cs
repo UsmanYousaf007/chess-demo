@@ -54,6 +54,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
 
+        [HideInInspector] public bool isVideoAvailable;
+
         public void Init()
         {
             leaderboardButton.onClick.AddListener(OnLeaderboardBtnClicked);
@@ -98,6 +100,7 @@ namespace TurboLabz.InstantFramework
                 leaderboardTimer.text = "Awaiting Results";
             }
 
+            isVideoAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
             SetupChest();
             StartCoroutine(CountdownChestTimer());
             RebuildLayout();
@@ -106,10 +109,9 @@ namespace TurboLabz.InstantFramework
         public void SetupChest()
         {
             var isUnlocked = playerModel.chestUnlockTimestamp <= backendService.serverClock.currentTimestamp;
-            var isAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
             chestTimeUTC = playerModel.chestUnlockTimestamp;
             SetupChestState(isUnlocked);
-            SetupVideoIcon(isAvailable, isUnlocked);
+            SetupVideoIcon(isVideoAvailable, isUnlocked);
         }
 
         public void Hide()

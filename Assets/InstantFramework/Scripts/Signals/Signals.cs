@@ -168,7 +168,7 @@ namespace TurboLabz.InstantFramework
     public class LoadArenaSignal : Signal { }
     public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
     public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
-    public class VirtualGoodBoughtSignal : Signal<string> { }
+    public class VirtualGoodBoughtSignal : Signal<string, int> { }
     public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
@@ -197,11 +197,13 @@ namespace TurboLabz.InstantFramework
     public class LoginAsGuestSignal : Signal { }
     public class LoadSpotCoinPurchaseSignal : Signal<long> { }
     public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>> { }
-    public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem> { }
+    public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem, AdPlacements> { }
     public class UpdateRewardDlgV2ViewSignal : Signal<RewardDlgV2VO> { }
     public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
     public class RewardedVideoAvailableSignal : Signal<AdPlacements> { }
     public class UpdateLeaguePromotionDlgViewSignal : Signal<RewardDlgVO> { }
+    public class LoadCareerCardSignal : Signal { }
+    public class RateAppDlgClosedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -226,7 +228,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
-    public class RatingBoostedSignal : Signal<int> { }
+    public class RatingBoostedSignal : Signal<int, int> { }
 
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
@@ -241,7 +243,7 @@ namespace TurboLabz.InstantFramework
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
 
-    public class UpdateCareerCardSignal : Signal<int> { }
+    public class UpdateCareerCardSignal : Signal<CareerCardVO> { }
     public class LoadLeaderboardSignal : Signal { }
 
     // All star leaderboard

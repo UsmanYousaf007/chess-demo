@@ -23,6 +23,7 @@ namespace TurboLabz.TLUtils
         private static Dictionary<string, AnalyticsContext> stringToContextMap;
         private static Dictionary<string, AdPlacements> stringToAdPlacementMap;
         private static Dictionary<AdPlacements, string> adPlacementToRewardTypeMap;
+        private static Dictionary<AdPlacements, AnalyticsContext> adPlacementToAdContextMap;
 
         public static void Shuffle<T>(T[] collection)
         {
@@ -98,6 +99,21 @@ namespace TurboLabz.TLUtils
             return adPlacementToRewardTypeMap[id];
         }
 
+        public static AnalyticsContext GetAdContextFromAdPlacement(AdPlacements id)
+        {
+            if (adPlacementToAdContextMap == null)
+            {
+                CreateAdPlacementToAdContextMap();
+            }
+
+            if (!adPlacementToAdContextMap.ContainsKey(id))
+            {
+                return AnalyticsContext.unknown;
+            }
+
+            return adPlacementToAdContextMap[id];
+        }
+
         private static void CreateStateToContextMap()
         {
             stateToContextMap = new Dictionary<string, string>();
@@ -113,7 +129,7 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("MultiplayerResultsDlg", "end_card");
             stateToContextMap.Add("RewardDailySubscription", "daily_subscription_reward");
             stateToContextMap.Add("RewardDailyLeague", "daily_league_reward");
-            stateToContextMap.Add("RewardTournamentEnd", "tournament_reward");
+            stateToContextMap.Add("RewardTournamentEnd", "championship_reward");
             stateToContextMap.Add("TournamentLeaderboard", "tournament_main");
             stateToContextMap.Add("RewardLeaguePromotion", "league_progression_rewards");
         }
@@ -147,6 +163,7 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("ARENA_VIEW", AnalyticsContext.tournament_main);
             stringToContextMap.Add("SHOP", AnalyticsContext.shop);
             stringToContextMap.Add("LOBBY", AnalyticsContext.games);
+            stringToContextMap.Add("coins", AnalyticsContext.coins);
         }
 
         private static void CreateStringToAdPlacementMap()
@@ -168,6 +185,18 @@ namespace TurboLabz.TLUtils
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_purchase, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_daily_reward, GSBackendKeys.ClaimReward.TYPE_DAILY);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_lobby_chest, GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_banner, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+        }
+
+        private static void CreateAdPlacementToAdContextMap()
+        {
+            adPlacementToAdContextMap = new Dictionary<AdPlacements, AnalyticsContext>();
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_purchase, AnalyticsContext.rewarded_coins_spot_state_1);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_daily_reward, AnalyticsContext.rewarded_daily_doubler);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_coins_chest);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_banner, AnalyticsContext.rewarded_out_of_coins_lobby_banner_popup);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
         }
     }
 }

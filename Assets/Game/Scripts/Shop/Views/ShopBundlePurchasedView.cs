@@ -10,7 +10,8 @@ namespace TurboLabz.InstantFramework
         public Text title;
         public Image icon;
         public ShopItemView.ShopPayout currencyPayout;
-        public ShopItemView.ShopPayout[] payouts;
+        public ShopItemView.ShopPayout currency2Payout;
+        //public ShopItemView.ShopPayout[] payouts;
         public Text gainedLabel;
         public Button okButton;
         public Text okButtonLabel;
@@ -48,25 +49,37 @@ namespace TurboLabz.InstantFramework
             icon.sprite = iconsContainer.GetSprite(storeItem.key);
             icon.SetNativeSize();
 
-            if (storeItem.bundledItems != null)
+            if (storeItem.currency3Cost > 0)
             {
-                if (storeItem.currency3Cost > 0)
-                {
-                    currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
-                    currencyPayout.count.text = storeItem.currency3Cost.ToString();
-                }
-
-                var i = 0;
-                foreach (var item in storeItem.bundledItems)
-                {
-                    if (i < payouts.Length)
-                    {
-                        payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
-                        payouts[i].count.text = $"x{item.Value}";
-                        i++;
-                    }
-                }
+                currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+                currencyPayout.count.text = storeItem.currency3Cost.ToString();
             }
+
+            if (storeItem.currency4Cost > 0)
+            {
+                currencyPayout.icon.sprite = iconsContainer.GetSprite("Coin");
+                currency2Payout.count.text = storeItem.currency4Cost.ToString();
+            }
+
+            //if (storeItem.bundledItems != null)
+            //{
+            //    if (storeItem.currency3Cost > 0)
+            //    {
+            //        currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+            //        currencyPayout.count.text = storeItem.currency3Cost.ToString();
+            //    }
+
+            //    var i = 0;
+            //    foreach (var item in storeItem.bundledItems)
+            //    {
+            //        if (i < payouts.Length)
+            //        {
+            //            payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
+            //            payouts[i].count.text = $"x{item.Value}";
+            //            i++;
+            //        }
+            //    }
+            //}
 
         }
 

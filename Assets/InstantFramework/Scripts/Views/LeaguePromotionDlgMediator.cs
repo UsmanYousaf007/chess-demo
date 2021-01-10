@@ -63,7 +63,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_CLICK);
 
-            view.Hide();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             backendService.InBoxOpCollect(_rewardVO.msgId);
             _rewardVO.onCloseSignal?.Dispatch();
 

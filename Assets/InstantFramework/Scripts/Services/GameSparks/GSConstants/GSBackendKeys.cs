@@ -101,6 +101,7 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
         public const string DEFAULT_ITEMS_ADDED = "isDefaultItemsAdded";
+        public const string REFUND_GEMS_ADDED = "refundGemsAdded";
 
         // Lessons
         public const string LESSONS_MAPPING = "lessonsMapping";
@@ -376,7 +377,7 @@ namespace TurboLabz.InstantFramework
                 {
                     case "Go completely Ads free": return "NoAds";
                     case "Unlock 40 professional chess lessons": return "Lessons";
-                    case "Access unlimited themes": return "Theme";
+                    case "Access unlimited Chess Sets": return "Theme";
                     case "Access unlimited game powerups": return "Powerups";
                     case "Access unlimited daily games": return "Games";
                     case "Increase your friends limit": return "Friends";

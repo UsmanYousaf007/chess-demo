@@ -155,6 +155,10 @@ namespace TurboLabz.InstantFramework
         resource_via_videos,
         resource_via_free,
         resource_via_bundle,
+        coin_popup_purchase,
+        gems_used,
+        bet_increment_used,
+        bet_increment_default,
 
         //inbox
         inbox_visits,
@@ -167,7 +171,7 @@ namespace TurboLabz.InstantFramework
         start_tournament,
         tap_notification,
         tournament_start_location,
-        finish_rank,
+        champiionship_finish_rank,
         current_league,
         engaged_finish_rank,
         trophies_earned,
@@ -218,6 +222,11 @@ namespace TurboLabz.InstantFramework
         interstitial_in_game_cpu,
         interstitial_in_game_30_min,
         interstitial_in_game_classic,
+        rewarded_daily_doubler,
+        rewarded_lobby_coins_chest,
+        rewarded_out_of_coins_lobby_banner_popup,
+        rewarded_out_of_coins_lobby_popup,
+        rewarded_coins_spot_state_1,
 
         //Session
         num_facebook_friends,
@@ -294,6 +303,7 @@ namespace TurboLabz.InstantFramework
         lobby_themes_pack,
         lobby_remove_ads,
         lobby_collect_rewards,
+        lobby_out_of_coins,
         unlock_all_themes,
         unlock_all_lessons,
         lobby_update_banner,
@@ -314,6 +324,13 @@ namespace TurboLabz.InstantFramework
         tournament_leaderboard,
         lessons,
         themes,
+        cpu_pre_game_power_mode,
+        cpu_in_game_power_mode,
+        power_mode,
+        coin_doubler,
+        lesson,
+        theme,
+        coins,
 
         //tournament
         main,
@@ -325,7 +342,6 @@ namespace TurboLabz.InstantFramework
         inventory,
         games,
         arena,
-        lesson,
 
         //promotions
         remove_ads,
@@ -357,7 +373,8 @@ namespace TurboLabz.InstantFramework
         tickets,
         rating_boosters,
         hints,
-        keys
+        keys,
+        coins
     }
 }
 

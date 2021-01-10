@@ -61,7 +61,7 @@ namespace TurboLabz.InstantFramework
 
                 if (!string.IsNullOrEmpty(vo.buyItemShortCode))
                 {
-                    virtualGoodBoughtSignal.Dispatch(vo.buyItemShortCode);
+                    virtualGoodBoughtSignal.Dispatch(vo.buyItemShortCode, vo.buyQuantity);
                 }
             }
 

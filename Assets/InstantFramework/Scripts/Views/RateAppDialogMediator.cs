@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
 
         // Services
         [Inject] public IRateAppService rateAppService { get; set; }
@@ -62,6 +63,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.RATE_APP_DLG)
             {
                 view.Hide();
+                rateAppDlgClosedSignal.Dispatch();
                 //preferencesModel.hasRated = true;
             }
         }

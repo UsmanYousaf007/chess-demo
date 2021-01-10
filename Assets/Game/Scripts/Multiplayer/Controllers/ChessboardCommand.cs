@@ -69,6 +69,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public SpecialHintAvailableSignal specialHintAvailableSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public FreeHintAvailableSignal freeHintAvailableSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }

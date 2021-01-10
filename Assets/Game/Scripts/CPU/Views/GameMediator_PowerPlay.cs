@@ -53,6 +53,8 @@ namespace TurboLabz.CPU
                 view.SetupPowerplayImage(true);
                 OnPowerplayCloseSignal();
                 view.SetupStepButtons();
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.cpu_in_game_power_mode);
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "booster_used", AnalyticsContext.cpu_in_game_power_mode.ToString());
             }
         }
 

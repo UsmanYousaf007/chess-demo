@@ -16,8 +16,13 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public RewardedVideoResultSignal rewardedVideoResultSignal { get; set; }
 
+        //Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         public override void Execute()
         {
+            playerModel.adContext = CollectionsUtil.GetAdContextFromAdPlacement(adPlacement);
+
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {
                 rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);

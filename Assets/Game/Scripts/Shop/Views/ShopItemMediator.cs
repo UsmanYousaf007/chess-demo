@@ -54,17 +54,10 @@ namespace TurboLabz.InstantFramework
                     var context = item.displayName.Replace(' ', '_').ToLower();
                     analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, context);
 
-                    if (view.isBundle && item.bundledItems != null)
+                    if (view.isBundle)
                     {
-                        foreach (var bItem in item.bundledItems)
-                        {
-                            analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(bItem.Key).ToString(), bItem.Value, "shop", context);
-
-                            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE].ContainsKey(bItem.Key))
-                            {
-                                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][bItem.Key] += bItem.Value;
-                            }
-                        }
+                        analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "shop", $"{context}_gems");
+                        analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "shop", $"{context}_coins");
                     }
 
                     if (item.currency3Payout > 0)

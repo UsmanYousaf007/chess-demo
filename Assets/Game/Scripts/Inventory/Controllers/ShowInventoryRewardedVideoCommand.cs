@@ -71,7 +71,7 @@ namespace TurboLabz.InstantFramework
                     transactionVO.consumeQuantity = playerModel.GetInventoryItemCount(vo.itemPointsKey);
                 }
 
-                virtualGoodBoughtSignal.AddOnce(OnItemUnlocked);
+                //virtualGoodBoughtSignal.AddOnce(OnItemUnlocked);
                 virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
             else
@@ -79,7 +79,7 @@ namespace TurboLabz.InstantFramework
                 var transactionVO = new VirtualGoodsTransactionVO();
                 transactionVO.buyItemShortCode = vo.itemPointsKey;
                 transactionVO.buyQuantity = 1;
-                virtualGoodBoughtSignal.AddOnce(OnPointAdded);
+                //virtualGoodBoughtSignal.AddOnce(OnPointAdded);
                 virtualGoodsTransactionSignal.Dispatch(transactionVO);
             }
 

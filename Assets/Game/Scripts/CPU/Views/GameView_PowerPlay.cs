@@ -111,6 +111,7 @@ namespace TurboLabz.CPU
             }
             else
             {
+                SpotPurchaseMediator.analyticsContext = "cpu_in_game_power_mode";
                 notEnoughGemsSignal.Dispatch();
             }
         }

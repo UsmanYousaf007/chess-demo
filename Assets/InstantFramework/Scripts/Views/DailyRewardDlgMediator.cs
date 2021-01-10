@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
+        [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
 
         private RewardDlgVO _dailyRewardVO;
 
@@ -58,16 +59,8 @@ namespace TurboLabz.InstantFramework
 
         public void OnCollectButtonClicked()
         {
-            audioService.Play(audioService.sounds.SFX_CLICK);
-
-            view.Hide();
             backendService.InBoxOpCollect(_dailyRewardVO.msgId);
-            _dailyRewardVO.onCloseSignal?.Dispatch();
-
-            // Dispatch rewards sequence signal here
-            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, false);
-            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            OnRewardCollected(false);
         }
 
         private void OnCollect2xButtonClicked()
@@ -83,26 +76,29 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case AdsResult.FINISHED:
-                        audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-
-                        view.Hide();
-                        _dailyRewardVO.onCloseSignal?.Dispatch();
-
-                        // Dispatch rewards sequence signal here
-                        RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, true);
-                        updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-                        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
-
+                        OnRewardCollected(true);
                         break;
 
                     //case AdsResult.FAILED: // Uncomment this for testing how tooltip is shown in inspectore
                     case AdsResult.NOT_AVAILABLE:
                         audioService.Play(audioService.sounds.SFX_TOOL_TIP);
-
                         view.toolTip.SetActive(true);
                         break;
                 }
             }
+        }
+
+        private void OnRewardCollected(bool videoWatched)
+        {
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _dailyRewardVO.onCloseSignal?.Dispatch();
+
+            // Dispatch rewards sequence signal here
+            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
+            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            loadCareerCardSignal.Dispatch();
         }
     }
 }

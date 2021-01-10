@@ -19,6 +19,7 @@
                 }
                 else if (viewId == NavigatorViewId.RATE_APP_DLG)
                 {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.LOGIN_DLG);
                     return new NSRateAppDlg();
                 }
 

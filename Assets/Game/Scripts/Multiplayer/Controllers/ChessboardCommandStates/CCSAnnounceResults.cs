@@ -43,8 +43,6 @@ namespace TurboLabz.Multiplayer
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
 
-            
-
             var matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.eventID = AnalyticsEventId.match_end;
             matchAnalyticsVO.friendType = string.Empty;
@@ -98,6 +96,18 @@ namespace TurboLabz.Multiplayer
             cmd.specialHintAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
+            if (vo.betValue > 0)
+            {
+                var earnedCoins = vo.playerWins ? vo.betValue * 2 : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
+
+                if (earnedCoins > 0)
+                {
+                    cmd.playerModel.coins += earnedCoins;
+                    cmd.updatePlayerInventorySignal.Dispatch(cmd.playerModel.GetPlayerInventory());
+                    cmd.analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)earnedCoins, "championship_coins", earnedCoins == vo.betValue ? "bet_reversed" : "game_won");
+                }
+            }
         }
 
         private AnalyticsContext GetGameEndContext(GameEndReason reason, bool playerWins, bool isBot)

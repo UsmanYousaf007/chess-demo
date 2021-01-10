@@ -122,6 +122,12 @@ namespace TurboLabz.InstantFramework
                 SendDefaultItemsOwnedAnalytics();
             }
 
+            if (response.ScriptData.ContainsKey(GSBackendKeys.REFUND_GEMS_ADDED))
+            {
+                var refundedGems = response.ScriptData.GetInt(GSBackendKeys.REFUND_GEMS_ADDED);
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, (int)refundedGems, "refund", "old_inventory_items");
+            }
+
             storeAvailableSignal.Dispatch(false);
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
 

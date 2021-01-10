@@ -66,9 +66,8 @@ namespace TurboLabz.InstantFramework
         {
             while (gameObject.activeInHierarchy)
             {
-                yield return waitForOneRealSecond;
-
                 UpdateTime();
+                yield return waitForOneRealSecond;
             }
 
             yield return null;

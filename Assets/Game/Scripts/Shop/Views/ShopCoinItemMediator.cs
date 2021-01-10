@@ -34,8 +34,9 @@ namespace TurboLabz.InstantFramework
             virtualGoodsTransactionSignal.Dispatch(vo);
         }
 
-        private void OnNotEnoughGemsSignal()
+        private void OnNotEnoughGemsSignal(long coins)
         {
+            SpotPurchaseMediator.analyticsContext = $"{coins}_coins_pack_state_2";
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 

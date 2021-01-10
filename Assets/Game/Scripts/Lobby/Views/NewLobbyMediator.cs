@@ -70,5 +70,11 @@ namespace TurboLabz.InstantFramework
         {
             view.RemovePromotion(item.key);
         }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnCoinsPurchase(PlayerInventoryVO inventoryVO)
+        {
+            view.RemovePromotion(LobbyPromotionKeys.COINS_BANNER);
+        }
     }
 }

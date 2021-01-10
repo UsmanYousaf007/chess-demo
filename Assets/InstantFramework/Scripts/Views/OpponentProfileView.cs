@@ -21,6 +21,7 @@ using TurboLabz.TLUtils;
 using System;
 using System.Collections;
 using DG.Tweening;
+using TMPro;
 
 namespace TurboLabz.InstantGame
 {
@@ -46,6 +47,9 @@ namespace TurboLabz.InstantGame
         public Sprite offline;
         public Sprite activeStatus;
         public Button viewProfileBtn;
+        public TMP_Text championshipTrophies;
+        public GameObject championshipTrophiesContainer;
+
         bool status; 
 
         private string opponentId;
@@ -80,6 +84,8 @@ namespace TurboLabz.InstantGame
                 onlineStatus.sprite = vo.isOnline ? online : offline; 
             }
 
+            championshipTrophies.text = vo.trophies2.ToString();
+            championshipTrophiesContainer.SetActive(vo.trophies2 > 0);
             SetProfilePic(vo);
         }
 

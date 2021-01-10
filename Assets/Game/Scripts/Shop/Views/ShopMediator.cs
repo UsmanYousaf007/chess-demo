@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
             view.SetSubscriptionOwnedStatus();
             view.SetBundle();
 
-            if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
+            if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG) && view.isActiveAndEnabled)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
                 updateShopBundlePurchasedViewSignal.Dispatch(item);
@@ -82,6 +82,16 @@ namespace TurboLabz.InstantFramework
         public void OnShowSale(string key)
         {
             view.SetupSale(key);
+        }
+
+        [ListensTo(typeof(VirtualGoodBoughtSignal))]
+        public void OnCoinsPurchased(string shortCode, int quantity)
+        {
+            if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+            {
+                analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack");
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "shop", $"coins_{quantity}");
+            }
         }
     }
 }

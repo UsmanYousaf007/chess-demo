@@ -21,6 +21,7 @@ using TurboLabz.TLUtils;
 using System;
 using System.Collections;
 using DG.Tweening;
+using TMPro;
 
 namespace TurboLabz.InstantGame
 {
@@ -50,6 +51,8 @@ namespace TurboLabz.InstantGame
         public RectTransform avatarContainerRef;
         public Button profilePicButton;
         public RectTransform playerScoreLeague;
+        public TMP_Text championshipTrophies;
+        public GameObject championshipTrophiesContainer;
 
         [Header("Social Connection Section")]
         public Button socialConnectionButton;
@@ -232,6 +235,12 @@ namespace TurboLabz.InstantGame
                 {
                     LayoutRebuilder.ForceRebuildLayoutImmediate(playerScoreLeague);
                 }
+            }
+
+            if (championshipTrophiesContainer != null && championshipTrophies != null)
+            {
+                championshipTrophies.text = vo.trophies2.ToString();
+                championshipTrophiesContainer.SetActive(vo.trophies2 > 0);
             }
 
             //SetProfilePic(vo);
