@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         [SerializeField] private ProfilePicView playerPic;
         [SerializeField] private TextMeshProUGUI rewardsSubHeadingText;
         [SerializeField] private Button collectBtn;
+        [SerializeField] private ParticleSystem _leagueRingSlamEffect;
+        [SerializeField] private ParticleSystem _leagueTitleSlamEffect;
 
         public Signal CollectBtnClickedSignal = new Signal();
 
@@ -73,6 +75,8 @@ namespace TurboLabz.InstantFramework
                             _dailyRewardPerksContainers[j].quantityText.text = $"x{reward.Value}";
                         }
 
+                        // Setting scale zero here for scale in animation later
+                        _dailyRewardPerksContainers[j].containerParent.transform.localScale = Vector3.zero;
                         _dailyRewardPerksContainers[j].containerParent.SetActive(true);
                     }
                 }
@@ -101,6 +105,8 @@ namespace TurboLabz.InstantFramework
                             _dailyRewardPerksContainers[j].quantityText.text = $"x{qty}";
                         }
 
+                        // Setting scale zero here for scale in animation later
+                        _rewardContainers[j].containerParent.transform.localScale = Vector3.zero;
                         _rewardContainers[j].containerParent.SetActive(true);
                     }
                 }
@@ -114,6 +120,61 @@ namespace TurboLabz.InstantFramework
             {
                 playerTitleImg.sprite = leagueAssets.nameImg;
                 playerTitleImg.gameObject.SetActive(true);
+            }
+        }
+
+        public void PlayLeagueRingSlamEffect()
+        {
+            _leagueRingSlamEffect.gameObject.SetActive(true);
+        }
+
+        public void PlayLeagueTitleSlamEffect()
+        {
+            _leagueTitleSlamEffect.gameObject.SetActive(true);
+        }
+
+        public void ScaleInDailyRewards(float time)
+        {
+            for (int j = 0; j < _dailyRewardPerksContainers.Length; j++)
+            {
+                if (_dailyRewardPerksContainers[j].containerParent.activeSelf)
+                {
+                    _dailyRewardPerksContainers[j].containerParent.transform.DOScale(1f, time);
+                }
+            }
+        }
+
+        public void ScaleInPromotionRewards(float time)
+        {
+            for (int j = 0; j < _rewardContainers.Length; j++)
+            {
+                if (_rewardContainers[j].containerParent.activeSelf)
+                {
+                    _rewardContainers[j].containerParent.transform.DOScale(1f, time);
+                }
+            }
+        }
+
+        public void PlayDailyRewardsEffects()
+        {
+            for (int j = 0; j < _dailyRewardPerksContainers.Length; j++)
+            {
+                if (_dailyRewardPerksContainers[j].containerParent.activeSelf)
+                {
+                    _dailyRewardPerksContainers[j].effect.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        public void PlayPromotionRewardsEffects()
+        {
+            for (int j = 0; j < _rewardContainers.Length; j++)
+            {
+                if (_rewardContainers[j].containerParent.activeSelf)
+                {
+                    _rewardContainers[j].effect.gameObject.SetActive(true);
+
+                }
             }
         }
     }

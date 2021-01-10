@@ -9,4 +9,6 @@ public class RewardUIContainer
     public GameObject containerParent;
 
     public Text quantityText;
+
+    public ParticleSystem effect;
 }
