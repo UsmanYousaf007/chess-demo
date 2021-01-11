@@ -59,11 +59,8 @@ namespace TurboLabz.InstantFramework
 
         public virtual void UpdateView(string playerId, JoinedTournamentData joinedTournament)
         {
-            if (joinedTournament != null)
-            {
-                PopulateEntries(playerId, joinedTournament);
-                Sort();
-            }
+            PopulateEntries(playerId, joinedTournament);
+            Sort();
         }
 
         public void ResetView()

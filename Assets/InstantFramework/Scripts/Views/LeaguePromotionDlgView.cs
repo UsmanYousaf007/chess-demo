@@ -50,6 +50,9 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+            _animator.enabled = false;
+
+            StopCoroutine(StartAnimationCoroutine());
         }
 
         public void UpdateView(RewardDlgVO vo, Dictionary<string, int> dailyReward)
@@ -123,7 +126,7 @@ namespace TurboLabz.InstantFramework
             if (playerModel.league > 0)
             {
                 playerTitleImg.sprite = leagueAssets.nameImg;
-                playerTitleImg.gameObject.SetActive(true);
+                //playerTitleImg.gameObject.SetActive(true);
             }
         }
 
@@ -187,8 +190,8 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator StartAnimationCoroutine()
         {
-            //yield return new WaitForSeconds(1f);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(1.5f);
+            //yield return new WaitForFixedUpdate();
 
             _animator.enabled = true;
         }

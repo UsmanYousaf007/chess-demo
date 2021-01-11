@@ -40,6 +40,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.REWARD_DLG_V2)
             {
                 view.Show();
+                view.InvokeStartAnimationCoroutine();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }
@@ -66,6 +67,7 @@ namespace TurboLabz.InstantFramework
             if (_rewardDlgVO.Rewards.Count > 0)
             {
                 view.UpdateView(_rewardDlgVO.Rewards[0], _rewardDlgVO.RVWatched);
+                view.InvokeStartAnimationCoroutine();
 
                 _rewardDlgVO.Rewards.RemoveAt(0);
             }

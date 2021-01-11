@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using DG.Tweening;
+using System.Collections;
 using strange.extensions.signal.impl;
 using strange.extensions.mediation.impl;
 
@@ -26,6 +27,8 @@ namespace TurboLabz.InstantFramework
 
         private RewardDlgV2VO.Reward _reward;
         private Text _currentActiveTextObject;
+        private Animator _currentAnimator = null;
+        private RewardUIContainer _currentRewardContailer = null;
 
         public void Init()
         {
@@ -43,6 +46,12 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
+            StopCoroutine(StartAnimationCoroutine());
+        }
+
+        public void InvokeStartAnimationCoroutine()
+        {
+            StartCoroutine(StartAnimationCoroutine());
         }
 
         public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false)
@@ -52,11 +61,16 @@ namespace TurboLabz.InstantFramework
             for (int i = 0; i < _rewardContainers.Length; i++)
             {
                 _rewardContainers[i].containerParent.SetActive(false);
+                _rewardContainers[i].effect.gameObject.SetActive(false);
+                Animator animator = _rewardContainers[i].containerParent.GetComponent<Animator>();
+                animator.enabled = false;
+
                 if (_rewardContainers[i].shortCode == reward.ShortCode)
                 {
                     _rewardContainers[i].quantityText.text = "x0";
-                    //_rewardContainers[i].quantityText.text = reward.Quantity.ToString("N0");
-                    _rewardContainers[i].containerParent.SetActive(true);
+                    _currentRewardContailer = _rewardContainers[i];
+                    //_rewardContainers[i].containerParent.SetActive(true);
+                    _currentAnimator = animator;
                 }
             }
 
@@ -111,12 +125,21 @@ namespace TurboLabz.InstantFramework
 
         private void OnCountUpdate(int val)
         {
-            _currentActiveTextObject.text = "x" + val.ToString("N0");
+            _currentActiveTextObject.text = "x" + val.ToString();
         }
 
         private void AnimationComplete()
         {
             _continueButton.interactable = true;
+        }
+
+        public IEnumerator StartAnimationCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            //yield return new WaitForFixedUpdate();
+
+            _currentRewardContailer.containerParent.SetActive(true);
+            _currentAnimator.enabled = true;
         }
     }
 }

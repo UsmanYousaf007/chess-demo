@@ -38,7 +38,15 @@ namespace TurboLabz.InstantFramework
         {
             if (view.gameObject.activeInHierarchy)
             {
-                view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                {
+                    view.UpdateView(playerModel.id, joinedTournament);
+                }
+                else
+                {
+                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                }
             }
         }
 
@@ -60,7 +68,11 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                if (joinedTournament == null)
+                {
+                    backendService.TournamentsOpGetJoinedTournaments();
+                }
+                else if (joinedTournament != null && joinedTournament.entries.Count > 0)
                 {
                     view.UpdateView(playerModel.id, joinedTournament);
                 }
