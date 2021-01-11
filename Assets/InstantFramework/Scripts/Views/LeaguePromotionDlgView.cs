@@ -133,13 +133,17 @@ namespace TurboLabz.InstantFramework
         public void PlayLeagueRingSlamEffect()
         {
             _leagueRingSlamEffect.gameObject.SetActive(true);
+            _leagueTitleSlamEffect.gameObject.SetActive(true);
+
+            _leagueTitleSlamEffect.Stop();
+            _leagueRingSlamEffect.Stop();
+
+            _leagueTitleSlamEffect.Play();
             _leagueRingSlamEffect.Play();
         }
 
         public void PlayLeagueTitleSlamEffect()
         {
-            _leagueTitleSlamEffect.gameObject.SetActive(true);
-            _leagueTitleSlamEffect.Play();
         }
 
         public void ScaleInDailyRewards(float time)
