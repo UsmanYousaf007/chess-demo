@@ -91,6 +91,7 @@ namespace TurboLabz.InstantFramework
 
             view.Hide();
             backendService.InBoxOpCollect(_rewardVO.msgId);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             _rewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
