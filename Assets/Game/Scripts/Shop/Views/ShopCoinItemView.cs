@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal<VirtualGoodsTransactionVO> buyButtonSignal = new Signal<VirtualGoodsTransactionVO>();
-        public Signal notEnoughGemsSignal = new Signal();
+        public Signal<long> notEnoughGemsSignal = new Signal<long>();
 
         public void Init()
         {
@@ -88,7 +88,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                notEnoughGemsSignal.Dispatch();
+                notEnoughGemsSignal.Dispatch(storeItem.currency4Payout);
             }
         }
 

@@ -42,8 +42,8 @@ namespace TurboLabz.Multiplayer
 
                 if (!isPremium)
                 {
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(hintTransactionVO.consumeItemShortCode).ToString(), hintTransactionVO.consumeQuantity, "booster_used", "hint");
-                    //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][hintTransactionVO.consumeItemShortCode] += hintTransactionVO.consumeQuantity;
+                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
                 }
             }
             else

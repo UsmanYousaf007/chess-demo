@@ -147,6 +147,18 @@ namespace TurboLabz.InstantFramework
             Print(eventStr);
         }
 
+        public void DesignEvent(AnalyticsEventId evt, params string[] contexts)
+        {
+            var eventStr = evt.ToString();
+
+            foreach (var context in contexts)
+            {
+                eventStr += $":{context}";
+            }
+
+            Print(eventStr);
+        }
+
         public void HEvent(string evt, params string[] param)
         {
             var evtStr = evt;

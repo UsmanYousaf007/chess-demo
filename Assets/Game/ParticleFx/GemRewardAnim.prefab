@@ -242,7 +242,7 @@ Animator:
   m_GameObject: {fileID: 6911745804713833739}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b3b040e74acd8448893701db663cf608, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6f57ef847cc12449a8917280afd6c60d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -388,6 +388,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 619246164661057144, guid: 7e9bb1f86bfb64069ba257e3767ca05c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 619246164661057144, guid: 7e9bb1f86bfb64069ba257e3767ca05c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e9bb1f86bfb64069ba257e3767ca05c, type: 3}
 --- !u!224 &6301509131606701338 stripped
@@ -524,6 +534,16 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9066895323633428249, guid: dd1be177a695f47358884bf76e457fef,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066895323633428249, guid: dd1be177a695f47358884bf76e457fef,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd1be177a695f47358884bf76e457fef, type: 3}
 --- !u!1001 &6911745804203314191
@@ -541,7 +561,7 @@ PrefabInstance:
     - target: {fileID: 3861802691729846541, guid: 1e75c002aa3aa452b9a871cf46d9b2ed,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3861802691729846538, guid: 1e75c002aa3aa452b9a871cf46d9b2ed,
         type: 3}
@@ -647,6 +667,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861802691729846537, guid: 1e75c002aa3aa452b9a871cf46d9b2ed,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861802691729846537, guid: 1e75c002aa3aa452b9a871cf46d9b2ed,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e75c002aa3aa452b9a871cf46d9b2ed, type: 3}
@@ -783,6 +813,16 @@ PrefabInstance:
         type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2909637152410387861, guid: 2ec6c1b9976bd462395579c949ba7519,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2909637152410387861, guid: 2ec6c1b9976bd462395579c949ba7519,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ec6c1b9976bd462395579c949ba7519, type: 3}

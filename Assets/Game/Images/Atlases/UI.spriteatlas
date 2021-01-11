@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 28363086
+    totalSpriteSurfaceArea: 28768065
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -335,6 +335,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c05faf2831dd74a4f8cf24f5ff587fac, type: 3}
   - {fileID: 21300000, guid: 4f22353889a11496e8fda29eb79a5b1a, type: 3}
   - {fileID: 21300000, guid: 2ce8304814f1a48b79278d4b6c34d397, type: 3}
+  - {fileID: 21300000, guid: 89c7d44880e214a30b99df618b36690a, type: 3}
   - {fileID: 21300000, guid: ad178f486cfba47a986b273648c46c57, type: 3}
   - {fileID: 21300000, guid: 0dcfcf4850c1943d1a454e3b79f44e6c, type: 3}
   - {fileID: 21300000, guid: 9020df48e317742baaa64cdb30ca2113, type: 3}
@@ -392,6 +393,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: fa3407e9f0e11466591111f2043f377d, type: 3}
   - {fileID: 21300000, guid: 375708e9436c6441f838601d7d9820c9, type: 3}
   - {fileID: 21300000, guid: 467db0f957a4347d08d5cffc8ca9fa79, type: 3}
+  - {fileID: 21300000, guid: 2965130a4feb34499aae51f30b420ffd, type: 3}
   - {fileID: 21300000, guid: 378b070a5b7a04e54b971b88ccbcfd34, type: 3}
   - {fileID: 21300000, guid: b6b8511ad05ed45e79e559d75821d2cd, type: 3}
   - {fileID: 21300000, guid: 7f80681a11128434eba305f8531b7d3e, type: 3}
@@ -529,6 +531,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ddb66bfd5f85848c09f78b5bd2046b4c, type: 3}
   - {fileID: 21300000, guid: 5a63310e10b194ea1ac78aba3516c80c, type: 3}
   - {fileID: 21300000, guid: bb7b130e8d89c416d87b5d656afbd192, type: 3}
+  - {fileID: 21300000, guid: 628eb40e6445d4ee3b80b9fc88264b26, type: 3}
   - {fileID: 21300000, guid: 9d8b360ed7d614468904ecb99ac12668, type: 3}
   - {fileID: 21300000, guid: c91dc60e7ed0748d2a17476bf98b7c0d, type: 3}
   - {fileID: 21300000, guid: 5b20f01eeb7b64fe88ed883b3a367071, type: 3}
@@ -870,6 +873,7 @@ SpriteAtlas:
   - HintIndicator
   - SupportIconClr
   - Black
+  - ChestOpenGrphic
   - BonusButton
   - Avatar-Mask
   - Coins
@@ -927,6 +931,7 @@ SpriteAtlas:
   - UIBlocker
   - TrophyPro
   - Sparkle
+  - FreeCoinsBannerIcon
   - CoinPileSmall
   - GoldStar
   - Partition
@@ -1064,6 +1069,7 @@ SpriteAtlas:
   - VideoIconInactive
   - ExtraBadge
   - GemIconLarge
+  - FreeCoinsBanner
   - IconFreeCoins
   - CommonChest
   - minutesGameButtonCommunity

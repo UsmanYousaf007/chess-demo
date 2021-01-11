@@ -194,7 +194,7 @@ namespace TurboLabz.InstantGame
                 lesson.Unlock();
                 analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", lesson.vo.storeItem.currency3Cost, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, lesson.vo.storeItem.currency3Cost, "lesson_unlocked", lesson.vo.overallIndex.ToString());
             }
         }
 

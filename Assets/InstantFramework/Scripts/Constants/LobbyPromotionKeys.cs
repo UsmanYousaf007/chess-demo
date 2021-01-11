@@ -8,6 +8,7 @@
         public const string GAME_UPDATE_BANNER = "GameUpdateBanner";
         public const string SUBSCRIPTION_BANNER = "SubscriptionBanner";
         public const string REWARDS_BANNER = "RewardsBanner";
+        public const string COINS_BANNER = "CoinsBanner";
 
         public static bool Contains(string key)
         {
@@ -22,6 +23,7 @@
                 || key.Equals(GAME_UPDATE_BANNER)
                 || key.Equals(SUBSCRIPTION_BANNER)
                 || key.Equals(REWARDS_BANNER)
+                || key.Equals(COINS_BANNER)
                 )
             {
                 return true;

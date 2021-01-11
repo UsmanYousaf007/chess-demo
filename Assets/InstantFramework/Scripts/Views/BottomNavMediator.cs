@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
-            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.inventory);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.themes);
         }
 
         void OnShopButtonClicked()

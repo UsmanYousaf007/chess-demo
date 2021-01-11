@@ -44,6 +44,10 @@
             {
                 return new NSLobby();
             }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG_V2)
+            {
+                return new NSRewardDlg();
+            }
 
             return null;
         }

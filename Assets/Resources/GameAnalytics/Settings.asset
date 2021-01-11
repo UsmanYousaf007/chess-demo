@@ -53,8 +53,30 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.3.5
-  Changes: '6.3.5
+  NewVersion: 6.3.9
+  Changes: '6.3.9
+
+    - fixed ironsource impression event compile error
+
+
+    6.3.8
+
+    - removed memory info from automatic crash reports
+
+    - updated sqlite lib
+
+
+    6.3.7
+
+    - corrected ad event annotation
+
+
+    6.3.6
+
+    - updated validator for impression events (android, ios)
+
+
+    6.3.5
 
     - fixed user log in function in editor for unity 2017
 
@@ -98,29 +120,22 @@ MonoBehaviour:
   - E
   CustomDimensions03: []
   ResourceItemTypes:
-  - inventory
   - spot_purchase
-  - theme_unlocked
-  - booster_used
-  - daily_league_reward
-  - 1min_tournament_reward
-  - 5min_tournament_reward
-  - 10min_tournament_reward
-  - daily_subscription_reward
-  - tournament
-  - spot_inventory
-  - end_card
-  - league_progression_rewards
-  - lesson_unlocked
-  - shop
   - refund
-  - promotion_popup
+  - booster_used
+  - theme_unlocked
+  - lesson_unlocked
+  - rv_popup
+  - shop
+  - promotion
+  - league_progression_rewards
+  - championship_reward
+  - daily_league_reward
+  - championship_coins
   ResourceCurrencies:
   - gems
-  - ratingBooster
-  - hint
-  - key
-  - ticket
+  - coins
+  - trophies
   LastCreatedGamePlatform: -1
   Platforms: 0b00000008000000
   CurrentInspectorState: 1
@@ -150,8 +165,8 @@ MonoBehaviour:
   FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1
   PlatformFoldOut: 0101
-  CustomDimensions01FoldOut: 1
-  CustomDimensions02FoldOut: 1
+  CustomDimensions01FoldOut: 0
+  CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 1
   ResourceItemTypesFoldOut: 1
-  ResourceCurrenciesFoldOut: 0
+  ResourceCurrenciesFoldOut: 1

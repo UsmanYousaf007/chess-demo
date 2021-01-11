@@ -83,8 +83,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotEnoughCurrency()
         {
-            SpotPurchaseMediator.customContext = cameFromScreen;
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            SpotPurchaseMediator.analyticsContext = cameFromScreen;
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

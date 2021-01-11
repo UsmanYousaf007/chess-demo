@@ -125,6 +125,7 @@ namespace TurboLabz.InstantGame
             }
             else
             {
+                SpotPurchaseMediator.analyticsContext = "lesson";
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }
         }
@@ -161,6 +162,7 @@ namespace TurboLabz.InstantGame
             if (result == PurchaseResult.PURCHASE_SUCCESS && view.isActiveAndEnabled)
             {
                 view.UnlockLesson(item.key);
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.lesson);
             }
         }
 

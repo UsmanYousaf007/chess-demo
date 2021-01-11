@@ -191,6 +191,7 @@ namespace TurboLabz.CPU
                 {
                     audioService.PlayStandardClick();
                     EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
+                    SpotPurchaseMediator.analyticsContext = "hint";
                     notEnoughGemsSignal.Dispatch();
                 }
             }

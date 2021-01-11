@@ -101,6 +101,7 @@ namespace TurboLabz.InstantFramework
         public const string OPPONENT_ELO = "opponentElo";
         public const string CHAT = "chat";
         public const string DEFAULT_ITEMS_ADDED = "isDefaultItemsAdded";
+        public const string REFUND_GEMS_ADDED = "refundGemsAdded";
 
         // Lessons
         public const string LESSONS_MAPPING = "lessonsMapping";

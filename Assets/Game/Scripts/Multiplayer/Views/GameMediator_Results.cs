@@ -135,8 +135,8 @@ namespace TurboLabz.Multiplayer
             if (result == BackendResult.SUCCESS)
             {
                 view.OnRewardDoubled();
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(rewardDoubleTransactionVO.consumeItemShortCode).ToString(), rewardDoubleTransactionVO.consumeQuantity, "booster_used", "2x_reward");
-                //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.coin_doubler);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, rewardDoubleTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.coin_doubler.ToString());
             }
         }
 
@@ -150,11 +150,13 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(RatingBoostedSignal))]
-        public void OnRatingBoosted(int ratingBoost)
+        public void OnRatingBoosted(int ratingBoost, int consumedGems)
         {
             if (view.IsVisible())
             {
                 view.OnRatingBoosted(ratingBoost);
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.rating_booster);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, consumedGems, "booster_used", AnalyticsContext.rating_booster.ToString());
             }
         }
 
