@@ -242,7 +242,7 @@ Animator:
   m_GameObject: {fileID: 6911745804713833739}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6f57ef847cc12449a8917280afd6c60d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 53262eb60d4a14c3aa9e2da0034a68e2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -850,6 +850,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardGemFx
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 6911745804713833739}
     - target: {fileID: 3194464779634588401, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -955,11 +960,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 6911745804713833739}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2072bedbfcb3d4e1f81aec6f6df02877, type: 3}
 --- !u!1 &8340227781798926589 stripped
