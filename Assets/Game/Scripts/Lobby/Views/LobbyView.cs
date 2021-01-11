@@ -1321,13 +1321,13 @@ namespace TurboLabz.InstantFramework
         void ConfirmRankedGameBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            CreateGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
+            CreateQuickMatchGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/, actionCode);
         }
 
         void ToolTipBtnClicked()
@@ -1479,7 +1479,7 @@ namespace TurboLabz.InstantFramework
             }
 
             notificationTagNumber.text = notificationCounter.ToString();
-            updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
+            //updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
 
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
@@ -1543,7 +1543,7 @@ namespace TurboLabz.InstantFramework
             {
                 FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOp.SubOpType.REMOVE_RECENT);
 
-                removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
+                //removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
             }
         }
 
