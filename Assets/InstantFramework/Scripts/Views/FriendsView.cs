@@ -52,9 +52,6 @@ namespace TurboLabz.InstantFramework
         public GameObject sectionPlayAFriendEmptyNotLoggedIn;
         public Transform sectionSearched;
         public GameObject sectionSearchResultsEmpty;
-        public Transform sectionRecentlyCompleted;
-
-        public Text sectionRecentlyCompletedMatchesTitle;
 
         public Text sectionPlayAFriendTitle;
         public Text sectionSearchResultsTitle;
@@ -169,6 +166,7 @@ namespace TurboLabz.InstantFramework
             sectionPlayAFriendTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_PLAY_A_FRIEND);
             sectionSearchResultsTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_SEARCH_RESULTS);
             sectionRecentlyCompletedMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_RECENTLY_COMPLETED_MATCHES);
+            sectionActiveMatchesTitle.text = localizationService.Get(LocalizationKey.FRIENDS_SECTION_ACTIVE_MATCHES);
 
             startGameConfirmationDlg.confirmRankedGameBtnText.text = localizationService.Get(LocalizationKey.NEW_GAME_CONFIRM_RANKED);
 
@@ -280,8 +278,8 @@ namespace TurboLabz.InstantFramework
             if (sectionPlayAFriendEmptyNotLoggedIn.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmptyNotLoggedIn);
             if (sectionPlayAFriend.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriend.gameObject);
             if (sectionPlayAFriendEmpty.gameObject.activeSelf) cacheEnabledSections.Add(sectionPlayAFriendEmpty);
-            if (sectionRecentlyCompleted.gameObject.activeSelf) cacheEnabledSections.Add(sectionRecentlyCompleted.gameObject);
-
+            if (sectionRecentlyCompletedMatches.gameObject.activeSelf) cacheEnabledSections.Add(sectionRecentlyCompletedMatches.gameObject);
+            if (sectionActiveMatches.gameObject.activeSelf) cacheEnabledSections.Add(sectionActiveMatches.gameObject);
         }
 
         void OnSearchSubmit(string text)
@@ -315,10 +313,11 @@ namespace TurboLabz.InstantFramework
             {
                 CacheEnabledSections();
                 sectionPlayAFriend.gameObject.SetActive(false);
+                sectionActiveMatches.gameObject.SetActive(false);
                 sectionPlayAFriendEmpty.gameObject.SetActive(false);
                 sectionPlayAFriendEmptyNotLoggedIn.gameObject.SetActive(false);
                 sectionSearchResultsEmpty.gameObject.SetActive(false);
-                sectionRecentlyCompleted.gameObject.SetActive(false);
+                sectionRecentlyCompletedMatches.gameObject.SetActive(false);
             }
         }
 
@@ -520,7 +519,7 @@ namespace TurboLabz.InstantFramework
 
         void AddFriend(Friend friend, bool isCommunity, bool isSearched)
 		{
-            if (bars.ContainsKey(friend.playerId) || (!isSearched && (isCommunity || friend.friendType.Equals(Friend.FRIEND_TYPE_COMMUNITY))))
+            if (bars.ContainsKey(friend.playerId) || (!isSearched && isCommunity))
             {
                 return;
             }
@@ -665,6 +664,12 @@ namespace TurboLabz.InstantFramework
             friendBar.isPlayerTurn = vo.isPlayerTurn;
             friendBar.isRanked = vo.isRanked;
             friendBar.isOfferDraw = vo.offerDraw;
+
+            if (recentlyCompleted.Contains(friendBar))
+            {
+                friendBar.removeCommunityFriendButton.gameObject.SetActive(true);
+            }
+
             friendBar.UpdateStatus();
 
             // Set the timer clocks
@@ -1188,13 +1193,13 @@ namespace TurboLabz.InstantFramework
         void ConfirmRankedGameBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            CreateGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
+            CreateQuickMatchGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/, actionCode);
         }
 
         void ToolTipBtnClicked()

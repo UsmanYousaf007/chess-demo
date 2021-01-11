@@ -49,6 +49,10 @@ namespace TurboLabz.Multiplayer
 
         public Text timerLabel;
 
+        public GameObject findBankPanel;
+        public GameObject findPowerPlayPanel;
+        public RectTransform[] findLayouts;
+
         private IEnumerator rollOpponentProfilePictureEnumerator;
         private Coroutine findMatchTimeoutCR = null;
         private TimeSpan countDownTimer;
@@ -149,6 +153,8 @@ namespace TurboLabz.Multiplayer
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
                 RollOpponentProfilePicture();
             }
+
+            SetupFindLayout(vo.bettingCoins > 0);
         }
 
         public void SetProfilePicById(string id, Sprite sprite)
@@ -352,6 +358,17 @@ namespace TurboLabz.Multiplayer
             border.gameObject.SetActive(borderSprite != null);
             border.sprite = borderSprite;
             border.SetNativeSize();
+        }
+
+        private void SetupFindLayout(bool isRanked)
+        {
+            findBankPanel.SetActive(isRanked);
+            findPowerPlayPanel.SetActive(isRanked);
+
+            foreach (var layout in findLayouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
         }
     }
 }
