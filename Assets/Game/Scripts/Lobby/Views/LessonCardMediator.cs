@@ -123,6 +123,8 @@ namespace TurboLabz.InstantFramework
             {
                 view.UnlockNextLesson();
                 view.PlayNextLesson();
+                view.lessonLocked.SetActive(false);
+                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
             }
         }
     }

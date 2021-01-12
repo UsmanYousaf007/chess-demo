@@ -33,6 +33,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
 
+        // Services
+        [Inject] public IPreGameAdsService preGameAdsService { get; set; }
+
         public override void OnRegister()
         {
             view.Init();
@@ -59,18 +62,9 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayComputerMatchBtnClicked()
         {
-            if (!playerModel.HasSubscription())
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.placementId = AdPlacements.Interstitial_pregame;
-                showAdSignal.Dispatch(vo, false);
-            }
-
             if (cpuGameModel.inProgress)
             {
-                startCPUGameSignal.Dispatch(false);
+                preGameAdsService.ShowPreGameAd().Then(() => startCPUGameSignal.Dispatch(false));
             }
             else
             {

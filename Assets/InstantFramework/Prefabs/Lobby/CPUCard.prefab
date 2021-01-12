@@ -297,7 +297,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subTitle: {fileID: 5112998595931633172}
   chooseDifficultyText: {fileID: 2022596118043262859}
-  startGameBtnText: {fileID: 0}
   startGameButton: {fileID: 45315422413903372}
   easyLabel: {fileID: 7477794289264759924}
   decStrengthButton: {fileID: 1412267558720982467}
@@ -308,7 +307,6 @@ MonoBehaviour:
   incStrengthButton: {fileID: 1412267558906227668}
   playComputerLevelTxt: {fileID: 4839673046275335392}
   chooseDifficulty: {fileID: 1412267559747191501}
-  watchAdIcon: {fileID: 0}
 --- !u!1 &45315421566616590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,8 +2852,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

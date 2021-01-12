@@ -3301,10 +3301,10 @@ RectTransform:
   m_Father: {fileID: 2736343914120877962}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -85}
-  m_SizeDelta: {x: 327.5, y: 93.7}
+  m_SizeDelta: {x: 0, y: 93.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4895368892753565495
 CanvasRenderer:
@@ -3334,7 +3334,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 3M Chess
+  m_text: 10M Chess
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db89ba2d836af4a90a6955e1bf452559, type: 2}
   m_sharedMaterial: {fileID: 917534731832158002, guid: db89ba2d836af4a90a6955e1bf452559,
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2940385255308785279}
-    characterCount: 8
+    characterCount: 9
     spriteCount: 0
     spaceCount: 1
     wordCount: 2

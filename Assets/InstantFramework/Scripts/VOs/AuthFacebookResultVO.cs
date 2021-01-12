@@ -16,6 +16,8 @@ namespace TurboLabz.InstantFramework
         public string name;
         public string playerId;
         public int rating;
+        public int trophies2;
+        public string countryId;
     }
 }
 

@@ -48,6 +48,34 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(AuthFacebookResultSignal))]
+        public void OnAuthFacebookResult(AuthFacebookResultVO vo)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                var profileVO = new ProfileVO();
+                profileVO.playerName = vo.name;
+                profileVO.eloScore = vo.rating;
+                profileVO.countryId = vo.countryId;
+                profileVO.trophies2 = vo.trophies2;
+                view.UpdateView(profileVO);
+            }
+        }
+
+        [ListensTo(typeof(AuthSignInWithAppleResultSignal))]
+        public void OnAuthSignInWithAppleSignal(AuthSignInWIthAppleResultVO vo)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                var profileVO = new ProfileVO();
+                profileVO.playerName = vo.name;
+                profileVO.eloScore = vo.rating;
+                profileVO.countryId = vo.countryId;
+                profileVO.trophies2 = vo.trophies2;
+                view.UpdateView(profileVO);
+            }
+        }
+
         [ListensTo(typeof(UpdateEloScoresSignal))]
         public void OnUpdateEloScoresSignal(EloVO vo)
         {

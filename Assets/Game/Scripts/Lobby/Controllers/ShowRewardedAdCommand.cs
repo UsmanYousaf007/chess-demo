@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Dispatch Signals
         [Inject] public RewardedVideoResultSignal rewardedVideoResultSignal { get; set; }
@@ -22,6 +23,7 @@ namespace TurboLabz.InstantFramework
         public override void Execute()
         {
             playerModel.adContext = CollectionsUtil.GetAdContextFromAdPlacement(adPlacement);
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
 
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {

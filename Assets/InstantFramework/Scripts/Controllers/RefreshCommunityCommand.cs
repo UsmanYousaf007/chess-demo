@@ -30,23 +30,23 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
-            if (fetchFromServer)
-            {
-                if (playerModel.busyRefreshingCommunity)
-                {
-                    return;
-                }
+            //if (fetchFromServer)
+            //{
+            //    if (playerModel.busyRefreshingCommunity)
+            //    {
+            //        return;
+            //    }
 
-                playerModel.busyRefreshingCommunity = true;
+            //    playerModel.busyRefreshingCommunity = true;
 
-                Retain();
+            //    Retain();
 
-                backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
-            }
-            else
-            {
-                OnCommunityRefresh(BackendResult.SUCCESS);
-            }
+            //    backendService.FriendsOpCommunity().Then(OnCommunityRefresh);
+            //}
+            //else
+            //{
+            //    OnCommunityRefresh(BackendResult.SUCCESS);
+            //}
         }
 
         private void OnCommunityRefresh(BackendResult result)
