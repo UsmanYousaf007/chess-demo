@@ -230,6 +230,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RewardedVideoResultSignal>().ToSingleton();
             injectionBinder.Bind<RewardedVideoAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RateAppDlgClosedSignal>().ToSingleton();
+            injectionBinder.Bind<LobbyChestRewardClaimedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();

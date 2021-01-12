@@ -33,12 +33,13 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
+        private int rewardCoins;
+
         public override void OnRegister()
         {
             view.Init();
             view.leaderboardButtonClickedSignal.AddListener(OnLeaderboardClicked);
             view.chestButtonClickedSignal.AddListener(OnChestClicked);
-
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -84,7 +85,7 @@ namespace TurboLabz.InstantFramework
                 view.SetupChest();
 
                 var rewardDlgVO = new RewardDlgV2VO();
-                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
+                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 loadCareerCardSignal.Dispatch();
@@ -98,6 +99,15 @@ namespace TurboLabz.InstantFramework
             {
                 view.isVideoAvailable = true;
                 view.SetupChest();
+            }
+        }
+
+        [ListensTo(typeof(LobbyChestRewardClaimedSignal))]
+        public void OnLobbyChestRewardClaimed(int coins)
+        {
+            if (view.isActiveAndEnabled && coins > 0)
+            {
+                rewardCoins = coins;
             }
         }
     }
