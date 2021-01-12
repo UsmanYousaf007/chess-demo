@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
 
         //Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPreGameAdsService preGameAdsService { get; set; }
 
         public override void OnRegister()
         {
@@ -50,7 +51,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnContinueButtonClicked(bool powerMode)
         {
-            startCPUGameSignal.Dispatch(powerMode);
+            preGameAdsService.ShowPreGameAd().Then(() => startCPUGameSignal.Dispatch(powerMode));
         }
 
         private void OnNotEnoughGemsSignal()

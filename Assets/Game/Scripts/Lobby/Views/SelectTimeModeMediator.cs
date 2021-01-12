@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 
         //Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IPreGameAdsService preGameAdsService { get; set; }
 
         private MatchInfoVO matchInfoVO;
         private long betValue;
@@ -87,8 +88,11 @@ namespace TurboLabz.InstantFramework
         {
             if (result == BackendResult.SUCCESS)
             {
-                FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
+                preGameAdsService.ShowPreGameAd(matchInfoVO.actionCode).Then(() =>
+                {
+                    FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
+                });
             }
         }
 

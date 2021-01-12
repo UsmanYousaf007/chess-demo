@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public IPreGameAdsService preGameAdsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -327,42 +328,12 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            if (!playerModel.HasSubscription())
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.isRanked = isRanked;
-                vo.friendId = playerId;
-                vo.actionCode = "ChallengeClassic";
-                vo.placementId = AdPlacements.Interstitial_pregame;
-                showAdSignal.Dispatch(vo, false);
-                return;
-            }
-            tapLongMatchSignal.Dispatch(playerId, isRanked);
+            preGameAdsService.ShowPreGameAd().Then(() => tapLongMatchSignal.Dispatch(playerId, isRanked));
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
-
-            var friend = playerModel.GetFriend(playerId);
-
-            if (!playerModel.HasSubscription())
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.actionCode = actionCode;
-                vo.friendId = playerId;
-                vo.isRanked = isRanked;
-                vo.placementId = AdPlacements.Interstitial_pregame;
-                showAdSignal.Dispatch(vo, false);
-                return;
-            }
-
-            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
+            preGameAdsService.ShowPreGameAd(actionCode).Then(() => FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode)); 
         }
 
         private void OnAcceptButtonClicked(string playerId)
