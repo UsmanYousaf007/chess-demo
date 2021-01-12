@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public RatingBoostedSignal ratingBoostedSignal { get; set; }
+        [Inject] public LobbyChestRewardClaimedSignal lobbyChestRewardClaimedSignal { get; set; }
 
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
@@ -43,11 +44,12 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);
+                    var coinReward = ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);
 
                     if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST))
                     {
                         playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
+                        lobbyChestRewardClaimedSignal.Dispatch(coinReward);
                     }
                 }
 
@@ -55,8 +57,10 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void ParseRewards(GSData data, string rewardType)
+        private int ParseRewards(GSData data, string rewardType)
         {
+            int coinReward = 0;
+
             if (data != null)
             {
                 foreach (var reward in data.BaseData)
@@ -71,6 +75,7 @@ namespace TurboLabz.InstantFramework
                     else if (rewardCode.Equals(GSBackendKeys.PlayerDetails.COINS))
                     {
                         playerModel.coins += rewardQuantity;
+                        coinReward = rewardQuantity;
                     }
                     else if (playerModel.inventory.ContainsKey(rewardCode))
                     {
@@ -106,6 +111,8 @@ namespace TurboLabz.InstantFramework
                     //Analytics End
                 }
             }
+
+            return coinReward;
         }
     }
 
