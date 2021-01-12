@@ -192,6 +192,7 @@ MonoBehaviour:
   rewardFillFx: {fileID: 3722467325645230174}
   countRewardText: {fileID: 450145941837394667}
   countReward: 10000
+  slamFX: {fileID: 8300000, guid: 8aa1c234e231c46b6bd3a0b6549fe496, type: 3}
 --- !u!1 &450145941837394669
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,16 +425,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 450145940396781436}
     m_Modifications:
-    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: m_Name
-      value: RewardCoinFx
-      objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -538,6 +529,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: m_Name
+      value: RewardCoinFx
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}

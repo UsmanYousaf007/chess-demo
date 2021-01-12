@@ -4733,8 +4733,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a3d9789e88ad84fe4a576c3703d07bda, type: 2}
-  - {fileID: 2100000, guid: a3d9789e88ad84fe4a576c3703d07bda, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4934,3 +4934,6 @@ MonoBehaviour:
   maxAirTime: 0
   minFlyTime: 0.6
   maxFlyTime: 1
+  spreadSFX: {fileID: 8300000, guid: 14dec91b42dfa4811a10f9310e66a9d1, type: 3}
+  travelSFX: {fileID: 8300000, guid: 460076c61d0fd4ab781343f2163e5e31, type: 3}
+  fillSFX: {fileID: 8300000, guid: dc26f7d04d95f45d8966e920b892d8af, type: 3}

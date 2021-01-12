@@ -36,7 +36,7 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_CLOCK_WARNING;
 
     // Effects
-    public AudioClip SFX_EFFECT_COIN_SLAM;
+    public AudioClip SFX_EFFECT_SLAM;
     public AudioClip SFX_EFFECT_CHEST_ACTIVATE;
     public AudioClip SFX_EFFECT_CHEST_SPEW;
     public AudioClip SFX_EFFECT_COIN_SPREAD;
@@ -45,9 +45,12 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_EFFECT_GEM_SPREAD;
     public AudioClip SFX_EFFECT_GEM_TRAVEL;
     public AudioClip SFX_EFFECT_GEM_FILL;
-    public AudioClip SFX_EFFECT_CAREER_RING_SLAM;
-    public AudioClip SFX_EFFECT_CAREER_TITLE_SLAM;
-
+    public AudioClip SFX_EFFECT_STAR_SPREAD;
+    public AudioClip SFX_EFFECT_STAR_TRAVEL;
+    public AudioClip SFX_EFFECT_STAR_FILL;
+    public AudioClip SFX_EFFECT_TROPHY_SPREAD;
+    public AudioClip SFX_EFFECT_TROPHY_TRAVEL;
+    public AudioClip SFX_EFFECT_TROPHY_FILL;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

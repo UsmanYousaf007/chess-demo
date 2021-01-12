@@ -43,7 +43,22 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_SHOP_PURCHASE_ITEM,
                 sounds.SFX_TOOL_TIP,
                 sounds.SFX_REWARD_UNLOCKED,
-                sounds.SFX_CLOCK_WARNING
+                sounds.SFX_CLOCK_WARNING,
+                sounds.SFX_EFFECT_SLAM,
+                sounds.SFX_EFFECT_CHEST_ACTIVATE,
+                sounds.SFX_EFFECT_CHEST_SPEW,
+                sounds.SFX_EFFECT_COIN_SPREAD,
+                sounds.SFX_EFFECT_COIN_TRAVEL,
+                sounds.SFX_EFFECT_COIN_FILL,
+                sounds.SFX_EFFECT_GEM_SPREAD,
+                sounds.SFX_EFFECT_GEM_TRAVEL,
+                sounds.SFX_EFFECT_GEM_FILL,
+                sounds.SFX_EFFECT_STAR_SPREAD,
+                sounds.SFX_EFFECT_STAR_TRAVEL,
+                sounds.SFX_EFFECT_STAR_FILL,
+                sounds.SFX_EFFECT_TROPHY_SPREAD,
+                sounds.SFX_EFFECT_TROPHY_TRAVEL,
+                sounds.SFX_EFFECT_TROPHY_FILL
             );
         }
 

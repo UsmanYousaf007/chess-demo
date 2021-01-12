@@ -6,8 +6,10 @@
 
 using UnityEngine;
 using DG.Tweening;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 
-public class RewardParticle : MonoBehaviour
+public class RewardParticle : View
 {
     public Transform rewardObject;
     public GameObject targetObject;
@@ -29,6 +31,12 @@ public class RewardParticle : MonoBehaviour
 
     float rotSpeed;
 
+    public AudioClip spreadSFX;
+    public AudioClip travelSFX;
+    public AudioClip fillSFX;
+
+    public Signal<AudioClip> playSFXSignal = new Signal<AudioClip>();
+
     void Start()
     {
         float X = Random.Range(-spreadRadius, spreadRadius);
@@ -48,8 +56,10 @@ public class RewardParticle : MonoBehaviour
     {
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOMove(spreadPos, spreadTime));
+        sequence.AppendCallback(() => playSFXSignal.Dispatch(spreadSFX));
         sequence.AppendInterval(spreadAirTime);
         sequence.Append(transform.DOMove(targetObject.transform.position, flyTime));
+        sequence.AppendCallback(() => playSFXSignal.Dispatch(travelSFX));
         sequence.AppendCallback(EndReached);
         sequence.PlayForward();
     }
@@ -62,6 +72,7 @@ public class RewardParticle : MonoBehaviour
 
     void EndReached()
     {
+        playSFXSignal.Dispatch(fillSFX);
         Destroy(gameObject);
     }
 }
