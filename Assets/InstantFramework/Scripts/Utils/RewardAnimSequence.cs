@@ -24,6 +24,10 @@ public class RewardAnimSequence : MonoBehaviour
     public int countReward;
     private int numOfParticles = 10;
 
+    public AudioClip spreadSFX;
+    public AudioClip travelSFX;
+    public AudioClip fillSFX;
+
     public void PlayInit()
     {
         rewardFillFx.gameObject.SetActive(false);
