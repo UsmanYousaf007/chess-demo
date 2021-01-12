@@ -14,6 +14,8 @@ public class WinResultAnimSequence : MonoBehaviour
     [SerializeField] private Button _ratingBoosterBtn;
     [SerializeField] private Button _continueBtn;
     [SerializeField] private GameObject _crossPromoBtnObj;
+    [SerializeField] private GameObject [] _coinPanelChildObjects;
+    [SerializeField] private GameObject [] _starsPanelChildObjects;
 
     private Animator _animator;
 
@@ -29,26 +31,51 @@ public class WinResultAnimSequence : MonoBehaviour
         _starsParticleEmitter.gameObject.SetActive(false);
         _starsRewarded = starsRewarded;
 
+        _powerPlayParticleEmitter.gameObject.SetActive(false);
+        _powerPlayFX.gameObject.SetActive(false);
+
         _powerPlayBonus = powerPlayBonus;
+
+        _coinsText.text = "0";
+        _starsText.text = "0";
 
         _viewBoardBtnObj.SetActive(false);
         _crossPromoBtnObj.SetActive(false);
         _ratingBoosterBtn.interactable = false;
         _continueBtn.interactable = false;
 
-        _crossPromoBtnObj.transform.position = new Vector3(0f, -349f, 1f);
-
         if (_animator == null)
         {
             _animator = GetComponent<Animator>();
         }
         _animator.enabled = false;
+
+        for (int i = 0; i < _coinPanelChildObjects.Length; i++)
+        {
+            _coinPanelChildObjects[i].SetActive(false);
+        }
+
+        for (int i = 0; i < _starsPanelChildObjects.Length; i++)
+        {
+            _starsPanelChildObjects[i].SetActive(false);
+        }
+
+        _crossPromoBtnObj.SetActive(false);
     }
 
     public void PlayAnimation()
     {
         _animator.enabled = true;
-        //_animator.pla
+
+        for (int i = 0; i < _coinPanelChildObjects.Length; i++)
+        {
+            _coinPanelChildObjects[i].SetActive(true);
+        }
+
+        for (int i = 0; i < _starsPanelChildObjects.Length; i++)
+        {
+            _starsPanelChildObjects[i].SetActive(true);
+        }
     }
 
     private void PlayCoinEffect()
@@ -56,13 +83,14 @@ public class WinResultAnimSequence : MonoBehaviour
         _coinsParticleEmitter.gameObject.SetActive(true);
         _coinsParticleEmitter.PlayFx();
 
-        _coinsText.text = "x0";
+        //_coinsText.text = "x0";
         _coinsText.gameObject.SetActive(true);
         iTween.ValueTo(this.gameObject,
                 iTween.Hash(
                     "from", 0,
-                    "to", _coinsRewarded,
-                    "time", 0.75f,
+                    "to", (int)_coinsRewarded,
+                    "time", 0.5f,
+                    "delay", 1.15f,
                     "onupdate", "OnCointCountUpdate",
                     "onupdatetarget", this.gameObject
                 //"oncomplete", "AnimationComplete"
@@ -79,13 +107,14 @@ public class WinResultAnimSequence : MonoBehaviour
         _starsParticleEmitter.gameObject.SetActive(true);
         _starsParticleEmitter.PlayFx();
 
-        _starsText.text = "x0";
+        //_starsText.text = "x0";
         _starsText.gameObject.SetActive(true);
         iTween.ValueTo(this.gameObject,
                 iTween.Hash(
                     "from", 0,
                     "to", _starsRewarded,
-                    "time", 0.75f,
+                    "time", 0.5f,
+                    "delay", 1.15f,
                     "onupdate", "OnStarsCountUpdate",
                     "onupdatetarget", this.gameObject
                 //"oncomplete", "AnimationComplete"
@@ -107,13 +136,14 @@ public class WinResultAnimSequence : MonoBehaviour
             _powerPlayFX.gameObject.SetActive(true);
             _powerPlayFX.Play();
 
-            _starsText.text = "x0";
+            //_starsText.text = "x0";
             _starsText.gameObject.SetActive(true);
             iTween.ValueTo(this.gameObject,
                     iTween.Hash(
                         "from", _starsRewarded,
                         "to", _starsRewarded + _powerPlayBonus,
-                        "time", 0.75f,
+                        "time", 0.5f,
+                        "delay", 1.15f,
                         "onupdate", "OnStarsCountUpdate",
                         "onupdatetarget", this.gameObject,
                         "oncomplete", "OnStarsCountAnimationComplete"
@@ -142,6 +172,10 @@ public class WinResultAnimSequence : MonoBehaviour
 
     private void TweenInCrossPromo()
     {
-        _crossPromoBtnObj.transform.DOMoveY(349f, 0.2f);
+        Vector3 crossPromoTransformPosition = _crossPromoBtnObj.transform.position;
+        float crossPromoY = crossPromoTransformPosition.y;
+        _crossPromoBtnObj.transform.position = new Vector3(crossPromoTransformPosition.x, -349f, crossPromoTransformPosition.z);
+        _crossPromoBtnObj.SetActive(true);
+        _crossPromoBtnObj.transform.DOMoveY(crossPromoY, 0.2f);
     }
 }
