@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator StartAnimationCoroutine()
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             //yield return new WaitForFixedUpdate();
 
             _animator.enabled = true;

@@ -14,7 +14,7 @@ public class LobbyChestAnimSequence : MonoBehaviour
     public ParticleSystem preOpenFx;
     public ParticleSystem OpenFx;
 
-    public GameObject RewardCoinFx;
+    public RewardAnimSequence RewardCoinFx;
     public RewardParticleEmitter rewardParticleEmitter;
 
     public Text countRewardText;
@@ -22,10 +22,7 @@ public class LobbyChestAnimSequence : MonoBehaviour
 
     public void LobbyChestAnimSequence_PlayInit()
     {
-        preOpenFx.gameObject.SetActive(false);
-        OpenFx.gameObject.SetActive(false);
-        countRewardText.gameObject.SetActive(false);
-        RewardCoinFx.SetActive(false);
+        ResetAnimation();
     }
 
     public void LobbyChestAnimSequence_PlayPreOpenFx()
@@ -35,7 +32,8 @@ public class LobbyChestAnimSequence : MonoBehaviour
 
     public void LobbyChestAnimSequence_PlayCoinsFx()
     {
-        RewardCoinFx.SetActive(true);
+        RewardCoinFx.SetupRewardQuantity(countReward);
+        RewardCoinFx.gameObject.SetActive(true);
     }
 
     public void LobbyChestAnimSequence_PlayOpenFx()
@@ -45,10 +43,19 @@ public class LobbyChestAnimSequence : MonoBehaviour
 
     public void LobbyChestAnimSequence_End()
     {
+        //preOpenFx.gameObject.SetActive(false);
+        //OpenFx.gameObject.SetActive(false);
+        //countRewardText.gameObject.SetActive(false);
+        //RewardCoinFx.gameObject.SetActive(false);
+    }
+
+    public void ResetAnimation()
+    {
         preOpenFx.gameObject.SetActive(false);
         OpenFx.gameObject.SetActive(false);
         countRewardText.gameObject.SetActive(false);
-        RewardCoinFx.SetActive(false);
+        RewardCoinFx.gameObject.SetActive(false);
+        RewardCoinFx.ResetAnimation();
     }
     /*
         public void PlayFx()

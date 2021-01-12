@@ -26,10 +26,7 @@ public class RewardAnimSequence : MonoBehaviour
 
     public void PlayInit()
     {
-        rewardFillFx.gameObject.SetActive(false);
-        spinGlowGold.gameObject.SetActive(false);
-        countRewardText.gameObject.SetActive(false);
-        RewardCoinFx.SetActive(false);
+        ResetAnimation();
     }
 
     public void SetupRewardQuantity(int a_countReward)
@@ -85,6 +82,15 @@ public class RewardAnimSequence : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
+    }
+
+    public void ResetAnimation()
+    {
+        slamCoinFx.gameObject.SetActive(false);
+        rewardFillFx.gameObject.SetActive(false);
+        spinGlowGold.gameObject.SetActive(false);
+        countRewardText.gameObject.SetActive(false);
+        RewardCoinFx.SetActive(false);
     }
 
     private void OnCountUpdate(int val)

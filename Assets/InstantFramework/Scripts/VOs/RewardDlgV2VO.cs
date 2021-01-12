@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         public List<Reward> Rewards;
         public bool RVWatched = false;
+        public bool ShowChest = false;
 
         public RewardDlgV2VO()
         {

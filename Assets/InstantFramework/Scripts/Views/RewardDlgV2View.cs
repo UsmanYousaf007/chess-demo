@@ -28,7 +28,9 @@ namespace TurboLabz.InstantFramework
         private RewardDlgV2VO.Reward _reward;
         private Text _currentActiveTextObject;
         private RewardAnimSequence _currentAnimSequence = null;
-        private RewardUIContainer _currentRewardContailer = null;
+        private LobbyChestAnimSequence _currentChestAnimSequence = null;
+        private RewardUIContainer _currentRewardContainer = null;
+        private bool _showCoinChest = false;
 
         public void Init()
         {
@@ -47,6 +49,10 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.SetActive(false);
             StopCoroutine(StartAnimationCoroutine());
+
+            _currentChestAnimSequence?.gameObject.SetActive(false);
+            _currentChestAnimSequence?.ResetAnimation();
+            _currentChestAnimSequence = null;
         }
 
         public void InvokeStartAnimationCoroutine()
@@ -54,9 +60,14 @@ namespace TurboLabz.InstantFramework
             StartCoroutine(StartAnimationCoroutine());
         }
 
-        public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false)
+        public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false, bool showCoinChest = false)
         {
             _reward = reward;
+            _showCoinChest = showCoinChest;
+
+            _currentChestAnimSequence?.gameObject.SetActive(false);
+            _currentChestAnimSequence?.ResetAnimation();
+            _currentChestAnimSequence = null;
 
             for (int i = 0; i < _rewardContainers.Length; i++)
             {
@@ -69,7 +80,7 @@ namespace TurboLabz.InstantFramework
                 if (_rewardContainers[i].shortCode == reward.ShortCode)
                 {
                     _rewardContainers[i].quantityText.text = "x0";
-                    _currentRewardContailer = _rewardContainers[i];
+                    _currentRewardContainer = _rewardContainers[i];
                     //_rewardContainers[i].containerParent.SetActive(true);
                     _currentAnimSequence = animSequence;
                 }
@@ -139,8 +150,22 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForSeconds(0.25f);
             //yield return new WaitForFixedUpdate();
 
-            _currentRewardContailer.containerParent.SetActive(true);
-            _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+            if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+            {
+                _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
+                _currentChestAnimSequence.countReward = _reward.Quantity;
+
+                _currentChestAnimSequence?.gameObject.SetActive(true);
+                _currentAnimSequence?.transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+
+                _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+            }
+
+            _currentRewardContainer.containerParent.SetActive(true);
         }
     }
 }
