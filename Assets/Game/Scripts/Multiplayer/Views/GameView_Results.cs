@@ -192,17 +192,14 @@ namespace TurboLabz.Multiplayer
             UpdateGameEndReasonSection(vo.reason);
             UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection();
-            SetupResultsLayout();
+            SetupResultsLayout(vo.powerMode);
             SetupBoostPrice();
             SetupRewardDoublerPrice();
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
 
-            if (playerWins)
-            {
-                _winAnimationSequence.Init(vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0);
-            }
-
+            _winAnimationSequence.Reset(vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
+            
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
 
@@ -384,7 +381,7 @@ namespace TurboLabz.Multiplayer
             resultsGameResultLabel.SetNativeSize();
         }
 
-        private void SetupResultsLayout()
+        private void SetupResultsLayout(bool powerMode)
         {
             resultsBoostRatingButton.gameObject.SetActive(!isDraw);
             resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
@@ -395,7 +392,7 @@ namespace TurboLabz.Multiplayer
             resultsContinueButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
             resultsContinueButton2.gameObject.SetActive(true/*!playerWins || isDraw || !isRankedGame*/);
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
-            resultsPowerplayImage.gameObject.SetActive(true);
+            resultsPowerplayImage.gameObject.SetActive(playerWins && powerMode);
         }
 
         private void UpdateRewards(long betValue, int stars, bool powerMode)

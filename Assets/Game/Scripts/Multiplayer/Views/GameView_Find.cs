@@ -53,6 +53,8 @@ namespace TurboLabz.Multiplayer
         public GameObject findPowerPlayPanel;
         public RectTransform[] findLayouts;
 
+        [SerializeField] private RewardParticleEmitter _coinsParticleEmitter;
+
         private IEnumerator rollOpponentProfilePictureEnumerator;
         private Coroutine findMatchTimeoutCR = null;
         private TimeSpan countDownTimer;
@@ -255,7 +257,7 @@ namespace TurboLabz.Multiplayer
             if (betValue > 0)
             {
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_PLACING_BET);
-                //TODO animate coins into bank
+                PlayCoinsAnimation();
             }
             else
             {
@@ -365,10 +367,18 @@ namespace TurboLabz.Multiplayer
             findBankPanel.SetActive(isRanked);
             findPowerPlayPanel.SetActive(isRanked);
 
+            _coinsParticleEmitter.gameObject.SetActive(false);
+
             foreach (var layout in findLayouts)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
             }
+        }
+
+        private void PlayCoinsAnimation()
+        {
+            _coinsParticleEmitter.gameObject.SetActive(true);
+            _coinsParticleEmitter.PlayFx();
         }
     }
 }

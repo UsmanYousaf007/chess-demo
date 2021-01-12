@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class WinResultAnimSequence : MonoBehaviour
 {
+    [SerializeField] private GameObject _iconSparklesFXObj;
+    [SerializeField] private GameObject _iconRaysFXObj;
     [SerializeField] private RewardParticleEmitter _coinsParticleEmitter;
     [SerializeField] private RewardParticleEmitter _starsParticleEmitter;
     [SerializeField] private RewardParticleEmitter _powerPlayParticleEmitter;
@@ -23,8 +25,11 @@ public class WinResultAnimSequence : MonoBehaviour
     private int _starsRewarded = 0;
     private int _powerPlayBonus = 0;
 
-    public void Init(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0)
+    public void Reset(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0, bool playerWon = false)
     {
+        _iconSparklesFXObj.SetActive(false);
+        _iconRaysFXObj.SetActive(false);
+
         _coinsParticleEmitter.gameObject.SetActive(false);
         _coinsRewarded = coinsRewarded;
 
@@ -39,10 +44,10 @@ public class WinResultAnimSequence : MonoBehaviour
         _coinsText.text = "0";
         _starsText.text = "0";
 
-        _viewBoardBtnObj.SetActive(false);
-        _crossPromoBtnObj.SetActive(false);
-        _ratingBoosterBtn.interactable = false;
-        _continueBtn.interactable = false;
+        _viewBoardBtnObj.SetActive(!playerWon);
+        _crossPromoBtnObj.SetActive(!playerWon);
+        _ratingBoosterBtn.interactable = !playerWon;
+        _continueBtn.interactable = !playerWon;
 
         if (_animator == null)
         {
@@ -60,7 +65,7 @@ public class WinResultAnimSequence : MonoBehaviour
             _starsPanelChildObjects[i].SetActive(false);
         }
 
-        _crossPromoBtnObj.SetActive(false);
+        _crossPromoBtnObj.SetActive(!playerWon);
     }
 
     public void PlayAnimation()

@@ -1033,10 +1033,10 @@ RectTransform:
   m_Father: {fileID: 7463106491577504173}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -55, y: -20}
-  m_SizeDelta: {x: -110, y: 2}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2232943549733245693
 CanvasRenderer:
@@ -1112,7 +1112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 97.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3361045277199545386
@@ -1201,7 +1201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 811, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2335986271534156687
@@ -2232,7 +2232,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 31e8aa41dbe5f48ee9bdeb76adea8cc6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2361,6 +2361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a6d6393dcb848209791cc88c914a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _iconSparklesFXObj: {fileID: 8022441302604347821}
+  _iconRaysFXObj: {fileID: 7379511637144367308}
   _coinsParticleEmitter: {fileID: 3632057175228449729}
   _starsParticleEmitter: {fileID: 3898476936077817622}
   _powerPlayParticleEmitter: {fileID: 7835513475277063407}
@@ -2435,7 +2437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 87.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5023766406299081458
@@ -3227,7 +3229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 174, y: 0}
   m_SizeDelta: {x: 0, y: 87.6}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6087475272924665727
@@ -3717,7 +3719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 82, y: 0}
   m_SizeDelta: {x: 0, y: 87.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5747317114274248856
@@ -3933,7 +3935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 78.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1610556038200839441
@@ -4342,7 +4344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 405.5, y: 0}
   m_SizeDelta: {x: 852, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4080265066365463790
@@ -4956,13 +4958,13 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Board
+  m_Text: View Board
 --- !u!114 &2258331251586190366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5369,12 +5371,6 @@ PrefabInstance:
       objectReference: {fileID: 4322962883083166352}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d16f68d63ff40c39cbb26bfb04d9b7, type: 3}
---- !u!1 &3898476936077817620 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3194464779634588402, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1895778861533433318}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3898476936077817622 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3194464779634588400, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
@@ -5390,6 +5386,12 @@ MonoBehaviour:
 --- !u!224 &3898476936077817623 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3194464779634588401, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1895778861533433318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3898476936077817620 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3194464779634588402, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
     type: 3}
   m_PrefabInstance: {fileID: 1895778861533433318}
   m_PrefabAsset: {fileID: 0}
@@ -5683,6 +5685,12 @@ PrefabInstance:
 --- !u!224 &8022441302604347794 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5464202706591437476, guid: 0ca707637929041b98616dd43aab91e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2630613133474605878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8022441302604347821 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5464202706591437467, guid: 0ca707637929041b98616dd43aab91e6,
     type: 3}
   m_PrefabInstance: {fileID: 2630613133474605878}
   m_PrefabAsset: {fileID: 0}
@@ -6113,6 +6121,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c36a9452d3134aaa9651cad927395e5, type: 3}
+--- !u!1 &7379511637144367308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3617964122209363437, guid: 6c36a9452d3134aaa9651cad927395e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6078977203725161761}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7379511637144367283 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3617964122209363346, guid: 6c36a9452d3134aaa9651cad927395e5,
