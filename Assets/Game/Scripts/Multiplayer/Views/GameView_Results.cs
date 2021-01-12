@@ -78,6 +78,8 @@ namespace TurboLabz.Multiplayer
 
         public RectTransform[] resultsLayouts;
 
+        public WinResultAnimSequence _winAnimationSequence;
+
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
@@ -195,6 +197,11 @@ namespace TurboLabz.Multiplayer
             SetupRewardDoublerPrice();
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
+
+            if (playerWins)
+            {
+                _winAnimationSequence.Init(vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0);
+            }
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
@@ -408,7 +415,7 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateResultsDialog()
         {
-            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnAnimateResultsComplete);
 
             if (isDraw || !playerWins)
             {
@@ -417,6 +424,14 @@ namespace TurboLabz.Multiplayer
             else
             {
                 audioService.Play(audioService.sounds.SFX_VICTORY);
+            }
+        }
+
+        private void OnAnimateResultsComplete()
+        {
+            if (playerWins)
+            {
+                _winAnimationSequence.PlayAnimation();
             }
         }
 
