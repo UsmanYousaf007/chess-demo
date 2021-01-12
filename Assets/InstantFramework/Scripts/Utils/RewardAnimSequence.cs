@@ -63,7 +63,7 @@ public class RewardAnimSequence : View
         rewardFillFx.gameObject.SetActive(true);
         rewardFillFx.Play();
 
-        countRewardText.text = "x0";
+        countRewardText.text = "0";
         countRewardText.gameObject.SetActive(true);
         iTween.ValueTo(this.gameObject,
                 iTween.Hash(
