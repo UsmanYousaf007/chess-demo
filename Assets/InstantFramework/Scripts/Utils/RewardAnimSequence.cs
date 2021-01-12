@@ -22,6 +22,7 @@ public class RewardAnimSequence : MonoBehaviour
 
     public Text countRewardText;
     public int countReward;
+    private int numOfParticles = 10;
 
     public void PlayInit()
     {
@@ -29,6 +30,12 @@ public class RewardAnimSequence : MonoBehaviour
         spinGlowGold.gameObject.SetActive(false);
         countRewardText.gameObject.SetActive(false);
         RewardCoinFx.SetActive(false);
+    }
+
+    public void SetupRewardQuantity(int a_countReward)
+    {
+        countReward = a_countReward;
+        numOfParticles = countReward > 10 ? 10 : countReward;
     }
 
     public void PlayFx()
@@ -44,7 +51,7 @@ public class RewardAnimSequence : MonoBehaviour
     public void PlayCoinParticles()
     {
         RewardCoinFx.SetActive(true);
-        rewardParticleEmitter.PlayFx();
+        rewardParticleEmitter.PlayFx(numOfParticles);
     }
 
     public void PlayRewardFillParticles()
