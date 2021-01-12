@@ -443,6 +443,8 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<RewardDlgV2View>().To<RewardDlgV2Mediator>();
             mediationBinder.Bind<LeaguePromotionDlgView>().To<LeaguePromotionDlgMediator>();
             mediationBinder.Bind<CPUPowerModeView>().To<CPUPowerModeMediator>();
+            mediationBinder.Bind<RewardParticle>().To<RewardParticleMediator>();
+            mediationBinder.Bind<RewardAnimSequence>().To<RewardAnimSequenceMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

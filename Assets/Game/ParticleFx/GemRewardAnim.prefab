@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6911745803825219369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -271,6 +271,7 @@ MonoBehaviour:
   rewardFillFx: {fileID: 7673171856586816793}
   countRewardText: {fileID: 6911745804107340446}
   countReward: 5
+  slamFX: {fileID: 8300000, guid: 8aa1c234e231c46b6bd3a0b6549fe496, type: 3}
 --- !u!1001 &6911745802694624101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -529,11 +530,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 9066895323633428250, guid: dd1be177a695f47358884bf76e457fef,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9066895323633428249, guid: dd1be177a695f47358884bf76e457fef,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -543,6 +539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066895323633428250, guid: dd1be177a695f47358884bf76e457fef,
+        type: 3}
+      propertyPath: looping
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd1be177a695f47358884bf76e457fef, type: 3}
@@ -850,11 +851,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardGemFx
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 6911745804713833739}
     - target: {fileID: 3194464779634588401, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -960,6 +956,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 6911745804713833739}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2072bedbfcb3d4e1f81aec6f6df02877, type: 3}
 --- !u!1 &8340227781798926589 stripped

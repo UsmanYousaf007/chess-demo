@@ -37,9 +37,10 @@ namespace TurboLabz.InstantFramework
         {
             if (preferencesModel.isAudioOn)
             {
-                audio.Stop();
-                audio.clip = sound;
-                audio.Play();
+                audio.PlayOneShot(sound);
+                //audio.Stop();
+                //audio.clip = sound;
+                //audio.Play();
             }
         }
 

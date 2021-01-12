@@ -8,8 +8,10 @@ using UnityEngine;
 using UnityEngine.UI.Extensions;
 using DG.Tweening;
 using UnityEngine.UI;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 
-public class RewardAnimSequence : MonoBehaviour
+public class RewardAnimSequence : View
 {
     public GameObject slamCoinFxParent;
     public ParticleSystem slamCoinFx;
@@ -23,6 +25,10 @@ public class RewardAnimSequence : MonoBehaviour
     public Text countRewardText;
     public int countReward;
     private int numOfParticles = 10;
+
+    public AudioClip slamFX;
+
+    public Signal<AudioClip> playSFXSignal = new Signal<AudioClip>();
 
     public void PlayInit()
     {
@@ -40,6 +46,7 @@ public class RewardAnimSequence : MonoBehaviour
         slamCoinFx.Stop();
         slamCoinFx.gameObject.SetActive(true);
         slamCoinFx.Play();
+        playSFXSignal.Dispatch(slamFX);
 
         spinGlowGold.gameObject.SetActive(true);
         spinGlowGold.Play();
