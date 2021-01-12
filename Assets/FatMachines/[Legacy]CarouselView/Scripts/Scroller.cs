@@ -64,6 +64,8 @@ namespace FM.Legacy{
 		public static event ClickAction OnSettled;
 		public static event ClickAction CancelAnimation;
 
+		private bool scrollerPressed = false;
+
 		void Awake(){
 			numberOfTracks = transform.childCount;
 		}
@@ -239,7 +241,7 @@ namespace FM.Legacy{
 				}
 			}
 
-			if(Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)){
+			if((Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) && scrollerPressed){
 				float mousePos = Input.mousePosition.y  - (screenHeight/2);
 				if(mousePos < rectTransform.localPosition.y - (rectTransform.rect.height/2) || mousePos > rectTransform.localPosition.y + (rectTransform.rect.height/2)){
 					return;
@@ -343,6 +345,18 @@ namespace FM.Legacy{
 			{
 				rectTransform = GetComponent<RectTransform>();
 			}
+		}
+
+		public void OnScrollerPressed()
+		{
+			Debug.Log("OnScrollerPressed");
+			scrollerPressed = true;
+		}
+
+		public void OnScrollerReleased()
+		{
+			Debug.Log("OnScrollerReleased");
+			scrollerPressed = false;
 		}
 	}
 
