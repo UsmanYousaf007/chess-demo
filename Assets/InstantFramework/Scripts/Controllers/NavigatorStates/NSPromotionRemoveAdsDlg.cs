@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.RATE_APP_DLG);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SPOT_COIN_PURCHASE_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -31,6 +31,11 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_REMOVE_ADS_DLG);
                     return new NSRateAppDlg();
+                }
+                else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_REMOVE_ADS_DLG);
+                    return new NSSpotCoinPurchaseDlg();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

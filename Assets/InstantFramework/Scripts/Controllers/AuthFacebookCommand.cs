@@ -171,6 +171,8 @@ namespace TurboLabz.InstantFramework
             vo.name = playerModel.name;
             vo.playerId = playerModel.id;
             vo.rating = playerModel.eloScore;
+            vo.trophies2 = playerModel.trophies2;
+            vo.countryId = playerModel.countryId;
 
             authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);

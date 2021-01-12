@@ -11,7 +11,7 @@
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG);
+                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SPOT_COIN_PURCHASE_DLG);
 
                 if (viewId == NavigatorViewId.LOBBY)
                 {
@@ -21,6 +21,11 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.LOGIN_DLG);
                     return new NSRateAppDlg();
+                }
+                else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.LOGIN_DLG);
+                    return new NSSpotCoinPurchaseDlg();
                 }
 
                 return null;

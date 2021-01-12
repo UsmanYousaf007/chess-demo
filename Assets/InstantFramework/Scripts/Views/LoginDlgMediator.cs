@@ -46,13 +46,19 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(AuthFacebookResultSignal))]
         public void OnAuthFacebookResult(AuthFacebookResultVO vo)
         {
-            SignInCompleted(vo.isSuccessful);
+            if (view.isActiveAndEnabled)
+            {
+                SignInCompleted(vo.isSuccessful);
+            }
         }
 
         [ListensTo(typeof(AuthSignInWithAppleResultSignal))]
         public void OnAuthSignInWithAppleResult(AuthSignInWIthAppleResultVO vo)
         {
-            SignInCompleted(vo.isSuccessful);
+            if (view.isActiveAndEnabled)
+            {
+                SignInCompleted(vo.isSuccessful);
+            }
         }
 
         [ListensTo(typeof(LoginAsGuestSignal))]
