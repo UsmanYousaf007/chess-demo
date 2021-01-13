@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest && result == AdsResult.FINISHED)
             {
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                //view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
                 view.SetupChest();
 
                 var rewardDlgVO = new RewardDlgV2VO();

@@ -52,13 +52,13 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_EFFECT_COIN_FILL,
                 sounds.SFX_EFFECT_GEM_SPREAD,
                 sounds.SFX_EFFECT_GEM_TRAVEL,
-                sounds.SFX_EFFECT_GEM_FILL,
-                sounds.SFX_EFFECT_STAR_SPREAD,
-                sounds.SFX_EFFECT_STAR_TRAVEL,
-                sounds.SFX_EFFECT_STAR_FILL,
-                sounds.SFX_EFFECT_TROPHY_SPREAD,
-                sounds.SFX_EFFECT_TROPHY_TRAVEL,
-                sounds.SFX_EFFECT_TROPHY_FILL
+                sounds.SFX_EFFECT_GEM_FILL
+                //sounds.SFX_EFFECT_STAR_SPREAD,
+                //sounds.SFX_EFFECT_STAR_TRAVEL,
+                //sounds.SFX_EFFECT_STAR_FILL,
+                //sounds.SFX_EFFECT_TROPHY_SPREAD,
+                //sounds.SFX_EFFECT_TROPHY_TRAVEL,
+                //sounds.SFX_EFFECT_TROPHY_FILL
             );
         }
 
