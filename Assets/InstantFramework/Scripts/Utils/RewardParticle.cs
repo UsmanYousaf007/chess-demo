@@ -55,11 +55,11 @@ public class RewardParticle : View
     void PlaySequence()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOMove(spreadPos, spreadTime));
         sequence.AppendCallback(() => playSFXSignal.Dispatch(spreadSFX));
+        sequence.Append(transform.DOMove(spreadPos, spreadTime));
         sequence.AppendInterval(spreadAirTime);
-        sequence.Append(transform.DOMove(targetObject.transform.position, flyTime));
         sequence.AppendCallback(() => playSFXSignal.Dispatch(travelSFX));
+        sequence.Append(transform.DOMove(targetObject.transform.position, flyTime));
         sequence.AppendCallback(EndReached);
         sequence.PlayForward();
     }
