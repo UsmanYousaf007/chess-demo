@@ -493,14 +493,14 @@ namespace TurboLabz.InstantFramework
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)
         {
-            var earnedTrophies = data.rewardsDict[data.rank].trophies;
-            var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
-            analyticsService.Event($"{AnalyticsEventId.champiionship_finish_rank}_{leagueName}",AnalyticsParameter.context, GetRankContext(data.rank));
+            //var earnedTrophies = data.rewardsDict[data.rank].trophies;
+            //var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+            //analyticsService.Event($"{AnalyticsEventId.championship_finish_rank}_{leagueName}",AnalyticsParameter.context, GetRankContext(data.rank));
 
-            if (earnedTrophies > 0)
-            {
-                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.TROPHIES, earnedTrophies, "championship_reward", $"rank{data.rank}_{leagueName}");
-            }
+            //if (earnedTrophies > 0)
+            //{
+            //    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.TROPHIES, earnedTrophies, "championship_reward", $"rank{data.rank}_{leagueName}");
+            //}
         }
 
         public void LogConcludedJoinedTournaments()
