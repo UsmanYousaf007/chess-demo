@@ -109,7 +109,7 @@ namespace TurboLabz.InstantFramework
             defaultBetIndexUsed = true;
             SetupBetting();
 
-            tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}%";
+            tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}% of your coin stock";
         }
 
         private void SetupTrophyProgressionBar(int currentTrophies)
