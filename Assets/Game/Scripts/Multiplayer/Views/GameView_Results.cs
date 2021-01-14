@@ -198,7 +198,7 @@ namespace TurboLabz.Multiplayer
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
 
-            _winAnimationSequence.Reset(vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
+            _winAnimationSequence.Reset(playerWins? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
             
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
