@@ -60,6 +60,7 @@ namespace TurboLabz.InstantFramework
         {
             normalDlg.SetActive(true);
             adDlg.SetActive(false);
+            buyCoinsButton.gameObject.SetActive(false);
 
             for (int i = 0; i < packs.Length; i++)
             {
@@ -79,6 +80,7 @@ namespace TurboLabz.InstantFramework
         {
             normalDlg.SetActive(false);
             adDlg.SetActive(true);
+            buyCoinsButton.gameObject.SetActive(true);
             this.storeItem = storeItem;
             coinsText.text = storeItem.currency4Payout.ToString("N0");
             gemsText.text = storeItem.currency3Payout.ToString();

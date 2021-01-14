@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         StoreItem GetVideoByShortCode(string shortCode);
         long lastPurchaseAttemptTimestamp { get; set; }
         string failedPurchaseTransactionId { get; set; }
+        StoreItem GetItemByCoinsValue(int value);
     }
 }
 

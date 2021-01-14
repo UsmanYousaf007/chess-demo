@@ -349,13 +349,11 @@ namespace FM.Legacy{
 
 		public void OnScrollerPressed()
 		{
-			Debug.Log("OnScrollerPressed");
 			scrollerPressed = true;
 		}
 
 		public void OnScrollerReleased()
 		{
-			Debug.Log("OnScrollerReleased");
 			scrollerPressed = false;
 		}
 	}

@@ -15,17 +15,23 @@ namespace TurboLabz.InstantFramework
         [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
         [Inject] public InboxAddMessagesSignal inboxAddMessagesSignal { get; set; }
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
+        [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
 
         // Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
+        [Inject] public UpdateSpotCoinsWatchAdDlgSignal updateSpotCoinsWatchAdDlgSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IRateAppService rateAppService { get; set; }
 
         private bool isPromotionShownOnStart;
         private Stack<string> rewards;
@@ -36,6 +42,7 @@ namespace TurboLabz.InstantFramework
             modelsResetSignal.AddListener(Init);
             promotionCycleOverSignal.AddListener(SetPomotionFlag);
             inboxAddMessagesSignal.AddListener(LoadDailyRewards);
+            inboxEmptySignal.AddListener(LoadDailyRewards);
         }
 
         private void Init()
@@ -52,8 +59,7 @@ namespace TurboLabz.InstantFramework
 
         private void LoadDailyRewards()
         {
-            if (isPromotionShownOnStart && (navigatorModel.currentViewId == NavigatorViewId.LOBBY ||
-                                            navigatorModel.currentViewId == NavigatorViewId.RATE_APP_DLG))
+            if (isPromotionShownOnStart && navigatorModel.currentViewId == NavigatorViewId.LOBBY)
             {
                 SetupRewards();
                 LoadDailyReward();
@@ -64,6 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             if (rewards.Count == 0)
             {
+                OnRewardsOver();
                 return;
             }
 
@@ -82,6 +89,28 @@ namespace TurboLabz.InstantFramework
                 {
                     rewards.Push(msg.Key);
                 }
+            }
+        }
+
+        private void OnRewardsOver()
+        {
+            if (rateAppService.CanShowRateDialogue())
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
+                rateAppDlgClosedSignal.AddOnce(ShowOutOfCoinsPopup);
+            }
+            else
+            {
+                ShowOutOfCoinsPopup();
+            }
+        }
+
+        private void ShowOutOfCoinsPopup()
+        {
+            if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0])
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
+                updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
             }
         }
     }

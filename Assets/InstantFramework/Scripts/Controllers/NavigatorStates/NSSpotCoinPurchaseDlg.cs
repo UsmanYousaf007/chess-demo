@@ -11,9 +11,9 @@
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY);
+                NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG);
 
-                if (viewId == NavigatorViewId.LOBBY)
+                if (viewId == NavigatorViewId.LOBBY || viewId == NavigatorViewId.RATE_APP_DLG)
                 {
                     return new NSLobby();
                 }

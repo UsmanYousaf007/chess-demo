@@ -93,6 +93,7 @@ namespace TurboLabz.InstantFramework
         SHOW_CHAMPIONSHIP_NEW_RANK_DLG,
         SHOW_DAILY_REWARD_DLG,
         SHOW_LEAGUE_PROMOTION_DLG,
-        SHOW_REWARD_DLG_V2
+        SHOW_REWARD_DLG_V2,
+        SHOW_PURCHASE_SUCCESS_DLG
     }
 }

@@ -115,16 +115,6 @@ namespace TurboLabz.InstantGame
             DispatchRemoveAdsSignal();
 
             loadCareerCardSignal.Dispatch();
-
-            if (rateAppService.CanShowRateDialogue())
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_RATE_APP_DLG);
-                rateAppDlgClosedSignal.AddOnce(ShowOutOfCoinsPopup);
-            }
-            else
-            {
-                ShowOutOfCoinsPopup();
-            }
             
             if (preferencesModel.isLobbyLoadedFirstTime)
             {
@@ -161,14 +151,7 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        private void ShowOutOfCoinsPopup()
-        {
-            if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0])
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
-                updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
-            }
-        }
+        
 
         private void DispatchProfileSignal() 
         {

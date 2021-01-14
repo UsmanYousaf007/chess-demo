@@ -231,6 +231,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<RewardedVideoAvailableSignal>().ToSingleton();
             injectionBinder.Bind<RateAppDlgClosedSignal>().ToSingleton();
             injectionBinder.Bind<LobbyChestRewardClaimedSignal>().ToSingleton();
+            injectionBinder.Bind<InboxEmptySignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePurchaseSuccessDlgSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -445,6 +447,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<CPUPowerModeView>().To<CPUPowerModeMediator>();
             mediationBinder.Bind<RewardParticle>().To<RewardParticleMediator>();
             mediationBinder.Bind<RewardAnimSequence>().To<RewardAnimSequenceMediator>();
+            mediationBinder.Bind<PurchaseSuccessDlgView>().To<PurchaseSuccessDlgMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

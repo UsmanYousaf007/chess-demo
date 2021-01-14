@@ -205,6 +205,8 @@ namespace TurboLabz.InstantFramework
     public class LoadCareerCardSignal : Signal { }
     public class RateAppDlgClosedSignal : Signal { }
     public class LobbyChestRewardClaimedSignal : Signal<int> { }
+    public class InboxEmptySignal : Signal { }
+    public class UpdatePurchaseSuccessDlgSignal : Signal<StoreItem> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
