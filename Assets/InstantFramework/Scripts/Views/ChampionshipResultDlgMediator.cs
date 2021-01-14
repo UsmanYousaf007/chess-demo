@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -111,9 +112,42 @@ namespace TurboLabz.InstantFramework
             updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
 
-            tournamentsModel.RemoveFromJoinedTournament(tournamentsModel.GetJoinedTournament().id);
-            //resetTournamentsViewSignal.Dispatch();
+            JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament();
+            tournamentsModel.RemoveFromJoinedTournament(joinedTournamentData.id);
+
+            LogTournamentEndAnalytics(joinedTournamentData);
+
             backendService.TournamentsOpGetJoinedTournaments();
+        }
+
+        private void LogTournamentEndAnalytics(JoinedTournamentData data)
+        {
+            var earnedTrophies = data.rewardsDict[data.rank].trophies;
+            var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+            analyticsService.Event($"{AnalyticsEventId.championship_finish_rank}_{leagueName}", AnalyticsParameter.context, GetRankContext(data.rank));
+
+            if (earnedTrophies > 0)
+            {
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.TROPHIES, earnedTrophies, "championship_reward", $"rank{data.rank}_{leagueName}");
+            }
+        }
+
+        private string GetRankContext(int rank)
+        {
+            if (rank > 50)
+            {
+                return "51_to_100";
+            }
+            else if (rank <= 50 && rank >= 11)
+            {
+                return "11_to_50";
+            }
+            else if (rank <= 10 && rank >= 4)
+            {
+                return "4_to_10";
+            }
+
+            return rank.ToString();
         }
     }
 }

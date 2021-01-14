@@ -591,7 +591,12 @@ namespace TurboLabz.InstantFramework
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
                     tournamentEntries[i].rank = i + 1;
-                    
+
+                    if (playerId == tournamentEntries[i].publicProfile.playerId)
+                    {
+                        joinedTournament.rank = tournamentEntries[i].rank;
+                    }
+
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
                     {
                         var leagueAssets = tournamentsModel.GetLeagueSprites(tournamentEntries[i].publicProfile.league.ToString());
