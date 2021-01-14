@@ -270,6 +270,10 @@ namespace TurboLabz.InstantFramework
                 inboxModel.items = dict;
                 inboxAddMessagesSignal.Dispatch(); 
             }
+            else
+            {
+                inboxEmptySignal.Dispatch();
+            }
         }
 
         private void FillAdsSettingsModel(GSData adsSettingsData)

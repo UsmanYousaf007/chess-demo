@@ -135,7 +135,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 471.6}
+  m_SizeDelta: {x: 0, y: 485.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3280318757213459387
 GameObject:
@@ -2159,7 +2159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 392.05, y: 0}
   m_SizeDelta: {x: 743.55, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4350873720390416208
@@ -2403,7 +2403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 95}
+  m_AnchoredPosition: {x: 0, y: 127}
   m_SizeDelta: {x: 638, y: 68.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4350873720744628634
@@ -3685,6 +3685,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 3616895504424452869}
+    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: rewardParticlePrefab
+      value: 
+      objectReference: {fileID: 3957133747259953309, guid: b93eeb2b03f1744509958615d9344f85,
+        type: 3}
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3800,17 +3811,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.75
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 3616895504424452869}
-    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: rewardParticlePrefab
-      value: 
-      objectReference: {fileID: 3957133747259953309, guid: b93eeb2b03f1744509958615d9344f85,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0c4746059fd94a59b49db124b496a7c, type: 3}
 --- !u!224 &5249727220349385677 stripped

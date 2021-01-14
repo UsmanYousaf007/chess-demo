@@ -61,9 +61,9 @@
             {
                 return new NSSubscriptionSaleDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            else if (evt == NavigatorEvent.SHOW_PURCHASE_SUCCESS_DLG)
             {
-                return new NSSpotPurchase();
+                return new NSPurchaseSuccessDlg();
             }
 
             return null;

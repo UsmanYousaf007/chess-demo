@@ -15,6 +15,10 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateShopBundlePurchasedViewSignal updateShopBundlePurchasedViewSignal { get; set; }
+        [Inject] public UpdatePurchaseSuccessDlgSignal updatePurchaseSuccessDlgSignal { get; set; }
+
+        //Models
+        [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
 
         public override void OnRegister()
         {
@@ -63,6 +67,11 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP_BUNDLE_PURCHASED);
                 updateShopBundlePurchasedViewSignal.Dispatch(item);
             }
+            else if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG))
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PURCHASE_SUCCESS_DLG);
+                updatePurchaseSuccessDlgSignal.Dispatch(item);
+            }
         }
 
         [ListensTo(typeof(ShowProcessingSignal))]
@@ -89,6 +98,8 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PURCHASE_SUCCESS_DLG);
+                updatePurchaseSuccessDlgSignal.Dispatch(storeSettingsModel.GetItemByCoinsValue(quantity));
                 analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack");
                 analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "shop", $"coins_{quantity}");
             }

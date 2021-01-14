@@ -92,6 +92,14 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+        public StoreItem GetItemByCoinsValue(int value)
+        {
+            var item = (from i in lists[GSBackendKeys.ShopItem.COINS_SHOP_TAG]
+                        where i.currency4Payout == value
+                        select i).FirstOrDefault();
+            return item;
+        }
+
     }
 
     //public class BundledItem

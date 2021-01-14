@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public InboxRemoveMessagesSignal inboxRemoveMessagesSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public InboxFetchingMessagesSignal inboxFetchingMessagesSignal { get; set; }
+        [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
@@ -108,6 +109,10 @@ namespace TurboLabz.InstantFramework
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
                 inboxAddMessagesSignal.Dispatch();
+            }
+            else
+            {
+                inboxEmptySignal.Dispatch();
             }
 
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
