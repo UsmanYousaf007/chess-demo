@@ -171,7 +171,7 @@ namespace TurboLabz.InstantFramework
         start_tournament,
         tap_notification,
         tournament_start_location,
-        champiionship_finish_rank,
+        championship_finish_rank,
         current_league,
         engaged_finish_rank,
         trophies_earned,
