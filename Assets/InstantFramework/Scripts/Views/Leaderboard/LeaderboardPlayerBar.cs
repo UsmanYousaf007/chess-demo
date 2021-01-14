@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         public Button chestButton;
         public Image chestImage;
         public Image gemImage;
+        public Image trophyImage;
         public Image flagImage;
         public TMP_Text rewardText;
 
@@ -39,33 +40,33 @@ namespace TurboLabz.InstantFramework
 
             playerRankCountText.text = _entry.rank.ToString();
             trophiesRewardCountText.text = entryReward.trophies.ToString();
+            playerScoreCountText.text = _entry.score.ToString();
+            rewardText.text = entryReward.gems.ToString();
 
+            // Playar Name
             playerNameText.text = !isPlayer ? _entry.publicProfile.name : "You";
             playerNameText.gameObject.SetActive(true);
-            //playerPanel.SetActive(isPlayer);
 
-            playerScoreCountText.text = _entry.score.ToString();
+            // Trophies
+            trophiesRewardCountText.gameObject.SetActive(entryReward.trophies != 0);
+            trophyImage.gameObject.SetActive(entryReward.trophies != 0);
+
+            // Gems
+            rewardText.gameObject.SetActive(entryReward.gems != 0);
+            gemImage.gameObject.SetActive(entryReward.gems != 0);
 
             profile.gameObject.SetActive(true);
             profile.UpdateView(_entry.publicProfile);
 
-            if (entryReward.chestType == null || entryReward.chestType == "")
-            {
-                chestImage.enabled = false;
-                chestButton.interactable = false;
-                rewardText.text = "X" + entryReward.gems;
-            }
-            else
-            {
-                ChestIconsContainer container = ChestIconsContainer.Load();
-                chestImage.sprite = container.GetChest(entryReward.chestType);
-                chestImage.enabled = true;
-                chestButton.interactable = true;
-                rewardText.text = "Level " + entryReward.quantity;
-            }
+            // Chest
+            chestImage.gameObject.SetActive(false);
+            chestImage.enabled = false;
+            chestButton.interactable = false;
 
+            // Rank
             SetRankIcon(_entry.rank);
-            //skinLink.InitPrefabSkin();
+
+            skinLink.InitPrefabSkin();
         }
 
         public void Populate(AllStarLeaderboardEntry entry, bool isPlayer)
@@ -93,48 +94,31 @@ namespace TurboLabz.InstantFramework
             }
 
             SetRankIcon(entry.rank);
-            //skinLink.InitPrefabSkin();
+            skinLink.InitPrefabSkin();
         }
 
         private void SetRankIcon(int rank)
         {
-            rankIcon.enabled = true;
-            playerRankCountText.enabled = false;
-
-            if (gemImage != null)
-            {
-                gemImage.enabled = false;
-            }
-            if (chestImage != null)
-            {
-                chestImage.enabled = true;
-            }
+            rankIcon.enabled = false;
+            playerRankCountText.enabled = true;
 
             if (rank == 1)
             {
+                rankIcon.enabled = true;
                 rankIcon.sprite = rankSprites[rank - 1];
+                playerRankCountText.enabled = false;
             }
             else if (rank == 2)
             {
+                rankIcon.enabled = true;
                 rankIcon.sprite = rankSprites[rank - 1];
+                playerRankCountText.enabled = false;
             }
             else if (rank == 3)
             {
+                rankIcon.enabled = true;
                 rankIcon.sprite = rankSprites[rank - 1];
-            }
-            else
-            {
-                rankIcon.enabled = false;
-                playerRankCountText.enabled = true;
-
-                if (gemImage != null)
-                {
-                    gemImage.enabled = true;
-                }
-                if (chestImage != null)
-                {
-                    chestImage.enabled = false;
-                }
+                playerRankCountText.enabled = false;
             }
         }
     }

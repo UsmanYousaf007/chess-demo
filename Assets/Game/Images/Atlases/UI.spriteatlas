@@ -44,7 +44,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 30929813
+    totalSpriteSurfaceArea: 29260112
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -286,6 +286,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 39b485762c5bb4909a4895da772b87cc, type: 3}
   - {fileID: 21300000, guid: b2eccf76e6ffb476699db71a4f2f06ed, type: 3}
   - {fileID: 21300000, guid: 7c9641864158e4cacb9aa4f929b05a3d, type: 3}
+  - {fileID: 21300000, guid: 0a74a786d9eac4dd6971cf49a085c7a5, type: 3}
   - {fileID: 21300000, guid: dca0ac8683abd4a0eb653a3985584b0a, type: 3}
   - {fileID: 21300000, guid: c4bc5f86735e34167975b5292331552b, type: 3}
   - {fileID: 21300000, guid: 4448f3b6c000e499591f4d213dd68bbc, type: 3}
@@ -350,6 +351,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 246cf4781d8674d80b79f114a62b53e9, type: 3}
   - {fileID: 21300000, guid: a671fb788740a4e29a23369e16c2b329, type: 3}
   - {fileID: 21300000, guid: d2a64188ef4ee46babfec152997e0a53, type: 3}
+  - {fileID: 21300000, guid: 9420c488ad82642fd8de9d3825e6fe05, type: 3}
   - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
   - {fileID: 21300000, guid: 468b8898a93cd4f2fafa81bbf132b495, type: 3}
   - {fileID: 21300000, guid: fbfbc1a808c6845a592c2d77fd679892, type: 3}
@@ -545,12 +547,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a23d073eac15343b6b62e8d18a3fbe72, type: 3}
   - {fileID: 21300000, guid: 8052434e060894b4a92cbc310d430f8e, type: 3}
   - {fileID: 21300000, guid: beebc64e92fbe40e096549c6aea1edb0, type: 3}
+  - {fileID: 21300000, guid: 2d4a584e80e7e4c0d9273e4b78acbe89, type: 3}
   - {fileID: 21300000, guid: 200fb25e4bd2141bbb34a82192f909a6, type: 3}
   - {fileID: 21300000, guid: 8038f85e7ccfe42338ac791b2f544f55, type: 3}
   - {fileID: 21300000, guid: 7220a37e96f94412f9e345436efd82b1, type: 3}
   - {fileID: 21300000, guid: 986ea18e933c245c9996dca5d474e818, type: 3}
   - {fileID: 21300000, guid: 8cb6798ee9b204d2db8869ca10b7c91c, type: 3}
-  - {fileID: 21300000, guid: af66509e55a1945bb9cb937014e434f5, type: 3}
   - {fileID: 21300000, guid: da3d97ae6608d4bdd93b50da39ac6162, type: 3}
   - {fileID: 21300000, guid: 6a8697be8231c46b395a645b18af4804, type: 3}
   - {fileID: 21300000, guid: 2905b1de90480410d975d3615550d78d, type: 3}
@@ -826,6 +828,7 @@ SpriteAtlas:
   - TryMoveBoardBorder
   - CoachIcon
   - AudioOff
+  - StripTxtre
   - GreenBox
   - SavingsTag
   - GradientSilverText
@@ -890,6 +893,7 @@ SpriteAtlas:
   - LessonCompletedPromoGraphic
   - CheckerBoardButtonBg
   - LoginGraphic
+  - StripDarkShine
   - DefeatIcon
   - BankIcon
   - TrophyIconClr
@@ -1085,12 +1089,12 @@ SpriteAtlas:
   - StarEmpty
   - DrawAcceptBtn
   - rank-1-strip
+  - StripSheen
   - DiscordIcon
   - RewardBtnDefeat
   - PremiumBorderIcon
   - InstantBuyRedBtn
   - RulesIcon
-  - lobbyref
   - 2-main_title
   - KingCheckIndicator
   - 6

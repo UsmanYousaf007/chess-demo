@@ -534,11 +534,11 @@ namespace TurboLabz.InstantFramework
 
                 #region TournamentItem
 
-                { LocalizationKey.LEADERBOARD_WORLD, "WORLD"},
+                { LocalizationKey.LEADERBOARD_WORLD, "ALL STARS"},
                 { LocalizationKey.LEADERBOARD_CHAMPIONSHIP, "CHAMPIONSHIP"},
                 { LocalizationKey.LEADERBOARD_RANK, "Rank"},
-                { LocalizationKey.LEADERBOARD_REWARDS, "Winnings"},
-                { LocalizationKey.LEADERBOARD_WINNINGS, "Rewards"},
+                { LocalizationKey.LEADERBOARD_REWARDS, "Rewards"},
+                { LocalizationKey.LEADERBOARD_WINNINGS, "Total Winnings"},
 
                 #endregion
 
