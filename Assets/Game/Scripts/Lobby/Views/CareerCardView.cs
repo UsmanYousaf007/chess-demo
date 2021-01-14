@@ -205,7 +205,7 @@ namespace TurboLabz.InstantFramework
             bettingMinus.interactable = !firstBettingIndex;
 
             minimumBetReached = bettingIndex <= minimumBettingIndex;
-            bettingMinus.image.color = minimumBetReached ? Colors.DISABLED_WHITE : Color.white;
+            bettingMinus.image.color = minimumBetReached ? new Color(1f, 1f, 1f, 128f / 255f) : Color.white;
 
             bettingValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex]);
         }
