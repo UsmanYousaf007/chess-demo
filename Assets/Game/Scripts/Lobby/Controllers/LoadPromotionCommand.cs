@@ -31,7 +31,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
 
-        private const int TOTAL_PROMOTIONS = 5;
+        private const int TOTAL_PROMOTIONS = 4;
         private static List<PromotionVO> promotionCycle;
         private static bool isUpdateBannerShown;
 
@@ -145,7 +145,7 @@ namespace TurboLabz.InstantGame
         {
             var coinsBanner = new PromotionVO
             {
-                cycleIndex = 1,
+                cycleIndex = 6,
                 key = LobbyPromotionKeys.COINS_BANNER,
                 analyticsContext = AnalyticsContext.lobby_out_of_coins,
                 condition = delegate
@@ -254,28 +254,28 @@ namespace TurboLabz.InstantGame
                 }
             };
 
-            var rewardsBanner = new PromotionVO
-            {
-                cycleIndex = 5,
-                key = LobbyPromotionKeys.REWARDS_BANNER,
-                analyticsContext = AnalyticsContext.lobby_collect_rewards,
-                condition = delegate
-                {
-                    return true;
-                },
-                onClick = delegate 
-                {
-                    audioService.PlayStandardClick();
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
-                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_collect_rewards);
-                }
-            };
+            //var rewardsBanner = new PromotionVO
+            //{
+            //    cycleIndex = 5,
+            //    key = LobbyPromotionKeys.REWARDS_BANNER,
+            //    analyticsContext = AnalyticsContext.lobby_collect_rewards,
+            //    condition = delegate
+            //    {
+            //        return true;
+            //    },
+            //    onClick = delegate 
+            //    {
+            //        audioService.PlayStandardClick();
+            //        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
+            //        analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_collect_rewards);
+            //    }
+            //};
 
             promotionCycle.Add(adsBanner);
             promotionCycle.Add(lessonsBanner);
             promotionCycle.Add(themesBanner);
             promotionCycle.Add(subscriptionBanner);
-            promotionCycle.Add(rewardsBanner);
+            //promotionCycle.Add(rewardsBanner);
         }
 
         IEnumerator LoadNextPromotionAfter(float seconds)
