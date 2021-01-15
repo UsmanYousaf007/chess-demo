@@ -112,7 +112,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                inboxEmptySignal.Dispatch();
+                //inboxEmptySignal.Dispatch();
             }
 
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
