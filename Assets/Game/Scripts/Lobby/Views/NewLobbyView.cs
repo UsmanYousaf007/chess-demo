@@ -6,9 +6,9 @@
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using UnityEngine.UI;
-using FM.Legacy;
 using System.Collections;
 using DG.Tweening;
+using DanielLochner.Assets.SimpleScrollSnap;
 
 namespace TurboLabz.InstantFramework
 {
@@ -26,51 +26,58 @@ namespace TurboLabz.InstantFramework
         public Transform topBar;
         public Transform ticker;
         public Transform bottomNav;
-
-        public Scaler[] carouselItems;
-        public Scroller carousel;
+        public SimpleScrollSnap carousel;
         public Image[] glow;
+        public Canvas canvas;
+
         private Coroutine animationCR;
+        private bool isInitialized;
 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
         {
-            carousel.Setup();
-
-            foreach (var item in carouselItems)
-            {
-                item.Setup();
-            }
-
-            Scroller.OnSettled += StartAnimation;
-            Scroller.CancelAnimation += CancelAnimation;
-
-            glow[carousel.GetCurrentItem()].DOFade(1, 1);
-
+            glow[1].DOFade(1, 1);
+            carousel.onPanelChanged.AddListener(StartAnimation);
             //HandleNotch();
         }
 
         public void Show()
         {
-            Reset();
             gameObject.SetActive(true);
+            StartCoroutine(CarouselInit());
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            StartCoroutine(Reset());
         }
 
-        private void Reset()
+        private IEnumerator CarouselInit()
         {
-            carousel.Reset();
-
-            foreach (var item in carouselItems)
+            if (!isInitialized)
             {
-                item.Reset();
+                canvas.enabled = false;
+                carousel.ForceInitialize();
+                yield return new WaitForEndOfFrame();
+                carousel.GoToNextPanel(true);
+                yield return new WaitForEndOfFrame();
+                carousel.GoToPreviousPanel(true);
+                yield return new WaitForEndOfFrame();
+                isInitialized = true;
+                canvas.enabled = true;
             }
+
+            glow[carousel.PreviousPanel].DOFade(0, 1);
+            glow[1].DOFade(1, 1);
+        }
+
+        private IEnumerator Reset()
+        {
+            carousel.GoToPanel(1, true);
+            yield return new WaitForEndOfFrame();
+            gameObject.SetActive(false);
         }
 
         public void StartAnimation()
@@ -94,8 +101,8 @@ namespace TurboLabz.InstantFramework
         IEnumerator Animate()
         {
             yield return new WaitForSeconds(1);
-            glow[carousel.GetLastItem()].DOFade(0, 1);
-            glow[carousel.GetCurrentItem()].DOFade(1, 1);
+            glow[carousel.PreviousPanel].DOFade(0, 1);
+            glow[carousel.TargetPanel].DOFade(1, 1);
         }
 
         public bool IsVisible()

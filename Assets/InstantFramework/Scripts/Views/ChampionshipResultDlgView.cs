@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [SerializeField] private Text playerTitleLabel;
         [SerializeField] private Image playerTitleImg;
         [SerializeField] protected Button continueButton;
+        [SerializeField] protected Text continueButtonText;
         [SerializeField] private Transform championshipLeaderboardListContainer;
         [SerializeField] protected GameObject championshipLeaderboardPlayerBarPrefab;
         [SerializeField] private ScrollRect scrollView;
@@ -44,7 +45,10 @@ namespace TurboLabz.InstantFramework
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
             headingText.text = "Last Week Standings";
-            continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());
+            continueButton.onClick.AddListener(() => {
+                audioService.PlayStandardClick();
+                continueBtnClickedSignal.Dispatch();
+                    });
         }
 
         public virtual void Show()
@@ -61,6 +65,19 @@ namespace TurboLabz.InstantFramework
         {
             PopulateEntries(playerId, joinedTournament);
             Sort();
+        }
+
+        public void UpdateContinueButtonText(bool playerRewarded)
+        {
+            /// TODO: Add localizaztion here.
+            if (playerRewarded)
+            {
+                continueButtonText.text = "Collect Reward";
+            }
+            else
+            {
+                continueButtonText.text = "Continue";
+            }
         }
 
         public void ResetView()

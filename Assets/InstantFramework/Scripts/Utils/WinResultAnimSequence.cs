@@ -161,6 +161,8 @@ public class WinResultAnimSequence : MonoBehaviour
             _ratingBoosterBtn.interactable = true;
             _continueBtn.interactable = true;
 
+            _animator.enabled = false;
+
             TweenInCrossPromo();
         }
     }
@@ -171,6 +173,8 @@ public class WinResultAnimSequence : MonoBehaviour
         _crossPromoBtnObj.SetActive(true);
         _ratingBoosterBtn.interactable = true;
         _continueBtn.interactable = true;
+
+        _animator.enabled = false;
 
         TweenInCrossPromo();
     }

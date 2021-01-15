@@ -107,6 +107,7 @@ namespace TurboLabz.Multiplayer
         private StoreItem rewardDoublerStoreItem;
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
+        private bool animationPlayed = false;
 
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         
@@ -198,8 +199,11 @@ namespace TurboLabz.Multiplayer
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
 
-            _winAnimationSequence.Reset(playerWins? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
-            
+            if (!animationPlayed)
+            {
+                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
+            }
+
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
 
@@ -426,9 +430,10 @@ namespace TurboLabz.Multiplayer
 
         private void OnAnimateResultsComplete()
         {
-            if (playerWins)
+            if (playerWins && !animationPlayed)
             {
                 _winAnimationSequence.PlayAnimation();
+                animationPlayed = true;
             }
         }
 
@@ -530,6 +535,8 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             audioService.PlayStandardClick();
+            animationPlayed = false;
+
             ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 

@@ -59,8 +59,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnCollectButtonClicked()
         {
-            backendService.InBoxOpCollect(_dailyRewardVO.msgId);
-            OnRewardCollected(false);
+            backendService.InBoxOpCollect(_dailyRewardVO.msgId).Then((res) => OnRewardCollected(false));
         }
 
         private void OnCollect2xButtonClicked()

@@ -29,6 +29,10 @@ namespace TurboLabz.InstantFramework
             {
                 backendService.GetAllStarLeaderboard().Then(OnGetComplete);
             }
+            else
+            {
+                updateAllStarLeaderboardSignal.Dispatch();
+            }
         }
 
         private void OnGetComplete(BackendResult result)

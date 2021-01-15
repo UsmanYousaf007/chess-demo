@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
+        private bool _playerRewarded = false;
 
         public override void OnRegister()
         {
@@ -61,6 +62,20 @@ namespace TurboLabz.InstantFramework
         public void UpdateReward(RewardDlgVO vo)
         {
             _rewardVO = vo;
+
+            bool playerRewarded = false;
+            for (int i = 0; i < _rewardVO.rewardQty.Count; i++)
+            {
+                if (_rewardVO.rewardQty[i] > 0)
+                {
+                    playerRewarded = true;
+                    break;
+                }
+            }
+
+            view.UpdateContinueButtonText(playerRewarded);
+
+            _playerRewarded = playerRewarded;
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -68,19 +83,19 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                if (joinedTournament == null)
-                {
-                    backendService.TournamentsOpGetJoinedTournaments();
-                }
-                else if (joinedTournament != null && joinedTournament.entries.Count > 0)
-                {
-                    view.UpdateView(playerModel.id, joinedTournament);
-                }
-                else
-                {
-                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
-                }
+                //JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                //if (joinedTournament == null)
+                //{
+                //    backendService.TournamentsOpGetJoinedTournaments();
+                //}
+                //else if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                //{
+                //    view.UpdateView(playerModel.id, joinedTournament);
+                //}
+                //else
+                //{
+                //    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                //}
 
                 view.UpdateRank(playerModel, tournamentsModel);
                 view.Show();
@@ -107,10 +122,14 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             _rewardVO.onCloseSignal?.Dispatch();
 
-            // Dispatch rewards sequence signal here
-            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
-            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            if (_playerRewarded)
+            {
+                // Dispatch rewards sequence signal here
+                RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
+                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+                _playerRewarded = false;
+            }
 
             JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament();
             tournamentsModel.RemoveFromJoinedTournament(joinedTournamentData.id);

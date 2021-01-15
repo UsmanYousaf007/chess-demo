@@ -263,6 +263,11 @@ namespace TurboLabz.InstantFramework
                     continue;
                 }
 
+                if (bar.isSearched)
+                {
+                    bar.removeCommunityFriendButton.gameObject.SetActive(false);
+                }
+
                 if (entry.Value.isOnline)
                 {
                     searchedOnline.Add(bar);
