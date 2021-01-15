@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
 
                 // Public profile
                 leaderboardEntry.publicProfile = new PublicProfile();
+                leaderboardEntry.publicProfile.playerId = entry.JSONData["userId"].ToString();
                 leaderboardEntry.publicProfile.name = entry.JSONData["Name"].ToString();
                 leaderboardEntry.publicProfile.countryId = entry.JSONData["CountryId"].ToString();
                 leaderboardEntry.publicProfile.league = int.Parse(entry.JSONData["League"].ToString());

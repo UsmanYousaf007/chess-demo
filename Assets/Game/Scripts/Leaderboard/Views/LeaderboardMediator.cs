@@ -1,5 +1,7 @@
 ﻿using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TurboLabz.InstantFramework
 {
@@ -19,6 +21,8 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetAllStarLeaderboardSignal getAllStarLeaderboardSignal { get; set; }
+        [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
+
         //[Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
         public override void OnRegister()
@@ -26,6 +30,12 @@ namespace TurboLabz.InstantFramework
             view.Init();
 
             view.backSignal.AddListener(OnBackPressed);
+            view.loadPictureSignal.AddListener(OnLoadPicture);
+        }
+
+        private void OnLoadPicture(GetProfilePictureVO vo)
+        {
+            getProfilePictureSignal.Dispatch(vo);
         }
 
         [ListensTo(typeof(UpdateTournamentsViewSignal))]
@@ -34,6 +44,15 @@ namespace TurboLabz.InstantFramework
             if (view.gameObject.activeInHierarchy)
             {
                 view.UpdateView(tournamentsModel.GetJoinedTournament());
+            }
+        }
+
+        [ListensTo(typeof(ProfilePictureLoadedSignal))]
+        public void OnPictureLoaded(string playerId, Sprite picture)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdatePicture(playerId, picture);
             }
         }
 

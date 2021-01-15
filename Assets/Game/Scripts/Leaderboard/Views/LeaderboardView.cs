@@ -133,6 +133,26 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void UpdatePicture(string playerId, Sprite picture)
+        {
+            var playerBar = (from bar in championshipleaderboardPlayerBars
+                             where bar.profile.playerId.Equals(playerId)
+                             select bar).FirstOrDefault();
+
+            var playerBarAllStar = (from bar in allStarPlayerBars
+                             where bar.profile.playerId.Equals(playerId)
+                             select bar).FirstOrDefault();
+
+            if (playerBar != null)
+            {
+                playerBar.profile.SetProfilePicture(picture);
+            }
+            if (playerBarAllStar != null)
+            {
+                playerBarAllStar.profile.SetProfilePicture(picture);
+            }
+        }
+
         public void UpdateLeague()
         {
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
