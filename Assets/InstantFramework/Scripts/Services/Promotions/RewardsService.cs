@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,6 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
         [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
         [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
+        [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
@@ -34,7 +36,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IRateAppService rateAppService { get; set; }
 
         private bool isPromotionShownOnStart;
-        private Stack<string> rewards;
+        private Dictionary<string, string> rewards;
+        private bool outOfCoinsPopupShown;
+        private bool isDailyRewardDlgShown;
+        private string[] rewardsPriority = { "RewardDailyLeague", "RewardLeaguePromotion", "RewardTournamentEnd" };
 
         [PostConstruct]
         public void PostConstruct()
@@ -48,7 +53,9 @@ namespace TurboLabz.InstantFramework
         private void Init()
         {
             isPromotionShownOnStart = false;
-            rewards = new Stack<string>();
+            outOfCoinsPopupShown = false;
+            isDailyRewardDlgShown = false;
+            rewards = new Dictionary<string, string>();
         }
 
         private void SetPomotionFlag()
@@ -74,9 +81,40 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            var rewardKey = rewards.FirstOrDefault().Key;
+
+            foreach (var reward in rewardsPriority)
+            {
+                if (rewards.ContainsValue(reward))
+                {
+                    if (reward.Equals("RewardDailyLeague"))
+                    {
+                        if (!isDailyRewardDlgShown)
+                        {
+                            isDailyRewardDlgShown = true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    rewardKey = GetRewardKeyByValue(reward);
+                    break;
+                }
+            }
+
+            rewards.Remove(rewardKey);
             var onCloseSignal = new Signal();
             onCloseSignal.AddListener(LoadDailyReward);
-            loadRewardDlgViewSignal.Dispatch(rewards.Pop(), onCloseSignal);
+            loadRewardDlgViewSignal.Dispatch(rewardKey, onCloseSignal);
+        }
+
+        private string GetRewardKeyByValue(string value)
+        {
+            return (from r in rewards
+                    where r.Value.Equals(value)
+                    select r).FirstOrDefault().Key;
         }
 
         private void SetupRewards()
@@ -87,12 +125,26 @@ namespace TurboLabz.InstantFramework
             {
                 if (TimeUtil.unixTimestampMilliseconds >= msg.Value.startTime)
                 {
-                    rewards.Push(msg.Key);
+                    rewards.Add(msg.Key, msg.Value.type);
                 }
             }
         }
 
         private void OnRewardsOver()
+        {
+            if (metaDataModel.ShowChampionshipNewRankDialog)
+            {
+                metaDataModel.ShowChampionshipNewRankDialog = false;
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+                rankPromotedDlgClosedSignal.AddOnce(ShowRateUsPopup);
+            }
+            else
+            {
+                ShowRateUsPopup();
+            }
+        }
+
+        private void ShowRateUsPopup()
         {
             if (rateAppService.CanShowRateDialogue())
             {
@@ -107,8 +159,9 @@ namespace TurboLabz.InstantFramework
 
         private void ShowOutOfCoinsPopup()
         {
-            if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0])
+            if (playerModel.coins < metaDataModel.settingsModel.bettingIncrements[0] && !outOfCoinsPopupShown)
             {
+                outOfCoinsPopupShown = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
                 updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
             }
