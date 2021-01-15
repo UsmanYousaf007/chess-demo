@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -36,6 +37,14 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
+            StartCoroutine(HideWithDelay());
+        }
+
+        IEnumerator HideWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
             gameObject.SetActive(false);
 
             GameObject originalSplash = GameObject.FindGameObjectWithTag("OriginalSplash");

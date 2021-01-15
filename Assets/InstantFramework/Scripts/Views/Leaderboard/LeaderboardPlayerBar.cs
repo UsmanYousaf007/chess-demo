@@ -79,18 +79,11 @@ namespace TurboLabz.InstantFramework
             playerScoreCountText.text = entry.score.ToString();
 
             profile.gameObject.SetActive(true);
-
-            PublicProfile profileVO = new PublicProfile();
-            profileVO.countryId = entry.countryId;
-            profileVO.playerId = entry.playerId;
-            profileVO.league = entry.league;
-            profileVO.name = entry.name;
-            profileVO.uploadedPicId = entry.uploadedPicId;
-            profile.UpdateView(profileVO);
+            profile.UpdateView(entry.publicProfile);
 
             if (flagImage != null)
             {
-                flagImage.sprite = Flags.GetFlag(entry.countryId);
+                flagImage.sprite = Flags.GetFlag(entry.publicProfile.countryId);
             }
 
             SetRankIcon(entry.rank);

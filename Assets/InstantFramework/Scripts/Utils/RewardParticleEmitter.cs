@@ -5,12 +5,22 @@
 /// Proprietary and confidential
 
 using UnityEngine;
+using DG.Tweening;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 
-public class RewardParticleEmitter : MonoBehaviour
+public class RewardParticleEmitter : View
 {
     public GameObject rewardParticlePrefab;
     public int numParticles;
     public GameObject targetObject;
+
+    public float spreadTime;
+
+    public AudioClip spreadSFX;
+    public AudioClip travelSFX;
+
+    public Signal<AudioClip> playSFXSignal = new Signal<AudioClip>();
 
     public void PlayFx(int a_numParticles)
     {
@@ -20,6 +30,8 @@ public class RewardParticleEmitter : MonoBehaviour
 
     public void PlayFx()
     {
+        PlaySequence();
+
         for (int i = 0; i < numParticles; i++)
         {
             GameObject rewardParticle = GameObject.Instantiate(rewardParticlePrefab, gameObject.transform);
@@ -27,5 +39,14 @@ public class RewardParticleEmitter : MonoBehaviour
             rewardParticleScript.targetObject = targetObject;
             rewardParticle.SetActive(true);
         }
+    }
+
+    void PlaySequence()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendCallback(() => playSFXSignal.Dispatch(spreadSFX));
+        sequence.AppendInterval(spreadTime);
+        sequence.AppendCallback(() => playSFXSignal.Dispatch(travelSFX));
+        sequence.PlayForward();
     }
 }

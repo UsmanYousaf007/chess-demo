@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
 using System.Linq;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,6 +36,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
+        [Inject] public IRoutineRunner routineRunner { get; set; }
 
         private bool isPromotionShownOnStart;
         private Dictionary<string, string> rewards;
@@ -136,12 +139,23 @@ namespace TurboLabz.InstantFramework
             {
                 metaDataModel.ShowChampionshipNewRankDialog = false;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
-                rankPromotedDlgClosedSignal.AddOnce(ShowRateUsPopup);
+                rankPromotedDlgClosedSignal.AddOnce(ShowRateUsPopupAsync);
             }
             else
             {
                 ShowRateUsPopup();
             }
+        }
+
+        private void ShowRateUsPopupAsync()
+        {
+            routineRunner.StartCoroutine(ShowRateUsPopupWithDelay());
+        }
+
+        IEnumerator ShowRateUsPopupWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            ShowRateUsPopup();
         }
 
         private void ShowRateUsPopup()

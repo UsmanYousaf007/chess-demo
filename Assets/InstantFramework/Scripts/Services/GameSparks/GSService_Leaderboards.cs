@@ -21,6 +21,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnGetLeaderboardSuccess(object r, Action<object> a)
         {
+            /*
+            "Score": score,
+            "Name": publicProfile.name,
+            "CountryId": publicProfile.countryId,
+            "League": publicProfile.league,
+            "FbId": publicProfile.externalIds['FB'],
+            "UploadedPicId": publicProfile.uploadedPicId,
+            "AvatarId": avatarId,
+            "AvatarBgColorId": avatarBgColorId
+            */
+
             LeaderboardDataResponse response = (LeaderboardDataResponse)r;
             
             if (response.HasErrors)
@@ -32,14 +43,25 @@ namespace TurboLabz.InstantFramework
             foreach (LeaderboardDataResponse._LeaderboardData entry in response.Data)
             {
                 AllStarLeaderboardEntry leaderboardEntry = new AllStarLeaderboardEntry();
+
+                leaderboardEntry.score = int.Parse(entry.JSONData["Score"].ToString());
                 leaderboardEntry.playerId = entry.JSONData["userId"].ToString();
                 leaderboardEntry.rank = (int)entry.Rank;
-                leaderboardEntry.score = int.Parse(entry.JSONData["Score"].ToString());
-                leaderboardEntry.uploadedPicId = entry.JSONData["DpUrl"].ToString();
-                leaderboardEntry.name = entry.JSONData["Name"].ToString();
-                leaderboardEntry.countryId = entry.JSONData["Flag"].ToString();
-                leaderboardEntry.league = int.Parse(entry.JSONData["League"].ToString());
-                leaderboardEntry.facebookUserId = entry.JSONData["FbId"]?.ToString();
+
+                // Public profile
+                leaderboardEntry.publicProfile = new PublicProfile();
+                leaderboardEntry.publicProfile.name = entry.JSONData["Name"].ToString();
+                leaderboardEntry.publicProfile.countryId = entry.JSONData["CountryId"].ToString();
+                leaderboardEntry.publicProfile.league = int.Parse(entry.JSONData["League"].ToString());
+                leaderboardEntry.publicProfile.facebookUserId = entry.JSONData["FbId"]?.ToString();
+                leaderboardEntry.publicProfile.avatarBgColorId = entry.JSONData["AvatarBgColorId"]?.ToString();
+                leaderboardEntry.publicProfile.uploadedPicId = entry.JSONData["UploadedPicId"].ToString();
+                leaderboardEntry.publicProfile.avatarId = entry.JSONData["AvatarId"]?.ToString();
+
+                leaderboardEntry.name = leaderboardEntry.publicProfile.name;
+
+                var leagueAssets = tournamentsModel.GetLeagueSprites(leaderboardEntry.publicProfile.league.ToString());
+                leaderboardEntry.publicProfile.leagueBorder = leagueAssets != null ? leagueAssets.ringSprite : null;
 
                 leaderboardModel.allStarLeaderboardEntries.Add(leaderboardEntry);
             }
