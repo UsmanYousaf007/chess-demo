@@ -30,6 +30,9 @@ namespace TurboLabz.InstantFramework
         public LeaderboardTab world;
         public GameObject worldAlert;
 
+        public ScrollRect scrollRectChampionship;
+        public ScrollRect scrollRectAllStars;
+
         public Text playerTitleLabel;
         public Text countdownTimerText;
         public Image playerTitleImg;
@@ -115,6 +118,15 @@ namespace TurboLabz.InstantFramework
             StartCoroutine(CountdownTimer());
         }
 
+        private void UpdateScrollViewChampionship(float value)
+        {
+            scrollView.verticalNormalizedPosition = value;
+        }
+        private void UpdateScrollViewAllStar(float value)
+        {
+            scrollView.verticalNormalizedPosition = value;
+        }
+
         public void Hide()
         {
             StopCoroutine(CountdownTimer());
@@ -184,10 +196,35 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            int playerIndex = -1;
+
             for (int i = 0; i < joinedTournament.entries.Count; i++)
             {
                 PopulateBar(championshipleaderboardPlayerBars[i], joinedTournament.entries[i], joinedTournament.rewardsDict[i + 1]);
+
+                if (joinedTournament.entries[i].publicProfile.playerId == playerModel.id)
+                {
+                    playerIndex = i;
+                }
             }
+
+            if (playerIndex == -1)
+            {
+                scrollRectAllStars.verticalNormalizedPosition = 1.0f;
+            }
+            else
+            {
+                float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
+                iTween.ValueTo(gameObject,
+                    iTween.Hash(
+                    "from", target,
+                    "to", target,
+                    "time", 0.1f,
+                    "onupdate", "UpdateScrollViewAllStar",
+                    "onupdatetarget", gameObject
+                    ));
+            }
+
         }
 
         public void PopulateEntries(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
@@ -203,9 +240,33 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            int playerIndex = -1;
+
             for (int i = 0; i < allStarLeaderboardEntries.Count; i++)
             {
                 PopulateBar(allStarPlayerBars[i], allStarLeaderboardEntries[i]);
+
+                if (allStarLeaderboardEntries[i].publicProfile.playerId == playerModel.id)
+                {
+                    playerIndex = i;
+                }
+            }
+
+            if (playerIndex == -1)
+            {
+                scrollRectAllStars.verticalNormalizedPosition = 1.0f;
+            }
+            else
+            {
+                float target = 1.0f - ((((float)playerIndex+1) / (float)allStarLeaderboardEntries.Count));
+                iTween.ValueTo(gameObject,
+                    iTween.Hash(
+                    "from", target,
+                    "to", target,
+                    "time", 0.1f,
+                    "onupdate", "UpdateScrollViewAllStar",
+                    "onupdatetarget", gameObject
+                    ));
             }
         }
 
@@ -263,8 +324,6 @@ namespace TurboLabz.InstantFramework
             {
                 leaderboardPlayerBars[i].transform.SetSiblingIndex(index++);
             }
-
-            scrollView.verticalNormalizedPosition = 1;
         }
 
         private LeaderboardPlayerBar AddPlayerBar(GameObjectsPool pool, Transform parent)
