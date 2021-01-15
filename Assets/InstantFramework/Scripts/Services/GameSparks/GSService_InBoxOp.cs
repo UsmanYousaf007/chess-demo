@@ -202,6 +202,11 @@ namespace TurboLabz.InstantFramework
                 updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
             }
 
+            if (inboxModel.items == null || inboxModel.items.Count == 0)
+            {
+                inboxEmptySignal.Dispatch();
+            }
+
             inboxFetchingMessagesSignal.Dispatch(false);
         }
 
