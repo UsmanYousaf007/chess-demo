@@ -47,8 +47,9 @@ namespace TurboLabz.InstantGame
                 vo = BuildVORewardRewardTournamentEnd(inboxMessageId);
 
                 vo.msgId = inboxMessageId;
+                vo.tournamentId = msg.tournamentId;
                 vo.onCloseSignal = onCloseSignal;
-                getJoinedTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
+                //getJoinedTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_RESULT_DLG);
                 updateChampionshipResultDlgViewSignal.Dispatch(vo);
 

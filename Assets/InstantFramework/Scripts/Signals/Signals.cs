@@ -253,4 +253,6 @@ namespace TurboLabz.InstantFramework
     public class GetAllStarLeaderboardSignal : Signal { }
     public class UpdateAllStarLeaderboardSignal : Signal { }
     public class UpdateTimeSelectDlgSignal : Signal<long> { }
+
+    public class StartLobbyChampionshipTimerSignal : Signal { }
 }

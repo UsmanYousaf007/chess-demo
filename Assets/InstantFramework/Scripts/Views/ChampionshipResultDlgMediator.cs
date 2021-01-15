@@ -40,14 +40,13 @@ namespace TurboLabz.InstantFramework
         {
             if (view.gameObject.activeInHierarchy)
             {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                if (_rewardVO != null)
                 {
-                    view.UpdateView(playerModel.id, joinedTournament);
-                }
-                else
-                {
-                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                    JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament(_rewardVO.tournamentId);
+                    if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                    {
+                        view.UpdateView(playerModel.id, joinedTournament);
+                    }
                 }
             }
         }
@@ -62,6 +61,8 @@ namespace TurboLabz.InstantFramework
         public void UpdateReward(RewardDlgVO vo)
         {
             _rewardVO = vo;
+
+            getChampionshipTournamentLeaderboardSignal.Dispatch(_rewardVO.tournamentId, false);
 
             bool playerRewarded = false;
             for (int i = 0; i < _rewardVO.rewardQty.Count; i++)
@@ -83,23 +84,8 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_RESULT_DLG)
             {
-                //JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                //if (joinedTournament == null)
-                //{
-                //    backendService.TournamentsOpGetJoinedTournaments();
-                //}
-                //else if (joinedTournament != null && joinedTournament.entries.Count > 0)
-                //{
-                //    view.UpdateView(playerModel.id, joinedTournament);
-                //}
-                //else
-                //{
-                //    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
-                //}
-
-                view.UpdateRank(playerModel, tournamentsModel);
+                view.UpdateLeagueTitle(playerModel, tournamentsModel);
                 view.Show();
-                //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }
 
@@ -131,17 +117,18 @@ namespace TurboLabz.InstantFramework
                 _playerRewarded = false;
             }
 
-            JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament();
-            tournamentsModel.RemoveFromJoinedTournament(joinedTournamentData.id);
+            JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament(_rewardVO.tournamentId);
 
             LogTournamentEndAnalytics(joinedTournamentData);
+
+            tournamentsModel.RemoveFromJoinedTournament(_rewardVO.tournamentId);
 
             backendService.TournamentsOpGetJoinedTournaments();
         }
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)
         {
-            var earnedTrophies = data.rewardsDict[data.rank].trophies;
+            var earnedTrophies = data.rewardsDict[data.rank] == null ? 0 : data.rewardsDict[data.rank].trophies;
             var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
             analyticsService.Event($"{AnalyticsEventId.championship_finish_rank}_{leagueName}", AnalyticsParameter.context, GetRankContext(data.rank));
 

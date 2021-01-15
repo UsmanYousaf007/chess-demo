@@ -57,7 +57,7 @@ namespace TurboLabz.InstantFramework
                     getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
                 }
 
-                view.UpdateRank(playerModel, tournamentsModel);
+                view.UpdateLeagueTitle(playerModel, tournamentsModel);
                 view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }

@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
             scrollView.verticalNormalizedPosition = 1;
         }
 
-        public void UpdateRank(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
+        public void UpdateLeagueTitle(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
         {
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (playerModel.league == 0)
