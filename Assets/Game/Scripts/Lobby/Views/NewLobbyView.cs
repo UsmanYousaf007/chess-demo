@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            carousel.ForceInitialize();
             glow[1].DOFade(1, 1);
             carousel.onPanelChanged.AddListener(StartAnimation);
             //HandleNotch();
@@ -59,12 +60,10 @@ namespace TurboLabz.InstantFramework
             if (!isInitialized)
             {
                 canvas.enabled = false;
-                carousel.ForceInitialize();
                 yield return new WaitForEndOfFrame();
                 carousel.GoToNextPanel(true);
                 yield return new WaitForEndOfFrame();
                 carousel.GoToPreviousPanel(true);
-                yield return new WaitForEndOfFrame();
                 isInitialized = true;
                 canvas.enabled = true;
             }

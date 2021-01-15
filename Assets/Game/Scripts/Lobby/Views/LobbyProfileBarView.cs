@@ -97,7 +97,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                leaderboardTimer.text = "Awaiting Results";
+                leaderboardTimer.text = "0s";
             }
 
             isVideoAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
@@ -137,7 +137,7 @@ namespace TurboLabz.InstantFramework
             chestButtonClickedSignal.Dispatch();
         }
 
-        IEnumerator CountdownLeaderboardTimer()
+        public IEnumerator CountdownLeaderboardTimer()
         {
             while (gameObject.activeInHierarchy)
             {

@@ -45,7 +45,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                OnGetComplete(BackendResult.TOURNAMENTS_OP_FAILED);
+                backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
             }
 
         }

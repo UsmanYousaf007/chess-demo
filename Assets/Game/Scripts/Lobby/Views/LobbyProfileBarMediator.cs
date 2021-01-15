@@ -139,5 +139,11 @@ namespace TurboLabz.InstantFramework
                 rewardCoins = coins;
             }
         }
+
+        [ListensTo(typeof(StartLobbyChampionshipTimerSignal))]
+        public void StartLobbyChampionshipTimer()
+        {
+            view.StartCoroutine(view.CountdownLeaderboardTimer());
+        }
     }
 }

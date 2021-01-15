@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
+        [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.LOBBY)
             {
                 view.Show();
+                startLobbyChampionshipTimerSignal.Dispatch();
                 analyticsService.ScreenVisit(AnalyticsScreen.lobby, facebookService.isLoggedIn());
             }
         }

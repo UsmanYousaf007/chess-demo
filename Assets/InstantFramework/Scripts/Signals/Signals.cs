@@ -207,6 +207,7 @@ namespace TurboLabz.InstantFramework
     public class LobbyChestRewardClaimedSignal : Signal<int> { }
     public class InboxEmptySignal : Signal { }
     public class UpdatePurchaseSuccessDlgSignal : Signal<StoreItem> { }
+    public class RankPromotedDlgClosedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -253,4 +254,6 @@ namespace TurboLabz.InstantFramework
     public class GetAllStarLeaderboardSignal : Signal { }
     public class UpdateAllStarLeaderboardSignal : Signal { }
     public class UpdateTimeSelectDlgSignal : Signal<long> { }
+
+    public class StartLobbyChampionshipTimerSignal : Signal { }
 }

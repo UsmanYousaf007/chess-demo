@@ -36,8 +36,11 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(RewardDlgVO vo)
         {
             _rewardVO = vo;
-            view.UpdateLeagueTitle(playerModel, tournamentsModel);
-            view.UpdateView(vo, leaguesModel.GetCurrentLeagueInfo().dailyReward);
+
+            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+
+            view.UpdateLeagueTitle(playerModel, tournamentsModel, leagueAssets);
+            view.UpdateView(vo, leaguesModel.GetCurrentLeagueInfo().dailyReward, leagueAssets);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]

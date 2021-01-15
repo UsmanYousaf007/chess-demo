@@ -156,13 +156,22 @@ namespace TurboLabz.InstantFramework
                 GSData tournamentGSData = tournament.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
 
                 List <JoinedTournamentData> joinedTournamentsList = tournamentsModel.joinedTournaments;
+                bool tournamentExists = false;
                 for (int i = 0; i < joinedTournamentsList.Count; i++)
                 {
                     if (joinedTournamentsList[i].id == tournamentId)
                     {
                         joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id, joinedTournamentsList[i]);
                         joinedTournamentsList[i].lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                        tournamentExists = true;
                     }
+                }
+
+                if (!tournamentExists)
+                {
+                    JoinedTournamentData joinedTournament = ParseJoinedTournament(tournamentGSData, tournamentId);
+                    joinedTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    tournamentsModel.joinedTournaments.Add(joinedTournament);
                 }
             }
 

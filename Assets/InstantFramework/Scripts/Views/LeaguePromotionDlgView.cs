@@ -55,10 +55,13 @@ namespace TurboLabz.InstantFramework
             StopCoroutine(StartAnimationCoroutine());
         }
 
-        public void UpdateView(RewardDlgVO vo, Dictionary<string, int> dailyReward)
+        public void UpdateView(RewardDlgVO vo, Dictionary<string, int> dailyReward, LeagueTierIconsContainer.LeagueAsset leagueAssets)
         {
             rewardsSubHeadingText.text = "Daily Reward Perks";
             playerPic.UpdateView(vo.playerProfile);
+
+            playerPic.SetLeagueBorder(leagueAssets != null ? leagueAssets.ringSprite : null);
+            playerPic.leagueBorder.gameObject.SetActive(false);
 
             //// Daily reward perks panel update
             for (int j = 0; j < _dailyRewardPerksContainers.Length; j++)
@@ -120,9 +123,8 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void UpdateLeagueTitle(IPlayerModel playerModel, ITournamentsModel tournamentsModel)
+        public void UpdateLeagueTitle(IPlayerModel playerModel, ITournamentsModel tournamentsModel, LeagueTierIconsContainer.LeagueAsset leagueAssets)
         {
-            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (playerModel.league > 0)
             {
                 playerTitleImg.sprite = leagueAssets.nameImg;
