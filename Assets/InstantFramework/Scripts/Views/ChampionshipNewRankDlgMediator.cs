@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
+        [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -70,6 +71,7 @@ namespace TurboLabz.InstantFramework
             {
                 view.Hide();
                 view.ResetView();
+                rankPromotedDlgClosedSignal.Dispatch();
             }
         }
 
