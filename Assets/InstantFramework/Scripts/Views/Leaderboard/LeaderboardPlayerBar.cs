@@ -40,7 +40,7 @@ namespace TurboLabz.InstantFramework
 
             playerRankCountText.text = _entry.rank.ToString();
             trophiesRewardCountText.text = entryReward.trophies.ToString();
-            playerScoreCountText.text = _entry.score.ToString();
+            playerScoreCountText.text = TLUtils.FormatUtil.AbbreviateNumber(entry.score);
             rewardText.text = entryReward.gems.ToString();
 
             // Playar Name
@@ -76,7 +76,8 @@ namespace TurboLabz.InstantFramework
             playerNameText.text = !isPlayer ? entry.name : "You";
             playerNameText.gameObject.SetActive(true);
 
-            playerScoreCountText.text = entry.score.ToString();
+            playerScoreCountText.text = TLUtils.FormatUtil.AbbreviateNumber(entry.score);
+            
 
             profile.gameObject.SetActive(true);
             profile.UpdateView(entry.publicProfile);
