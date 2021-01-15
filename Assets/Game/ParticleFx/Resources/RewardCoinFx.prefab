@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3194464779634588401}
   - component: {fileID: 3194464779634588400}
   m_Layer: 5
-  m_Name: CoinRewardFx
+  m_Name: RewardCoinFx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,3 +52,6 @@ MonoBehaviour:
     type: 3}
   numParticles: 10
   targetObject: {fileID: 0}
+  spreadTime: 0.7
+  spreadSFX: {fileID: 8300000, guid: 14dec91b42dfa4811a10f9310e66a9d1, type: 3}
+  travelSFX: {fileID: 8300000, guid: 460076c61d0fd4ab781343f2163e5e31, type: 3}

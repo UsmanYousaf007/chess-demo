@@ -50,5 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardParticlePrefab: {fileID: 3957133747259953309, guid: 7ed39bc5e03bb46d590b1739b69c06a1,
     type: 3}
-  numParticles: 10
+  numParticles: 5
   targetObject: {fileID: 0}
+  spreadTime: 0.7
+  spreadSFX: {fileID: 8300000, guid: 14dec91b42dfa4811a10f9310e66a9d1, type: 3}
+  travelSFX: {fileID: 8300000, guid: b1f08fa9a20ca4b25b462fab8012adce, type: 3}
