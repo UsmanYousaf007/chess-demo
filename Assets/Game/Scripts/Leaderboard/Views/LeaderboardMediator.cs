@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetAllStarLeaderboardSignal getAllStarLeaderboardSignal { get; set; }
+        //[Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -45,7 +46,10 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
         public void OnUpdateAllStarLeaderboard()
         {
-            view.UpdateView(leaderboardModel.allStarLeaderboardEntries);
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.UpdateView(leaderboardModel.allStarLeaderboardEntries);
+            }
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -53,19 +57,14 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
             {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                if (joinedTournament != null && joinedTournament.entries.Count > 0)
-                {
-                    view.UpdateView(tournamentsModel.GetJoinedTournament());
-                }
-                else
-                {
-                    getAllStarLeaderboardSignal.Dispatch();
-                }
+                //JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                //if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                //{
+                //    view.UpdateView(joinedTournament);
+                //}
 
                 view.UpdateLeague();
                 view.Show();
-                //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }
 

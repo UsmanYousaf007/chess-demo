@@ -104,10 +104,10 @@ namespace TurboLabz.InstantFramework
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
                 PopulateEntries(_joinedTournament);
             }
-            else
-            {
-                getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
-            }
+            //else
+            //{
+            //    getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
+            //}
 
             SetupTab(championship, world);
             gameObject.SetActive(true);
