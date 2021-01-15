@@ -94,9 +94,13 @@ namespace TurboLabz.InstantFramework
             _dailyRewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
-            RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
-            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            if (videoWatched)
+            {
+                RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
+                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            }
+
             loadCareerCardSignal.Dispatch();
         }
     }
