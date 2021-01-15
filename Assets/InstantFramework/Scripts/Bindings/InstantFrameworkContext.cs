@@ -448,6 +448,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<RewardParticle>().To<RewardParticleMediator>();
             mediationBinder.Bind<RewardAnimSequence>().To<RewardAnimSequenceMediator>();
             mediationBinder.Bind<PurchaseSuccessDlgView>().To<PurchaseSuccessDlgMediator>();
+            mediationBinder.Bind<RewardParticleEmitter>().To<RewardParticleEmitterMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

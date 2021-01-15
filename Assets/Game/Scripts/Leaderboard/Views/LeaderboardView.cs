@@ -284,16 +284,16 @@ namespace TurboLabz.InstantFramework
 
             playerBar.Populate(entry, isPlayerStrip);
 
-            var loadPicture = (!string.IsNullOrEmpty(entry.uploadedPicId)
-                || !string.IsNullOrEmpty(entry.facebookUserId))
-                && entry.profilePicture == null;
+            var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
+                || !string.IsNullOrEmpty(entry.publicProfile.facebookUserId))
+                && entry.publicProfile.profilePicture == null;
 
             if (loadPicture)
             {
                 var loadPicVO = new GetProfilePictureVO();
                 loadPicVO.playerId = entry.playerId;
-                loadPicVO.uploadedPicId = entry.uploadedPicId;
-                loadPicVO.facebookUserId = entry.facebookUserId;
+                loadPicVO.uploadedPicId = entry.publicProfile.uploadedPicId;
+                loadPicVO.facebookUserId = entry.publicProfile.facebookUserId;
                 loadPicVO.saveOnDisk = false;
                 loadPictureSignal.Dispatch(loadPicVO);
             }
