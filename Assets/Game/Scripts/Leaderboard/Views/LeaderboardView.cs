@@ -116,14 +116,19 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(true);
             worldAlert.SetActive(!preferencesModel.themesTabVisited);
             StartCoroutine(CountdownTimer());
+
+            scrollRectChampionship.gameObject.SetActive(false);
+            scrollRectAllStars.gameObject.SetActive(false);
         }
 
         private void UpdateScrollViewChampionship(float value)
         {
+            scrollRectChampionship.gameObject.SetActive(true);
             scrollRectChampionship.verticalNormalizedPosition = value;
         }
         private void UpdateScrollViewAllStar(float value)
         {
+            scrollRectAllStars.gameObject.SetActive(true);
             scrollRectAllStars.verticalNormalizedPosition = value;
         }
 
@@ -420,6 +425,7 @@ namespace TurboLabz.InstantFramework
             }
 
             SetupTab(championship, world);
+            scrollRectChampionship.gameObject.SetActive(true);
         }
 
         public void OnClickWorld()
@@ -440,6 +446,7 @@ namespace TurboLabz.InstantFramework
 
             worldAlert.SetActive(false);
             SetupTab(world, championship);
+            scrollRectAllStars.gameObject.SetActive(true);
         }
 
         private void SetupTab(LeaderboardTab newTab, LeaderboardTab oldTab)
