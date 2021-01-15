@@ -359,7 +359,7 @@ namespace TurboLabz.InstantFramework
 
         private void PopulateBar(LeaderboardPlayerBar playerBar, AllStarLeaderboardEntry entry)
         {
-            var isPlayerStrip = entry.playerId.Equals(playerModel.id);
+            var isPlayerStrip = entry.publicProfile.playerId.Equals(playerModel.id);
 
             playerBar.Populate(entry, isPlayerStrip);
 

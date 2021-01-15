@@ -14,6 +14,7 @@ namespace TurboLabz.InstantFramework
         public Text trophiesRewardCountText;
 
         public Image rankIcon;
+        public Image playerIndicator;
 
         public Button button;
         public Button chestButton;
@@ -66,6 +67,9 @@ namespace TurboLabz.InstantFramework
             // Rank
             SetRankIcon(_entry.rank);
 
+            // Player special
+            playerIndicator.gameObject.SetActive(isPlayer);
+
             skinLink.InitPrefabSkin();
         }
 
@@ -88,6 +92,10 @@ namespace TurboLabz.InstantFramework
             }
 
             SetRankIcon(entry.rank);
+
+            // Player special
+            playerIndicator.gameObject.SetActive(isPlayer);
+
             skinLink.InitPrefabSkin();
         }
 
