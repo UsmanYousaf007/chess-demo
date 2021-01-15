@@ -120,11 +120,11 @@ namespace TurboLabz.InstantFramework
 
         private void UpdateScrollViewChampionship(float value)
         {
-            scrollView.verticalNormalizedPosition = value;
+            scrollRectChampionship.verticalNormalizedPosition = value;
         }
         private void UpdateScrollViewAllStar(float value)
         {
-            scrollView.verticalNormalizedPosition = value;
+            scrollRectAllStars.verticalNormalizedPosition = value;
         }
 
         public void Hide()
@@ -210,7 +210,7 @@ namespace TurboLabz.InstantFramework
 
             if (playerIndex == -1)
             {
-                scrollRectAllStars.verticalNormalizedPosition = 1.0f;
+                scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
@@ -220,7 +220,7 @@ namespace TurboLabz.InstantFramework
                     "from", target,
                     "to", target,
                     "time", 0.1f,
-                    "onupdate", "UpdateScrollViewAllStar",
+                    "onupdate", "UpdateScrollViewChampionship",
                     "onupdatetarget", gameObject
                     ));
             }

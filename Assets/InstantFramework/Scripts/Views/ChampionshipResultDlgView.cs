@@ -23,6 +23,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        [Inject] public IPlayerModel playerModel { get; set; }
+
         // Local Signals
         public Signal continueBtnClickedSignal = new Signal();
         public Signal<GetProfilePictureVO> loadPictureSignal = new Signal<GetProfilePictureVO>();
@@ -40,8 +42,11 @@ namespace TurboLabz.InstantFramework
         protected GameObjectsPool championshipBarsPool;
         protected List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
 
+        public ScrollRect scrollRectChampionship;
+
         public virtual void Init()
         {
+            scrollRectChampionship = scrollView;
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
             headingText.text = "Last Week Standings";
@@ -49,6 +54,11 @@ namespace TurboLabz.InstantFramework
                 audioService.PlayStandardClick();
                 continueBtnClickedSignal.Dispatch();
                     });
+        }
+
+        public ScrollRect GetScrollView()
+        {
+            return scrollView;
         }
 
         public virtual void Show()
@@ -65,6 +75,11 @@ namespace TurboLabz.InstantFramework
         {
             PopulateEntries(playerId, joinedTournament);
             Sort();
+        }
+
+        private void UpdateScrollViewChampionship(float value)
+        {
+            scrollRectChampionship.verticalNormalizedPosition = value;
         }
 
         public void UpdateContinueButtonText(bool playerRewarded)
@@ -98,9 +113,34 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            int playerIndex = -1;
+
             for (int i = 0; i < joinedTournament.entries.Count; i++)
             {
                 PopulateBar(playerId, championshipleaderboardPlayerBars[i], joinedTournament.entries[i], joinedTournament.rewardsDict[i + 1]);
+
+                if (joinedTournament.entries[i].publicProfile.playerId == playerModel.id)
+                {
+                    playerIndex = i;
+                }
+            }
+
+
+            if (playerIndex == -1)
+            {
+                scrollRectChampionship.verticalNormalizedPosition = 1.0f;
+            }
+            else
+            {
+                float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
+                iTween.ValueTo(gameObject,
+                    iTween.Hash(
+                    "from", target,
+                    "to", target,
+                    "time", 0.1f,
+                    "onupdate", "UpdateScrollViewChampionship",
+                    "onupdatetarget", gameObject
+                    ));
             }
         }
 

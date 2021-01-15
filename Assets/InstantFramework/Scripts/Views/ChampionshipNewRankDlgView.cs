@@ -49,6 +49,11 @@ namespace TurboLabz.InstantFramework
             StartCoroutine(CountdownTimer());
         }
 
+        private void UpdateScrollViewChampionship(float value)
+        {
+            GetScrollView().verticalNormalizedPosition = value;
+        }
+
         public override void Hide()
         {
             base.Hide();
