@@ -28,7 +28,9 @@ namespace TurboLabz.InstantFramework
             view.continueBtnClickedSignal.AddListener(OnContinuePressed);
         }
 
-        [ListensTo(typeof(UpdateTournamentsViewSignal))]
+        // NOTE: Do not update on signal. New Rank dialog does not need to refresh when it is
+        // already open.
+        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
         public void UpdateView()
         {
             if (view.gameObject.activeInHierarchy)
