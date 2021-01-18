@@ -18,6 +18,7 @@ public class WinResultAnimSequence : MonoBehaviour
     [SerializeField] private GameObject _crossPromoBtnObj;
     [SerializeField] private GameObject [] _coinPanelChildObjects;
     [SerializeField] private GameObject [] _starsPanelChildObjects;
+    [SerializeField] private Image powerPlayImage;
 
     private Animator _animator;
 
@@ -48,6 +49,8 @@ public class WinResultAnimSequence : MonoBehaviour
         _crossPromoBtnObj.SetActive(!playerWon);
         _ratingBoosterBtn.interactable = !playerWon;
         _continueBtn.interactable = !playerWon;
+        _continueBtn.gameObject.SetActive(!playerWon);
+        powerPlayImage.enabled = playerWon;
 
         if (_animator == null)
         {
@@ -160,6 +163,8 @@ public class WinResultAnimSequence : MonoBehaviour
             _crossPromoBtnObj.SetActive(true);
             _ratingBoosterBtn.interactable = true;
             _continueBtn.interactable = true;
+            _continueBtn.gameObject.SetActive(true);
+            powerPlayImage.enabled = false;
 
             _animator.enabled = false;
 
@@ -173,6 +178,8 @@ public class WinResultAnimSequence : MonoBehaviour
         _crossPromoBtnObj.SetActive(true);
         _ratingBoosterBtn.interactable = true;
         _continueBtn.interactable = true;
+        _continueBtn.gameObject.SetActive(true);
+        powerPlayImage.enabled = false;
 
         _animator.enabled = false;
 

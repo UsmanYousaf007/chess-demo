@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         Dictionary<string, League> leagues { get; set; }
         League GetCurrentLeagueInfo();
+        League GetLeagueInfo(int league);
     }
 
     public class League

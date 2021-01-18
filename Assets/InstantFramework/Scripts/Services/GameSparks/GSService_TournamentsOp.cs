@@ -118,10 +118,10 @@ namespace TurboLabz.InstantFramework
 
                 List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
 
-                if (navigatorModel.currentViewId != NavigatorViewId.TOURNAMENT_OVER_DLG)
-                {
-                    DispatchInboxNotifications(newMsgs);
-                }
+                //if (navigatorModel.currentViewId != NavigatorViewId.TOURNAMENT_OVER_DLG)
+                //{
+                //    DispatchInboxNotifications(newMsgs);
+                //}
 
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;

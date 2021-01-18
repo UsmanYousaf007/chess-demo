@@ -46,6 +46,7 @@ namespace TurboLabz.InstantFramework
         public int trophies2 { get; set; }
         public int league { get; set; }
         public long coins { get; set; }
+        public bool leaguePromoted { get; set; }
 
         public string name
         {
@@ -126,6 +127,7 @@ namespace TurboLabz.InstantFramework
             trophies2 = 0;
             league = 0;
             coins = 0;
+            leaguePromoted = false;
 
             // Ads Info
             adLifetimeImpressions = 0;

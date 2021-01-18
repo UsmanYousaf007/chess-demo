@@ -36,5 +36,18 @@ namespace TurboLabz.InstantFramework
             return rv;
         }
 
+        public League GetLeagueInfo(int league)
+        {
+            var rv = new League();
+            var leagueStr = league.ToString();
+
+            if (leagues.ContainsKey(leagueStr))
+            {
+                rv = leagues[leagueStr];
+            }
+
+            return rv;
+        }
+
     }
 }

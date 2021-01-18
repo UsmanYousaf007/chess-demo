@@ -239,11 +239,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(UpdatePlayerInventorySignal))]
-        public void OnInventoryUpdated(PlayerInventoryVO inventory)
-        {
-            view.UpdateTickets();
-        }
+        //[ListensTo(typeof(UpdatePlayerInventorySignal))]
+        //public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        //{
+        //    view.UpdateTickets();
+        //}
 
         [ListensTo(typeof(OnTournamentEndRewardViewClickedSignal))]
         public void OnTournamentRewardViewClicked(string messageId)

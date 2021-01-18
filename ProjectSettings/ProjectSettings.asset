@@ -270,7 +270,7 @@ PlayerSettings:
   templateDefaultScene: 
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 2
-  androidSplashScreen: {fileID: 2800000, guid: dcaba488132834cd4a182ebf923b67a9, type: 3}
+  androidSplashScreen: {fileID: 2800000, guid: cd9b52976d6644e1983a4d342bdbf773, type: 3}
   AndroidKeystoreName: /Users/usmanyousaf/Desktop/data/turbo-labz/projects/keystores/instant-chess/instant-chess-signing.keystore
   AndroidKeyaliasName: instant-chess-signing
   AndroidBuildApkPerCpuArchitecture: 0
@@ -1054,13 +1054,13 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
     Analytics: 0
-    Build: 0
+    Build: 1
     Collab: 0
     ErrorHub: 0
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
   luminIcon:
     m_Name: 
