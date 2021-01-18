@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
         [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
+        [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -80,6 +81,7 @@ namespace TurboLabz.InstantFramework
         private void OnContinuePressed()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            startLobbyChampionshipTimerSignal.Dispatch();
         }
     }
 }

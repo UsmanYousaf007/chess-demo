@@ -143,8 +143,11 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(StartLobbyChampionshipTimerSignal))]
         public void StartLobbyChampionshipTimer()
         {
-            view.SetupChampionshipTimer();
-            view.StartCoroutine(view.ChampionshipTimer());
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.SetupChampionshipTimer();
+                view.StartCoroutine(view.ChampionshipTimer());
+            }
         }
     }
 }

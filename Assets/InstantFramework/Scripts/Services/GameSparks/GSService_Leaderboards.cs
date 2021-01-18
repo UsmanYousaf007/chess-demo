@@ -54,10 +54,20 @@ namespace TurboLabz.InstantFramework
                 leaderboardEntry.publicProfile.name = entry.JSONData["Name"].ToString();
                 leaderboardEntry.publicProfile.countryId = entry.JSONData["CountryId"].ToString();
                 leaderboardEntry.publicProfile.league = int.Parse(entry.JSONData["League"].ToString());
-                leaderboardEntry.publicProfile.facebookUserId = entry.JSONData["FbId"]?.ToString();
                 leaderboardEntry.publicProfile.avatarBgColorId = entry.JSONData["AvatarBgColorId"]?.ToString();
                 leaderboardEntry.publicProfile.uploadedPicId = entry.JSONData["UploadedPicId"].ToString();
                 leaderboardEntry.publicProfile.avatarId = entry.JSONData["AvatarId"]?.ToString();
+
+                string fbId = entry.JSONData["FbId"]?.ToString();
+                if (string.IsNullOrEmpty(fbId))
+                {
+                    fbId = null;
+                }
+                else if (fbId == "null")
+                {
+                    fbId = null;
+                }
+                leaderboardEntry.publicProfile.facebookUserId = fbId;
 
                 leaderboardEntry.name = leaderboardEntry.publicProfile.name;
 

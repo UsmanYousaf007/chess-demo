@@ -101,12 +101,13 @@ namespace TurboLabz.InstantFramework
 
         public void Show(JoinedTournamentData joinedTournament)
         {
+            _joinedTournament = joinedTournament;
             ClearBars(allStarPlayerBars, allStarBarsPool);
-            if (joinedTournament != null)
+            if (_joinedTournament != null)
             {
-                endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
+                endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
 
-                if (joinedTournament.entries.Count > 0)
+                if (_joinedTournament.entries.Count > 0)
                 {
                     PopulateEntries(_joinedTournament);
                 }

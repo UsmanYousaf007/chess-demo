@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public ResetTournamentsViewSignal resetTournamentsViewSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
+        [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
         private bool _playerRewarded = false;
@@ -138,7 +139,8 @@ namespace TurboLabz.InstantFramework
                 tournamentsModel.RemoveFromJoinedTournament(_rewardVO.tournamentId);
             }
 
-            backendService.TournamentsOpGetJoinedTournaments();
+            //backendService.TournamentsOpGetJoinedTournaments();
+            startLobbyChampionshipTimerSignal.Dispatch();
         }
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)
