@@ -52,6 +52,9 @@ namespace TurboLabz.InstantFramework
             if (result == AdsResult.FINISHED || result == AdsResult.SKIPPED)
             {
                 preferencesModel.intervalBetweenPregameAds = DateTime.Now;
+                preferencesModel.globalAdsCount++;
+                preferencesModel.interstitialAdsCount++;
+                preferencesModel.pregameAdsPerDayCount++;
             }
 
             servicePromise.Dispatch();

@@ -9,5 +9,6 @@ namespace TurboLabz.InstantFramework
     {
         public int betIndex;
         public int minimumBetIndex;
+        public bool coinsStockChanged;
     }
 }
