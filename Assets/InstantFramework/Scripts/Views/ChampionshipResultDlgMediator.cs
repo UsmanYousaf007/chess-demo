@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using UnityEngine;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
@@ -50,6 +51,17 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
+
+        
+        [ListensTo(typeof(ProfilePictureLoadedSignal))]
+        public void OnPictureLoaded(string playerId, Sprite picture)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdatePicture(playerId, picture);
+            }
+        }
+        
 
         //[ListensTo(typeof(ResetTournamentsViewSignal))]
         //public void ResetView()

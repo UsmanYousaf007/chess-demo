@@ -13,6 +13,7 @@ using TurboLabz.InstantGame;
 using System.Collections.Generic;
 using strange.extensions.signal.impl;
 using strange.extensions.mediation.impl;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -75,6 +76,19 @@ namespace TurboLabz.InstantFramework
         {
             PopulateEntries(playerId, joinedTournament);
             Sort();
+        }
+
+
+        public void UpdatePicture(string playerId, Sprite picture)
+        {
+            var playerBar = (from bar in championshipleaderboardPlayerBars
+                             where bar.profile.playerId.Equals(playerId)
+                             select bar).FirstOrDefault();
+
+            if (playerBar != null)
+            {
+                playerBar.profile.SetProfilePicture(picture);
+            }
         }
 
         private void UpdateScrollViewChampionship(float value)
