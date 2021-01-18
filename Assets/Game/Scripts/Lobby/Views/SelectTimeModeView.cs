@@ -97,6 +97,7 @@ namespace TurboLabz.InstantFramework
 
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
             SetupState(isPowerModeOn);
+            SetupPlayButtons(true);
         }
 
         void OnStartGameBtnClicked(string actionCode)
@@ -107,6 +108,7 @@ namespace TurboLabz.InstantFramework
             {
                 playMultiplayerButtonClickedSignal.Dispatch(actionCode, isPowerModeOn);
                 isPowerModeOn = false;
+                SetupPlayButtons(false);
             }
             else
             {
@@ -150,5 +152,14 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             closeButtonSignal.Dispatch();
         }
+
+        private void SetupPlayButtons(bool enable)
+        {
+            startGame3mButton.interactable =
+                startGame5mButton.interactable =
+                startGame10mButton.interactable =
+                startGame30mButton.interactable = enable;
+        }
+
     }
 }
