@@ -22,12 +22,18 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
         [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
+        [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
-
+            view.loadPictureSignal.AddListener(OnLoadPicture);
             view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+        }
+
+        private void OnLoadPicture(GetProfilePictureVO vo)
+        {
+            getProfilePictureSignal.Dispatch(vo);
         }
 
         // NOTE: Do not update on signal. New Rank dialog does not need to refresh when it is
@@ -52,6 +58,8 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
+                view.Show();
+
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
                 if (joinedTournament != null && joinedTournament.entries.Count > 0)
                 {
@@ -63,7 +71,6 @@ namespace TurboLabz.InstantFramework
                 }
 
                 view.UpdateLeagueTitle(playerModel, tournamentsModel);
-                view.Show();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }

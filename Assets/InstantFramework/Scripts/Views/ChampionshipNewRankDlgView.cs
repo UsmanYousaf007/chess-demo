@@ -46,7 +46,7 @@ namespace TurboLabz.InstantFramework
             }
 
             base.Show();
-
+            gameObject.SetActive(true);
             StartCoroutine(CountdownTimer());
         }
 
@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
         public override void Hide()
         {
             base.Hide();
-
+            gameObject.SetActive(false);
             StopCoroutine(CountdownTimer());
         }
 

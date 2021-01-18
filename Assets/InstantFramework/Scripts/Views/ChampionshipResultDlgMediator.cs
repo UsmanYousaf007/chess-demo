@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ResetTournamentsViewSignal resetTournamentsViewSignal { get; set; }
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
+        [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
         private bool _playerRewarded = false;
@@ -33,7 +34,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
-
+            view.loadPictureSignal.AddListener(OnLoadPicture);
             view.continueBtnClickedSignal.AddListener(OnContinuePressed);
         }
 
@@ -53,7 +54,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        
+        private void OnLoadPicture(GetProfilePictureVO vo)
+        {
+            getProfilePictureSignal.Dispatch(vo);
+        }
+
         [ListensTo(typeof(ProfilePictureLoadedSignal))]
         public void OnPictureLoaded(string playerId, Sprite picture)
         {
