@@ -2382,6 +2382,7 @@ MonoBehaviour:
   - {fileID: 4322962883083166352}
   - {fileID: 3898476936077817620}
   - {fileID: 1760461491138542878}
+  powerPlayImage: {fileID: 3197387958917507425}
 --- !u!95 &5806749854758488476
 Animator:
   serializedVersion: 3
@@ -5259,6 +5260,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardStarFx
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 4322962883083166352}
     - target: {fileID: 3194464779634588401, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5364,11 +5370,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 4322962883083166352}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d16f68d63ff40c39cbb26bfb04d9b7, type: 3}
 --- !u!114 &3898476936077817622 stripped
@@ -5407,6 +5408,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardCoinFx
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 6153227623038491173}
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5512,11 +5518,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 6153227623038491173}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0c4746059fd94a59b49db124b496a7c, type: 3}
 --- !u!114 &3632057175228449729 stripped
@@ -5706,6 +5707,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardStarFx
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 4322962883083166352}
     - target: {fileID: 3194464779634588401, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5816,11 +5822,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: c1d16f68d63ff40c39cbb26bfb04d9b7,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 4322962883083166352}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d16f68d63ff40c39cbb26bfb04d9b7, type: 3}
 --- !u!114 &7835513475277063407 stripped
@@ -6004,6 +6005,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6437583886303555297}
     m_Modifications:
+    - target: {fileID: 3617964122209363437, guid: 6c36a9452d3134aaa9651cad927395e5,
+        type: 3}
+      propertyPath: m_Name
+      value: SpinGlowSmallGoldFx
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363437, guid: 6c36a9452d3134aaa9651cad927395e5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363346, guid: 6c36a9452d3134aaa9651cad927395e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6108,16 +6119,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3617964122209363437, guid: 6c36a9452d3134aaa9651cad927395e5,
-        type: 3}
-      propertyPath: m_Name
-      value: SpinGlowSmallGoldFx
-      objectReference: {fileID: 0}
-    - target: {fileID: 3617964122209363437, guid: 6c36a9452d3134aaa9651cad927395e5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c36a9452d3134aaa9651cad927395e5, type: 3}

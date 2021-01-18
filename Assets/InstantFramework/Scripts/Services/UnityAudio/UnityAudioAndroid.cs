@@ -75,6 +75,16 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public void PlayOneShot(AudioClip sound)
+        {
+            Play(sound, 1.0f);
+        }
+
+        public void PlayOneShot(AudioClip sound, float volume)
+        {
+            Play(sound, volume);
+        }
+
         public void PlayStandardClick()
         {
             Play(sounds.SFX_CLICK);

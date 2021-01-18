@@ -315,10 +315,10 @@ namespace TurboLabz.InstantFramework
             item.gemsBg.gameObject.SetActive(false);
             item.resultsContinueButtonLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_COLLECT_REWARDS);
 
-            if (alreadyPlayed)
-            {
-                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
-            }
+            //if (alreadyPlayed)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
+            //}
         }
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()

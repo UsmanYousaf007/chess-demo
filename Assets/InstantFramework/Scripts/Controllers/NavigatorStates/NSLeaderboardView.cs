@@ -15,12 +15,17 @@
             {
                 if (viewId == NavigatorViewId.LOBBY)
                 {
-                    return new NSLobby();
+                    cmd.loadLobbySignal.Dispatch();
+                    return null;
                 }
             }
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_DLG)
             {
                 return new NSSubscriptionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LOBBY)
+            {
+                return new NSLobby();
             }
 
             return null;

@@ -24,6 +24,6 @@ public class RewardParticleMediator : Mediator
 
     private void OnPlaySFX(AudioClip clip)
     {
-        audioService.Play(clip);
+        audioService.PlayOneShot(clip);
     }
 }
