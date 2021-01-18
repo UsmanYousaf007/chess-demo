@@ -291,7 +291,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(JoinedTournamentData joinedTournament)
         {
-            if (joinedTournament != null)
+            if (joinedTournament != null && championshipleaderboardPlayerBars.Count == 0)
             {
                 _joinedTournament = joinedTournament;
                 PopulateEntries(_joinedTournament);
@@ -305,11 +305,12 @@ namespace TurboLabz.InstantFramework
         public void ResetChampionshipView()
         {
             ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
+            ClearBars(allStarPlayerBars, allStarBarsPool);
         }
 
         public void UpdateView(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
         {
-            if (allStarLeaderboardEntries != null)
+            if (allStarLeaderboardEntries != null && allStarPlayerBars.Count == 0)
             {
                 _allStarLeaderboardEntries = allStarLeaderboardEntries;
                 PopulateEntries(_allStarLeaderboardEntries);
@@ -413,7 +414,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
 
-            ClearBars(allStarPlayerBars, allStarBarsPool);
+            /*ClearBars(allStarPlayerBars, allStarBarsPool);
 
             if (_joinedTournament != null && _joinedTournament.entries.Count > 0)
             {
@@ -423,6 +424,7 @@ namespace TurboLabz.InstantFramework
             {
                 getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
             }
+            */
 
             SetupTab(championship, world);
             scrollRectChampionship.gameObject.SetActive(true);
@@ -431,13 +433,15 @@ namespace TurboLabz.InstantFramework
         public void OnClickWorld()
         {
             audioService.PlayStandardClick();
-            preferencesModel.themesTabVisited = true;
-
-            ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
+            
+            //ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
 
             if (_allStarLeaderboardEntries != null && _allStarLeaderboardEntries.Count > 0)
             {
-                PopulateEntries(_allStarLeaderboardEntries);
+                if (allStarPlayerBars.Count == 0)
+                {
+                    PopulateEntries(_allStarLeaderboardEntries);
+                }
             }
             else
             {
