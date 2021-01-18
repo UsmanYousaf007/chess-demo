@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
+        [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -87,6 +88,11 @@ namespace TurboLabz.InstantFramework
                     loadCareerCardSignal.Dispatch();
                 }
 
+                var rewardDlgVO = new RewardDlgV2VO();
+                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
+                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+
                 if (quantity > 0)
                 {
                     var state = adView ? 1 : 2;
@@ -114,7 +120,6 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case AdsResult.FINISHED:
-                        view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
                         OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS, 0);
                         break;
 
