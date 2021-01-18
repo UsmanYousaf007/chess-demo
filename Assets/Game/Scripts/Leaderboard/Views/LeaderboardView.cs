@@ -121,18 +121,18 @@ namespace TurboLabz.InstantFramework
             worldAlert.SetActive(!preferencesModel.themesTabVisited);
             StartCoroutine(CountdownTimer());
 
-            scrollRectChampionship.gameObject.SetActive(false);
+            //scrollRectChampionship.gameObject.SetActive(false);
             scrollRectAllStars.gameObject.SetActive(false);
         }
 
         private void UpdateScrollViewChampionship(float value)
         {
-            scrollRectChampionship.gameObject.SetActive(true);
+            //scrollRectChampionship.gameObject.SetActive(true);
             scrollRectChampionship.verticalNormalizedPosition = value;
         }
         private void UpdateScrollViewAllStar(float value)
         {
-            scrollRectAllStars.gameObject.SetActive(true);
+            //scrollRectAllStars.gameObject.SetActive(true);
             scrollRectAllStars.verticalNormalizedPosition = value;
         }
 
@@ -217,23 +217,31 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            scrollRectChampionship.gameObject.SetActive(true);
             if (playerIndex == -1)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
-                iTween.ValueTo(gameObject,
-                    iTween.Hash(
-                    "from", target,
-                    "to", target,
-                    "time", 0.1f,
-                    "onupdate", "UpdateScrollViewChampionship",
-                    "onupdatetarget", gameObject
-                    ));
-            }
+                if (playerIndex == 0)
+                {
+                    scrollRectChampionship.verticalNormalizedPosition = 1.0f;
+                }
+                else
+                {
+                    float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
 
+                    iTween.ValueTo(gameObject,
+                        iTween.Hash(
+                        "from", 0f,
+                        "to", target,
+                        "time", 0.1f,
+                        "onupdate", "UpdateScrollViewChampionship",
+                        "onupdatetarget", gameObject
+                        ));
+                }
+            }
         }
 
         public void PopulateEntries(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
@@ -261,21 +269,30 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            scrollRectAllStars.gameObject.SetActive(true);
             if (playerIndex == -1)
             {
                 scrollRectAllStars.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex+1) / (float)allStarLeaderboardEntries.Count));
-                iTween.ValueTo(gameObject,
-                    iTween.Hash(
-                    "from", target,
-                    "to", target,
-                    "time", 0.1f,
-                    "onupdate", "UpdateScrollViewAllStar",
-                    "onupdatetarget", gameObject
-                    ));
+                if (playerIndex == 0)
+                {
+                    scrollRectAllStars.verticalNormalizedPosition = 1.0f;
+                }
+                else
+                {
+                    float target = 1.0f - ((((float)playerIndex + 1) / (float)allStarLeaderboardEntries.Count));
+
+                    iTween.ValueTo(gameObject,
+                        iTween.Hash(
+                        "from", 0f,
+                        "to", target,
+                        "time", 0.1f,
+                        "onupdate", "UpdateScrollViewAllStar",
+                        "onupdatetarget", gameObject
+                        ));
+                }
             }
         }
 

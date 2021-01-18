@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Init()
         {
+            scrollRectChampionship = scrollView;
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
             continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());

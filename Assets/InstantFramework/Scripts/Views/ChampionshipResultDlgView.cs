@@ -37,7 +37,7 @@ namespace TurboLabz.InstantFramework
         [SerializeField] protected Text continueButtonText;
         [SerializeField] private Transform championshipLeaderboardListContainer;
         [SerializeField] protected GameObject championshipLeaderboardPlayerBarPrefab;
-        [SerializeField] private ScrollRect scrollView;
+        [SerializeField] protected ScrollRect scrollView;
 
         protected GameObjectsPool championshipBarsPool;
         protected List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
@@ -125,22 +125,29 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-
             if (playerIndex == -1)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
-                iTween.ValueTo(gameObject,
-                    iTween.Hash(
-                    "from", target,
-                    "to", target,
-                    "time", 0.1f,
-                    "onupdate", "UpdateScrollViewChampionship",
-                    "onupdatetarget", gameObject
-                    ));
+                if (playerIndex == 0)
+                {
+                    scrollRectChampionship.verticalNormalizedPosition = 1.0f;
+                }
+                else
+                {
+                    float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
+
+                    iTween.ValueTo(gameObject,
+                        iTween.Hash(
+                        "from", 0f,
+                        "to", target,
+                        "time", 0.1f,
+                        "onupdate", "UpdateScrollViewChampionship",
+                        "onupdatetarget", gameObject
+                        ));
+                }
             }
         }
 
