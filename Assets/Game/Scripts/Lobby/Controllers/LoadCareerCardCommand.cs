@@ -13,8 +13,13 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public UpdateCareerCardSignal updateCareerCardSignal { get; set; }
 
+        private static long playerCoins;
+
         public override void Execute()
         {
+            var coinsStockChanged = playerCoins != playerModel.coins;
+            playerCoins = playerModel.coins;
+
             var gamesPlayedIndex = preferencesModel.gamesPlayedPerDay;
             var lastIndex = metaDataModel.settingsModel.defaultBetIncrementByGamesPlayed.Count - 1;
             gamesPlayedIndex = gamesPlayedIndex >= lastIndex ? lastIndex : gamesPlayedIndex;
@@ -25,6 +30,7 @@ namespace TurboLabz.InstantFramework
             var vo = new CareerCardVO();
             vo.betIndex = GetBetIndex(coinsToBet); ;
             vo.minimumBetIndex = GetBetIndex(minCoinsToBet);
+            vo.coinsStockChanged = coinsStockChanged;
             updateCareerCardSignal.Dispatch(vo);
         }
 
