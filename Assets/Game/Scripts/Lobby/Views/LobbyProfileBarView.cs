@@ -89,21 +89,26 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            var joinedTournamet = tournamentsModel.GetJoinedTournament();
-            if (joinedTournamet != null)
-            {
-                endTimeUTCSeconds = joinedTournamet.endTimeUTCSeconds;
-                StartCoroutine(CountdownLeaderboardTimer());
-            }
-            else
-            {
-                leaderboardTimer.text = "0s";
-            }
+            SetupChampionshipTimer();
+            StartCoroutine(ChampionshipTimer());
 
             isVideoAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
             SetupChest();
             StartCoroutine(CountdownChestTimer());
             RebuildLayout();
+        }
+
+        public void SetupChampionshipTimer()
+        {
+            var joinedTournament = tournamentsModel.GetJoinedTournament();
+            if (joinedTournament != null)
+            {
+                endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
+            }
+            else
+            {
+                leaderboardTimer.text = "0s";
+            }
         }
 
         public void SetupChest()
@@ -116,7 +121,7 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            StopCoroutine(CountdownLeaderboardTimer());
+            StopCoroutine(ChampionshipTimer());
             StopCoroutine(CountdownChestTimer());
         }
 
@@ -137,7 +142,7 @@ namespace TurboLabz.InstantFramework
             chestButtonClickedSignal.Dispatch();
         }
 
-        public IEnumerator CountdownLeaderboardTimer()
+        public IEnumerator ChampionshipTimer()
         {
             while (gameObject.activeInHierarchy)
             {

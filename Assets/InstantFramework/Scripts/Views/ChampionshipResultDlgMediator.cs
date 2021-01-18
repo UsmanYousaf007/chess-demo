@@ -119,9 +119,12 @@ namespace TurboLabz.InstantFramework
 
             JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament(_rewardVO.tournamentId);
 
-            LogTournamentEndAnalytics(joinedTournamentData);
+            if (joinedTournamentData != null)
+            {
+                LogTournamentEndAnalytics(joinedTournamentData);
 
-            tournamentsModel.RemoveFromJoinedTournament(_rewardVO.tournamentId);
+                tournamentsModel.RemoveFromJoinedTournament(_rewardVO.tournamentId);
+            }
 
             backendService.TournamentsOpGetJoinedTournaments();
         }

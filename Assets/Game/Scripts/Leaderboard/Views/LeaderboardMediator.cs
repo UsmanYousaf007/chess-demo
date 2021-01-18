@@ -83,7 +83,7 @@ namespace TurboLabz.InstantFramework
                 //}
 
                 view.UpdateLeague();
-                view.Show();
+                view.Show(tournamentsModel.GetJoinedTournament());
             }
         }
 
