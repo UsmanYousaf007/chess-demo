@@ -88,11 +88,6 @@ namespace TurboLabz.InstantFramework
                     loadCareerCardSignal.Dispatch();
                 }
 
-                var rewardDlgVO = new RewardDlgV2VO();
-                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
-                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
-
                 if (quantity > 0)
                 {
                     var state = adView ? 1 : 2;
@@ -121,6 +116,12 @@ namespace TurboLabz.InstantFramework
                 {
                     case AdsResult.FINISHED:
                         OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS, 0);
+
+                        var rewardDlgVO = new RewardDlgV2VO();
+                        rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
+                        updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                        navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+
                         break;
 
                     case AdsResult.NOT_AVAILABLE:
