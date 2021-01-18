@@ -48,9 +48,6 @@ public class WinResultAnimSequence : MonoBehaviour
         _viewBoardBtnObj.SetActive(!playerWon);
         _crossPromoBtnObj.SetActive(!playerWon);
         _ratingBoosterBtn.interactable = !playerWon;
-        _continueBtn.interactable = !playerWon;
-        _continueBtn.gameObject.SetActive(!playerWon);
-        powerPlayImage.enabled = playerWon;
 
         if (_animator == null)
         {
@@ -159,16 +156,7 @@ public class WinResultAnimSequence : MonoBehaviour
         }
         else
         {
-            _viewBoardBtnObj.SetActive(true);
-            _crossPromoBtnObj.SetActive(true);
-            _ratingBoosterBtn.interactable = true;
-            _continueBtn.interactable = true;
-            _continueBtn.gameObject.SetActive(true);
-            powerPlayImage.enabled = false;
-
-            _animator.enabled = false;
-
-            TweenInCrossPromo();
+            OnStarsCountAnimationComplete();
         }
     }
 
@@ -177,10 +165,8 @@ public class WinResultAnimSequence : MonoBehaviour
         _viewBoardBtnObj.SetActive(true);
         _crossPromoBtnObj.SetActive(true);
         _ratingBoosterBtn.interactable = true;
-        _continueBtn.interactable = true;
+        powerPlayImage.gameObject.SetActive(false);
         _continueBtn.gameObject.SetActive(true);
-        powerPlayImage.enabled = false;
-
         _animator.enabled = false;
 
         TweenInCrossPromo();

@@ -90,6 +90,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
             {
                 return new NSMultiplayerResultsDlg();

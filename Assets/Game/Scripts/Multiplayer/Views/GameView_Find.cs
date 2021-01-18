@@ -133,7 +133,7 @@ namespace TurboLabz.Multiplayer
             powerPlayModeOn.enabled = vo.powerMode;
             powerPlayModeOff.enabled = !vo.powerMode;
             gameModeLabel.text = GetMode(vo.gameMode) + " Chess";
-            bettingCoins.text = vo.bettingCoins.ToString();
+            bettingCoins.text = vo.bettingCoins.ToString("N0");
 
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);

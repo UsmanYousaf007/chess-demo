@@ -1,5 +1,6 @@
 ﻿using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -83,5 +84,15 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             startLobbyChampionshipTimerSignal.Dispatch();
         }
+
+        [ListensTo(typeof(ProfilePictureLoadedSignal))]
+        public void OnPictureLoaded(string playerId, Sprite picture)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdatePicture(playerId, picture);
+            }
+        }
+
     }
 }

@@ -17,7 +17,7 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            var coinsStockChanged = playerCoins != playerModel.coins;
+            var coinsStockChanged = playerCoins != playerModel.coins || playerModel.coins == 0;
             playerCoins = playerModel.coins;
 
             var gamesPlayedIndex = preferencesModel.gamesPlayedPerDay;
