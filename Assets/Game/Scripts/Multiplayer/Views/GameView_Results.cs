@@ -401,8 +401,8 @@ namespace TurboLabz.Multiplayer
 
         private void UpdateRewards(long betValue, int stars, bool powerMode)
         {
-            resultsEarnedCoinsLabel.text = playerWins ? $"{betValue * 2}" : betValue.ToString();
-            resultsEarnedStarsLabel.text = powerMode ? $"{stars * 2}" : stars.ToString();
+            //resultsEarnedCoinsLabel.text = playerWins ? $"{betValue * 2}" : betValue.ToString();
+            //resultsEarnedStarsLabel.text = powerMode ? $"{stars * 2}" : stars.ToString();
             resultsPowerplayImage.sprite = powerMode ? powerPlayOnSprite : powerPlayOffSprite;
         }
 
