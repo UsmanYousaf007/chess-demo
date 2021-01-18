@@ -190,6 +190,11 @@ namespace TurboLabz.Multiplayer
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
 
+            if (!animationPlayed)
+            {
+                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
+            }
+
             UpdateGameEndReasonSection(vo.reason);
             UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection();
@@ -198,11 +203,6 @@ namespace TurboLabz.Multiplayer
             SetupRewardDoublerPrice();
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
-
-            if (!animationPlayed)
-            {
-                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
-            }
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
@@ -394,9 +394,10 @@ namespace TurboLabz.Multiplayer
             resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
             resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
             resultsContinueButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
-            resultsContinueButton2.gameObject.SetActive(!playerWins/*!playerWins || isDraw || !isRankedGame*/);
+            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+            resultsContinueButton2.interactable = !playerWins || isDraw || !isRankedGame;
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
-            resultsPowerplayImage.gameObject.SetActive(playerWins);
+            resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
         }
 
         private void UpdateRewards(long betValue, int stars, bool powerMode)
@@ -430,7 +431,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnAnimateResultsComplete()
         {
-            if (playerWins && !animationPlayed)
+            if (playerWins && !animationPlayed && isRankedGame)
             {
                 _winAnimationSequence.PlayAnimation();
                 animationPlayed = true;

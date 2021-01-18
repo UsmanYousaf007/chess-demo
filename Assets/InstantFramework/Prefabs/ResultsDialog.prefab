@@ -2294,7 +2294,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6741694162543835186}
-  - {fileID: 7440617456843911639}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3791,6 +3790,7 @@ GameObject:
   - component: {fileID: 5780275589925880191}
   - component: {fileID: 7909388770198573448}
   - component: {fileID: 3111042656210057203}
+  - component: {fileID: 1372908239303281902}
   m_Layer: 5
   m_Name: CrossPromoButton
   m_TagString: Untagged
@@ -3809,12 +3809,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4839277840668506255}
-  m_RootOrder: 1
+  m_Father: {fileID: 6741694162543835186}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: -174.58}
   m_SizeDelta: {x: 416, y: 349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5780275589925880191
@@ -3899,6 +3899,26 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1372908239303281902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954403937441434516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &7088514270842190188
 GameObject:
   m_ObjectHideFlags: 0
@@ -4197,6 +4217,7 @@ RectTransform:
   m_Children:
   - {fileID: 7732361291319314916}
   - {fileID: 6143127938962242562}
+  - {fileID: 7440617456843911639}
   m_Father: {fileID: 4839277840668506255}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5683,15 +5704,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ca707637929041b98616dd43aab91e6, type: 3}
---- !u!224 &8022441302604347794 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5464202706591437476, guid: 0ca707637929041b98616dd43aab91e6,
-    type: 3}
-  m_PrefabInstance: {fileID: 2630613133474605878}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8022441302604347821 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5464202706591437467, guid: 0ca707637929041b98616dd43aab91e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2630613133474605878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &8022441302604347794 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5464202706591437476, guid: 0ca707637929041b98616dd43aab91e6,
     type: 3}
   m_PrefabInstance: {fileID: 2630613133474605878}
   m_PrefabAsset: {fileID: 0}

@@ -85,6 +85,8 @@ namespace TurboLabz.InstantFramework
             actionData.action = actionCode;
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
+            actionData.betValue = 0;
+            actionData.powerMode = false;
             actionData.notificationStatus = NotificationStatus.None;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
@@ -110,6 +112,8 @@ namespace TurboLabz.InstantFramework
             actionData.opponentId = opponentId;
             actionData.avatarId = avatarId;
             actionData.avatarBgColor = avatarBgColor;
+            actionData.betValue = 0;
+            actionData.powerMode = false;
             actionData.notificationStatus = notificationStatus;
             actionData.acceptActionCode = actionCode;
             signal.Dispatch(JsonUtility.ToJson(actionData));

@@ -458,7 +458,7 @@ namespace TurboLabz.InstantGame
                 saveGameSignal.Dispatch();
             }
 
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
             showViewBoardResultsPanelSignal.Dispatch(false);
             tapLongMatchSignal.Dispatch(notifications[0].playerId, false);
@@ -473,7 +473,7 @@ namespace TurboLabz.InstantGame
                 saveGameSignal.Dispatch();
             }
 
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
             cancelHintSingal.Dispatch();
             showViewBoardResultsPanelSignal.Dispatch(false);
             FindMatchAction.Accept(findMatchSignal, notifications[0].playerId, notifications[0].matchGroup,

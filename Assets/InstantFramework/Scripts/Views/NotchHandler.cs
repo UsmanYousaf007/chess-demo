@@ -258,7 +258,7 @@ public class NotchHandler : MonoBehaviour {
         SetY(lessonVideoPlayerBottomNav, 91f);
 
         //Shop
-        SetTop(shopScrollViewport, -278f);
+        SetTop(shopScrollViewport, -178f);
         SetBottom(shopScrollViewport, 220f);
         shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
