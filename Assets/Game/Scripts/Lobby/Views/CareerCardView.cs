@@ -104,10 +104,13 @@ namespace TurboLabz.InstantFramework
 
             SetupTrophyProgressionBar(playerModel.trophies);
 
-            bettingIndex = vo.betIndex;
-            minimumBettingIndex = vo.minimumBetIndex;
-            defaultBetIndexUsed = true;
-            SetupBetting();
+            if (vo.coinsStockChanged)
+            {
+                bettingIndex = vo.betIndex;
+                minimumBettingIndex = vo.minimumBetIndex;
+                defaultBetIndexUsed = true;
+                SetupBetting();
+            }
 
             tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}% of your coin stock";
         }
