@@ -94,6 +94,9 @@ namespace TurboLabz.InstantFramework
             backButton.onClick.AddListener(OnBackButtonClicked);
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
 
+            scrollRectChampionship.gameObject.SetActive(false);
+            scrollRectChampionship.verticalNormalizedPosition = 1.0f;
+
             //rankText.text =
             //winningsText.text =
             //rewardsText.text =
@@ -141,6 +144,8 @@ namespace TurboLabz.InstantFramework
         {
             StopCoroutine(CountdownTimer());
             gameObject.SetActive(false);
+            scrollRectChampionship.gameObject.SetActive(false);
+            scrollRectAllStars.gameObject.SetActive(false);
         }
 
         public void OnDataAvailable(bool isAvailable)
@@ -233,11 +238,13 @@ namespace TurboLabz.InstantFramework
                 {
                     float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
 
+                    //scrollRectChampionship.verticalNormalizedPosition = target;
+
                     iTween.ValueTo(gameObject,
                         iTween.Hash(
-                        "from", 0f,
+                        "from", scrollRectChampionship.verticalNormalizedPosition,
                         "to", target,
-                        "time", 0.1f,
+                        "time", 1f - target,
                         "onupdate", "UpdateScrollViewChampionship",
                         "onupdatetarget", gameObject
                         ));
@@ -270,7 +277,6 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            scrollRectAllStars.gameObject.SetActive(true);
             if (playerIndex == -1)
             {
                 scrollRectAllStars.verticalNormalizedPosition = 1.0f;
@@ -283,18 +289,20 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    float target = 1.0f - ((((float)playerIndex + 1) / (float)allStarLeaderboardEntries.Count));
+                    float target = 1.0f - ((((float)playerIndex + 1f) / (float)allStarLeaderboardEntries.Count));
 
                     iTween.ValueTo(gameObject,
                         iTween.Hash(
-                        "from", 0f,
+                        "from", scrollRectAllStars.verticalNormalizedPosition,
                         "to", target,
-                        "time", 0.1f,
+                        "time", 1f - target,
                         "onupdate", "UpdateScrollViewAllStar",
                         "onupdatetarget", gameObject
                         ));
                 }
             }
+
+            scrollRectAllStars.gameObject.SetActive(true);
         }
 
         public void ClearBars(List<LeaderboardPlayerBar> barsList, GameObjectsPool pool)
