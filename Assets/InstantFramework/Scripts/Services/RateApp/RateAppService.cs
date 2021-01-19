@@ -52,7 +52,7 @@ namespace TurboLabz.InstantFramework
             {
                 returnVal = true;
             }
-            else if (!preferencesModel.hasRated && (totalWins == 1 || totalWins % metaDataModel.appInfo.nthWinsRateApp == 0) && (matchInfoModel.lastCompletedMatch != null && matchInfoModel.lastCompletedMatch.winnerId == playerModel.id))
+            else if (!preferencesModel.hasRated && !preferencesModel.isRateAppDialogueShown && (totalWins == 1 || totalWins % metaDataModel.appInfo.nthWinsRateApp == 0) && (matchInfoModel.lastCompletedMatch != null && matchInfoModel.lastCompletedMatch.winnerId == playerModel.id))
             {
                 returnVal = true;
             }
