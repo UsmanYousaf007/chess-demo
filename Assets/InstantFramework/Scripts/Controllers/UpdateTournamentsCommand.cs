@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         // dispatch signals
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public TournamentOpFailedSignal opFailedSignal { get; set; }
+        [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
 
         // services
         [Inject] public IBackendService backendService { get; set; }
@@ -41,6 +42,7 @@ namespace TurboLabz.InstantFramework
             }
 
             updateTournamentsViewSignal.Dispatch();
+            startLobbyChampionshipTimerSignal.Dispatch();
 
             Release();
         }
