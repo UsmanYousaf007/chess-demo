@@ -22,7 +22,6 @@ namespace TurboLabz.InstantFramework
     {
         public TMP_Text subTitle;
         public TMP_Text currentLessonName;
-        public TMP_Text startButtonText;
         public TMP_Text duration;
         public Button viewAllButton;
         public Button startButton;
