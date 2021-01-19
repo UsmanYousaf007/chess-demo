@@ -75,20 +75,11 @@ namespace TurboLabz.InstantFramework
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
             if (leagueAssets != null)
             {
-                if (playerModel.league == 0)
-                {
-                    playerTitleLabel.text = "TRAINEE";
-                    playerTitleLabel.gameObject.SetActive(true);
-                    playerTitleImg.gameObject.SetActive(false);
-                }
-                else
-                {
-                    playerTitleLabel.text = leagueAssets.typeName;
-                    playerTitleImg.sprite = leagueAssets.nameImg;
-                    playerTitleImg.SetNativeSize();
-                    playerTitleLabel.gameObject.SetActive(false);
-                    playerTitleImg.gameObject.SetActive(true);
-                }
+                playerTitleLabel.text = leagueAssets.typeName;
+                playerTitleImg.sprite = leagueAssets.nameImg;
+                playerTitleImg.SetNativeSize();
+                playerTitleLabel.gameObject.SetActive(false);
+                playerTitleImg.gameObject.SetActive(true);
             }
 
             SetupChampionshipTimer();
