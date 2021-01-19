@@ -106,6 +106,8 @@ namespace TurboLabz.InstantGame
         {
             gameObject.SetActive(true);
             preferencesModel.isRateAppDialogueFirstTimeShown = true;
+            preferencesModel.isRateAppDialogueShown = true;
+
             for (int i = 0; i < stars.Length; i++)
             {
                 stars[i].sprite = emptyStar;

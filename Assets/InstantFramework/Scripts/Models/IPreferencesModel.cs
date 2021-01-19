@@ -88,6 +88,7 @@ namespace TurboLabz.InstantFramework
         Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         List<string> activePromotionSales { get; set; }
         bool isRateAppDialogueFirstTimeShown { get; set; }
+        bool isRateAppDialogueShown { get; set; }
         FreePowerUpStatus freeHint { get; set; }
         FreePowerUpStatus freeDailyRatingBooster { get; set; }
     }

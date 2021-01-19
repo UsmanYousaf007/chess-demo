@@ -85,6 +85,7 @@ namespace TurboLabz.InstantGame
         public List<string> activePromotionSales { get; set; }
         public bool inGameRemoveAdsPromotionShown { get; set; }
         public bool isRateAppDialogueFirstTimeShown { get; set; }
+        public bool isRateAppDialogueShown { get; set; }
         public FreePowerUpStatus freeHint { get; set; }
         public FreePowerUpStatus freeDailyRatingBooster { get; set; }
         public int gamesPlayedPerDay { get; set; }
@@ -146,6 +147,7 @@ namespace TurboLabz.InstantGame
             shopTabVisited = false;
             ResetDailyPrefers();
             isRateAppDialogueFirstTimeShown = false;
+            isRateAppDialogueShown = false;
             freeHint = FreePowerUpStatus.NOT_CONSUMED;
             freeDailyRatingBooster = FreePowerUpStatus.NOT_CONSUMED;
         }

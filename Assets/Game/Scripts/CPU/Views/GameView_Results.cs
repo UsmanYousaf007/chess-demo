@@ -163,6 +163,9 @@ namespace TurboLabz.CPU
 
             HideSafeMoveBorder();
             ShowViewBoardResultsPanel(false);
+
+            preferencesModel.isRateAppDialogueShown = false;
+
             if (HCrossPromo.service != null)
             {
                 showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
