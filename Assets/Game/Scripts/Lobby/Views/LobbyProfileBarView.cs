@@ -36,6 +36,7 @@ namespace TurboLabz.InstantFramework
         public TMP_Text chestTapToOpen;
         public GameObject chestTimer;
         public GameObject chestSpinGlow;
+        public GameObject chestFrontSpinGlow;
 
         private long endTimeUTCSeconds;
         private long chestTimeUTC;
@@ -206,6 +207,7 @@ namespace TurboLabz.InstantFramework
         void SetupChestState(bool unlocked)
         {
             chestSpinGlow.SetActive(unlocked);
+            chestFrontSpinGlow.SetActive(unlocked);
             chestTapToOpen.gameObject.SetActive(unlocked);
             chestTimer.SetActive(!unlocked);
             chestButton.interactable = unlocked;
