@@ -121,6 +121,7 @@ namespace TurboLabz.InstantFramework
 
                         var rewardDlgVO = new RewardDlgV2VO();
                         rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
+                        rewardDlgVO.RVWatched = true;
                         updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                         navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
 

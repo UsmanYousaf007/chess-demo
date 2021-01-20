@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
-        [Inject] public UpdateProfileSignal updateProfileSignal { get; set; }
+        [Inject] public UpdateTrophiesSignal updateTrophiesSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
         private bool _playerRewarded = false;
@@ -147,7 +147,7 @@ namespace TurboLabz.InstantFramework
             }
 
             startLobbyChampionshipTimerSignal.Dispatch();
-            DispatchProfileSignal();
+            updateTrophiesSignal.Dispatch(playerModel.trophies2 + _rewardVO.trophiesCount);
         }
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)
@@ -187,16 +187,6 @@ namespace TurboLabz.InstantFramework
             }
 
             return rank.ToString();
-        }
-
-        private void DispatchProfileSignal()
-        {
-            var pvo = new ProfileVO();
-            pvo.playerName = playerModel.name;
-            pvo.eloScore = playerModel.eloScore;
-            pvo.countryId = playerModel.countryId;
-            pvo.trophies2 = playerModel.trophies2 + _rewardVO.trophiesCount;
-            updateProfileSignal.Dispatch(pvo);
         }
     }
 }

@@ -62,6 +62,12 @@ namespace TurboLabz.InstantGame
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(UpdateTrophiesSignal))]
+        public void OnUpdateTrophies(int trophies)
+        {
+            view.UpdateTrophies(trophies);
+        }
+
         [ListensTo(typeof(UpdateEloScoresSignal))]
         public void OnUpdateEloScoresSignal(EloVO vo)
         {

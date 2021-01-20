@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
     public class AuthSignInWithAppleResultSignal : Signal<AuthSignInWIthAppleResultVO> { }
     public class SignOutSocialAccountSignal : Signal { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
+    public class UpdateTrophiesSignal : Signal<int> { }
     public class UpdateOpponentProfileSignal : Signal<ProfileVO> { }
     public class UpdateChatOpponentPicSignal : Signal<Sprite> { }
     public class RemoteStorePurchaseCompletedSignal : Signal<string> { }
