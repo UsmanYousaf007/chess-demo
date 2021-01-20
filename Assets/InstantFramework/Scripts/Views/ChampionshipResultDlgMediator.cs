@@ -145,7 +145,6 @@ namespace TurboLabz.InstantFramework
                 tournamentsModel.RemoveFromJoinedTournament(_rewardVO.tournamentId);
             }
 
-            //backendService.TournamentsOpGetJoinedTournaments();
             startLobbyChampionshipTimerSignal.Dispatch();
         }
 

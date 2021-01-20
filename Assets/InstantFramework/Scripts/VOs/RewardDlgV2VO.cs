@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         public List<Reward> Rewards;
         public bool RVWatched = false;
         public bool ShowChest = false;
+        public int TrophiesCount = 0;
 
         public RewardDlgV2VO()
         {
@@ -47,6 +48,8 @@ namespace TurboLabz.InstantFramework
                 }
                 Rewards.Add(new RewardDlgV2VO.Reward(dailyRewardVO.rewardShortCodes[i], quantity));
             }
+
+            TrophiesCount = dailyRewardVO.trophiesCount;
         }
     }
 }

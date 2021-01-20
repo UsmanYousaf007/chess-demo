@@ -48,6 +48,8 @@ namespace TurboLabz.InstantFramework
         public Text winningsText;
         public Text rewardsText;
 
+        public GameObject pleaseWaitPanel;
+
         private GameObjectsPool championshipBarsPool;
         private List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
 
@@ -97,6 +99,8 @@ namespace TurboLabz.InstantFramework
             scrollRectChampionship.gameObject.SetActive(false);
             scrollRectChampionship.verticalNormalizedPosition = 1.0f;
 
+            pleaseWaitPanel.SetActive(false);
+
             //rankText.text =
             //winningsText.text =
             //rewardsText.text =
@@ -113,6 +117,10 @@ namespace TurboLabz.InstantFramework
                 if (_joinedTournament.entries.Count > 0)
                 {
                     PopulateEntries(_joinedTournament);
+                }
+                else
+                {
+                    pleaseWaitPanel.SetActive(true);
                 }
             }
             //else
@@ -192,6 +200,8 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateEntries(JoinedTournamentData joinedTournament)
         {
+            pleaseWaitPanel.SetActive(false);
+
             ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
 
             int itemBarsCount = championshipleaderboardPlayerBars.Count;
@@ -246,6 +256,8 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateEntries(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
         {
+            pleaseWaitPanel.SetActive(false);
+
             ClearBars(allStarPlayerBars, allStarBarsPool);
 
             int itemBarsCount = allStarPlayerBars.Count;
@@ -315,6 +327,8 @@ namespace TurboLabz.InstantFramework
         {
             if (joinedTournament != null && championshipleaderboardPlayerBars.Count == 0)
             {
+                pleaseWaitPanel.SetActive(true);
+
                 _joinedTournament = joinedTournament;
 
                 PopulateEntries(_joinedTournament);

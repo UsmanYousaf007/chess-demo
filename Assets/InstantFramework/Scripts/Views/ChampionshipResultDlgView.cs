@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         [SerializeField] private Transform championshipLeaderboardListContainer;
         [SerializeField] protected GameObject championshipLeaderboardPlayerBarPrefab;
         [SerializeField] protected ScrollRect scrollView;
+        [SerializeField] protected GameObject pleaseWaitPanel;
 
         protected GameObjectsPool championshipBarsPool;
         protected List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
@@ -55,6 +56,9 @@ namespace TurboLabz.InstantFramework
                 audioService.PlayStandardClick();
                 continueBtnClickedSignal.Dispatch();
                     });
+
+            scrollRectChampionship.gameObject.SetActive(false);
+            pleaseWaitPanel.SetActive(false);
         }
 
         public ScrollRect GetScrollView()
@@ -64,12 +68,14 @@ namespace TurboLabz.InstantFramework
 
         public virtual void Show()
         {
+            pleaseWaitPanel.SetActive(true);
             gameObject.SetActive(true);
         }
 
         public virtual void Hide()
         {
             gameObject.SetActive(false);
+            scrollRectChampionship.gameObject.SetActive(false);
         }
 
         public virtual void UpdateView(string playerId, JoinedTournamentData joinedTournament)
@@ -116,6 +122,8 @@ namespace TurboLabz.InstantFramework
 
         public void PopulateEntries(string playerId, JoinedTournamentData joinedTournament)
         {
+            pleaseWaitPanel.SetActive(false);
+
             ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
 
             int itemBarsCount = championshipleaderboardPlayerBars.Count;
@@ -139,6 +147,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            scrollRectChampionship.gameObject.SetActive(true);
             if (playerIndex == -1)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
@@ -151,13 +160,15 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    float target = 1.0f - ((((float)playerIndex + 1) / (float)joinedTournament.entries.Count));
+                    float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
+
+                    //scrollRectChampionship.verticalNormalizedPosition = target;
 
                     iTween.ValueTo(gameObject,
                         iTween.Hash(
-                        "from", 0f,
+                        "from", scrollRectChampionship.verticalNormalizedPosition,
                         "to", target,
-                        "time", 0.1f,
+                        "time", 1f - target,
                         "onupdate", "UpdateScrollViewChampionship",
                         "onupdatetarget", gameObject
                         ));
