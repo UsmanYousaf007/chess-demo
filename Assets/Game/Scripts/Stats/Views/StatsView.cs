@@ -30,6 +30,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
         [Inject] public ChangeUserDetailsSignal changeUserDetailsSignal { get; set; }
         [Inject] public ShowBottomNavSignal showBottomNavSignal { get; set; }
@@ -76,6 +77,9 @@ namespace TurboLabz.InstantGame
 
         public Button supportButton;
         public Button settingsButton;
+
+        public Image playerTitleImg;
+        public Text currentTrophies;
 
         public GameObject uiBlocker;
         public GameObject processingUi;
@@ -234,6 +238,15 @@ namespace TurboLabz.InstantGame
             playerTag.text = vo.tag;
             country.text = Flags.GetCountry(vo.country);
             playingSince.text = string.Format("Playing since, {0}", vo.playingSince);
+
+            currentTrophies.text = playerModel.trophies2.ToString();
+
+            LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());
+            if (leagueAssets != null)
+            {
+                playerTitleImg.sprite = leagueAssets.nameImg;
+                playerTitleImg.SetNativeSize();
+            }
         }
 
         private void nameEditBtnClicked()
