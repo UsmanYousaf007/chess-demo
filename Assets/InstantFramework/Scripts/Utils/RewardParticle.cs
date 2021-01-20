@@ -29,6 +29,7 @@ public class RewardParticle : View
     public float minFlyTime;
     public float maxFlyTime;
 
+    public float rotSpeedRange;
     float rotSpeed;
 
     public AudioClip spreadSFX;
@@ -47,7 +48,7 @@ public class RewardParticle : View
         spreadAirTime = Random.Range(minAirTime, maxAirTime);
         flyTime = Random.Range(minFlyTime, maxFlyTime);
 
-        rotSpeed = Random.Range(-150, 150);
+        rotSpeed = Random.Range(-rotSpeedRange, rotSpeedRange);
 
         PlaySequence();
     }
