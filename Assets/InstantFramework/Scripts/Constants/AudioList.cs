@@ -51,6 +51,7 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_EFFECT_TROPHY_SPREAD;
     public AudioClip SFX_EFFECT_TROPHY_TRAVEL;
     public AudioClip SFX_EFFECT_TROPHY_FILL;
+    public AudioClip SFX_EFFECT_RING_SLAM;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

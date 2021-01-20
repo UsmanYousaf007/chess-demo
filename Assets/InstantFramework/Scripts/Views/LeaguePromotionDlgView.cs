@@ -32,6 +32,8 @@ namespace TurboLabz.InstantFramework
 
         public Signal CollectBtnClickedSignal = new Signal();
 
+        [Inject] public IAudioService audioService { get; set; }
+
         public void Init()
         {
             collectBtn.onClick.AddListener(() =>
@@ -134,6 +136,8 @@ namespace TurboLabz.InstantFramework
 
         public void PlayLeagueRingSlamEffect()
         {
+            audioService.Play(audioService.sounds.SFX_EFFECT_RING_SLAM);
+
             _leagueRingSlamEffect.gameObject.SetActive(true);
             _leagueTitleSlamEffect.gameObject.SetActive(true);
 
