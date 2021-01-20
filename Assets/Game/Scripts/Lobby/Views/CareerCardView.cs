@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public Button bettingPlus;
         public Button bettingMinus;
         public Text bettingValue;
+        public TMP_Text rewardValue;
         public GameObject lowBetTooltip;
         public Text tooltipText;
         public Button playBtn;
@@ -211,6 +212,7 @@ namespace TurboLabz.InstantFramework
             bettingMinus.image.color = minimumBetReached ? new Color(1f, 1f, 1f, 128f / 255f) : Color.white;
 
             bettingValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex]);
+            rewardValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex] * 2);
         }
     }
 }
