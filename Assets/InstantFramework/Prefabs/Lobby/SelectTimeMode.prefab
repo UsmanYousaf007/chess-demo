@@ -567,7 +567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 77, y: 0}
+  m_AnchoredPosition: {x: -20, y: -17}
   m_SizeDelta: {x: 53, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3265575705881979838
@@ -1718,7 +1718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &135715551962888809
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2591,7 +2591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 174, y: 45}
+  m_AnchoredPosition: {x: 77, y: 28}
   m_SizeDelta: {x: 0, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2360141804439921272
@@ -2913,7 +2913,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: PowerPlay
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b38ba342ebc8e4b26b554906f09bd919, type: 2}
   m_sharedMaterial: {fileID: -5623499407062287254, guid: b38ba342ebc8e4b26b554906f09bd919,
@@ -2983,13 +2983,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 98.06781, w: 0}
   m_textInfo:
     textComponent: {fileID: 3760699670641132409}
-    characterCount: 9
+    characterCount: 0
     spriteCount: 0
     spaceCount: 0
-    wordCount: 1
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
