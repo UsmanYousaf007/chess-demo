@@ -38,6 +38,12 @@ namespace TurboLabz.InstantFramework
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
+        public void Show(JoinedTournamentData joinedTournament)
+        {
+            _joinedTournament = joinedTournament;
+            Show();
+        }
+
         public override void Show()
         {
             if (_joinedTournament != null)
@@ -47,6 +53,7 @@ namespace TurboLabz.InstantFramework
 
             base.Show();
             gameObject.SetActive(true);
+
             StartCoroutine(CountdownTimer());
         }
 

@@ -58,9 +58,9 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
-                view.Show();
-
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                view.Show(joinedTournament);
+
                 if (joinedTournament != null && joinedTournament.entries.Count > 0)
                 {
                     view.UpdateView(playerModel.id, joinedTournament);

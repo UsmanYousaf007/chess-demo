@@ -31,6 +31,7 @@ namespace TurboLabz.InstantFramework
         private LobbyChestAnimSequence _currentChestAnimSequence = null;
         private RewardUIContainer _currentRewardContainer = null;
         private bool _showCoinChest = false;
+        private int _trophies = 0;
 
         public void Init()
         {
@@ -60,10 +61,11 @@ namespace TurboLabz.InstantFramework
             StartCoroutine(StartAnimationCoroutine());
         }
 
-        public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false, bool showCoinChest = false)
+        public void UpdateView(RewardDlgV2VO.Reward reward, bool rewardedVideoWatched = false, bool showCoinChest = false, int trophies = 0)
         {
             _reward = reward;
             _showCoinChest = showCoinChest;
+            _trophies = trophies;
 
             _currentChestAnimSequence?.gameObject.SetActive(false);
             _currentChestAnimSequence?.ResetAnimation();
@@ -74,95 +76,64 @@ namespace TurboLabz.InstantFramework
                 _rewardContainers[i].containerParent.SetActive(false);
                 //_rewardContainers[i].effect.gameObject.SetActive(false);
                 Animator animator = _rewardContainers[i].containerParent.GetComponent<Animator>();
-                RewardAnimSequence animSequence = _rewardContainers[i].containerParent.GetComponentInChildren<RewardAnimSequence>(true);
+                //RewardAnimSequence animSequence = _rewardContainers[i].containerParent.GetComponentInChildren<RewardAnimSequence>(true);
                 animator.enabled = false;
 
-                if (_rewardContainers[i].shortCode == reward.ShortCode)
+                if (_reward != null)
                 {
-                    _rewardContainers[i].quantityText.text = "x0";
-                    _currentRewardContainer = _rewardContainers[i];
-                    //_rewardContainers[i].containerParent.SetActive(true);
-                    _currentAnimSequence = animSequence;
+                    if (_rewardContainers[i].shortCode == _reward.ShortCode)
+                    {
+                        //_rewardContainers[i].quantityText.text = "x0";
+                        _currentRewardContainer = _rewardContainers[i];
+                        _currentAnimSequence = _rewardContainers[i].containerParent.GetComponentInChildren<RewardAnimSequence>(true);
+                    }
+                }
+                else /// Case for trophies, since trophies are not a part of reward structure and they are separate from rewards.
+                {
+                    if (_rewardContainers[i].shortCode == "trophies")
+                    {
+                        //_rewardContainers[i].quantityText.text = "x0";
+                        _currentRewardContainer = _rewardContainers[i];
+                        _currentAnimSequence = _rewardContainers[i].containerParent.GetComponentInChildren<RewardAnimSequence>(true);
+                    }
                 }
             }
 
             _rvReelsPanel.gameObject.SetActive(rewardedVideoWatched);
             _watchingVideoText.gameObject.SetActive(rewardedVideoWatched);
-
-            //_continueButton.interactable = false;
         }
-
-        //public void PlayItemAnimation()
-        //{
-        //    for (int i = 0; i < _rewardContainers.Length; i++)
-        //    {
-        //        if (_rewardContainers[i].containerParent.activeSelf)
-        //        {
-        //            _rewardContainers[i].effect.gameObject.SetActive(true);
-        //            _rewardContainers[i].effect.Play();
-
-        //            RewardParticleEmitter rewardParticleEmitter = _rewardContainers[i].containerParent.GetComponentInChildren<RewardParticleEmitter>(true);
-        //            if (rewardParticleEmitter != null)
-        //            {
-        //                _currentActiveTextObject = _rewardContainers[i].quantityText;
-        //                rewardParticleEmitter.gameObject.SetActive(true);
-        //                if (_reward.Quantity < 10)
-        //                {
-        //                    rewardParticleEmitter.PlayFx(_reward.Quantity);
-        //                }
-        //                else
-        //                {
-        //                    rewardParticleEmitter.PlayFx(10);
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    PlayRewardFillParticles();
-        //}
-
-        //public void PlayRewardFillParticles()
-        //{
-        //    _currentActiveTextObject.text = "x0";
-        //    iTween.ValueTo(this.gameObject,
-        //            iTween.Hash(
-        //                "from", 0,
-        //                "to", _reward.Quantity,
-        //                "time", 0.75f,
-        //                "onupdate", "OnCountUpdate",
-        //                "onupdatetarget", this.gameObject,
-        //                "oncomplete", "AnimationComplete"
-        //            ));
-        //}
-
-        //private void OnCountUpdate(int val)
-        //{
-        //    _currentActiveTextObject.text = "x" + val.ToString();
-        //}
-
-        //private void AnimationComplete()
-        //{
-        //    //_continueButton.interactable = true;
-        //}
 
         public IEnumerator StartAnimationCoroutine()
         {
             yield return new WaitForSeconds(0.25f);
-            //yield return new WaitForFixedUpdate();
 
-            if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+            if (_reward != null)
             {
-                _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
-                _currentChestAnimSequence.countReward = _reward.Quantity;
+                if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+                {
+                    _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
+                    _currentChestAnimSequence.countReward = _reward.Quantity;
 
-                _currentChestAnimSequence?.gameObject.SetActive(true);
-                _currentAnimSequence?.transform.parent.gameObject.SetActive(false);
+                    _currentChestAnimSequence?.gameObject.SetActive(true);
+                    _currentAnimSequence?.transform.parent.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+
+                    _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+                }
             }
             else
             {
-                _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+                if (_trophies > 0)
+                {
+                    _currentAnimSequence.SetupRewardQuantity(_trophies);
 
-                _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+                    _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+
+                    _trophies = 0;
+                }
             }
 
             _currentRewardContainer.containerParent.SetActive(true);

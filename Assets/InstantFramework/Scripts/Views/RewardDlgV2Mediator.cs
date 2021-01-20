@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         private RewardDlgV2VO _rewardDlgVO;
+        private bool _rewardTrophies = false;
 
         public override void OnRegister()
         {
@@ -29,6 +30,7 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(RewardDlgV2VO vo)
         {
             _rewardDlgVO = vo;
+            _rewardTrophies = _rewardDlgVO.TrophiesCount > 0;
             view.UpdateView(vo.Rewards[0], _rewardDlgVO.RVWatched, _rewardDlgVO.ShowChest);
 
             vo.Rewards.RemoveAt(0);
@@ -58,7 +60,6 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_CLICK);
 
-            // TODO: play collect animation.
             OnCollectAnimationComplete();
         }
 
@@ -73,7 +74,17 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                if (_rewardTrophies && _rewardDlgVO.TrophiesCount > 0)
+                {
+                    view.UpdateView(null, false, false, _rewardDlgVO.TrophiesCount);
+                    view.InvokeStartAnimationCoroutine();
+                }
+                else
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                }
+
+                _rewardTrophies = false;
             }
         }
     }
