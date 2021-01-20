@@ -99,6 +99,11 @@ namespace TurboLabz.InstantFramework
             RebuildLayout();
         }
 
+        public void UpdateTrophies(int trophies)
+        {
+            currentTrophies.text = trophies.ToString();
+        }
+
         public void ShowTooltip()
         {
             if (!preferencesModel.isLobbyLoadedFirstTime && !tooltipShown)

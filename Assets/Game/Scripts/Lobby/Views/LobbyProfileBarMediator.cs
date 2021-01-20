@@ -48,6 +48,12 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
+        [ListensTo(typeof(UpdateTrophiesSignal))]
+        public void OnUpdateTrophies(int trophies)
+        {
+            view.UpdateTrophies(trophies);
+        }
+
         [ListensTo(typeof(AuthFacebookResultSignal))]
         public void OnAuthFacebookResult(AuthFacebookResultVO vo)
         {

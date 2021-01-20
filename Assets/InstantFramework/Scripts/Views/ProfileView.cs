@@ -254,6 +254,15 @@ namespace TurboLabz.InstantGame
             ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
         }
 
+        public void UpdateTrophies(int trophies)
+        {
+            if (championshipTrophiesContainer != null && championshipTrophies != null)
+            {
+                championshipTrophies.text = trophies.ToString();
+                championshipTrophiesContainer.SetActive(trophies > 0);
+            }
+        }
+
         public void FacebookAuthResult(AuthFacebookResultVO vo)
         {
             if (vo.isSuccessful)
