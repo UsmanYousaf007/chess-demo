@@ -59,10 +59,10 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG))
             {
-                OnCloseDlgSignal();
                 var context = $"{item.displayName.Replace(' ', '_').ToLower()}";
                 analyticsService.DesignEvent(AnalyticsEventId.shop_popup_purchase, "context", analyticsContext, context);
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Payout, "spot_purchase", $"{analyticsContext}_{context}");
+                OnCloseDlgSignal();
             }
         }
 
