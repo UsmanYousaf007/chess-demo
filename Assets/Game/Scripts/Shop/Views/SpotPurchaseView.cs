@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         public RectTransform[] layouts;
         public Transform bgGlow;
         public Transform bgGlowPivot;
+        public GameObject extraBadge;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -67,6 +68,7 @@ namespace TurboLabz.InstantFramework
             showMoreButton.gameObject.SetActive(!showMore);
             showLessButton.gameObject.SetActive(showMore);
             moreOffers.SetActive(showMore);
+            extraBadge.SetActive(!showMore);
             RebuildLayouts();
         }
 
