@@ -367,6 +367,7 @@ namespace TurboLabz.InstantFramework
             public const string INVENTORY_SETTINGS_REWARDED_VIDEO_COST = "inventorySettings";
             public const string DEFAULT_ITEMS_V1 = "DefaultOwnedItemsV1";
             public const string SPECIAL_ITEM_REWARD_DOUBLER = "SpecialItem2xReward";
+            public const string DEFAULT_ITEMS_V2 = "DefaultOwnedItemsV2";
 
             public const string SPECIAL_BUNDLE_WELCOME = "SpecialBundleWelcome";
             public const string SPECIAL_BUNDLE_ELITE = "SpecialBundleElite";
