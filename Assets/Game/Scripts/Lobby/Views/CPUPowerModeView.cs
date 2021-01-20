@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -9,7 +10,8 @@ namespace TurboLabz.InstantFramework
     {
         public Button powerPlayOnBtn;
         public Image powerPlayTick;
-        public Image powerPlayPlus;
+        //public Image powerPlayPlus;
+        public GameObject powerPlayPlus;
         public TMP_Text onText;
         public Image gemIcon;
         public TMP_Text gemCost;
@@ -107,7 +109,7 @@ namespace TurboLabz.InstantFramework
             gemIcon.enabled = !powerModeEnabled;
             gemCost.enabled = !powerModeEnabled;
             powerPlayTick.enabled = powerModeEnabled;
-            powerPlayPlus.enabled = !powerModeEnabled;
+            powerPlayPlus.SetActive(!powerModeEnabled);
             gemCost.text = storeItem.currency3Cost.ToString();
             powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
