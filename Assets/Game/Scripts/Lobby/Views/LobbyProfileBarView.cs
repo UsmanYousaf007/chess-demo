@@ -155,6 +155,7 @@ namespace TurboLabz.InstantFramework
 
         void OnLeaderboardBtnClicked()
         {
+            tooltipGO.SetActive(false);
             audioService.PlayStandardClick();
             leaderboardButtonClickedSignal.Dispatch();
         }
