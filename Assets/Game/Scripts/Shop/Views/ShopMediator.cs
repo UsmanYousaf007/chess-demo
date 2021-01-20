@@ -104,5 +104,14 @@ namespace TurboLabz.InstantFramework
                 analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "shop", $"coins_{quantity}");
             }
         }
+
+        [ListensTo(typeof(OutOfGemsSignal))]
+        public void OnOutOfGems()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.ShowGems();
+            }
+        }
     }
 }

@@ -119,10 +119,10 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if (vo.showBanner)
-            {
-                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
-            }
+            //if (vo.showBanner)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
+            //}
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }

@@ -430,6 +430,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnBackButtonClicked()
         {
+            audioService.PlayStandardClick();
             backSignal.Dispatch();
         }
 

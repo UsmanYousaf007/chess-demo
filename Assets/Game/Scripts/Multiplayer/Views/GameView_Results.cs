@@ -195,7 +195,7 @@ namespace TurboLabz.Multiplayer
 
             if (!animationPlayed)
             {
-                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars * 2 : 0, playerWins);
+                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins);
             }
 
             UpdateGameEndReasonSection(vo.reason);
@@ -406,6 +406,7 @@ namespace TurboLabz.Multiplayer
         {
             //resultsEarnedCoinsLabel.text = playerWins ? $"{betValue * 2}" : betValue.ToString();
             //resultsEarnedStarsLabel.text = powerMode ? $"{stars * 2}" : stars.ToString();
+            resultsPowerplayImage.enabled = powerMode;
             resultsPowerplayImage.sprite = powerMode ? powerPlayOnSprite : powerPlayOffSprite;
         }
 

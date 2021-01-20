@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public Text subscriptionNewPrice;
         public Text subscriptionRibbonText;
         public GameObject subscriptionRibbon;
+        public ScrollRect scrollRect;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -148,6 +149,26 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true;
                 ShowSaleItems(true);
             }
+        }
+
+        public void ShowGems()
+        {
+            var from = scrollRect.verticalNormalizedPosition;
+
+            iTween.ValueTo(gameObject,
+                iTween.Hash(
+                    "from", from,
+                    "to", 0,
+                    "time", 0.5f,
+                    "onupdate", "MoveScrollRect",
+                    "onupdatetarger", gameObject,
+                    "easytype", iTween.EaseType.easeOutElastic
+                    ));
+        }
+
+        private void MoveScrollRect(float value)
+        {
+            scrollRect.verticalNormalizedPosition = value;
         }
     }
 }
