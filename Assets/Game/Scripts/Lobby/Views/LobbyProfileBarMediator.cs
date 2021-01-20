@@ -149,5 +149,11 @@ namespace TurboLabz.InstantFramework
                 view.StartCoroutine(view.ChampionshipTimer());
             }
         }
+
+        [ListensTo(typeof(LobbySequenceEndedSignal))]
+        public void ShowTooltip()
+        {
+            view.ShowTooltip();
+        }
     }
 }
