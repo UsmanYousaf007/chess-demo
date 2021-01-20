@@ -19,6 +19,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
+        [Inject] public SpotCoinsPurchaseDlgClosedSignal spotCoinsPurchaseDlgClosedSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -51,6 +52,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
             {
                 view.Hide();
+                spotCoinsPurchaseDlgClosedSignal.Dispatch();
             }
         }
         

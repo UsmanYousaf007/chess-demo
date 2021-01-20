@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
         [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
         [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
+        [Inject] public SpotCoinsPurchaseDlgClosedSignal spotCoinsPurchaseDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
         [Inject] public UpdateSpotCoinsWatchAdDlgSignal updateSpotCoinsWatchAdDlgSignal { get; set; }
+        [Inject] public LobbySequenceEndedSignal lobbySequenceEndedSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -178,6 +180,11 @@ namespace TurboLabz.InstantFramework
                 outOfCoinsPopupShown = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
                 updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
+                spotCoinsPurchaseDlgClosedSignal.AddOnce(() => lobbySequenceEndedSignal.Dispatch());
+            }
+            else
+            {
+                lobbySequenceEndedSignal.Dispatch();
             }
         }
     }
