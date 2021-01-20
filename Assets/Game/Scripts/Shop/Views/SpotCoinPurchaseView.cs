@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public Text gemsText;
         public Button closeButton2;
         public GameObject toolTip;
+        public GameObject extraBadge;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -103,6 +104,7 @@ namespace TurboLabz.InstantFramework
             showMoreButton.gameObject.SetActive(!showMore);
             showLessButton.gameObject.SetActive(showMore);
             moreOffers.SetActive(showMore);
+            extraBadge.SetActive(!showMore);
             RebuildLayouts();
         }
 
