@@ -11,6 +11,7 @@ using System;
 using TMPro;
 using System.Collections;
 using TurboLabz.InstantGame;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -42,6 +43,10 @@ namespace TurboLabz.InstantFramework
         private long chestTimeUTC;
         private bool chestTimeOver;
 
+        public TMP_Text tooltipText;
+        public Image tooltipBG;
+        public GameObject tooltipGO;
+
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -56,7 +61,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
 
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         [HideInInspector] public bool isVideoAvailable;
+        bool tooltipShown = false;
 
         public void Init()
         {
@@ -89,6 +97,28 @@ namespace TurboLabz.InstantFramework
             SetupChest();
             StartCoroutine(CountdownChestTimer());
             RebuildLayout();
+        }
+
+        public void ShowTooltip()
+        {
+            if (!preferencesModel.isLobbyLoadedFirstTime && !tooltipShown)
+            {
+                tooltipGO.SetActive(true);
+                tooltipShown = true;
+                StartCoroutine(FadeOut(tooltipBG, tooltipText, 2f, 0f, tooltipGO));
+            }
+        }
+
+        IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
+        {
+            yield return new WaitForSeconds(6);
+            image.DOFade(fadeTo, duration);
+            text.DOFade(fadeTo, duration);
+            yield return new WaitForSeconds(duration);
+            image.DOFade(1f, 0f);
+            text.DOFade(1f, 0f);
+            gameObject.SetActive(false);
+            yield return null;
         }
 
         public void SetupChampionshipTimer()
@@ -125,6 +155,7 @@ namespace TurboLabz.InstantFramework
 
         void OnLeaderboardBtnClicked()
         {
+            tooltipGO.SetActive(false);
             audioService.PlayStandardClick();
             leaderboardButtonClickedSignal.Dispatch();
         }

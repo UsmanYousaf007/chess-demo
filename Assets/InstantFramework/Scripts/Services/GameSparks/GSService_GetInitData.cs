@@ -125,7 +125,10 @@ namespace TurboLabz.InstantFramework
             if (response.ScriptData.ContainsKey(GSBackendKeys.REFUND_GEMS_ADDED))
             {
                 var refundedGems = response.ScriptData.GetInt(GSBackendKeys.REFUND_GEMS_ADDED);
-                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, (int)refundedGems, "refund", "old_inventory_items");
+                if (refundedGems > 0)
+                {
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, (int)refundedGems, "refund", "old_inventory_items");
+                }
             }
 
             storeAvailableSignal.Dispatch(false);
@@ -894,24 +897,29 @@ namespace TurboLabz.InstantFramework
 
         private void SendDefaultItemsOwnedAnalytics()
         {
-            if (storeSettingsModel.items.ContainsKey(GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1))
+            string[] defaultItems = { GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1, GSBackendKeys.ShopItem.DEFAULT_ITEMS_V2 };
+
+            foreach (var defaultItem in defaultItems)
             {
-                var storeItem = storeSettingsModel.items[GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1];
-
-                if(storeItem.bundledItems != null)
+                if (storeSettingsModel.items.ContainsKey(defaultItem))
                 {
-                    foreach (var item in storeItem.bundledItems)
+                    var storeItem = storeSettingsModel.items[defaultItem];
+
+                    if (storeItem.bundledItems != null)
                     {
-                        var context = CollectionsUtil.GetContextFromString(item.Key);
-
-                        if (context != AnalyticsContext.unknown)
+                        foreach (var item in storeItem.bundledItems)
                         {
-                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "refund", "default");
+                            var context = CollectionsUtil.GetContextFromString(item.Key);
 
-                            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(item.Key))
+                            if (context != AnalyticsContext.unknown)
                             {
-                                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][item.Key] += item.Value;
+                                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "refund", "default");
                             }
+                        }
+
+                        if (storeItem.currency3Cost > 0)
+                        {
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, "gems", storeItem.currency3Cost, "refund", "default");
                         }
                     }
                 }
