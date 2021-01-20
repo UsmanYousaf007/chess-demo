@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -88,6 +89,8 @@ namespace TurboLabz.InstantFramework
 
         private void OnContinuePressed()
         {
+            audioService.Play(audioService.sounds.SFX_CLICK);
+
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             startLobbyChampionshipTimerSignal.Dispatch();
         }
