@@ -127,6 +127,7 @@ namespace TurboLabz.InstantFramework
 
         void OnStartGameButtonClicked()
         {
+            audioService.PlayStandardClick();
             playCPUButtonClickedSignal.Dispatch();
         }
     }

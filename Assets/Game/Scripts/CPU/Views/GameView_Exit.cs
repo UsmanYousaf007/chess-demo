@@ -149,6 +149,8 @@ namespace TurboLabz.CPU
 
         void OnMenuButtonClicked()
         {
+            audioService.PlayStandardClick();
+
             if (menuOpensResultsDlg)
             {
                 showResultsDlgSignal.Dispatch();
@@ -171,6 +173,7 @@ namespace TurboLabz.CPU
 
         void OnBackClicked()
         {
+            audioService.PlayStandardClick();
             if (menuOpensResultsDlg)
             {
                 showResultsDlgSignal.Dispatch();

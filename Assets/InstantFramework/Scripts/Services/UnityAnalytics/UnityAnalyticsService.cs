@@ -217,5 +217,10 @@ namespace TurboLabz.InstantFramework
             Print(flowType.ToString(), paramDict);
         }
 
+        public void ValueEvent(AnalyticsEventId evt, string context, object val)
+        {
+            GameAnalytics.NewDesignEvent($"{evt}:{context}", (float)val);
+            Print($"{evt}:{context}:{val}");
+        }
     }
 }

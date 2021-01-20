@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -157,6 +158,15 @@ namespace TurboLabz.InstantFramework
             if (earnedTrophies > 0)
             {
                 analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.TROPHIES, earnedTrophies, "championship_reward", $"rank{data.rank}_{leagueName}");
+            }
+
+            var playerEntry = (from entry in data.entries
+                               where entry.publicProfile.playerId.Equals(playerModel.id)
+                               select entry).FirstOrDefault();
+
+            if (playerEntry != null)
+            {
+                analyticsService.ValueEvent(AnalyticsEventId.championship_coins_by_rank, playerEntry.rank.ToString(), playerEntry.score);
             }
         }
 

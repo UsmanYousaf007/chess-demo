@@ -2026,8 +2026,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8000396790553094098}
-  - component: {fileID: 2040798837945572654}
   - component: {fileID: 6225531073007883183}
+  - component: {fileID: 2040798837945572654}
   m_Layer: 5
   m_Name: File Scroll-Snap
   m_TagString: Untagged
@@ -2055,6 +2055,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 921, y: 919}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6225531073007883183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253599580903432391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Content: {fileID: 992387865440571366}
+  m_Horizontal: 1
+  m_Vertical: 0
+  m_MovementType: 1
+  m_Elasticity: 0.1
+  m_Inertia: 0
+  m_DecelerationRate: 0.01
+  m_ScrollSensitivity: 0
+  m_Viewport: {fileID: 1248213819809932725}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 0}
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &2040798837945572654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2082,15 +2114,15 @@ MonoBehaviour:
   useOcclusionCulling: 0
   startingPanel: 1
   swipeGestures: 1
-  minimumSwipeSpeed: 0
+  minimumSwipeSpeed: 100
   previousButton: {fileID: 0}
   nextButton: {fileID: 0}
   pagination: {fileID: 0}
   toggleNavigation: 1
-  snapTarget: 0
-  snappingSpeed: 10
-  thresholdSnappingSpeed: 150
-  hardSnap: 0
+  snapTarget: 2
+  snappingSpeed: 7
+  thresholdSnappingSpeed: -1
+  hardSnap: 1
   useUnscaledTime: 0
   onPanelChanged:
     m_PersistentCalls:
@@ -2271,38 +2303,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     simpleScrollSnap: {fileID: 2040798837945572654}
---- !u!114 &6225531073007883183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8253599580903432391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Content: {fileID: 992387865440571366}
-  m_Horizontal: 1
-  m_Vertical: 0
-  m_MovementType: 0
-  m_Elasticity: 0.1
-  m_Inertia: 1
-  m_DecelerationRate: 0.01
-  m_ScrollSensitivity: 0
-  m_Viewport: {fileID: 1248213819809932725}
-  m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: 0
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &8565873861593740510
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,6 +2500,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8832744240102644238}
     m_Modifications:
+    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyTopBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2605,16 +2615,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyTopBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2401890473734289711, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2698,7 +2698,7 @@ PrefabInstance:
     - target: {fileID: 8835913159695763108, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 106.005005
+      value: 103.505005
       objectReference: {fileID: 0}
     - target: {fileID: 8835913159695763108, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
@@ -2738,6 +2738,11 @@ PrefabInstance:
     - target: {fileID: 2476126055259393552, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938624376334072612, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3764155007635303949, guid: 86e16542f102345d7af20c03ef591fc6,
@@ -2815,6 +2820,51 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2681937433343383722, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 113.525
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681937433343383722, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681937433343383722, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681937433343383722, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681937433343383722, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517426740865450606, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517426740865450606, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517426740865450606, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517426740865450606, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7211895426661253504, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2861,6 +2911,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 992387865440571366}
     m_Modifications:
+    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
+        type: 3}
+      propertyPath: m_Name
+      value: LessonsCard
+      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2981,10 +3036,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
+    - target: {fileID: 45315420432130341, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
-      propertyPath: m_Name
-      value: LessonsCard
+      propertyPath: m_SizeDelta.x
+      value: 777.2012
       objectReference: {fileID: 0}
     - target: {fileID: 3677377458140275005, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
@@ -3016,11 +3071,6 @@ PrefabInstance:
       propertyPath: lessonLockedBuy
       value: 
       objectReference: {fileID: 7526509545213749890}
-    - target: {fileID: 45315420432130341, guid: eecced6e8908647d39597485ad490ec0,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 777.2012
-      objectReference: {fileID: 0}
     - target: {fileID: 3911210602649609294, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
       propertyPath: m_Enabled
@@ -3540,6 +3590,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 992387865440571366}
     m_Modifications:
+    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
+        type: 3}
+      propertyPath: m_Name
+      value: CPUCard
+      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3660,11 +3715,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
-        type: 3}
-      propertyPath: m_Name
-      value: CPUCard
-      objectReference: {fileID: 0}
     - target: {fileID: 2646410840639600200, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
       propertyPath: m_Enabled
@@ -3695,6 +3745,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8832744240102644238}
     m_Modifications:
+    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyBottomBar
+      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3799,11 +3854,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyBottomBar
       objectReference: {fileID: 0}
     - target: {fileID: 4647627785390284855, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}

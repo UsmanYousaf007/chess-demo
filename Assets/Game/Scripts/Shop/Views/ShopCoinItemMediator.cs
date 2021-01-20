@@ -11,9 +11,13 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
+        [Inject] public OutOfGemsSignal outOfGemsSignal { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
+
+        //Models
+        [Inject] public INavigatorModel navigatorModel { get; set; }
 
         public override void OnRegister()
         {
@@ -36,8 +40,15 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotEnoughGemsSignal(long coins)
         {
-            SpotPurchaseMediator.analyticsContext = $"{coins}_coins_pack_state_2";
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            if (navigatorModel.currentViewId == NavigatorViewId.SHOP)
+            {
+                outOfGemsSignal.Dispatch();
+            }
+            else
+            {
+                SpotPurchaseMediator.analyticsContext = $"{coins}_coins_pack_state_2";
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            }
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]

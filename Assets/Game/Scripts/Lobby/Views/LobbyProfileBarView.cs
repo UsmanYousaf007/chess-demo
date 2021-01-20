@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
             playerName.text = vo.playerName;
             eloScoreValue.text = vo.eloScore.ToString();
             playerFlag.sprite = Flags.GetFlag(vo.countryId);
-            championShipTrophies.SetActive(vo.trophies2 > 0);
+            //championShipTrophies.SetActive(vo.trophies2 > 0);
             currentTrophies.text = vo.trophies2.ToString();
 
             LeagueTierIconsContainer.LeagueAsset leagueAssets = tournamentsModel.GetLeagueSprites(playerModel.league.ToString());

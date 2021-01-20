@@ -131,7 +131,7 @@ namespace TurboLabz.Multiplayer
             betValue = vo.bettingCoins;
 
             powerPlayModeOn.enabled = vo.powerMode;
-            powerPlayModeOff.enabled = !vo.powerMode;
+            powerPlayModeOff.enabled = false;
             gameModeLabel.text = GetMode(vo.gameMode) + " Chess";
             bettingCoins.text = vo.bettingCoins.ToString("N0");
 
@@ -156,7 +156,7 @@ namespace TurboLabz.Multiplayer
                 RollOpponentProfilePicture();
             }
 
-            SetupFindLayout(vo.bettingCoins > 0);
+            SetupFindLayout(vo.bettingCoins > 0, vo.powerMode);
         }
 
         public void SetProfilePicById(string id, Sprite sprite)
@@ -362,10 +362,10 @@ namespace TurboLabz.Multiplayer
             border.SetNativeSize();
         }
 
-        private void SetupFindLayout(bool isRanked)
+        private void SetupFindLayout(bool isRanked, bool isPowerMode)
         {
             findBankPanel.SetActive(isRanked);
-            findPowerPlayPanel.SetActive(isRanked);
+            findPowerPlayPanel.SetActive(isPowerMode);
 
             _coinsParticleEmitter.gameObject.SetActive(false);
 
