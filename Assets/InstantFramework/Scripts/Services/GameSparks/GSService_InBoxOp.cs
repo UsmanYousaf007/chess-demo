@@ -125,6 +125,10 @@ namespace TurboLabz.InstantFramework
                         {
                             playerModel.coins += qtyInt;
                         }
+                        else if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.TROPHIES2))
+                        {
+                            playerModel.trophies2 += qtyInt;
+                        }
                         else if (playerModel.inventory.ContainsKey(itemShortCode))
                         {
                             playerModel.inventory[itemShortCode] += qtyInt;
