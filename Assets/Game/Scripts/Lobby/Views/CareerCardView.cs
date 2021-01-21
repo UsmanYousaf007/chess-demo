@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
                 SetupBetting();
             }
 
-            tooltipText.text = $"You cant bet lower than {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}% of your coin stock";
+            tooltipText.text = $"Minimum bet is {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}% of your coin stock";
         }
 
         private void SetupTrophyProgressionBar(int currentTrophies)
