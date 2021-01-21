@@ -529,6 +529,7 @@ namespace TurboLabz.InstantFramework
         public long currentStartTimeInSeconds;
         public List<TournamentEntry> entries = new List<TournamentEntry>();
         public int matchesPlayedCount = 0;
+        public int score = 0;
 
         public long lastFetchedTimeUTCSeconds;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();

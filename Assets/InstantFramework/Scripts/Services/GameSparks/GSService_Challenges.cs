@@ -436,8 +436,6 @@ namespace TurboLabz.InstantFramework
                 // Tournament has ended
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = tournament;
-
-                // TODO: Show championship result dialog here.
             }
             else
             {
@@ -460,7 +458,9 @@ namespace TurboLabz.InstantFramework
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = joinedTournament;
 
-                if (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank < previousRank)
+                if (joinedTournament.score > 0 &&
+                    joinedTournament.rank < joinedTournament.entries.Count &&
+                    (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank < previousRank))
                 {
                     metaDataModel.ShowChampionshipNewRankDialog = true;
                 }

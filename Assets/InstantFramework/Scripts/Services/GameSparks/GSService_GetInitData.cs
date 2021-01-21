@@ -543,6 +543,7 @@ namespace TurboLabz.InstantFramework
             joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
             joinedTournament.ended = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.CONCLUDED);
             joinedTournament.matchesPlayedCount = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+            joinedTournament.score = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.SCORE);
 
             var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
             if (grandPrizeGSData != null)
@@ -598,6 +599,7 @@ namespace TurboLabz.InstantFramework
                     if (playerId == tournamentEntries[i].publicProfile.playerId)
                     {
                         joinedTournament.rank = tournamentEntries[i].rank;
+                        joinedTournament.score = tournamentEntries[i].score;
                     }
 
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
