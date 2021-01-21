@@ -458,9 +458,7 @@ namespace TurboLabz.InstantFramework
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = joinedTournament;
 
-                if (joinedTournament.score > 0 &&
-                    joinedTournament.rank < joinedTournament.entries.Count &&
-                    (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank < previousRank))
+                if (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank < previousRank)
                 {
                     metaDataModel.ShowChampionshipNewRankDialog = true;
                 }

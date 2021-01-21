@@ -22,6 +22,10 @@ namespace TurboLabz.InstantFramework
     public class ChampionshipNewRankDlgView : ChampionshipResultDlgView
     {
         // Set in Inspector
+        [SerializeField] private GameObject congratulationsGraphic;
+        [SerializeField] private GameObject rankGraphic;
+        [SerializeField] private GameObject newRankTxtGraphic;
+        [SerializeField] private GameObject yourRankTxtGraphic;
         [SerializeField] private TextMeshProUGUI timerText;
 
         private WaitForSecondsRealtime waitForOneRealSecond;
@@ -38,18 +42,24 @@ namespace TurboLabz.InstantFramework
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
-        public void Show(JoinedTournamentData joinedTournament)
+        public void Show(JoinedTournamentData joinedTournament, bool firstGame = false)
         {
             _joinedTournament = joinedTournament;
-            Show();
+            Show(firstGame);
         }
 
-        public override void Show()
+        public void Show(bool firstGame = false)
         {
             if (_joinedTournament != null)
             {
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
             }
+
+            congratulationsGraphic.SetActive(!firstGame);
+            newRankTxtGraphic.SetActive(!firstGame);
+
+            rankGraphic.SetActive(firstGame);
+            yourRankTxtGraphic.SetActive(firstGame);
 
             base.Show();
             gameObject.SetActive(true);

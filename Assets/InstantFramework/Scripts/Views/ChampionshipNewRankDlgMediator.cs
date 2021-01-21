@@ -60,7 +60,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                view.Show(joinedTournament);
+                view.Show(joinedTournament, joinedTournament.matchesPlayedCount == 1);
 
                 if (joinedTournament != null && joinedTournament.entries.Count > 0)
                 {
