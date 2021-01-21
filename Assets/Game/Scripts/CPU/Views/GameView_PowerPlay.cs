@@ -130,9 +130,10 @@ namespace TurboLabz.CPU
 
         public void SetupPowerplayImage(bool powerplayEnabled)
         {
+            powerplayImage.enabled = powerplayEnabled;
             powerplayImage.sprite = powerplayEnabled ? powerplayActiveSprite : powerplayInActiveSprite;
             isPowerModeOn = powerplayEnabled;
-            showPowerplayDlgButton.gameObject.SetActive(!powerplayEnabled);
+            showPowerplayDlgButton.gameObject.SetActive(false);
         }
     }
 }
