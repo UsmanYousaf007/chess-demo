@@ -89,6 +89,7 @@ namespace TurboLabz.InstantGame
         public FreePowerUpStatus freeHint { get; set; }
         public FreePowerUpStatus freeDailyRatingBooster { get; set; }
         public int gamesPlayedPerDay { get; set; }
+        public bool isLeaderboardTooltipShown { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -150,6 +151,7 @@ namespace TurboLabz.InstantGame
             isRateAppDialogueShown = false;
             freeHint = FreePowerUpStatus.NOT_CONSUMED;
             freeDailyRatingBooster = FreePowerUpStatus.NOT_CONSUMED;
+            isLeaderboardTooltipShown = false;
         }
 
         private void LoadFromDisk()
@@ -200,6 +202,11 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME))
                 {
                     isLobbyLoadedFirstTime = reader.Read<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME);
+                }
+
+                if (reader.HasKey(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN))
+                {
+                    isLeaderboardTooltipShown = reader.Read<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN);
                 }
 
                 if (reader.HasKey(PrefKeys.COACH_USED_COUNT))
@@ -578,7 +585,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<FreePowerUpStatus>(PrefKeys.FREE_HINT, freeHint);
                 writer.Write<FreePowerUpStatus>(PrefKeys.FREE_DAILY_RATING_BOOSTER, freeDailyRatingBooster);
                 writer.Write<int>(PrefKeys.GAMES_PLAYED_PER_DAY, gamesPlayedPerDay);
-
+                writer.Write<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN, isLeaderboardTooltipShown);
 
 
                 foreach (var transaction in dailyResourceManager)

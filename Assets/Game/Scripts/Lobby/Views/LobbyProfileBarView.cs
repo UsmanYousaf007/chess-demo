@@ -64,7 +64,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         [HideInInspector] public bool isVideoAvailable;
-        bool tooltipShown = false;
 
         public void Init()
         {
@@ -106,10 +105,10 @@ namespace TurboLabz.InstantFramework
 
         public void ShowTooltip()
         {
-            if (!preferencesModel.isLobbyLoadedFirstTime && !tooltipShown)
+            if (!preferencesModel.isLobbyLoadedFirstTime && !preferencesModel.isLeaderboardTooltipShown)
             {
                 tooltipGO.SetActive(true);
-                tooltipShown = true;
+                preferencesModel.isLeaderboardTooltipShown = true;
                 StartCoroutine(FadeOut(tooltipBG, tooltipText, 2f, 0f, tooltipGO));
             }
         }
@@ -149,6 +148,7 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
+            tooltipGO.SetActive(false);
             StopCoroutine(ChampionshipTimer());
             StopCoroutine(CountdownChestTimer());
         }

@@ -91,5 +91,7 @@ namespace TurboLabz.InstantFramework
         bool isRateAppDialogueShown { get; set; }
         FreePowerUpStatus freeHint { get; set; }
         FreePowerUpStatus freeDailyRatingBooster { get; set; }
+
+        bool isLeaderboardTooltipShown { get; set; }
     }
 }
