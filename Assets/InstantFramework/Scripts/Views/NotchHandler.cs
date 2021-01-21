@@ -198,7 +198,6 @@ public class NotchHandler : MonoBehaviour {
         SetY(profileBottomNav, 156f);
         SetY(profileTopNav, -160f);
         SetY(profilePartition, 69f);
-        SetY(profilePartition, 69f);
         //SetY(profileOnline, -218f);
 
         // FRIENDS
