@@ -42,7 +42,6 @@ namespace TurboLabz.InstantFramework
         public Transform allStarLeaderboardListContainer;
         public GameObject championshipLeaderboardPlayerBarPrefab;
         public GameObject allStarLeaderboardPlayerBarPrefab;
-        public ScrollRect scrollView;
 
         public Text rankText;
         public Text winningsText;

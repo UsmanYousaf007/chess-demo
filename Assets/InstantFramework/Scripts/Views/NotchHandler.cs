@@ -123,6 +123,14 @@ public class NotchHandler : MonoBehaviour {
     [Header("New Lobby")]
     public RectTransform newLobbyContent;
 
+    [Header("Championship and All Star Leaderboard")]
+    public RectTransform leaderboardViewTopBar;
+    public RectTransform leaderboardViewBottomBar;
+    public RectTransform championshipLeaderboardHeader;
+    public RectTransform championshipLeaderboardViewPort;
+    public RectTransform allStarLeaderboardHeader;
+    public RectTransform allStarLeaderboardViewPort;
+
     public static bool HasNotch()
     {
 #if UNITY_EDITOR
@@ -297,6 +305,16 @@ public class NotchHandler : MonoBehaviour {
         //New Lobby Content
         SetTop(newLobbyContent, -185f);
         SetBottom(newLobbyContent, 215f);
+
+        //Championship and All Star Leaderboard
+        SetY(leaderboardViewTopBar, -82f);
+        SetY(leaderboardViewBottomBar, 153f);
+        SetY(championshipLeaderboardHeader, -160f);
+        SetTop(championshipLeaderboardViewPort, -638f);
+        SetBottom(championshipLeaderboardViewPort, 185);
+        SetY(allStarLeaderboardHeader, -160f);
+        SetTop(allStarLeaderboardViewPort, -638f);
+        SetBottom(allStarLeaderboardViewPort, 185);
     }
 
     void SetY(RectTransform tfm, float y)
