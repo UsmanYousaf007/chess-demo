@@ -115,6 +115,7 @@ namespace DanielLochner.Assets.SimpleScrollSnap
         #region Methods
         public void ForceInitialize()
         {
+            if (isForceInitialized) return;
             isForceInitialized = true;
             Initialize();
             Setup();
@@ -122,11 +123,13 @@ namespace DanielLochner.Assets.SimpleScrollSnap
         private void Awake()
         {
             if (isForceInitialized) return;
+            isForceInitialized = true;
             Initialize();
         }
         private void Start()
         {
             if (isForceInitialized) return;
+            isForceInitialized = true;
 
             if (Validate())
             {

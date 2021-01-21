@@ -61,9 +61,8 @@ namespace TurboLabz.InstantFramework
             {
                 canvas.enabled = false;
                 yield return new WaitForEndOfFrame();
-                carousel.GoToNextPanel(true);
+                carousel.GoToPanel(1, true);
                 yield return new WaitForEndOfFrame();
-                carousel.GoToPreviousPanel(true);
                 isInitialized = true;
                 canvas.enabled = true;
             }

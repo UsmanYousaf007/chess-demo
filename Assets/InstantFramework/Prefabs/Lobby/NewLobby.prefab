@@ -2112,7 +2112,7 @@ MonoBehaviour:
   infinitelyScroll: 1
   infiniteScrollingEndSpacing: 0.1
   useOcclusionCulling: 0
-  startingPanel: 1
+  startingPanel: 0
   swipeGestures: 1
   minimumSwipeSpeed: 100
   previousButton: {fileID: 0}
@@ -2500,16 +2500,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8832744240102644238}
     m_Modifications:
-    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyTopBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2614,6 +2604,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyTopBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 86e16542f102345d7af20c03ef591fc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2401890473734289711, guid: 86e16542f102345d7af20c03ef591fc6,
         type: 3}
@@ -2911,11 +2911,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 992387865440571366}
     m_Modifications:
-    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
-        type: 3}
-      propertyPath: m_Name
-      value: LessonsCard
-      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3035,6 +3030,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: eecced6e8908647d39597485ad490ec0,
+        type: 3}
+      propertyPath: m_Name
+      value: LessonsCard
       objectReference: {fileID: 0}
     - target: {fileID: 45315420432130341, guid: eecced6e8908647d39597485ad490ec0,
         type: 3}
@@ -3395,6 +3395,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 157.65
       objectReference: {fileID: 0}
+    - target: {fileID: 5472904356525596724, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 925226642013816359, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
       propertyPath: m_IsActive
@@ -3405,20 +3410,15 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.024993896
       objectReference: {fileID: 0}
-    - target: {fileID: 4807523320795003595, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.024993896
-      objectReference: {fileID: 0}
     - target: {fileID: 5261102370342714681, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.024993896
       objectReference: {fileID: 0}
-    - target: {fileID: 5472904356525596724, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
+    - target: {fileID: 4807523320795003595, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_AnchoredPosition.x
+      value: -0.024993896
       objectReference: {fileID: 0}
     - target: {fileID: 5810924868249929493, guid: 2cd0badaaa30d4abd8e0f52099a7b1f4,
         type: 3}
@@ -3440,11 +3440,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 992387865440571366}
     m_Modifications:
-    - target: {fileID: 45315421121953025, guid: 1beecbf6cf8864ac8889c18f3b50b4db,
-        type: 3}
-      propertyPath: m_Name
-      value: CareerCard
-      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: 1beecbf6cf8864ac8889c18f3b50b4db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3565,6 +3560,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: 1beecbf6cf8864ac8889c18f3b50b4db,
+        type: 3}
+      propertyPath: m_Name
+      value: CareerCard
+      objectReference: {fileID: 0}
     - target: {fileID: 4586480487258473164, guid: 1beecbf6cf8864ac8889c18f3b50b4db,
         type: 3}
       propertyPath: nextTitleGlow
@@ -3590,11 +3590,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 992387865440571366}
     m_Modifications:
-    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
-        type: 3}
-      propertyPath: m_Name
-      value: CPUCard
-      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3714,6 +3709,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: aea57c1aa55a64299892ae657efaa1a1,
+        type: 3}
+      propertyPath: m_Name
+      value: CPUCard
       objectReference: {fileID: 0}
     - target: {fileID: 2646410840639600200, guid: aea57c1aa55a64299892ae657efaa1a1,
         type: 3}
@@ -3745,11 +3745,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8832744240102644238}
     m_Modifications:
-    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
-        type: 3}
-      propertyPath: m_Name
-      value: LobbyBottomBar
-      objectReference: {fileID: 0}
     - target: {fileID: 5858596354234377040, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3854,6 +3849,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932858501181142210, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
+        type: 3}
+      propertyPath: m_Name
+      value: LobbyBottomBar
       objectReference: {fileID: 0}
     - target: {fileID: 4647627785390284855, guid: 710d0c1b79ddb4bcbbb0e05a78c0be13,
         type: 3}
@@ -3956,10 +3956,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7252183528136189908}
     m_Modifications:
-    - target: {fileID: 1859381489405514, guid: 3e9840371a731497786a843bfee65310, type: 3}
-      propertyPath: m_Name
-      value: TopNav
-      objectReference: {fileID: 0}
     - target: {fileID: 224843665634925016, guid: 3e9840371a731497786a843bfee65310,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4064,6 +4060,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1859381489405514, guid: 3e9840371a731497786a843bfee65310, type: 3}
+      propertyPath: m_Name
+      value: TopNav
       objectReference: {fileID: 0}
     - target: {fileID: 8379168952424224259, guid: 3e9840371a731497786a843bfee65310,
         type: 3}
