@@ -122,7 +122,7 @@ namespace TurboLabz.CPU
             powerPlayGemIcon.enabled = !powerModeEnabled;
             powerPlayGemCost.enabled = !powerModeEnabled;
             powerPlayTick.enabled = powerModeEnabled;
-            powerPlayPlus.enabled = !powerModeEnabled;
+            powerPlayPlus.gameObject.SetActive(!powerModeEnabled);
             powerPlayGemCost.text = storeItem.currency3Cost.ToString();
             powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
