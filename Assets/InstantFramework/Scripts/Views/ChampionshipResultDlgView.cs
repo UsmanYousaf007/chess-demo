@@ -24,7 +24,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPicsModel picsModel { get; set; }
 
         // Local Signals
         public Signal continueBtnClickedSignal = new Signal();
@@ -253,18 +255,26 @@ namespace TurboLabz.InstantFramework
 
             playerBar.Populate(entry, reward, isPlayerStrip);
 
-            var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
-                || !string.IsNullOrEmpty(entry.publicProfile.facebookUserId))
-                && entry.publicProfile.profilePicture == null;
-
-            if (loadPicture)
+            Sprite picture = picsModel.GetPlayerPic(entry.publicProfile.playerId);
+            if (picture != null)
             {
-                var loadPicVO = new GetProfilePictureVO();
-                loadPicVO.playerId = entry.publicProfile.playerId;
-                loadPicVO.uploadedPicId = entry.publicProfile.uploadedPicId;
-                loadPicVO.facebookUserId = entry.publicProfile.facebookUserId;
-                loadPicVO.saveOnDisk = false;
-                loadPictureSignal.Dispatch(loadPicVO);
+                playerBar.profile.SetProfilePicture(picture);
+            }
+            else
+            {
+                var loadPicture = (!string.IsNullOrEmpty(entry.publicProfile.uploadedPicId)
+                    || !string.IsNullOrEmpty(entry.publicProfile.facebookUserId))
+                    && entry.publicProfile.profilePicture == null;
+
+                if (loadPicture)
+                {
+                    var loadPicVO = new GetProfilePictureVO();
+                    loadPicVO.playerId = entry.publicProfile.playerId;
+                    loadPicVO.uploadedPicId = entry.publicProfile.uploadedPicId;
+                    loadPicVO.facebookUserId = entry.publicProfile.facebookUserId;
+                    loadPicVO.saveOnDisk = false;
+                    loadPictureSignal.Dispatch(loadPicVO);
+                }
             }
         }
     }
