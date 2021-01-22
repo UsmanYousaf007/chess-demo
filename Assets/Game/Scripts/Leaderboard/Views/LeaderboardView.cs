@@ -535,11 +535,11 @@ namespace TurboLabz.InstantFramework
             {
                 timeLeft--;
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                countdownTimerText.text = timeLeftText;
+                countdownTimerText.text = "Ends in " + timeLeftText;
             }
             else
             {
-                countdownTimerText.text = "0s";
+                countdownTimerText.text = "Ended";
             }
         }
     }
