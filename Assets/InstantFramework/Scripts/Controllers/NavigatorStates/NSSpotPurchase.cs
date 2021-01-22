@@ -79,6 +79,10 @@
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
+            }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
                 return new NSChat();
@@ -94,6 +98,26 @@
             else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
             {
                 return new NSConfirmDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerFiftyMoveDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerThreeFoldRepeatDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+                return new NSCPUResultsDlg();
             }
 
             return null;
