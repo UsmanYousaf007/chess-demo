@@ -153,6 +153,7 @@ namespace TurboLabz.InstantFramework
             {
                 view.SetupChampionshipTimer();
                 view.StartCoroutine(view.ChampionshipTimer());
+                LayoutRebuilder.ForceRebuildLayoutImmediate(view.timerLayout);
             }
         }
 

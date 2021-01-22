@@ -3150,6 +3150,7 @@ MonoBehaviour:
   chestTimer: {fileID: 1836456529169723149}
   chestSpinGlow: {fileID: 1373067812721810851}
   chestFrontSpinGlow: {fileID: 3877622745191655594}
+  timerLayout: {fileID: 646217749710653782}
   tooltipText: {fileID: 5443298442260083715}
   tooltipBG: {fileID: 447444570283688657}
   tooltipGO: {fileID: 5198617420567619676}
@@ -4562,16 +4563,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.4
       objectReference: {fileID: 0}
-    - target: {fileID: 3617964122209363344, guid: 8068ae1b8e58446ef89d8c7411c77b33,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxGradient.key0.a
-      value: 0.22352941
-      objectReference: {fileID: 0}
-    - target: {fileID: 3617964122209363344, guid: 8068ae1b8e58446ef89d8c7411c77b33,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxGradient.key1.a
-      value: 0.19607843
-      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363347, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -4581,6 +4572,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363344, guid: 8068ae1b8e58446ef89d8c7411c77b33,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.a
+      value: 0.22352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363344, guid: 8068ae1b8e58446ef89d8c7411c77b33,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key1.a
+      value: 0.19607843
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8068ae1b8e58446ef89d8c7411c77b33, type: 3}
