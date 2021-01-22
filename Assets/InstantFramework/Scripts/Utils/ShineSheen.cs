@@ -7,7 +7,10 @@ public class ShineSheen : MonoBehaviour
 {
     public Transform shine;
 
-    private float offset = 400;
+    public float randomDelayMin;
+    public float randomDelayMax;
+    public float offset;
+    public float displacementDuration;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +20,7 @@ public class ShineSheen : MonoBehaviour
 
     private void Animate()
     {
-        shine.DOLocalMoveX(offset, 2.0f).SetEase(Ease.Linear).SetDelay(Random.Range(5.0f, 7.0f)).OnComplete(() =>
+        shine.DOLocalMoveX(offset, displacementDuration).SetEase(Ease.Linear).SetDelay(Random.Range(randomDelayMin, randomDelayMax)).OnComplete(() =>
             {
                 shine.DOLocalMoveX(-offset, 0);
                 Animate();
