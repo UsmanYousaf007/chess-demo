@@ -69,7 +69,7 @@ namespace TurboLabz.InstantFramework
                     if (_rewardContainers[j].shortCode == vo.rewardShortCodes[i])
                     {
                         int qty = vo.GetRewardItemQty(i);
-                        _rewardContainers[j].quantityText.text = $"x{qty}";
+                        _rewardContainers[j].quantityText.text = "x" + qty.ToString("N0");
                         _rewardContainers[j].containerParent.SetActive(true);
                     }
                 }

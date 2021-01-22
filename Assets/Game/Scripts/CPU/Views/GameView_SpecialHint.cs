@@ -24,6 +24,7 @@ namespace TurboLabz.CPU
         public GameObject freeHintTooltip;
         public GameObject specialHintPowerModeHints;
         public Text specialHintPowerModeHintsCount;
+        public Image specialHintGemIcon;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -97,6 +98,7 @@ namespace TurboLabz.CPU
             specialHintGemsBg.gameObject.SetActive(powerModeHints <= 0);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             //specialHintCountContainer.SetActive(!playerModel.HasSubscription());
             //specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
@@ -120,11 +122,15 @@ namespace TurboLabz.CPU
         private void DisableSpecialHintButton()
         {
             specialHintButton.interactable = false;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 0.5f);
         }
 
         private void EnableSpecialHintButton()
         {
             specialHintButton.interactable = true;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 1);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 1);
         }
 
         public void RenderSpecialHint(HintVO vo)
