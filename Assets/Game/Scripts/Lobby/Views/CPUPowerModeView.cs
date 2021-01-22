@@ -113,6 +113,7 @@ namespace TurboLabz.InstantFramework
             gemCost.text = storeItem.currency3Cost.ToString();
             powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
+            powerPlayOnBtn.interactable = !powerModeEnabled;
         }
     }
 }
