@@ -97,6 +97,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_LESSONS_VIEW)
+            {
+                return new NSLessonsView();
+            }
             else if (evt == NavigatorEvent.SHOW_ARENA)
             {
                 return new NSArenaView();

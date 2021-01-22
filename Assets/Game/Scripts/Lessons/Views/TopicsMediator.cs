@@ -106,7 +106,7 @@ namespace TurboLabz.InstantGame
         private void OnTopicClicked(TopicVO vo)
         {
             view.audioService.PlayStandardClick();
-            loadLessonsViewSignal.Dispatch(vo);
+            //loadLessonsViewSignal.Dispatch(vo);
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]

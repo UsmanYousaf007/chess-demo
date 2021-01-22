@@ -24,10 +24,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public LessonCardView view { get; set; }
 
         //Dispatch signals
-        [Inject] public LoadVideoSignal loadVideoSignal { get; set; }
-        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-        [Inject] public LoadTopicsViewSignal loadTopicsViewSignal { get; set; }
+        [Inject] public LoadLessonsViewSignal loadLessonsViewSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -39,93 +36,12 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
-            view.startButtonClickedSignal.AddListener(OnStartBtnClicked);
             view.viewAllButtonClickedSignal.AddListener(OnViewAllButtonClickedSignal);
-            view.buyLessonClickedSingal.AddListener(OnUnlockVideo);
-        }
-
-        private void OnStartBtnClicked(VideoLessonVO vo)
-        {
-            if (vo.isLocked)
-            {
-                view.lessonLocked.SetActive(true);
-            }
-            else
-            {
-                view.processing.SetActive(true);
-                appInfoModel.isVideoLoading = true;
-                loadVideoSignal.Dispatch(vo);
-            }
         }
 
         private void OnViewAllButtonClickedSignal()
         {
-            loadTopicsViewSignal.Dispatch();
-        }
-
-        private void OnUnlockVideo(string videoId)
-        {
-            if (playerModel.gems >= view.LessonCost)
-            {
-                purchaseStoreItemSignal.Dispatch(videoId, true);
-            }
-            else
-            {
-                SpotPurchaseMediator.analyticsContext = "lesson";
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-            }
-        }
-
-        //Listeners
-        [ListensTo(typeof(UpdateLessonCardSignal))]
-        public void OnUpdateView(VideoLessonVO vo, bool allLessonsUnclocked)
-        {
-            view.UpdateView(vo, allLessonsUnclocked);
-        }
-
-        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-        public void OnSubscriptionPurchased(StoreItem item)
-        {
-            if (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG) || item.key.Equals(GSBackendKeys.ShopItem.ALL_LESSONS_PACK))
-            {
-                view.UnlockNextLesson();
-            }
-        }
-
-        [ListensTo(typeof(VideoLoadFailedSignal))]
-        public void OnLessonLoadFailed()
-        {
-            if (view.isActiveAndEnabled)
-            {
-                view.processing.SetActive(false);
-                appInfoModel.isVideoLoading = false;
-            }
-        }
-
-        [ListensTo(typeof(VideoEventSignal))]
-        public void OnLessonVideoReady(VideoEvent videoEvent)
-        {
-            if (view.isActiveAndEnabled)
-            {
-                if (videoEvent == VideoEvent.ReadyToPlay)
-                {
-                    view.processing.SetActive(false);
-                    appInfoModel.isVideoLoading = false;
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSON_VIDEO);
-                }
-            }
-        }
-
-        [ListensTo(typeof(PurchaseStoreItemResultSignal))]
-        public void OnItemUnlocked(StoreItem item, PurchaseResult result)
-        {
-            if (result == PurchaseResult.PURCHASE_SUCCESS && view.isActiveAndEnabled && item.key.Equals(view.NextLessonId))
-            {
-                view.UnlockNextLesson();
-                view.PlayNextLesson();
-                view.lessonLocked.SetActive(false);
-                view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-            }
+            loadLessonsViewSignal.Dispatch();
         }
     }
 }

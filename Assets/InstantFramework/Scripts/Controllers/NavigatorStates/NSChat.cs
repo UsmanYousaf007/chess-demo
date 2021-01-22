@@ -51,7 +51,7 @@ namespace TurboLabz.InstantFramework
                 }
                 else if (viewId == NavigatorViewId.LESSONS_VIEW)
                 {
-                    cmd.loadLessonsViewSignal.Dispatch(cmd.lessonsModel.lastViewedTopic);
+                    cmd.loadLessonsViewSignal.Dispatch();
                     return null;
                 }
                 else if (viewId == NavigatorViewId.LESSON_VIDEO)
