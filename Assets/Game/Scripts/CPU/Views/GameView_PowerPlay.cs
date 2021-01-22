@@ -126,14 +126,14 @@ namespace TurboLabz.CPU
             powerPlayGemCost.text = storeItem.currency3Cost.ToString();
             powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
+            powerPlayOnBtn.interactable = !powerModeEnabled;
         }
 
         public void SetupPowerplayImage(bool powerplayEnabled)
         {
-            powerplayImage.enabled = powerplayEnabled;
             powerplayImage.sprite = powerplayEnabled ? powerplayActiveSprite : powerplayInActiveSprite;
             isPowerModeOn = powerplayEnabled;
-            showPowerplayDlgButton.gameObject.SetActive(false);
+            showPowerplayDlgButton.gameObject.SetActive(!powerplayEnabled);
         }
     }
 }

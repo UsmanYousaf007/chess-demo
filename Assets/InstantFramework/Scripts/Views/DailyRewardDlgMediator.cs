@@ -14,12 +14,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
 
         // Models
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         // Signals
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
 
         private RewardDlgVO _dailyRewardVO;
 
@@ -36,7 +38,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.DAILY_REWARD_DLG)
             {
-                view.Show();
+                view.Show(playerModel.coins, playerModel.gems);
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }
@@ -101,6 +103,7 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
             }
 
+            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             loadCareerCardSignal.Dispatch();
         }
     }

@@ -52,10 +52,12 @@ namespace TurboLabz.CPU
                 //HideHindsight();
                 cancelHintSingal.Dispatch();
                 stepBackwardClickedSignal.Dispatch();
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
             }
             else
             {
-                stepTooltip.SetActive(true);
+                audioService.PlayStandardClick();
+                showPowerplayDlgButonSignal.Dispatch();
             }
         }
 
@@ -67,10 +69,12 @@ namespace TurboLabz.CPU
                 //HideHindsight();
                 cancelHintSingal.Dispatch();
                 stepForwardClickedSignal.Dispatch();
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
             }
             else
             {
-                stepTooltip.SetActive(true);
+                audioService.PlayStandardClick();
+                showPowerplayDlgButonSignal.Dispatch();
             }
         }
 
