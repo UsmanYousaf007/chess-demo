@@ -56,6 +56,7 @@ namespace TurboLabz.CPU
         public Text resultsBoostRatingGemsCost;
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
+        public GameObject resultBoostSheen;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -455,6 +456,7 @@ namespace TurboLabz.CPU
 
         private void SetupRatingBoostButton()
         {
+            /*
             var color = Colors.WHITE_100;
             resultsBoostRatingToolTip.gameObject.SetActive(false);
             resultsBoostRatingButton.interactable = true;
@@ -462,11 +464,13 @@ namespace TurboLabz.CPU
             resultsBoostRatingGemIcon.color = color;
             resultsBoostRatingGemsCost.color = color;
             resultsBoostRatingIcon.color = color;
+            resultBoostSheen.SetActive(false);
+            */
         }
 
         private void SetupResultsLayout(bool isRankedGame)
         {
-            resultsBoostRatingButton.gameObject.SetActive(!isDraw);
+            resultsBoostRatingButton.gameObject.SetActive(false);
             resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
             resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
             resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);

@@ -51,6 +51,7 @@ namespace TurboLabz.Multiplayer
         public Text resultsBoostRatingGemsCost;
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
+        public GameObject resultsBoostSheen;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -570,6 +571,7 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingGemIcon.color = color;
             resultsBoostRatingGemsCost.color = color;
             resultsBoostRatingIcon.color = color;
+            resultsBoostSheen.SetActive(enable);
         }
 
         private void SetupRewardsDoublerButton(bool enable)
