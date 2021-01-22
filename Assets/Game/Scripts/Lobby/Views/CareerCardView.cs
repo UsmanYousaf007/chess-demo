@@ -52,6 +52,7 @@ namespace TurboLabz.InstantFramework
         public GameObject lowBetTooltip;
         public Text tooltipText;
         public Button playBtn;
+        public GameObject maxBetTooltip;
 
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
@@ -76,6 +77,7 @@ namespace TurboLabz.InstantFramework
         int minimumBettingIndex;
         bool minimumBetReached;
         bool defaultBetIndexUsed;
+        bool maxBetReached;
 
         public void Init()
         {
@@ -158,9 +160,16 @@ namespace TurboLabz.InstantFramework
         void OnIncrementBetting()
         {
             audioService.PlayStandardClick();
-            bettingIndex++;
-            defaultBetIndexUsed = false;
-            SetupBetting();
+            if (!maxBetReached)
+            {
+                bettingIndex++;
+                defaultBetIndexUsed = false;
+                SetupBetting();
+            }
+            else
+            {
+                maxBetTooltip.SetActive(true);
+            }
         }
 
         void OnDecrementBetting()
@@ -202,7 +211,9 @@ namespace TurboLabz.InstantFramework
         {
             var lastBettingIndex = bettingIndex >= settingsModel.bettingIncrements.Count - 1;
             bettingIndex = lastBettingIndex ? settingsModel.bettingIncrements.Count - 1 : bettingIndex;
-            bettingPlus.interactable = !lastBettingIndex;
+            //bettingPlus.interactable = !lastBettingIndex;
+            maxBetReached = lastBettingIndex;
+            bettingPlus.image.color = lastBettingIndex ? Colors.DISABLED_BUTTON : Color.white;
 
             var firstBettingIndex = bettingIndex <= 0;
             bettingIndex = firstBettingIndex ? 0 : bettingIndex;
