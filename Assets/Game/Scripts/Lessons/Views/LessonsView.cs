@@ -17,12 +17,6 @@ namespace TurboLabz.InstantGame
 {
     public class LessonsView : View
     {
-        public Image topicIcon;
-        public Image progressBar;
-        public Text completedLabel;
-        public Text totalLabel;
-        public Text topicName;
-        public GameObject completedObject;
         public Text backButtonLabel;
         public Button backButton;
         public Transform lessonTileContainer;
@@ -76,7 +70,7 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(LessonsViewVO vo)
         {
-            SetupTopic(vo.topicVO);
+            //SetupTopic(vo.topicVO);
             lessonsBanner.gameObject.SetActive(vo.showBanner);
 
             int i = 0;
@@ -123,7 +117,6 @@ namespace TurboLabz.InstantGame
             //{
             //    analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
             //}
-
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }
 
@@ -140,25 +133,6 @@ namespace TurboLabz.InstantGame
             }
 
             lessonTiles.Clear();
-        }
-
-        private void SetupTopic(TopicVO vo)
-        {
-            scrollView.verticalNormalizedPosition = lastTopicId.Equals(vo.name) ? scrollView.verticalNormalizedPosition : 1;
-            topicIcon.sprite = vo.icon;
-            topicIcon.SetNativeSize();
-            topicName.text = vo.name;
-            totalLabel.text = $"{vo.total} Lessons";
-
-            var completedPercentage = (float)vo.completed / vo.total;
-            var isCompleted = completedPercentage == 1;
-            var fillAmount = .09f + (vo.completed * ((.91f - .09f) / vo.total));
-            completedObject.SetActive(isCompleted);
-            completedLabel.gameObject.SetActive(!isCompleted);
-            progressBar.fillAmount = fillAmount;
-            completedLabel.text = $"{(int)(completedPercentage * 100)}%";
-            progressBar.color = isCompleted ? Colors.GLASS_GREEN : Colors.YELLOW;
-            lastTopicId = vo.name;
         }
 
         private void OnBackButtonClicked()

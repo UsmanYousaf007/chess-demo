@@ -23,6 +23,7 @@ namespace TurboLabz.Multiplayer
         public GameObject freeHintTooltip;
         public GameObject specialHintPowerModeHints;
         public Text specialHintPowerModeHintsCount;
+        public Image specialHintGemIcon;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -95,6 +96,7 @@ namespace TurboLabz.Multiplayer
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
             specialFreeHintContainer.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
             freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
@@ -117,11 +119,15 @@ namespace TurboLabz.Multiplayer
         private void DisableSpecialHintButton()
         {
             specialHintButton.interactable = false;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 0.5f);
         }
 
         private void EnableSpecialHintButton()
         {
             specialHintButton.interactable = true;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 1);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 1);
         }
 
         public void RenderSpecialHint(HintVO vo)
