@@ -115,7 +115,7 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator FadeOut(Image image, TMP_Text text, float duration, float fadeTo, GameObject gameObject)
         {
-            yield return new WaitForSeconds(6);
+            yield return new WaitForSeconds(4);
             image.DOFade(fadeTo, duration);
             text.DOFade(fadeTo, duration);
             yield return new WaitForSeconds(duration);
