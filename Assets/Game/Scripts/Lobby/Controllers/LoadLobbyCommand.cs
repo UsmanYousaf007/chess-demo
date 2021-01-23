@@ -138,10 +138,8 @@ namespace TurboLabz.InstantGame
 
             if (SplashLoader.FTUE)
             {
-                subscriptionDlgClosedSignal.AddOnce(() => {
-                    analyticsService.DesignEvent(AnalyticsEventId.ftue_lobby);
-                    SplashLoader.FTUE = false;
-                });
+                analyticsService.DesignEvent(AnalyticsEventId.ftue_lobby);
+                SplashLoader.FTUE = false;
             }
         }
 

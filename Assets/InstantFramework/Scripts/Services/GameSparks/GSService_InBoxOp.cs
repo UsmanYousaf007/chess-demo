@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public InboxFetchingMessagesSignal inboxFetchingMessagesSignal { get; set; }
         [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
+        [Inject] public UpdateTrophiesSignal updateTrophiesSignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
@@ -128,6 +129,7 @@ namespace TurboLabz.InstantFramework
                         else if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.TROPHIES2))
                         {
                             playerModel.trophies2 += qtyInt;
+                            updateTrophiesSignal.Dispatch(playerModel.trophies2);
                         }
                         else if (playerModel.inventory.ContainsKey(itemShortCode))
                         {

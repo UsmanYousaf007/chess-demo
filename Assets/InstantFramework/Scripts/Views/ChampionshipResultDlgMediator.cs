@@ -147,7 +147,7 @@ namespace TurboLabz.InstantFramework
             }
 
             startLobbyChampionshipTimerSignal.Dispatch();
-            updateTrophiesSignal.Dispatch(playerModel.trophies2 + _rewardVO.trophiesCount);
+            //updateTrophiesSignal.Dispatch(playerModel.trophies2 + _rewardVO.trophiesCount);
         }
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)

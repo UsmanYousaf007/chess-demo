@@ -91,14 +91,14 @@ namespace TurboLabz.InstantGame
                 lessonTile.button.onClick.RemoveAllListeners();
                 lessonTile.button.onClick.AddListener(() =>
                 {
-                    if (lessonVO.isLocked)
-                    {
-                        unlockVideoSingal.Dispatch(lessonTile);
-                    }
-                    else
-                    {
+                    //if (lessonVO.isLocked)
+                    //{
+                    //    unlockVideoSingal.Dispatch(lessonTile);
+                    //}
+                    //else
+                    //{
                         playVideoSingal.Dispatch(lessonTile);
-                    }
+                    //}
                 });
                 lessonTile.unlockBtn.onClick.RemoveAllListeners();
                 lessonTile.unlockBtn.onClick.AddListener(() => unlockVideoSingal.Dispatch(lessonTile));
