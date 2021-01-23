@@ -26,7 +26,7 @@ public class WinResultAnimSequence : MonoBehaviour
     private int _starsRewarded = 0;
     private int _powerPlayBonus = 0;
 
-    public void Reset(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0, bool playerWon = false)
+    public void Reset(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0, bool playerWon = false, bool isRanked = false)
     {
         _iconSparklesFXObj.SetActive(false);
         _iconRaysFXObj.SetActive(false);
@@ -45,8 +45,8 @@ public class WinResultAnimSequence : MonoBehaviour
         _coinsText.text = "0";
         _starsText.text = "0";
 
-        _viewBoardBtnObj.SetActive(!playerWon);
-        _crossPromoBtnObj.SetActive(!playerWon);
+        _viewBoardBtnObj.SetActive(!playerWon || !isRanked);
+        _crossPromoBtnObj.SetActive(!playerWon || !isRanked);
         _ratingBoosterBtn.interactable = !playerWon;
 
         if (_animator == null)
@@ -64,8 +64,6 @@ public class WinResultAnimSequence : MonoBehaviour
         {
             _starsPanelChildObjects[i].SetActive(false);
         }
-
-        _crossPromoBtnObj.SetActive(!playerWon);
     }
 
     public void PlayAnimation()
