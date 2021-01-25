@@ -263,7 +263,7 @@ namespace TurboLabz.InstantFramework
 
                 if (!canShowBanner)
                 {
-                    GameAnalyticsSDK.GameAnalytics.NewErrorEvent(GameAnalyticsSDK.GAErrorSeverity.Debug, $"OnBannerShown.currentState.{currentState}");
+                    //GameAnalyticsSDK.GameAnalytics.NewErrorEvent(GameAnalyticsSDK.GAErrorSeverity.Debug, $"OnBannerShown.currentState.{currentState}");
                     HideBanner();
                 }
 
