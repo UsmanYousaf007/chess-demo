@@ -95,11 +95,16 @@ namespace TurboLabz.InstantFramework
             }
 
             SetupChampionshipTimer();
-            StartCoroutine(ChampionshipTimer());
 
             isVideoAvailable = adsService.IsRewardedVideoAvailable(AdPlacements.Rewarded_lobby_chest);
             SetupChest();
-            StartCoroutine(CountdownChestTimer());
+
+            if (isActiveAndEnabled && gameObject.activeInHierarchy)
+            {
+                StartCoroutine(ChampionshipTimer());
+                StartCoroutine(CountdownChestTimer());
+            }
+
             RebuildLayout();
         }
 

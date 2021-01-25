@@ -31,7 +31,7 @@ namespace TurboLabz.InstantFramework
         public Signal _collectBtnClickedSignal = new Signal();
         public Signal _collect2xBtnClickedSignal = new Signal();
 
-        private Animator _animator;
+        //private Animator _animator;
         private int _playerGems;
         private int _playerCoins;
         private int _gemsRewardQuantity;
@@ -60,8 +60,8 @@ namespace TurboLabz.InstantFramework
 
             toolTip.SetActive(false);
 
-            _animator = GetComponent<Animator>();
-            _animator.enabled = false;
+            //_animator = GetComponent<Animator>();
+            //_animator.enabled = false;
         }
 
         public void Show(long coins, long gems)
@@ -85,7 +85,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
-            _animator.enabled = false;
+            //_animator.enabled = false;
         }
 
         public void UpdateView(RewardDlgVO vo)
@@ -123,7 +123,8 @@ namespace TurboLabz.InstantFramework
             _collectBtn.enabled = false;
             _collect2xBtn.enabled = false;
 
-            _animator.enabled = true;
+            //_animator.enabled = true;
+            PlayGemsAnimation();
         }
 
         #region Animation Events
@@ -131,6 +132,7 @@ namespace TurboLabz.InstantFramework
         {
             _gemsContainer.SetActive(true);
             _gemsFx.PlayFx(_gemsRewardQuantity < 10 ? _gemsRewardQuantity : 10);
+            Invoke("PlayGemsCountUpdateAnimation", 1.3f);
         }
 
         private void PlayGemsCountUpdateAnimation()
@@ -142,7 +144,8 @@ namespace TurboLabz.InstantFramework
                         "to", _playerGems + _gemsRewardQuantity,
                         "time", 0.75f,
                         "onupdate", "OnGemCountUpdate",
-                        "onupdatetarget", this.gameObject
+                        "onupdatetarget", this.gameObject,
+                        "oncomplete", "PlayCoinsAnimation"
                     ));
         }
 
@@ -150,6 +153,7 @@ namespace TurboLabz.InstantFramework
         {
             _coinsContainer.SetActive(true);
             _coinsFx.PlayFx(_coinsRewardQuantity < 10 ? _coinsRewardQuantity : 10);
+            Invoke("PlayCoinsCountUpdateAnimation", 1.5f);
         }
 
         private void PlayCoinsCountUpdateAnimation()
@@ -161,7 +165,8 @@ namespace TurboLabz.InstantFramework
                         "to", _playerCoins + _coinsRewardQuantity,
                         "time", 0.75f,
                         "onupdate", "OnCoinsCountUpdate",
-                        "onupdatetarget", this.gameObject
+                        "onupdatetarget", this.gameObject,
+                        "oncomplete", "OnAnimationEnd"
                     ));
         }
 
