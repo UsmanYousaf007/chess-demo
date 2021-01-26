@@ -102,7 +102,10 @@ namespace TurboLabz.CPU
             specialHintCountText.text = hintCount.ToString();
             //specialHintCountContainer.SetActive(!playerModel.HasSubscription());
             //specialFreeHintContainer.SetActive(preferencesModel.freeDailyHint == FreePowerUpStatus.NOT_CONSUMED);
-            freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+
+            //// NOTE: Free hint currently doesn't apply to CPU mode.
+            //freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+
             specialHintPowerModeHints.SetActive(powerModeHints > 0);
             specialHintPowerModeHintsCount.text = powerModeHints.ToString();
         }
