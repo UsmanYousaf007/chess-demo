@@ -1304,7 +1304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.87058824}
+  m_Color: {r: 0.3372549, g: 0.32941177, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1324,7 +1324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Collect Now
+  m_Text: Get Coins
 --- !u!1 &1849122794754131662
 GameObject:
   m_ObjectHideFlags: 0
@@ -4772,6 +4772,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3075069817352700790}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4892,11 +4897,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.0000355
       objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack (4)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
 --- !u!224 &8773302936842189144 stripped
@@ -4924,6 +4924,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1026049378598080343}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5029,11 +5034,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
 --- !u!114 &328496902580038061 stripped
@@ -5061,6 +5061,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3075069817352700790}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack (5)
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5181,11 +5186,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.0000355
       objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack (5)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
 --- !u!224 &5161540922846840624 stripped
@@ -5213,6 +5213,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3075069817352700790}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5332,11 +5337,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.0000355
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
@@ -5365,6 +5365,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3075069817352700790}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5485,11 +5490,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.0000355
       objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack (3)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
 --- !u!114 &8656230154244619732 stripped
@@ -5517,6 +5517,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1026049378598080343}
     m_Modifications:
+    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinPack (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8624784119045981332, guid: 7f66ce6b9cb87487684dc3e0c6987531,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5621,11 +5626,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8624784119045981333, guid: 7f66ce6b9cb87487684dc3e0c6987531,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinPack (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f66ce6b9cb87487684dc3e0c6987531, type: 3}
