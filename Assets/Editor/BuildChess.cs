@@ -466,6 +466,7 @@ public class BuildChess : MonoBehaviour
 #endif
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
+        EditorUserBuildSettings.buildAppBundle = true;
 
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
