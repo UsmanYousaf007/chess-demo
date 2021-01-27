@@ -45,7 +45,6 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             gameObject.SetActive(true);
-
             StartCoroutine(StartAnimationCoroutine());
         }
 
@@ -53,7 +52,6 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.SetActive(false);
             _animator.enabled = false;
-
             StopCoroutine(StartAnimationCoroutine());
         }
 
@@ -136,7 +134,7 @@ namespace TurboLabz.InstantFramework
 
         public void PlayLeagueRingSlamEffect()
         {
-            audioService.Play(audioService.sounds.SFX_EFFECT_RING_SLAM);
+            audioService.PlayOneShot(audioService.sounds.SFX_EFFECT_RING_SLAM);
 
             _leagueRingSlamEffect.gameObject.SetActive(true);
             _leagueTitleSlamEffect.gameObject.SetActive(true);
@@ -201,9 +199,17 @@ namespace TurboLabz.InstantFramework
         IEnumerator StartAnimationCoroutine()
         {
             yield return new WaitForSeconds(1f);
-            //yield return new WaitForFixedUpdate();
-
             _animator.enabled = true;
+            yield return new WaitForSeconds(0.33f);
+            PlayLeagueRingSlamEffect();
+            yield return new WaitForSeconds(2.16f);
+            ScaleInDailyRewards(0.3f);
+            yield return new WaitForSeconds(0.13f);
+            PlayDailyRewardsEffects();
+            yield return new WaitForSeconds(0.13f);
+            ScaleInPromotionRewards(0.3f);
+            yield return new WaitForSeconds(0.16f);
+            PlayPromotionRewardsEffects();
         }
     }
 }
