@@ -14,21 +14,21 @@ namespace TurboLabz.TLUtils
 {
     public static class FormatUtil
     {
-        public static string AbbreviateNumber(long value)
+        public static string AbbreviateNumber(long value, bool showDecimal)
         {
             string abbreviation = value.ToString("N0");
 
             if (value >= 1000000000)
             {
-                abbreviation = (value / 1000000000f).ToString("#B");
+                abbreviation = (value / 1000000000f).ToString(showDecimal ? "#.##B" : "#B");
             }
             else if (value >= 1000000)
             {
-                abbreviation = (value / 1000000f).ToString("#M");
+                abbreviation = (value / 1000000f).ToString(showDecimal ? "#.##M" : "#M");
             }
             else if (value >= 10000)
             {
-                abbreviation = (value / 1000f).ToString("#K");
+                abbreviation = (value / 10000f).ToString(showDecimal ? "#.##K" : "#K");
             }
 
             return abbreviation;
