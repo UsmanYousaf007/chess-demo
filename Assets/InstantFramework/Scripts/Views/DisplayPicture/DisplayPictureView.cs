@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 
 public class DisplayPictureView : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class DisplayPictureView : MonoBehaviour
     public Sprite offline;
     public Sprite activeStatus;
 
+    public Image countryFlagImg;
+
     public Button displayPictureButton;
 
     public string playerId;
@@ -31,6 +34,12 @@ public class DisplayPictureView : MonoBehaviour
     public void UpdateView(PublicProfile vo)
     {
         playerId = vo.playerId;
+
+        if (countryFlagImg)
+        {
+            countryFlagImg.sprite = Flags.GetFlag(vo.countryId);
+        }
+
         SetProfilePic(vo) ;
     }
 
