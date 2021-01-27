@@ -28,7 +28,7 @@ namespace TurboLabz.TLUtils
             }
             else if (value >= 10000)
             {
-                abbreviation = (value / 10000f).ToString(showDecimal ? "#.##K" : "#K");
+                abbreviation = (value / 1000f).ToString(showDecimal ? "#.##K" : "#K");
             }
 
             return abbreviation;
