@@ -45,14 +45,15 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             gameObject.SetActive(true);
-            StartCoroutine(StartAnimationCoroutine());
+            StartAnimationSequence();
+            //StartCoroutine(StartAnimationCoroutine());
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
             _animator.enabled = false;
-            StopCoroutine(StartAnimationCoroutine());
+            //StopCoroutine(StartAnimationCoroutine());
         }
 
         public void UpdateView(RewardDlgVO vo, Dictionary<string, int> dailyReward, LeagueTierIconsContainer.LeagueAsset leagueAssets)
@@ -134,7 +135,7 @@ namespace TurboLabz.InstantFramework
 
         public void PlayLeagueRingSlamEffect()
         {
-            audioService.PlayOneShot(audioService.sounds.SFX_EFFECT_RING_SLAM);
+            audioService.Play(audioService.sounds.SFX_EFFECT_RING_SLAM);
 
             _leagueRingSlamEffect.gameObject.SetActive(true);
             _leagueTitleSlamEffect.gameObject.SetActive(true);
@@ -196,20 +197,22 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        IEnumerator StartAnimationCoroutine()
+        void StartAnimationSequence()
         {
-            yield return new WaitForSeconds(1f);
-            _animator.enabled = true;
-            yield return new WaitForSeconds(0.33f);
-            PlayLeagueRingSlamEffect();
-            yield return new WaitForSeconds(2.16f);
-            ScaleInDailyRewards(0.3f);
-            yield return new WaitForSeconds(0.13f);
-            PlayDailyRewardsEffects();
-            yield return new WaitForSeconds(0.13f);
-            ScaleInPromotionRewards(0.3f);
-            yield return new WaitForSeconds(0.16f);
-            PlayPromotionRewardsEffects();
+            var sequence = DOTween.Sequence();
+            sequence.AppendInterval(1.0f);
+            sequence.AppendCallback(() => _animator.enabled = true);
+            sequence.AppendInterval(0.33f);
+            sequence.AppendCallback(PlayLeagueRingSlamEffect);
+            sequence.AppendInterval(2.16f);
+            sequence.AppendCallback(() => ScaleInDailyRewards(0.3f));
+            sequence.AppendInterval(0.13f);
+            sequence.AppendCallback(PlayDailyRewardsEffects);
+            sequence.AppendInterval(0.13f);
+            sequence.AppendCallback(() => ScaleInPromotionRewards(0.3f));
+            sequence.AppendInterval(0.16f);
+            sequence.AppendCallback(PlayPromotionRewardsEffects);
+            sequence.PlayForward();
         }
     }
 }

@@ -361,7 +361,7 @@ namespace TurboLabz.InstantFramework
             GameObject obj = pool.GetObject();
             LeaderboardPlayerBar item = obj.GetComponent<LeaderboardPlayerBar>();
             item.transform.SetParent(parent, false);
-            AddPlayerBarListeners(item);
+            //AddPlayerBarListeners(item);
             item.gameObject.SetActive(true);
             return item;
         }

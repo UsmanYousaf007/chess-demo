@@ -54,11 +54,7 @@ namespace TurboLabz.InstantFramework
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
             headingText.text = "Last Week Standings";
-            continueButton.onClick.AddListener(() => {
-                audioService.PlayStandardClick();
-                continueBtnClickedSignal.Dispatch();
-                    });
-
+            continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());
             scrollRectChampionship.gameObject.SetActive(false);
             pleaseWaitPanel.SetActive(false);
         }
@@ -216,7 +212,7 @@ namespace TurboLabz.InstantFramework
             GameObject obj = pool.GetObject();
             LeaderboardPlayerBar item = obj.GetComponent<LeaderboardPlayerBar>();
             item.transform.SetParent(parent, false);
-            AddPlayerBarListeners(item);
+            //AddPlayerBarListeners(item);
             item.gameObject.SetActive(true);
             return item;
         }
