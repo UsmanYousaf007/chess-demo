@@ -130,7 +130,7 @@ namespace TurboLabz.InstantFramework
 
             SetupTab(championship, world);
             gameObject.SetActive(true);
-            worldAlert.SetActive(!preferencesModel.themesTabVisited);
+            worldAlert.SetActive(!preferencesModel.allStarTabVisited);
             StartCoroutine(CountdownTimer());
 
             //scrollRectChampionship.gameObject.SetActive(false);
@@ -226,31 +226,25 @@ namespace TurboLabz.InstantFramework
             }
 
             scrollRectChampionship.gameObject.SetActive(true);
-            if (playerIndex == -1)
+
+            if (playerIndex >= -1 && playerIndex <= 6)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                if (playerIndex == 0)
-                {
-                    scrollRectChampionship.verticalNormalizedPosition = 1.0f;
-                }
-                else
-                {
-                    float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
+                float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
 
-                    //scrollRectChampionship.verticalNormalizedPosition = target;
+                //scrollRectChampionship.verticalNormalizedPosition = target;
 
-                    iTween.ValueTo(gameObject,
-                        iTween.Hash(
-                        "from", scrollRectChampionship.verticalNormalizedPosition,
-                        "to", target,
-                        "time", 1f - target,
-                        "onupdate", "UpdateScrollViewChampionship",
-                        "onupdatetarget", gameObject
-                        ));
-                }
+                iTween.ValueTo(gameObject,
+                    iTween.Hash(
+                    "from", scrollRectChampionship.verticalNormalizedPosition,
+                    "to", target,
+                    "time", 1f - target,
+                    "onupdate", "UpdateScrollViewChampionship",
+                    "onupdatetarget", gameObject
+                    ));
             }
         }
 
@@ -281,29 +275,22 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (playerIndex == -1)
+            if (playerIndex >= -1 && playerIndex <= 6)
             {
-                scrollRectAllStars.verticalNormalizedPosition = 1.0f;
+                scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                if (playerIndex == 0)
-                {
-                    scrollRectAllStars.verticalNormalizedPosition = 1.0f;
-                }
-                else
-                {
-                    float target = 1.0f - ((((float)playerIndex + 1f) / (float)allStarLeaderboardEntries.Count));
+                float target = 1.0f - ((((float)playerIndex + 1f) / (float)allStarLeaderboardEntries.Count));
 
-                    iTween.ValueTo(gameObject,
-                        iTween.Hash(
-                        "from", scrollRectAllStars.verticalNormalizedPosition,
-                        "to", target,
-                        "time", 1f - target,
-                        "onupdate", "UpdateScrollViewAllStar",
-                        "onupdatetarget", gameObject
-                        ));
-                }
+                iTween.ValueTo(gameObject,
+                    iTween.Hash(
+                    "from", scrollRectAllStars.verticalNormalizedPosition,
+                    "to", target,
+                    "time", 1f - target,
+                    "onupdate", "UpdateScrollViewAllStar",
+                    "onupdatetarget", gameObject
+                    ));
             }
 
             scrollRectAllStars.gameObject.SetActive(true);
@@ -505,6 +492,7 @@ namespace TurboLabz.InstantFramework
             worldAlert.SetActive(false);
             SetupTab(world, championship);
             scrollRectAllStars.gameObject.SetActive(true);
+            preferencesModel.allStarTabVisited = true;
         }
 
         private void SetupTab(LeaderboardTab newTab, LeaderboardTab oldTab)

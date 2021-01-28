@@ -42,24 +42,24 @@ namespace TurboLabz.InstantFramework
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
-        public void Show(JoinedTournamentData joinedTournament, bool firstGame = false)
+        public void Show(JoinedTournamentData joinedTournament, bool newRank = false)
         {
             _joinedTournament = joinedTournament;
-            Show(firstGame);
+            Show(newRank);
         }
 
-        public void Show(bool firstGame = false)
+        public void Show(bool newRank = false)
         {
             if (_joinedTournament != null)
             {
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
             }
 
-            congratulationsGraphic.SetActive(!firstGame);
-            newRankTxtGraphic.SetActive(!firstGame);
+            congratulationsGraphic.SetActive(newRank);
+            newRankTxtGraphic.SetActive(newRank);
 
-            rankGraphic.SetActive(firstGame);
-            yourRankTxtGraphic.SetActive(firstGame);
+            rankGraphic.SetActive(!newRank);
+            yourRankTxtGraphic.SetActive(!newRank);
 
             base.Show();
             gameObject.SetActive(true);

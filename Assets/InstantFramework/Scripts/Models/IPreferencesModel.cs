@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
         int cpuPowerUpsUsedCount { get; set; }
         bool inventoryTabVisited { get; set; }
         bool shopTabVisited { get; set; }
-        bool themesTabVisited { get; set; }
+        bool allStarTabVisited { get; set; }
         int currentPromotionIndex { get; set; }
         bool inGameRemoveAdsPromotionShown { get; set; }
         int gamesPlayedPerDay { get; set; }

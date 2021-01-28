@@ -25,6 +25,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
 
+        private int oldRank = -1;
+
         public override void OnRegister()
         {
             view.Init();
@@ -60,7 +62,8 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
                 JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                view.Show(joinedTournament, joinedTournament.matchesPlayedCount == 1);
+                view.Show(joinedTournament, oldRank != -1 && joinedTournament.rank > oldRank);
+                oldRank = joinedTournament.rank;
 
                 if (joinedTournament != null && joinedTournament.entries.Count > 0)
                 {

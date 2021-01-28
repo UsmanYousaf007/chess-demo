@@ -79,7 +79,7 @@ namespace TurboLabz.InstantGame
         public int cpuPowerUpsUsedCount { get; set; }
         public bool inventoryTabVisited { get; set; }
         public bool shopTabVisited { get; set; }
-        public bool themesTabVisited { get; set; }
+        public bool allStarTabVisited { get; set; }
         public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         public int currentPromotionIndex { get; set; }
         public List<string> activePromotionSales { get; set; }
@@ -143,7 +143,7 @@ namespace TurboLabz.InstantGame
             gameCountCPU = 0;
             isAllLessonsCompleted = false;
             cpuPowerUpsUsedCount = 0;
-            themesTabVisited = false;
+            allStarTabVisited = false;
             inventoryTabVisited = false;
             shopTabVisited = false;
             ResetDailyPrefers();
@@ -444,9 +444,9 @@ namespace TurboLabz.InstantGame
                     shopTabVisited = reader.Read<bool>(PrefKeys.SHOP_TAB_VISITED);
                 }
 
-                if (reader.HasKey(PrefKeys.THEMES_TAB_VISITED))
+                if (reader.HasKey(PrefKeys.ALL_STAR_TAB_VISITED))
                 {
-                    themesTabVisited = reader.Read<bool>(PrefKeys.THEMES_TAB_VISITED);
+                    allStarTabVisited = reader.Read<bool>(PrefKeys.ALL_STAR_TAB_VISITED);
                 }
 
                 if (reader.HasKey(PrefKeys.CURRENT_PROMOTION_INDEX))
@@ -578,7 +578,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.CPU_POWERUPS_USED, cpuPowerUpsUsedCount);
                 writer.Write<bool>(PrefKeys.INVENTORY_TAB_VISITED, inventoryTabVisited);
                 writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
-                writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
+                writer.Write<bool>(PrefKeys.ALL_STAR_TAB_VISITED, allStarTabVisited);
                 writer.Write<int>(PrefKeys.CURRENT_PROMOTION_INDEX, currentPromotionIndex);
                 writer.Write<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION, inGameRemoveAdsPromotionShown);
                 writer.Write<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME, isRateAppDialogueFirstTimeShown);

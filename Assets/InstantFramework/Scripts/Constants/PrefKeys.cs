@@ -65,7 +65,7 @@ namespace TurboLabz.InstantGame
         public const string CPU_POWERUPS_USED = "cpuPowerupsUsed";
         public const string INVENTORY_TAB_VISITED = "inventoryTabVisited";
         public const string SHOP_TAB_VISITED = "shopTabVisited";
-        public const string THEMES_TAB_VISITED = "themesTabVisited";
+        public const string ALL_STAR_TAB_VISITED = "allStarTabVisited";
         public const string CURRENT_PROMOTION_INDEX = "currentPromotionIndex";
         public const string ACTIVE_PROMOTION_SALES = "activePromotionSales";
         public const string IN_GAME_REMOVE_ADS_PROMOTION = "inGameRemoveAdsPromotionShown";
