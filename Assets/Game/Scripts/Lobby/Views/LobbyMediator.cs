@@ -502,15 +502,15 @@ namespace TurboLabz.InstantFramework
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
 
-        [ListensTo(typeof(UpdateOfferDrawSignal))]
-        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
-        {
-            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
-            {
-                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
-                return;
-            }
-        }
+        //[ListensTo(typeof(UpdateOfferDrawSignal))]
+        //public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        //{
+        //    if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+        //    {
+        //        view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+        //        return;
+        //    }
+        //}
 
         //[ListensTo(typeof(RatingBoostAnimSignal))]
         public void OnRatingBoostAnimation(int ratingBoost)
