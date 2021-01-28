@@ -78,6 +78,8 @@ namespace TurboLabz.InstantFramework
         private long endTimeUTCSeconds;
         private JoinedTournamentData _joinedTournament;
         private List<AllStarLeaderboardEntry> _allStarLeaderboardEntries;
+        private float championshipScrollViewTarget;
+        private float allStarScrollViewTarget;
 
         public void Init()
         {
@@ -227,29 +229,29 @@ namespace TurboLabz.InstantFramework
 
             scrollRectChampionship.gameObject.SetActive(true);
 
-            if (playerIndex >= -1 && playerIndex <= 6)
+            if (playerIndex >= -1 && playerIndex < 6)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
-
-                target -= (1.0f / (float)joinedTournament.entries.Count) * 3.0f;
-                if (target < 0.0f) target = 0.0f;
-
-
-                //scrollRectChampionship.verticalNormalizedPosition = target;
+                championshipScrollViewTarget = GetScrollViewTarget(playerIndex, joinedTournament.entries.Count);
 
                 iTween.ValueTo(gameObject,
                     iTween.Hash(
-                    "from", scrollRectChampionship.verticalNormalizedPosition,
-                    "to", target,
-                    "time", 1f - target,
+                    "from", 1.0f,
+                    "to", championshipScrollViewTarget,
+                    "time", 1f - championshipScrollViewTarget,
                     "onupdate", "UpdateScrollViewChampionship",
-                    "onupdatetarget", gameObject
+                    "onupdatetarget", gameObject,
+                    "oncomplete", "OnChamptionshipScrollViewTweenCompleted"
                     ));
             }
+        }
+
+        private void OnChamptionshipScrollViewTweenCompleted()
+        {
+            scrollRectChampionship.verticalNormalizedPosition = championshipScrollViewTarget;
         }
 
         public void PopulateEntries(List<AllStarLeaderboardEntry> allStarLeaderboardEntries)
@@ -279,28 +281,42 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            if (playerIndex >= -1 && playerIndex <= 6)
+            if (playerIndex >= -1 && playerIndex < 6)
             {
                 scrollRectChampionship.verticalNormalizedPosition = 1.0f;
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex + 1f) / (float)allStarLeaderboardEntries.Count));
-
-                target -= (1.0f / (float)allStarLeaderboardEntries.Count) * 3.0f;
-                if (target < 0.0f) target = 0.0f;
+                allStarScrollViewTarget = GetScrollViewTarget(playerIndex, allStarLeaderboardEntries.Count);
 
                 iTween.ValueTo(gameObject,
                     iTween.Hash(
-                    "from", scrollRectAllStars.verticalNormalizedPosition,
-                    "to", target,
-                    "time", 1f - target,
+                    "from", 1.0f,
+                    "to", allStarScrollViewTarget,
+                    "time", 1f - allStarScrollViewTarget,
                     "onupdate", "UpdateScrollViewAllStar",
-                    "onupdatetarget", gameObject
+                    "onupdatetarget", gameObject,
+                    "oncomplete", "OnAllStarScrollViewTweenCompleted"
                     ));
             }
 
             scrollRectAllStars.gameObject.SetActive(true);
+        }
+
+        private void OnAllStarScrollViewTweenCompleted()
+        {
+            scrollRectChampionship.verticalNormalizedPosition = allStarScrollViewTarget;
+        }
+
+        private float GetScrollViewTarget(int targetIndex, int entries)
+        {
+            var target = 1.0f - ((float)(targetIndex + 1f) / entries);
+            var stripArea = 1.0f / entries;
+            var offset = (target - 0.5f) * 7f;
+            target += stripArea * offset;
+            if (target < 0.0f) target = 0.0f;
+
+            return target;
         }
 
         public void ClearBars(List<LeaderboardPlayerBar> barsList, GameObjectsPool pool)

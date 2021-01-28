@@ -48,6 +48,8 @@ namespace TurboLabz.InstantFramework
 
         public ScrollRect scrollRectChampionship;
 
+        private float target;
+
         public virtual void Init()
         {
             scrollRectChampionship = scrollView;
@@ -152,22 +154,27 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
-
-                target -= (1.0f / (float)joinedTournament.entries.Count) * 1.5f;
+                target = 1.0f - ((float)(playerIndex + 1f) / joinedTournament.entries.Count);
+                var stripArea = 1.0f / joinedTournament.entries.Count;
+                var offset = (target - 0.5f) * 5;
+                target += stripArea * offset;
                 if (target < 0.0f) target = 0.0f;
-
-                //scrollRectChampionship.verticalNormalizedPosition = target;
 
                 iTween.ValueTo(gameObject,
                     iTween.Hash(
-                    "from", scrollRectChampionship.verticalNormalizedPosition,
+                    "from", 1,
                     "to", target,
                     "time", 1f - target,
                     "onupdate", "UpdateScrollViewChampionship",
-                    "onupdatetarget", gameObject
+                    "onupdatetarget", gameObject,
+                    "oncomplete", "OnScrollViewTweenCompleted"
                     ));
             }
+        }
+
+        private void OnScrollViewTweenCompleted()
+        {
+            scrollRectChampionship.verticalNormalizedPosition = target;
         }
 
         protected void Sort()
