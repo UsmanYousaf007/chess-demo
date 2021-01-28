@@ -154,6 +154,9 @@ namespace TurboLabz.InstantFramework
             {
                 float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
 
+                target -= (1.0f / (float)joinedTournament.entries.Count) * 1.5f;
+                if (target < 0.0f) target = 0.0f;
+
                 //scrollRectChampionship.verticalNormalizedPosition = target;
 
                 iTween.ValueTo(gameObject,

@@ -235,6 +235,10 @@ namespace TurboLabz.InstantFramework
             {
                 float target = 1.0f - ((((float)playerIndex + 1f) / (float)joinedTournament.entries.Count));
 
+                target -= (1.0f / (float)joinedTournament.entries.Count) * 3.0f;
+                if (target < 0.0f) target = 0.0f;
+
+
                 //scrollRectChampionship.verticalNormalizedPosition = target;
 
                 iTween.ValueTo(gameObject,
@@ -282,6 +286,9 @@ namespace TurboLabz.InstantFramework
             else
             {
                 float target = 1.0f - ((((float)playerIndex + 1f) / (float)allStarLeaderboardEntries.Count));
+
+                target -= (1.0f / (float)allStarLeaderboardEntries.Count) * 3.0f;
+                if (target < 0.0f) target = 0.0f;
 
                 iTween.ValueTo(gameObject,
                     iTween.Hash(
