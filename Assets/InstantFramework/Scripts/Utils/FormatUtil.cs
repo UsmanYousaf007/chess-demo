@@ -20,15 +20,15 @@ namespace TurboLabz.TLUtils
 
             if (value >= 1000000000)
             {
-                abbreviation = (value / 1000000000f).ToString(showDecimal ? "#.##B" : "#B");
+                abbreviation = (value / 1000000000f).ToString(showDecimal ? "#.#B" : "#B");
             }
             else if (value >= 1000000)
             {
-                abbreviation = (value / 1000000f).ToString(showDecimal ? "#.##M" : "#M");
+                abbreviation = (value / 1000000f).ToString(showDecimal ? "#.#M" : "#M");
             }
             else if (value >= 10000)
             {
-                abbreviation = (value / 1000f).ToString(showDecimal ? "#.##K" : "#K");
+                abbreviation = (value / 1000f).ToString(showDecimal ? "#.#K" : "#K");
             }
 
             return abbreviation;
