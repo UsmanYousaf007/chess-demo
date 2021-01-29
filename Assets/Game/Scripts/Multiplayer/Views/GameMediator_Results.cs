@@ -97,7 +97,7 @@ namespace TurboLabz.Multiplayer
         private void OnBackToLobby()
         {
             cancelHintSignal.Dispatch();
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
         }
 
         private void OnResultsDialogClosedSignal()
