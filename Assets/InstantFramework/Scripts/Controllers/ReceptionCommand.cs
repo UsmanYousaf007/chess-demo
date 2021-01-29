@@ -163,6 +163,7 @@ namespace TurboLabz.InstantFramework
             if (!socailLoggedIn && SplashLoader.FTUE)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
+                SplashLoader.FTUE = false;
             }
             else
             {
