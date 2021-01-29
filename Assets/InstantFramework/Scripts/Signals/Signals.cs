@@ -169,7 +169,7 @@ namespace TurboLabz.InstantFramework
     public class LoadArenaSignal : Signal { }
     public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
     public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
-    public class VirtualGoodBoughtSignal : Signal<string, int> { }
+    public class VirtualGoodBoughtSignal : Signal<VirtualGoodsTransactionVO> { }
     public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }

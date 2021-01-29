@@ -178,8 +178,8 @@ namespace TurboLabz.Multiplayer
             transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
             transactionVO.buyQuantity = (int)value;
             virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            virtualGoodBoughtSignal.AddOnce((key, qty) =>
-                analyticsService.ResourceEvent(GAResourceFlowType.Source, key, qty, "refund", "match_not_found")
+            virtualGoodBoughtSignal.AddOnce((vo) =>
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, vo.buyItemShortCode, vo.buyQuantity, "refund", "match_not_found")
             );
         }
 

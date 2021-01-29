@@ -94,14 +94,15 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(VirtualGoodBoughtSignal))]
-        public void OnCoinsPurchased(string shortCode, int quantity)
+        public void OnCoinsPurchased(VirtualGoodsTransactionVO transactionVO)
         {
-            if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+            if (view.isActiveAndEnabled && transactionVO.buyItemShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_PURCHASE_SUCCESS_DLG);
-                updatePurchaseSuccessDlgSignal.Dispatch(storeSettingsModel.GetItemByCoinsValue(quantity));
-                analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack");
-                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "shop", $"coins_{quantity}");
+                updatePurchaseSuccessDlgSignal.Dispatch(storeSettingsModel.GetItemByCoinsValue(transactionVO.buyQuantity));
+                analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, $"{transactionVO.buyQuantity}_coins_pack");
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, transactionVO.buyQuantity, "shop", $"coins_{transactionVO.buyQuantity}");
+                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, transactionVO.consumeQuantity, "shop", $"coins_{transactionVO.buyQuantity}");
             }
         }
 

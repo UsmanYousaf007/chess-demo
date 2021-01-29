@@ -74,9 +74,9 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(VirtualGoodBoughtSignal))]
-        public void OnCoinsPurchased(string shortCode, int quantity)
+        public void OnCoinsPurchased(VirtualGoodsTransactionVO transactionVO)
         {
-            if (view.isActiveAndEnabled && shortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+            if (view.isActiveAndEnabled && transactionVO.buyItemShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
                 OnCloseDlgSignal();
 
@@ -90,11 +90,12 @@ namespace TurboLabz.InstantFramework
                     loadCareerCardSignal.Dispatch();
                 }
 
-                if (quantity > 0)
+                if (transactionVO.buyQuantity > 0)
                 {
                     var state = adView ? 1 : 2;
-                    analyticsService.Event(AnalyticsEventId.coin_popup_purchase, AnalyticsParameter.context, $"{quantity}_coins_pack_state_{state}");
-                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, quantity, "spot_purchase", $"coins_{quantity}_state_{state}");
+                    analyticsService.Event(AnalyticsEventId.coin_popup_purchase, AnalyticsParameter.context, $"{transactionVO.buyQuantity}_coins_pack_state_{state}");
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, transactionVO.buyQuantity, "spot_purchase", $"coins_{transactionVO.buyQuantity}_state_{state}");
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, transactionVO.consumeQuantity, "spot_purchase", $"coins_{transactionVO.buyQuantity}_state_{state}");
                 }
             }
         }
@@ -117,7 +118,10 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case AdsResult.FINISHED:
-                        OnCoinsPurchased(GSBackendKeys.PlayerDetails.COINS, 0);
+                        var vo = new VirtualGoodsTransactionVO();
+                        vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+                        vo.buyQuantity = 0;
+                        OnCoinsPurchased(vo);
 
                         var rewardDlgVO = new RewardDlgV2VO();
                         rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
