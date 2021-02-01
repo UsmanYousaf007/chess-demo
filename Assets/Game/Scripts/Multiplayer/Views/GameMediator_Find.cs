@@ -74,17 +74,20 @@ namespace TurboLabz.Multiplayer
         public void OnFindMatchTimeout()
         {
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
-            loadLobbySignal.Dispatch();
-
-            //if (vo.isTournamentMatch && vo.isTicketSpent)
-            //{
-            //    RefundTicket();
-            //}
 
             if (vo.bettingCoins > 0)
             {
                 RefundCoins(vo.bettingCoins);
             }
+            else
+            {
+                loadLobbySignal.Dispatch();
+            }
+
+            //if (vo.isTournamentMatch && vo.isTicketSpent)
+            //{
+            //    RefundTicket();
+            //}
         }
 
         [ListensTo(typeof(UpdateFriendPicSignal))]
@@ -178,9 +181,10 @@ namespace TurboLabz.Multiplayer
             transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
             transactionVO.buyQuantity = (int)value;
             virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            virtualGoodBoughtSignal.AddOnce((vo) =>
-                analyticsService.ResourceEvent(GAResourceFlowType.Source, vo.buyItemShortCode, vo.buyQuantity, "refund", "match_not_found")
-            );
+            virtualGoodBoughtSignal.AddOnce((vo) => {
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, vo.buyItemShortCode, vo.buyQuantity, "refund", "match_not_found");
+                loadLobbySignal.Dispatch();
+            });
         }
 
         private void OnTicketRefunded(string key)
