@@ -144,9 +144,10 @@ namespace TurboLabz.InstantFramework
                         "to", _playerGems + _gemsRewardQuantity,
                         "time", 0.75f,
                         "onupdate", "OnGemCountUpdate",
-                        "onupdatetarget", this.gameObject,
-                        "oncomplete", "PlayCoinsAnimation"
-                    ));
+                        "onupdatetarget", this.gameObject
+                        ));
+
+            Invoke("PlayCoinsAnimation", 0.75f);
         }
 
         private void PlayCoinsAnimation()
@@ -165,9 +166,10 @@ namespace TurboLabz.InstantFramework
                         "to", _playerCoins + _coinsRewardQuantity,
                         "time", 0.75f,
                         "onupdate", "OnCoinsCountUpdate",
-                        "onupdatetarget", this.gameObject,
-                        "oncomplete", "OnAnimationEnd"
-                    ));
+                        "onupdatetarget", this.gameObject
+                        ));
+
+            Invoke("OnAnimationEnd", 0.75f);
         }
 
         private void OnAnimationEnd()
