@@ -212,6 +212,7 @@ namespace TurboLabz.InstantFramework
     public class OutOfGemsSignal : Signal { }
     public class LobbySequenceEndedSignal : Signal { }
     public class SpotCoinsPurchaseDlgClosedSignal : Signal { }
+    public class HideNotificationViewSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

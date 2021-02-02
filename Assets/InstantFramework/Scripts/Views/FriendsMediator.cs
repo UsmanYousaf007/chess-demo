@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public AddUnreadMessagesToBarSignal addUnreadMessagesSignal { get; set; }
+        [Inject] public HideNotificationViewSignal hideNotificationViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -83,6 +84,7 @@ namespace TurboLabz.InstantFramework
             view.manageBlockedFriendsButtonClickedSignal.AddListener(OnManageBlockedFriends);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
             view.localRefreshFriends.AddListener(OnLocalRefreshFriends);
+            view.hideNotificationSignal.AddListener(OnHideNotification);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -329,6 +331,11 @@ namespace TurboLabz.InstantFramework
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
             preGameAdsService.ShowPreGameAd().Then(() => tapLongMatchSignal.Dispatch(playerId, isRanked));
+        }
+
+        private void OnHideNotification()
+        {
+            hideNotificationViewSignal.Dispatch();
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)

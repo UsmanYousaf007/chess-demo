@@ -59,5 +59,11 @@ namespace TurboLabz.InstantFramework
         {
             view.FadeBlocker();
         }
+
+        [ListensTo(typeof(HideNotificationViewSignal))]
+        public void HideNotification()
+        {
+            view.HideNotification();
+        }
     }
 }

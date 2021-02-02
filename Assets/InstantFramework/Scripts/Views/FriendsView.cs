@@ -141,6 +141,7 @@ namespace TurboLabz.InstantFramework
         public Signal inviteFriendSignal = new Signal();
         public Signal signInWithAppleClicked = new Signal();
         public Signal localRefreshFriends = new Signal();
+        public Signal hideNotificationSignal = new Signal();
 
         private GameObjectsPool friendBarsPool;
         private Dictionary<string, FriendBar> bars = new Dictionary<string, FriendBar>();
@@ -1052,6 +1053,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 playButtonClickedSignal.Dispatch(bar.friendInfo.playerId, bar.isRanked);
+                hideNotificationSignal.Dispatch();
             }
         }
 

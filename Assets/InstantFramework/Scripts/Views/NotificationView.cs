@@ -537,5 +537,13 @@ namespace TurboLabz.InstantGame
         {
             audioService.PlayStandardClick();
         }
+
+        public void HideNotification()
+        {
+            if (notifications.Count > 0 && notifications[0].obj != null)
+            {
+                notifications[0].obj.SetActive(false);
+            }
+        }
     }
 }

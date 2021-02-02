@@ -15,6 +15,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal{ get; set; }
+        [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -29,9 +30,10 @@ namespace TurboLabz.Multiplayer
         public override void Execute()
         {
             //loadLobbySignal.Dispatch();
+            loadFriendsSignal.Dispatch();
 
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_FRIENDS);
-            //resetActiveMatchSignal.Dispatch();
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            resetActiveMatchSignal.Dispatch();
 
             //if (!preferencesModel.hasRated && ((playerModel.totalGamesWon + cpuStatsModel.GetStarsCount()) >= metaDataModel.appInfo.rateAppThreshold))
             //{
