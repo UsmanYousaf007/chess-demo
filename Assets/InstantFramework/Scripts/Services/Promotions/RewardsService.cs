@@ -128,7 +128,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (var msg in inboxModel.items)
             {
-                if (TimeUtil.unixTimestampMilliseconds >= msg.Value.startTime)
+                if (backendService.serverClock.currentTimestamp >= msg.Value.startTime)
                 {
                     rewards.Add(msg.Key, msg.Value.type);
                 }
