@@ -73,13 +73,6 @@ namespace TurboLabz.InstantFramework
 
         public void OnAcceptAndCollectBtnClicked()
         {
-            /*var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
-                                              .AddBoolean("consentFlag", true);
-            view.backendService.ClaimReward(jsonData);
-
-            HGenericGDPR.IsPersonalizedAdsAccepted = true;
-            SetConsent();*/
-
             SetPersonalisedAds(true);
 
             view.GemsAddedAnimation();
