@@ -69,6 +69,9 @@ namespace TurboLabz.InstantFramework
 
         public void OnShowRegularAdsBtnClicked()
         {
+            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
+                                              .AddBoolean("consentFlag", false);
+            view.backendService.ClaimReward(jsonData);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             gdprDlgClosedSignal.Dispatch();
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.rejected);
@@ -77,7 +80,7 @@ namespace TurboLabz.InstantFramework
         public void OnAcceptAndCollectBtnClicked()
         {
             var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
-                                              .AddBoolean("consentFlag", true).AddString("challengeId", "");
+                                              .AddBoolean("consentFlag", true);
             view.backendService.ClaimReward(jsonData);
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
