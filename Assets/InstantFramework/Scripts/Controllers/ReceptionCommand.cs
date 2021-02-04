@@ -161,7 +161,7 @@ namespace TurboLabz.InstantFramework
             SendAnalytics();
 
 
-            if (playerModel.personalisedAdsRewardClaimed != 0)
+            if (playerModel.personalisedAdsRewardClaimed == 0)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
                 gdprDlgClosedSignal.AddOnce(OnGDPROver);
