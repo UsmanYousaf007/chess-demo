@@ -144,7 +144,7 @@ namespace TurboLabz.InstantFramework
             RefreshPersonalisedAdsToggleButtons();
             RefreshAutoConvertPawntoQueenButtons();
             //settingsChanged = playerModel.autoPromotionToQueen;
-            settingsChanged = preferencesModel.autoPromotionToQueen;
+            settingsChanged = playerModel.personalisedAdsEnabled;
         }
 
         public void SetSubscriptionPrice()
@@ -188,8 +188,8 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPersonalizedAdsAccepted);
-            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
+            personalisedAdsOffBtn.gameObject.SetActive(!playerModel.personalisedAdsEnabled);
+            personalisedAdsOnBtn.gameObject.SetActive(playerModel.personalisedAdsEnabled);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
@@ -252,7 +252,7 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             gameObject.SetActive(false);
-            //applySettingsSignal.Dispatch();
+            applySettingsSignal.Dispatch();
         }
 
         public void OnBackButtonClicked()
@@ -306,7 +306,7 @@ namespace TurboLabz.InstantFramework
 
         public bool HasSettingsChanged()
         {
-            return settingsChanged != preferencesModel.autoPromotionToQueen;
+            return settingsChanged != playerModel.personalisedAdsEnabled;
         }
     }
 }

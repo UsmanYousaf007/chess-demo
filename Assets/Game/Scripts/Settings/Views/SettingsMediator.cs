@@ -98,7 +98,6 @@ namespace TurboLabz.InstantFramework
         {
             if (view.HasSettingsChanged())
             {
-                savePlayerInventorySignal.Dispatch("");
                 updatePlayerDataSignal.Dispatch();
             }
 
