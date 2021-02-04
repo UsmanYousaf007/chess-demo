@@ -84,6 +84,7 @@ namespace TurboLabz.InstantFramework
                                               .AddBoolean("consentFlag", true).AddString("challengeId", "");
             view.backendService.ClaimReward(jsonData);
 
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             gdprDlgClosedSignal.Dispatch();
         }
 

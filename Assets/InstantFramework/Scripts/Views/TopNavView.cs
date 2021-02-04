@@ -10,6 +10,9 @@ using DG.Tweening;
 using UnityEngine;
 using System;
 using TurboLabz.InstantGame;
+using TMPro;
+using DG.Tweening;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -48,6 +51,38 @@ namespace TurboLabz.InstantFramework
         private long totalCoins;
 
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
+
+        public RectTransform gems;
+        public TextMeshProUGUI textGems;
+        public Transform startPivot;
+        public Transform endPivot;
+
+        [Tooltip("Color to fade from")]
+        [SerializeField]
+        private Color StartColor = Color.white;
+
+        public void GemsAddedAnimation()
+        {
+            textGems.text = "+" + rewardsSettingsModel.personalisedAdsGemReward;
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+            textGems.color = StartColor;
+            textGems.gameObject.transform.position = startPivot.position;
+            gems.gameObject.SetActive(true);
+            StartCoroutine(GemsAddedCR());
+        }
+
+        IEnumerator GemsAddedCR()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            textGems.DOFade(0f, 4.5f);
+            textGems.transform.DOMoveY(endPivot.position.y, 4.5f);
+
+            yield return new WaitForSeconds(6.2f);
+
+            gems.gameObject.SetActive(false);
+        }
 
         public void Init()
         {
