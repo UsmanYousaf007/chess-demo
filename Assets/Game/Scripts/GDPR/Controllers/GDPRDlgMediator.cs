@@ -2,19 +2,12 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-using UnityEngine;
-using UnityEngine.UI;
 using strange.extensions.mediation.impl;
-using strange.extensions.signal.impl;
-using TurboLabz.TLUtils;
 using System;
-using TMPro;
-using System.Collections.Generic;
-using System.Text;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
-using System.Collections;
+
 using GameSparks.Core;
+using HUFEXT.GenericGDPR.Runtime.API;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -33,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         public override void OnRegister()
         {
@@ -69,23 +63,37 @@ namespace TurboLabz.InstantFramework
 
         public void OnShowRegularAdsBtnClicked()
         {
-            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
-                                              .AddBoolean("consentFlag", false);
-            view.backendService.ClaimReward(jsonData);
+            SetPersonalisedAds(false);
+
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             gdprDlgClosedSignal.Dispatch();
+
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.rejected);
         }
 
         public void OnAcceptAndCollectBtnClicked()
         {
-            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
+            /*var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
                                               .AddBoolean("consentFlag", true);
             view.backendService.ClaimReward(jsonData);
 
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            gdprDlgClosedSignal.Dispatch();
+            HGenericGDPR.IsPersonalizedAdsAccepted = true;
+            SetConsent();*/
+
+            SetPersonalisedAds(true);
+
+            view.GemsAddedAnimation();
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.accepted);
+        }
+
+        private void SetPersonalisedAds(bool value)
+        {
+            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM)
+                                              .AddBoolean("consentFlag", value);
+            view.backendService.ClaimReward(jsonData);
+
+            HGenericGDPR.IsPersonalizedAdsAccepted = value;
+            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
     }
 }

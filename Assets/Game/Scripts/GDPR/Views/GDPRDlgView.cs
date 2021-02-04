@@ -9,6 +9,8 @@ using strange.extensions.signal.impl;
 using System;
 using TMPro;
 using HUFEXT.GenericGDPR.Runtime.Utils;
+using DG.Tweening;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -26,6 +28,15 @@ namespace TurboLabz.InstantFramework
 
         public Text gemsCount;
 
+        public RectTransform gems;
+        public TextMeshProUGUI textGems;
+        public Transform startPivot;
+        public Transform endPivot;
+
+        [Tooltip("Color to fade from")]
+        [SerializeField]
+        private Color StartColor = Color.white;
+
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
@@ -36,13 +47,14 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal showRegularAdsBtnClickedSignal = new Signal();
         public Signal acceptAndCollectBtnClickedSignal = new Signal();
+        [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
-
 
         public void InitOnce()
         {
@@ -82,6 +94,30 @@ namespace TurboLabz.InstantFramework
         public void OnAcceptAndCollectBtnClicked()
         {
             acceptAndCollectBtnClickedSignal.Dispatch();
+        }
+
+        public void GemsAddedAnimation()
+        {
+            textGems.text = "+" + rewardsSettingsModel.personalisedAdsGemReward;
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+            textGems.color = StartColor;
+            textGems.gameObject.transform.position = startPivot.position;
+            gems.gameObject.SetActive(true);
+            StartCoroutine(GemsAddedCR());
+        }
+
+        IEnumerator GemsAddedCR()
+        {
+            yield return new WaitForSeconds(0.05f);
+
+            textGems.DOFade(0f, 4.5f);
+            textGems.transform.DOMoveY(endPivot.position.y, 4.5f);
+
+            yield return new WaitForSeconds(4.5f);
+
+            gems.gameObject.SetActive(false);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            gdprDlgClosedSignal.Dispatch();
         }
     }
 }

@@ -16,8 +16,6 @@ namespace TurboLabz.InstantFramework
     public partial class GSService
     {
         [Inject] public RatingBoostedSignal ratingBoostedSignal { get; set; }
-        [Inject] public AddGemsAnimationSignal addGemsAnimationSignal { get; set; }
-        
         [Inject] public LobbyChestRewardClaimedSignal lobbyChestRewardClaimedSignal { get; set; }
 
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
@@ -52,7 +50,6 @@ namespace TurboLabz.InstantFramework
                     playerModel.gems += rewardQuantity;
                     playerModel.personalisedAdsEnabled = personalisedAdsEnabled;
                     playerModel.personalisedAdsRewardClaimed = 1;
-                    addGemsAnimationSignal.Dispatch();
                     analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, rewardQuantity, "new_player", "gdpr_accepted");
                 }
                 else

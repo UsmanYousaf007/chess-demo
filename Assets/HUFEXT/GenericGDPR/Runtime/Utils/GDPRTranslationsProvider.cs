@@ -31,7 +31,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
                 langType = SystemLanguage.English,
                 header = "We care about your privacy",
                 policy = "I hereby consent to the usage and disclosure of my personal data (including device information and my preferences) to <link=" + AD_PARTNERS_LINK + "><color=#{0}><u>advertising network companies</u></color></link> for the purpose of serving targeted advertisements to me in the game. I understand that I can withdraw this consent at any time within the game Settings, as also described in our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Privacy Policy</u></color></link>.",
-                footer = "By clicking Continue, you agree to be bound by our <link=" + TERMS_OF_USE_LINK + "><color=#{0}><u>Terms of Use</u></color></link> and our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Privacy Policy</u></color></link>.",
+                footer = "By clicking Continue, you agree to be bound by our <link=" + TERMS_OF_USE_LINK + "><color=#{0}><b><u>Terms of Use</u></b></color></link> and our <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><b><u>Privacy Policy</u></b></color></link>.",
                 toggle = "I Accept",
                 button = "Continue"
             },
@@ -42,7 +42,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
                 langType = SystemLanguage.Polish,
                 header = "Cenimy twoją prywatność",
                 policy = "Wyrażam zgodę na używanie i ujawnianie moich danych osobowych (w tym informacje o urządzeniu i moich preferencjach) <link=" + AD_PARTNERS_LINK + "><color=#{0}><u>sieciom reklamowym</u></color></link> w celu dostarczania mi dopasowanych reklam w grze. Rozumiem, że mogę wycofać swoją zgodę w dowolnej chwili w Ustawieniach gry, jak wskazano też w <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Polityce Prywatności</u></color></link>.",
-                footer = "Klikając w Kontyntynuj, akceptujesz nasze <link=" + TERMS_OF_USE_LINK + "><color=#{0}><u>Warunki Korzystania</u></color></link> oraz <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><u>Politykę Prywatności</u></color></link>.",
+                footer = "Klikając w Kontyntynuj, akceptujesz nasze <link=" + TERMS_OF_USE_LINK + "><color=#{0}><b><u>Warunki Korzystania</u></b></color></link> oraz <link=" + PRIVACY_POLICY_LINK + "><color=#{0}><b><u>Politykę Prywatności</u></b></color></link>.",
                 toggle = "Wyrażam zgodę",
                 button = "Kontyntynuj"
             }
