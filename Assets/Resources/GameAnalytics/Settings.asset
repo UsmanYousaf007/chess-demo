@@ -53,8 +53,17 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.3.9
-  Changes: '6.3.9
+  NewVersion: 6.3.10
+  Changes: '6.3.10
+
+    - fix to mopub impression events, require min. mopub v5.14.0
+
+    - REMEMBER to update to this version of the SDK if you use MoPub impression events
+    and you have min. v5.14.0 of MoPub SDK inatalled or else the SDK will not send
+    MoPub impression event for you any more
+
+
+    6.3.9
 
     - fixed ironsource impression event compile error
 
@@ -132,6 +141,7 @@ MonoBehaviour:
   - championship_reward
   - daily_league_reward
   - championship_coins
+  - new_player
   ResourceCurrencies:
   - gems
   - coins

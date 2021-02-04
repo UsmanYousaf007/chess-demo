@@ -116,12 +116,10 @@ namespace TurboLabz.InstantFramework
         match_end,
 
         //FTUE funnel
-        ftue_app_launch,
-        ftue_gdpr,
-        ftue_skill_level_dlg,
-        ftue_intstall_popup,
-        ftue_lobby,
-        ftue_gdpr_accept,
+        terms_and_conditions_shown,
+        terms_and_conditions_accepted,
+        gdpr,
+        gdpr_player_interaction,
 
         //early inidicator
         install_game_count,

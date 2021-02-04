@@ -8,30 +8,8 @@ using TurboLabz.TLUtils;
 
 public class SplashLoader : MonoBehaviour {
 
-    const string FTUE_KEY = "ftue";
-
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
-
-    [Inject] public ProfilePictureLoadedSignal signal { get; set; }
-
-    public static bool FTUE
-    {
-        get
-        {
-            if (!PlayerPrefs.HasKey(FTUE_KEY))
-            {
-                PlayerPrefs.SetInt(FTUE_KEY, 1);
-            }
-
-            return PlayerPrefs.GetInt(FTUE_KEY) == 1;
-        }
-
-        set
-        {
-            PlayerPrefs.SetInt(FTUE_KEY, value ? 1 : 0);
-        }
-    }
 
     void Awake()
     {
@@ -43,11 +21,6 @@ public class SplashLoader : MonoBehaviour {
         GameAnalytics.OnRemoteConfigsUpdatedEvent += OnRemoteConfigsUpdated;
         launchCode = 1;
         versionLabel.text = Application.version;
-
-        if (FTUE)
-        {
-            LogAnalytic(AnalyticsEventId.ftue_app_launch);
-        }
     }
 
     void OnEnable()
@@ -65,7 +38,7 @@ public class SplashLoader : MonoBehaviour {
         if (!HGenericGDPR.IsPolicyAccepted)
         {
             HGenericGDPR.Initialize();
-            LogAnalytic(AnalyticsEventId.ftue_gdpr);
+            LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
         }
         else
         {
@@ -75,7 +48,7 @@ public class SplashLoader : MonoBehaviour {
 
     void OnPolicyAccepted()
     {
-        LogAnalytic(AnalyticsEventId.ftue_gdpr_accept);
+        LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
         RunInitPipiline();
     }
 

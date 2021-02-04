@@ -175,10 +175,10 @@ namespace TurboLabz.InstantFramework
         private void OnGDPROver()
         {
             var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-            if (!socailLoggedIn && SplashLoader.FTUE)
+            if (!socailLoggedIn && preferencesModel.FTUE)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
-                SplashLoader.FTUE = false;
+                preferencesModel.FTUE = false;
             }
             else
             {

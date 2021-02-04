@@ -70,6 +70,7 @@ namespace TurboLabz.InstantFramework
         int currentPromotionIndex { get; set; }
         bool inGameRemoveAdsPromotionShown { get; set; }
         int gamesPlayedPerDay { get; set; }
+        bool FTUE { get; set; }
 
         void ResetDailyPrefers();
 

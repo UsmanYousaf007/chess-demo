@@ -135,11 +135,6 @@ namespace TurboLabz.InstantGame
                 }
                 SplashLoader.launchCode = 3;
             }
-
-            if (SplashLoader.FTUE)
-            {
-                analyticsService.DesignEvent(AnalyticsEventId.ftue_lobby);
-            }
         }
 
         private void DispatchProfileSignal() 

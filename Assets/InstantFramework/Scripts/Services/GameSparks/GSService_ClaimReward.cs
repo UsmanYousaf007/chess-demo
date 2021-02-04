@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
                     playerModel.gems += rewardQuantity;
                     playerModel.personalisedAdsEnabled = personalisedAdsEnabled;
                     playerModel.personalisedAdsRewardClaimed = 1;
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, rewardQuantity, "new_player", "gdpr_accepted");
                 }
                 else
                 {
