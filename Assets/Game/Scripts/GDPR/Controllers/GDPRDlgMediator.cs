@@ -58,7 +58,6 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.GDPR_DLG)
             {
                 view.Hide();
-                gdprDlgClosedSignal.Dispatch();
             }
         }
 
@@ -71,6 +70,7 @@ namespace TurboLabz.InstantFramework
         public void OnShowRegularAdsBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            gdprDlgClosedSignal.Dispatch();
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.rejected);
         }
 
@@ -81,6 +81,7 @@ namespace TurboLabz.InstantFramework
             view.backendService.ClaimReward(jsonData);
 
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            gdprDlgClosedSignal.Dispatch();
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.accepted);
         }
     }
