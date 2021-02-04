@@ -47,6 +47,8 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal showRegularAdsBtnClickedSignal = new Signal();
         public Signal acceptAndCollectBtnClickedSignal = new Signal();
+
+        [Inject] public OnGDPRDlgClosedSignal onGDPRDlgClosedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
@@ -116,8 +118,7 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForSeconds(4.5f);
 
             gems.gameObject.SetActive(false);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            gdprDlgClosedSignal.Dispatch();
+            onGDPRDlgClosedSignal.Dispatch();
         }
     }
 }

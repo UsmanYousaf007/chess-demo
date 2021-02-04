@@ -65,8 +65,7 @@ namespace TurboLabz.InstantFramework
         {
             SetPersonalisedAds(false);
 
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            gdprDlgClosedSignal.Dispatch();
+            OnGDPRDlgClosed();
 
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.rejected);
         }
@@ -76,6 +75,7 @@ namespace TurboLabz.InstantFramework
             SetPersonalisedAds(true);
 
             view.GemsAddedAnimation();
+
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.accepted);
         }
 
@@ -87,6 +87,13 @@ namespace TurboLabz.InstantFramework
 
             HGenericGDPR.IsPersonalizedAdsAccepted = value;
             adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+        }
+
+        [ListensTo(typeof(OnGDPRDlgClosedSignal))]
+        public void OnGDPRDlgClosed()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            gdprDlgClosedSignal.Dispatch();
         }
     }
 }
