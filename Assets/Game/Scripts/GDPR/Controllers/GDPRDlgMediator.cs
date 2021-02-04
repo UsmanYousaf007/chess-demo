@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
         //Listerners
 
@@ -74,16 +75,7 @@ namespace TurboLabz.InstantFramework
         public void OnShowRegularAdsBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-            if (!socailLoggedIn && SplashLoader.FTUE)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
-                SplashLoader.FTUE = false;
-            }
-            else
-            {
-                promotionsService.LoadPromotion();
-            }
+            gdprDlgClosedSignal.Dispatch();
         }
 
         public void OnAcceptAndCollectBtnClicked()
@@ -92,17 +84,7 @@ namespace TurboLabz.InstantFramework
                                               .AddBoolean("consentFlag", true).AddString("challengeId", "");
             view.backendService.ClaimReward(jsonData);
 
-            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-            if (!socailLoggedIn && SplashLoader.FTUE)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
-                SplashLoader.FTUE = false;
-            }
-            else
-            {
-                promotionsService.LoadPromotion();
-            }
-
+            gdprDlgClosedSignal.Dispatch();
         }
 
     }

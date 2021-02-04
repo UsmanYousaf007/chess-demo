@@ -351,6 +351,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateRewardDlgV2ViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeaguePromotionDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<StartLobbyChampionshipTimerSignal>().ToSingleton();
+            injectionBinder.Bind<GDPRDlgClosedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled

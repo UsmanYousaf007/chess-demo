@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
         [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
+        [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -163,19 +164,25 @@ namespace TurboLabz.InstantFramework
             if (playerModel.personalisedAdsRewardClaimed != 0)
             {
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
+                gdprDlgClosedSignal.AddOnce(OnGDPROver);
             }
             else
             {
-                var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-                if (!socailLoggedIn && SplashLoader.FTUE)
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
-                    SplashLoader.FTUE = false;
-                }
-                else
-                {
-                    promotionsService.LoadPromotion();
-                }
+                OnGDPROver();
+            }
+        }
+
+        private void OnGDPROver()
+        {
+            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
+            if (!socailLoggedIn && SplashLoader.FTUE)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
+                SplashLoader.FTUE = false;
+            }
+            else
+            {
+                promotionsService.LoadPromotion();
             }
         }
 
