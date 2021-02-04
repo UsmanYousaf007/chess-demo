@@ -34,14 +34,14 @@ SpriteAtlas:
       m_AndroidETC2FallbackOverride: 0
     - serializedVersion: 2
       m_BuildTarget: Android
-      m_MaxTextureSize: 1024
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
-      m_TextureFormat: 47
+      m_TextureFormat: 65
       m_TextureCompression: 1
-      m_CompressionQuality: 100
-      m_CrunchedCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 1
       m_AllowsAlphaSplitting: 0
-      m_Overridden: 0
+      m_Overridden: 1
       m_AndroidETC2FallbackOverride: 0
     - serializedVersion: 2
       m_BuildTarget: iPhone
@@ -64,7 +64,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 6cb61a1d529484cdfa65005e578871c7, type: 3}
-    totalSpriteSurfaceArea: 11649536
+    totalSpriteSurfaceArea: 12589568
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
