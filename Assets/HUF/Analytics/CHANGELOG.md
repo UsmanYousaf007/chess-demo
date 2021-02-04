@@ -1,3 +1,19 @@
+## [2.3.3] - 2020-08-20
+### Added
+- check current ATT status
+
+## [2.3.2] - 2020-08-20
+### Fixed
+- crash on selecting options in native ATT popup
+
+## [2.3.1] - 2020-08-20
+### Fixed
+- Unity 2019.2 and lower build fix for iOS
+
+## [2.3.0] - 2020-08-20
+### Added
+- iOS 14 App Tracking Transparency Support
+
 ## [2.2.4] - 2020-09-03
 ### Changed
 - Return type of TryRegisterService
@@ -5,6 +21,7 @@
 ## [2.2.3] - 2020-08-26
 ### Fixed
 - Issue preventing cloud package builder from attaching the documentation
+
 
 ## [2.2.2] - 2020-08-12
 ### Fixed

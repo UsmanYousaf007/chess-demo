@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using HUF.Ads.Runtime.API;
 using HUF.Analytics.Runtime.API;
+using HUF.GenericDialog.Runtime.API;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
@@ -13,6 +15,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using TurboLabz.InstantFramework;
+using Object = UnityEngine.Object;
 
 namespace HUFEXT.GenericGDPR.Runtime.API
 {
@@ -20,7 +23,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
     {
         const string CONFIG_ERROR = "Missing GDPR config (check HUFConfigs directory).";
         
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof( HGenericGDPR ) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof( HGenericGDPR ) );
 
         static GameObject canvas;
         static GDPRConfig config;
@@ -88,7 +91,7 @@ namespace HUFEXT.GenericGDPR.Runtime.API
         {
             get
             {
-                var adsConsent = HAds.GetGDPRConsent();
+                var adsConsent = HAds.HasPersonalizedAdConsent();
 
                 if ( adsConsent.HasValue )
                 {
@@ -108,7 +111,6 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             }
             set
             {
-                HAds.CollectSensitiveData(value);
                 HPlayerPrefs.SetBool(config.CustomPersonalizedAdsKey, value);
             }
         }
@@ -193,7 +195,6 @@ namespace HUFEXT.GenericGDPR.Runtime.API
 
             var analyticsEvent = AnalyticsEvent.Create("gdpr_displayed").ST1("launch").ST2("gdpr");
             HAnalytics.LogEvent(analyticsEvent);
-
             OnPolicyWindowShow.Dispatch();
         }
         
@@ -211,7 +212,12 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             }
             
             HAnalytics.CollectSensitiveData( true );
-            HAds.CollectSensitiveData( view.AdsConsentToggle );
+            
+            if( view.HasAdsConsentToggle )
+            {
+                HAds.CollectSensitiveData( view.AdsConsentToggle );
+            }
+            
             OnPolicyAccepted.Dispatch();
             var analyticsEvent = AnalyticsEvent.Create("gdpr_accepted").ST1("launch").ST2("gdpr");
             HAnalytics.LogEvent(analyticsEvent);
@@ -238,6 +244,65 @@ namespace HUFEXT.GenericGDPR.Runtime.API
             if (config.DestroyOnAccept)
             {
                 OnPolicyAccepted -= Dispose;
+            }
+        }
+
+        /// <summary>
+        /// Runs additional policy checks(ATT and Personalized Ads).
+        /// </summary>
+        [PublicAPI]
+        public static void RunAdditionalPolicyChecks( int sessionNumber, Action completionCallback )
+        {
+            HPolicyGuard.RunChecks( sessionNumber, completionCallback );
+        }
+
+        /// <summary>
+        /// Show ATT window without any checks.
+        /// </summary>
+        [PublicAPI]
+        public static void ForceShowATT( UnityAction closeCallback )
+        {
+            if ( config == null )
+                GetConfig();
+
+            if ( config.AttConfig == null )
+            {
+                HLog.LogError( logPrefix, "There is no ATT config specified in GDPR config!" );
+                return;
+            }
+
+            if ( HGenericDialog.ShowDialog( config.AttConfig, out var instance ) )
+            {
+                instance.OnClosePopup.AddListener( closeCallback );
+            }
+            else
+            {
+                closeCallback.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Show PersonalizedAds window without any checks.
+        /// </summary>
+        [PublicAPI]
+        public static void ForceShowPersonalizedAds( UnityAction closeCallback )
+        {
+            if ( config == null )
+                GetConfig();
+
+            if ( config.PersonalizedAdsConfig == null )
+            {
+                HLog.LogError( logPrefix, "There is no PersonalizedAds config specified in GDPR config!" );
+                return;
+            }
+
+            if ( HGenericDialog.ShowDialog( config.PersonalizedAdsConfig, out var instance ) )
+            {
+                instance.OnClosePopup.AddListener( closeCallback );
+            }
+            else
+            {
+                closeCallback.Invoke();
             }
         }
 

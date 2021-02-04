@@ -49,6 +49,38 @@ namespace HUF.Analytics.Runtime.API
             remove => AnalyticsModel.OnServiceInitializationComplete -= value;
         }
 
+#if UNITY_IOS
+        /// <summary>
+        /// Raised when an AppTrackingTransparency authorization status is changed.
+        /// <para>See <see cref="AppTrackingTransparencyBridge.AuthorizationStatus"/> for list of statuses.</para>
+        /// </summary>
+        [PublicAPI]
+        public static event Action<AppTrackingTransparencyBridge.AuthorizationStatus> OnATTStatusChanged
+        {
+            add => AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += value;
+            remove => AppTrackingTransparencyBridge.OnAuthorizationStatusChanged -= value;
+        }
+
+        /// <summary>
+        /// Checks AppTrackingTransparency status. When checked for the first time causes a system popup to appear.
+        /// </summary>
+        /// <param name="callback">A nullable callback with an authorization status.</param>
+        [PublicAPI]
+        public static void CheckATTStatus( Action<AppTrackingTransparencyBridge.AuthorizationStatus> callback )
+        {
+            AppTrackingTransparencyBridge.CheckAuthorizationStatus( callback );
+        }
+
+        /// <summary>
+        /// Checks if the AppTrackingTransparency system popup was ever displayed.
+        /// </summary>
+        [PublicAPI]
+        public static bool WasATTPopupDisplayed()
+        {
+            return AppTrackingTransparencyBridge.HasDoneInitialRequest;
+        }
+#endif
+
         /// <summary>
         /// Tries to register analytics service for future use. The service is automatically initialized
         /// after registration.

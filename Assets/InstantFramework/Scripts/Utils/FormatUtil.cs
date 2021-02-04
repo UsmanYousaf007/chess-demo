@@ -36,7 +36,7 @@ namespace TurboLabz.TLUtils
 
         public static string SplitFirstLastNameInitial(string fullName)
         {
-            string[] nameSplit = fullName.Split(' ');
+            string[] nameSplit = fullName.Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries);
             string first = "";
             string last = "";
             string firstNameLastInitial = fullName;

@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.GenericGDPR.Runtime.Utils;
+using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -15,8 +16,8 @@ namespace HUFEXT.GenericGDPR.Editor
 {
     public class GDPRValidator : IPreprocessBuildWithReport
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof( GDPRValidator ) );
-        
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(GDPRValidator) );
+
         public int callbackOrder => 0;
 
 #if HUF_TESTS
@@ -27,22 +28,23 @@ namespace HUFEXT.GenericGDPR.Editor
             Debug.Log( GenerateHash() );
         }
 #endif
-        
+
         public void OnPreprocessBuild( BuildReport report )
         {
             var detected = GenerateHash();
             const string expected = "a5e77175e707a6b0b58fa9fa49ec1dbb1869ab1cb217cd133ffe44519ffc5df0";
-            
+
             if ( detected != expected )
             {
                 GenerateInvalidHashReport( detected, expected );
                 HLog.LogWarning( logPrefix, "Policy text mismatch detected. Please contact HUF support." );
             }
         }
-        
+
         static string GenerateHash()
         {
             var data = new StringBuilder();
+
             foreach ( var translation in GDPRTranslationsProvider.Translations )
             {
                 data.Append( translation.policy )
@@ -54,10 +56,12 @@ namespace HUFEXT.GenericGDPR.Editor
             {
                 var bytes = crypto.ComputeHash( Encoding.UTF8.GetBytes( data.ToString() ) );
                 data.Clear();
+
                 foreach ( var character in bytes )
                 {
                     data.Append( character.ToString( "x2" ) );
                 }
+
                 return data.ToString();
             }
         }
@@ -92,7 +96,7 @@ namespace HUFEXT.GenericGDPR.Editor
                 }
             }
 
-            HUF.Build.Report.Sender.SendReport( parameters );
+            Reporter.Send( parameters );
         }
     }
 }

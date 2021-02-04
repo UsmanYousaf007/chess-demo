@@ -34,8 +34,8 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
         [SerializeField] Toggle adsConsentToggle = null;
 
         [Header( "Fonts" )] 
-        [SerializeField] TMP_FontAsset defaultFont;
-        [SerializeField] List<TranslationFont> customFonts;
+        [SerializeField] TMP_FontAsset defaultFont = null;
+        [SerializeField] List<TranslationFont> customFonts = new List<TranslationFont>();
         [SerializeField] string forceLanguage = string.Empty;
         
         [Header( "Color Scheme" )]
@@ -44,13 +44,12 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
 
         [Header( "Tweening" )]
         public CanvasGroup panel;
-
         public bool ViewIsValid => mainText != null &&
                                    footerText != null &&
-                                   acceptPolicyButton != null &&
-                                   adsConsentToggle != null;
+                                   acceptPolicyButton != null;
 
-        public bool AdsConsentToggle => adsConsentToggle.isOn;
+        public bool AdsConsentToggle => HasAdsConsentToggle && adsConsentToggle.isOn;
+        public bool HasAdsConsentToggle => adsConsentToggle != null;
         
         private void Awake()
         {
@@ -112,7 +111,6 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
 
             mainText.font = font;
             footerText.font = font;
-            //acceptPolicyButtonText.font = font;
             adsConsentToggleText.font = font;
             headerText.font = font;
         }

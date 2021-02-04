@@ -1,20 +1,20 @@
 {
   "name": "com.huuuge.huf.analytics",
   "displayName": "Analytics",
-  "version": "2.2.4",
+  "version": "2.3.3",
   "unity": "2018.4",
   "description": "Analytics module is core API for each specific analytics implementations like HBI or AppsFlyer.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils@^2.7.5"
+      "com.huuuge.huf.utils@^2.9.1"
     ],
-    "date": "07.09.2020 15:21",
-    "commit": "d2ea182",
-    "build": "23",
+    "date": "19.01.2021 10:11",
+    "commit": "9beead7",
+    "build": "29",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/Analytics",
-    "rollout": "21"
+    "rollout": "30"
   },
   "doc_section": "Analytics"
 }
