@@ -47,8 +47,8 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal showRegularAdsBtnClickedSignal = new Signal();
         public Signal acceptAndCollectBtnClickedSignal = new Signal();
+        public Signal onGDPRDlgClosedSignal = new Signal();
 
-        [Inject] public OnGDPRDlgClosedSignal onGDPRDlgClosedSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 

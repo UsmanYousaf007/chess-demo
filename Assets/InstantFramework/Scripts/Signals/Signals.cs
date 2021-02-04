@@ -264,5 +264,4 @@ namespace TurboLabz.InstantFramework
     public class StartLobbyChampionshipTimerSignal : Signal { }
 
     public class GetInitDataOnCompleteSignal : Signal { }
-    public class OnGDPRDlgClosedSignal : Signal { }
 }

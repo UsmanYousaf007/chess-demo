@@ -32,7 +32,8 @@ namespace TurboLabz.InstantFramework
         {
             view.InitOnce();
             view.showRegularAdsBtnClickedSignal.AddListener(OnShowRegularAdsBtnClicked);
-            view.acceptAndCollectBtnClickedSignal.AddListener(OnAcceptAndCollectBtnClicked);        
+            view.acceptAndCollectBtnClickedSignal.AddListener(OnAcceptAndCollectBtnClicked);
+            view.onGDPRDlgClosedSignal.AddListener(OnGDPRDlgClosed);
         }
 
 
@@ -89,7 +90,6 @@ namespace TurboLabz.InstantFramework
             adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
-        [ListensTo(typeof(OnGDPRDlgClosedSignal))]
         public void OnGDPRDlgClosed()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
