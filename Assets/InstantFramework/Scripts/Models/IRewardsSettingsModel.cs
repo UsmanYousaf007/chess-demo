@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         int facebookConnectReward { get; set; }
         int powerUpCoinsValue { get; set; }
         int ratingBoostReward { get; set; }
+        int personalisedAdsGemReward { get; set; }
 
         float coefficientWinVideo { get; set; }
         float coefficientWinIntersitial { get; set; }

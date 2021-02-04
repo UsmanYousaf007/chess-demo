@@ -196,6 +196,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             HGenericGDPR.IsPersonalizedAdsAccepted = true;
+            playerModel.personalisedAdsEnabled = true;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
             hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
@@ -205,6 +206,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             HGenericGDPR.IsPersonalizedAdsAccepted = false;
+            playerModel.personalisedAdsEnabled = false;
             RefreshPersonalisedAdsToggleButtons();
             SetConsent();
             hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");

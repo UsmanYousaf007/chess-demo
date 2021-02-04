@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
         int league { get; set; }
         long coins { get; set; }
         bool leaguePromoted { get; set; }
+        bool personalisedAdsEnabled { get; set; }
+        int personalisedAdsRewardClaimed { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

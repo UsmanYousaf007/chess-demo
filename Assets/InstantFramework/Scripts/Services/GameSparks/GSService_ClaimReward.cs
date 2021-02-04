@@ -42,6 +42,15 @@ namespace TurboLabz.InstantFramework
                     ratingBoostedSignal.Dispatch(eloChange, gemsCosumed);
                     playerModel.gems -= gemsCosumed;
                 }
+                else if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM))
+                {
+                    GSData rewardData = data.GetGSData("reward");
+                    var rewardQuantity = GSParser.GetSafeInt(rewardData, GSBackendKeys.PlayerDetails.GEMS);
+                    var personalisedAdsEnabled = GSParser.GetSafeBool(data, GSBackendKeys.PlayerDetails.PERSONALISED_ADS_ENABLED);
+                    playerModel.gems += rewardQuantity;
+                    playerModel.personalisedAdsEnabled = personalisedAdsEnabled;
+                    playerModel.personalisedAdsRewardClaimed = 1;
+                }
                 else
                 {
                     var coinReward = ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);

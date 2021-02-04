@@ -18,9 +18,9 @@ namespace HUFEXT.GenericGDPR.Runtime.Utils
             public string button;
         }
 
-        const string AD_PARTNERS_LINK = "\"https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list\"";
-        const string PRIVACY_POLICY_LINK = "\"https://huuugegames.com/privacy-policy\"";
-        const string TERMS_OF_USE_LINK = "\"https://www.huuugegames.com/terms-of-use\"";
+        public const string AD_PARTNERS_LINK = "\"https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list\"";
+        public const string PRIVACY_POLICY_LINK = "\"https://huuugegames.com/privacy-policy\"";
+        public const string TERMS_OF_USE_LINK = "\"https://www.huuugegames.com/terms-of-use\"";
         
         // First element in list is default translation.
         static readonly List<GDPRTranslation> translations = new List<GDPRTranslation>

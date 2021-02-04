@@ -40,6 +40,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        public string adPartnersURL
+        {
+            get
+            {
+                return "\"https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list\"";
+            }
+        }
+
         public string faqURL
         {
             get

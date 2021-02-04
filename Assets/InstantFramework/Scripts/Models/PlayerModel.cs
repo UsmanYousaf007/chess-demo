@@ -47,6 +47,8 @@ namespace TurboLabz.InstantFramework
         public int league { get; set; }
         public long coins { get; set; }
         public bool leaguePromoted { get; set; }
+        public bool personalisedAdsEnabled { get; set; }
+        public int personalisedAdsRewardClaimed { get; set; }
 
         public string name
         {
@@ -159,6 +161,8 @@ namespace TurboLabz.InstantFramework
             rewardShortCode = "";
             rewardQuantity = 0;
             adContext = AnalyticsContext.unknown;
+            personalisedAdsEnabled = false;
+            personalisedAdsRewardClaimed = 0;
         }
 
 		public bool OwnsVGood(string key)

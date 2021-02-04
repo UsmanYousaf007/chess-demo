@@ -102,6 +102,7 @@ namespace TurboLabz.InstantFramework
         DAILY_REWARD_DLG,
         LEAGUE_PROMOTION_DLG,
         REWARD_DLG_V2,
-        PURCHASE_SUCCESS_DLG
+        PURCHASE_SUCCESS_DLG,
+        GDPR_DLG
     }
 }

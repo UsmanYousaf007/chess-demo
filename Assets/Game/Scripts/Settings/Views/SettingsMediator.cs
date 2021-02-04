@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
+        [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal  { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -98,6 +99,7 @@ namespace TurboLabz.InstantFramework
             if (view.HasSettingsChanged())
             {
                 savePlayerInventorySignal.Dispatch("");
+                updatePlayerDataSignal.Dispatch();
             }
 
             //OnCloseDailogue();

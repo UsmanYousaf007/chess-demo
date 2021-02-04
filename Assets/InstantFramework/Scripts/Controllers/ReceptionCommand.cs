@@ -159,15 +159,23 @@ namespace TurboLabz.InstantFramework
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();
 
-            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
-            if (!socailLoggedIn && SplashLoader.FTUE)
+
+            if (playerModel.personalisedAdsRewardClaimed != 0)
             {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
-                SplashLoader.FTUE = false;
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
             }
             else
             {
-                promotionsService.LoadPromotion();
+                var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
+                if (!socailLoggedIn && SplashLoader.FTUE)
+                {
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
+                    SplashLoader.FTUE = false;
+                }
+                else
+                {
+                    promotionsService.LoadPromotion();
+                }
             }
         }
 

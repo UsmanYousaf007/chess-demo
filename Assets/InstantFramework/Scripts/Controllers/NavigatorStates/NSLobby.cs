@@ -209,6 +209,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSCPUPowerMode();
             }
+            else if (evt == NavigatorEvent.SHOW_GDPR_DLG)
+            {
+                return new NSGDPRDlg();
+            }
 
             return null;
         }

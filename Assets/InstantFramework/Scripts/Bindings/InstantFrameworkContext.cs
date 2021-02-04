@@ -239,6 +239,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<LobbySequenceEndedSignal>().ToSingleton();
             injectionBinder.Bind<SpotCoinsPurchaseDlgClosedSignal>().ToSingleton();
             injectionBinder.Bind<HideNotificationViewSignal>().ToSingleton();
+            injectionBinder.Bind<GetInitDataOnCompleteSignal>().ToSingleton();
+
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -263,6 +265,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SocialConnectionView>().To<SocialConnectionMediator>();
             mediationBinder.Bind<SocialConnectionDlgView>().To<SocialConnectionDlgMediator>();
             mediationBinder.Bind<LoginDlgView>().To<LoginDlgMediator>();
+            mediationBinder.Bind<GDPRDlgView>().To<GDPRDlgMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();

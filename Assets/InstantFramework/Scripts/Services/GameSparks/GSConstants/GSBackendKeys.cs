@@ -407,6 +407,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_LOBBY_CHEST = "chestCoinsReward";
             public const string TYPE_COINS_PURCHASE = "coinPurchaseReward";
             public const string CLAIM_REWARD_TYPE = "claimRewardType";
+            public const string TYPE_PERSONALISED_ADS_GEM = "personalisedAdsGemReward";
 
             public const string NONE = "none";
         }
@@ -560,6 +561,9 @@ namespace TurboLabz.InstantFramework
             public const string LEAGUE = "league";
             public const string COINS = "coins";
             public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
+            public const string PERSONALISED_ADS_ENABLED = "personalisedAdsEnabled";
+            public const string PERSONALISED_ADS_REWARD_STATE = "personalisedAdsRewardState";
+            
         }
 
         public static class Match
@@ -608,6 +612,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_LOSE_VIDEO = "loseVideo";
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
             public const string RATING_BOOST = "ratingBoostTier1Reward";
+            public const string PERSONALISED_ADS_GEM = "personalisedAdsGemReward";
         }
 
         public static class PowerUp

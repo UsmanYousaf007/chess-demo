@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         string contactSupportURL { get; set; }
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
+        string adPartnersURL { get; }
         string chatOnDiscordURL { get; }
         InternalAdType internalAdType { get; set; }
         string faqURL { get; }
