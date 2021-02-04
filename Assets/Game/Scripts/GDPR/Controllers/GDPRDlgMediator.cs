@@ -28,17 +28,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
-        //Listerners
-
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
-
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
-        [Inject] public IPromotionsService promotionsService { get; set; }
-        [Inject] public IFacebookService facebookService { get; set; }
-        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
 
         public override void OnRegister()
         {
@@ -54,6 +48,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.GDPR_DLG)
             {
                 view.Show();
+                analyticsService.Event(AnalyticsEventId.gdpr);
             }
         }
 
@@ -63,6 +58,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.GDPR_DLG)
             {
                 view.Hide();
+                gdprDlgClosedSignal.Dispatch();
             }
         }
 
@@ -75,7 +71,7 @@ namespace TurboLabz.InstantFramework
         public void OnShowRegularAdsBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            gdprDlgClosedSignal.Dispatch();
+            analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.rejected);
         }
 
         public void OnAcceptAndCollectBtnClicked()
@@ -84,8 +80,8 @@ namespace TurboLabz.InstantFramework
                                               .AddBoolean("consentFlag", true).AddString("challengeId", "");
             view.backendService.ClaimReward(jsonData);
 
-            gdprDlgClosedSignal.Dispatch();
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
+            analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.accepted);
         }
-
     }
 }

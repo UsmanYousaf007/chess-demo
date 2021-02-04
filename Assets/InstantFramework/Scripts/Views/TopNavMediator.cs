@@ -102,5 +102,12 @@ namespace TurboLabz.InstantFramework
         {
             view.UpdateMessagesCount(messagesCount);
         }
+        
+
+        [ListensTo(typeof(AddGemsAnimationSignal))]
+        public void OnGemsAddedAnimation()
+        {
+            view.GemsAddedAnimation();
+        }
     }
 }
