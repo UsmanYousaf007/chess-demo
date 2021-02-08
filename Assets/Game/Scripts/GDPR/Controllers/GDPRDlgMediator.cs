@@ -20,6 +20,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
+        [Inject] public NotificationRecievedSignal notificationRecievedSignal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -75,7 +76,11 @@ namespace TurboLabz.InstantFramework
         {
             SetPersonalisedAds(true);
 
+            DisplayInGameNotification();
+
             view.GemsAddedAnimation();
+
+            OnGDPRDlgClosed();
 
             analyticsService.Event(AnalyticsEventId.gdpr_player_interaction, AnalyticsContext.accepted);
         }
@@ -94,6 +99,27 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             gdprDlgClosedSignal.Dispatch();
+        }
+
+        private void DisplayInGameNotification()
+        {
+            NotificationVO notificationVO;
+
+            notificationVO.isOpened = false;
+            notificationVO.title = "Reward!";
+            notificationVO.body = "+" + view.rewardsSettingsModel.personalisedAdsGemReward + " gems have been added your inventory.";
+            notificationVO.senderPlayerId = "undefined";
+            notificationVO.challengeId = "undefined";
+            notificationVO.matchGroup = "undefined";
+            notificationVO.avatarId = "GemRwdThumb";
+            notificationVO.avaterBgColorId = "undefined";
+            notificationVO.profilePicURL = "undefined";
+            notificationVO.isPremium = false;
+            notificationVO.timeSent = 0;
+            notificationVO.actionCode = "undefined";
+            notificationVO.league = -1;
+
+            notificationRecievedSignal.Dispatch(notificationVO);
         }
     }
 }

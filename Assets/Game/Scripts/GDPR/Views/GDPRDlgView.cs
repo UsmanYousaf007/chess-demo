@@ -100,14 +100,14 @@ namespace TurboLabz.InstantFramework
 
         public void GemsAddedAnimation()
         {
-            textGems.text = "+" + rewardsSettingsModel.personalisedAdsGemReward;
+            acceptAndCollectBtn.interactable = false;
+            showRegularAdsBtn.interactable = false;
+            /*textGems.text = "+" + rewardsSettingsModel.personalisedAdsGemReward;
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             textGems.color = StartColor;
             textGems.gameObject.transform.position = startPivot.position;
             gems.gameObject.SetActive(true);
-            acceptAndCollectBtn.interactable = false;
-            showRegularAdsBtn.interactable = false;
-            StartCoroutine(GemsAddedCR());
+            StartCoroutine(GemsAddedCR());*/
         }
 
         IEnumerator GemsAddedCR()
@@ -122,5 +122,6 @@ namespace TurboLabz.InstantFramework
             gems.gameObject.SetActive(false);
             onGDPRDlgClosedSignal.Dispatch();
         }
+
     }
 }

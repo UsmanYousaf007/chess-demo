@@ -72,8 +72,15 @@ namespace TurboLabz.InstantGame
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
 
+        private static NotificationAssetsContainer assetsContainer;
+
         public void Init()
         {
+            if (assetsContainer == null)
+            {
+                assetsContainer = NotificationAssetsContainer.Load();
+            }
+
             notifications = new List<NotificationContainer>();
             processNotificaitonCR = StartCoroutine(ProcessNotificationCR());
             defaultAvatarContainer = SpritesContainer.Load(GSBackendKeys.DEFAULT_AVATAR_ALTAS_NAME);
@@ -207,6 +214,12 @@ namespace TurboLabz.InstantGame
                         notification.avatarBg.color = Colors.Color(playerModel.friends[notificationVO.senderPlayerId].publicProfile.avatarBgColorId);
                         notification.senderPic.gameObject.SetActive(false);
                     }
+                }
+
+                if (notificationVO.avatarId.Equals("GemRwdThumb"))
+                {
+                    notification.avatarIcon.sprite = assetsContainer.GetSprite("GemRwdThumb");
+                    notification.senderPic.gameObject.SetActive(false);
                 }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
