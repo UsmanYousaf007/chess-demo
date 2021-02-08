@@ -105,6 +105,8 @@ namespace TurboLabz.InstantFramework
             textGems.color = StartColor;
             textGems.gameObject.transform.position = startPivot.position;
             gems.gameObject.SetActive(true);
+            acceptAndCollectBtn.interactable = false;
+            showRegularAdsBtn.interactable = false;
             StartCoroutine(GemsAddedCR());
         }
 
