@@ -63,10 +63,10 @@ namespace TurboLabz.InstantFramework
             showRegularAdsBtn.onClick.AddListener(OnShowRegularAdsBtnClicked);
             acceptAndCollectBtn.onClick.AddListener(OnAcceptAndCollectBtnClicked);
 
-            noteText.text = "I hereby consent to the usage and disclosure of my personal data (including device information and my preferences) to <link=" +
-                GDPRTranslationsProvider.AD_PARTNERS_LINK + "><b><u>advertising network companies</u></b></link> for the purpose of serving targeted advertisements to me in the game.";
+            noteText.text = "I hereby consent to the usage and disclosure of my personal data (including device information, advertising ID and my preferences) to​ <link=" +
+                GDPRTranslationsProvider.AD_PARTNERS_LINK + "><b><u>advertising network companies</u></b></link> for the purpose of serving tailored advertisements to me in the game.";
 
-            withdrawText.text = " I understand that I can withdraw this consent at any time within the game Settings, as also described in our <link=" +
+            withdrawText.text = "I understand that I can withdraw this consent at any time within the game settings, as also described in our​ <link=" +
                 GDPRTranslationsProvider.PRIVACY_POLICY_LINK + "><b><u>Privacy Policy</u></b></link>.";
 
             noteText.gameObject.AddComponent<Hyperlink>();
