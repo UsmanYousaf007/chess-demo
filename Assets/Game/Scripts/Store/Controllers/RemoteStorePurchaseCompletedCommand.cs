@@ -21,7 +21,7 @@ namespace TurboLabz.InstantGame
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
-
+		[Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
 		{
@@ -34,9 +34,15 @@ namespace TurboLabz.InstantGame
             //appsflyer
 #if !UNITY_EDITOR
             appsFlyerService.TrackMonetizationEvent(AFInAppEvents.PURCHASE, item.currency1Cost);
+
+			if (!preferencesModel.FTD)
+			{
+				preferencesModel.FTD = true;
+				appsFlyerService.TrackMonetizationEvent(AFInAppEvents.FTD, item.currency1Cost);
+			}
 #endif
 
-            var afEvent = "succ_annual_subs";
+			var afEvent = "succ_annual_subs";
             if (item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG))
             {
                 if (item.currency1Cost == 0)

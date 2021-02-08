@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
             updateTimeSelectDlgSignal.Dispatch(betValue);
-            analyticsService.Event(AnalyticsEventId.bet_increment_used, AnalyticsParameter.context, betValue.ToString("N0"));
+            analyticsService.Event(AnalyticsEventId.bet_increment_used, AnalyticsParameter.context, betValue.ToString());
         }
 
         private void OnPlayMatch(string actionCode, long betValue)

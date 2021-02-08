@@ -75,6 +75,7 @@ namespace TurboLabz.InstantGame
         public const string GAMES_PLAYED_PER_DAY = "gamesPlayedPerDay";
         public const string FTUE = "ftue";
         public const string FREE_HINT = "freeHint";
+        public const string FTD = "ftd";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";

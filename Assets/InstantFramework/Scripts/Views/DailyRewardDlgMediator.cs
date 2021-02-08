@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IInboxModel inboxModel { get; set; }
 
         // Signals
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
@@ -67,6 +68,11 @@ namespace TurboLabz.InstantFramework
         private void OnCollect2xButtonClicked()
         {
             showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_daily_reward);
+
+            if (inboxModel.items.ContainsKey(_dailyRewardVO.msgId))
+            {
+                inboxModel.items.Remove(_dailyRewardVO.msgId);
+            }
         }
 
         [ListensTo(typeof(RewardedVideoResultSignal))]

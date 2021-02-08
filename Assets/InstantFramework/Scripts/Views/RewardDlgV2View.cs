@@ -12,6 +12,7 @@ using DG.Tweening;
 using System.Collections;
 using strange.extensions.signal.impl;
 using strange.extensions.mediation.impl;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -107,36 +108,61 @@ namespace TurboLabz.InstantFramework
         {
             yield return new WaitForSeconds(0.25f);
 
-            if (_reward != null)
+            try
             {
-                if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+                if (_reward != null)
                 {
-                    _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
-                    _currentChestAnimSequence.countReward = _reward.Quantity;
+                    if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+                    {
+                        _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
+                        _currentChestAnimSequence.countReward = _reward.Quantity;
 
-                    _currentChestAnimSequence?.gameObject.SetActive(true);
-                    _currentAnimSequence?.transform.parent.gameObject.SetActive(false);
+                        _currentChestAnimSequence?.gameObject.SetActive(true);
+                        _currentAnimSequence?.transform.parent.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+
+                        _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
-                    _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+                    if (_trophies > 0)
+                    {
+                        _currentAnimSequence.SetupRewardQuantity(_trophies);
 
-                    _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+                        _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+
+                        _trophies = 0;
+                    }
                 }
+
+                _currentRewardContainer.containerParent.SetActive(true);
             }
-            else
+            catch (Exception ex)
             {
-                if (_trophies > 0)
+                if (_currentChestAnimSequence == null)
                 {
-                    _currentAnimSequence.SetupRewardQuantity(_trophies);
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"rewardDlgAnimation._currentChestAnimSequence is null and _showCoinChest is {_showCoinChest} with trophies {_trophies}" );
+                }
 
-                    _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
+                if (_currentAnimSequence == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"rewardDlgAnimation._currentAnimSequence is null and _showCoinChest is {_showCoinChest} with trophies {_trophies}");
+                }
 
-                    _trophies = 0;
+                if (_currentRewardContainer == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"rewardDlgAnimation._currentRewardContainer is null and _showCoinChest is {_showCoinChest} with trophies {_trophies}");
+                }
+                else
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"rewardDlgAnimation._currentRewardContainer.containerParent is null and _showCoinChest is {_showCoinChest} with trophies {_trophies}");
                 }
             }
 
-            _currentRewardContainer.containerParent.SetActive(true);
         }
     }
 }

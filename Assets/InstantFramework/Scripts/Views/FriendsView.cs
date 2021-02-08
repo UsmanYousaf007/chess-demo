@@ -863,7 +863,7 @@ namespace TurboLabz.InstantFramework
         {
             //TLUtils.LogUtil.LogNullValidation(opponentID, "playerId");
 
-            if (!bars.ContainsKey(opponentID))
+            if (string.IsNullOrEmpty(opponentID) || !bars.ContainsKey(opponentID))
             {
                 return;
             }

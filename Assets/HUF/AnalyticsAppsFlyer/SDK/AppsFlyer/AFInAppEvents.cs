@@ -28,6 +28,7 @@ public class AFInAppEvents {
 	public const string LOCATION_CHANGED = "af_location_changed";
 	public const string LOCATION_COORDINATES = "af_location_coordinates";
 	public const string ORDER_ID = "af_order_id";
+	public const string FTD = "ftd";
 	/**
 	 * Event Parameter Name
 	 * **/
