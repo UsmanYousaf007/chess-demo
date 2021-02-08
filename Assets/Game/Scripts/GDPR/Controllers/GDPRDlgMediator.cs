@@ -76,9 +76,9 @@ namespace TurboLabz.InstantFramework
         {
             SetPersonalisedAds(true);
 
-            DisplayInGameNotification();
+            SendInGameNotification();
 
-            view.GemsAddedAnimation();
+            view.OnAcceptAndCollectBtnClickedPostProcessing();
 
             OnGDPRDlgClosed();
 
@@ -101,13 +101,13 @@ namespace TurboLabz.InstantFramework
             gdprDlgClosedSignal.Dispatch();
         }
 
-        private void DisplayInGameNotification()
+        private void SendInGameNotification()
         {
             NotificationVO notificationVO;
 
             notificationVO.isOpened = false;
             notificationVO.title = "Reward!";
-            notificationVO.body = "+" + view.rewardsSettingsModel.personalisedAdsGemReward + " gems have been added your inventory.";
+            notificationVO.body = "+" + view.rewardsSettingsModel.personalisedAdsGemReward + " gems have been added to your inventory.";
             notificationVO.senderPlayerId = "undefined";
             notificationVO.challengeId = "undefined";
             notificationVO.matchGroup = "undefined";

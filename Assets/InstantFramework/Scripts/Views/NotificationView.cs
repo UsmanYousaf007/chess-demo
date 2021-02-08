@@ -216,10 +216,9 @@ namespace TurboLabz.InstantGame
                     }
                 }
 
-                if (notificationVO.avatarId.Equals("GemRwdThumb"))
+                if (notificationVO.avatarId != null)
                 {
-                    notification.avatarIcon.sprite = assetsContainer.GetSprite("GemRwdThumb");
-                    notification.senderPic.gameObject.SetActive(false);
+                    notification.avatarIcon.sprite = assetsContainer.GetSprite(notificationVO.avatarId);
                 }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
