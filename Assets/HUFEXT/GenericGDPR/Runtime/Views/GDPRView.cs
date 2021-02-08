@@ -50,7 +50,10 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
 
         public bool AdsConsentToggle => HasAdsConsentToggle && adsConsentToggle.isOn;
         public bool HasAdsConsentToggle => adsConsentToggle != null;
-        
+
+        public AudioClip standardClip;
+        public AudioSource source;
+
         private void Awake()
         {
             if ( ViewIsValid )
@@ -59,6 +62,7 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
                 footerText.gameObject.AddComponent<Hyperlink>();
                 Refresh( Debug.isDebugBuild ? forceLanguage : string.Empty );
                 acceptPolicyButton.onClick.AddListener( HGenericGDPR.AcceptPolicy );
+                acceptPolicyButton.onClick.AddListener( PlayStandardClick );
                 panel.alpha = Settings.MIN_ALPHA;
                 panel.DOFade(Settings.MAX_ALPHA, Settings.TWEEN_DURATION);
             }
@@ -66,6 +70,11 @@ namespace HUFEXT.GenericGDPR.Runtime.Views
             {
                 HLog.LogError( logPrefix, "Some required fields are missing in GDPRView prefab." );
             }
+        }
+
+        public void PlayStandardClick()
+        {
+            source.PlayOneShot(standardClip);
         }
 
         public void Refresh( string forceLang = "" )
