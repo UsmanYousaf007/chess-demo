@@ -191,6 +191,8 @@ namespace TurboLabz.InstantGame
             notification.leagueBorder.gameObject.SetActive(leagueBorder != null);
             notification.leagueBorder.sprite = leagueBorder;
 
+            SetRight(notification.body.rectTransform, 254f);
+
             Sprite pic = picsModel.GetPlayerPic(notificationVO.senderPlayerId);
             if (pic != null)
             {
@@ -216,9 +218,10 @@ namespace TurboLabz.InstantGame
                     }
                 }
 
-                if (notificationVO.avatarId != null)
+                if (notificationVO.avatarId.Equals("GemRwdThumb"))
                 {
                     notification.avatarIcon.sprite = assetsContainer.GetSprite(notificationVO.avatarId);
+                    SetRight(notification.body.rectTransform, 50f);
                 }
             }
             notification.closeButton.onClick.AddListener(OnCloseButtonClicked);
@@ -556,6 +559,11 @@ namespace TurboLabz.InstantGame
             {
                 notifications[0].obj.SetActive(false);
             }
+        }
+
+        private void SetRight(RectTransform rt, float right)
+        {
+            rt.offsetMax = new Vector2(-right, rt.offsetMax.y);
         }
     }
 }
