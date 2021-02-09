@@ -120,6 +120,7 @@ namespace TurboLabz.InstantFramework
             notificationVO.league = -1;
 
             notificationRecievedSignal.Dispatch(notificationVO);
+            view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
         }
     }
 }
