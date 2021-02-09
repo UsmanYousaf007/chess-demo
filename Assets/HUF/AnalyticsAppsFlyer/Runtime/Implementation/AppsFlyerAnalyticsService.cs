@@ -101,8 +101,8 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
         public void LogMonetizationEvent( AnalyticsMonetizationEvent analyticsEvent )
         {
             HLog.Log( logPrefix, $"LogMonetizationEvent {analyticsEvent.EventName}" );
-            AppsFlyer.sendEvent( AFInAppEvents.PURCHASE,
-                GetMonetizationParameters( analyticsEvent, analyticsEvent.Cents ) );
+            AppsFlyer.sendEvent( analyticsEvent.EventName,
+                GetMonetizationParameters(analyticsEvent, analyticsEvent.Cents));
         }
 
         public void CollectSensitiveData( bool consentStatus )
