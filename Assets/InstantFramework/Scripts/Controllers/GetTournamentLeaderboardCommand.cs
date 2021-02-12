@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         // parameter
         [Inject] public string tournamentId { get; set; }
-        [Inject] public bool update { get; set; }
+        [Inject] public bool update { get; set; } // Not used anymore.
 
         // dispatch signals
         [Inject] public UpdateTournamentLeaderboardSignal getLeaderboardSuccessSignal { get; set; }

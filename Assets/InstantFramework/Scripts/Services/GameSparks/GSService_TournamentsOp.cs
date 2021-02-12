@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpJoin(string tournamentShortCode, int score)
         {
             JsonObject jsonObj = new JsonObject();
@@ -25,16 +26,19 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("join", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetJoinedTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getJoinedTournaments", OnTournamentsOpSuccess);
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetLiveTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getLiveTournaments", OnTournamentsOpSuccess);
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetAllTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getAllTournaments", OnTournamentsOpSuccess);
@@ -49,6 +53,7 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getTournamentLeaderboard", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetLiveRewards(string tournamentShortCode)
         {
             JsonObject jsonObj = new JsonObject();

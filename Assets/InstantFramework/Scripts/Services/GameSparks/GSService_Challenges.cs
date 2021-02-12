@@ -443,6 +443,7 @@ namespace TurboLabz.InstantFramework
                 {
                     tournamentsModel.SetJoinedTournament(joinedTournament);
                 }
+                // TODO: Remove this else statement. This is a bug as of version 6.5.21 (championship)
                 else
                 {
                     joinedTournament.locked = true;
