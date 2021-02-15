@@ -111,7 +111,8 @@ public class SubscriptionTierView : View
         {
             var monthlyItem = metaDataModel.store.items["Subscription"];
             var monthlyPrice = item.productPrice / 12;
-            savingsValue = 1 - (float)(monthlyPrice / monthlyItem.productPrice);
+
+            savingsValue = monthlyItem.productPrice == 0 ? 0.5f : 1 - (float)(monthlyPrice / monthlyItem.productPrice);
             item.originalPrice = Math.Round(item.productPrice / (decimal)(1 - savingsValue), 2);
             item.discountedRatio = savingsValue;
 
