@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.REWARD_DLG_V2)
             {
                 view.Show();
+                // TODO: Move this method to the end of UpdateView
                 view.InvokeStartAnimationCoroutine();
                 //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
