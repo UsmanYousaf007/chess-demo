@@ -238,6 +238,11 @@ namespace TurboLabz.InstantFramework
 
         public void RemoveMessage(string messageId)
         {
+            if (messageId == null || !inBoxBars.ContainsKey(messageId))
+            {
+                return;
+            }
+
             InboxBar bar = inBoxBars[messageId];
             inBoxBars.Remove(messageId);
             GameObject.Destroy(bar.gameObject);

@@ -107,13 +107,13 @@ namespace TurboLabz.InstantFramework
             TLUtils.LogUtil.Log("InBoxMediator::OnBottomNavBackButtonClicked()");
         }
 
-        [ListensTo(typeof(InboxAddMessagesSignal))]
+        //[ListensTo(typeof(InboxAddMessagesSignal))]
         public void OnInboxAddMessages()
         {
             view.AddMessages(inboxModel.items);
         }
 
-        [ListensTo(typeof(InboxRemoveMessagesSignal))]
+        //[ListensTo(typeof(InboxRemoveMessagesSignal))]
         public void OnInboxRemoveMessage(string messageId)
         {
             view.RemoveMessage(messageId);
