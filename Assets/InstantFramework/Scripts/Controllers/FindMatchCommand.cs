@@ -198,6 +198,12 @@ namespace TurboLabz.InstantFramework
         private void StartGame(string challengeId)
         {
             // Create and fill the opponent profile
+
+            if (matchInfoModel.activeMatch == null)
+            {
+                return;
+            }
+
             ProfileVO pvo = GetOpponentProfile();
 
             // Set the opponent info in the game view
