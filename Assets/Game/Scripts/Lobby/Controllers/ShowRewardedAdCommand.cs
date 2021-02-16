@@ -1,4 +1,5 @@
-﻿using GameSparks.Core;
+﻿using System;
+using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 
@@ -19,6 +20,7 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public override void Execute()
         {
@@ -51,6 +53,7 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             var jsonData = new GSRequestData().AddString("rewardType", CollectionsUtil.GetRewardTypeFromAdPlacement(adPlacement));
             backendService.ClaimReward(jsonData).Then(OnRewardClaimed);
         }
