@@ -120,8 +120,8 @@ namespace TurboLabz.InstantFramework
                 var rewardDlgVO = new RewardDlgV2VO();
                 rewardDlgVO.ShowChest = true;
                 rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
-                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
 
                 loadCareerCardSignal.Dispatch();
             }

@@ -63,7 +63,6 @@ namespace TurboLabz.InstantFramework
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
             videoPlaybackService.Init();
-            downloadablesModel.Init();
         }
 
 		void StartGameSparksAvailable(bool isAvailable)

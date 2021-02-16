@@ -72,8 +72,8 @@ namespace TurboLabz.InstantGame
 
                 vo.msgId = inboxMessageId;
                 vo.onCloseSignal = onCloseSignal;
-                updateRewardDlgViewSignal.Dispatch(vo);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_DAILY_REWARD_DLG);
+                updateRewardDlgViewSignal.Dispatch(vo);
 
                 return;
             }
@@ -84,8 +84,8 @@ namespace TurboLabz.InstantGame
 
             vo.msgId = inboxMessageId;
             vo.onCloseSignal = onCloseSignal;
-            updateRewardDlgViewSignal.Dispatch(vo);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG);
+            updateRewardDlgViewSignal.Dispatch(vo);
         }
 
         private RewardDlgVO BuildVORewardDailySubscription(string msgId)

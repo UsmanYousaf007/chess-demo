@@ -35,8 +35,10 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public ILocalDataService localDataService { get; set; }
         [Inject] public IDownloadablesService downloadablesService { get; set; }
+
         // Listen to signals   
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public ModelsLoadFromDiskSignal modelsLoadFromDiskSignal { get; set; }
 
         public Dictionary<string, DownloadableItem> downloadableItems { get; set; }
 
@@ -52,6 +54,7 @@ namespace TurboLabz.InstantFramework
         public void PostConstruct()
         {
             modelsResetSignal.AddListener(Reset);
+            modelsLoadFromDiskSignal.AddListener(Init);
         }
 
         private void Reset()

@@ -72,8 +72,8 @@ namespace TurboLabz.InstantFramework
 
             // Dispatch rewards sequence signal here
             RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
-            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+            updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
         }
     }
 }
