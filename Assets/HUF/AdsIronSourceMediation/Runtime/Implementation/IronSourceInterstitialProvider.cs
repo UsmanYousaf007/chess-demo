@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -13,7 +14,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         readonly List<AdPlacementData> fetchingPlacements;
         string lastPlacementId;
 
-        static HLogPrefix logPrefix =
+        new static HLogPrefix logPrefix =
             new HLogPrefix( HAdsIronSourceMediation.logPrefix, nameof(IronSourceInterstitialProvider) );
 
         public IronSourceInterstitialProvider( IronSourceBaseProvider baseProvider )
@@ -22,9 +23,9 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
             fetchingPlacements = new List<AdPlacementData>();
         }
 
-        public event UnityAction<IAdCallbackData> OnInterstitialEnded;
-        public event UnityAction<IAdCallbackData> OnInterstitialFetched;
-        public event UnityAction<IAdCallbackData> OnInterstitialClicked;
+        public event Action<IAdCallbackData> OnInterstitialEnded;
+        public event Action<IAdCallbackData> OnInterstitialFetched;
+        public event Action<IAdCallbackData> OnInterstitialClicked;
 
         public bool Show()
         {

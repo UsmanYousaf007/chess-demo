@@ -1,4 +1,18 @@
+## [2.4.0] - 2021-01-25
+### Added
+- Adding SkAdNetworks to the Info.plist file on iOS
+
+
+## [2.3.0] - 2021-01-14
+### Changed
+- UnityActions to Actions in Ads packages
+
+### Fixed
+- Some warnings appearing during import and usage of the package
+
+
 ## [2.2.0] - 2020-09-18
+### Added
 - Banner show event with isRefresh flag
 
 

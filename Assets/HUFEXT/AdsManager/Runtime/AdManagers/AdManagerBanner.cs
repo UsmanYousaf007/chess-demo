@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -27,7 +28,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             StartFetching();
         }
 
-        public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
+        public override void ShowAd( Action<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             isFetchingBanner = true;
             HLog.Log( logPrefix, $"ShowAd {adPlacementData.PlacementId}" );

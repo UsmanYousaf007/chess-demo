@@ -23,8 +23,8 @@ namespace HUF.Ads.Runtime.Implementation
 #elif UNITY_IOS
                 return iOSAppId;
 #else
-                HLog.LogWarning(logPrefix, $"Using unsupported platform for current provider configuration.");
-                return "";
+                HLog.LogWarning(logPrefix, "Using unsupported platform for current provider configuration.");
+                return string.Empty;
 #endif
             }
         }

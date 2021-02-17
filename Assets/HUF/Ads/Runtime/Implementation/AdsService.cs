@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation.EditorAds;
@@ -18,7 +19,7 @@ namespace HUF.Ads.Runtime.Implementation
         static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(AdsService));
 
         bool isServiceInitialized;
-        UnityAction OnAdsServiceInitialized;
+        Action OnAdsServiceInitialized;
 
         static AdsProviderConfig AdsProviderConfig =>
             HConfigs.GetConfigsByBaseClass<AdsProviderConfig>().FirstOrDefault();
@@ -225,7 +226,7 @@ namespace HUF.Ads.Runtime.Implementation
             OnAdsServiceInitialized.Dispatch();
         }
 
-        public void RegisterToInitializationEvent(UnityAction adsServiceInitializedEvent)
+        public void RegisterToInitializationEvent(Action adsServiceInitializedEvent)
         {
             OnAdsServiceInitialized += adsServiceInitializedEvent;
         }

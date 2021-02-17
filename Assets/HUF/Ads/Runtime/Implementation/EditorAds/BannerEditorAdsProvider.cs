@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Logging;
 using UnityEngine;
@@ -11,10 +12,12 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
         public string ProviderId => "EditorAds";
         public bool IsInitialized => true;
 
-        public event UnityAction<IBannerCallbackData, bool> OnBannerShown;
-        public event UnityAction<IBannerCallbackData> OnBannerFailed;
-        public event UnityAction<IBannerCallbackData> OnBannerClicked;
-        public event UnityAction<IBannerCallbackData> OnBannerHidden;
+#pragma warning disable CS0067
+        public event Action<IBannerCallbackData, bool> OnBannerShown;
+        public event Action<IBannerCallbackData> OnBannerFailed;
+        public event Action<IBannerCallbackData> OnBannerClicked;
+        public event Action<IBannerCallbackData> OnBannerHidden;
+#pragma warning restore CS0067
 
         public bool Init()
         {

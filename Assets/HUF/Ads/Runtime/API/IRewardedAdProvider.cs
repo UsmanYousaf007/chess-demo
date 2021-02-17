@@ -1,12 +1,13 @@
+using System;
 using UnityEngine.Events;
 
 namespace HUF.Ads.Runtime.API
 {
     public interface IRewardedAdProvider : IAdProvider
     {
-        event UnityAction<IAdCallbackData> OnRewardedEnded;
-        event UnityAction<IAdCallbackData> OnRewardedFetched;
-        event UnityAction<IAdCallbackData> OnRewardedClicked;
+        event Action<IAdCallbackData> OnRewardedEnded;
+        event Action<IAdCallbackData> OnRewardedFetched;
+        event Action<IAdCallbackData> OnRewardedClicked;
 
         bool Show();
         bool Show(string placementId);

@@ -1,13 +1,13 @@
 {
   "name": "com.huuuge.huf.ads.ironsource",
   "displayName": "Ads IronSource",
-  "version": "2.6.1",
+  "version": "2.7.1",
   "unity": "2018.4",
   "description": "Minimal required: Android SDK 5.0 (API level 20), iOS 10, Xcode 12+.\nIronSource Mediation module offers full integration with Ads providers available under IronSource mediation. Ads API is separated into 3 parts:\n\n• Banners - offers option to show banners in chosen place (Top-Left, Top-Center, Top-Right, Centered, Bottom-Left, Bottom-Center, Bottom-Right). Banner is great option to show advertisement during stay in game menu or during gameplay. To implement banners in correct way please check Android and iOS guide how to show ad banners in your product\n• Interstitial - offers option to show interstitial ads which can be used between levels, after lose or when restart gameplay scene. To implement interstitials correctly in your application please check Android and iOS guide how to show ads in your product\n• Rewarded - offers option to show rewarded ads which can be shown after clicking on reward button or in other situation when player will get reward after watching ad. Remember in your application you have to exactly show which elements will trigger playable ads. To implement rewarded ads correctly in your application please check Android and iOS guide how to show ads in your product;\n\nCurrent version of module includes adapters for:\n• IronSource\n• AdColony\n• AdMob\n• Amazon\n• AppLovin\n• Chartboost\n• Facebook\n• HyperMX\n• InMobi\n• Tapjoy\n• Unity Ads\n• Vungle",
   "huf": {
     "dependencies": [
       "com.huuuge.huf.utils@^3.0.1",
-      "com.huuuge.huf.ads@^2.2.0",
+      "com.huuuge.huf.ads@^2.3.0",
       "com.google.external-dependency-manager@^1.2.160"
     ],
     "exclude": [
@@ -23,13 +23,13 @@
     "optionalDependencies": [
       "com.huuuge.huf.analytics.hbi@^2.0.0"
     ],
-    "date": "16.12.2020 14:56",
-    "commit": "0dccdec",
-    "build": "76",
+    "date": "15.02.2021 14:54",
+    "commit": "68e3705",
+    "build": "84",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/AdsIronSourceMediation",
-    "rollout": "28"
+    "rollout": "32"
   },
   "doc_section": "Ads"
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -33,7 +34,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
         internal AdsManagerConfig ManagerConfig => adsManagerConfig;
         internal IAdMediation Mediation => mediation;
 
-        public event UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        public event Action<AdsManagerFetchCallbackData> OnAdFetch;
 
         public HUFAdsService( IAdMediation inMediation, bool inIsAlternativeMediation = true )
         {
@@ -189,7 +190,7 @@ namespace HUFEXT.AdsManager.Runtime.Service
             return ads.ContainsKey( mainPlacement ) && ads[mainPlacement].IsReady();
         }
 
-        public void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public void ShowAd( string placementId, Action<AdManagerCallback> resultCallback )
         {
             HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
 

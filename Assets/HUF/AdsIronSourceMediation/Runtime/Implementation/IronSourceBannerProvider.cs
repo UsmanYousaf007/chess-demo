@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
 using HUF.AdsIronSourceMediation.Runtime.API;
@@ -11,7 +12,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
 {
     public class IronSourceBannerProvider : IronSourceAdProvider, IBannerAdProvider
     {
-        static readonly HLogPrefix logPrefix =
+        new static readonly HLogPrefix logPrefix =
             new HLogPrefix( HAdsIronSourceMediation.logPrefix, nameof(IronSourceBannerProvider) );
 
         string lastPlacementId;
@@ -24,10 +25,10 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         public IronSourceBannerProvider( IronSourceBaseProvider baseProvider )
             : base( baseProvider, PlacementType.Banner ) { }
 
-        public event UnityAction<IBannerCallbackData, bool> OnBannerShown;
-        public event UnityAction<IBannerCallbackData> OnBannerFailed;
-        public event UnityAction<IBannerCallbackData> OnBannerClicked;
-        public event UnityAction<IBannerCallbackData> OnBannerHidden;
+        public event Action<IBannerCallbackData, bool> OnBannerShown;
+        public event Action<IBannerCallbackData> OnBannerFailed;
+        public event Action<IBannerCallbackData> OnBannerClicked;
+        public event Action<IBannerCallbackData> OnBannerHidden;
 
         public bool Show( BannerPosition position = BannerPosition.BottomCenter )
         {

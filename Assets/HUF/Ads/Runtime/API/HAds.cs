@@ -18,19 +18,19 @@ namespace HUF.Ads.Runtime.API
         static HRewarded rewarded;
         static IAdsService service;
 
-        static event UnityAction<bool> OnCollectSensitiveDataSetEvent;
+        static event Action<bool> OnCollectSensitiveDataSetEvent;
 
         /// <summary>
         /// Occurs when called CollectSensitiveData or SetConsent
         /// </summary>
         [PublicAPI]
-        public static event UnityAction<bool> OnCollectSensitiveDataSet
+        public static event Action<bool> OnCollectSensitiveDataSet
         {
             add => OnCollectSensitiveDataSetEvent += value;
             remove => OnCollectSensitiveDataSetEvent -= value;
         }
 
-        public static event UnityAction OnAdsServiceInitialized;
+        public static event Action OnAdsServiceInitialized;
 
         /// <summary>
         /// Provides access to Banner ads API - show ad, subscribe for events, etc.

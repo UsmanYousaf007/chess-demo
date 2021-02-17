@@ -1,3 +1,13 @@
+## [1.6.0] - 2021-01-14
+### Changed
+- UnityActions to Actions in Ads packages
+
+
+##[1.5.4] - 2020-12-30
+## Fixed
+- BaseAdMediation warning
+
+
 ##[1.5.3] - 2020-12-10
 ## Fixed
 - Send correct placement id when trying to show all ad types.

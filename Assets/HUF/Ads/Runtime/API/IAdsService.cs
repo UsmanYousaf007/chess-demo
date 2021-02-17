@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 
 namespace HUF.Ads.Runtime.API
@@ -32,6 +33,6 @@ namespace HUF.Ads.Runtime.API
         void FetchRewarded(string placementId);
 
         void ServiceInitialized();  
-        void RegisterToInitializationEvent(UnityAction adsServiceInitializedEvent);
+        void RegisterToInitializationEvent(Action adsServiceInitializedEvent);
     }
 }

@@ -11,25 +11,25 @@ namespace HUF.Ads.Runtime.API
         /// Raised immediately after a banner is shown on the screen.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IBannerCallbackData, bool> OnShown;
+        public event Action<IBannerCallbackData, bool> OnShown;
 
         /// <summary>
         /// Raised when a banner fails to load and show.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IBannerCallbackData> OnFailed;
+        public event Action<IBannerCallbackData> OnFailed;
 
         /// <summary>
         /// Raised after a user clicks on a banner.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IBannerCallbackData> OnClicked;
+        public event Action<IBannerCallbackData> OnClicked;
         
         /// <summary>
         /// Raised immediately after a banner is hidden from the screen.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IBannerCallbackData> OnHidden;
+        public event Action<IBannerCallbackData> OnHidden;
 
         readonly IAdsService service;
 

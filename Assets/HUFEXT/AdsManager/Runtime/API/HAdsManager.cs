@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
@@ -27,7 +28,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <summary>
         /// Occurs when any ad is Fetched.
         /// </summary>
-        [PublicAPI] public static UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        [PublicAPI] public static Action<AdsManagerFetchCallbackData> OnAdFetch;
 
         static AdsManagerConfig Config
         {
@@ -100,7 +101,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Shown ads status</param>
         [PublicAPI]
-        public static void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowAd( string placementId, Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null || placementId.IsNullOrEmpty() )
             {
@@ -181,7 +182,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="resultCallback">Did the banner show correctly</param>
         /// <param name="position">New position</param>
         [PublicAPI]
-        public static void ShowBanner( UnityAction<AdManagerCallback> resultCallback,
+        public static void ShowBanner( Action<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
             if ( adsService == null )
@@ -203,7 +204,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowBanner(
             string placementId,
-            UnityAction<AdManagerCallback> resultCallback,
+            Action<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
             SetNewBannerPosition( position );
@@ -216,7 +217,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Did the banner show correctly</param>
         [PublicAPI]
-        public static void ShowBanner( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowBanner( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -247,7 +248,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowInterstitial( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowInterstitial( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -257,7 +258,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// </summary>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowInterstitial( UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowInterstitial( Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null )
             {
@@ -274,7 +275,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowRewarded( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowRewarded( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -284,7 +285,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// </summary>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowRewarded( UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowRewarded( Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null )
             {
