@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HUF.Auth.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
@@ -13,10 +14,10 @@ namespace HUF.Auth.Runtime.Implementation
 
         readonly Dictionary<string, IAuthService> services = new Dictionary<string, IAuthService>();
 
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction<string, bool> OnSignIn;
-        public event UnityAction<string, AuthSignInResult> OnSignInResult;
-        public event UnityAction<string> OnSignOutComplete;
+        public event Action<string> OnInitialized;
+        public event Action<string, bool> OnSignIn;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
 
         public bool TryRegisterService( IAuthService service )
         {

@@ -1,13 +1,14 @@
+using System;
 using UnityEngine.Events;
 
 namespace HUF.Auth.Runtime.API
 {
     public interface IAuthModel
     {
-        event UnityAction<string> OnInitialized;
-        event UnityAction<string, bool> OnSignIn;
-        event UnityAction<string, AuthSignInResult> OnSignInResult;
-        event UnityAction<string> OnSignOutComplete;
+        event Action<string> OnInitialized;
+        event Action<string, bool> OnSignIn;
+        event Action<string, AuthSignInResult> OnSignInResult;
+        event Action<string> OnSignOutComplete;
 
         bool TryRegisterService( IAuthService service );
 

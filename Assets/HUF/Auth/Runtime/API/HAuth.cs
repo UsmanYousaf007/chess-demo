@@ -23,7 +23,7 @@ namespace HUF.Auth.Runtime.API
         /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static event UnityAction<string> OnInitialized
+        public static event Action<string> OnInitialized
         {
             add => AuthModel.OnInitialized += value;
             remove => AuthModel.OnInitialized -= value;
@@ -37,7 +37,7 @@ namespace HUF.Auth.Runtime.API
         /// </summary>
         [PublicAPI]
         [Obsolete("OnSignIn event is deprecated, please use OnSignInResult instead.")]
-        public static event UnityAction<string, bool> OnSignIn
+        public static event Action<string, bool> OnSignIn
         {
             add => AuthModel.OnSignIn += value;
             remove => AuthModel.OnSignIn -= value;
@@ -50,7 +50,7 @@ namespace HUF.Auth.Runtime.API
         /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static event UnityAction<string, AuthSignInResult> OnSignInResult
+        public static event Action<string, AuthSignInResult> OnSignInResult
         {
             add => AuthModel.OnSignInResult += value;
             remove => AuthModel.OnSignInResult -= value;
@@ -60,7 +60,7 @@ namespace HUF.Auth.Runtime.API
         /// Supported service names can be found as constants in <see cref="AuthServiceName"/>.
         /// </summary>
         [PublicAPI]
-        public static event UnityAction<string> OnSignOutSuccess
+        public static event Action<string> OnSignOutSuccess
         {
             add => AuthModel.OnSignOutComplete += value;
             remove => AuthModel.OnSignOutComplete -= value;
