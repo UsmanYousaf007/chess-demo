@@ -302,6 +302,7 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.coins, playerModel.coins);
 
                 //SendResourceManagerAnalytics();
+                SendLeagueLifeCycleAnalytics();
                 preferencesModel.ResetDailyPrefers();
             }
         }
@@ -351,5 +352,44 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
 
         }
+
+        private void SendLeagueLifeCycleAnalytics()
+        {
+            var league = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+            var daySinceCreationDate = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(playerModel.creationDate)).Days;
+            var dayToString = GetLeagueLifeCycleDay(daySinceCreationDate);
+
+            if (!string.IsNullOrEmpty(dayToString))
+            {
+                analyticsService.DesignEvent(AnalyticsEventId.league_lifecycle, dayToString, league);
+            }
+        }
+
+        private string GetLeagueLifeCycleDay(int day)
+        {
+            var dayToString = string.Empty;
+
+            switch (day)
+            {
+                case 1:
+                    dayToString = "D1";
+                    break;
+
+                case 7:
+                    dayToString = "D7";
+                    break;
+
+                case 14:
+                    dayToString = "D14";
+                    break;
+
+                case 30:
+                    dayToString = "D30";
+                    break;
+            }
+
+            return dayToString;
+        }
     }
+
 }

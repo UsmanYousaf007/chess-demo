@@ -175,6 +175,7 @@ namespace TurboLabz.InstantFramework
         trophies_earned,
         tournament_first_game_start_location,
         championship_coins_by_rank,
+        league_lifecycle,
 
         //navigation
         navigation_clicked,
