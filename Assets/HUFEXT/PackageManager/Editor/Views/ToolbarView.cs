@@ -91,6 +91,12 @@ namespace HUFEXT.PackageManager.Editor.Views
                     eventType = Models.EventType.RefreshPackages
                 } );
             }
+
+            if ( PlayerPrefs.HasKey( PackageManagerOnScriptsReloaded.CURRENT_PACKAGE_MANAGER_VERSION ) )
+            {
+                GUILayout.Label(
+                    $"Version: {PlayerPrefs.GetString( PackageManagerOnScriptsReloaded.CURRENT_PACKAGE_MANAGER_VERSION )}" );
+            }
         }
 
         void DrawSettingsDropdown()
@@ -157,7 +163,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 {
                     window.state.ignoreVersionTags = !window.state.ignoreVersionTags;
                     window.state.Save();
-                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand {downloadLatest = false} );
+                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand { downloadLatest = false } );
                 } );
 
             menu.AddItem( new GUIContent( "Enable debug logs" ),

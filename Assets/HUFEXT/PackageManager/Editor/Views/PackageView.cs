@@ -433,36 +433,39 @@ namespace HUFEXT.PackageManager.Editor.Views
         {
             using ( new GUILayout.HorizontalScope() )
             {
-                if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
+                if ( package.IsInstalled || package.IsRepository )
                 {
-                    try
+
+                    if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
                     {
-                        var directoryInfo = new DirectoryInfo( $"{package.huf.path}/Documentation~" );
-
-                        if ( !directoryInfo.Exists )
-                            directoryInfo = new DirectoryInfo( $"{package.huf.path}/Documentation" );
-
-                        if ( directoryInfo.Exists )
+                        try
                         {
-                            var files = directoryInfo.GetFiles( "*.md", SearchOption.AllDirectories );
+                            var directoryInfo = Directory.Exists( $"{package.huf.path}/Documentation~" )
+                                ? new DirectoryInfo( $"{package.huf.path}/Documentation~" )
+                                : new DirectoryInfo( $"{package.huf.path}/Documentation" );
 
-                            if ( files.Length == 0 )
+                            if ( directoryInfo.Exists )
                             {
-                                UnableToFindDocumentationDialog();
+                                var files = directoryInfo.GetFiles( "*.md", SearchOption.AllDirectories );
+
+                                if ( files.Length == 0 )
+                                {
+                                    UnableToFindDocumentationDialog();
+                                }
+                                else
+                                {
+                                    EditorUtility.RevealInFinder( files[0].FullName );
+                                }
                             }
                             else
                             {
-                                EditorUtility.RevealInFinder( files[0].FullName );
+                                UnableToFindDocumentationDialog();
                             }
                         }
-                        else
+                        catch ( Exception )
                         {
                             UnableToFindDocumentationDialog();
                         }
-                    }
-                    catch ( Exception )
-                    {
-                        UnableToFindDocumentationDialog();
                     }
                 }
 
