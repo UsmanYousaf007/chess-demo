@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using HUF.Analytics.Runtime.API;
 using HUF.Analytics.Runtime.Implementation;
+using HUF.AnalyticsHBI.Runtime.API;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
@@ -13,10 +15,11 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 {
     public class HBIAnalyticsService : IAnalyticsService
     {
-        static readonly HLogPrefix prefix = new HLogPrefix( "HDS " + nameof(HBIAnalyticsService) );
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HAnalyticsHBI.logPrefix, nameof(HBIAnalyticsService) );
 
         HBIAnalytics hbi;
         int minutesToResetSessionId = 5;
+        static SynchronizationContext syncContext;
 
         public string Name => AnalyticsServiceName.HBI;
         public bool IsInitialized => hbi != null && hbi.IsInitialized();
@@ -37,10 +40,23 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
             }
 
             PauseManager.Instance.OnApplicationFocusChange += HandleApplicationFocus;
-
+#if UNITY_IOS
+            AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += status =>
+            {
+                if ( status != AppTrackingTransparencyBridge.AuthorizationStatus.NotDetermined )
+                    hbi.UpdateTrackingConsent();
+            };
+#endif
             hbi = new HBIAnalytics( config.ProjectName, config.Sku, Debug.isDebugBuild, config.Amazon ? "amazon" : "" );
-            HLog.LogImportant( prefix, $"UserID: {UserId} | SessionID: {SessionId}" );
+            syncContext = SynchronizationContext.Current;
+            HLog.LogImportant( logPrefix, $"UserID: {UserId} | SessionID: {SessionId}" );
             model?.CompleteServiceInitialization( Name, IsInitialized );
+            Application.quitting += Dispose;
+        }
+
+        void Dispose()
+        {
+            syncContext.Post( data => hbi.Dispose(), null );
         }
 
         public string UserId => IsInitialized ? hbi.UserId() : string.Empty;
@@ -52,20 +68,20 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
             if ( config == null )
             {
-                HLog.LogError( prefix, $"Can't find {configType}" );
+                HLog.LogError( logPrefix, $"Can't find {configType}" );
                 return false;
             }
 
             if ( config.ProjectName.Length > HBIAnalyticsConfig.MaxProjectLength )
             {
-                HLog.LogError( prefix, $"Project name is too long - check {configType}" );
+                HLog.LogError( logPrefix, $"Project name is too long - check {configType}" );
                 return false;
             }
 
             if ( config.Sku.Length <= HBIAnalyticsConfig.MaxSKULength )
                 return true;
 
-            HLog.LogError( prefix, $"SKU is too long - check {configType}" );
+            HLog.LogError( logPrefix, $"SKU is too long - check {configType}" );
             return false;
         }
 
@@ -73,7 +89,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
         {
             if ( !IsInitialized )
             {
-                HLog.LogError( prefix, "HBI service isn't initialized." );
+                HLog.LogError( logPrefix, "HBI service isn't initialized." );
                 return;
             }
 
@@ -84,7 +100,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
         {
             if ( !IsInitialized )
             {
-                HLog.LogError( prefix, "HBI service isn't initialized." );
+                HLog.LogError( logPrefix, "HBI service isn't initialized." );
                 return;
             }
 
@@ -95,7 +111,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
         {
             if ( !IsInitialized )
             {
-                HLog.LogError( prefix, "HBI service isn't initialized." );
+                HLog.LogError( logPrefix, "HBI service isn't initialized." );
                 return;
             }
 
@@ -114,7 +130,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
             if ( input.ContainsKey( valueKey ) && !IsIntegerLikeType( input[valueKey] ) )
             {
-                HLog.LogError( prefix, "Value parameter could be only int/long/uint type." );
+                HLog.LogError( logPrefix, "Value parameter could be only int/long/uint type." );
                 output.Remove( valueKey );
             }
 
@@ -123,7 +139,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                 switch ( dic.Value )
                 {
                     case null:
-                        HLog.LogError( prefix, $"Parameter {dic.Key} contains a null value, removing..." );
+                        HLog.LogError( logPrefix, $"Parameter {dic.Key} contains a null value, removing..." );
                         output.Remove( dic.Key );
                         break;
                     case bool _:
@@ -133,7 +149,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                     case double d:
                         if ( double.IsNaN( d ) )
                         {
-                            HLog.LogError( prefix,
+                            HLog.LogError( logPrefix,
                                 $"Parameter {dic.Key} of double type contains a NaN value, removing..." );
                             output.Remove( dic.Key );
                         }
@@ -142,7 +158,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                     case string s:
                         if ( string.IsNullOrEmpty( s ) )
                         {
-                            HLog.LogError( prefix,
+                            HLog.LogError( logPrefix,
                                 $"Parameter {dic.Key} of string type contains a null or empty value, removing..." );
                             output.Remove( dic.Key );
                         }
@@ -151,22 +167,20 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                     case float f:
                         if ( float.IsNaN( f ) )
                         {
-                            HLog.LogError( prefix,
+                            HLog.LogError( logPrefix,
                                 $"Parameter {dic.Key} of double type contains a NaN value, removing..." );
                             output.Remove( dic.Key );
                             break;
                         }
 
-                        HLog.LogWarning( prefix, $"Parameter {dic.Key} is of float type, converting to double..." );
                         output[dic.Key] = Convert.ToDouble( dic.Value );
                         break;
                     case uint _:
-                        HLog.LogWarning( prefix, $"Parameter {dic.Key} is of uint type, converting to long..." );
                         output[dic.Key] = Convert.ToInt64( dic.Value );
                         break;
                     default:
                     {
-                        HLog.LogWarning( prefix,
+                        HLog.LogWarning( logPrefix,
                             $"Parameter {dic.Key} is of unsupported type, converting to string..." );
                         var toString = dic.Value.ToString();
 
@@ -189,10 +203,10 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
         void HandleApplicationFocus( bool pauseStatus )
         {
-            if (pauseStatus && minutesToResetSessionId != 0)
+            if ( pauseStatus && minutesToResetSessionId != 0 )
             {
                 hbi.ResetSession( minutesToResetSessionId );
-                HLog.LogImportant(prefix, $"Focus restored, SessionID: {SessionId}");
+                HLog.LogImportant( logPrefix, $"Focus restored, SessionID: {SessionId}" );
             }
         }
     }

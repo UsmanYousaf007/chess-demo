@@ -1,21 +1,24 @@
 {
   "name": "com.huuuge.huf.analytics.hbi",
   "displayName": "Analytics HDS",
-  "version": "2.2.5",
+  "version": "2.5.2",
   "unity": "2018.4",
   "description": "Analytics HDS module is used to send analytics events to Huuuge Data Service. Remember that configuration with project id and sku is required otherwise module will be disabled during play mode. Results of analytics events will be visible on development and production dashboard only after giving information about project to HDS team.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils@^2.2.2",
+      "com.huuuge.huf.utils@^3.4.0",
       "com.huuuge.huf.analytics@^2.2.4"
     ],
-    "date": "21.09.2020 13:54",
-    "commit": "97302df",
-    "build": "40",
+    "optionalDependencies": [
+      "com.huuuge.huf.analytics.appsflyer@^2.4.2"
+    ],
+    "date": "15.02.2021 14:58",
+    "commit": "ce777ac",
+    "build": "56",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/AnalyticsHBI",
-    "rollout": "21"
+    "rollout": "32"
   },
   "doc_section": "Analytics"
 }
