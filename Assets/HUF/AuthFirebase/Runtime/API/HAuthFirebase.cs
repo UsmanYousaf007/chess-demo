@@ -23,12 +23,12 @@ namespace HUF.AuthFirebase.Runtime.API
         {
             get
             {
-                if (service != null)
+                if ( service != null )
                 {
                     return service.UserName;
                 }
 
-                LogServiceNotInitializedWarning("Can't get UserName");
+                LogServiceNotInitializedWarning( "Can't get UserName" );
                 return string.Empty;
             }
         }
@@ -41,12 +41,12 @@ namespace HUF.AuthFirebase.Runtime.API
         {
             get
             {
-                if (service != null)
+                if ( service != null )
                 {
                     return service.PhotoUrl;
                 }
 
-                LogServiceNotInitializedWarning("Can't get PhotoUrl");
+                LogServiceNotInitializedWarning( "Can't get PhotoUrl" );
                 return null;
             }
         }
@@ -59,12 +59,12 @@ namespace HUF.AuthFirebase.Runtime.API
         {
             get
             {
-                if (service != null)
+                if ( service != null )
                 {
                     return service.Email;
                 }
 
-                LogServiceNotInitializedWarning("Can't get Email");
+                LogServiceNotInitializedWarning( "Can't get Email" );
                 return string.Empty;
             }
         }
@@ -74,21 +74,21 @@ namespace HUF.AuthFirebase.Runtime.API
         /// Bool parameter = true if it was the first login to Firebase through this Facebook account, false otherwise.<para/>
         /// </summary>
         [PublicAPI]
-        public static event UnityAction<bool> OnSignInWithFacebookSuccess
+        public static event Action<bool> OnSignInWithFacebookSuccess
         {
             add
             {
-                if (service != null)
+                if ( service != null )
                     service.OnSignInWithFacebookSuccess += value;
                 else
-                    LogServiceNotInitializedWarning("Adding listener to OnSignInWithFacebookSuccess failed");
+                    LogServiceNotInitializedWarning( "Adding listener to OnSignInWithFacebookSuccess failed" );
             }
             remove
             {
-                if (service != null)
+                if ( service != null )
                     service.OnSignInWithFacebookSuccess -= value;
                 else
-                    LogServiceNotInitializedWarning("Removing listener from OnSignInWithFacebookSuccess failed");
+                    LogServiceNotInitializedWarning( "Removing listener from OnSignInWithFacebookSuccess failed" );
             }
         }
 
@@ -96,29 +96,30 @@ namespace HUF.AuthFirebase.Runtime.API
         /// Raised when signing in to Firebase with Facebook credentials failed. <para />
         /// </summary>
         [PublicAPI]
-        public static event UnityAction OnSignInWithFacebookFailure
+        public static event Action OnSignInWithFacebookFailure
         {
             add
             {
-                if (service != null)
+                if ( service != null )
                     service.OnSignInWithFacebookFailure += value;
                 else
-                    LogServiceNotInitializedWarning("Adding listener to OnSignInWithFacebookFailure failed");
+                    LogServiceNotInitializedWarning( "Adding listener to OnSignInWithFacebookFailure failed" );
             }
             remove
             {
-                if (service != null)
+                if ( service != null )
                     service.OnSignInWithFacebookFailure -= value;
                 else
-                    LogServiceNotInitializedWarning("Removing listener from OnSignInWithFacebookFailure failed");
+                    LogServiceNotInitializedWarning( "Removing listener from OnSignInWithFacebookFailure failed" );
             }
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {
             var hasConfig = HConfigs.HasConfig<FirebaseAuthConfig>();
-            if (hasConfig && HConfigs.GetConfig<FirebaseAuthConfig>().AutoInit)
+
+            if ( hasConfig && HConfigs.GetConfig<FirebaseAuthConfig>().AutoInit )
             {
                 Init();
             }
@@ -130,10 +131,10 @@ namespace HUF.AuthFirebase.Runtime.API
         [PublicAPI]
         public static void Init()
         {
-            if (!HAuth.IsServiceRegistered(AuthServiceName.FIREBASE))
+            if ( !HAuth.IsServiceRegistered( AuthServiceName.FIREBASE ) )
             {
                 service = new FirebaseAuthService();
-                HAuth.TryRegisterService(service);
+                HAuth.TryRegisterService( service );
             }
         }
 
@@ -166,20 +167,20 @@ namespace HUF.AuthFirebase.Runtime.API
         /// <param name="accessToken">An facebook user access token.</param>
         /// <returns>Returns TRUE if signing-in call succeeds. Returns FALSE otherwise.</returns>
         [PublicAPI]
-        public static bool SignInWithFacebook(string accessToken)
+        public static bool SignInWithFacebook( string accessToken )
         {
-            if (service != null)
+            if ( service != null )
             {
-                return service.SignInWithFacebook(accessToken);
+                return service.SignInWithFacebook( accessToken );
             }
 
-            LogServiceNotInitializedWarning("SignInWithFacebookAccessToken failed");
+            LogServiceNotInitializedWarning( "SignInWithFacebookAccessToken failed" );
             return false;
         }
 
-        static void LogServiceNotInitializedWarning(string message)
+        static void LogServiceNotInitializedWarning( string message )
         {
-            HLog.LogWarning(  logPrefix, $"{message}, service is not initialized");
+            HLog.LogWarning( logPrefix, $"{message}, service is not initialized" );
         }
     }
 }

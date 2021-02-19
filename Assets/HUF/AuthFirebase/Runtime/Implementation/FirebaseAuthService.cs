@@ -30,12 +30,12 @@ namespace HUF.AuthFirebase.Runtime.Implementation
         public string Email => IsSignedIn ? firebaseAuth.CurrentUser.Email : string.Empty;
         public Uri PhotoUrl => IsSignedIn ? firebaseAuth.CurrentUser.PhotoUrl : null;
 
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, AuthSignInResult> OnSignInResult;
-        public event UnityAction<string> OnSignOutComplete;
-        public event UnityAction<bool> OnSignInWithFacebookSuccess;
-        public event UnityAction OnSignInWithFacebookFailure;
+        public event Action<string> OnInitialized;
+        public event Action OnInitializationFailure;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
+        public event Action<bool> OnSignInWithFacebookSuccess;
+        public event Action OnSignInWithFacebookFailure;
 
         bool isSigningWithFacebookInProgress;
 

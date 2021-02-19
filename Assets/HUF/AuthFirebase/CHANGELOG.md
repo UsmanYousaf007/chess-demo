@@ -1,3 +1,22 @@
+## External SDKs
+- Firebase SDK Unity plugin - 7.0.2
+- Firebase Auth - 7.0.2
+
+## [2.5.0] - 2021-02-10
+### Updated
+- Firebase SDK Unity plugin - 7.0.2
+
+
+## [2.4.0] - 2021-01-13
+### Changed
+- UnityActions to Actions in Auth Packages
+
+
+## [2.3.1] - 2020-12-30
+### Fixed
+- Tests no longer use obsolete event
+
+
 ## [2.3.0] - 2020-11-13
 ### Change
 - Moved Firebase to Unity Package Manager
