@@ -169,11 +169,11 @@ namespace HUF.Utils.Runtime.Logging
             switch ( type )
             {
                 case LogType.Error:
-                    return $"<color=\"#c70000\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#c70000><b>[{prefix}]</b></color> {message}";
                 case LogType.Warning:
-                    return $"<color=\"#c77700\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#c77700><b>[{prefix}]</b></color> {message}";
                 default:
-                    return $"<color=\"#6f8a91\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#6f8a91><b>[{prefix}]</b></color> {message}";
             }
 #else
             return ( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : String.Empty ) +
