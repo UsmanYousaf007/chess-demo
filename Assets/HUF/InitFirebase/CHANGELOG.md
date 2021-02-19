@@ -1,8 +1,12 @@
+## [2.2.1] - 2020-12-16
+### Updated
+- Android resolver dependency
+
 ## [2.2.0] - 2020-11-13
-### Change
+### Changed
 - Moved Firebase to Unity Package Manager
 
-### Update
+### Updated
 - Firebase SDK Unity plugin - 6.16.1
 
 
