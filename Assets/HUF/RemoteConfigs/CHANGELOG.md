@@ -1,3 +1,8 @@
+## [3.0.0] - 2020-11-03
+### Added
+- Support for multiple services at once
+- Initialization event
+
 ## [2.1.1] - 2020-09-09
 ### Added
 - Documentation

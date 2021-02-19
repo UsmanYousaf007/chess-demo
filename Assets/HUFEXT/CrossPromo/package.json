@@ -1,22 +1,22 @@
 {
   "name": "com.huuuge.hufext.crosspromo",
   "displayName": "Cross Promo",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "unity": "2018.4",
   "description": "This feature is intended to be shared among all ever green products (for now at least). It contains both API and View implementation. It is as simple as plug and play feature with little setup required for content to be displayed within promotion screen. Please note that this feature is forced to work in portrait mode only!",
   "huf": {
     "dependencies": [
       "com.huuuge.huf.utils@^2.7.5",
-      "com.huuuge.huf.remoteconfig@^2.0.0",
-      "com.huuuge.huf.storage@^2.0.0",
+      "com.huuuge.huf.remoteconfig@^3.0.0",
+      "com.huuuge.huf.storage@^3.0.0",
       "com.huuuge.huf.firebase.wrapper@^2.0.0"
     ],
-    "date": "30.11.2020 16:00",
-    "commit": "e915e1f",
-    "build": "57",
+    "date": "01.02.2021 15:13",
+    "commit": "d71e036",
+    "build": "64",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUFEXT/CrossPromo",
-    "rollout": "27"
+    "rollout": "31"
   }
 }

@@ -21,7 +21,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         bool isInitialized;
         bool isPanelOpen = false;
         public bool hasContent;
-
+        
         public static string NotInstalledStateButtonText = "get";
         public static string InstalledStateButtonText = "play now";
         public static string InstalledStateTileLabelText = "installed";
@@ -29,8 +29,6 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
 
         public CrossPromoService()
         {
-            //PauseManager.Instance.OnAppPause += HandleFocusLost;
-            
             if (HInitFirebase.IsInitialized)
             {
                 HandleFirebaseInitComplete();
@@ -40,7 +38,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
                 HInitFirebase.OnInitializationSuccess += HandleFirebaseInitComplete;
                 HRemoteConfigs.OnInitComplete += HandleRemoteConfigsInitialized;
                 HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
-                HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
+                HRemoteConfigs.OnFetchFail += HandleConfigsFetchFail;
             }
         }
 
@@ -134,8 +132,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             {
                 crossPromoView.BottomPanelContainer = Object.Instantiate(localConfig.CustomBottomPanelContainer, crossPromoView.transform);
             }
-            
-            
+
             topPanelContainer = crossPromoView.TopPanelContainer;
             contentPanelContainer = crossPromoView.ContentPanelContainer;
             bottomPanelContainer = crossPromoView.BottomPanelContainer;
@@ -147,19 +144,22 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
         }
 
-        public void FetchRemoteConfigs()
-        {
-            HandleRemoteConfigsInitialized();
-            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
-            HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
-        }
-
-        void HandleRemoteConfigsInitialized()
+        void HandleRemoteConfigsInitialized(RemoteConfigService service )
         {
             HRemoteConfigs.Fetch();
         }
 
-        void HandleConfigFetchFinished()
+        void HandleConfigsFetchFail( RemoteConfigService? service )
+        {
+            ApplyConfig();
+        }
+
+        void HandleConfigFetchFinished(RemoteConfigService service)
+        {
+            ApplyConfig();
+        }
+
+        void ApplyConfig()
         {
             var config = HConfigs.GetConfig<CrossPromoRemoteConfig>();
             HRemoteConfigs.ApplyConfig(ref config);
@@ -227,5 +227,13 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             return HConfigs.HasConfig<CrossPromoLocalConfig>()
                    && HConfigs.HasConfig<CrossPromoRemoteConfig>();
         }
+
+        public void FetchRemoteConfigs()
+        {
+            HandleRemoteConfigsInitialized(RemoteConfigService.Firebase);
+            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
+            HRemoteConfigs.OnFetchFail += HandleConfigsFetchFail;
+        }
+
     }
 }

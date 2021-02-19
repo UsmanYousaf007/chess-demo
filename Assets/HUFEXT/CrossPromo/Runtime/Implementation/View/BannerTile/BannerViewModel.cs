@@ -1,5 +1,5 @@
 using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUFEXT.CrossPromo.Runtime.Implementation.Model;

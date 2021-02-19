@@ -199,6 +199,7 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
             public void Reset( bool toInitial = false )
             {
                 HashedValue = toInitial ? hashedInitialValue : string.Empty;
+                this.Reset(  );
             }
 
             public void SetFromConfig( AbstractConfig config, string encryptedValue )

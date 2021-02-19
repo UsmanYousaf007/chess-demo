@@ -1,3 +1,13 @@
+## [2.1.0] - 2020-11-03
+### Changed
+- Support multiple remote configs services
+
+
+## [2.0.6] - 2020-12-30
+### Fixed
+- Multiple warnings
+
+
 ## [2.0.5] - 2020-11-13
 ### Fixed
 - Crashes when downloading the same sprite more than once

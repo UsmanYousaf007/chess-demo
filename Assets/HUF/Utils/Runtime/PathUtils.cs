@@ -1,4 +1,5 @@
 using System.IO;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime
@@ -7,6 +8,12 @@ namespace HUF.Utils.Runtime
     {
         const string ASSETS = "Assets";
         
+        /// <summary>
+        /// Converts a path to a full path.
+        /// </summary>
+        /// <param name="path">A path to convert.</param>
+        /// <returns>A full path</returns>
+        [PublicAPI]
         public static string GetFullPath(string path)
         {
             if (path.StartsWith(Application.dataPath))
@@ -18,6 +25,12 @@ namespace HUF.Utils.Runtime
             return Path.Combine(Application.dataPath, path);
         }
 
+        /// <summary>
+        /// Converts a path to a local path.
+        /// </summary>
+        /// <param name="path">A path to convert.</param>
+        /// <returns>A local path</returns>
+        [PublicAPI]
         public static string GetLocalPath(string path)
         {
             if (path.StartsWith(Application.dataPath))

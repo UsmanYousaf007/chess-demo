@@ -1,4 +1,8 @@
 using HUF.Utils.Runtime.Extensions;
+using JetBrains.Annotations;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,10 +10,24 @@ namespace HUF.Utils.Runtime
 {
     public class PauseManager : HSingleton<PauseManager>
     {
+        /// <summary>
+        /// Raised when the game is paused.
+        /// </summary>
+        [PublicAPI]
         public event UnityAction<bool> OnAppPause;
+
+        /// <summary>
+        /// Raised when the focus of the game changes.
+        /// </summary>
+        [PublicAPI]
         public event UnityAction<bool> OnApplicationFocusChange;
+
+        /// <summary>
+        /// Raised when screen orientation of the game changes.
+        /// </summary>
+        [PublicAPI]
         public event UnityAction<ScreenOrientation> OnScreenOrientationChange;
-        
+
         bool currentFocus;
         ScreenOrientation lastScreenOrientation = ScreenOrientation.Portrait;
 
@@ -27,18 +45,33 @@ namespace HUF.Utils.Runtime
                 OnApplicationFocusChange.Dispatch( currentFocus );
             }
         }
+
+#if UNITY_EDITOR
+        void HandlePauseState( PauseState state )
+        {
+            if ( state == PauseState.Paused )
+            {
+                OnApplicationFocus( false ); //clicking pause button in the editor doesn't raise OnApplicationFocus
+                OnApplicationPause( true );
+            }
+            else
+                OnApplicationPause( false );
+        }
+#endif
         
         void Awake()
         {
             lastScreenOrientation = Screen.orientation;
+#if UNITY_EDITOR
+            EditorApplication.pauseStateChanged += HandlePauseState;
+#endif
         }
-
         void Update()
         {
-            if (lastScreenOrientation != Screen.orientation)
+            if ( lastScreenOrientation != Screen.orientation )
             {
                 lastScreenOrientation = Screen.orientation;
-                OnScreenOrientationChange.Dispatch(lastScreenOrientation);
+                OnScreenOrientationChange.Dispatch( lastScreenOrientation );
             }
         }
     }

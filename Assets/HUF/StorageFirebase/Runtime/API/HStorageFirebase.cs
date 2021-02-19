@@ -1,9 +1,12 @@
+using System;
 using Firebase.Storage;
 using HUF.InitFirebase.Runtime.API;
 using HUF.InitFirebase.Runtime.Config;
 using HUF.Storage.Runtime.API;
+using HUF.Storage.Runtime.API.Services;
 using HUF.StorageFirebase.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -13,6 +16,8 @@ namespace HUF.StorageFirebase.Runtime.API
     public static class HStorageFirebase
     {
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HStorageFirebase) );
+
+        static IDownloadService downloadService;
 
         static FirebaseStorageConfig config;
 
@@ -33,81 +38,72 @@ namespace HUF.StorageFirebase.Runtime.API
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void AutoInit()
         {
-            if ( !HConfigs.HasConfig<FirebaseStorageConfig>() )
+            if ( Config == null )
             {
                 HLog.LogError( logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR );
                 return;
             }
 
-            TryInitServices();
+            if ( Config.AutoInit )
+                Initialize();
         }
 
-        static void TryInitServices()
+        /// <summary>
+        /// Occurs when the storage is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static event Action OnInit;
+
+        /// <summary>
+        /// Is set to TRUE if service is fully initialized and FALSE otherwise
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized => downloadService != null;
+
+        /// <summary>
+        /// Initializes the Storage Firebase service.
+        /// </summary>
+        [PublicAPI]
+        public static void Initialize()
         {
-            if ( HInitFirebase.IsInitialized )
+            if ( !HInitFirebase.IsInitialized &&
+                 ( !HConfigs.HasConfig<HFirebaseConfig>() || HConfigs.GetConfig<HFirebaseConfig>().AutoInit ) )
             {
-                InitServices();
+                HInitFirebase.Init();
+                HInitFirebase.OnInitializationSuccess += HandleFirebaseInitialized;
             }
             else
+                Init();
+        }
+
+        static void HandleFirebaseInitialized()
+        {
+            HInitFirebase.OnInitializationSuccess -= HandleFirebaseInitialized;
+            Init();
+        }
+
+        static void Init()
+        {
+            if ( Config == null )
             {
-                HInitFirebase.OnInitializationSuccess += OnInitFirebaseSuccess;
-
-                if ( !HConfigs.HasConfig<HFirebaseConfig>() || HConfigs.GetConfig<HFirebaseConfig>().AutoInit )
-                    HInitFirebase.Init();
+                HLog.LogError( logPrefix, FirebaseErrorMessages.CONFIG_MISSING_ERROR );
+                return;
             }
-        }
 
-        static void InitServices()
-        {
-            if ( Config.AutoInitDownloadService )
-                TryInitDownloadService();
+            if ( downloadService != null )
+            {
+                HLog.LogError( logPrefix, FirebaseErrorMessages.STORAGE_ALREADY_INITIALIZED );
+                return;
+            }
 
-            if ( Config.AutoInitUploadService )
-                TryInitUploadService();
+            downloadService = new FirebaseStorageDownloadService( FirebaseStorage.DefaultInstance );
 
-            if ( Config.AutoInitRemoveService )
-                TryInitRemoveService();
-        }
-
-        static void OnInitFirebaseSuccess()
-        {
-            HInitFirebase.OnInitializationSuccess -= OnInitFirebaseSuccess;
-            InitServices();
-        }
-
-        /// <summary>
-        /// Tries to register a download service.
-        /// </summary>
-        /// <returns>True if the service was registered successfully, false otherwise</returns>
-        [PublicAPI]
-        public static bool TryInitDownloadService()
-        {
-            return HInitFirebase.IsInitialized && HStorage.TryRegisterDownloadService(
-                new FirebaseStorageDownloadService( FirebaseStorage.DefaultInstance ) );
-        }
-
-        /// <summary>
-        /// Tries to register an upload service.
-        /// </summary>
-        /// <returns>True if the service was registered successfully, false otherwise</returns>
-        [PublicAPI]
-        public static bool TryInitUploadService()
-        {
-            return HInitFirebase.IsInitialized && HStorage.TryRegisterUploadService(
-                new FirebaseStorageUploadService( FirebaseStorage.DefaultInstance ) );
-        }
-
-        /// <summary>
-        /// Tries to register a remove service.
-        /// </summary>
-        /// <returns>True if the service was registered successfully, false otherwise</returns>
-        [PublicAPI]
-        public static bool TryInitRemoveService()
-        {
-            return HInitFirebase.IsInitialized && HStorage.TryRegisterRemoveService(
-                new FirebaseStorageRemoveService( FirebaseStorage.DefaultInstance ) );
-
-            ;
+            HStorage.RegisterService( downloadService,
+                new FirebaseStorageUploadService( FirebaseStorage.DefaultInstance ),
+                new FirebaseStorageRemoveService( FirebaseStorage.DefaultInstance ),
+                StorageService.Firebase,
+                Config.IsMain );
+            OnInit.Dispatch();
         }
     }
 }

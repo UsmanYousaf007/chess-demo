@@ -1,3 +1,8 @@
+## [3.0.0] - 2020-10-12
+### Changed
+- Multiple storage services support
+
+
 ## [2.1.2] - 2020-09-22
 ### Added
 - Documentation

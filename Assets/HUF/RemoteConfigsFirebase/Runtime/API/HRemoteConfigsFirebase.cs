@@ -2,6 +2,7 @@ using System;
 using HUF.RemoteConfigs.Runtime.API;
 using HUF.RemoteConfigsFirebase.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -10,13 +11,22 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
 {
     public static class HRemoteConfigsFirebase
     {
+        const RemoteConfigService serviceType = RemoteConfigService.Firebase;
+        static FirebaseRemoteConfigsConfig config;
+
+        /// <summary>
+        /// Raised when the service is fully initialized.
+        /// </summary>
+        [PublicAPI]
+        public static event Action OnInitialized;
+
+        static Action initializationCallback;
+
         /// <summary>
         /// Returns whether Firebase Remote Configs is initialized.
         /// </summary>
         [PublicAPI]
         public static bool IsInitialized { private set; get; }
-
-        static FirebaseRemoteConfigsConfig config;
 
         static FirebaseRemoteConfigsConfig Config
         {
@@ -38,9 +48,11 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
             if ( IsInitialized || Config == null || ( Application.isEditor && !Config.EnableInEditor ) )
                 return false;
 
+            HRemoteConfigs.OnInitComplete += HandleInitComplete;
+
             try
             {
-                HRemoteConfigs.RegisterService( new FirebaseRemoteConfigsService() );
+                HRemoteConfigs.RegisterService( new FirebaseRemoteConfigsService(), serviceType, Config.IsMain );
                 IsInitialized = true;
             }
             catch ( Exception exception )
@@ -59,24 +71,23 @@ namespace HUF.RemoteConfigsFirebase.Runtime.API
         [PublicAPI]
         public static void Init( Action callback )
         {
-            if ( callback == null )
+            if ( callback != null )
             {
-                Init();
-                return;
+                if ( initializationCallback != null )
+                    initializationCallback += callback;
+                else
+                    initializationCallback = callback;
             }
 
-            void HandleInitComplete()
-            {
-                HRemoteConfigs.OnInitComplete -= HandleInitComplete;
-                callback();
-            }
+            Init();
+        }
 
-            HRemoteConfigs.OnInitComplete += HandleInitComplete;
-
-            if ( Init() )
-                return;
-
-            HandleInitComplete();
+        static void HandleInitComplete( RemoteConfigService service )
+        {
+            HRemoteConfigs.OnInitComplete -= HandleInitComplete;
+            initializationCallback.Dispatch();
+            initializationCallback = null;
+            OnInitialized.Dispatch();
         }
 
         /// <summary>

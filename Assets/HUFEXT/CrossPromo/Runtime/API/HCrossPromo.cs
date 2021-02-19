@@ -2,8 +2,6 @@ using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.CrossPromo.Runtime.Implementation;
 using JetBrains.Annotations;
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
 using UnityEngine;
 using UnityEngine.Events;
 

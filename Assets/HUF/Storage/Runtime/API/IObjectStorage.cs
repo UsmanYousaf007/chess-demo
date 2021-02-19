@@ -1,11 +1,11 @@
-using HUF.Storage.Runtime.API.Structs;
-using UnityEngine.Events;
+using System;
+using HUF.Storage.Runtime.Implementation.Structs;
 
-namespace HUF.Storage.Runtime.API
+namespace HUF.Storage.Runtime.API.Services
 {
     public interface IObjectStorage<T> where T : class
     {
-        void Get(string filePath, UnityAction<ObjectResultContainer<T>> resultHandler);
-        void Download(string filePath, UnityAction<ObjectResultContainer<T>> resultHandler);
+        void Get(string filePath, Action<ObjectResultContainer<T>> resultHandler);
+        void Download(string filePath, Action<ObjectResultContainer<T>> resultHandler);
     }
 }

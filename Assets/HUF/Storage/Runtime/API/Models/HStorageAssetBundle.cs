@@ -1,54 +1,80 @@
-using HUF.Storage.Runtime.API.Structs;
-using HUF.Utils.Runtime.Extensions;
+using System;
+using HUF.Storage.Runtime.API.Services;
+using HUF.Storage.Runtime.Implementation.Structs;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.API.Models
 {
     public class HStorageAssetBundle : IObjectStorage<AssetBundle>
     {
-        readonly StorageModel storage;
+        readonly Implementation.StorageService storageService;
 
-        public HStorageAssetBundle(StorageModel storageModel)
+        public HStorageAssetBundle(Implementation.StorageService storageServiceService)
         {
-            storage = storageModel;
+            storageService = storageServiceService;
         }
 
         /// <summary>
-        /// Gets the asset bundle either from the remote or local storage. The handler will be called after the process 
-        /// is completed. If it was successful, the container will contain the path to the file and the asset bundle.
-        /// If it has failed, the container will contain the path to the file and the failure reason. 
+        /// Gets the asset bundle either from a remote or a local storage. The handler is raised after the process is completed.
+        /// If it succeeds, the container has a path to the file and the asset bundle.
+        /// If it fails, the container has a path to the file and a failure reason.
         /// </summary>
-        /// <param name="filePath">A path to the file (database part added automatically).</param>
+        /// <param name="filePath">A path to the file.</param>
         /// <param name="resultHandler">A download completion handler.</param>
         [PublicAPI]
-        public void Get(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> resultHandler)
+        public void Get(string filePath, Action<ObjectResultContainer<AssetBundle>> resultHandler)
         {
             GetAssetBundle(filePath, resultHandler, false);
         }
 
         /// <summary>
-        /// Downloads the asset bundle from the remote storage. The handler will be called after the download process
-        /// is completed. If it was successful, the container will contain the path to the file and the asset bundle.
-        /// If it has failed, the container will contain the path to the file and the failure reason. 
+        /// Gets the asset bundle either from a remote or a local storage. The handler is raised after the process is completed.
+        /// If it succeeds, the container has a path to the file and the asset bundle.
+        /// If it fails, the container has a path to the file and a failure reason.
         /// </summary>
-        /// <param name="filePath">A path to the file (database part added automatically).</param>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
+        /// <param name="serviceType">A storage service to use.</param>
+        [PublicAPI]
+        public void Get(string filePath, Action<ObjectResultContainer<AssetBundle>> resultHandler, StorageService serviceType)
+        {
+            GetAssetBundle(filePath, resultHandler, false, serviceType);
+        }
+
+        /// <summary>
+        /// Downloads the asset bundle from a remote storage service. The handler is raised after the download process is completed.
+        /// If a download is successful, the container has a path to the file and the asset bundle.
+        /// If the download fails, the container has a path to the file and a failure reason.
+        /// </summary>
+        /// <param name="filePath">A path to the file.</param>
         /// <param name="resultHandler">A download completion handler.</param>
         [PublicAPI]
-        public void Download(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> resultHandler)
+        public void Download(string filePath, Action<ObjectResultContainer<AssetBundle>> resultHandler)
         {
             GetAssetBundle(filePath, resultHandler, true);
         }
 
-        void GetAssetBundle(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> resultHandler,
-            bool forceDownload)
+        /// <summary>
+        /// Downloads the asset bundle from a remote storage service. The handler is raised after the download process is completed.
+        /// If a download is successful, the container has a path to the file and the asset bundle.
+        /// If the download fails, the container has the path to the file and a failure reason.
+        /// </summary>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
+        /// <param name="serviceType">A storage service to use.</param>
+        [PublicAPI]
+        public void Download(string filePath, Action<ObjectResultContainer<AssetBundle>> resultHandler, StorageService serviceType)
         {
-            if (storage?.DownloadService == null)
-                resultHandler.Dispatch(new ObjectResultContainer<AssetBundle>(
-                    new StorageResultContainer(filePath, StorageErrorMessages.STORAGE_NOT_INITIALIZED)));
-            else
-                storage?.DownloadService?.GetAssetBundle(filePath, resultHandler, forceDownload);
+            GetAssetBundle(filePath, resultHandler, true, serviceType);
         }
+
+        void GetAssetBundle(string filePath, Action<ObjectResultContainer<AssetBundle>> resultHandler,
+            bool forceDownload, StorageService? serviceType = null)
+        {
+            storageService.GetAssetBundle(filePath, resultHandler, forceDownload, serviceType);
+        }
+
+
     }
 }

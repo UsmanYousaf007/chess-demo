@@ -10,6 +10,7 @@ namespace HUF.Utils.Runtime.Configs.API
         public const string CONFIGS_FOLDER = "HUFConfigs";
 
         static IConfigsModel configsModel;
+
         static IConfigsModel ConfigsModel
         {
             get
@@ -26,15 +27,15 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// True if there is no Resources/HUFConfigs/ConfigsInitializationConfig.asset config file <para />
-        /// or if it's created with AutoInit checkbox set to true, <para />
-        /// False otherwise
+        /// <para>True if there is no Resources/HUFConfigs/ConfigsInitializationConfig.asset config file</para>
+        /// <para>or if it is created with AutoInit checkbox set to true,</para>
+        /// <para>False otherwise.</para>
         /// </summary>
         [PublicAPI]
         public static bool IsAutoInitEnabled => ConfigsModel.IsAutoInitEnabled;
 
         /// <summary>
-        /// Get AbstractConfig of given type
+        /// Gets AbstractConfig of a given type.
         /// </summary>
         [PublicAPI]
         public static T GetConfig<T>() where T : AbstractConfig
@@ -43,16 +44,16 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// Get AbstractConfig of given type and specific ConfigId
+        /// Gets AbstractConfig of a given type and with specific config ID.
         /// </summary>
         [PublicAPI]
-        public static T GetConfig<T>(string configId) where T : AbstractConfig
+        public static T GetConfig<T>( string configId ) where T : AbstractConfig
         {
-            return ConfigsModel?.GetConfig<T>(configId);
+            return ConfigsModel?.GetConfig<T>( configId );
         }
 
         /// <summary>
-        /// Check if there is any AbstractConfig of given type registered
+        /// Checks if there is any AbstractConfig of a given type registered.
         /// </summary>
         [PublicAPI]
         public static bool HasConfig<T>() where T : AbstractConfig
@@ -61,16 +62,16 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// Check if there is any AbstractConfig of given type and specific ConfigId registered
+        /// Checks if there is any AbstractConfig of a given type and specific config ID registered.
         /// </summary>
         [PublicAPI]
-        public static bool HasConfig<T>(string configId) where T : AbstractConfig
+        public static bool HasConfig<T>( string configId ) where T : AbstractConfig
         {
-            return ConfigsModel.HasConfig<T>(configId);
+            return ConfigsModel.HasConfig<T>( configId );
         }
 
         /// <summary>
-        /// Get all AbstractConfigs of given type
+        /// Gets all AbstractConfigs of a given type.
         /// </summary>
         [PublicAPI]
         public static IEnumerable<T> GetConfigs<T>() where T : AbstractConfig
@@ -79,7 +80,7 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// Get all AbstractConfigs of given type or derived from given type
+        /// Gets all AbstractConfigs of a given type or derived from given type.
         /// </summary>
         [PublicAPI]
         public static IEnumerable<T> GetConfigsByBaseClass<T>() where T : AbstractConfig
@@ -88,60 +89,60 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// Adds new config to configs map as specified type to be used in future.
+        /// Adds a new config to configs map as specified type to be used in future.
         /// </summary>
-        /// <param name="config">Config to be added</param>
-        /// /// <param name="type">Type of config</param>
+        /// <param name="config">A config to be added.</param>
+        /// <param name="type">A type of config.</param>
         [PublicAPI]
-        public static void AddConfig<T>(T config, Type type) where T : AbstractConfig
+        public static void AddConfig<T>( T config, Type type ) where T : AbstractConfig
         {
-            ConfigsModel.AddConfig(config, type);
+            ConfigsModel.AddConfig( config, type );
         }
 
         /// <summary>
-        /// Adds new config to configs map to be used in future.
+        /// Adds a new config to configs map to be used in future.
         /// </summary>
-        /// <param name="config">Config to be added</param>
+        /// <param name="config">A config to be added.</param>
         [PublicAPI]
-        public static void AddConfig<T>(T config) where T : AbstractConfig
+        public static void AddConfig<T>( T config ) where T : AbstractConfig
         {
-            ConfigsModel.AddConfig(config);
+            ConfigsModel.AddConfig( config );
         }
 
         /// <summary>
-        /// Adds new configs to map to be used in future.
+        /// Adds new configs to configs map to be used in the future.
         /// </summary>
-        /// <param name="configsCollection">Collection of configs to be added</param>
+        /// <param name="configsCollection">A collection of configs to be added.</param>
         [PublicAPI]
-        public static void AddConfigs<T>(IEnumerable<T> configsCollection) where T : AbstractConfig
+        public static void AddConfigs<T>( IEnumerable<T> configsCollection ) where T : AbstractConfig
         {
-            ConfigsModel.AddConfigs(configsCollection);
+            ConfigsModel.AddConfigs( configsCollection );
         }
 
         /// <summary>
-        /// Adds new configs to map to be used in future.
+        /// Adds new configs to configs map to be used in the future.
         /// </summary>
-        /// <param name="configsCollection">Collection of configs to be added</param>
+        /// <param name="configsCollection">A collection of configs to be added.</param>
         [PublicAPI]
-        public static void AddConfigsByOwnTypes<T>(IEnumerable<T> configsCollection) where T : AbstractConfig
+        public static void AddConfigsByOwnTypes<T>( IEnumerable<T> configsCollection ) where T : AbstractConfig
         {
-            ConfigsModel.AddConfigsByOwnTypes(configsCollection);
+            ConfigsModel.AddConfigsByOwnTypes( configsCollection );
         }
 
         /// <summary>
-        /// Tries to remove config with given id and type from map.
-        /// Returns true if config is removed and false otherwise.
+        /// Tries to remove the config with a given ID and type from configs map.
+        /// Returns true if the config is removed and false otherwise.
         /// </summary>
-        /// <param name="configId">Config identificator</param>
+        /// <param name="configId">A config ID.</param>
         [PublicAPI]
-        public static bool TryRemoveConfig<T>(string configId) where T : AbstractConfig
+        public static bool TryRemoveConfig<T>( string configId ) where T : AbstractConfig
         {
-            return ConfigsModel.TryRemoveConfig<T>(configId);
+            return ConfigsModel.TryRemoveConfig<T>( configId );
         }
 
         /// <summary>
-        /// Tries to remove all configs with given type. Returns true if configs are removed and false otherwise.
-        /// USE WITH CAUTION.
+        /// <para>Tries to remove all configs with a given type. Returns true if configs are removed and false otherwise.</para>
+        /// <para>USE WITH CAUTION.</para>
         /// </summary>
         [PublicAPI]
         public static bool TryRemoveConfigs<T>() where T : AbstractConfig
@@ -150,7 +151,7 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
-        /// Remove all callbacks connected to every loaded config
+        /// Removes all callbacks connected to every loaded config.
         /// </summary>
         [PublicAPI]
         public static void ResetConfigs()

@@ -6,7 +6,6 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BottomPanel
 {
     public class BottomPanelContainer : MonoBehaviour
     {
-        [SerializeField] RectTransform self = default;
         [SerializeField] LogoImageView logoImageViewView = default;
         [SerializeField] ActionButton closeButton = default;
 

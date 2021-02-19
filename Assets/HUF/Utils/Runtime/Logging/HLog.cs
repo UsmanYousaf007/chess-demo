@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -21,6 +22,8 @@ namespace HUF.Utils.Runtime.Logging
         static bool canLogOnProd = !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
         static bool canLogTime = Config != null && Config.ShowTimeInNativeLogs;
         static HLogConfig config;
+
+        static string TimeString => $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]";
 
         static HLogConfig Config
         {
@@ -60,9 +63,10 @@ namespace HUF.Utils.Runtime.Logging
 #endif
 
         /// <summary>
-        /// Logs message in console
+        /// Logs a message in the console.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogError(
             HLogPrefix prefixSource,
             string message )
@@ -71,9 +75,10 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
-        /// Logs message in console
+        /// Logs a message in the console.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogWarning(
             HLogPrefix prefixSource,
             string message )
@@ -82,9 +87,10 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
-        /// Logs message that is not filtered out like HBI id but only on debug 
+        /// Logs a message that is not filtered out like HBI ID but only on debug.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogImportant(
             HLogPrefix prefixSource,
             string message )
@@ -93,9 +99,10 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
-        /// Logs message that is not filtered out like Ads adapters status
+        /// Logs a message that is not filtered out like Ads adapters status.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogAlways(
             HLogPrefix prefixSource,
             string message )
@@ -104,9 +111,10 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
-        /// Logs message in console when build is set to DEBUG
+        /// Logs a message in the console when the build is set to DEBUG.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void Log(
             HLogPrefix prefixSource,
             string message,
@@ -144,9 +152,9 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
-        /// Generates log message formatted in HUF manner
+        /// Generates log message formatted in HUF manner.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         static string FormatMessage( string prefix, string message, LogType type )
         {
 #if UNITY_EDITOR
@@ -160,12 +168,10 @@ namespace HUF.Utils.Runtime.Logging
                     return $"<color=\"#6f8a91\"><b>[{prefix}]</b></color> {message}";
             }
 #else
-            return $"{( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : "" )}" +
+            return ( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : String.Empty ) +
                    $"[{prefix}] {message}";
 #endif
         }
-        
-        
 
 #if UNITY_IOS && !UNITY_EDITOR
         [DllImport("__Internal")]

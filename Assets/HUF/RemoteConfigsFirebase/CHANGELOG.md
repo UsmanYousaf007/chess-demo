@@ -1,3 +1,9 @@
+## [3.3.0] - 2020-12-03
+### Added
+- Support for multiple services at once
+- Initialization event
+
+
 ## [3.2.0] - 2020-11-13
 ### Change
 - Moved Firebase to Unity Package Manager

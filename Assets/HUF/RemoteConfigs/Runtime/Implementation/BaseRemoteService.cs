@@ -1,20 +1,21 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HUF.RemoteConfigs.Runtime.API;
 using HUF.Utils.Runtime.Configs.API;
-using UnityEngine.Events;
 
 namespace HUF.RemoteConfigs.Runtime.Implementation
 {
     public abstract class BaseRemoteService : IRemoteConfigsService
     {
+        public abstract bool HasCachedData { get; }
         public abstract bool IsInitialized { get; }
         public abstract bool SupportsCaching { get; }
         public abstract string UID { get; }
 
-        public abstract event UnityAction OnInitComplete;
-        public abstract event UnityAction OnFetchComplete;
-        public abstract event UnityAction OnFetchFailed;
+        public abstract event Action<RemoteConfigService> OnInitialized;
+        public abstract event Action<RemoteConfigService> OnFetchComplete;
+        public abstract event Action<RemoteConfigService> OnFetchFailed;
 
         public abstract void Fetch();
 

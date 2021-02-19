@@ -1,3 +1,11 @@
+## [3.0.5] - 2020-10-03
+### Added
+- Documentation
+
+### Fixed
+- PauseManager OnAppPause and OnApplicationFocus in the editor
+
+
 ## [3.0.4] - 2020-09-24
 ### Added
 - Opening application settings on iOS

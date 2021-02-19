@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,12 +12,17 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
 {
     public class AudioClipLocalHandler : BaseActionHandler<AudioClip>
     {
-        public AudioClipLocalHandler(string filePath, UnityAction<ObjectResultContainer<AudioClip>> completeHandler)
-            : base(filePath, completeHandler)
+        public AudioClipLocalHandler(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler)
+            : base(fileId, completeHandler)
         {
         }
+        public AudioClipLocalHandler(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler, string filePath)
+            : base(fileId, completeHandler)
+        {
+            FilePath = filePath;
+        }
 
-        public override void ReadLocalFile()
+        public override void DownloadFile()
         {
             var localFilePath = $"file:///{StorageUtils.GetLocalFilePath(FilePath)}";
             CoroutineManager.StartCoroutine(DownloadFromUrl(new Uri(localFilePath), false));
@@ -27,10 +32,6 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
         {
             var request = UnityWebRequestMultimedia.GetAudioClip(uri, GetAudioType(Path.GetExtension(uri.LocalPath)));
             yield return request.SendWebRequest();
-
-#if HUF_TIMESERVER
-            TimeServer.Runtime.Implementation.ExternalWebrequestConnector.HandleRequest( request );
-#endif
 
             if (request.isNetworkError || request.isHttpError)
             {

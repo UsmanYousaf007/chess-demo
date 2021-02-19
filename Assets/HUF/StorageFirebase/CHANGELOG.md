@@ -1,9 +1,31 @@
+## [3.0.1] - 2020-11-24
+### Fixed
+- Wrong version in config.json
+
+
+## [3.0.0] - 2020-10-12
+### Changed
+- Support for multiple storages services
+
+### Added
+- Init event
+
+
+## [2.2.1] - 2020-12-30
+### Fixed
+- Multiple warnings
+
+
+
 ## [2.2.0] - 2020-11-13
 ### Change
 - Moved Firebase to Unity Package Manager
 
 ### Update
 - Firebase SDK Unity plugin - 6.16.1
+
+### Added
+- Init event
 
 
 ## [2.1.1] - 2020-09-22

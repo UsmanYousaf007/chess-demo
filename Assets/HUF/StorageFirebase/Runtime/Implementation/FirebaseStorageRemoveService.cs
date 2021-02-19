@@ -1,17 +1,17 @@
+using System;
 using System.Text;
 using Firebase.Storage;
 #if HUF_AUTH_FIREBASE
 using HUF.Auth.Runtime.API;
 #endif
-using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.API.Services;
+using HUF.Storage.Runtime.Implementation;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.StorageFirebase.Runtime.API;
 using HUF.StorageFirebase.Runtime.Implementation.ActionHandlers;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.StorageFirebase.Runtime.Implementation
 {
@@ -26,7 +26,7 @@ namespace HUF.StorageFirebase.Runtime.Implementation
             this.storageReference = storageReference;
         }
 
-        public void RemoveFile( string pathToFile, UnityAction<StorageResultContainer> completeHandler )
+        public void RemoveFile( string pathToFile, Action<StorageResultContainer> completeHandler )
         {
 #if HUF_AUTH_FIREBASE
             if ( !HAuth.IsSignedIn( AuthServiceName.FIREBASE ) )

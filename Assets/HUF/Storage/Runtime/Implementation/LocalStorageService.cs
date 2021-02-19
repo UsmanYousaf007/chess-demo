@@ -1,45 +1,66 @@
-using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using System;
+using HUF.Storage.Runtime.API.Services;
 using HUF.Storage.Runtime.Implementation.ActionHandlers;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.Implementation
 {
     public class LocalStorageService : IDownloadService
-    {   
-        public void GetFileBytes(string filePath, UnityAction<ObjectResultContainer<byte[]>> completeHandler,
-            bool forceDownload = false)
+    {
+        public event Action<API.StorageService> OnInit;
+
+        public bool IsInitialized => true;
+
+        public void GetFileBytes(string fileId, Action<ObjectResultContainer<byte[]>> completeHandler)
         {
-            new BytesLocalHandler(filePath, completeHandler).ReadLocalFile();
+            new BytesLocalHandler(fileId, completeHandler).DownloadFile();
         }
 
-        public void GetTexture(string filePath, UnityAction<ObjectResultContainer<Texture2D>> completeHandler,
-            bool forceDownload = false)
+        public void GetTexture(string fileId, Action<ObjectResultContainer<Texture2D>> completeHandler)
         {
-            new TextureLocalHandler(filePath, completeHandler).ReadLocalFile();
+            new TextureLocalHandler(fileId, completeHandler).DownloadFile();
         }
 
-        public void GetAudioClip(string filePath, UnityAction<ObjectResultContainer<AudioClip>> completeHandler,
-            bool forceDownload = false)
+        public void GetAudioClip(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler)
         {
-            new AudioClipLocalHandler(filePath, completeHandler).ReadLocalFile();
+            new AudioClipLocalHandler(fileId, completeHandler).DownloadFile();
         }
 
-        public void GetAssetBundle(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> completeHandler,
-            bool forceDownload = false)
+        public void GetAssetBundle(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler)
         {
-            new AssetBundleLocalHandler(filePath, completeHandler).ReadLocalFile();
+            new AssetBundleLocalHandler(fileId, completeHandler).DownloadFile();
         }
 
-        public void GetUpdateInfo(string filePath, UnityAction<MetadataResultContainer> completeHandler)
+        public void GetFileBytes(string fileId, Action<ObjectResultContainer<byte[]>> completeHandler, string filePath)
         {
-            completeHandler.Dispatch(new MetadataResultContainer(new StorageResultContainer(filePath)));
+            new BytesLocalHandler(fileId, completeHandler, filePath).DownloadFile();
         }
 
-        public void Dispose()
+        public void GetTexture(string fileId, Action<ObjectResultContainer<Texture2D>> completeHandler, string filePath)
         {
+            new TextureLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+        }
+
+        public void GetAudioClip(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler, string filePath)
+        {
+            new AudioClipLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+        }
+
+        public void GetAssetBundle(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler, string filePath)
+        {
+            new AssetBundleLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+        }
+
+        public void GetUpdateInfo(string fileId, Action<MetadataResultContainer> completeHandler)
+        {
+            completeHandler.Dispatch(new MetadataResultContainer(new StorageResultContainer(fileId)));
+        }
+
+        public string GetRemotePath( string fileId )
+        {
+            return fileId;
         }
     }
 }

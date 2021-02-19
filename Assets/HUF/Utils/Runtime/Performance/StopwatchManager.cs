@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using HUF.Utils.Runtime.Logging;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime.Performance
@@ -29,6 +31,11 @@ namespace HUF.Utils.Runtime.Performance
             }
         }
 
+        /// <summary>
+        /// Starts a stopwatch.
+        /// </summary>
+        /// <param name="label">Unique stopwatch label.</param>
+        [PublicAPI]
         public static void StartStopwatch( string label )
         {
             if ( stopwatches == null )
@@ -38,14 +45,19 @@ namespace HUF.Utils.Runtime.Performance
 
             if ( stopwatches.ContainsKey( label ) )
             {
-                HLog.LogWarning( logPrefix, $"Stopwatch with following label already exists: {label}" );
+                HLog.LogWarning( logPrefix, $"Stopwatch with the following label already exists: {label}" );
                 return;
             }
 
             stopwatches.Add( label, Stopwatch.StartNew() );
         }
 
-        public static void StopStopwatchFromStartTime( string label )
+        /// <summary>
+        /// Starts a stopwatch measured from game launch.
+        /// </summary>
+        /// <param name="label">Unique stopwatch label.</param>
+        [PublicAPI]
+        public static void StartStopwatchFromStartTime( string label )
         {
             if ( stopwatchesFromStart == null )
             {
@@ -59,7 +71,7 @@ namespace HUF.Utils.Runtime.Performance
 
             if ( stopwatchesFromStart.ContainsKey( label ) )
             {
-                HLog.LogWarning( logPrefix, $"Stopwatch with following label already exists: {label}" );
+                HLog.LogWarning( logPrefix, $"Stopwatch with the following label already exists: {label}" );
                 return;
             }
 
@@ -67,6 +79,14 @@ namespace HUF.Utils.Runtime.Performance
             PrintStopWatchInSeconds( label );
         }
 
+        [Obsolete( "This method is obsolete. Use StartStopwatchFromStartTime instead.", false )]
+        public static void StopStopwatchFromStartTime( string label ) => StartStopwatchFromStartTime( label );
+
+        /// <summary>
+        /// Stops a stopwatch.
+        /// </summary>
+        /// <param name="label">Stopwatch label.</param>
+        [PublicAPI]
         public static void StopStopwatch( string label )
         {
             if ( stopwatches == null || !stopwatches.ContainsKey( label ) )
@@ -79,6 +99,11 @@ namespace HUF.Utils.Runtime.Performance
             PrintStopWatchInSeconds( label );
         }
 
+        /// <summary>
+        /// Logs stopwatch time.
+        /// </summary>
+        /// <param name="label">Stopwatch label.</param>
+        [PublicAPI]
         public static void PrintStopWatchInSeconds( string label )
         {
             float timeValue = 0;
@@ -96,6 +121,11 @@ namespace HUF.Utils.Runtime.Performance
             HLog.Log( logPrefix, $"Time measurement for {label} is {timeValue}" );
         }
 
+        /// <summary>
+        /// Returns stopwatch time in milliseconds.
+        /// </summary>
+        /// <param name="label">Stopwatch label.</param>
+        [PublicAPI]
         public static long GetStopwatchResultInMilliseconds( string label )
         {
             if ( stopwatches != null && stopwatches.ContainsKey( label ) )
@@ -112,11 +142,20 @@ namespace HUF.Utils.Runtime.Performance
             return -1;
         }
 
+        /// <summary>
+        /// Returns stopwatch time in seconds.
+        /// </summary>
+        /// <param name="label">Stopwatch label.</param>
+        [PublicAPI]
         public static float GetStopwatchResultInSeconds( string label )
         {
             return GetStopwatchResultInMilliseconds( label ) / MILLISECONDS_IN_SECOND;
         }
 
+        /// <summary>
+        /// Logs all stopwatch times in seconds.
+        /// </summary>
+        [PublicAPI]
         public static void PrintResultsInSeconds()
         {
             if ( stopwatches == null && stopwatchesFromStart == null )
@@ -147,6 +186,10 @@ namespace HUF.Utils.Runtime.Performance
             HLog.Log( logPrefix, $" {results.ToString()}" );
         }
 
+        /// <summary>
+        /// Logs all stopwatch times in milliseconds.
+        /// </summary>
+        [PublicAPI]
         public static void PrintResultsInMilliseconds()
         {
             if ( stopwatches == null && stopwatchesFromStart == null )
@@ -177,6 +220,10 @@ namespace HUF.Utils.Runtime.Performance
             HLog.Log( logPrefix, $" {results.ToString()}" );
         }
 
+        /// <summary>
+        /// Logs all stopwatch times in seconds separated with tabs.
+        /// </summary>
+        [PublicAPI]
         public static void PrintFormattedResultsInSeconds()
         {
             if ( stopwatches == null && stopwatchesFromStart == null )
@@ -206,6 +253,10 @@ namespace HUF.Utils.Runtime.Performance
             HLog.Log( logPrefix, $" {results.ToString()}" );
         }
 
+        /// <summary>
+        /// Logs all stopwatch times in milliseconds separated with tabs.
+        /// </summary>
+        [PublicAPI]
         public static void PrintFormattedResultsInMilliseconds()
         {
             if ( stopwatches == null && stopwatchesFromStart == null )
