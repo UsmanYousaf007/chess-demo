@@ -46,10 +46,12 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         public string AuthorizationCode => IsSignedIn ? userInfo.authorizationCode : string.Empty;
 
         public WrapperSIWA ServiceComponent => wrapperSiwa;
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, AuthSignInResult> OnSignInResult;
-        public event UnityAction<string> OnSignOutComplete;
+#pragma warning disable CS0067
+        public event Action<string> OnInitialized;
+        public event Action OnInitializationFailure;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
+#pragma warning restore CS0067
 
         WrapperSIWA wrapperSiwa;
         UserInfo userInfo = new UserInfo {userDetectionStatus = UserDetectionStatus.Unsupported};
