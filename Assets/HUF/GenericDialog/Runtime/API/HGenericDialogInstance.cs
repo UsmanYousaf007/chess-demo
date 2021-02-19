@@ -22,22 +22,22 @@ namespace HUF.GenericDialog.Runtime.API
         /// <see cref="Button"/> reference that acts as a primary (accented) button.
         /// </summary>
         [PublicAPI]
-        [SerializeField] Button primaryButtonHandler;
+        [SerializeField] Button primaryButtonHandler = null;
 
         /// <summary>
         /// <see cref="Button"/> reference that acts as a secondary (blended) button.
         /// </summary>
         [PublicAPI]
-        [SerializeField] Button secondaryButtonHandler;
+        [SerializeField] Button secondaryButtonHandler = null;
 
         /// <summary>
         /// Root object that gets deactivated if <see cref="HGenericDialogConfig"/> specifies so.
         /// </summary>
         [PublicAPI]
-        [SerializeField] GameObject secondaryButtonRoot;
+        [SerializeField] GameObject secondaryButtonRoot = null;
 
         [NonSerialized]
-        HGenericDialogConfig config;
+        HGenericDialogConfig config = null;
 
         /// <summary>
         /// <para>A function that can be used to obtain current session number.

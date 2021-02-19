@@ -1,4 +1,6 @@
+using System;
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 
 namespace HUF.GenericDialog.Runtime.Configs
@@ -6,6 +8,7 @@ namespace HUF.GenericDialog.Runtime.Configs
     [CreateAssetMenu( menuName = HGenericDialogConfig.CONFIG_ROOT_PATH + nameof(HGenericDialogShowSchema) )]
     public class HGenericDialogShowSchema : AbstractConfig
     {
+        new readonly HLogPrefix logPrefix = new HLogPrefix(nameof(HGenericDialogShowSchema));
         [SerializeField] bool showOnAndroid;
         [SerializeField] bool showOnIOS;
         [SerializeField] bool showOnOther;
@@ -21,16 +24,22 @@ namespace HUF.GenericDialog.Runtime.Configs
                 return showOnAndroid;
 #elif UNITY_IOS
                 return showOnIOS;
-#endif
+#else
                 return showOnOther;
+#endif
             }
         }
 
         public bool CanShow( int session, int postponedSession = int.MinValue )
         {
+            if(session < 1)
+                HLog.LogError( logPrefix, "Session number must be greater than 0" );
+            
+            int adjustedSessionNumber = ( session - initialSessionsSkip ) - 1;
+            
             return CanShowOnPlatform &&
                 session > initialSessionsSkip &&
-                ( session - initialSessionsSkip ) % showEveryNthSession == 0 &&
+                adjustedSessionNumber % showEveryNthSession == 0 &&
                 session > postponedSession + postponeSessionsSkip;
         }
 

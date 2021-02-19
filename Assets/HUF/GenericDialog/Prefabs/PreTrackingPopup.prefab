@@ -92,6 +92,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271260540769607279, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4198282539909094427, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -147,35 +177,15 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
+    - target: {fileID: 4198282540111387443, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
+      propertyPath: m_fontSize
+      value: 72
       objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
+    - target: {fileID: 4198282540111387443, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282540111387445, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4198282540615220599, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
@@ -292,6 +302,11 @@ PrefabInstance:
       propertyPath: m_text
       value: DECIDE NOW
       objectReference: {fileID: 0}
+    - target: {fileID: 4198282541683330598, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 4198282541776091891, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Material
@@ -342,15 +357,45 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5483412738959310879, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5560918946073618384, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Value
-      value: 1.0000007
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946073618384, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Size
-      value: 0.58096206
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946707238118, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
@@ -375,7 +420,7 @@ PrefabInstance:
     - target: {fileID: 5560918946707238118, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 18
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946707238118, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
@@ -405,11 +450,10 @@ PrefabInstance:
         dolor eget dignissim. Quisque suscipit dui id tortor pretium, non <link="https://www.example.com"><color=#E90526><u>feugiat
         arcu tempor</u></color></link>
 
-        Pellentesque scelerisque quis justo
-        in viverra. Nullam malesuada lectus nec bibendum malesuada. Phasellus turpis
-        mauris, interdum vitae gravida at, volutpat tincidunt neque. Nullam vel nisi
-        lectus. Donec sagittis in purus eget suscipit. Curabitur quis est facilisis,
-        euismod sapien sed, cursus <link="https://www.example.com"><color=#E90526><u>nulla</u></color></link>.   '
+        Pellentesque scelerisque quis justo in viverra. Nullam malesuada lectus nec
+        bibendum malesuada. Phasellus turpis mauris, interdum vitae gravida at, volutpat
+        tincidunt neque. Nullam vel nisi lectus. Donec sagittis in purus eget suscipit.
+        Curabitur quis est facilisis, euismod sapien sed, cursus <link="https://www.example.com"><color=#E90526><u>nulla</u></color></link>.   '
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946707238119, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
@@ -479,7 +523,7 @@ PrefabInstance:
     - target: {fileID: 5560918947117450691, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00036621094
+      value: -160.00037
       objectReference: {fileID: 0}
     - target: {fileID: 5560918947378549556, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
