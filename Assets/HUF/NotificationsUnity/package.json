@@ -1,7 +1,7 @@
 {
   "name": "com.huuuge.huf.notifications.unity",
   "displayName": "Notifications Unity",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "unity": "2018.4",
   "description": "Unity Notifications module offers support for integrating Android and iOS local notifications under your project. On Android version there is option to customize icon of notification, for more info about that please read documentation.\nUnity Notifications doesn't support push notifications. If you wan't to send push notifications you can install as an additional module our Firebase Notifications implementation.",
   "huf": {
@@ -10,13 +10,13 @@
       "com.huuuge.huf.notifications@^2.1.0",
       "com.unity.mobile.notifications@1.3.0"
     ],
-    "date": "05.10.2020 13:19",
-    "commit": "e438d56",
-    "build": "25",
+    "date": "19.10.2020 21:12",
+    "commit": "ff13c21",
+    "build": "27",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/NotificationsUnity",
-    "rollout": "22"
+    "rollout": "24"
   },
   "doc_section": "Notifications"
 }
