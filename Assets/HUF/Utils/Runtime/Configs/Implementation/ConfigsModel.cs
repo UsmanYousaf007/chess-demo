@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using HUF.Utils.Runtime.Configs.API;
-using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
+#if UNITY_EDITOR
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+#endif
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,13 +17,15 @@ namespace HUF.Utils.Runtime.Configs.Implementation
     [UsedImplicitly]
     public class ConfigsModel :
 #if UNITY_EDITOR
-        UnityEditor.AssetPostprocessor,
+        UnityEditor.AssetPostprocessor, IPreprocessBuildWithReport,
 #endif
         IConfigsModel
     {
         public static readonly string configsPathInfo = Path.Combine( "Resources", HConfigs.CONFIGS_FOLDER );
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(ConfigsModel) );
 
+        public int callbackOrder => 10;
+        
         Dictionary<Type, List<AbstractConfig>> configMap;
 
         public bool IsAutoInitEnabled
@@ -279,5 +284,19 @@ namespace HUF.Utils.Runtime.Configs.Implementation
                 BuildConfigMap();
         }
 
+#if UNITY_EDITOR
+        public void OnPreprocessBuild( BuildReport report )
+        {
+            MapBuildCheck();
+
+            foreach ( var config in configMap )
+            {
+                foreach ( var abstractConfig in config.Value )
+                {
+                    abstractConfig.OnPreprocessBuild();
+                }
+            }
+        }
+#endif
     }
 }

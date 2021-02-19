@@ -1,10 +1,10 @@
+using System;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.Utils.Runtime
 {
@@ -14,19 +14,25 @@ namespace HUF.Utils.Runtime
         /// Raised when the game is paused.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<bool> OnAppPause;
+        public event Action<bool> OnAppPause;
 
         /// <summary>
         /// Raised when the focus of the game changes.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<bool> OnApplicationFocusChange;
+        public event Action<bool> OnApplicationFocusChange;
 
         /// <summary>
         /// Raised when screen orientation of the game changes.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<ScreenOrientation> OnScreenOrientationChange;
+        public event Action<ScreenOrientation> OnScreenOrientationChange;
+
+        /// <summary>
+        /// Raised when the game is paused.
+        /// </summary>
+        [PublicAPI]
+        public event Action OnBackButtonPress;
 
         bool currentFocus;
         ScreenOrientation lastScreenOrientation = ScreenOrientation.Portrait;
@@ -66,6 +72,7 @@ namespace HUF.Utils.Runtime
             EditorApplication.pauseStateChanged += HandlePauseState;
 #endif
         }
+
         void Update()
         {
             if ( lastScreenOrientation != Screen.orientation )
@@ -73,6 +80,10 @@ namespace HUF.Utils.Runtime
                 lastScreenOrientation = Screen.orientation;
                 OnScreenOrientationChange.Dispatch( lastScreenOrientation );
             }
+#if UNITY_ANDROID
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnBackButtonPress.Dispatch();
+#endif
         }
     }
 }

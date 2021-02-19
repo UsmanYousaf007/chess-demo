@@ -5,8 +5,12 @@ namespace HUF.Utils.Runtime
 {
     public static class DateTimeUtils
     {
-        static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        
+        /// <summary>
+        /// Marks a period of time from which UTC timestamp is counted
+        /// </summary>
+        [PublicAPI]
+        public static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         /// <summary>
         /// Converts a timestamp to a DateTime.
         /// </summary>
@@ -17,7 +21,7 @@ namespace HUF.Utils.Runtime
         {
             return epoch.AddSeconds(timestamp);
         }
-        
+
         /// <summary>
         /// Converts a DateTime to a timestamp.
         /// </summary>
@@ -28,7 +32,7 @@ namespace HUF.Utils.Runtime
         {
             return dateTime.TotalSeconds();
         }
-        
+
         static long TotalSeconds(this DateTime dateTime)
         {
             return (long) (dateTime - epoch).TotalSeconds;

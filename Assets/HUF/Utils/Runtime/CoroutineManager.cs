@@ -12,12 +12,12 @@ namespace HUF.Utils.Runtime
         /// <param name="routine">An enumerator.</param>
         /// <returns>A coroutine</returns>
         [PublicAPI]
-        public new static Coroutine StartCoroutine(IEnumerator routine)
+        public new static Coroutine StartCoroutine( IEnumerator routine )
         {
-            if (isQuitting)
+            if ( isQuitting )
                 return null;
-            
-            return ((MonoBehaviour) Instance).StartCoroutine(routine);
+
+            return ( (MonoBehaviour)Instance ).StartCoroutine( routine );
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace HUF.Utils.Runtime
         /// </summary>
         /// <param name="routine">A coroutine.</param>
         [PublicAPI]
-        public new static void StopCoroutine(Coroutine routine)
+        public new static void StopCoroutine( Coroutine routine )
         {
-            if (isQuitting)
+            if ( isQuitting )
                 return;
-            
-            ((MonoBehaviour) Instance).StopCoroutine(routine);
+
+            ( (MonoBehaviour)Instance ).StopCoroutine( routine );
         }
 
         /// <summary>
@@ -40,12 +40,16 @@ namespace HUF.Utils.Runtime
         [PublicAPI]
         public new static void StopAllCoroutines()
         {
-            ((MonoBehaviour) Instance).StopAllCoroutines();
+            if ( isQuitting )
+                return;
+
+            ( (MonoBehaviour)Instance ).StopAllCoroutines();
         }
 
         void OnDestroy()
         {
-            StopAllCoroutines();
+            if ( instance != null )
+                ( (MonoBehaviour)instance ).StopAllCoroutines();
         }
     }
 }

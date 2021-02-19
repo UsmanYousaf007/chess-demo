@@ -19,7 +19,9 @@ namespace HUF.Utils.Runtime.Logging
 {
     public static class HLog
     {
-        static bool canLogOnProd = !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
+        static bool canLogMessages = Config != null &&
+                                     ( Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds || Config.CanLogOnProd );
+
         static bool canLogTime = Config != null && Config.ShowTimeInNativeLogs;
         static HLogConfig config;
 
@@ -95,7 +97,7 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild );
+            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds );
         }
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, true );
+            Log( prefixSource, message, LogType.Log, null, !Config.DisableHLogsOnDebugBuilds );
         }
 
         /// <summary>
@@ -124,13 +126,19 @@ namespace HUF.Utils.Runtime.Logging
         {
             if ( type == LogType.Log && !isNotFiltered )
             {
-                if ( ( Debug.isDebugBuild || !canLogOnProd ) && Config == null )
+                if ( !canLogMessages )
                     return;
 
-                if ( Config.IsFilteringLogs && !Regex.IsMatch( prefixSource.Prefix,
-                    Config.RegexFilter,
-                    Config.IgnoreCaseInRegex ? RegexOptions.IgnoreCase : RegexOptions.None ) )
-                    return;
+                if ( Config.IsFilteringLogs )
+                {
+                    bool match = Regex.IsMatch( prefixSource.Prefix,
+                        Config.RegexFilter,
+                        Config.IgnoreCaseInRegex ? RegexOptions.IgnoreCase : RegexOptions.None );
+
+                    //Equals to: ( !Config.InvertFilter && !match ) || ( Config.InvertFilter && match )
+                    if ( Config.InvertFilter == match )
+                        return;
+                }
             }
 
             switch ( type )

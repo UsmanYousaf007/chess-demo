@@ -2,8 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using HUF.Utils.Runtime.BuildSupport;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+#if HUFEXT_PACKAGE_MANAGER
+using HUFEXT.PackageManager.Editor.Commands.Data;
+using HUFEXT.PackageManager.Editor.Core;
+#endif
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -30,13 +35,25 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
         public const string ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME = ".androidlib";
         public const string META_FILES = ".meta";
 
+        const string FIREBASE_NOTIFICATIONS_PACKAGE_NAME = "com.huuuge.huf.notifications.firebase";
+        const string FIREBASE_MESSAGING_PACKAGE_NAME = "com.google.firebase.messaging";
+
+        const string FIREBASE_NOTIFICATIONS_ANDROID_ACTIVITY_NAME =
+            "<activity android:name=\"com.google.firebase.MessagingUnityPlayerActivity\"";
+
+        const string FIREBASE_NOTIFICATIONS_PACKAGE_NEEDS_TO_BE_INSTALLED_ERROR =
+            "Firebase Notifications package needs to be installed or the activity name in the main AndroidManifest.xml needs to be changed, otherwise the game will crash at startup!";
+
+        const string FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING =
+            "Firebase notifications won't work, unless the activity name in the main AndroidManifest.xml is changed to '\"com.google.firebase.MessagingUnityPlayerActivity\"'. See the package documentation for more details.";
+
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HUFBuildAssetsResolver) );
 
-        public int callbackOrder => -1000;
+        public int callbackOrder => PreProcessBuildNumbers.HUF_BUILD_ASSETS_RESOLVER_CALLBACK_ORDER;
 
         static void OnLogMessageReceived( string condition, string stacktrace, LogType type )
         {
-            if (condition.Contains( "Build completed" ) && type == LogType.Error )
+            if ( condition.Contains( "Build completed" ) && type == LogType.Error )
             {
                 OnBuildError.Dispatch();
                 Application.logMessageReceived -= OnLogMessageReceived;
@@ -107,15 +124,16 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
                 if ( !Directory.Exists( sourcePath ) )
                     continue;
 
-                DeleteAllDirectorys( sourcePath );
+                DeleteAllDirectories( sourcePath );
             }
 
             /*if ( Directory.Exists( $"{ANDROID_PLUGINS_FOLDER}Firebase" ) )
                 DeleteAllDirectorys( $"{ANDROID_PLUGINS_FOLDER}Firebase", false );*/
         }
-        
+
         static void HUFAndroidBuildAssetsResolver()
         {
+            CheckIfMainAndroidManifestActivityIsCorrect();
             var paths = GetHUFManifests( MANIFEST_COPY_SEARCH );
 
             foreach ( string sourcePath in paths )
@@ -182,9 +200,14 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
             return ANDROID_PLUGINS_FOLDER + pathSplit[pathSplit.Length - 4] +
                    ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME;
         }
-        
+
         public static void CreateProjectPropertyFile( string endPath )
         {
+            if ( !Directory.Exists( endPath ) )
+            {
+                Directory.CreateDirectory( endPath );
+            }
+
             StreamWriter writer = new StreamWriter( endPath + "/" + PROJECT_PROPERTY_FULL_NAME, false );
             writer.WriteLine( "android.library=true" );
             writer.Close();
@@ -199,9 +222,48 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
                     s.EndsWith( manifestToSearch ) &&
                     s.Contains( packageFolderName + "/" + HUF_ANDROID_ASSET_FOLDER ) );
         }
+
+        static void CheckIfMainAndroidManifestActivityIsCorrect()
+        {
+#if HUFEXT_PACKAGE_MANAGER
+            Command.Execute( new GetLocalPackagesCommand()
+            {
+                OnComplete = ( result, serializedData ) =>
+                {
+                    bool hasFirebaseNotificationPackage =
+                        HUFEXT.PackageManager.Editor.Core.Packages.Local.Any( a =>
+                            a.name == FIREBASE_NOTIFICATIONS_PACKAGE_NAME );
+
+                    if ( !hasFirebaseNotificationPackage )
+                        hasFirebaseNotificationPackage =
+                            HUFEXT.PackageManager.Editor.Core.Packages.Unity.Any( a =>
+                                a.name == FIREBASE_MESSAGING_PACKAGE_NAME );
+                    var mainManifestPath = $"{ANDROID_PLUGINS_FOLDER}/{MANIFEST_FULL_NAME}";
+                    bool mainManifestExists = File.Exists( mainManifestPath );
+
+                    if ( mainManifestExists )
+                    {
+                        var mainManifestContent = File.ReadAllText( mainManifestPath );
+
+                        bool mainManifestContainsActivity = mainManifestContent.Contains(
+                            FIREBASE_NOTIFICATIONS_ANDROID_ACTIVITY_NAME );
+
+                        if ( mainManifestContainsActivity && !hasFirebaseNotificationPackage )
+                        {
+                            HLog.LogError( logPrefix, FIREBASE_NOTIFICATIONS_PACKAGE_NEEDS_TO_BE_INSTALLED_ERROR );
+                        }
+                        else if ( !mainManifestContainsActivity && hasFirebaseNotificationPackage )
+                            HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
+                    }
+                    else if ( hasFirebaseNotificationPackage )
+                        HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
+                }
+            } );
 #endif
-        
-        static void DeleteAllDirectorys( string sourcePath, bool addAndroidLibraryName = true )
+        }
+#endif
+
+        static void DeleteAllDirectories( string sourcePath, bool addAndroidLibraryName = true )
         {
             var dir = new DirectoryInfo( sourcePath );
             var directories = dir.GetDirectories();
