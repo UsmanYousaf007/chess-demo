@@ -1,8 +1,12 @@
 ## Internal SDK
-- Facebook SDK Unity plugin - v8.1.1
+- Facebook SDK Unity plugin - v9.0.0
 - Native Bolts (Android) - v1.4.0
-- Native FB SDK (Android) - v8.0
-- Native FB SDK (iOS) - v8.0
+- Native FB SDK (Android) - v9.0
+- Native FB SDK (iOS) - v9.0
+
+## [9.0.0] - 2020-01-20
+### Updated
+- Facebook SDK Unity plugin - 9.0.0
 
 ## [8.1.1] - 2020-11-18
 ### Updated
