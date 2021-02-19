@@ -17,10 +17,10 @@ namespace HUFEXT.CountryCode.Runtime.API
         public readonly string Country;
 
         /// <summary>
-        /// IOS only region descriptor.
+        /// iOS-only region descriptor.
         /// </summary>
         /// <example>
-        /// <para>Assume IOS returns zh-Hans_HK as the language used.</para>
+        /// <para>Assume iOS returns zh-Hans_HK as the used language.</para>
         /// <para>It will be split to: Language: zh, Country: Hans, Region: HK.</para>
         /// </example>
         [PublicAPI]
@@ -73,7 +73,7 @@ namespace HUFEXT.CountryCode.Runtime.API
         }
 
         /// <summary>
-        /// Converts localization details to dash separated format.
+        /// Converts localization details to a dash-separated format.
         /// </summary>
         /// <returns>Country code formatted as $"{<see cref="Language"/>}-{<see cref="Country"/>}".</returns>
         [PublicAPI]
