@@ -1,3 +1,112 @@
+## [3.8.0] - 2021-02-04
+### Added
+- IntervalManager
+
+### Fixed
+- Logs formatting for TextMeshPro
+
+
+## [3.7.1] - 2021-02-03
+### Added
+- Build android ABB from command line.
+
+
+## [3.7.0] - 2021-02-03
+### Added
+- TryGetConfig method
+
+
+## [3.6.1] - 2021-01-29
+### Fixed
+- SafeArea not refreshing correctly
+
+
+## [3.6.0] - 2021-01-29
+### Added
+- Checking if the main AndroidManifest activity is correct
+
+
+## [3.5.2] - 2021-01-23
+### Added
+- Back button event in Pause Manager
+
+
+## [3.5.1] - 2021-01-22
+### Added
+- Option to invert log filter (to exclude certain logs)
+
+
+## [3.5.0] - 2021-01-21
+### Added
+- A way to stop most of HUF logs while debugging issues (only in debug builds) 
+
+
+## [3.4.3] - 2021-01-08
+### Fixed
+- Null reference when LogConfig is not present
+
+
+## [3.4.2] - 2021-01-08
+### Fixed
+- Logging on production
+
+
+## [3.4.1] - 2021-01-08
+### Fixed
+- CoroutineManager null reference error when quitting in the editor
+- ProjectBuilder compilation error on Windows
+
+
+## [3.4.0] - 2021-01-08
+### Changed
+- Moved some GameServer classes to Utils
+
+
+## [3.3.3] - 2021-01-07
+### Changed
+- ConfigsModel implements `IPreprocessBuildWithReport` instead of `AbstractConfig`
+
+
+## [3.3.2] - 2020-12-15
+### Fixed
+- Path separators in rsp file comments are now '/' on all platforms
+
+
+## [3.3.1] - 2020-11-19
+### Added
+- `ProjectBuilder` script to support local and CI game building
+
+
+## [3.3.0] - 2020-11-03
+### Added
+- HUFJson support for `ISerializationCallbackReceiver`
+- Made UTC start date public in `DateTimeUtils`
+- Made serialization of string-thing dictionaries possible
+
+
+## [3.2.0] - 2020-10-30
+### Added
+- UI None drawing graphic
+- MultiLanguageText class for translations purposes
+- Dictionary<string,string> serialization and deserialization
+
+
+## [3.1.0] - 2020-10-14
+### Added
+- Generating permissions in AndroidManifestAutofixer using new attribute
+
+### Fixed
+- Error about missing directory in HUFBuildAssetsResolver.CreateProjectPropertyFile method
+
+
+## [3.0.5] - 2020-10-03
+### Added
+- Documentation
+
+### Fixed
+- PauseManager OnAppPause and OnApplicationFocus in the editor
+
+
 ## [3.0.4] - 2020-09-24
 ### Added
 - Opening application settings on iOS

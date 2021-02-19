@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AppsFlyerSDK;
 using HUF.Analytics.Runtime.API;
 using HUF.Analytics.Runtime.Implementation;
 using HUF.AnalyticsAppsFlyer.Runtime.API;
+using HUF.Utils.Runtime;
+#if HUF_ANALYTICS_HBI
+using HUF.AnalyticsHBI.Runtime.API;
+#endif
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -16,14 +21,20 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
     public class AppsFlyerAnalyticsService : IAnalyticsService
     {
         const string AF_CURRENCY_VALUE = "USD";
+        const float DELAY_BETWEEN_SENDING_EVENTS = 0.3f; //prevents crashes when multiple events are sent
 
-        static readonly HLogPrefix logPrefix = new HLogPrefix( HAnalyticsAppsFlyer.logPrefix, nameof(AppsFlyerAnalyticsService) );
-
-        public string Name => AnalyticsServiceName.APPS_FLYER;
-        public bool IsInitialized { private set; get; }
+        static readonly HLogPrefix logPrefix =
+            new HLogPrefix( HAnalyticsAppsFlyer.logPrefix, nameof(AppsFlyerAnalyticsService) );
 
         readonly CustomPP<InstallType> installType =
             new CustomPP<InstallType>( "AppsFlyerAnalyticsService.InstallType", InstallType.NotSpecified );
+
+        readonly Queue<AnalyticsEvent> eventsQueue = new Queue<AnalyticsEvent>();
+        float nextTimeToSendEvent = 0;
+        bool isProcessEventsQueueScheduled = false;
+
+        public string Name => AnalyticsServiceName.APPS_FLYER;
+        public bool IsInitialized { private set; get; }
 
         public InstallType InstallType
         {
@@ -47,10 +58,10 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
             HLog.Log( logPrefix, "Initializing..." );
             var didSetCustomerUserID = false;
 #if HUF_ANALYTICS_HBI
-            if ( !AnalyticsHBI.Runtime.API.HAnalyticsHBI.UserId.IsNullOrEmpty() )
+            if ( !HAnalyticsHBI.UserId.IsNullOrEmpty() )
             {
                 HLog.Log( logPrefix, "Set HDS user Id" );
-                AppsFlyer.setCustomerUserId( AnalyticsHBI.Runtime.API.HAnalyticsHBI.UserId );
+                AppsFlyer.setCustomerUserId( HAnalyticsHBI.UserId );
                 didSetCustomerUserID = true;
             }
 #endif
@@ -74,41 +85,34 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
             model?.CompleteServiceInitialization( Name, IsInitialized );
         }
 
-#if UNITY_IOS
-        static void Initialize( AppsFlyerAnalyticsConfig config, MonoBehaviour callbacks)
-        {
-            AppsFlyer.initSDK( config.DevKey, config.ITunesAppId, callbacks);
-        }
-
-#elif UNITY_ANDROID
-        static void Initialize( AppsFlyerAnalyticsConfig config, MonoBehaviour callbacks )
-        {
-            AppsFlyer.initSDK( config.DevKey, null, callbacks );
-        }
-
-#else
-        static void Initialize( AppsFlyerAnalyticsConfig config, MonoBehaviour callbacks )
-        {
-            HLog.LogWarning( logPrefix, $"Platform {Application.platform} is not supported." );
-        }
-#endif
         public void LogEvent( AnalyticsEvent analyticsEvent )
         {
             HLog.Log( logPrefix, $"LogEvent {analyticsEvent.EventName}" );
-            AppsFlyer.sendEvent( analyticsEvent.EventName, GetParameters( analyticsEvent ) );
+            CheckIfEventCanBeSendOtherwiseAddToQueue( analyticsEvent );
         }
 
         public void LogMonetizationEvent( AnalyticsMonetizationEvent analyticsEvent )
         {
             HLog.Log( logPrefix, $"LogMonetizationEvent {analyticsEvent.EventName}" );
-            AppsFlyer.sendEvent( analyticsEvent.EventName,
-                GetMonetizationParameters(analyticsEvent, analyticsEvent.Cents));
+            CheckIfEventCanBeSendOtherwiseAddToQueue( analyticsEvent );
+            AppsFlyer.sendEvent(analyticsEvent.EventName, GetMonetizationParameters(analyticsEvent, analyticsEvent.Cents));
         }
 
         public void CollectSensitiveData( bool consentStatus )
         {
             HLog.Log( logPrefix, $"CollectSensitiveData {consentStatus}" );
             AppsFlyer.anonymizeUser( !consentStatus );
+        }
+
+        static void Initialize( AppsFlyerAnalyticsConfig config, MonoBehaviour callbacks )
+        {
+#if UNITY_IOS
+            AppsFlyer.initSDK( config.DevKey, config.ITunesAppId, callbacks);
+#elif UNITY_ANDROID
+            AppsFlyer.initSDK( config.DevKey, null, callbacks );
+#else
+            HLog.LogWarning( logPrefix, $"Platform {Application.platform} is not supported." );
+#endif
         }
 
         static Dictionary<string, string> GetParameters( AnalyticsEvent analyticsEvent )
@@ -127,6 +131,51 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
         static double GetDollarsValue( int cents )
         {
             return Math.Round( cents / 100f, 2, MidpointRounding.AwayFromZero );
+        }
+
+        void CheckIfEventCanBeSendOtherwiseAddToQueue( AnalyticsEvent analyticsEvent )
+        {
+            if ( Time.unscaledTime >= nextTimeToSendEvent )
+                SendEvent( analyticsEvent );
+            else
+            {
+                eventsQueue.Enqueue( analyticsEvent );
+
+                if ( !isProcessEventsQueueScheduled )
+                {
+                    isProcessEventsQueueScheduled = true;
+                    IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
+                }
+            }
+        }
+
+        void SendEvent( AnalyticsEvent analyticsEvent )
+        {
+            nextTimeToSendEvent = Time.unscaledTime + DELAY_BETWEEN_SENDING_EVENTS;
+
+            if ( analyticsEvent is AnalyticsMonetizationEvent monetizationEvent )
+            {
+                AppsFlyer.sendEvent( AFInAppEvents.PURCHASE,
+                    GetMonetizationParameters( monetizationEvent, monetizationEvent.Cents ) );
+            }
+            else
+            {
+                AppsFlyer.sendEvent( analyticsEvent.EventName, GetParameters( analyticsEvent ) );
+            }
+        }
+
+        void ProcessEventsQueue()
+        {
+            isProcessEventsQueueScheduled = false;
+
+            if ( eventsQueue.Count > 0 )
+                SendEvent( eventsQueue.Dequeue() );
+
+            if ( eventsQueue.Count > 0 )
+            {
+                isProcessEventsQueueScheduled = true;
+                IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
+            }
         }
     }
 }

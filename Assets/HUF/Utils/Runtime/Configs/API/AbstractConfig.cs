@@ -3,20 +3,16 @@ using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Attributes;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 using HUF.Utils.Runtime.Configs.Implementation;
 #endif
 
 namespace HUF.Utils.Runtime.Configs.API
 {
     public abstract class AbstractConfig : ScriptableObject
-#if UNITY_EDITOR
-        , IPreprocessBuildWithReport
-#endif
     {
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(AbstractConfig) );
 
@@ -25,8 +21,10 @@ namespace HUF.Utils.Runtime.Configs.API
         public int callbackOrder => 10;
         public string ConfigId => configId;
 
-        public event UnityAction<AbstractConfig> OnChanged;
-        public event UnityAction OnChangedInEditor;
+#pragma warning disable 67
+        public event Action<AbstractConfig> OnChanged;
+        public event Action OnChangedInEditor;
+#pragma warning restore 67
 
         protected virtual void OnEnable()
         {
@@ -68,7 +66,7 @@ namespace HUF.Utils.Runtime.Configs.API
             if ( !json.Contains( string.Empty ) )
                 return json;
 
-            //check for array with objects 
+            //check for array with objects
             json = Regex.Replace( json, ",{\"instanceID\":\\w+}", string.Empty );
             json = Regex.Replace( json, "{\"instanceID\":\\w+}", string.Empty );
             json = Regex.Replace( json, ",\"\\w+\":" + @"\[\]", string.Empty );
@@ -97,7 +95,7 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
 #if UNITY_EDITOR
-        public void OnPreprocessBuild( BuildReport report )
+        public void OnPreprocessBuild()
         {
             const string SELFCHECK_FAIL = "Config's self check failed";
 
@@ -108,11 +106,11 @@ namespace HUF.Utils.Runtime.Configs.API
                 throw new BuildFailedException( SELFCHECK_FAIL );
             }
 
-            if ( !ConfigPrevalidator.ValidateConfig( this, out string messge ) )
+            if ( !ConfigPrevalidator.ValidateConfig( this, out string message ) )
             {
-                HLog.LogError( new HLogPrefix( logPrefix, configId ), messge );
+                HLog.LogError( new HLogPrefix( logPrefix, configId ), message );
                 UnityEditor.Selection.activeObject = this;
-                throw new BuildFailedException( messge );
+                throw new BuildFailedException( message );
             }
         }
 
@@ -121,7 +119,7 @@ namespace HUF.Utils.Runtime.Configs.API
         {
             try
             {
-                OnPreprocessBuild( null );
+                OnPreprocessBuild();
                 HLog.Log( new HLogPrefix( logPrefix, configId ), "Config valid" );
             }
             catch ( Exception e )

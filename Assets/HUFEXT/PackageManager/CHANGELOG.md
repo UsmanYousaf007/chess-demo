@@ -1,3 +1,22 @@
+## [1.5.4] - 2021-01-12
+### Added
+- Showing manager version refreshed when it is rebuilt
+
+
+## [1.5.3] - 2020-12-23
+### Added
+- Installing HUF Package Manager update before other packages
+- Hiding Documentation button for remote packages
+
+### Fixed
+- Warning in ProcessPackageLockCommand
+
+
+## [1.5.2] - 2020-12-22
+### Fixed
+- Showing if the package is supported by the current Unity
+
+
 ## [1.5.1] - 2020-12-08
 ### Added
 - Installing Unity dependencies in repositories

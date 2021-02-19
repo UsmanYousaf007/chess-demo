@@ -8,10 +8,11 @@
 #import <Foundation/Foundation.h>
 #import "UnityAppController.h"
 #import "AppDelegateListener.h"
-#if __has_include(<AppsFlyerLib/AppsFlyerTracker.h>)
-#import <AppsFlyerLib/AppsFlyerTracker.h>
+#import "AppsFlyeriOSWrapper.h"
+#if __has_include(<AppsFlyerLib/AppsFlyerLib.h>)
+#import <AppsFlyerLib/AppsFlyerLib.h>
 #else
-#import "AppsFlyerTracker.h"
+#import "AppsFlyerLib.h"
 #endif
 
 /**
@@ -32,13 +33,28 @@
 {
     self = [super init];
     if (self) {
-        UnityRegisterAppDelegateListener(self);
+        
+        id swizzleFlag = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppsFlyerShouldSwizzle"];
+        BOOL shouldSwizzle = swizzleFlag ? [swizzleFlag boolValue] : NO;
+        
+        if(!shouldSwizzle){
+            UnityRegisterAppDelegateListener(self);
+        }
     }
     return self;
 }
 
 - (void)didFinishLaunching:(NSNotification*)notification {
     NSLog(@"got didFinishLaunching = %@",notification.userInfo);
+
+
+    if (_AppsFlyerdelegate == nil) {
+        _AppsFlyerdelegate = [[AppsFlyeriOSWarpper alloc] init];
+    }
+
+    [[AppsFlyerLib shared] setDelegate:_AppsFlyerdelegate];
+    
+
     if (notification.userInfo[@"url"]) {
         [self onOpenURL:notification];
     }
@@ -47,7 +63,7 @@
 -(void)didBecomeActive:(NSNotification*)notification {
     NSLog(@"got didBecomeActive(out) = %@", notification.userInfo);
     if (didEnteredBackGround == YES) {
-        [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+        [[AppsFlyerLib shared] start];
         didEnteredBackGround = NO;
     }
 }
@@ -58,15 +74,14 @@
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
-    [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-    [[AppsFlyerTracker sharedTracker] continueUserActivity:userActivity restorationHandler:restorationHandler];
+    [[AppsFlyerLib shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
     return YES;
 }
 
--(BOOL) application:(UIApplication *)application openUrl:(NSURL *)url options:(NSDictionary *)options {
+-(BOOL) application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary *)options {
     NSLog(@"got openUrl: %@",url);
-    [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
-    return YES;
+    [[AppsFlyerLib shared] handleOpenUrl:url options:options];
+    return NO;
 }
 
 - (void)onOpenURL:(NSNotification*)notification {
@@ -79,14 +94,14 @@
     }
     
     if (url != nil) {
-        [[AppsFlyerTracker sharedTracker] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:nil];
+        [[AppsFlyerLib shared] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:nil];
     }
     
 }
 
 - (void)didReceiveRemoteNotification:(NSNotification*)notification {
     NSLog(@"got didReceiveRemoteNotification = %@", notification.userInfo);
-    [[AppsFlyerTracker sharedTracker] handlePushNotification:notification.userInfo];
+    [[AppsFlyerLib shared] handlePushNotification:notification.userInfo];
 }
 
 @end

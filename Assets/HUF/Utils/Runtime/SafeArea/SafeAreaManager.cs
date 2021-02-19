@@ -16,22 +16,32 @@ namespace HUF.Utils.Runtime.SafeArea
     }
 #endif
 
-    [AddComponentMenu("")]
+    [AddComponentMenu( "" )]
+    [DefaultExecutionOrder( -31900 )]
     public class SafeAreaManager : HSingleton<SafeAreaManager>
     {
         public static event UnityAction OnSafeAreaChange;
         Rect cachedSafeArea;
         ScreenOrientation lastScreenOrientation;
 
-        public Rect SafeArea {
+        public Rect SafeArea
+        {
             get
             {
-                if (cachedSafeArea == Rect.zero)
+                if ( cachedSafeArea == Rect.zero )
                 {
                     CalculateSafeArea();
                 }
+
                 return cachedSafeArea;
             }
+        }
+
+        public void CalculateSafeArea()
+        {
+            cachedSafeArea = GetSafeArea();
+            OnSafeAreaChange.Dispatch();
+            Canvas.ForceUpdateCanvases();
         }
 
         void Awake()
@@ -42,40 +52,34 @@ namespace HUF.Utils.Runtime.SafeArea
 
         void Update()
         {
-            if (lastScreenOrientation != Screen.orientation)
+            var newSafeArea = GetSafeArea();
+
+            if ( lastScreenOrientation != Screen.orientation || cachedSafeArea != newSafeArea )
             {
                 lastScreenOrientation = Screen.orientation;
                 CalculateSafeArea();
             }
         }
 
-        public void CalculateSafeArea()
-        {
-            cachedSafeArea = GetSafeArea();
-            OnSafeAreaChange.Dispatch();
-            Canvas.ForceUpdateCanvases();
-        }
-#if UNITY_EDITOR
         Rect GetSafeArea()
         {
-            if (!EditorPrefs.HasKey(SafeAreaSimulatorHelper.EDITOR_SAVE_VALUES_KEY))
+#if UNITY_EDITOR
+            if ( !EditorPrefs.HasKey( SafeAreaSimulatorHelper.EDITOR_SAVE_VALUES_KEY ) )
                 return Screen.safeArea;
 
-            var editorArea = JsonUtility.FromJson<SafeAreaSimulatorHelper>(EditorPrefs.GetString(SafeAreaSimulatorHelper.EDITOR_SAVE_VALUES_KEY));
+            var editorArea =
+                JsonUtility.FromJson<SafeAreaSimulatorHelper>(
+                    EditorPrefs.GetString( SafeAreaSimulatorHelper.EDITOR_SAVE_VALUES_KEY ) );
 
             var editorSafeArea = new Rect(
                 editorArea.left,
                 editorArea.bottom,
                 ScreenSize.Width - editorArea.left - editorArea.right,
-                ScreenSize.Height - editorArea.top - editorArea.bottom);
-
+                ScreenSize.Height - editorArea.top - editorArea.bottom );
             return editorSafeArea;
-        }
 #else
-        Rect GetSafeArea()
-        {
             return Screen.safeArea;
-        }
 #endif
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace HUFEXT.PackageManager.Editor.Commands.Processing
 {
@@ -54,6 +55,29 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             }
 
             Utils.Common.RebuildDefines();
+            ResumePackageInstallationIfPackageManagerWasUpdated();
+        }
+
+        static void ResumePackageInstallationIfPackageManagerWasUpdated()
+        {
+            if ( PlayerPrefs.HasKey( PackageResolveCommand.HPM_PACKAGES_TO_INSTALL ) )
+            {
+                var packagesToInstall =
+                    Utils.Common.FromJsonToArray<Models.PackageManifest>(
+                        PlayerPrefs.GetString( PackageResolveCommand.HPM_PACKAGES_TO_INSTALL ) );
+                PlayerPrefs.DeleteKey(  PackageResolveCommand.HPM_PACKAGES_TO_INSTALL );
+
+                Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
+                {
+                    OnComplete = ( result, serializedData ) =>
+                    {
+                        Core.Command.BindAndExecute(
+                            new Commands.Processing.PackageResolveCommand( packagesToInstall, true ),
+                            new Commands.Processing.PackageLockCommand(),
+                            new Commands.Processing.ProcessPackageLockCommand() );
+                    }
+                } );
+            }
         }
 
         static void OnImportCancelled( string packageName )

@@ -1,5 +1,39 @@
 ## Internal SDK
-AppsFlyer Unity Plugin - v5.4.2
+
+- AppsFlyer Unity Plugin - v6.1.4
+  - Android AppsFlyer SDK v6.1.3
+  - iOS AppsFlyer SDK v6.1.3
+  
+
+## [2.5.1] - 2020-02-15
+## Fixed
+- IntervalManager old name reference
+
+
+## [2.5.0] - 2021-02-02
+### Added
+- Queuing events to improve performance and decrease the amount of crashes
+
+
+## [2.4.4] - 2021-02-08
+### Update
+- Update to v6.1.4
+
+
+## [2.4.3] - 2021-01-13
+### Changed
+- Small refactoring
+
+
+## [2.4.2] - 2020-12-29
+## Fixed
+- Added new keyword to logPrefix 
+
+
+## [2.4.1] - 2020-11-17
+### Update
+- Update to v5.4.3
+
 
 ## [2.4.0] - 2020-09-16
 ### Added

@@ -16,6 +16,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
     // 4. Resolver will fail if package or dependency can't be found.
     public class PackageResolveCommand : Core.Command.Base
     {
+        public const string HPM_PACKAGES_TO_INSTALL = "HPM_PackagesToInstall";
+        public const string COM_HUUUGE_HUFEXT_PACKAGE_MANAGER = "com.huuuge.hufext.packagemanager";
         readonly bool useLatestVersion = false;
         readonly List<Models.Dependency> dependencies = new List<Models.Dependency>();
         readonly List<Models.PackageManifest> packagesToInstall = new List<PackageManifest>();
@@ -107,14 +109,35 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                                     }
                                 }
 
-                                Complete( true, Utils.Common.FromListToJson( dependencies ) );
+                                if ( packagesToInstall.Last() == packageToInstall )
+                                {
+                                    PauseInstallationIfPackageManagerNeedsToBeUpdated();
+                                    Complete( true, Utils.Common.FromListToJson( dependencies ) );
+                                }
                             } );
                     } );
             }
         }
 
+        void PauseInstallationIfPackageManagerNeedsToBeUpdated()
+        {
+            if ( !packagesToInstall.Exists( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER ) &&
+                 dependencies.Exists( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER ) )
+            {
+                Dependency packageManagerDependency =
+                    dependencies.First( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER );
+
+                PlayerPrefs.SetString( HPM_PACKAGES_TO_INSTALL,
+                    Utils.Common.FromListToJson( packagesToInstall ) );
+                dependencies.Clear();
+                dependencies.Add( packageManagerDependency );
+            }
+        }
+
         protected override void Complete( bool result, string serializedData = "" )
         {
+            Utils.Common.Log( $"Complete {result} {serializedData}" );
+
             if ( !result )
             {
                 Utils.Common.LogError( serializedData );
@@ -126,7 +149,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         void ResolveDependencies( Models.PackageManifest owner, Action<bool> didResolveSucceededCallback )
         {
             int dependenciesLeftCount = owner.huf.dependencies.Count;
-            if(dependenciesLeftCount == 0)
+
+            if ( dependenciesLeftCount == 0 )
                 didResolveSucceededCallback?.Invoke( true );
 
             foreach ( var entry in owner.huf.dependencies )

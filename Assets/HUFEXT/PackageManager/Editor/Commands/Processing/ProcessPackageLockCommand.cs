@@ -33,8 +33,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 Core.Packages.RemoveLock();
                 Core.Packages.Installing = false;
                 Complete( true );
-                Views.PackageManagerWindow.RefreshPackages();
                 AssetDatabase.Refresh();
+                Views.PackageManagerWindow.RefreshPackages();
                 return;
             }
 
@@ -45,10 +45,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             {
                 Common.Log( $"UPM dependency: {dependency.name}@{dependency.version}" );
                 var request = UnityEditor.PackageManager.Client.List();
-                int i = 0;
-
-                while ( !request.IsCompleted )
-                    i = 1;
+                while ( !request.IsCompleted ) { }
                 var unityPackages = request.Result.ToList();
                 var unityPackage = unityPackages.FirstOrDefault( p => p.name == dependency.name );
 

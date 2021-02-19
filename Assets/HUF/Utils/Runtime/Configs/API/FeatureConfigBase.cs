@@ -2,6 +2,7 @@ using System;
 using HUF.Utils.Runtime.Attributes;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
+using HUF.Utils.Runtime.PlayerPrefs;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime.Configs.API

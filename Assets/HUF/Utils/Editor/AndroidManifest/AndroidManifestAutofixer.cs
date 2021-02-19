@@ -1,6 +1,5 @@
 #if UNITY_ANDROID
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using HUF.Utils.Editor.BuildSupport.AssetsBuilder;
 using HUF.Utils.Runtime.AndroidManifest;
@@ -28,7 +27,7 @@ namespace HUF.Utils.Editor.AndroidManifest
         [MenuItem( "HUF/Utils/Builds/Build Assets From Templates" )]
         public static void ReplaceAndroidManifestKeys()
         {
-            var configs = Resources.LoadAll<AbstractConfig>( "" )
+            var configs = Resources.LoadAll<AbstractConfig>( string.Empty )
                 .Select( x => x as AndroidManifestKeysConfig )
                 .Where( x => x != null ).ToList();
 

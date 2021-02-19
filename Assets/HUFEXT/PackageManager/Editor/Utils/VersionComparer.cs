@@ -62,11 +62,17 @@ namespace HUFEXT.PackageManager.Editor.Utils
             {
                 if ( i >= v2arr.Length )
                 {
-                    result = -1;
+                    result = comparingUnityVersions ? 0 : -1;
                     break;
                 }
 
-                if ( i >= v1arr.Length || v1arr[i] > v2arr[i] )
+                if ( i >= v1arr.Length)
+                {
+                    result = comparingUnityVersions ? 0 : 1;
+                    break;
+                }
+
+                if ( v1arr[i] > v2arr[i] )
                 {
                     result = 1;
                     break;

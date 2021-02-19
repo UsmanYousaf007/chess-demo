@@ -10,18 +10,18 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
     public static partial class HSecureValueVault
     {
         /// <summary>
-        /// An event raised when it is impossible to deserialize some value likely because of tampering with it.
+        /// Raised when it is impossible to deserialize some value likely because of tampering with it.
         /// The event reports key of such value.
         /// </summary>
         [PublicAPI] public static event Action<string> OnSecurityBreach;
 
         /// <summary>
-        /// Used for secure float "declaration" and definition.
+        /// Creates a secure float.
         /// </summary>
-        /// <param name="key">Unique key that identifies the variable.</param>
-        /// <param name="initialValue">Value the variable is initialized with if it does not exist yet</param>
-        /// <param name="isHFrameworkTransition">Marks if it is a value used in HFramework to be transitioned to HUF Security system.</param>
-        /// <returns>Secure float hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if value does not exist in storage. </returns>
+        /// <param name="key">A unique key that identifies the variable.</param>
+        /// <param name="initialValue">A value the variable is initialized with if it does not exist yet.</param>
+        /// <param name="isHFrameworkTransition">Whether it is a value used in HFramework to be transitioned to HUF Security system.</param>
+        /// <returns>Secure float hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if the value does not exist in the storage. </returns>
         [PublicAPI]
         public static ISecureLiveFloat CreateVariable( string key, float initialValue, bool isHFrameworkTransition = false )
         {
@@ -35,12 +35,12 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         }
 
         /// <summary>
-        /// Used for secure int "declaration" and definition.
+        /// Creates a secure int.
         /// </summary>
-        /// <param name="key">Unique key that identifies the variable.</param>
-        /// <param name="initialValue">Value the variable is initialized with if it does not exist yet</param>
-        /// <param name="isHFrameworkTransition">Marks if it is a value used in HFramework to be transitioned to HUF Security system.</param>
-        /// <returns>Secure int hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if value does not exist in storage. </returns>
+        /// <param name="key">A unique key that identifies the variable.</param>
+        /// <param name="initialValue">A value the variable is initialized with if it does not exist yet.</param>
+        /// <param name="isHFrameworkTransition">Whether it is a value used in HFramework to be transitioned to HUF Security system.</param>
+        /// <returns>Secure int hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if the value does not exist in the storage. </returns>
         [PublicAPI]
         public static ISecureLiveInt CreateVariable( string key, int initialValue, bool isHFrameworkTransition = false )
         {
@@ -54,13 +54,13 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         }
 
         /// <summary>
-        /// Used for secure string "declaration" and definition.
+        /// Creates a secure string.
         /// </summary>
-        /// <param name="key">Unique key that identifies the variable.</param>
-        /// <param name="initialValue">Value the variable is initialized with if it does not exist yet</param>
+        /// <param name="key">A unique key that identifies the variable.</param>
+        /// <param name="initialValue">A value the variable is initialized with if it does not exist yet.</param>
         /// <param name="old">Value used in HFramework to be transitioned to HUF Security system.
         /// <para>Keep in mind that if a custom class was used to store numerical values it is advised to use <see cref="ISecureLiveFloat"/> and <see cref="ISecureLiveInt"/> for them to protect the values not only in device storage but also in memory.</para></param>
-        /// <returns>Secure string hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if value does not exist in storage. </returns>
+        /// <returns>Secure string hook that represents stored value (if it was previously saved) or <paramref name="initialValue"/> if the value does not exist in the storage. </returns>
         [PublicAPI]
         public static ISecureLiveString CreateVariable( string key, string initialValue, ICustomTransition old = null )
         {
@@ -96,7 +96,7 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         /// <summary>
         /// Displays string representation of an <see cref="ISecureLiveValue"/>.
         /// </summary>
-        /// <param name="liveValue">Secure value to display</param>
+        /// <param name="liveValue">A secure value to display.</param>
         /// <returns>String representation of a secure value.</returns>
         [PublicAPI]
         public static string DisplayValue( ISecureLiveValue liveValue )
@@ -121,20 +121,21 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         /// <summary>
         /// Shared interface across all secure values
         /// </summary>
+        [PublicAPI]
         public partial interface ISecureLiveValue
         {
             /// <summary>
-            /// Used to reset stored value.
+            /// Resets stored value.
             /// </summary>
             /// <param name="toInitial">If true resets to initial value passed in constructor, if false, resets to type's default value.</param>
             [PublicAPI]
             void Reset( bool toInitial = false );
 
             /// <summary>
-            /// Used to load a value from (remote) config. Will reset to initial value on security breach.
+            /// Loads a value from (remote) config. Will reset to initial value on security breach.
             /// </summary>
-            /// <param name="config">Config holding the value</param>
-            /// <param name="encryptedValue">Encrypted value stored by the config</param>
+            /// <param name="config">Config holding the value.</param>
+            /// <param name="encryptedValue">Encrypted value stored by the config.</param>
             [PublicAPI]
             void SetFromConfig( AbstractConfig config, string encryptedValue );
         }
@@ -146,35 +147,35 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         public interface ISecureLiveFloat : ISecureLiveValue
         {
             /// <summary>
-            /// Used to increment stored value by <paramref name="increment"/>.
+            /// Increments stored value by <paramref name="increment"/>.
             /// </summary>
-            /// <param name="increment">Secure value to be added.</param>
+            /// <param name="increment">A secure value to be added.</param>
             [PublicAPI]
             void Add( ISecureLiveFloat increment );
 
             /// <summary>
-            /// Used to increment stored value by <paramref name="increment"/>.
+            /// Increments stored value by <paramref name="increment"/>.
             /// </summary>
-            /// <param name="increment">Secure value to be added.</param>
+            /// <param name="increment">A secure value to be added.</param>
             [PublicAPI]
             void Add( ISecureLiveInt increment );
 
             /// <summary>
-            /// Used to multiply stored value by <paramref name="multiplier"/>.
+            /// Multiplies stored value by <paramref name="multiplier"/>.
             /// </summary>
-            /// <param name="multiplier">Secure value to multiply by.</param>
+            /// <param name="multiplier">A secure value to multiply by.</param>
             [PublicAPI]
             void Multiply( ISecureLiveFloat multiplier );
 
             /// <summary>
-            /// Used to multiply stored value by <paramref name="multiplier"/>.
+            /// Multiplies stored value by <paramref name="multiplier"/>.
             /// </summary>
-            /// <param name="multiplier">Secure value to multiply by.</param>
+            /// <param name="multiplier">A secure value to multiply by.</param>
             [PublicAPI]
             void Multiply( ISecureLiveInt multiplier );
 
             /// <summary>
-            /// Used to set stored value to other.
+            /// Sets stored value to other.
             /// </summary>
             [PublicAPI]
             void Set( ISecureLiveFloat other );
@@ -187,33 +188,33 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         public interface ISecureLiveInt : ISecureLiveValue
         {
             /// <summary>
-            /// Used to increment stored value by <paramref name="increment"/>.
+            /// Increments stored value by <paramref name="increment"/>.
             /// </summary>
-            /// <param name="increment">Secure value to be added.</param>
+            /// <param name="increment">A secure value to be added.</param>
             [PublicAPI]
             void Add( ISecureLiveInt increment );
 
             /// <summary>
-            /// Used to multiply stored value by <paramref name="multiplier"/>.
+            /// Multiplies stored value by <paramref name="multiplier"/>.
             /// </summary>
-            /// <param name="multiplier">Secure value to multiply by.</param>
+            /// <param name="multiplier">A secure value to multiply by.</param>
             [PublicAPI]
             void Multiply( ISecureLiveInt multiplier );
 
             /// <summary>
-            /// Used to increment stored value by 1.
+            /// Increments stored value by 1.
             /// </summary>
             [PublicAPI]
             void Increase();
 
             /// <summary>
-            /// Used to decrement stored value by 1.
+            /// Decrements stored value by 1.
             /// </summary>
             [PublicAPI]
             void Decrease();
 
             /// <summary>
-            /// Used to set stored value to other.
+            /// Sets stored value to other.
             /// </summary>
             [PublicAPI]
             void Set( ISecureLiveInt other );
@@ -226,28 +227,28 @@ namespace HUF.Utils.Runtime.PlayerPrefs.Security
         public interface ISecureLiveString : ISecureLiveValue
         {
             /// <summary>
-            /// Used to replace stored value with <paramref name="newValue"/>.
+            /// Replaces stored value with <paramref name="newValue"/>.
             /// </summary>
-            /// <param name="newValue">Secure value to multiply by.</param>
+            /// <param name="newValue">A secure value to multiply by.</param>
             [PublicAPI]
             void Replace( string newValue );
 
             /// <summary>
-            /// Used to check if values of two strings are the same.
+            /// Checks if values of two strings are the same.
             /// </summary>
             /// <param name="other">String to compare to.</param>
             [PublicAPI]
             bool ValueEquals( ISecureLiveString other );
 
             /// <summary>
-            /// Used to check if values of two strings are the same.
+            /// Checks if values of two strings are the same.
             /// </summary>
             /// <param name="other">String to compare to.</param>
             [PublicAPI]
             bool ValueEquals( string other );
 
             /// <summary>
-            /// Used to set stored value to other.
+            /// Sets stored value to other.
             /// </summary>
             [PublicAPI]
             void Set( ISecureLiveString other );

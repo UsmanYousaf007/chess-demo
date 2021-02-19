@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes
 {
+#pragma warning disable 0809
     [Obsolete("Use HSecureValueVault instead")]
     public sealed class SecureCustomPP<T> : CustomPP<T>, HSecureValueVault.ICustomTransition
     {
@@ -33,4 +34,5 @@ namespace HUF.Utils.Runtime.PlayerPrefs.SecureTypes
             return SecurePPHelper.DecryptString( HPlayerPrefs.GetString( key ), encryption );
         }
     }
+#pragma warning restore 0809
 }

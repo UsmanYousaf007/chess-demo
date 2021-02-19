@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace HUF.Utils.Runtime.UI.CanvasBlocker
@@ -11,6 +12,12 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         Image image;
         RectTransform imageRectTransform;
 
+        /// <summary>
+        /// Creates an instance of CanvasBlocker.
+        /// </summary>
+        /// <param name="objectName">A name of created CanvasBlocker.</param>
+        /// <returns></returns>
+        [PublicAPI]
         public static CanvasBlocker Create( string objectName )
         {
             var gameObject = new GameObject( $"{NAME_PREFIX}{objectName}",
@@ -19,6 +26,11 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
             return gameObject.AddComponent<CanvasBlocker>();
         }
 
+        /// <summary>
+        /// Shows CanvasBlocker in fullscreen.
+        /// </summary>
+        /// <param name="backgroundColor">A color of the background.</param>
+        [PublicAPI]
         public void ShowFullScreen( Color backgroundColor )
         {
             Show( backgroundColor );
@@ -27,6 +39,14 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
             imageRectTransform.offsetMin = imageRectTransform.offsetMax = Vector2.zero;
         }
 
+        
+        /// <summary>
+        ///  Shows CanvasBlocker in the panel mode.
+        /// </summary>
+        /// <param name="backgroundColor">A color of the background.</param>
+        /// <param name="positionInPixels">A position of the panel in pixels.</param>
+        /// <param name="sizeInPixels">A size of the panel in pixels.</param>
+        [PublicAPI]
         public void ShowPanel( Color backgroundColor, Vector2 positionInPixels, Vector2 sizeInPixels )
         {
             Show( backgroundColor );
@@ -39,6 +59,10 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
             imageRectTransform.sizeDelta = sizeInPixels;
         }
 
+        /// <summary>
+        /// Hides CanvasBlocker.
+        /// </summary>
+        [PublicAPI]
         public void Hide()
         {
             gameObject.SetActive( false );

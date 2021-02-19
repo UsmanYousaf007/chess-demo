@@ -39,9 +39,9 @@ namespace HUF.Utils.Editor.Configs
         /// If there are more than 1 config it shows warning dialog. <para />
         /// </summary>
         /// <param name="featureName">Feature name visible in dialog box, e.g. UnityAds, Appsflyer, etc.</param>
-        /// <param name="configType">Type of target abstract config to install</param>
+        /// <param name="configType">Type of target abstract config to install.</param>
         /// <param name="folderStructure">Where to put generated config. 
-        /// If not set will be put under AssetsUtils.RESOURCES_FOLDER/HConfigs.CONFIGS_FOLDER by default</param>
+        /// If not set will be put under AssetsUtils.RESOURCES_FOLDER/HConfigs.CONFIGS_FOLDER by default.</param>
         [PublicAPI]
         public static void AddConfigToInstallation(string featureName, Type configType, string folderStructure)
         {
