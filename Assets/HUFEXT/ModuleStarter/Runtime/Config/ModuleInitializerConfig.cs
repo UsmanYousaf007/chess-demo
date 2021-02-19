@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using HUF.Utils.Runtime.Extensions;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace HUFEXT.ModuleStarter.Runtime.Config
 {
@@ -30,16 +31,14 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
                 return entry.order;
 
             newPlaces++;
+
             OrderEntry newEntry = new OrderEntry()
             {
                 id = name,
                 order = -newPlaces
             };
-
             entries.Add( name, newEntry );
-
             Save();
-
             return newEntry.order;
         }
 
@@ -69,16 +68,16 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
 #if UNITY_EDITOR
             if ( !Directory.Exists( basePath ) )
                 Directory.CreateDirectory( basePath );
-
             using ( File.Open( path, FileMode.OpenOrCreate ) ) { }
 
             string[] lines = new string[entries.Count];
-
             int index = 0;
+
             foreach ( var entry in entries.Values )
             {
                 lines[index++] = JsonUtility.ToJson( entry );
             }
+
             File.WriteAllLines( path, lines );
 #endif
         }
@@ -86,6 +85,7 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
         public static void UpdateEntries( List<OrderEntry> orderedList )
         {
             int length = orderedList.Count;
+
             for ( int index = 0; index < length; index++ )
             {
                 OrderEntry orderEntry = orderedList[index];
@@ -94,6 +94,7 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
                 entry.isAsync = orderEntry.isAsync;
                 entry.isSkipped = orderEntry.isSkipped;
             }
+
             Save();
         }
 
@@ -104,16 +105,15 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
 #else
             string streamingPath = path;
 #endif
+            var request = UnityWebRequest.Get( streamingPath );
+            request.SendWebRequest();
+            while ( !request.isDone ) { }
 
-            WWW data = new WWW( streamingPath );
-
-            while ( data.MoveNext() ) { }
-
-            if ( string.IsNullOrEmpty( data.text ) )
+            if ( request.downloadHandler == null || string.IsNullOrEmpty( request.downloadHandler.text ) )
                 return new string[0];
 
-            return data.text.Split(
-                new[] {"\r\n", "\r", "\n"},
+            return request.downloadHandler.text.Split(
+                new[] { "\r\n", "\r", "\n" },
                 StringSplitOptions.RemoveEmptyEntries
             );
         }

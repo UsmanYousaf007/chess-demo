@@ -25,7 +25,11 @@ namespace HUFEXT.ModuleStarter.Editor
 
         const string SYNC_ICON = "d_PlayButtonProfile";
         const string ASYNC_ICON = "d_PlayButton";
+#if UNITY_2019_1_OR_NEWER
+        const string SKIP_ICON = "d_winbtn_win_close";
+#else
         const string SKIP_ICON = "d_LookDevClose@2x";
+#endif
         const string NO_SYNC_ICON = "Toolbar Minus";
 
         const float WIDTH_CHECKBOX = 30;
