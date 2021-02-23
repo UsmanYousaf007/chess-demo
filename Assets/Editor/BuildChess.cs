@@ -15,15 +15,15 @@ public class BuildChess : MonoBehaviour
     static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
 
     static string androidAPK = "chessstar";
-    static string bundleVersion = PlayerSettings.bundleVersion;
+    static string bundleVersion = GetBundleVersion(); // PlayerSettings.bundleVersion;
     static string[] gameScenes = new string[] { "Game" };
     static string[] gameScenFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
             "Assets/Game/Scenes/Game.unity"
             };
 
-    static string bundleVersionCodeiOS = PlayerSettings.iOS.buildNumber;
-    static string bundleVersionCodeAndroid = PlayerSettings.Android.bundleVersionCode.ToString();
+    static string bundleVersionCodeiOS = GetIOSBundleCode(); //PlayerSettings.iOS.buildNumber;
+    static string bundleVersionCodeAndroid = GetAndroidBundleCode(); //PlayerSettings.Android.bundleVersionCode.ToString();
 
     static string GameAnalyticsInternalBuildName = "internal";
 
@@ -56,19 +56,13 @@ public class BuildChess : MonoBehaviour
     {
         int envNumber = 0;
 
-        string versionNumber = Environment.GetEnvironmentVariable("ENVIRONMENT_NUMBER");
-        string versionString = Environment.GetEnvironmentVariable("VERSION_STRING");
+        string versionNumber = Environment.GetEnvironmentVariable("GS_BACKEND_ENV_NUM");
 
-        if (versionNumber != null)
-        {
+        if (versionNumber != null){
             envNumber = Int32.Parse(versionNumber);
         }
 
         LogUtil.Log("UNITY _____ envNumber : " + envNumber);
-        LogUtil.Log("UNITY _____ versionString : " + versionString);
-        LogUtil.Log("UNITY _____ bundleVersion : " + bundleVersion);
-        LogUtil.Log("UNITY _____ bundleVersionCodeiOS : " + bundleVersionCodeiOS);
-        LogUtil.Log("UNITY _____ bundleVersionCodeAndroid : " + bundleVersionCodeAndroid);
 
         if (envNumber == (int)GameSparksConfig.Environment.LivePreview)
         {
@@ -514,6 +508,54 @@ public class BuildChess : MonoBehaviour
     public static void BuildAndroidloudDevelopment(string player)
     {
         BuildAndroidDevelopment();
+    }
+
+    public static string GetBundleVersion()
+    {
+      string bundleVersion = PlayerSettings.bundleVersion;
+
+#if UNITY_CLOUD_BUILD
+     string versionString = Environment.GetEnvironmentVariable("BUNDLE_VERSION");
+     if (versionString != null){
+            bundleVersion = versionString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetBundleVersion : " + bundleVersion);
+
+        return bundleVersion;
+    }
+
+    public static string GetAndroidBundleCode()
+    {
+        string bundleVersionCode = PlayerSettings.Android.bundleVersionCode.ToString();
+
+#if UNITY_CLOUD_BUILD
+     string bundleVersionCodeString = Environment.GetEnvironmentVariable("ANDROID_BUNDLE_CODE");
+     if (bundleVersionCodeString != null){
+            bundleVersionCode = bundleVersionCodeString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetAndroidBundleCode : " + bundleVersionCode);
+
+        return bundleVersionCode;
+    }
+
+    public static string GetIOSBundleCode()
+    {
+        string buildNumber = PlayerSettings.iOS.buildNumber;
+
+#if UNITY_CLOUD_BUILD
+     string buildNumberString = Environment.GetEnvironmentVariable("IOS_BUNDLE_CODE");
+     if (buildNumberString != null){
+            buildNumber = buildNumberString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetIOSBundleCode : " + buildNumber);
+
+        return buildNumber;
     }
 
 }
