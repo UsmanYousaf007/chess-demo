@@ -66,6 +66,9 @@ public class BuildChess : MonoBehaviour
 
         LogUtil.Log("UNITY _____ envNumber : " + envNumber);
         LogUtil.Log("UNITY _____ versionString : " + versionString);
+        LogUtil.Log("UNITY _____ bundleVersion : " + bundleVersion);
+        LogUtil.Log("UNITY _____ bundleVersionCodeiOS : " + bundleVersionCodeiOS);
+        LogUtil.Log("UNITY _____ bundleVersionCodeAndroid : " + bundleVersionCodeAndroid);
 
         if (envNumber == (int)GameSparksConfig.Environment.LivePreview)
         {
@@ -306,6 +309,9 @@ public class BuildChess : MonoBehaviour
     {
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeAndroid);
+
+        LogUtil.Log("AndroidSettings _____ bundleVersion : " + PlayerSettings.bundleVersion);
+        LogUtil.Log("AndroidSettings _____ bundleVersionCode : " + PlayerSettings.Android.bundleVersionCode);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles;
