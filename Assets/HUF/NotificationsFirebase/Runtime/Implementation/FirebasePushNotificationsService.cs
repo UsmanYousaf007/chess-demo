@@ -18,9 +18,8 @@ namespace HUF.NotificationsFirebase.Runtime.Implementation
         FirebaseMessage cachedMessage;
         bool isInitializing = false;
 
-        public event UnityAction OnInitialized;
-        //public event Action OnInitialized;
-        public event UnityAction<string> OnNotificationReceived;
+        public event Action OnInitialized;
+        public event Action<byte[]> OnNotificationReceived;
 
         public bool IsInitialized => !cachedToken.IsNullOrEmpty();
         public string CachedToken => cachedToken;

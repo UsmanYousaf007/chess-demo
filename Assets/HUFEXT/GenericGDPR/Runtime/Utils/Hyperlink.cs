@@ -1,16 +1,15 @@
-﻿using System;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
 
-namespace HUFEXT.GenericGDPR.Runtime.Utils
+namespace HUF.GenericDialog.Runtime.Implementations
 {
     [RequireComponent( typeof( TextMeshProUGUI ) )]
     public class Hyperlink : MonoBehaviour, IPointerClickHandler
     {
         TextMeshProUGUI hyperlink;
         
-        private void Awake()
+        void Awake()
         {
             hyperlink = GetComponent<TextMeshProUGUI>();
         }

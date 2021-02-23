@@ -1,3 +1,14 @@
+## External SDKs
+- Firebase SDK Unity plugin - 7.0.2
+- Firebase App - 7.0.2
+
+## [3.0.0] - 2021-02-10
+### Updated
+- Firebase SDK Unity plugin - 7.0.2
+
+### Breaking Change
+- Minimum iOS version from 8 to 10
+
 ## [2.2.1] - 2020-12-16
 ### Updated
 - Android resolver dependency

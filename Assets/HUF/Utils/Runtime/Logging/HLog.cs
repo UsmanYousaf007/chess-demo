@@ -97,7 +97,7 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds );
+            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild && (Config == null || !Config.DisableHLogsOnDebugBuilds));
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, !Config.DisableHLogsOnDebugBuilds );
+            Log( prefixSource, message, LogType.Log, null, !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace HUF.Utils.Runtime.Logging
                 if ( !canLogMessages )
                     return;
 
-                if ( Config.IsFilteringLogs )
+                if ( Config != null && Config.IsFilteringLogs )
                 {
                     bool match = Regex.IsMatch( prefixSource.Prefix,
                         Config.RegexFilter,

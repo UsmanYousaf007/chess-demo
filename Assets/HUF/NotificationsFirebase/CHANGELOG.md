@@ -1,8 +1,25 @@
+## External SDKs
+- Firebase Messaging - 7.0.2
+- Firebase Unity Plugin - 7.0.2
+
+## [3.0.0] - 2021-02-11
+### Updated
+- Firebase SDK Unity plugin - 7.0.2
+
+### Added
+- Method for retrieving FCM token 
+for sending test notifications 
+directly to a device
+- Testing steps in the documentation
+
+### Breaking Change
+- Minimum iOS version from 8 to 10
+
 ## [2.4.0] - 2020-11-13
-### Change
+### Changed
 - Moved Firebase to Unity Package Manager
 
-### Update
+### Updated
 - Firebase SDK Unity plugin - 6.16.1
 
 

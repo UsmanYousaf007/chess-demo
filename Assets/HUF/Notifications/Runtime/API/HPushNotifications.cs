@@ -1,8 +1,8 @@
 using Firebase.Messaging;
+using System;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
-using UnityEngine.Events;
 
 namespace HUF.Notifications.Runtime.API
 {
@@ -12,15 +12,15 @@ namespace HUF.Notifications.Runtime.API
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HPushNotifications) );
 
         /// <summary>
-        /// Raised when coming to app with notification. Parameter is raw data of notification.
+        /// Raised when a notification is received. The Parameter is a raw notification data.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<string> OnNotificationsReceived;
+        public event Action<byte[]> OnNotificationsReceived;
 
         /// <summary>
         /// Registers push notifications service.
         /// </summary>
-        /// <param name="service">Service to be registered</param>
+        /// <param name="service">The service to be registered.</param>
         [PublicAPI]
         public void RegisterService( IPushNotificationsService service )
         {
@@ -44,7 +44,7 @@ namespace HUF.Notifications.Runtime.API
             HLog.Log( logPrefix, $"Push notification service initialized" );
         }
 
-        void NotificationReceived( string notificationData )
+        void NotificationReceived( byte[] notificationData )
         {
             OnNotificationsReceived.Dispatch( notificationData );
         }
@@ -52,5 +52,4 @@ namespace HUF.Notifications.Runtime.API
         public string CachedToken => notifications?.CachedToken;
         public FirebaseMessage CachedMessage => notifications?.CachedMessage;
 
-    }
-}
+    }}

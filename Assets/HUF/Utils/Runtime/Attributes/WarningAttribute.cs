@@ -1,19 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime.Attributes
 {
     public class WarningAttribute : PropertyAttribute
     {
-        public readonly float size;
+        public WarningAttribute(){}
 
-        public WarningAttribute()
+        [Obsolete("Use parameterless constructor")]
+        public WarningAttribute(float unused)
         {
-            size = 0;
-        }
-        
-        public WarningAttribute(float size)
-        {
-            this.size = size;
         }
     }
 }

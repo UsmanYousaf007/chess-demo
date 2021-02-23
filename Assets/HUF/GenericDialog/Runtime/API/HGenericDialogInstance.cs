@@ -31,13 +31,25 @@ namespace HUF.GenericDialog.Runtime.API
         [SerializeField] Button secondaryButtonHandler = null;
 
         /// <summary>
+        /// <see cref="Button"/> reference that acts as a tertiary (denied) button.
+        /// </summary>
+        [PublicAPI]
+        [SerializeField] Button tertiaryButtonHandler = null;
+
+        /// <summary>
         /// Root object that gets deactivated if <see cref="HGenericDialogConfig"/> specifies so.
         /// </summary>
         [PublicAPI]
         [SerializeField] GameObject secondaryButtonRoot = null;
 
+        /// <summary>
+        /// Root object that gets deactivated if <see cref="HGenericDialogConfig"/> specifies so.
+        /// </summary>
+        [PublicAPI]
+        [SerializeField] GameObject tertiaryButtonRoot = null;
+
         [NonSerialized]
-        HGenericDialogConfig config = null;
+        protected HGenericDialogConfig config = null;
 
         /// <summary>
         /// <para>A function that can be used to obtain current session number.
@@ -80,6 +92,12 @@ namespace HUF.GenericDialog.Runtime.API
         public StringUnityEvent OnSecondaryTextOverride;
 
         /// <summary>
+        /// Event triggered to set the content of the tertiary button.
+        /// </summary>
+        [PublicAPI]
+        public StringUnityEvent OnTertiaryTextOverride;
+
+        /// <summary>
         /// Event triggered to set the content of the dialog's header.
         /// </summary>
         [PublicAPI]
@@ -88,9 +106,19 @@ namespace HUF.GenericDialog.Runtime.API
         public void Initialize( HGenericDialogConfig config )
         {
             this.config = config;
-            secondaryButtonRoot.gameObject.SetActive( config.showSecondaryButton );
+
             primaryButtonHandler.onClick.AddListener( HandlePrimaryButtonClick );
-            secondaryButtonHandler.onClick.AddListener( HandleSecondaryButtonClick );
+
+            if(secondaryButtonRoot.gameObject != null)
+            {
+                secondaryButtonRoot.gameObject.SetActive( config.showSecondaryButton );
+                secondaryButtonHandler.onClick.AddListener( HandleSecondaryButtonClick );
+            }
+            if(tertiaryButtonRoot.gameObject != null)
+            {
+                tertiaryButtonRoot.gameObject.SetActive( config.showTertiaryButton );
+                tertiaryButtonHandler.onClick.AddListener( HandleTertiaryButtonClick );
+            }
             HandleTranslation( config );
             HandleInitialization( config );
         }
@@ -102,6 +130,16 @@ namespace HUF.GenericDialog.Runtime.API
         public void Destroy()
         {
             Destroy( this.gameObject );
+        }
+
+        /// <summary>
+        /// Sends <see cref="OnClosePopup"/> event and destroys the popup.
+        /// </summary>
+        [PublicAPI]
+        public virtual void Close()
+        {
+            OnClosePopup?.Invoke();
+            Destroy();
         }
 
         /// <summary>
@@ -129,13 +167,11 @@ namespace HUF.GenericDialog.Runtime.API
 #else
             var getContent = new Func<string, string>( ( id ) => id );
 #endif
- 
-            if ( config.showSecondaryButton )
-                OnSecondaryTextOverride.Invoke( getContent(config.secondaryButtonTranslation) );
-
-            OnPrimaryTextOverride.Invoke( getContent( config.primaryButtonTranslation ) );
-            OnHeaderTextOverride.Invoke( getContent( config.headerTranslation ) );
-            OnContentTextOverride.Invoke( getContent( config.contentTranslation ) );
+            OnHeaderTextOverride?.Invoke( getContent( config.HeaderTranslation ) );
+            OnContentTextOverride?.Invoke( getContent( config.ContentTranslation ) );
+            OnPrimaryTextOverride?.Invoke( getContent( config.PrimaryButtonTranslation ) );
+            OnSecondaryTextOverride?.Invoke( getContent(config.SecondaryButtonTranslation) );
+            OnTertiaryTextOverride?.Invoke( getContent(config.TertiaryButtonTranslation) );
         }
 
         /// <summary>
@@ -149,6 +185,12 @@ namespace HUF.GenericDialog.Runtime.API
         /// </summary>
         [PublicAPI]
         protected abstract void HandleSecondaryButtonClick();
+
+        /// <summary>
+        /// Called when user clicks the Tertiary button.
+        /// </summary>
+        [PublicAPI]
+        protected abstract void HandleTertiaryButtonClick();
 
         /// <summary>
         /// Marks the dialog as postponed.

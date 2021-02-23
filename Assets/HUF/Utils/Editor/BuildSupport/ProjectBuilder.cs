@@ -29,6 +29,8 @@ namespace HUF.Utils.Editor.BuildSupport
         public const string CMD_IOS_PP_ID = "-PPID_"; //iOS Provisioning Profile Id
         public const string CMD_IOS_PP_TYPE = "-PPT_"; //Provisioning Profile Type Automatic-default, Distribution, Development
         public const string CMD_OBB = "-OBB_1"; //build Android obb
+        public const string CMD_AAB = "-AAB_1"; //build Android aab
+
 
         static readonly string[] androidDebug = {"-T_Android", "-BT_Debug"};
         static readonly string[] androidProduction = {"-T_Android", "-BT_Production"};
@@ -281,6 +283,10 @@ namespace HUF.Utils.Editor.BuildSupport
                 else if ( arg == CMD_OBB )
                 {
                     PlayerSettings.Android.useAPKExpansionFiles = true;
+                }
+                else if ( arg == CMD_AAB )
+                {
+                    EditorUserBuildSettings.buildAppBundle = true;
                 }
                 else if ( arg.StartsWith( CMD_IOS_TEAM_ID ) && arg.Length > CMD_IOS_TEAM_ID.Length)
                 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine.Events;
 using Firebase.Messaging;
 
 namespace HUF.Notifications.Runtime.API
@@ -8,8 +7,7 @@ namespace HUF.Notifications.Runtime.API
     {
         void InitializeNotifications();
         bool IsInitialized { get; }
-        event UnityAction<string> OnNotificationReceived;
         string CachedToken { get; }
         FirebaseMessage CachedMessage { get; }
-    }
-}
+        event Action<byte[]> OnNotificationReceived;
+    }}

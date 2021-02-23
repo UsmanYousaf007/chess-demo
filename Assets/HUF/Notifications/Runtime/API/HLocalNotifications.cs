@@ -41,7 +41,7 @@ namespace HUF.Notifications.Runtime.API
         /// <summary>
         /// Registers local notifications service.
         /// </summary>
-        /// <param name="service">Service to be registered</param>
+        /// <param name="service">The service to be registered.</param>
         [PublicAPI]
         public void RegisterService( ILocalNotificationsService service )
         {
@@ -53,9 +53,9 @@ namespace HUF.Notifications.Runtime.API
         /// <summary>
         /// Schedules notification.
         /// </summary>
-        /// <param name="notificationData">Data for scheduled notifications</param>
-        /// <returns>Id string for scheduled notification if success,
-        /// <see cref="NotificationData.INVALID_NOTIFICATION_ID"/> if otherwise</returns>
+        /// <param name="notificationData">Data for scheduled notifications.</param>
+        /// <returns>An ID string for scheduled notification if success,
+        /// <see cref="NotificationData.INVALID_NOTIFICATION_ID"/> otherwise.</returns>
         [PublicAPI]
         public string ScheduleNotification( NotificationData notificationData )
         {
@@ -71,7 +71,7 @@ namespace HUF.Notifications.Runtime.API
         /// <summary>
         /// Clears scheduled notification.
         /// </summary>
-        /// <param name="notificationId">Notification id that needs to be cleared</param>
+        /// <param name="notificationId">A notification id that needs to be cleared.</param>
         [PublicAPI]
         public void ClearScheduledNotification( string notificationId )
         {
@@ -100,7 +100,7 @@ namespace HUF.Notifications.Runtime.API
         }
 
         /// <summary>
-        /// Returns last intent data after returning from notification.
+        /// Returns last intent data after opening the app from a notification.
         /// </summary>
         /// <returns>String value if intent data is present, empty string otherwise. If null is returned
         /// no notification service is present.</returns>
@@ -120,7 +120,7 @@ namespace HUF.Notifications.Runtime.API
         /// Reads current user consent status from device settings.
         /// Currently only iOS is supported.
         /// </summary>
-        /// <returns>Consent status that reflects actual state</returns>
+        /// <returns>Consent status that reflects actual state.</returns>
         [PublicAPI]
         public ConsentStatus GetConsentStatus()
         {
@@ -134,10 +134,10 @@ namespace HUF.Notifications.Runtime.API
         }
 
         /// <summary>
-        /// Asks for permission to notifications.
+        /// Asks for permission to receive notifications.
         /// Currently only iOS is supported.
         /// </summary>
-        /// <param name="registerForRemoteNotifications">Should it also ask for remote notifications permission</param>
+        /// <param name="registerForRemoteNotifications">It should also ask for remote notifications permission.</param>
         [PublicAPI]
         public void AskForPermission( bool registerForRemoteNotifications )
         {

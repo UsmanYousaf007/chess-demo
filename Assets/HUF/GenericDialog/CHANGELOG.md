@@ -1,3 +1,8 @@
+## [1.3.0] - 2021-02-17
+### Removed
+- Stuff related ATT and Personalized ads to new Privacy Policy package.
+
+
 ## [1.2.1] - 2021-01-11
 ### Fixed
 - ATT not showing in first session

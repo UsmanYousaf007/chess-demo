@@ -1,3 +1,35 @@
+## [3.8.3] - 2021-02-17
+### Fixed
+- AAB build support string fixed
+
+## [3.8.2] - 2021-02-17
+### Fixed
+- HLog config not required
+
+
+## [3.8.1] - 2021-02-15
+### Fixed
+- Warning drawers are autofitted to their contents
+
+
+## [3.8.0] - 2021-02-04
+### Added
+- IntervalManager
+
+### Fixed
+- Logs formatting for TextMeshPro
+
+
+## [3.7.1] - 2021-02-03
+### Added
+- Build android ABB from command line.
+
+
+## [3.7.0] - 2021-02-03
+### Added
+- TryGetConfig method
+
+
 ## [3.6.1] - 2021-01-29
 ### Fixed
 - SafeArea not refreshing correctly

@@ -53,6 +53,25 @@ namespace HUF.Utils.Runtime.Configs.API
         }
 
         /// <summary>
+        /// Gets AbstractConfig of a given type if it exists.
+        /// </summary>
+        [PublicAPI]
+        public static bool TryGetConfig<T>( [CanBeNull] out T config ) where T : AbstractConfig
+        {
+            config = null;
+
+            if ( ConfigsModel == null )
+                return false;
+
+            if ( HasConfig<T>() )
+                config = GetConfig<T>();
+            else
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks if there is any AbstractConfig of a given type registered.
         /// </summary>
         [PublicAPI]

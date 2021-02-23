@@ -1,3 +1,12 @@
+## External SDKs
+- Firebase SDK Unity plugin - 7.0.2
+- Firebase Remote Config - 7.0.2
+
+## [3.4.0] - 2021-02-10
+### Updated
+- Firebase SDK Unity plugin - 7.0.2
+
+
 ## [3.3.0] - 2020-12-03
 ### Added
 - Support for multiple services at once
@@ -5,10 +14,10 @@
 
 
 ## [3.2.0] - 2020-11-13
-### Change
+### Changed
 - Moved Firebase to Unity Package Manager
 
-### Update
+### Updated
 - Firebase SDK Unity plugin - 6.16.1
 
 

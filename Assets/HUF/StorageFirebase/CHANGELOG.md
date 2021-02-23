@@ -1,3 +1,12 @@
+## External SDKs
+- Firebase SDK Unity plugin - 7.0.2
+- Firebase Storage - 7.0.2
+
+## [3.1.0] - 2021-02-10
+### Updated
+- Firebase SDK Unity plugin - 7.0.2
+
+
 ## [3.0.1] - 2020-11-24
 ### Fixed
 - Wrong version in config.json
@@ -14,7 +23,6 @@
 ## [2.2.1] - 2020-12-30
 ### Fixed
 - Multiple warnings
-
 
 
 ## [2.2.0] - 2020-11-13

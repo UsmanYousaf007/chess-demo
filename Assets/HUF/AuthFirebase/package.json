@@ -1,7 +1,7 @@
 {
   "name": "com.huuuge.huf.auth.firebase",
   "displayName": "Auth Firebase",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "unity": "2018.4",
   "description": "Auth Firebase module offers authentication method for Firebase service. By default user will be sign-in to anonymous account. It is possible to connect firebase account with other providers accounts (e.g. Facebook). Firebase Authentication is used with other modules to giving access to database, storage, etc. for given user.\n\nCurrently it can be used with:\n• Save Firebase",
   "huf": {
@@ -14,9 +14,9 @@
     "exclude": [
       "com.huuuge.plugins.externaldependencymanager"
     ],
-    "date": "15.02.2021 14:59",
-    "commit": "2ea97d7",
-    "build": "33",
+    "date": "23.02.2021 08:04",
+    "commit": "0d4369b",
+    "build": "39",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/AuthFirebase",

@@ -1,3 +1,9 @@
+## [3.0.0] - 2021-02-10
+### Changed
+- `OnNotificationsReceived` now provides raw `bytes[]` 
+- UnityAction to Action
+
+
 ## [2.1.0] - 2020-09-24
 ### Added
 - Function asking for notifications permission
