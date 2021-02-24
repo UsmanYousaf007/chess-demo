@@ -16,6 +16,7 @@ namespace HUFEXT.PackageManager.Editor.Models
         AddDefaultRegistries,
         ClearCache,
         GenerateReportHUF,
+        GenerateReportSDKs,
         GenerateReportFull,
         ContactSupport,
         RevokeLicense,

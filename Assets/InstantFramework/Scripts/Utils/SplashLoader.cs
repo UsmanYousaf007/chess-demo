@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.InstantFramework;
-using HUFEXT.GenericGDPR.Runtime.API;
+using HUF.PolicyGuard.Runtime.API;
 using HUFEXT.ModuleStarter.Runtime.API;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
+using HUF.Analytics.Runtime.API;
 
 public class SplashLoader : MonoBehaviour {
 
@@ -25,19 +26,19 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HGenericGDPR.OnPolicyAccepted += OnPolicyAccepted;
+        HPolicyGuard.OnPersonalizedAdsPopupClosed += OnPolicyAccepted;
     }
 
     void OnDisable()
     {
-        HGenericGDPR.OnPolicyAccepted -= OnPolicyAccepted;
+        HPolicyGuard.OnPersonalizedAdsPopupClosed -= OnPolicyAccepted;
     }
 
     void Start() 
     {
-        if (!HGenericGDPR.IsPolicyAccepted)
+        if (HAnalytics.GetGDPRConsent() == null)
         {
-            HGenericGDPR.Initialize();
+            HPolicyGuard.Initialize();
             LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
         }
         else
@@ -46,7 +47,7 @@ public class SplashLoader : MonoBehaviour {
         }
     }
 
-    void OnPolicyAccepted()
+    void OnPolicyAccepted(bool value)
     {
         LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
         RunInitPipiline();

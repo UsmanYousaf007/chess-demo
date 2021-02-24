@@ -25,7 +25,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         List<Models.PackageManifest> packages;
 
         public PackageResolveCommand( Models.PackageManifest packageToInstall, bool useLatest = false ) : this(
-            new List<PackageManifest> {packageToInstall},
+            new List<PackageManifest> { packageToInstall },
             useLatest ) { }
 
         public PackageResolveCommand( List<Models.PackageManifest> packagesToInstall, bool useLatest = false )
@@ -86,8 +86,14 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                             new Models.Dependency( $"{packageToInstall.name}@{packageToInstall.version}" );
 
                         FindDependencyVersionChannelAndScope( dependency,
-                            () =>
+                            dependencyFound =>
                             {
+                                if ( !dependencyFound )
+                                {
+                                    Complete( false, $"Unable to resolve package {dependency.name}." );
+                                    return;
+                                }
+
                                 dependencies.Add( dependency );
 
                                 // Ask if the repositories should be replaced.
@@ -124,7 +130,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             if ( !packagesToInstall.Exists( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER ) &&
                  dependencies.Exists( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER ) )
             {
-                Dependency packageManagerDependency =
+                var packageManagerDependency =
                     dependencies.First( dep => dep.name == COM_HUUUGE_HUFEXT_PACKAGE_MANAGER );
 
                 PlayerPrefs.SetString( HPM_PACKAGES_TO_INSTALL,
@@ -157,29 +163,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             {
                 var dependency = new Models.Dependency( entry );
 
-                // Infinite loop protection.
-                if ( dependency.name == owner.name && owner.IsVersionHigherOrEqualTo( dependency ) )
-                {
-                    Utils.Common.Log( "Recursive dependency found. Skipping..." );
-                    DecreaseDependenciesLeft();
-                    continue;
-                }
-
                 if ( !dependency.IsHufPackage )
                 {
                     Utils.Common.Log( $"External dependency {dependency} found." );
-                    var existingDependency = dependencies.FirstOrDefault( d => d.name == dependency.name );
-
-                    if ( existingDependency == null )
-                    {
-                        dependencies.Add( dependency );
-                    }
-                    else if ( dependency.IsVersionHigherTo( existingDependency ) )
-                    {
-                        dependencies.Remove( existingDependency );
-                        dependencies.Add( dependency );
-                    }
-
+                    AddToDependencies( dependency );
                     DecreaseDependenciesLeft();
                     continue;
                 }
@@ -203,10 +190,23 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     continue;
                 }
 
+                // Infinite loop protection.
+                if ( !AddToDependencies( dependency ) )
+                {
+                    DecreaseDependenciesLeft();
+                    continue;
+                }
+
                 //Check what version is available
                 FindDependencyVersionChannelAndScope( dependency,
-                    () =>
+                    dependencyFound =>
                     {
+                        if ( !dependencyFound )
+                        {
+                            didResolveSucceededCallback?.Invoke( false );
+                            return;
+                        }
+
                         Core.Command.Execute( new Commands.Connection.DownloadPackageManifestCommand()
                         {
                             version = dependency.version,
@@ -233,27 +233,35 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                                             return;
                                         }
 
-                                        var dependencyWithTheSameName =
-                                            dependencies.Find( ( d ) => d.name == dependency.name );
-
-                                        // Add dependency if it doesn't exist in the current list or if it has a higher version than one in the list
-                                        if ( dependencyWithTheSameName == null )
-                                        {
-                                            dependencies.Add( dependency );
-                                            Utils.Common.Log( $"New dependency found {dependency}." );
-                                        }
-                                        else if ( dependency.IsVersionHigherTo( dependencyWithTheSameName ) )
-                                        {
-                                            dependencies.Remove( dependencyWithTheSameName );
-                                            dependencies.Add( dependency );
-                                        }
-
+                                        AddToDependencies( dependency );
                                         DecreaseDependenciesLeft();
                                     } );
                             }
                         } );
                     }
                 );
+            }
+
+            bool AddToDependencies( Dependency dependency )
+            {
+                var dependencyWithTheSameName =
+                    dependencies.Find( ( d ) => d.name == dependency.name );
+
+                // Add dependency if it doesn't exist in the current list or if it has a higher version than one in the list
+                if ( dependencyWithTheSameName == null )
+                {
+                    dependencies.Add( dependency );
+                    Utils.Common.Log( $"New dependency found {dependency}." );
+                    return true;
+                }
+                else if ( dependency.IsVersionHigherTo( dependencyWithTheSameName ) )
+                {
+                    dependencies.Remove( dependencyWithTheSameName );
+                    dependencies.Add( dependency );
+                    return true;
+                }
+
+                return false;
             }
 
             void DecreaseDependenciesLeft()
@@ -266,7 +274,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             }
         }
 
-        void FindDependencyVersionChannelAndScope( Dependency dependency, Action dependencyFoundCallback )
+        void FindDependencyVersionChannelAndScope( Dependency dependency, Action<bool> dependencyFoundCallback )
         {
             var package = packages.Find( ( p ) => p.name == dependency.name );
 
@@ -328,9 +336,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                             return;
                     }
 
-                    Complete( false,
+                    Utils.Common.LogError(
                         $"{package.name} {dependency.version} version or newer not found in any channel!" );
-                    return;
+                    dependencyFoundCallback?.Invoke( false );
 
                     bool ContinueIfVersionIsNotNull( Models.Version version )
                     {
@@ -340,7 +348,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                         dependency.channel = channel;
                         dependency.version = version.version;
                         dependency.scope = version.scope;
-                        dependencyFoundCallback?.Invoke();
+                        dependencyFoundCallback?.Invoke( true );
                         return true;
                     }
                 }

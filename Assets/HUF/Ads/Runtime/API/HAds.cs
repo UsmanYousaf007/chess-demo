@@ -1,10 +1,12 @@
 using System;
 using HUF.Ads.Runtime.Implementation;
+using HUF.Analytics.Runtime.API;
+using HUF.PolicyGuard.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.PlayerPrefs;
 using JetBrains.Annotations;
-using UnityEngine.Events;
+using UnityEngine;
 
 namespace HUF.Ads.Runtime.API
 {
@@ -12,13 +14,15 @@ namespace HUF.Ads.Runtime.API
     {
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HAds) );
         
-        const string ADS_CONSENT_SENSITIVE_DATA = "HUFAdsConsentSensitiveData";
+        const string ADS_CONSENT_SENSITIVE_DATA = "HUFAdsConsentSensitiveDataV2";
         static HBanner banner;
         static HInterstitial interstitial;
         static HRewarded rewarded;
         static IAdsService service;
+        static bool isTrackingATT;
 
         static event Action<bool> OnCollectSensitiveDataSetEvent;
+
 
         /// <summary>
         /// Occurs when called CollectSensitiveData or SetConsent
@@ -30,7 +34,17 @@ namespace HUF.Ads.Runtime.API
             remove => OnCollectSensitiveDataSetEvent -= value;
         }
 
+        /// <summary>
+        /// Raised when the ads service completes initialization.
+        /// </summary>
+        [PublicAPI]
         public static event Action OnAdsServiceInitialized;
+
+        /// <summary>
+        /// Raised when the personalized ads consent changes state.
+        /// </summary>
+        [PublicAPI]
+        public static event Action<bool> OnPersonalizedAdsConsentChanged;
 
         /// <summary>
         /// Provides access to Banner ads API - show ad, subscribe for events, etc.
@@ -62,47 +76,33 @@ namespace HUF.Ads.Runtime.API
             }
         }
 
-        static void AdsServiceInitialized()
-        {
-            OnAdsServiceInitialized.Dispatch();
-            bool? consent = HasPersonalizedAdConsent();
-
-            if (consent.HasValue)
-            {
-                CollectSensitiveData(consent.Value);
-            }
-        }
-
         /// <summary>
-        /// Sets consent for gathering user data during ad display.
+        /// Sets consent for gathering user data during ad display. On iOS ATT needs to be Authorized.
         /// </summary>
         /// <param name="consentStatus">Status of consent</param>
         [PublicAPI]
         public static void CollectSensitiveData(bool consentStatus)
         {
-            bool? previousValue = HasPersonalizedAdConsent();
+            if ( !HPolicyGuard.IsATTAuthorized() )
+            {
+                HLog.LogWarning( logPrefix, "ATT is not Authorized. Ads consent cannot be set" );
+                return;
+            }
+
+            bool? previousValue = HasConsent();
             HPlayerPrefs.SetBool(ADS_CONSENT_SENSITIVE_DATA, consentStatus);
-            Service.CollectSensitiveData(consentStatus);
+
+            RefreshPersonalizedAds();
 
             if(!previousValue.HasValue || previousValue.Value != consentStatus)
             {
-                OnCollectSensitiveDataSetEvent?.Invoke(consentStatus);
+                OnCollectSensitiveDataSetEvent.Dispatch(consentStatus);
+                OnPersonalizedAdsConsentChanged.Dispatch( HasPersonalizedAdConsent() == true);
             }
         }
 
         /// <summary>
-        /// Returns consent for gathering user data during ad display.
-        /// <returns>If no consent is set returns null. Returns consent value otherwise. </returns>
-        /// </summary>
-        [PublicAPI]
-        [Obsolete("Use `HasPersonalizedAdConsent` instead.")]
-        public static bool? GetGDPRConsent()
-        {
-            return HasPersonalizedAdConsent();
-        }
-
-        /// <summary>
-        /// Returns consent set for ads mediation to show (or not) personalized ads.
+        /// Returns consent set for ads mediation to show (or not) personalized ads. On iOS ATT needs to be Authorized.
         /// <returns>If no consent is set returns null. Returns consent value otherwise. </returns>
         /// </summary>
         [PublicAPI]
@@ -113,18 +113,22 @@ namespace HUF.Ads.Runtime.API
                 return null;
             }
 
-            return HPlayerPrefs.GetBool(ADS_CONSENT_SENSITIVE_DATA);
+            return HPlayerPrefs.GetBool(ADS_CONSENT_SENSITIVE_DATA) && HPolicyGuard.IsATTAuthorized();
         }
 
-        // <summary>
-        /// Sets consent for gathering user data during ad display.
+        /// <summary>
+        /// Returns consent set for ads mediation to show (or not) personalized ads.
+        /// <returns>If no consent is set returns null. Returns consent value otherwise. </returns>
         /// </summary>
-        /// <param name="consentStatus">Status of consent</param>
         [PublicAPI]
-        [Obsolete("Use `CollectSensitiveData` instead.")]
-        public static void SetConsent(bool consentStatus)
+        public static bool? HasConsent()
         {
-            CollectSensitiveData(consentStatus);
+            if (!HPlayerPrefs.HasKey(ADS_CONSENT_SENSITIVE_DATA))
+            {
+                return null;
+            }
+
+            return HPlayerPrefs.GetBool(ADS_CONSENT_SENSITIVE_DATA);
         }
 
         /// <summary>
@@ -136,5 +140,47 @@ namespace HUF.Ads.Runtime.API
         {
             return Service.IsServiceInitialized;
         }
+
+        /// <summary>
+        /// Refreshes personalized ads consent. Consent differs between platforms.
+        /// For example on iOS App Tracking Transparency pop-up needs to be authorized with ads consent.
+        /// </summary>
+        [PublicAPI]
+        public static void RefreshPersonalizedAds()
+        {
+            Service.CollectSensitiveData(HasPersonalizedAdConsent() == true);
+        }
+
+        /// <summary>
+        /// Checks if ads consent can be changed. On iOS is related to ATT Authorization status.
+        /// </summary>
+        /// <returns>Provides information about the possibility to change ads consent.</returns>
+        [PublicAPI]
+        public static bool CanChangeAdsConsent()
+        {
+            return HPolicyGuard.IsATTAuthorized();
+        }
+
+        static void AdsServiceInitialized()
+        {
+            OnAdsServiceInitialized.Dispatch();
+            RefreshPersonalizedAds();
+        }
+
+#if UNITY_IOS
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterSceneLoad )]
+        static void StartCheckingATTConsent()
+        {
+            if ( isTrackingATT )
+                return;
+
+            HPolicyGuard.OnATTStatusChanged += status =>
+            {
+                OnPersonalizedAdsConsentChanged.Dispatch( HasPersonalizedAdConsent() == true );
+                RefreshPersonalizedAds();
+            };
+            isTrackingATT = true;
+        }
+#endif
     }
 }

@@ -4,9 +4,7 @@
 /// Proprietary and confidential
 using strange.extensions.mediation.impl;
 using System;
-
 using GameSparks.Core;
-using HUFEXT.GenericGDPR.Runtime.API;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -91,8 +89,7 @@ namespace TurboLabz.InstantFramework
                                               .AddBoolean("consentFlag", value);
             view.backendService.ClaimReward(jsonData);
 
-            HGenericGDPR.IsPersonalizedAdsAccepted = value;
-            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
+            adsService.CollectSensitiveData(value);
         }
 
         public void OnGDPRDlgClosed()

@@ -9,7 +9,6 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
 using TurboLabz.CPU;
-using HUFEXT.GenericGDPR.Runtime.API;
 using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
@@ -84,9 +83,6 @@ namespace TurboLabz.InstantFramework
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
-
-                adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
             }
 		}
 

@@ -1,3 +1,13 @@
+## [1.6.1] - 2021-02-23
+### Fixed
+- Infinite loop when downloading PolicyGuard package
+
+
+## [1.6.0] - 2021-02-18
+### Added
+- Internal SDKs to generated reports
+
+
 ## [1.5.4] - 2021-01-12
 ### Added
 - Showing manager version refreshed when it is rebuilt

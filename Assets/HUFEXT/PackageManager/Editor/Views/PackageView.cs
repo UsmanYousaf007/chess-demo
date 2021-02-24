@@ -389,17 +389,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                         EditorGUILayout.Space();
                         DrawDetailsData( package );
                     }
-
-                    var changelogPath = $"{package.huf.path}/CHANGELOG.md";
-
-                    if ( File.Exists( changelogPath ) )
+                    
+                    if ( package.TryGetChangelog( out string changelog ) )
                     {
                         EditorGUILayout.Space();
 
                         using ( new GUILayout.VerticalScope() )
                         {
-                            var changelog = File.ReadAllText( changelogPath );
-
                             GUILayout.Label( changelog,
                                 new GUIStyle( EditorStyles.label )
                                 {

@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-using HUFEXT.GenericGDPR.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -195,26 +194,19 @@ namespace TurboLabz.InstantFramework
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = true;
             playerModel.personalisedAdsEnabled = true;
             RefreshPersonalisedAdsToggleButtons();
-            SetConsent();
+            adsService.CollectSensitiveData(false);
             hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
         }
 
         private void OnPersonalizedAdsOnButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = false;
             playerModel.personalisedAdsEnabled = false;
             RefreshPersonalisedAdsToggleButtons();
-            SetConsent();
+            adsService.CollectSensitiveData(false);
             hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");
-        }
-
-        private void SetConsent()
-        {
-            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         void OnRestorePurchaseButtonClicked()

@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-using HUFEXT.GenericGDPR.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {

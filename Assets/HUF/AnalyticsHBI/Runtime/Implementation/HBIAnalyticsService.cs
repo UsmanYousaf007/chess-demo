@@ -4,6 +4,8 @@ using System.Threading;
 using HUF.Analytics.Runtime.API;
 using HUF.Analytics.Runtime.Implementation;
 using HUF.AnalyticsHBI.Runtime.API;
+using HUF.PolicyGuard.Runtime.API;
+using HUF.PolicyGuard.Runtime.Implementations;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
@@ -41,7 +43,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
             PauseManager.Instance.OnApplicationFocusChange += HandleApplicationFocus;
 #if UNITY_IOS
-            AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += status =>
+            HPolicyGuard.OnATTConsentChanged += status =>
             {
                 if ( status != AppTrackingTransparencyBridge.AuthorizationStatus.NotDetermined )
                     hbi.UpdateTrackingConsent();

@@ -1,3 +1,13 @@
+## [2.5.0] - 2021-02-17
+### Added
+- Function `bool? HasConsent()` to check if the ads consent is granted or set overall.
+- Function `bool CanChangeAdsConsent()` to check if the ads consent can be changed.
+
+### Changed
+- IMPORTANT! The Ads consent key was changed. All old users will need to accept the new ads policy one more time. In addition to this, there is a new flow related to teh ATT permissions.
+- Now function `HasPersonalizedAdConsent` is checking also the ATT permission on iOS. The ATT pop-up needs to be accepted to give the player the possibility to accept the Ads consent.
+
+
 ## [2.4.0] - 2021-01-25
 ### Added
 - Adding SkAdNetworks to the Info.plist file on iOS

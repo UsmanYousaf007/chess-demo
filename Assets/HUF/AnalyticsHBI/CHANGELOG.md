@@ -2,6 +2,10 @@
 HDS SDK Android v1.3.1
 HDS SDK iOS v1.3.1
 
+## [2.5.3] - 2021-02-18
+### Changed
+- Changed reference to the ATT class to the new Policy Guard package.
+
 
 ## [2.5.2] - 2021-02-03
 ### Fixed

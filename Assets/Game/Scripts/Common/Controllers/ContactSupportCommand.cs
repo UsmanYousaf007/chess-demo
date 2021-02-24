@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using HUF.AnalyticsHBI.Runtime.API;
-using HUFEXT.GenericGDPR.Runtime.API;
 using strange.extensions.command.impl;
 using UnityEngine;
 using UnityEngine.Networking;

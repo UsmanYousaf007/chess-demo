@@ -131,6 +131,20 @@ namespace HUFEXT.PackageManager.Editor.Models
             File.WriteAllText( file, EditorJsonUtility.ToJson( config, true ) );
         }
 
+        public bool TryGetChangelog(out string changelog)
+        {
+            changelog = string.Empty;
+            var changelogPath = $"{huf.path}/CHANGELOG.md";
+
+            if ( File.Exists( changelogPath ) )
+            {
+                changelog = File.ReadAllText( changelogPath );
+                return true;
+            }
+
+            return false;
+        }
+
         public PackageManifest LatestPackageVersion()
         {
             var latestPackage = Core.Packages.Remote.Find( package => package.name == name );

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace HUFEXT.PackageManager.Editor.Views
     public class PackageManagerWindow : EditorWindow, IHasCustomMenu
     {
         readonly List<PackageManagerView> views = new List<PackageManagerView>();
+        readonly Regex changelogVersionStartsWithRegex = new Regex( @"^##[\[ ]" );
+        readonly Regex findVersionInChangelogRegex = new Regex( @"\[\d*[.]\d*[.]\d*\]" );
 
         static bool isDirty = false;
 
@@ -106,7 +109,8 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 queue.events = new List<Models.PackageManagerViewEvent>();
             }
-            if(!Core.Packages.Installing)
+
+            if ( !Core.Packages.Installing )
                 UpdatePackagesInTheBackground();
         }
 
@@ -286,18 +290,12 @@ namespace HUFEXT.PackageManager.Editor.Views
                 }
                 case Models.EventType.GenerateReportHUF:
                 {
-                    var builder = new StringBuilder();
-
-                    foreach ( var package in Core.Packages.Local )
-                    {
-                        builder.Append( $"{package.displayName} {package.version}\n" );
-                    }
-
-                    GUIUtility.systemCopyBuffer = builder.ToString();
-
-                    Debug.Log(
-                        $"HUF Packages installed in {PlayerSettings.applicationIdentifier}: \n{GUIUtility.systemCopyBuffer}" );
-                    currentEvent.completed = true;
+                    GenerateHUFReport( false );
+                    break;
+                }
+                case Models.EventType.GenerateReportSDKs:
+                {
+                    GenerateHUFReport( true );
                     break;
                 }
                 case Models.EventType.GenerateReportFull:
@@ -508,6 +506,49 @@ namespace HUFEXT.PackageManager.Editor.Views
                     currentEvent.completed = true;
                     break;
                 }
+            }
+        }
+
+        void GenerateHUFReport( bool withSDKs )
+        {
+            var builder = new StringBuilder();
+
+            foreach ( var package in Core.Packages.Local )
+            {
+                builder.Append( $"{package.displayName} {package.version}\n" );
+
+                if ( withSDKs )
+                {
+                    if ( package.TryGetChangelog( out string changelog ) )
+                    {
+                        var lines = changelog.Split( '\n' );
+
+                        for ( int i = 0; i < lines.Length; i++ )
+                        {
+                            var line = lines[i];
+
+                            if ( changelogVersionStartsWithRegex.IsMatch( line ) &&
+                                 findVersionInChangelogRegex.IsMatch( line ) )
+                                break;
+
+                            line = line.Trim();
+                            line = Regex.Replace( line, "^-", "" ).Trim();
+
+                            if ( line.Length > 0 )
+                            {
+                                if ( line.StartsWith( "#" ) || line.StartsWith( "*" ) )
+                                    builder.Append( "\t" );
+                                builder.Append( $"\t{line}\n" );
+                            }
+                        }
+                    }
+                }
+
+                GUIUtility.systemCopyBuffer = builder.ToString();
+
+                Debug.Log(
+                    $"HUF Packages installed in {PlayerSettings.applicationIdentifier}: \n{GUIUtility.systemCopyBuffer}" );
+                currentEvent.completed = true;
             }
         }
     }

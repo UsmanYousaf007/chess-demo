@@ -118,6 +118,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 RegisterMenuItem( ref menu, "Update packages...", Models.EventType.ShowUpdateWindow );
                 menu.AddSeparator( string.Empty );
                 RegisterMenuItem( ref menu, "Generate report/Only HUF", Models.EventType.GenerateReportHUF );
+                RegisterMenuItem( ref menu, "Generate report/SDK Report", Models.EventType.GenerateReportSDKs );
                 RegisterMenuItem( ref menu, "Generate report/Full", Models.EventType.GenerateReportFull );
                 RegisterMenuItem( ref menu, "Help", Models.EventType.ContactSupport );
                 menu.AddSeparator( string.Empty );
