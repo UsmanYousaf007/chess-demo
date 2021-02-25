@@ -198,7 +198,7 @@ namespace TurboLabz.InstantGame
                 onClick = delegate
                 {
                     audioService.PlayStandardClick();
-                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.REMOVE_ADS_PACK, true);
+                    purchaseStoreItemSignal.Dispatch((promotionsService.IsSaleActive(GSBackendKeys.ShopItem.REMOVE_ADS_PACK) ? GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK : GSBackendKeys.ShopItem.REMOVE_ADS_PACK), true);
                     analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_remove_ads);
                 }
             };
