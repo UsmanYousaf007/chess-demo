@@ -122,6 +122,7 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             if (playerModel.gems >= storeItem.currency3Cost)
             {
+                powerPlayOnBtn.interactable = false;
                 powerModeButtonClickedSignal.Dispatch();
             }
             else
@@ -140,7 +141,6 @@ namespace TurboLabz.InstantFramework
             gemCost.text = storeItem.currency3Cost.ToString();
             powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
-            powerPlayOnBtn.interactable = !powerModeEnabled;
         }
 
         public void OnEnablePowerMode()
