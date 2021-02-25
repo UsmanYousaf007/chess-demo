@@ -105,6 +105,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                 {
                     HAds.CollectSensitiveData( consent );
                     OnPersonalizedAdsPopupCloses.Dispatch( consent );
+                    CheckFlow();
                 } ) );
             return true;
         }

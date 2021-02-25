@@ -26,12 +26,12 @@ public class SplashLoader : MonoBehaviour {
 
     void OnEnable()
     {
-        HPolicyGuard.OnPersonalizedAdsPopupClosed += OnPolicyAccepted;
+        HPolicyGuard.OnEndCheckingPolicy += OnPolicyAccepted;
     }
 
     void OnDisable()
     {
-        HPolicyGuard.OnPersonalizedAdsPopupClosed -= OnPolicyAccepted;
+        HPolicyGuard.OnEndCheckingPolicy -= OnPolicyAccepted;
     }
 
     void Start() 
@@ -47,7 +47,7 @@ public class SplashLoader : MonoBehaviour {
         }
     }
 
-    void OnPolicyAccepted(bool value)
+    void OnPolicyAccepted()
     {
         LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
         RunInitPipiline();
