@@ -29,15 +29,14 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
         void OnPackageManifestDownloaded( Core.WebResponse response )
         {
-            Utils.Common.ShowDownloadProgress( $"manifest for {packageName}", 0.5f );
-
-            if ( response.status == Core.RequestStatus.Failure )
+            if ( response.status != Core.RequestStatus.Success )
             {
                 Complete( false, $"Unable to download manifest for {packageName}. Response is failure." );
                 EditorUtility.ClearProgressBar();
                 return;
             }
 
+            Utils.Common.ShowDownloadProgress( $"manifest for {packageName}", 0.5f );
             manifest = Models.PackageManifest.ParseManifest( response.text, true );
             manifest.huf.status = Models.PackageStatus.NotInstalled;
             manifest.huf.config.latestVersion = version;
@@ -54,7 +53,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
         void OnPackageConfigDownloaded( Core.WebResponse response )
         {
-            if ( response.status == Core.RequestStatus.Failure )
+            if ( response.status != Core.RequestStatus.Success )
             {
                 Complete( false, $"Unable to download config for {packageName}. Response is failure." );
                 EditorUtility.ClearProgressBar();

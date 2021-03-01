@@ -43,7 +43,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
                 {
                     fetchesFinished++;
 
-                    if ( response.status == Core.RequestStatus.Failure )
+                    if ( response.status != Core.RequestStatus.Success )
                     {
                         Utils.Common.Log( $"Unable to fetch {package.name} version from {channel} on {scope}." );
                         return;

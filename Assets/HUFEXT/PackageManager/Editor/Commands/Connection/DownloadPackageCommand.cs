@@ -85,9 +85,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
             var request = new Core.Request( route,
                 ( response ) =>
                 {
-                    if ( response.status == Core.RequestStatus.Failure )
+                    if ( response.status != Core.RequestStatus.Success )
                     {
-                        Complete( false, $"Unable to  download package {packageName}." );
+                        Complete( false, $"Unable to download package {packageName}." );
                         EditorUtility.ClearProgressBar();
                         return;
                     }
@@ -103,8 +103,15 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
         void DownloadPackage( string name, string url )
         {
             var request = new Core.Request( url,
-                ( packageResponse ) =>
+                ( response ) =>
                 {
+                    if ( response.status != Core.RequestStatus.Success )
+                    {
+                        Complete( false, $"Unable to download package {packageName}." );
+                        EditorUtility.ClearProgressBar();
+                        return;
+                    }
+                    
                     if ( !Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
                     {
                         Directory.CreateDirectory( Models.Keys.CACHE_DIRECTORY );
@@ -112,7 +119,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
                     var filePath = Path.Combine( Models.Keys.CACHE_DIRECTORY,
                         $"{name}{Models.Keys.Filesystem.UNITY_PACKAGE_EXTENSION}" );
-                    File.WriteAllBytes( filePath, packageResponse.bytes );
+                    File.WriteAllBytes( filePath, response.bytes );
                     Complete( File.Exists( filePath ) );
                     EditorUtility.ClearProgressBar();
                 } );

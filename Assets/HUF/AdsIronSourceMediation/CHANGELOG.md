@@ -79,6 +79,11 @@
 - Vungle Ads SDK (iOS) v6.9.1
 
 
+## [2.7.2] - 2021-02-17
+### Added
+- Set Facebook SetAndTrackAdsConsent on service initialization - on hold
+
+
 ## [2.7.1] - 2021-02-10
 ### Updated
 - IronSource v7.1.0.2
@@ -102,6 +107,7 @@
 
 
 ## [2.6.3] - 2020-12-30
+### Fixed
 - Fixed some warnings appearing during import and usage of the package
 
 

@@ -3,7 +3,22 @@
 - AppsFlyer Unity Plugin - v6.1.4
   - Android AppsFlyer SDK v6.1.3
   - iOS AppsFlyer SDK v6.1.3
+
+
+## [2.5.4] - 2020-02-23
+## Added
+- Automated fixing of AppsFlyerAppController.mm
+
+
+## [2.5.3] - 2020-02-22
+## Fixed
+- Wrong using in AppsFlyerPostprocessBuild
+
   
+## [2.5.2] - 2020-02-19
+## Fixed
+- Compatibility issues with FB 9.0
+
 
 ## [2.5.1] - 2020-02-15
 ## Fixed

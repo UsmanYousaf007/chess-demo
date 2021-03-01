@@ -67,7 +67,8 @@
                 internal const string BUTTON = "Proceed";
                 internal const string VALIDATE = "Validating...";
                 internal const string ERROR_TITLE = "Error...";
-                internal const string ERROR_DESC = "You must accept our license and enter valid credentials.";
+                internal const string VALIDATION_ERROR_DESC = "You must accept our license and enter valid credentials.";
+                internal const string CONNECTION_ERROR_DESC = "Could not connect to the server.";
                 internal const string ERROR_BUTTON = "OK";
             }
 

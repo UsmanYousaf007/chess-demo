@@ -1,6 +1,17 @@
+## [3.8.5] - 2021-02-25
+### Fixed
+- Added missing reference to DisablingAlwaysEmbedSwiftStandardLibrariesiOS
+
+
+## [3.8.4] - 2021-02-17
+### Fixed
+- Swift library errors and warnings when uploading to App Store
+
+
 ## [3.8.3] - 2021-02-17
 ### Fixed
 - AAB build support string fixed
+
 
 ## [3.8.2] - 2021-02-17
 ### Fixed

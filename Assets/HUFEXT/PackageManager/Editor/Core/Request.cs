@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Net;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -8,9 +9,10 @@ namespace HUFEXT.PackageManager.Editor.Core
     public enum RequestStatus
     {
         Success,
-        Failure
+        Failure,
+        Unauthorized
     }
-    
+
     public class WebResponse
     {
         public RequestStatus status;
@@ -47,7 +49,7 @@ namespace HUFEXT.PackageManager.Editor.Core
             request = Models.Token.CreateSignedRequest( route );
             callback = onComplete;
         }
-        
+
         public static RouteBuilder CreateRoute( string path ) => new RouteBuilder( path );
 
         public void Send()
@@ -65,32 +67,29 @@ namespace HUFEXT.PackageManager.Editor.Core
 
         void UpdateRequest()
         {
-            if ( request == null || request.isHttpError || request.isNetworkError )
+            if ( request == null )
             {
                 EditorApplication.update -= UpdateRequest;
+
                 callback?.Invoke( new WebResponse()
                 {
-                    status = RequestStatus.Failure,
-                    bytes = request?.downloadHandler.data,
-                    text = request?.downloadHandler.text
-                });
-                request?.Dispose();
+                    status = RequestStatus.Failure
+                } );
                 return;
             }
-            
-            if ( request != null && !request.isDone )
+
+            if ( !request.isDone )
             {
                 return;
             }
-            
+
             callback?.Invoke( new WebResponse()
             {
-                status = request.isHttpError || request.isNetworkError ? RequestStatus.Failure : RequestStatus.Success,
-                bytes = request?.downloadHandler.data,
-                text = request?.downloadHandler.text
-            });
-
-            request?.Dispose();
+                status = request.isHttpError || request.isNetworkError ? (request.responseCode == (int)HttpStatusCode.Forbidden ? RequestStatus.Unauthorized :  RequestStatus.Failure) : RequestStatus.Success,
+                bytes = request.downloadHandler.data,
+                text = request.downloadHandler.text
+            } );
+            request.Dispose();
             EditorApplication.update -= UpdateRequest;
         }
     }

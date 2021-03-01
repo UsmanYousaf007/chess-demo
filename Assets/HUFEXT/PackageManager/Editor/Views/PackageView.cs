@@ -17,7 +17,7 @@ namespace HUFEXT.PackageManager.Editor.Views
 
         readonly GUIStyle importantStyle = new GUIStyle()
         {
-            normal = {textColor = Color.red},
+            normal = { textColor = Color.red },
             margin = new RectOffset( 5, 5, 0, 2 ),
             fontStyle = FontStyle.Bold,
             wordWrap = true,
@@ -389,7 +389,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                         EditorGUILayout.Space();
                         DrawDetailsData( package );
                     }
-                    
+
                     if ( package.TryGetChangelog( out string changelog ) )
                     {
                         EditorGUILayout.Space();
@@ -431,7 +431,6 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 if ( package.IsInstalled || package.IsRepository )
                 {
-
                     if ( GUILayout.Button( new GUIContent( "Documentation" ), EditorStyles.miniButton ) )
                     {
                         try
@@ -514,23 +513,25 @@ namespace HUFEXT.PackageManager.Editor.Views
             string channel,
             Models.PackageManifest package )
         {
-            versions.Sort( ( v1, v2 ) => VersionComparer.Compare( v2.version, v1.version ) );
+            versions.Sort( ( v1, v2 ) => Utils.VersionComparer.Compare( v2.version, v1.version ) );
+            var versionSuffix = channel == Keys.Routing.STABLE_CHANNEL ? "" : $"-{channel}";
 
             foreach ( var version in versions )
             {
-                if ( channel == package.huf.channel &&
-                     Utils.VersionComparer.Compare( package.version, "=", version.version ) )
+                var versionWithSuffix = $"{version.version}{versionSuffix}";
+
+                if ( Utils.VersionComparer.Compare( package.version, "=", versionWithSuffix ) )
                 {
                     menu.AddDisabledItem( new GUIContent( $"{channel}/{version.version}" ),
-                        IsPackageCurrentlyInstalled( version.version ) );
+                        IsPackageCurrentlyInstalled( versionWithSuffix ) );
                 }
                 else
                 {
                     menu.AddItem( new GUIContent( $"{channel}/{version.version}" ),
-                        IsPackageCurrentlyInstalled( version.version ),
+                        IsPackageCurrentlyInstalled( versionWithSuffix ),
                         () =>
                         {
-                            if ( window.state.originalSelectedPackage.version == version.version )
+                            if ( window.state.originalSelectedPackage.version == versionWithSuffix )
                             {
                                 window.state.selectedPackage = window.state.originalSelectedPackage;
                                 window.state.selectedPackage.CheckIfCurrentUnitySupportsThisPackage();

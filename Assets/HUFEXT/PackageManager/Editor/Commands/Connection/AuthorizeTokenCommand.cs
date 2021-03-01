@@ -7,9 +7,9 @@
             var request = new Core.Request( Models.Keys.Routing.API.SCOPES,
                 ( response ) =>
                 {
-                    if ( response.status == Core.RequestStatus.Failure )
+                    if ( response.status != Core.RequestStatus.Success )
                     {
-                        Complete( false, "Validation failed. Response status is failure." );
+                        Complete( false, response.status.ToString() );
                         return;
                     }
 

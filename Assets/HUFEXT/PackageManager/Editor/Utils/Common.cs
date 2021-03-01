@@ -14,8 +14,11 @@ namespace HUFEXT.PackageManager.Editor.Utils
         const string COMMON = "Common";
         const string LOG_PREFIX = "<color=\"#E40521\"><b>[{0}]</b></color> <color=\"#c77700\"><b>{1}</b></color> {2}";
 
+        const string LOG_WARNING_PREFIX =
+            "<color=\"#c77700\"><b>[{0}]</b></color> <color=\"#c77700\"><b>{1}</b></color> {2}";
+
         const string LOG_ERROR_PREFIX =
-            "<color=\"#E40521\"><b>[{0}]</b></color> <color=\"#c77700\"><b>{1}</b></color>  <color=\"#ff2222\">{2}</color> ";
+            "<color=\"#E40521\"><b>[{0}]</b></color> <color=\"#c77700\"><b>{1}</b></color> <color=\"#ff2222\">{2}</color>";
 
         const string DOWNLOADING = "Downloading";
 
@@ -48,7 +51,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
 
         internal static string FromListToJson<T>( List<T> array )
         {
-            var wrapper = new Wrapper<T> {Items = array};
+            var wrapper = new Wrapper<T> { Items = array };
             return EditorJsonUtility.ToJson( wrapper );
         }
 
@@ -68,9 +71,20 @@ namespace HUFEXT.PackageManager.Editor.Utils
             }
         }
 
+        internal static void LogWarning( string message, string title = "" )
+        {
+            Debug.LogWarning( string.Format( LOG_WARNING_PREFIX,
+                HUF_PACKAGE_MANAGER,
+                title == string.Empty ? COMMON : title,
+                message ) );
+        }
+
         internal static void LogError( string message, string title = "" )
         {
-            Debug.LogError( string.Format( LOG_ERROR_PREFIX, HUF_PACKAGE_MANAGER, title == string.Empty ? COMMON : title, message ) );
+            Debug.LogError( string.Format( LOG_ERROR_PREFIX,
+                HUF_PACKAGE_MANAGER,
+                title == string.Empty ? COMMON : title,
+                message ) );
         }
 
         internal static void ShowDownloadProgress( string name, float progress = 0f )

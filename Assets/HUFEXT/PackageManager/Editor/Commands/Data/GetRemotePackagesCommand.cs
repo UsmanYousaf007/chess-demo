@@ -18,7 +18,11 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
                 {
                     if ( !result )
                     {
-                        Models.Token.Invalidate();
+                        if ( serializedData == Core.RequestStatus.Unauthorized.ToString() )
+                            Models.Token.Invalidate();
+                        else
+                            Utils.Common.LogWarning( "Unable to fetch the packages. Check the internet connection." );
+                        
                         Complete( false );
                     }
 
@@ -70,7 +74,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             var request = new Core.Request( route,
                 response =>
                 {
-                    if ( response.status == Core.RequestStatus.Failure )
+                    if ( response.status != Core.RequestStatus.Success )
                     {
                         Complete( false, $"Unable to fetch remote packages from {channelName}. Response is failure." );
                         return;

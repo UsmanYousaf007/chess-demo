@@ -1,3 +1,13 @@
+## [1.6.3] - 2021-02-25
+### Fixed
+- Internet connection issue causing log outs from HUF Package Manager
+
+
+## [1.6.2] - 2021-02-24
+### Fixed
+- Showing which version is currently selected in "Other versions" menu
+
+
 ## [1.6.1] - 2021-02-23
 ### Fixed
 - Infinite loop when downloading PolicyGuard package
