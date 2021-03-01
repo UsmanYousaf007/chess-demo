@@ -20,5 +20,6 @@ namespace TurboLabz.Chess
         ONLINE_3M,          // For online 3 m matches
         ONLINE_5M,          // For online 5 m matches
         ONLINE_10M,         // For online 10 m matches
+        ONLINE_30M,         // For online 30 m matches
     }
 }

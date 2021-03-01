@@ -102,6 +102,10 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_10M;
             }
+            else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThirtyMin)
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_30M;
+            }
             else
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
@@ -159,6 +163,12 @@ namespace TurboLabz.Multiplayer
             {
                 int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_10.Length - 1);
                 float[] delayRange = AiMoveTimes.M_10[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+            }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_30M)
+            {
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_30.Length - 1);
+                float[] delayRange = AiMoveTimes.M_30[index];
                 delay = Random.Range(delayRange[0], delayRange[1]);
             }
 
