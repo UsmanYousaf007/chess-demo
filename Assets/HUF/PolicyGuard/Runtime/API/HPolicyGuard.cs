@@ -125,6 +125,8 @@ namespace HUF.PolicyGuard.Runtime.API
             {
                 OnATTConsentChanged.Dispatch( status );
             };
+
+            service.OnATTNativePopupClose += status => { OnATTNativePopupClosed.Dispatch(status == AppTrackingTransparencyBridge.AuthorizationStatus.Authorized); };
 #endif
             HAds.OnPersonalizedAdsConsentChanged += status => { OnPersonalizedAdsConsentChanged.Dispatch( status ); };
 

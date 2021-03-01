@@ -115,11 +115,17 @@ namespace TurboLabz.InstantFramework
         //match end distribution
         match_end,
 
-        //FTUE funnel
+        //Drop Offs
         terms_and_conditions_shown,
         terms_and_conditions_accepted,
         gdpr,
         gdpr_player_interaction,
+        pre_permission,
+        pre_permission_interaction,
+        ATT_shown,
+        ATT_interaction,
+        drop_off_area_shown,
+        drop_off_area_interaction,
 
         //early inidicator
         install_game_count,
@@ -350,7 +356,11 @@ namespace TurboLabz.InstantFramework
         elite,
         lessons_pack,
         themes_pack,
-        annual_mega_sale
+        annual_mega_sale,
+
+        //drop offs
+        out_of_coins_pop_up,
+        out_of_coins_pop_up_closed
     }
 
     public enum AnalyticsParameter

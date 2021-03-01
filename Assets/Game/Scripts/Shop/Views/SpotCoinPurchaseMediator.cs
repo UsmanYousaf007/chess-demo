@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
             view.closeDlgSignal.AddListener(OnCloseDlgSignal);
             view.buyButtonClickedSignal.AddListener(OnBuySignal);
             view.watchAdButtonClickedSignal.AddListener(OnWatchAdSignal);
+            view.closeDlgWithAnalyticSignal.AddListener(OnCloseDlgWithAnalytic);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -72,6 +73,7 @@ namespace TurboLabz.InstantFramework
             this.adPlacement = adPlacement;
             view.UpdateAdDlg(storeItem, adsService.IsPersonalisedAdDlgShown());
             adView = true;
+            analyticsService.Event(AnalyticsEventId.drop_off_area_shown, AnalyticsContext.out_of_coins_pop_up);
         }
 
         [ListensTo(typeof(VirtualGoodBoughtSignal))]
@@ -106,9 +108,16 @@ namespace TurboLabz.InstantFramework
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
+        private void OnCloseDlgWithAnalytic()
+        {
+            OnCloseDlgSignal();
+            analyticsService.Event(AnalyticsEventId.drop_off_area_interaction, AnalyticsContext.out_of_coins_pop_up_closed);
+        }
+
         private void OnWatchAdSignal()
         {
             showRewardedAdSignal.Dispatch(adPlacement);
+            analyticsService.Event(AnalyticsEventId.drop_off_area_interaction, AnalyticsContext.out_of_coins_pop_up);
         }
 
         [ListensTo(typeof(RewardedVideoResultSignal))]
@@ -156,6 +165,8 @@ namespace TurboLabz.InstantFramework
                 SpotPurchaseMediator.analyticsContext = $"{storeItem.currency4Payout}_coins_pack_state_1";
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
             }
+
+            analyticsService.Event(AnalyticsEventId.drop_off_area_interaction, AnalyticsContext.out_of_coins_pop_up);
         }
 
         private void OnVirtualGoodTranscationCompleted(BackendResult res)

@@ -27,27 +27,16 @@ public class SplashLoader : MonoBehaviour {
         versionLabel.text = Application.version;
     }
 
-    void OnEnable()
-    {
-        HPolicyGuard.OnEndCheckingPolicy += OnPolicyAccepted;
-    }
-
-    void OnDisable()
-    {
-        HPolicyGuard.OnEndCheckingPolicy -= OnPolicyAccepted;
-    }
-
-    void Start() 
+    void Start()
     {
         if (HAnalytics.GetGDPRConsent() == null)
         {
-            SetupPolicyGuardConfig(true);
+            SetupPolicyGuardConfig(firstSession: true);
             HPolicyGuard.Initialize();
-            LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
         }
         else if (HPolicyGuard.GetPersonanlisedAdStatus() == false)
         {
-            SetupPolicyGuardConfig(false);
+            SetupPolicyGuardConfig(firstSession: false);
             HPolicyGuard.Initialize();
         }
         else
@@ -56,28 +45,9 @@ public class SplashLoader : MonoBehaviour {
         }
     }
 
-    void OnPolicyAccepted()
-    {
-        LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
-        RunInitPipiline();
-    }
-
     void RunInitPipiline()
     {
         HInitializationPipeline.RunPipeline();
-    }
-
-    void LogAnalytic(AnalyticsEventId evt)
-    {
-        GameAnalytics.NewDesignEvent(evt.ToString());
-
-#if UNITY_EDITOR
-        var prefix = "[EDITOR_ANALYTICS]";
-#else
-        var prefix = "[TLANALYTICS]";
-#endif
-
-        LogUtil.Log($"{prefix} {evt}", "yellow");
     }
 
     private static void OnRemoteConfigsUpdated()
@@ -97,5 +67,95 @@ public class SplashLoader : MonoBehaviour {
         config.ShowATTPreOptInPopup = !firstSession;
         config.ShowNativeATT = !firstSession;
         config.ShowAdsConsent = !firstSession;
+    }
+
+    void OnEnable()
+    {
+        HPolicyGuard.OnEndCheckingPolicy += RunInitPipiline;
+        HPolicyGuard.OnGDPRPopupShowed += OnTermsAndConditionShown;
+        HPolicyGuard.OnGDPRPopupClosed += OnTermsAndConditionClosed;
+        HPolicyGuard.OnPersonalizedAdsPopupShowed += OnGDPRShown;
+        HPolicyGuard.OnPersonalizedAdsPopupClosed += OnGDPRClosed;
+        HPolicyGuard.OnATTPopupShowed += OnPreATTShown;
+        HPolicyGuard.OnATTPopupClosed += OnPreATTClosed;
+        HPolicyGuard.OnATTNativePopupShowed += OnATTShown;
+        HPolicyGuard.OnATTNativePopupClosed += OnATTClosed;
+    }
+
+    void OnDisable()
+    {
+        HPolicyGuard.OnEndCheckingPolicy -= RunInitPipiline;
+        HPolicyGuard.OnGDPRPopupShowed -= OnTermsAndConditionShown;
+        HPolicyGuard.OnGDPRPopupClosed -= OnTermsAndConditionClosed;
+        HPolicyGuard.OnPersonalizedAdsPopupShowed -= OnGDPRShown;
+        HPolicyGuard.OnPersonalizedAdsPopupClosed -= OnGDPRClosed;
+        HPolicyGuard.OnATTPopupShowed -= OnPreATTShown;
+        HPolicyGuard.OnATTPopupClosed -= OnPreATTClosed;
+        HPolicyGuard.OnATTNativePopupShowed -= OnATTShown;
+        HPolicyGuard.OnATTNativePopupClosed -= OnATTClosed;
+    }
+
+    private void OnTermsAndConditionShown()
+    {
+        LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
+    }
+
+    private void OnTermsAndConditionClosed(bool status)
+    {
+        LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
+    }
+
+    private void OnGDPRShown()
+    {
+        LogAnalytic(AnalyticsEventId.gdpr);
+    }
+
+    private void OnGDPRClosed(bool status)
+    {
+        LogAnalytic(AnalyticsEventId.gdpr_player_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
+    }
+
+    private void OnPreATTShown()
+    {
+        LogAnalytic(AnalyticsEventId.pre_permission);
+    }
+
+    private void OnPreATTClosed(bool status)
+    {
+        LogAnalytic(AnalyticsEventId.pre_permission_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
+    }
+
+    private void OnATTShown()
+    {
+        LogAnalytic(AnalyticsEventId.ATT_shown);
+    }
+
+    private void OnATTClosed(bool status)
+    {
+        LogAnalytic(AnalyticsEventId.ATT_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
+    }
+
+    void LogAnalytic(AnalyticsEventId evt)
+    {
+        var evtStr = evt.ToString();
+        GameAnalytics.NewDesignEvent(evtStr);
+        PrintAnalytic(evtStr);
+    }
+
+    void LogAnalytic(AnalyticsEventId evt, AnalyticsContext context)
+    {
+        var evtStr = $"{evt}:{context}";
+        GameAnalytics.NewDesignEvent(evtStr);
+        PrintAnalytic(evtStr);
+    }
+
+    void PrintAnalytic(string evt)
+    {
+#if UNITY_EDITOR
+        var prefix = "[EDITOR_ANALYTICS]";
+#else
+        var prefix = "[TLANALYTICS]";
+#endif
+        LogUtil.Log($"{prefix} {evt}", "yellow");
     }
 }

@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
         public Signal watchAdButtonClickedSignal = new Signal();
         public Signal<StoreItem> buyButtonClickedSignal = new Signal<StoreItem>();
         public Signal collectButtonClickedSignal = new Signal();
+        public Signal closeDlgWithAnalyticSignal = new Signal();
 
         private StoreItem storeItem;
 
@@ -46,11 +47,11 @@ namespace TurboLabz.InstantFramework
             close.onClick.AddListener(OnCloseButtonClicked);
             showMoreButton.onClick.AddListener(() => ButtonClicked(true));
             showLessButton.onClick.AddListener(() => ButtonClicked(false));
-            closeButton2.onClick.AddListener(OnCloseButtonClicked);
+            closeButton2.onClick.AddListener(OnCloseButtonClickedWithAnalytic);
             buyCoinsButton.onClick.AddListener(OnBuyButtonClicked);
             watchAdButton.onClick.AddListener(OnWatchVideoButtonClicked);
             collectButton.onClick.AddListener(OnWatchVideoButtonClicked);
-            closeButton3.onClick.AddListener(OnCloseButtonClicked);
+            closeButton3.onClick.AddListener(OnCloseButtonClickedWithAnalytic);
         }
 
         public void Show()
@@ -135,6 +136,12 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             buyButtonClickedSignal.Dispatch(storeItem);
+        }
+
+        private void OnCloseButtonClickedWithAnalytic()
+        {
+            audioService.PlayStandardClick();
+            closeDlgWithAnalyticSignal.Dispatch();
         }
     }
 }
