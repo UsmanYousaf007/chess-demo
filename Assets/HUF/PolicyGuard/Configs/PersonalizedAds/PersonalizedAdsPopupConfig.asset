@@ -15,16 +15,16 @@ MonoBehaviour:
   configId: PreTrackingPopup
   showSecondaryButton: 1
   showTertiaryButton: 0
-  prefab: {fileID: 5462027509688631843, guid: 7f4b454aa8bde44d19d62bd92d14e04e, type: 3}
+  prefab: {fileID: 7627073330717264850, guid: 55d46a3ce7cd441458daef60ceb31f46, type: 3}
   showSchema: {fileID: 11400000, guid: b20451ca28e024174bf33ea95db90970, type: 2}
-  headerTranslation: Personalized Ads
-  contentTranslation: I hereby consent to the usage and disclosure of my personal
-    data (including device information and my preferences) to <link="https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list"><color=#CF000B><u>advertising
-    network companies</u></color></link> for the purpose of serving targeted advertisements
-    to me in the game. I understand that I can withdraw this consent at any time
-    within the game Settings, as also described in our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><u>Privacy
-    Policy</u></color></link>.
-  primaryButtonTranslation: OK
-  secondaryButtonTranslation: Later
+  headerTranslation: I understand that I can withdraw this consent at any time within
+    the game settings, as also described in our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><b><u>Privacy
+    Policy</u></b></color></link>.
+  contentTranslation: I consent to the usage and disclosure of my personal data (including
+    device information, advertsing ID and my preferences) to <link="https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list"><color=#COLOR#><b><u>advertising
+    network companies</u></b></color></link> for the purpose of serving tailored advertisements
+    to me in the game.
+  primaryButtonTranslation: Accept
+  secondaryButtonTranslation: Skip
   tertiaryButtonTranslation: 
-  linkColor: {r: 0.7607843, g: 0, b: 0, a: 1}
+  linkColor: {r: 1, g: 1, b: 1, a: 1}

@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7fb867432348628bf30b45b0e8d8af, type: 3}
   m_Name: GDPRPopupConfig
   m_EditorClassIdentifier: 
-  configId: PreTrackingPopup
+  configId: GDPRPopup
   showSecondaryButton: 0
   showTertiaryButton: 0
-  prefab: {fileID: 4733071214651278629, guid: 38d726ae0e85c4ded9bf2cb52d73d23a, type: 3}
+  prefab: {fileID: 7627073330717264850, guid: ccb2d39086719429c952f1336ece23eb, type: 3}
   showSchema: {fileID: 11400000, guid: 7cbb61f8bd17a44139c938c579dc9eb5, type: 2}
   headerTranslation: We care about your privacy
-  contentTranslation: By clicking OK, you agree to be bound by our <link="https://www.huuugegames.com/terms-of-use"><color=#COLOR#><u>Terms
-    of Use</u></color></link> and our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><u>Privacy
-    Policy</u></color></link>.
-  primaryButtonTranslation: OK
+  contentTranslation: By tapping Let's Play, I agree to the <link="https://www.huuugegames.com/terms-of-use"><color=#COLOR#><u>Terms
+    of Use</u></color></link> and our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><b><u>Privacy
+    Policy</u></b></color></link>.
+  primaryButtonTranslation: Let's Play
   secondaryButtonTranslation: 
   tertiaryButtonTranslation: 
-  linkColor: {r: 0.7607843, g: 0, b: 0, a: 1}
+  linkColor: {r: 1, g: 1, b: 1, a: 1}
