@@ -252,6 +252,7 @@ namespace TurboLabz.InstantFramework
 
         void SetupVideoIcon(bool available, bool unlocked)
         {
+            chestVideoIcon.enabled = adsService.IsPersonalisedAdDlgShown();
             chestVideoIcon.color = unlocked ? Colors.WHITE : Colors.DISABLED_WHITE;
             chestVideoIcon.sprite = available && unlocked ? videoAvailable : videoNotAvailable;
         }

@@ -74,6 +74,10 @@ namespace TurboLabz.InstantFramework
             {
                 retVal = false;
             }
+            else if (!adsService.IsPersonalisedAdDlgShown())
+            {
+                retVal = false;
+            }
             else if (!adsService.IsInterstitialAvailable(placementId))
             {
                 analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);

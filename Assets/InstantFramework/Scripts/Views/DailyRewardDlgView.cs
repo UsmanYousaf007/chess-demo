@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         [SerializeField] private Text _gemsText;
         [SerializeField] private RewardParticleEmitter _gemsFx;
         [SerializeField] private RewardParticleEmitter _coinsFx;
+        [SerializeField] private RectTransform background;
+        [SerializeField] private RectTransform layout;
 
         public Signal _collectBtnClickedSignal = new Signal();
         public Signal _collect2xBtnClickedSignal = new Signal();
@@ -88,7 +90,7 @@ namespace TurboLabz.InstantFramework
             //_animator.enabled = false;
         }
 
-        public void UpdateView(RewardDlgVO vo)
+        public void UpdateView(RewardDlgVO vo, bool hasConsent)
         {
             for (int j = 0; j < _rewardContainers.Length; j++)
             {
@@ -116,6 +118,10 @@ namespace TurboLabz.InstantFramework
                     }
                 }
             }
+
+            _collect2xBtn.gameObject.SetActive(hasConsent);
+            background.sizeDelta = new Vector2(background.sizeDelta.x, hasConsent ? 999.0f : 820.0f);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
         }
 
         private void PlaySimpleCollectAnimation()

@@ -12,6 +12,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -57,7 +58,7 @@ namespace TurboLabz.InstantFramework
         public void OnUpdate(RewardDlgVO vo)
         {
             _dailyRewardVO = vo;
-            view.UpdateView(vo);
+            view.UpdateView(vo, adsService.IsPersonalisedAdDlgShown());
         }
 
         public void OnCollectButtonClicked()

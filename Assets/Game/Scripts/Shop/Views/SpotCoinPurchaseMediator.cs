@@ -10,6 +10,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -69,7 +70,7 @@ namespace TurboLabz.InstantFramework
         {
             this.betValue = betValue;
             this.adPlacement = adPlacement;
-            view.UpdateAdDlg(storeItem);
+            view.UpdateAdDlg(storeItem, adsService.IsPersonalisedAdDlgShown());
             adView = true;
         }
 

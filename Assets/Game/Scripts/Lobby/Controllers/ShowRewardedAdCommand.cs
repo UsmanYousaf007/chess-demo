@@ -24,6 +24,12 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
+            if (!adsService.IsPersonalisedAdDlgShown())
+            {
+                OnVideoShown(AdsResult.FINISHED);
+                return;
+            }
+
             playerModel.adContext = CollectionsUtil.GetAdContextFromAdPlacement(adPlacement);
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
 

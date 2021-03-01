@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         public ShopCoinItemView[] packs;
         public GameObject normalDlg;
         public GameObject adDlg;
+        public GameObject collectDlg;
         public Button watchAdButton;
         public Button buyCoinsButton;
         public Text coinsText;
@@ -25,6 +26,8 @@ namespace TurboLabz.InstantFramework
         public Button closeButton2;
         public GameObject toolTip;
         public GameObject extraBadge;
+        public Button collectButton;
+        public Button closeButton3;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -34,6 +37,7 @@ namespace TurboLabz.InstantFramework
         public Signal closeDlgSignal = new Signal();
         public Signal watchAdButtonClickedSignal = new Signal();
         public Signal<StoreItem> buyButtonClickedSignal = new Signal<StoreItem>();
+        public Signal collectButtonClickedSignal = new Signal();
 
         private StoreItem storeItem;
 
@@ -45,6 +49,8 @@ namespace TurboLabz.InstantFramework
             closeButton2.onClick.AddListener(OnCloseButtonClicked);
             buyCoinsButton.onClick.AddListener(OnBuyButtonClicked);
             watchAdButton.onClick.AddListener(OnWatchVideoButtonClicked);
+            collectButton.onClick.AddListener(OnWatchVideoButtonClicked);
+            closeButton3.onClick.AddListener(OnCloseButtonClicked);
         }
 
         public void Show()
@@ -77,10 +83,11 @@ namespace TurboLabz.InstantFramework
             SetupLayout(false);
         }
 
-        public void UpdateAdDlg(StoreItem storeItem)
+        public void UpdateAdDlg(StoreItem storeItem, bool hasConsent)
         {
             normalDlg.SetActive(false);
-            adDlg.SetActive(true);
+            adDlg.SetActive(hasConsent);
+            collectDlg.SetActive(!hasConsent);
             buyCoinsButton.gameObject.SetActive(true);
             this.storeItem = storeItem;
             coinsText.text = storeItem.currency4Payout.ToString("N0");

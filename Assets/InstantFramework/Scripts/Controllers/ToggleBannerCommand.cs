@@ -39,7 +39,8 @@ namespace TurboLabz.InstantFramework
             var canShowBanner = enable &&
                 (currentState == typeof(NSMultiplayer) ||
                  currentState == typeof(NSCPU) ||
-                (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer)));
+                (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer))) &&
+                adsService.IsPersonalisedAdDlgShown();
 
             if (canShowBanner && adsSettingsModel.isBannerEnabled)
             {
