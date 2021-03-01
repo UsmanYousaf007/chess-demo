@@ -64,11 +64,12 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 86cd45f7e05fe49098db545f4e8a3c03, type: 3}
-    totalSpriteSurfaceArea: 5501807
+    totalSpriteSurfaceArea: 6182782
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 6aef1a702dc6f47bca2a3b8b2281fdd2, type: 3}
+  - {fileID: 21300000, guid: 6bc29953c7571487cae41415c092d140, type: 3}
   - {fileID: 21300000, guid: c99e1e54e684a4d60bbf017a681968b7, type: 3}
   - {fileID: 21300000, guid: f6f65cb4df6ca4f69bbce91fa9237fc3, type: 3}
   - {fileID: 21300000, guid: 48c0cb058a738487cba2781d42e656c7, type: 3}
@@ -82,12 +83,16 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0164b8ba817ea49a2acd2b0d48529093, type: 3}
   - {fileID: 21300000, guid: 80f657da7f0c84e8db3e4797948dabdb, type: 3}
   - {fileID: 21300000, guid: e767c53ba814a49c88e299a830e85cc1, type: 3}
+  - {fileID: 21300000, guid: cec7ee3b5926c4e9e8f478184af2943a, type: 3}
   - {fileID: 21300000, guid: 80ef8b6ba86a045fe8c4cd9e2bb3541d, type: 3}
+  - {fileID: 21300000, guid: 85bca4bcbda0e46898eb561d22db7f2a, type: 3}
   - {fileID: 21300000, guid: c5d6d7bd397d04417b838314ab040dbc, type: 3}
   - {fileID: 21300000, guid: 7b242fedb64184fefacb6635ad9c6544, type: 3}
+  - {fileID: 21300000, guid: a43cbffec9284407bb4a6264320702cb, type: 3}
   - {fileID: 21300000, guid: 6f1ce23f9c2404d9da0e2fc20964d09b, type: 3}
   m_PackedSpriteNamesToIndex:
   - cbg_logo_orig
+  - WelcomeTxt
   - GDPRTitleTxt
   - mid-graphic-splash
   - mid-graphic-skill
@@ -101,9 +106,12 @@ SpriteAtlas:
   - SIWAbutton
   - PrivacyTitleTxt
   - SplashBg
+  - TermsConditionsTxt
   - Chess Stars Logo
+  - WelcomeGraphicSplash
   - Huuuge_logo
   - GDPRGraphic
+  - PersonalizeExpTxt
   - Chess-stars-small
   m_Tag: NewUserFlow
   m_IsVariant: 0

@@ -187,16 +187,17 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(!playerModel.personalisedAdsEnabled);
-            personalisedAdsOnBtn.gameObject.SetActive(playerModel.personalisedAdsEnabled);
+            var personalisedAdsStatus = adsService.GetAdsConsent();
+            personalisedAdsOffBtn.gameObject.SetActive(!personalisedAdsStatus);
+            personalisedAdsOnBtn.gameObject.SetActive(personalisedAdsStatus);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
             playerModel.personalisedAdsEnabled = true;
+            adsService.CollectSensitiveData(true);
             RefreshPersonalisedAdsToggleButtons();
-            adsService.CollectSensitiveData(false);
             hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
         }
 
@@ -204,8 +205,8 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             playerModel.personalisedAdsEnabled = false;
-            RefreshPersonalisedAdsToggleButtons();
             adsService.CollectSensitiveData(false);
+            RefreshPersonalisedAdsToggleButtons();
             hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");
         }
 
@@ -293,7 +294,6 @@ namespace TurboLabz.InstantFramework
 
             autoConvertPawntoQueenOffBtn.gameObject.SetActive(!preferencesModel.autoPromotionToQueen);
             autoConvertPawntoQueenOnBtn.gameObject.SetActive(preferencesModel.autoPromotionToQueen);
-
         }
 
         public bool HasSettingsChanged()

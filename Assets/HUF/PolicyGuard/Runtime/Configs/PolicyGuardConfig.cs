@@ -28,10 +28,10 @@ namespace HUF.PolicyGuard.Runtime.Configs
             "AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PT,RO,SK,SI,ES,SE,GB,GF,GP,MQ,ME,YT,RE,MF,GI,AX,PM,GL,BL,SX,AW,CW,WF,PF,NC,TF,AI,BM,IO,VG,KY,FK,MS,PN,SH,GS,TC,AD,LI,MC,SM,VA,JE,GG,GI,CH,PL";
 
         [PublicAPI] public bool UseAutomatedFlow => useAutomatedFlow;
-        [PublicAPI] public bool ShowATTPreOptInPopup => showATTPreOptInPopup;
-        [PublicAPI] public bool ShowNativeATT => showNativeATT;
+        [PublicAPI] public bool ShowATTPreOptInPopup { get { return showATTPreOptInPopup; }  set { showATTPreOptInPopup = value; } }
+        [PublicAPI] public bool ShowNativeATT { get { return showNativeATT; }  set { showNativeATT = value; } }
         [PublicAPI] public bool ShowAdsPrivacyConsentInGDPRPopup => showAdsPrivacyConsentInGDPRPopup;
-        [PublicAPI] public bool ShowAdsConsent => showAdsConsent;
+        [PublicAPI] public bool ShowAdsConsent { get { return showAdsConsent; } set { showAdsConsent = value; } }
 
         [PublicAPI] public HGenericDialogConfig ReferenceToATTPreOptInPopup => referenceToATTPreOptInPopup;
         [PublicAPI] public HGenericDialogConfig ReferenceToGDPRWithAdsPopup => referenceToGDPRWithAdsPopup;

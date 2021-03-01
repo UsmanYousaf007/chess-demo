@@ -90,16 +90,17 @@ namespace TurboLabz.InstantFramework
 		{
 			if (result == BackendResult.SUCCESS)
 			{
-                if (playerModel.newUser)
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
-                    RemoveListeners();
-                    CommandEnd();
-                }
-                else
-                {
-                    GotoReception();
-                }
+                GotoReception();
+                //if (playerModel.newUser)
+                //{
+                //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                //    RemoveListeners();
+                //    CommandEnd();
+                //}
+                //else
+                //{
+                //    GotoReception();
+                //}
             }
             else if (result != BackendResult.CANCELED)
 			{

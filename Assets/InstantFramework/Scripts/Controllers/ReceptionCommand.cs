@@ -159,17 +159,17 @@ namespace TurboLabz.InstantFramework
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();
+            OnGDPROver();
 
-
-            if (playerModel.personalisedAdsRewardClaimed == 0)
-            {
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
-                gdprDlgClosedSignal.AddOnce(OnGDPROver);
-            }
-            else
-            {
-                OnGDPROver();
-            }
+            //if (playerModel.personalisedAdsRewardClaimed == 0)
+            //{
+            //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
+            //    gdprDlgClosedSignal.AddOnce(OnGDPROver);
+            //}
+            //else
+            //{
+            //    OnGDPROver();
+            //}
         }
 
         private void OnGDPROver()

@@ -20,5 +20,7 @@ namespace TurboLabz.InstantFramework
         void ShowTestSuite();
         bool IsInterstitialReady(AdPlacements placementId);
         bool IsInterstitialNotCapped();
+        bool GetAdsConsent();
+        bool IsPersonalisedAdDlgShown();
     }
 }

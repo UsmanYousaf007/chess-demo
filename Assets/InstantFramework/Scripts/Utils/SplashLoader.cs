@@ -6,11 +6,14 @@ using HUFEXT.ModuleStarter.Runtime.API;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
 using HUF.Analytics.Runtime.API;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.PolicyGuard.Runtime.Configs;
 
 public class SplashLoader : MonoBehaviour {
 
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
+    const string ATT_POSTPONED_KEY = "HUF_ATT_POSTPONED";
 
     void Awake()
     {
@@ -38,8 +41,14 @@ public class SplashLoader : MonoBehaviour {
     {
         if (HAnalytics.GetGDPRConsent() == null)
         {
+            SetupPolicyGuardConfig(true);
             HPolicyGuard.Initialize();
             LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
+        }
+        else if (HPolicyGuard.GetPersonanlisedAdStatus() == false)
+        {
+            SetupPolicyGuardConfig(false);
+            HPolicyGuard.Initialize();
         }
         else
         {
@@ -80,5 +89,13 @@ public class SplashLoader : MonoBehaviour {
         GameAnalytics.SetCustomDimension02(Settings.ABTest.PROMOTION_TEST_GROUP);
 
         LogUtil.Log($"GA test group {Settings.ABTest.PROMOTION_TEST_GROUP}", "red");
+    }
+
+    private void SetupPolicyGuardConfig(bool firstSession)
+    {
+        var config = HConfigs.GetConfig<PolicyGuardConfig>();
+        config.ShowATTPreOptInPopup = !firstSession;
+        config.ShowNativeATT = !firstSession;
+        config.ShowAdsConsent = !firstSession;
     }
 }

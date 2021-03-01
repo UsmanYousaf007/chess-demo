@@ -94,7 +94,7 @@ namespace TurboLabz.InstantFramework
             appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
             appData.clientVersion = appInfoModel.clientVersion;
             appData.isResume = isResume;
-            appData.playerSkillLevel = playerModel.skillLevel;
+            appData.playerSkillLevel = "default";// playerModel.skillLevel;
             appData.inProgress = cPUGameModel.inProgress;
             appData.hbiUserId = HAnalyticsHBI.UserId;
 

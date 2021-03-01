@@ -6,7 +6,7 @@ using HUF.Ads.Runtime.Implementation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
-
+using HUF.PolicyGuard.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
 
-            if(!preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
+            if (!preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
             {
                 appsFlyerService.TrackRichEvent("install_day_video_finished_" + preferencesModel.videoFinishedCount, videoEventData);
 
@@ -298,6 +298,17 @@ namespace TurboLabz.InstantFramework
         private void OnBannerFailed(IBannerCallbackData data)
         {
             analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.banner);
+        }
+
+        public bool GetAdsConsent()
+        {
+            var hasConsent = HAds.HasConsent();
+            return hasConsent.HasValue && hasConsent.Value;
+        }
+
+        public bool IsPersonalisedAdDlgShown()
+        {
+            return HPolicyGuard.GetPersonanlisedAdStatus();
         }
     }
 }

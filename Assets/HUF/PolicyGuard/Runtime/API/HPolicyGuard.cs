@@ -6,6 +6,7 @@ using HUF.PolicyGuard.Runtime.Implementations;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUF.Utils.Runtime.PlayerPrefs;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -265,6 +266,17 @@ namespace HUF.PolicyGuard.Runtime.API
             }
 
             return config;
+        }
+
+        public static bool GetPersonanlisedAdStatus()
+        {
+#if UNITY_ANDROID
+        return HAds.HasConsent() != null;
+#elif UNITY_IOS && !UNITY_EDITOR
+        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) && !WasATTPopupDisplayed();
+#elif UNITY_IOS && UNITY_EDITOR
+        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false);
+#endif
         }
     }
 }
