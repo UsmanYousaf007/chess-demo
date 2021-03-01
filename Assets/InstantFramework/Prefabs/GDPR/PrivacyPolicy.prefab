@@ -1142,7 +1142,7 @@ RectTransform:
   - {fileID: 2340909520450984188}
   - {fileID: 2380838353031148425}
   m_Father: {fileID: 6527891943991816217}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1359,6 +1359,7 @@ GameObject:
   - component: {fileID: 9177558530281530326}
   - component: {fileID: 2863075283308273791}
   - component: {fileID: 2082701630074857856}
+  - component: {fileID: 3907685874665725309}
   m_Layer: 5
   m_Name: Content Text
   m_TagString: Untagged
@@ -1378,12 +1379,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1666492972510304458}
-  m_Father: {fileID: 6704240566533508592}
+  m_Father: {fileID: 6527891943991816217}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 26}
+  m_AnchoredPosition: {x: 0, y: 507.55487}
   m_SizeDelta: {x: 558.5, y: 68.1}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2863075283308273791
@@ -1509,6 +1510,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3907685874665725309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4497951460254160706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484dcddc4c50e54b96cb5b75470fd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4530671692033834081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2161,9 +2174,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2878988537694885764}
+  - {fileID: 9177558530281530326}
   - {fileID: 6478112577963090314}
   m_Father: {fileID: 6704240566533508592}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2385,7 +2399,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2849218906561994573}
-  - {fileID: 9177558530281530326}
   - {fileID: 6527891943991816217}
   m_Father: {fileID: 6300214155691975289}
   m_RootOrder: 2
