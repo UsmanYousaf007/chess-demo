@@ -84,7 +84,6 @@ namespace HUF.PolicyGuard.Runtime.API
         [PublicAPI]
         public static event Action OnEndCheckingPolicy;
 
-
 #if UNITY_IOS
         /// <summary>
         /// Raised when the ATT consent changes.
@@ -98,7 +97,6 @@ namespace HUF.PolicyGuard.Runtime.API
         /// </summary>
         [PublicAPI]
         public static event Action<bool> OnPersonalizedAdsConsentChanged;
-
 
         /// <summary>
         /// Initialize Policy Guard Service and start checking policies if needed.
@@ -119,13 +117,17 @@ namespace HUF.PolicyGuard.Runtime.API
             service.OnATTPopupCloses += status => { OnATTPopupClosed.Dispatch( status ); };
             service.OnATTNativePopupShowed += () => { OnATTNativePopupShowed.Dispatch(); };
             service.OnEndCheckingPolicy += () => { OnEndCheckingPolicy.Dispatch(); };
-
             HAnalytics.OnCollectSensitiveDataSet += status => { OnAnalyticsConsentChanged.Dispatch( status ); };
             HAds.OnCollectSensitiveDataSet += status => { OnAdsConsentChanged.Dispatch( status ); };
 #if UNITY_IOS
-            AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += status => { OnATTConsentChanged.Dispatch( status ); };
+            AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += status =>
+            {
+                OnATTConsentChanged.Dispatch( status );
+            };
 #endif
             HAds.OnPersonalizedAdsConsentChanged += status => { OnPersonalizedAdsConsentChanged.Dispatch( status ); };
+
+            service.CheckFlow();
         }
 
         /// <summary>

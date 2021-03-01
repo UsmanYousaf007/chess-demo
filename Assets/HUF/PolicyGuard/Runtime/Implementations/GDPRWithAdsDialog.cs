@@ -1,4 +1,5 @@
 using System;
+using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -15,6 +16,12 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         /// </summary>
         [PublicAPI]
         public event Action<bool> OnAdsConsentSet;
+
+        protected override void HandlePrimaryButtonClick()
+        {
+            HAds.CollectSensitiveData( personalizedAdsToggle.isOn );
+            base.HandlePrimaryButtonClick();
+        }
 
         public override void Close()
         {

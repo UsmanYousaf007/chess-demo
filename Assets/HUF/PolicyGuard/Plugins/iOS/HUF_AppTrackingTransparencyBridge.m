@@ -6,7 +6,7 @@
 
 typedef void (*AuthorizationStatusCallback) ();
 void HUF_RequestTrackingPermission(AuthorizationStatusCallback callback);
-void HUF_CurrentTrackingPermissionStatus(AuthorizationStatusCallback callback);
+int HUF_CurrentPermissionStatus();
 
 static AuthorizationStatusCallback cachedCallback = NULL;
 
@@ -41,22 +41,22 @@ void HUF_RequestTrackingPermission(AuthorizationStatusCallback callback)
     }
 }
 
-void HUF_CurrentTrackingPermissionStatus(AuthorizationStatusCallback callback)
+int HUF_CurrentPermissionStatus()
 {
     #if __clang_major__ > 11
         if (@available(iOS 14, *))
         {
             int status = (int)[ATTrackingManager trackingAuthorizationStatus];
-            callback(status);
+            return status;
         }
     #endif
-    
+
     if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled])
     {
-        callback(3); // Authorized
+        return 3; // Authorized
     }
     else
     {
-        callback(2); // Denied
+        return 2; // Denied
     }
 }

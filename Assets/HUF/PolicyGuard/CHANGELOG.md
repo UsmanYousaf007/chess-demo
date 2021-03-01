@@ -1,3 +1,11 @@
+## [1.0.3] - 2021-02-25
+### Fixed
+- Prefabs compatible with Unity 2018.4.
+- Fixed personalized ads popup showing after the GDPR with ads.
+- Fixed showing pre-ATT if user set to never allow ATT permission.
+- Fixed event `OnEndCheckingPolicy` not called always.
+
+
 ## [1.0.2] - 2021-02-18
 ### Changed
 - Policy's flow, from now the GDPR is first.

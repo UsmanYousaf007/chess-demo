@@ -50,13 +50,36 @@ namespace HUF.PolicyGuard.Runtime.Implementations
             if ( HPolicyGuard.WasATTPopupDisplayed() )
                 AppTrackingTransparencyBridge.CheckAuthorizationStatus( );
 #endif
-            CheckFlow();
+        }
+
+        public void CheckFlow()
+        {
+            if ( !config.UseAutomatedFlow )
+                return;
+
+            if ( TryShowGDPR() )
+            {
+                return;
+            }
+
+            if ( !HPlayerPrefs.GetBool( ATT_POSTPONED_KEY ) && config.ShowNativeATT && TryShowATT() )
+            {
+                return;
+            }
+
+            if ( config.ShowAdsConsent && HAds.HasConsent() == null && TryShowPersonalizedAdsPopup() )
+            {
+                return;
+            }
+
+            OnEndCheckingPolicy.Dispatch();
         }
 
         public bool TryShowATT()
         {
 #if UNITY_IOS
-            if ( HPolicyGuard.WasATTPopupDisplayed() )
+            if ( HPolicyGuard.WasATTPopupDisplayed() ||
+                 AppTrackingTransparencyBridge.GetCurrentAuthorizationStatus() != AppTrackingTransparencyBridge.AuthorizationStatus.NotDetermined)
                 return false;
 
             if ( config.ShowATTPreOptInPopup )
@@ -152,29 +175,6 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         }
 #endif
 
-        void CheckFlow()
-        {
-            if ( !config.UseAutomatedFlow )
-                return;
-
-            if ( TryShowGDPR() )
-            {
-                return;
-            }
-
-            if ( !HPlayerPrefs.GetBool( ATT_POSTPONED_KEY ) && config.ShowNativeATT && TryShowATT() )
-            {
-                return;
-            }
-
-            if ( config.ShowAdsConsent && HAds.HasConsent() == null && TryShowPersonalizedAdsPopup() )
-            {
-                return;
-            }
-
-            OnEndCheckingPolicy.Dispatch();
-        }
-
         void ShowGDPRPopup()
         {
             if ( !HPolicyGuard.IsATTAuthorized() || !config.ShowAdsPrivacyConsentInGDPRPopup )
@@ -206,7 +206,6 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
             popup.OnAdsConsentSet += consent =>
             {
-                HAds.CollectSensitiveData( consent );
                 OnPersonalizedAdsPopupCloses.Dispatch( consent );
             };
         }

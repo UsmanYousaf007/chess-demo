@@ -10,18 +10,20 @@ using HUF.Utils.Runtime.UI.CanvasBlocker;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.iOS;
-
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
+
 #endif
 namespace HUF.PolicyGuard.Runtime.Implementations
 {
     public static class AppTrackingTransparencyBridge
     {
         const string REQUEST_KEY = "ATTRequest";
+#if UNITY_EDITOR
         const string LAST_ATT_STATUS_KEY = "HUFLastATTStatus";
+#endif
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(AppTrackingTransparencyBridge) );
         static AuthorizationStatus currentStatus = AuthorizationStatus.NotDetermined;
         static bool isTrackingFocus;
@@ -69,18 +71,16 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
         public static bool HasDoneInitialRequest => PlayerPrefs.HasKey( REQUEST_KEY );
 
-        public static AuthorizationStatus LastATTStatus => (AuthorizationStatus)HPlayerPrefs.GetInt( LAST_ATT_STATUS_KEY );
-
         public static bool IsATTAuthorized => IsIOSLowerThan14() ||
-                                              HasDoneInitialRequest && LastATTStatus == AuthorizationStatus.Authorized;
+                                              GetCurrentAuthorizationStatus() ==
+                                              AuthorizationStatus.Authorized;
 
-        public static void GetCurrentAuthorizationStatus( Action<AuthorizationStatus> callback = null )
+        public static AuthorizationStatus GetCurrentAuthorizationStatus()
         {
-            currentStatusCallback = callback;
 #if UNITY_EDITOR
-            callback.Dispatch( LastATTStatus );
+            return (AuthorizationStatus)HPlayerPrefs.GetInt( LAST_ATT_STATUS_KEY );
 #else
-            HUF_CurrentTrackingPermissionStatus( CurrentAuthorizationStatus );
+            return (AuthorizationStatus)HUF_CurrentPermissionStatus();
 #endif
         }
 
@@ -128,7 +128,9 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                     if ( currentStatus != status )
                     {
                         currentStatus = status;
+#if UNITY_EDITOR
                         HPlayerPrefs.SetInt( LAST_ATT_STATUS_KEY, (int)currentStatus );
+#endif
                         OnAuthorizationStatusChanged.Dispatch( status );
                     }
 
@@ -178,6 +180,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                 : (int)AuthorizationStatus.Denied;
             ReceiveAuthorizationStatus( status );
         }
+
 #if UNITY_EDITOR
         [PostProcessBuild( 1 )]
         static void OnPostProcessBuild( BuildTarget target, string path )
@@ -192,7 +195,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
             var targetGuid = project.GetUnityFrameworkTargetGuid();
 #else
             string targetName = PBXProject.GetUnityTargetName();
-            var targetGuid = project.TargetGuidByName(targetName);
+            var targetGuid = project.TargetGuidByName( targetName );
 #endif
             project.AddFrameworkToProject( targetGuid, "AdSupport.framework", false );
 #if !XCODE_11
@@ -220,7 +223,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
         [UsedImplicitly]
         [System.Runtime.InteropServices.DllImport( "__Internal" )]
-        static extern void HUF_CurrentTrackingPermissionStatus( AuthorizationStatusCallback callback );
+        static extern int HUF_CurrentPermissionStatus();
     }
 }
 #endif
