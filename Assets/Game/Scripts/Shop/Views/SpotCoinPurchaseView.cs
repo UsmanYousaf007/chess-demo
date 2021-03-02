@@ -68,6 +68,7 @@ namespace TurboLabz.InstantFramework
         {
             normalDlg.SetActive(true);
             adDlg.SetActive(false);
+            collectDlg.SetActive(false);
             buyCoinsButton.gameObject.SetActive(false);
 
             for (int i = 0; i < packs.Length; i++)
