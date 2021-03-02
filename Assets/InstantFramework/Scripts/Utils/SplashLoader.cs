@@ -13,7 +13,7 @@ public class SplashLoader : MonoBehaviour {
 
     public static int launchCode = 1; // 1 = normal launch, 2 = resume, 3 = already launched
     public Text versionLabel;
-    const string ATT_POSTPONED_KEY = "HUF_ATT_POSTPONED";
+    public GameObject ATT_BG;
 
     void Awake()
     {
@@ -127,11 +127,13 @@ public class SplashLoader : MonoBehaviour {
 
     private void OnATTShown()
     {
+        ATT_BG.SetActive(true);
         LogAnalytic(AnalyticsEventId.ATT_shown);
     }
 
     private void OnATTClosed(bool status)
     {
+        ATT_BG.SetActive(false);
         LogAnalytic(AnalyticsEventId.ATT_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
     }
 
