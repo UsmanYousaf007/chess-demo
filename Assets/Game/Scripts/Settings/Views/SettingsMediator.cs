@@ -96,12 +96,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnApplySettings()
         {
-            //if (view.HasSettingsChanged())
-            //{
-            //    updatePlayerDataSignal.Dispatch();
-            //}
-
-            //OnCloseDailogue();
+            
         }
     }
 }

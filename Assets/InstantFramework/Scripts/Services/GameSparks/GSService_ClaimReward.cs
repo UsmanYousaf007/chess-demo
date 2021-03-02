@@ -46,10 +46,7 @@ namespace TurboLabz.InstantFramework
                 {
                     GSData rewardData = data.GetGSData("reward");
                     var rewardQuantity = GSParser.GetSafeInt(rewardData, GSBackendKeys.PlayerDetails.GEMS);
-                    var personalisedAdsEnabled = GSParser.GetSafeBool(data, GSBackendKeys.PlayerDetails.PERSONALISED_ADS_ENABLED);
                     playerModel.gems += rewardQuantity;
-                    playerModel.personalisedAdsEnabled = personalisedAdsEnabled;
-                    playerModel.personalisedAdsRewardClaimed = 1;
                     analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, rewardQuantity, "new_player", "gdpr_accepted");
                 }
                 else

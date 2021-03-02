@@ -60,9 +60,6 @@ namespace TurboLabz.InstantFramework
             appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
             appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
 
-            playerModel.personalisedAdsEnabled = GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.PlayerDetails.PERSONALISED_ADS_ENABLED);
-            playerModel.personalisedAdsRewardClaimed = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.PlayerDetails.PERSONALISED_ADS_REWARD_STATE);
-
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
 

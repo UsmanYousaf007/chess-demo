@@ -561,8 +561,6 @@ namespace TurboLabz.InstantFramework
             public const string LEAGUE = "league";
             public const string COINS = "coins";
             public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
-            public const string PERSONALISED_ADS_ENABLED = "personalisedAdsEnabled";
-            public const string PERSONALISED_ADS_REWARD_STATE = "personalisedAdsRewardState";
             
         }
 
