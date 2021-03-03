@@ -8,6 +8,9 @@ using TurboLabz.TLUtils;
 using HUF.Analytics.Runtime.API;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.PolicyGuard.Runtime.Configs;
+using HUF.Ads.Runtime.API;
+using HUF.Utils.Runtime.PlayerPrefs;
+using HUF.PolicyGuard.Runtime.Implementations;
 
 public class SplashLoader : MonoBehaviour {
 
@@ -34,7 +37,7 @@ public class SplashLoader : MonoBehaviour {
             SetupPolicyGuardConfig(firstSession: true);
             HPolicyGuard.Initialize();
         }
-        else if (HPolicyGuard.GetPersonanlisedAdStatus() == false)
+        else if (CheckPersonalizedAdsStatus() == false)
         {
             SetupPolicyGuardConfig(firstSession: false);
             HPolicyGuard.Initialize();
@@ -159,5 +162,14 @@ public class SplashLoader : MonoBehaviour {
         var prefix = "[TLANALYTICS]";
 #endif
         LogUtil.Log($"{prefix} {evt}", "yellow");
+    }
+
+    bool CheckPersonalizedAdsStatus()
+    {
+#if UNITY_ANDROID
+        return HAds.HasConsent() != null;
+#elif UNITY_IOS
+        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) && !HPolicyGuard.WasATTPopupDisplayed();
+#endif
     }
 }
