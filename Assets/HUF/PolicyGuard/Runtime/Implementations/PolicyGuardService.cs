@@ -121,15 +121,23 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                 return false;
             }
 
+            ShowGenericDialog(config.ReferenceToPersonalizedAdsPopup,
+                delegate (bool consent)
+                {
+                    HAds.CollectSensitiveData(consent);
+                    OnPersonalizedAdsPopupCloses.Dispatch(consent);
+                    CheckFlow();
+                });
+
             OnPersonalizedAdsPopupShowed.Dispatch();
 
-            CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToPersonalizedAdsPopup,
-                delegate( bool consent )
-                {
-                    HAds.CollectSensitiveData( consent );
-                    OnPersonalizedAdsPopupCloses.Dispatch( consent );
-                    CheckFlow();
-                } ) );
+            //CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToPersonalizedAdsPopup,
+            //    delegate( bool consent )
+            //    {
+            //        HAds.CollectSensitiveData( consent );
+            //        OnPersonalizedAdsPopupCloses.Dispatch( consent );
+            //        CheckFlow();
+            //    } ) );
             return true;
         }
 
