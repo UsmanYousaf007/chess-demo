@@ -7,6 +7,8 @@ using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
 using HUF.PolicyGuard.Runtime.API;
+using HUF.Utils.Runtime.PlayerPrefs;
+using HUF.PolicyGuard.Runtime.Implementations;
 
 namespace TurboLabz.InstantFramework
 {
@@ -308,7 +310,11 @@ namespace TurboLabz.InstantFramework
 
         public bool IsPersonalisedAdDlgShown()
         {
-            return HPolicyGuard.GetPersonanlisedAdStatus();
+#if UNITY_ANDROID
+            return HAds.HasConsent() != null;
+#elif UNITY_IOS
+            return HAds.HasConsent() != null || HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) || HPolicyGuard.WasATTPopupDisplayed();
+#endif
         }
     }
 }
