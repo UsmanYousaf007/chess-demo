@@ -22,7 +22,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
     public class PolicyGuardService
     {
         public const string ATT_POSTPONED_KEY = "HUF_ATT_POSTPONED";
-        const float SHOW_PREFAB_DELAY = 0.2f;
+        const float SHOW_PREFAB_DELAY = 0.0f; //old value 0.2f
 
         readonly WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime( SHOW_PREFAB_DELAY );
         readonly HLogPrefix logPrefix = new HLogPrefix( HPolicyGuard.logPrefix, nameof(PolicyGuardService) );
