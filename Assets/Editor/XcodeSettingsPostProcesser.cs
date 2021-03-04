@@ -23,7 +23,9 @@ public class XcodeSettingsPostProcesser
         proj.ReadFromString(File.ReadAllText(projPath));
 
         string target = proj.TargetGuidByName("Unity-iPhone");
-        string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+        //string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+        string targetGuid = proj.GetUnityFrameworkTargetGuid();
+
 
         //Required Frameworks
         proj.AddFrameworkToProject(target, "UserNotifications.framework", false);
@@ -123,7 +125,7 @@ public class XcodeSettingsPostProcesser
 
         //Adding Apple Sign-In Capability
 #if UNITY_IOS
-	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
+	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", proj.GetUnityFrameworkTargetGuid());
 	    ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
 	    projCapability.WriteToFile();
 #endif
