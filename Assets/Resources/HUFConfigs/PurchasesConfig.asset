@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d76325eac3444c8d79a2358978e9cd, type: 3}
+  m_Name: PurchasesConfig
+  m_EditorClassIdentifier: 
+  configId: PurchasesConfig
+  products: []
+  enableLocalVerification: 1
+  enableEncryption: 0
+  interruptedPaymentWaitTime: 5
+  refundWarningMessage: Refund service works only when local verification is enabled
+  enableRefundService: 1
+  blowFishSecurityKey: 
+  enableDownloadPriceConversion: 0
+  useInternalConversionServer: 1
+  conversionApiInternalServerURL: https://3cpy7uewck.execute-api.eu-west-1.amazonaws.com
+  forceDownloadOnBuy: 0
+  conversionDataCacheTime: 1440
+  downloadRequestTimeout: 10
+  conversionApiExternalServerURL: http://data.fixer.io
+  externalServerApiKey: API Key
+  enableHuuugeServerVerification: 1
+  forceProdHuuugeServerVerification: 0
+  huuugeIAPServerTokenDebug: Qi0YhU6ZgLD8x4ak5RA9G70HN70D3BJH
+  huuugeIAPServerTokenProduction: zqRugH75kYInY5CcHZEPZ54uB44J7dms
+  huuugeIAPServerURLDebug: https://sandbox.iap-verification.huuuge.net/api/v1/iap/subscriptions/gp
+  huuugeIAPServerURLProduction: https://iap-verification.huuuge.net/api/v1/iap/subscriptions/gp
+  huuugeIAPServerAttempts: 3
+  showDebugMenuInEditor: 1
+  editorDefaultPurchaseSuccess: 0
+  editorSubscriptionsAlwaysActive: 1
+  editorSubscriptionsAlwaysInTrialMode: 0
+  priceConversionCurrency: PLN
