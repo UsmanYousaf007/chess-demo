@@ -6,9 +6,12 @@ using HUF.Ads.Runtime.Implementation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
+
+#if UNITY_IOS
 using HUF.PolicyGuard.Runtime.API;
 using HUF.Utils.Runtime.PlayerPrefs;
 using HUF.PolicyGuard.Runtime.Implementations;
+#endif
 
 namespace TurboLabz.InstantFramework
 {

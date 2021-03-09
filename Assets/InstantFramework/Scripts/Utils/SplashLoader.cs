@@ -9,8 +9,13 @@ using HUF.Analytics.Runtime.API;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.PolicyGuard.Runtime.Configs;
 using HUF.Ads.Runtime.API;
+using HUF.Notifications.Runtime.API;
+using HUF.Notifications.Runtime.Data.Structs;
+
+#if UNITY_IOS
 using HUF.Utils.Runtime.PlayerPrefs;
 using HUF.PolicyGuard.Runtime.Implementations;
+#endif
 
 public class SplashLoader : MonoBehaviour {
 
@@ -83,6 +88,7 @@ public class SplashLoader : MonoBehaviour {
         HPolicyGuard.OnATTPopupClosed += OnPreATTClosed;
         HPolicyGuard.OnATTNativePopupShowed += OnATTShown;
         HPolicyGuard.OnATTNativePopupClosed += OnATTClosed;
+        HNotifications.Local.OnAskForPermissionComplete += OnAskForNotificationPermissionComplete;
     }
 
     void OnDisable()
@@ -96,6 +102,7 @@ public class SplashLoader : MonoBehaviour {
         HPolicyGuard.OnATTPopupClosed -= OnPreATTClosed;
         HPolicyGuard.OnATTNativePopupShowed -= OnATTShown;
         HPolicyGuard.OnATTNativePopupClosed -= OnATTClosed;
+        HNotifications.Local.OnAskForPermissionComplete -= OnAskForNotificationPermissionComplete;
     }
 
     private void OnTermsAndConditionShown()
@@ -138,6 +145,11 @@ public class SplashLoader : MonoBehaviour {
     {
         ATT_BG.SetActive(false);
         LogAnalytic(AnalyticsEventId.ATT_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
+    }
+
+    private void OnAskForNotificationPermissionComplete(ConsentStatus status)
+    {
+        LogAnalytic(AnalyticsEventId.notification_permission_dialogue, status == ConsentStatus.Granted ? AnalyticsContext.accepted : AnalyticsContext.rejected);
     }
 
     void LogAnalytic(AnalyticsEventId evt)

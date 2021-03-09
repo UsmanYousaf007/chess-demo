@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
         ATT_interaction,
         drop_off_area_shown,
         drop_off_area_interaction,
+        notification_permission_dialogue,
 
         //early inidicator
         install_game_count,
