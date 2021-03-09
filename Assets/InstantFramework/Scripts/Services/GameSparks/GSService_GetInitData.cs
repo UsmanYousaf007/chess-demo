@@ -917,13 +917,13 @@ namespace TurboLabz.InstantFramework
 
                             if (context != AnalyticsContext.unknown)
                             {
-                                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "refund", "default");
+                                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
                             }
                         }
 
                         if (storeItem.currency3Cost > 0)
                         {
-                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, "gems", storeItem.currency3Cost, "refund", "default");
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, "gems", storeItem.currency3Cost, "new_player", "default");
                         }
                     }
                 }
