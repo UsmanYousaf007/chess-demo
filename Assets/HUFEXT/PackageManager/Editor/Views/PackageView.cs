@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using HUFEXT.PackageManager.Editor.Commands.Data;
 using HUFEXT.PackageManager.Editor.Models;
 using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
@@ -114,45 +115,12 @@ namespace HUFEXT.PackageManager.Editor.Views
                 case Models.PackageStatus.GitError:
                     if ( GUILayout.Button( "Install Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        Core.Command.Enqueue( new Commands.Processing.PackageLockCommand()
-                        {
-                            data = Utils.Common.FromListToJson(
-                                package.huf.dependencies.Where( p => !p.Contains( ".huuuge." ) )
-                                    .Select( p => new Models.Dependency( p ) ).ToList() ),
-                            lastResult = true
-                        } );
-                        Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                        InstallUnityDependencies( new List<PackageManifest>() { package } );
                     }
 
                     if ( GUILayout.Button( "Install all Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
-                        var dependencies = new List<Dependency>();
-
-                        foreach ( var pack in Core.Packages.Local )
-                        {
-                            foreach ( var dependency in pack.huf.dependencies.Where( p => !p.Contains( ".huuuge." ) )
-                                .Select( p => new Models.Dependency( p ) ) )
-                            {
-                                var existingDependency = dependencies.FirstOrDefault( d => d.name == dependency.name );
-
-                                if ( existingDependency == null )
-                                {
-                                    dependencies.Add( dependency );
-                                }
-                                else if ( dependency.IsVersionHigherTo( existingDependency ) )
-                                {
-                                    dependencies.Remove( existingDependency );
-                                    dependencies.Add( dependency );
-                                }
-                            }
-                        }
-
-                        Core.Command.Enqueue( new Commands.Processing.PackageLockCommand()
-                        {
-                            data = Utils.Common.FromListToJson( dependencies ),
-                            lastResult = true
-                        } );
-                        Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                        InstallUnityDependencies( Core.Packages.Local );
                     }
 
                     break;
@@ -210,6 +178,60 @@ namespace HUFEXT.PackageManager.Editor.Views
 
                     break;
                 }
+            }
+
+            void InstallUnityDependencies( List<PackageManifest> packages )
+            {
+                var dependencies = new List<Dependency>();
+                var hadUnityDependency = false;
+
+                Core.Command.Execute( new GetUnityPackagesCommand
+                {
+                    OnComplete = ( unityPackagesResult, unityPackageSerializedData ) =>
+                    {
+                        var unityPackages = Core.Packages.Unity;
+
+                        foreach ( var pack in packages )
+                        {
+
+                            foreach ( var dependency in pack.huf.dependencies
+                                .Select( p => new Models.Dependency( p ) ).Where( d => !d.IsHufPackage ) )
+                            {
+                                hadUnityDependency = true;
+                                var existingDependency =
+                                    unityPackages.FirstOrDefault( d => d.name == dependency.name );
+
+                                if ( existingDependency == null )
+                                {
+                                    dependencies.Add( dependency );
+                                }
+                                else if ( dependency.IsVersionHigherTo( existingDependency ) )
+                                {
+                                    dependencies.Remove( existingDependency.ToDependency() );
+                                    dependencies.Add( dependency );
+                                }
+                            }
+                        }
+
+                        if ( !hadUnityDependency )
+                            Utils.Common.LogAlways(
+                                $"No Unity dependencies are needed for chosen package{( packages.Count == 1 ? string.Empty : "s" )}." );
+                        else if ( dependencies.Count == 0 )
+                            Utils.Common.LogAlways( "All needed Unity dependencies are installed." );
+                        else
+                        {
+                            var data = Utils.Common.FromListToJson( dependencies );
+                            Utils.Common.LogAlways( $"Installing Unity dependencies: {data}" );
+
+                            Core.Command.Enqueue( new Commands.Processing.PackageLockCommand()
+                            {
+                                data = data,
+                                lastResult = true
+                            } );
+                            Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
+                        }
+                    }
+                } );
             }
         }
 

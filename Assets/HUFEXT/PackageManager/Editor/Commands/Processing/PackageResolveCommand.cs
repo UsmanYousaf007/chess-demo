@@ -180,6 +180,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     didResolveSucceededCallback?.Invoke( false );
                     return;
                 }
+                
+                // Using at least minimum version when updating multiple packages
+                if ( useLatestVersion && !dependency.IsVersionHigherOrEqualTo( package.huf.config.minimumVersion ) )
+                    dependency.version = package.huf.config.minimumVersion;
 
                 // Install if the dependency is a higher version than installed.
                 if ( ( ( package.IsRepository || package.IsInstalled ) &&
@@ -190,12 +194,14 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     continue;
                 }
 
-                // Infinite loop protection.
-                if ( !AddToDependencies( dependency ) )
-                {
-                    DecreaseDependenciesLeft();
-                    continue;
-                }
+               
+
+                    // Infinite loop protection.
+                    if ( !AddToDependencies( dependency ) )
+                    {
+                        DecreaseDependenciesLeft();
+                        continue;
+                    }
 
                 //Check what version is available
                 FindDependencyVersionChannelAndScope( dependency,

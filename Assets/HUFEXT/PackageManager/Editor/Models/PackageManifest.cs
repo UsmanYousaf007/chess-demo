@@ -47,6 +47,13 @@ namespace HUFEXT.PackageManager.Editor.Models
         public class Author
         {
             public string name = "HUF Development Team";
+
+            public Author() { }
+
+            public Author( string name )
+            {
+                this.name = name;
+            }
         }
 
         [Serializable]
@@ -101,9 +108,8 @@ namespace HUFEXT.PackageManager.Editor.Models
         {
             get
             {
-                if(!checkedIfCurrentUnitySupportsThisPackage)
+                if ( !checkedIfCurrentUnitySupportsThisPackage )
                     CheckIfCurrentUnitySupportsThisPackage();
-
                 return supportsCurrentUnityVersion;
             }
         }
@@ -131,7 +137,7 @@ namespace HUFEXT.PackageManager.Editor.Models
             File.WriteAllText( file, EditorJsonUtility.ToJson( config, true ) );
         }
 
-        public bool TryGetChangelog(out string changelog)
+        public bool TryGetChangelog( out string changelog )
         {
             changelog = string.Empty;
             var changelogPath = $"{huf.path}/CHANGELOG.md";
@@ -157,6 +163,11 @@ namespace HUFEXT.PackageManager.Editor.Models
             }
             else
                 return latestPackage;
+        }
+
+        public Dependency ToDependency()
+        {
+            return new Dependency( name, version );
         }
 
         public void ParseVersion()

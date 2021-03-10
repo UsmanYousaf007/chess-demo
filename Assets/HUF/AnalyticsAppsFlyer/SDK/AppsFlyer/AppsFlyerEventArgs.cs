@@ -140,8 +140,7 @@ namespace AppsFlyerSDK
 
                 string status = "";
                 string error = "";
-                Dictionary<string, object> deepLink;
-                
+
                 if (dictionary.ContainsKey("status") && dictionary["status"] != null)
                 {
                     status = dictionary["status"].ToString();
@@ -154,7 +153,7 @@ namespace AppsFlyerSDK
                 
                 if (dictionary.ContainsKey("deepLink") && dictionary["deepLink"] != null)
                 {
-                    this.deepLink = AppsFlyer.CallbackStringToDictionary(dictionary["deepLink"].ToString());
+                    deepLink = AppsFlyer.CallbackStringToDictionary(dictionary["deepLink"].ToString());
                 }
                 
                 switch (status)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HUFEXT.PackageManager.Editor.Models;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -9,12 +10,17 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
 {
     public class GetUnityPackagesCommand : Core.Command.Base
     {
+        const string UNITY_TECHNOLOGIES = "Unity Technologies";
         readonly List<Models.PackageManifest> packages = new List<Models.PackageManifest>();
         UnityEditor.PackageManager.Requests.ListRequest unityPackagesRequest;
 
         public override void Execute()
         {
+#if UNITY_2019_1_OR_NEWER
+            unityPackagesRequest = UnityEditor.PackageManager.Client.List( false, true );
+#else
             unityPackagesRequest = UnityEditor.PackageManager.Client.List( false );
+#endif
             EditorApplication.update += WaitForUnityResponse;
         }
 
@@ -62,6 +68,10 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
         {
             foreach ( var unityPackage in collection )
             {
+                var authorName = string.IsNullOrEmpty( unityPackage.author.name )
+                    ? UNITY_TECHNOLOGIES
+                    : unityPackage.author.name;
+
                 var package = new PackageManifest
                 {
                     name = unityPackage.name,
@@ -73,7 +83,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
                         status = PackageStatus.Installed,
                         rollout = Models.Rollout.UNITY_LABEL,
                         isUnity = true,
-                    }
+                    },
+                    author = new PackageManifest.Author( authorName )
                 };
                 package.ParseVersion();
                 packages.Add( package );
