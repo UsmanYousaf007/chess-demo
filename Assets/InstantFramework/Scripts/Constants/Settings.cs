@@ -35,6 +35,9 @@ namespace TurboLabz.InstantFramework
 
             public static string PROMOTION_TEST_GROUP_DEFAULT = "C";
             public static string PROMOTION_TEST_GROUP = "C";
+
+            public static string COINS_TEST_GROUP_DEFAULT = "coins_A";
+            public static string COINS_TEST_GROUP = "coins_A";
         }
 
         // Tween settings for new user flow
