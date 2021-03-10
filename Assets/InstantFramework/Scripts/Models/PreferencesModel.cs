@@ -91,7 +91,7 @@ namespace TurboLabz.InstantGame
         public int gamesPlayedPerDay { get; set; }
         public bool isLeaderboardTooltipShown { get; set; }
         public bool FTUE { get; set; }
-        public int purchasesCount { get; set; }
+        public bool FTD { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -155,7 +155,7 @@ namespace TurboLabz.InstantGame
             freeDailyRatingBooster = FreePowerUpStatus.NOT_CONSUMED;
             isLeaderboardTooltipShown = false;
             FTUE = true;
-            purchasesCount = 0;
+            FTD = false;
         }
 
         private void LoadFromDisk()
@@ -488,9 +488,9 @@ namespace TurboLabz.InstantGame
                     FTUE = reader.Read<bool>(PrefKeys.FTUE);
                 }
 
-                if (reader.HasKey(PrefKeys.purchasesCount))
+                if (reader.HasKey(PrefKeys.FTD))
                 {
-                    purchasesCount = reader.Read<int>(PrefKeys.purchasesCount);
+                    FTD = reader.Read<bool>(PrefKeys.FTD);
                 }
 
                 var transactionKeys = dailyResourceManager.Keys.ToList();
@@ -599,7 +599,7 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.GAMES_PLAYED_PER_DAY, gamesPlayedPerDay);
                 writer.Write<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN, isLeaderboardTooltipShown);
                 writer.Write<bool>(PrefKeys.FTUE, FTUE);
-                writer.Write<int>(PrefKeys.purchasesCount, purchasesCount);
+                writer.Write<bool>(PrefKeys.FTD, FTD);
 
                 foreach (var transaction in dailyResourceManager)
                 {

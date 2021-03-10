@@ -188,12 +188,7 @@ namespace TurboLabz.InstantFramework
 
         //promotions
         promotion_dlg_shown,
-        promotion_dlg_purchased,
-
-        //payment stats
-        first_payment,
-        second_payment,
-        third_payment
+        promotion_dlg_purchased
     }
 
     public enum AnalyticsContext
