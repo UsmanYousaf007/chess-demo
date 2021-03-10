@@ -13,6 +13,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
+using TMPro;
 
 namespace TurboLabz.Multiplayer
 {
@@ -49,9 +50,11 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsBoostRatingToolTip;
         public Text resultsBoostRatingToolTipText;
         public Text resultsBoostRatingGemsCost;
+        public TMP_Text resultsBoostRatingText;
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
         public GameObject resultsBoostSheen;
+        public GameObject resultsBoostGlow;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -571,7 +574,9 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingGemIcon.color = color;
             resultsBoostRatingGemsCost.color = color;
             resultsBoostRatingIcon.color = color;
+            resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
+            resultsBoostGlow.SetActive(enable);
         }
 
         private void SetupRewardsDoublerButton(bool enable)

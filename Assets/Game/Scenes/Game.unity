@@ -957,9 +957,11 @@ MonoBehaviour:
   resultsBoostRatingToolTip: {fileID: 1024005139909254290}
   resultsBoostRatingToolTipText: {fileID: 1024005139909254289}
   resultsBoostRatingGemsCost: {fileID: 1024005139909254291}
+  resultsBoostRatingText: {fileID: 1024005139909254306}
   resultsBoostRatingIcon: {fileID: 1024005139909254293}
   resultsBoostRatingGemIcon: {fileID: 1024005139909254292}
   resultsBoostSheen: {fileID: 650793445}
+  resultsBoostGlow: {fileID: 1024005139909254305}
   resultsViewBoardButton: {fileID: 1024005139909254273}
   resultsViewBoardButtonLabel: {fileID: 1024005139909254272}
   viewBoardResultPanel: {fileID: 3350068405871205055}
@@ -121121,7 +121123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1024005139909254294 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4166733084036835134, guid: 91a22b3c6348040ba9fe46b345aca015,
+  m_CorrespondingSourceObject: {fileID: 7571036346515156330, guid: 91a22b3c6348040ba9fe46b345aca015,
     type: 3}
   m_PrefabInstance: {fileID: 1024005139909254269}
   m_PrefabAsset: {fileID: 0}
@@ -121237,6 +121239,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9a6d6393dcb848209791cc88c914a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1024005139909254305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2237629816216221567, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1024005139909254306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4476427318776496186, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1577020451322261212
