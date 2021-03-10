@@ -363,6 +363,9 @@ namespace TurboLabz.InstantFramework
         lessons_pack,
         themes_pack,
         annual_mega_sale,
+        subscription,
+        annual_sub,
+        monthly_sub,
 
         //drop offs
         out_of_coins_pop_up,

@@ -79,5 +79,15 @@ namespace TurboLabz.InstantFramework
                 loadPromotionSingal.Dispatch();
             }
         }
+
+        public void LogSubscriptionBannerPurchasedAnalytics(string key)
+        {
+            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition() && IsVisible())
+            {
+                var context = key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly_sub :
+                    key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.annual_sub : AnalyticsContext.annual_mega_sale;
+                analyticsService.Event(AnalyticsEventId.banner_purchased, context);
+            }
+        }
     }
 }

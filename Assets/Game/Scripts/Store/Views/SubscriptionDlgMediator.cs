@@ -72,6 +72,11 @@ public class SubscriptionDlgMediator : Mediator
             cameFromScreen = view.isOnSale ? AnalyticsContext.annual_mega_sale.ToString() : cameFromScreen; 
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
+
+            if (appInfoModel.isAutoSubscriptionDlgShown)
+            {
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, view.isOnSale ? AnalyticsContext.annual_mega_sale : AnalyticsContext.subscription);
+            }
         }
     }
 
@@ -126,6 +131,14 @@ public class SubscriptionDlgMediator : Mediator
         {
             analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "subscribe_button", analyticsFunnelId);
+
+            if (appInfoModel.isAutoSubscriptionDlgShown)
+            {
+                var context = item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly_sub :
+                    item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.annual_sub : AnalyticsContext.annual_mega_sale;
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, context);
+            }
+
             OnCloseDailogue();
         }
     }
