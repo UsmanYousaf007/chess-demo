@@ -99,11 +99,12 @@ namespace TurboLabz.Multiplayer
 
             if (vo.betValue > 0)
             {
-                var earnedCoins = vo.playerWins ? vo.betValue * 2 : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
+                var winnerCoins = vo.betValue * (Settings.ABTest.COINS_TEST_GROUP.Equals(Settings.ABTest.COINS_TEST_GROUP_DEFAULT) ? 2.0f : 1.5f);
+                var earnedCoins = vo.playerWins ? winnerCoins : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
 
                 if (earnedCoins > 0)
                 {
-                    cmd.playerModel.coins += earnedCoins;
+                    cmd.playerModel.coins += (long)earnedCoins;
                     cmd.updatePlayerInventorySignal.Dispatch(cmd.playerModel.GetPlayerInventory());
                     cmd.analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)earnedCoins, "championship_coins", earnedCoins == vo.betValue ? "bet_reversed" : "game_won");
                 }
