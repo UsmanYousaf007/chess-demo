@@ -199,7 +199,8 @@ namespace TurboLabz.Multiplayer
 
             if (!animationPlayed)
             {
-                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
+                var coinsRewarded = playerWins ? vo.betValue * (Settings.ABTest.COINS_TEST_GROUP.Equals(Settings.ABTest.COINS_TEST_GROUP_DEFAULT) ? 2.0f : 1.5f) : vo.betValue;
+                _winAnimationSequence.Reset((long)coinsRewarded, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
             }
 
             UpdateGameEndReasonSection(vo.reason);
