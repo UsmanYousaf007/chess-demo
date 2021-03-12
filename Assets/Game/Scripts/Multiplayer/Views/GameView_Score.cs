@@ -28,7 +28,7 @@ namespace TurboLabz.Multiplayer
             EmptyScores();
         }
 
-        public void UpdateScores(MoveVO moveVO)
+        public void UpdateScores(MoveVO moveVO, bool isResume)
         {
             SetAdvantage(playerScore, moveVO.playerScore);
             SetAdvantage(opponentScore, moveVO.opponentScore);

@@ -482,7 +482,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 348.5, y: 82}
+  m_SizeDelta: {x: 325.6, y: 82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6733083520917760154
 CanvasRenderer:
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.87058824}
+  m_Color: {r: 0, g: 0.16470589, b: 0.32941177, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -513,7 +513,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 2858f50c58f1a4aaaa54b8fdeac2e711, type: 3}
+    m_Font: {fileID: 12800000, guid: 47fb1eff2bb174e2884175876cc47911, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 1
@@ -525,7 +525,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Rating boosts are available for ranked games only
+  m_Text: Rating boosts are available for career games only
 --- !u!1 &856430821170142542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,7 +1872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.8999634, y: -16}
+  m_AnchoredPosition: {x: -1.8999634, y: 124.6}
   m_SizeDelta: {x: 370.9, y: 151.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2622083736074462681
