@@ -47,7 +47,6 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_SHOP_PURCHASE_ITEM,
                 sounds.SFX_TOOL_TIP,
                 sounds.SFX_REWARD_UNLOCKED,
-                sounds.SFX_CLOCK_WARNING,
                 sounds.SFX_EFFECT_SLAM,
                 sounds.SFX_EFFECT_CHEST_ACTIVATE,
                 sounds.SFX_EFFECT_CHEST_SPEW,
@@ -60,6 +59,7 @@ namespace TurboLabz.InstantFramework
 
             ConfigureAudioClips(
                 ".ogg",
+                sounds.SFX_CLOCK_WARNING,
                 sounds.SFX_EFFECT_COIN_SPREAD,
                 sounds.SFX_EFFECT_GEM_SPREAD
             );

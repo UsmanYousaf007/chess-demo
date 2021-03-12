@@ -25,6 +25,7 @@ namespace TurboLabz.CPU
         public GameObject specialHintPowerModeHints;
         public Text specialHintPowerModeHintsCount;
         public Image specialHintGemIcon;
+        public Text specialHintBubbleText;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -33,6 +34,8 @@ namespace TurboLabz.CPU
         private int hintsAllowedPerGame;
         private int hintCount;
         private int powerModeHints;
+        private bool specialHintBubbleShown;
+        private int specialHintBubbleAdvantageThreshold;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal notEnoughGemsSignal = new Signal();
@@ -52,6 +55,7 @@ namespace TurboLabz.CPU
             specialHintThinkinig.SetActive(false);
             specialHintView.Hide();
             specialHintToolTip.SetActive(false);
+            specialHintBubbleShown = false;
         }
 
         public void SetupSpecialHintButton(SpecialHintVO vo)
@@ -61,6 +65,7 @@ namespace TurboLabz.CPU
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             hintCount = vo.hintCount;
             powerModeHints = vo.powerModeHints;
+            specialHintBubbleAdvantageThreshold = vo.advantageThreshold;
             SetupSpecialHintButton();
             ToggleSpecialHintButton(vo.isPlayerTurn);
             specialHintTooltipText.text = $"*Only {hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
@@ -212,6 +217,16 @@ namespace TurboLabz.CPU
             specialHintThinkinig.SetActive(true);
             EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
             specialHintClickedSignal.Dispatch(vo);
+        }
+
+        private void ShowSpecialHintBubble(int opponentScore)
+        {
+            if (!specialHintBubbleShown && opponentScore >= specialHintBubbleAdvantageThreshold)
+            {
+                specialHintBubbleShown = true;
+                freeHintTooltip.SetActive(true);
+                specialHintBubbleText.text = "Stuck? Use a Hint";
+            }
         }
     }
 }

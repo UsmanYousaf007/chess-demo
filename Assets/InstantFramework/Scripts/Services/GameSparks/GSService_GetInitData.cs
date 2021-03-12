@@ -117,6 +117,9 @@ namespace TurboLabz.InstantFramework
             GSData freeHintSettingsData = response.ScriptData.GetGSData(GSBackendKeys.FREE_HINT_THRESHOLDS);
             ParseFreeHintSettings(freeHintSettingsData);
 
+            GSData matchCoinsMultiplyerData = response.ScriptData.GetGSData(GSBackendKeys.MATCH_COINS_MULTIPLYER);
+            FillMatchCoinsMultiplayerData(matchCoinsMultiplyerData);
+
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
                 SendDefaultItemsOwnedAnalytics();
@@ -896,6 +899,36 @@ namespace TurboLabz.InstantFramework
                         downloadablesModel.downloadableItems.Add(item.shortCode, item);
                     }
                 }
+            }
+        }
+
+        private void FillMatchCoinsMultiplayerData(GSData matchCoinsMultiplyerData)
+        {
+            if (matchCoinsMultiplyerData == null)
+            {
+                return;
+            }
+
+            if (settingsModel.matchCoinsMultiplayer == null)
+            {
+                settingsModel.matchCoinsMultiplayer = new Dictionary<string, float>();
+            }
+
+            UpdateMatchCoinsMultiplyerDictionary("coins_A", matchCoinsMultiplyerData, 2.0f);
+            UpdateMatchCoinsMultiplyerDictionary("coins_B", matchCoinsMultiplyerData, 1.5f);
+        }
+
+        private void UpdateMatchCoinsMultiplyerDictionary(string key, GSData matchCoinsMultiplyerData, float defaultValue = 2.0f)
+        {
+            var value = GSParser.GetSafeFloat(matchCoinsMultiplyerData, key, defaultValue);
+
+            if (settingsModel.matchCoinsMultiplayer.ContainsKey(key))
+            {
+                settingsModel.matchCoinsMultiplayer[key] = value;
+            }
+            else
+            {
+                settingsModel.matchCoinsMultiplayer.Add(key, value);
             }
         }
 

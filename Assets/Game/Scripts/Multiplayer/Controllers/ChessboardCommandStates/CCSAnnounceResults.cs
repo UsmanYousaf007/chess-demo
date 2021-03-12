@@ -35,6 +35,7 @@ namespace TurboLabz.Multiplayer
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
             vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
             vo.betValue = cmd.activeMatchInfo.betValue;
+            vo.coinsMultiplyer = cmd.metaDataModel.settingsModel.matchCoinsMultiplayer[Settings.ABTest.COINS_TEST_GROUP];
             vo.powerMode = cmd.activeMatchInfo.powerMode;
             vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
             vo.earnedStars = cmd.playerModel.leaguePromoted ? cmd.leaguesModel.GetLeagueInfo(cmd.playerModel.league - 1).winTrophies : cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;
@@ -99,7 +100,7 @@ namespace TurboLabz.Multiplayer
 
             if (vo.betValue > 0)
             {
-                var winnerCoins = vo.betValue * (Settings.ABTest.COINS_TEST_GROUP.Equals(Settings.ABTest.COINS_TEST_GROUP_DEFAULT) ? 2.0f : 1.5f);
+                var winnerCoins = vo.betValue * vo.coinsMultiplyer;
                 var earnedCoins = vo.playerWins ? winnerCoins : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
 
                 if (earnedCoins > 0)

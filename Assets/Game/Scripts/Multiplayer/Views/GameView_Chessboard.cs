@@ -290,6 +290,7 @@ namespace TurboLabz.Multiplayer
             ShowOpponentToIndicator(moveVO.toSquare);
             opponentAnimationInProgress = false;
             opponentMoveRenderComplete.Dispatch();
+            ShowSpecialHintBubble(moveVO.opponentScore);
         }
 
         private void HandleCastling(MoveVO moveVO)
@@ -607,7 +608,7 @@ namespace TurboLabz.Multiplayer
             UpdateKingCheckIndicator(vo, isResume);
 
             // Update the centipawn scores
-            UpdateScores(vo);
+            UpdateScores(vo, isResume);
 
             // Update the notation
             //UpdateNotation(vo);

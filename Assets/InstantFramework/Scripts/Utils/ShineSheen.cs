@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[System.CLSCompliant(false)]
 public class ShineSheen : MonoBehaviour
 {
     public Transform shine;
@@ -13,9 +14,15 @@ public class ShineSheen : MonoBehaviour
     public float displacementDuration;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         Animate();   
+    }
+
+    void OnDisable()
+    {;
+        shine.localPosition = new Vector3(-offset, shine.localPosition.y, shine.localPosition.z);
+        shine.DOKill();
     }
 
     private void Animate()
