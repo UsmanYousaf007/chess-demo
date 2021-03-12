@@ -536,7 +536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 106837139092908955}
   - component: {fileID: 4806914898302157332}
-  - component: {fileID: 4124856556360686113}
+  - component: {fileID: 5731860669004234262}
   m_Layer: 5
   m_Name: 'RatingBoosterButton '
   m_TagString: Untagged
@@ -573,22 +573,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856430821170142542}
   m_CullTransparentMesh: 0
---- !u!114 &4124856556360686113
+--- !u!114 &5731860669004234262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856430821170142542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353bcc5b965bf413194dcdfbdf9a5205, type: 3}
+  m_Script: {fileID: 11500000, guid: ab03844731ef54386a75e2725f8b6eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 1
-  upSpeedTime: 0.45
-  downSpeedTime: 0.7
-  displacement: {x: 0, y: 10, z: 0}
+  animate: 1
+  animationStartPoint: {x: 0, y: 0, z: 0}
+  animationEndPoint: {x: 0, y: 0, z: 0}
+  useDisplacement: 1
+  displacement: {x: 0, y: -15, z: 0}
+  autoDisable: 0
+  disableAfterSeconds: 0
 --- !u!1 &1067830445204360067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,7 +1481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 97.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3361045277199545386
@@ -1567,7 +1570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 811, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2335986271534156687
@@ -2800,7 +2803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 87.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5023766406299081458
@@ -3839,7 +3842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 174, y: 0}
   m_SizeDelta: {x: 0, y: 87.6}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6087475272924665727
@@ -4329,7 +4332,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 82, y: 0}
   m_SizeDelta: {x: 0, y: 87.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5747317114274248856
@@ -4566,7 +4569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 426, y: 0}
   m_SizeDelta: {x: 0, y: 78.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1610556038200839441
@@ -4976,7 +4979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 405.5, y: 0}
   m_SizeDelta: {x: 852, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4080265066365463790
@@ -6480,6 +6483,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1461937488201359285}
     m_Modifications:
+    - target: {fileID: 6899671575343990035, guid: 103b2062b102d4b05a0d03981b7bcd12,
+        type: 3}
+      propertyPath: m_Name
+      value: ChestIdleGlowsFx
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899671575343990035, guid: 103b2062b102d4b05a0d03981b7bcd12,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6899671575343990028, guid: 103b2062b102d4b05a0d03981b7bcd12,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6593,16 +6606,6 @@ PrefabInstance:
     - target: {fileID: 6899671575343990029, guid: 103b2062b102d4b05a0d03981b7bcd12,
         type: 3}
       propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899671575343990035, guid: 103b2062b102d4b05a0d03981b7bcd12,
-        type: 3}
-      propertyPath: m_Name
-      value: ChestIdleGlowsFx
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899671575343990035, guid: 103b2062b102d4b05a0d03981b7bcd12,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6899671575343990034, guid: 103b2062b102d4b05a0d03981b7bcd12,

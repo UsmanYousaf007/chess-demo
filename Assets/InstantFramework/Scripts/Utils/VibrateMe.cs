@@ -23,7 +23,7 @@ public class VibrateMe : MonoBehaviour {
     {
     }
 
-    public void Start()
+    public void Animate()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(startDelay);

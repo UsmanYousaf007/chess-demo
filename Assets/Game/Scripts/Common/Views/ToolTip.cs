@@ -5,6 +5,8 @@ public class ToolTip : MonoBehaviour
     public bool animate;
     public Vector3 animationStartPoint;
     public Vector3 animationEndPoint;
+    public bool useDisplacement;
+    public Vector3 displacement;
     public bool autoDisable;
     public float disableAfterSeconds;
 
@@ -17,27 +19,35 @@ public class ToolTip : MonoBehaviour
 
         if (animate)
         {
-            transform.localPosition = animationStartPoint;
+            if (useDisplacement)
+            {
+                iTween.MoveBy(gameObject,
+                    iTween.Hash(
+                        "amount", displacement,
+                        "time", 0.5f,
+                        "islocal", true,
+                        "looptype", iTween.LoopType.pingPong,
+                        "easetype", iTween.EaseType.easeOutCubic));
+            }
+            else
+            {
+                transform.localPosition = animationStartPoint;
 
-            iTween.MoveTo(gameObject,
-                iTween.Hash(
-                    "position",animationEndPoint,
-                    "time",0.5f,
-                    "islocal",true,
-                    "looptype",iTween.LoopType.pingPong,
-                    "easetype",iTween.EaseType.easeOutCubic));
+                iTween.MoveTo(gameObject,
+                    iTween.Hash(
+                        "position", animationEndPoint,
+                        "time", 0.5f,
+                        "islocal", true,
+                        "looptype", iTween.LoopType.pingPong,
+                        "easetype", iTween.EaseType.easeOutCubic));
+            }
         }
     }
 
     private void DisableMe()
     {
         CancelInvoke();
-
-        if (animate)
-        {
-            iTween.Stop(gameObject);
-        }
-
+        StopAnimation();
         gameObject.SetActive(false);
     }
 
@@ -46,5 +56,16 @@ public class ToolTip : MonoBehaviour
         DisableMe();
     }
 
-    
+    private void OnDisable()
+    {
+        StopAnimation();
+    }
+
+    private void StopAnimation()
+    {
+        if (animate)
+        {
+            iTween.Stop(gameObject);
+        }
+    }
 }

@@ -56,6 +56,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSpotInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
 
             return null;
         }

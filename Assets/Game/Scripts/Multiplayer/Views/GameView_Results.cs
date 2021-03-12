@@ -54,7 +54,7 @@ namespace TurboLabz.Multiplayer
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
         public GameObject resultsBoostSheen;
-        public GameObject resultsBoostRatingButtonGroup;
+        public ToolTip resultsBoostRatingButtonAnim;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -204,8 +204,8 @@ namespace TurboLabz.Multiplayer
             }
 
             UpdateGameEndReasonSection(vo.reason);
-            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection();
+            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             SetupResultsLayout();
             SetupBoostPrice();
             SetupRewardDoublerPrice();
@@ -523,14 +523,7 @@ namespace TurboLabz.Multiplayer
         private void OnResultsDeclinedButtonClicked()
         {
             audioService.PlayStandardClick();
-            if (isLongPlay)
-            {
-                backToLobbySignal.Dispatch();
-            }
-            else
-            {
-                backToLobbySignal.Dispatch();
-            }
+            backToLobbySignal.Dispatch();
         }
 
         private void OnResultsClosed()
@@ -577,16 +570,7 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingIcon.color = color;
             resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
-
-            VibrateMe vibrateMe = resultsBoostRatingButtonGroup.GetComponent<VibrateMe>();
-            if (enable == false)
-            {
-                vibrateMe.Stop();
-            }
-            else
-            {
-                vibrateMe.Start();
-            }
+            resultsBoostRatingButtonAnim.enabled = enable;
         }
 
         private void SetupRewardsDoublerButton(bool enable)
