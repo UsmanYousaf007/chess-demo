@@ -54,7 +54,7 @@ namespace TurboLabz.Multiplayer
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
         public GameObject resultsBoostSheen;
-        public GameObject resultsBoostGlow;
+        public GameObject resultsBoostRatingButtonGroup;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -577,7 +577,16 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingIcon.color = color;
             resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
-            resultsBoostGlow.SetActive(enable);
+
+            VibrateMe vibrateMe = resultsBoostRatingButtonGroup.GetComponent<VibrateMe>();
+            if (enable == false)
+            {
+                vibrateMe.Stop();
+            }
+            else
+            {
+                vibrateMe.Start();
+            }
         }
 
         private void SetupRewardsDoublerButton(bool enable)

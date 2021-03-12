@@ -17,8 +17,13 @@ public class VibrateMe : MonoBehaviour {
     private Vector3 LoLimits;
     private bool started = false;
     private bool sequenced = false;
+    private bool disabled;
 
     void Awake()
+    {
+    }
+
+    public void Start()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(startDelay);
@@ -26,16 +31,22 @@ public class VibrateMe : MonoBehaviour {
         sequence.PlayForward();
     }
 
+    public void Stop()
+    {
+        disabled = true;
+    }
+
     void FetchPosition()
     {
         UpLimits = transform.localPosition + displacement;
         LoLimits = transform.localPosition - displacement;
         started = true;
+        disabled = false;
     }
 
     void Update () 
     {
-        if (started == true & sequenced == false)
+        if (disabled == false && started == true && sequenced == false)
         {
             sequenced = true;
 
