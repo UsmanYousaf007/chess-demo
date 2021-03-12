@@ -42,6 +42,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesService downloadablesService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public override void OnRegister()
         {
@@ -92,6 +93,7 @@ namespace TurboLabz.InstantGame
 
         public void OnClickCloseProfilePicDialog()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
@@ -123,11 +125,13 @@ namespace TurboLabz.InstantGame
 
         void OnBackButtonClicked()
         {
+            audioService.PlayStandardClick();
             loadLobbySignal.Dispatch();
         }
 
         public void OnShareScreenClicked()
         {
+            audioService.PlayStandardClick();
             screenCaptureService.CaptureScreenShot(view.logo);
             OpenShareDialog();
         }
@@ -156,6 +160,7 @@ namespace TurboLabz.InstantGame
 
         void OnTakePhotoBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.take_new);
             if (photoPickerService.HasCameraPermission())
             {
@@ -171,6 +176,7 @@ namespace TurboLabz.InstantGame
 
         void OnChoosePhotoBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.choose_existing);
             if (photoPickerService.HasGalleryPermission())
             {
@@ -186,6 +192,7 @@ namespace TurboLabz.InstantGame
 
         void OnUploadProfilPicBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.dlg_shown);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHANGE_PHOTO_DLG);
             //view.OpenProfilePicDialog();

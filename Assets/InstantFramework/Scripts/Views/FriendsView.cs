@@ -252,16 +252,19 @@ namespace TurboLabz.InstantFramework
         #region InviteFriendDialog
         private void OnDefaultInviteFriendsButtonClicked()
         {
+            audioService.PlayStandardClick();
             inviteFriendDlg.SetActive(true);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVITE_DLG);
         }
         private void InviteFriendDialogCloseButtonClicked()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
         private void InviteFriendDialogButtonClicked()
         {
+            audioService.PlayStandardClick();
             inviteFriendSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
@@ -1211,6 +1214,7 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmNewGameDlgNo()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 

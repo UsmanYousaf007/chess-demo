@@ -1337,6 +1337,7 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmNewGameDlgNo()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
