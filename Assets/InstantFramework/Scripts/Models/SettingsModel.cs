@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         public List<long> bettingIncrements { get; set; }
         public List<float> defaultBetIncrementByGamesPlayed { get; set; }
+        public Dictionary<string, float> matchCoinsMultiplayer { get; set; }
 
         public int advantageThreshold { get; set; }
         public int purchasedHintsThreshold { get; set; }
@@ -72,6 +73,7 @@ namespace TurboLabz.InstantFramework
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
             bettingIncrements = new List<long>();
             defaultBetIncrementByGamesPlayed = new List<float>();
+            matchCoinsMultiplayer = new Dictionary<string, float>();
             advantageThreshold = 0;
             purchasedHintsThreshold = 0;
             powerModeFreeHints = 0;

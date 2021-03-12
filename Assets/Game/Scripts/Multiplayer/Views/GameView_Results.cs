@@ -196,10 +196,10 @@ namespace TurboLabz.Multiplayer
             rewardDoublerStoreItem = vo.rewardDoubleStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
-
+            
             if (!animationPlayed)
             {
-                var coinsRewarded = playerWins ? vo.betValue * (Settings.ABTest.COINS_TEST_GROUP.Equals(Settings.ABTest.COINS_TEST_GROUP_DEFAULT) ? 2.0f : 1.5f) : vo.betValue;
+                var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
                 _winAnimationSequence.Reset((long)coinsRewarded, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
             }
 
