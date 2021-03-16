@@ -470,7 +470,7 @@ namespace TurboLabz.CPU
 
         private void SetupResultsLayout(bool isRankedGame)
         {
-            resultsBoostRatingButton.gameObject.SetActive(false);
+            resultsBoostRatingButton.transform.parent.gameObject.SetActive(false);
             resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
             resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
             resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);

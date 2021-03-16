@@ -12,7 +12,6 @@ namespace HUFEXT.PackageManager.Editor.Models
         public Models.PackageChannel channel;
         public string scope;
         
-        
         public Dependency( string package )
         {
             if ( !package.Contains( "@" ) )
@@ -32,6 +31,12 @@ namespace HUFEXT.PackageManager.Editor.Models
                 ? versionWithRange
                 : versionWithRange.Substring( index, versionWithRange.Length - index );
             range = versionWithRange.Substring( 0, index );
+        }
+        
+        public Dependency( string name, string version )
+        {
+            this.name = name;
+            this.version = version;
         }
 
         public bool IsValid => !string.IsNullOrEmpty( name ) && !string.IsNullOrEmpty( version );

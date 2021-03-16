@@ -125,7 +125,11 @@ namespace HUFEXT.PackageManager.Editor.Views
             AddItemsByTag( Models.Rollout.DEVELOPMENT_LABEL, true, true, false );
             AddItemsByTag( Models.Rollout.NOT_INSTALLED_LABEL, false, false, true );
             AddItemsByTag( Models.Rollout.UNITY_LABEL, true, true, false );
-            unityListRequest = UnityEditor.PackageManager.Client.List( true );
+#if UNITY_2019_1_OR_NEWER
+            unityListRequest = UnityEditor.PackageManager.Client.List( false, true );
+#else
+            unityListRequest = UnityEditor.PackageManager.Client.List( false );
+#endif
             RefreshItems();
 
             void AddItemsByTag( string tag, bool compareTag, bool ignoreNotInstalled, bool ignoreInstalled )

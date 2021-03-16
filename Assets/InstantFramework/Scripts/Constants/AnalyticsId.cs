@@ -126,6 +126,7 @@ namespace TurboLabz.InstantFramework
         ATT_interaction,
         drop_off_area_shown,
         drop_off_area_interaction,
+        notification_permission_dialogue,
 
         //early inidicator
         install_game_count,
@@ -188,7 +189,12 @@ namespace TurboLabz.InstantFramework
 
         //promotions
         promotion_dlg_shown,
-        promotion_dlg_purchased
+        promotion_dlg_purchased,
+
+        //payment stats
+        first_payment,
+        second_payment,
+        third_payment
     }
 
     public enum AnalyticsContext
@@ -357,6 +363,9 @@ namespace TurboLabz.InstantFramework
         lessons_pack,
         themes_pack,
         annual_mega_sale,
+        subscription,
+        annual_sub,
+        monthly_sub,
 
         //drop offs
         out_of_coins_pop_up,

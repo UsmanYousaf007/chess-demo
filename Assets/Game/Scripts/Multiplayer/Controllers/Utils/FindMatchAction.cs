@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
             public string tournamentId;
             public long betValue;
             public bool powerMode;
+            public string testGroup;
         }
 
         public const string ACTION_RANDOM = "Random";
@@ -73,6 +74,7 @@ namespace TurboLabz.InstantFramework
             actionData.powerMode = matchInfoVO.powerMode;
             actionData.notificationStatus = NotificationStatus.None;
             actionData.tournamentId = string.IsNullOrEmpty(tournamentId) ? "" : tournamentId;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -88,6 +90,7 @@ namespace TurboLabz.InstantFramework
             actionData.betValue = 0;
             actionData.powerMode = false;
             actionData.notificationStatus = NotificationStatus.None;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -116,6 +119,7 @@ namespace TurboLabz.InstantFramework
             actionData.powerMode = false;
             actionData.notificationStatus = notificationStatus;
             actionData.acceptActionCode = actionCode;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
     }

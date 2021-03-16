@@ -8,6 +8,14 @@ using TurboLabz.TLUtils;
 using HUF.Analytics.Runtime.API;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.PolicyGuard.Runtime.Configs;
+using HUF.Ads.Runtime.API;
+using HUF.Notifications.Runtime.API;
+using HUF.Notifications.Runtime.Data.Structs;
+
+#if UNITY_IOS
+using HUF.Utils.Runtime.PlayerPrefs;
+using HUF.PolicyGuard.Runtime.Implementations;
+#endif
 
 public class SplashLoader : MonoBehaviour {
 
@@ -34,7 +42,7 @@ public class SplashLoader : MonoBehaviour {
             SetupPolicyGuardConfig(firstSession: true);
             HPolicyGuard.Initialize();
         }
-        else if (HPolicyGuard.GetPersonanlisedAdStatus() == false)
+        else if (CheckPersonalizedAdsStatus() == false)
         {
             SetupPolicyGuardConfig(firstSession: false);
             HPolicyGuard.Initialize();
@@ -52,8 +60,8 @@ public class SplashLoader : MonoBehaviour {
 
     private static void OnRemoteConfigsUpdated()
     {
-        Settings.ABTest.ADS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("ads_test", Settings.ABTest.ADS_TEST_GROUP_DEFAULT);
-        GameAnalytics.SetCustomDimension01(Settings.ABTest.ADS_TEST_GROUP);
+        Settings.ABTest.COINS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("coins_test", Settings.ABTest.COINS_TEST_GROUP_DEFAULT);
+        GameAnalytics.SetCustomDimension01(Settings.ABTest.COINS_TEST_GROUP);
 
         Settings.ABTest.PROMOTION_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("promotions", Settings.ABTest.PROMOTION_TEST_GROUP_DEFAULT);
         GameAnalytics.SetCustomDimension02(Settings.ABTest.PROMOTION_TEST_GROUP);
@@ -80,6 +88,7 @@ public class SplashLoader : MonoBehaviour {
         HPolicyGuard.OnATTPopupClosed += OnPreATTClosed;
         HPolicyGuard.OnATTNativePopupShowed += OnATTShown;
         HPolicyGuard.OnATTNativePopupClosed += OnATTClosed;
+        HNotifications.Local.OnAskForPermissionComplete += OnAskForNotificationPermissionComplete;
     }
 
     void OnDisable()
@@ -93,6 +102,7 @@ public class SplashLoader : MonoBehaviour {
         HPolicyGuard.OnATTPopupClosed -= OnPreATTClosed;
         HPolicyGuard.OnATTNativePopupShowed -= OnATTShown;
         HPolicyGuard.OnATTNativePopupClosed -= OnATTClosed;
+        HNotifications.Local.OnAskForPermissionComplete -= OnAskForNotificationPermissionComplete;
     }
 
     private void OnTermsAndConditionShown()
@@ -137,6 +147,11 @@ public class SplashLoader : MonoBehaviour {
         LogAnalytic(AnalyticsEventId.ATT_interaction, status ? AnalyticsContext.accepted : AnalyticsContext.rejected);
     }
 
+    private void OnAskForNotificationPermissionComplete(ConsentStatus status)
+    {
+        LogAnalytic(AnalyticsEventId.notification_permission_dialogue, status == ConsentStatus.Granted ? AnalyticsContext.accepted : AnalyticsContext.rejected);
+    }
+
     void LogAnalytic(AnalyticsEventId evt)
     {
         var evtStr = evt.ToString();
@@ -159,5 +174,14 @@ public class SplashLoader : MonoBehaviour {
         var prefix = "[TLANALYTICS]";
 #endif
         LogUtil.Log($"{prefix} {evt}", "yellow");
+    }
+
+    bool CheckPersonalizedAdsStatus()
+    {
+#if UNITY_ANDROID
+        return HAds.HasConsent() != null;
+#elif UNITY_IOS
+        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) && !HPolicyGuard.WasATTPopupDisplayed();
+#endif
     }
 }

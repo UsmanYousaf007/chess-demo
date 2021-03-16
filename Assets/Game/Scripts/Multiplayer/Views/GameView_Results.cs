@@ -13,6 +13,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
+using TMPro;
 
 namespace TurboLabz.Multiplayer
 {
@@ -49,9 +50,11 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsBoostRatingToolTip;
         public Text resultsBoostRatingToolTipText;
         public Text resultsBoostRatingGemsCost;
+        public TMP_Text resultsBoostRatingText;
         public Image resultsBoostRatingIcon;
         public Image resultsBoostRatingGemIcon;
         public GameObject resultsBoostSheen;
+        public ToolTip resultsBoostRatingButtonAnim;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
@@ -193,15 +196,16 @@ namespace TurboLabz.Multiplayer
             rewardDoublerStoreItem = vo.rewardDoubleStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
-
+            
             if (!animationPlayed)
             {
-                _winAnimationSequence.Reset(playerWins ? vo.betValue * 2 : vo.betValue, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
+                var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
+                _winAnimationSequence.Reset((long)coinsRewarded, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
             }
 
             UpdateGameEndReasonSection(vo.reason);
-            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             UpdateGameResultHeadingSection();
+            UpdateResultRatingSection(vo.isRanked, vo.currentEloScore, vo.eloScoreDelta);
             SetupResultsLayout();
             SetupBoostPrice();
             SetupRewardDoublerPrice();
@@ -519,14 +523,7 @@ namespace TurboLabz.Multiplayer
         private void OnResultsDeclinedButtonClicked()
         {
             audioService.PlayStandardClick();
-            if (isLongPlay)
-            {
-                backToLobbySignal.Dispatch();
-            }
-            else
-            {
-                backToLobbySignal.Dispatch();
-            }
+            backToLobbySignal.Dispatch();
         }
 
         private void OnResultsClosed()
@@ -571,7 +568,9 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingGemIcon.color = color;
             resultsBoostRatingGemsCost.color = color;
             resultsBoostRatingIcon.color = color;
+            resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
+            resultsBoostRatingButtonAnim.enabled = enable;
         }
 
         private void SetupRewardsDoublerButton(bool enable)

@@ -18,6 +18,9 @@ namespace TurboLabz.InstantFramework
         private string shortCode;
         private Action<BackendResult, AssetBundle> onDownloadContentCompleteCB;
 
+        //backup downloadable item
+        private DownloadableItem _dlItem;
+
         public void GetDownloadableContent( string shortCode, Action<BackendResult, AssetBundle> callbackFn,
                                             ContentType? contentType)
         {
@@ -43,6 +46,16 @@ namespace TurboLabz.InstantFramework
             this.shortCode = shortCode;
             onDownloadContentCompleteCB = callbackFn;
 
+
+            //backup the downloadable item in case it gets lost while the process is running to get the asset bundle
+            _dlItem = new DownloadableItem();
+            _dlItem.size = dlItem.size;
+            _dlItem.downloadShortCode = dlItem.downloadShortCode;
+            _dlItem.shortCode = dlItem.shortCode;
+            _dlItem.lastModified = dlItem.lastModified;
+            _dlItem.url = dlItem.url;
+            _dlItem.bundle = dlItem.bundle;
+
             if (downloadablesModel.IsUpdateAvailable(shortCode))
             {
                 new GetDownloadableContentRequest(dlcSignal, contentType).Send(backendService.GetDownloadableContentUrl,
@@ -64,6 +77,11 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
+                if (downloadablesModel.downloadableItems[shortCode] == null)
+                {
+                    downloadablesModel.downloadableItems[shortCode] = _dlItem;
+                }
+
                 downloadablesModel.downloadableItems[shortCode].bundle = bundle;
                 downloadablesModel.MarkUpdated(shortCode);
 

@@ -53,8 +53,40 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.3.10
-  Changes: '6.3.10
+  NewVersion: 6.4.1
+  Changes: '6.4.1
+
+    - added idfa consent status field to events (ios)
+
+
+    6.4.0
+
+    - added support for unity package manager
+
+
+    6.3.14
+
+    - fixed playmaker scripts
+
+
+    6.3.13
+
+    - fixed compiler errors for 2017.1
+
+    - updated client ts validator
+
+
+    6.3.12
+
+    - changed AppTrackingTransparency dependency to be optional for iOS
+
+
+    6.3.11
+
+    - fixed dependencies for iOS (min. XCode 12 required)
+
+
+    6.3.10
 
     - fix to mopub impression events, require min. mopub v5.14.0
 
@@ -119,8 +151,8 @@ MonoBehaviour:
   UseIMEI: 0
   InternetConnectivity: 0
   CustomDimensions01:
-  - ads_A
-  - ads_B
+  - coins_A
+  - coins_B
   CustomDimensions02:
   - A
   - B
@@ -175,7 +207,7 @@ MonoBehaviour:
   FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1
   PlatformFoldOut: 0101
-  CustomDimensions01FoldOut: 0
+  CustomDimensions01FoldOut: 1
   CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 1
   ResourceItemTypesFoldOut: 1

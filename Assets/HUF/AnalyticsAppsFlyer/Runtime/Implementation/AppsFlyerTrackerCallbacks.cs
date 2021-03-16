@@ -1,65 +1,67 @@
 using HUF.AnalyticsAppsFlyer.Runtime.API;
 using HUF.Utils;
 using HUF.Utils.Runtime;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 
 namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
 {
     public class AppsFlyerTrackerCallbacks : HSingleton<AppsFlyerTrackerCallbacks>
     {
-        readonly string className = typeof(AppsFlyerTrackerCallbacks).Name;
+        static readonly HLogPrefix logPrefix =
+            new HLogPrefix( HAnalyticsAppsFlyer.logPrefix, nameof(AppsFlyerTrackerCallbacks) );
 
         void Start()
         {
-            Debug.Log($"{className} on Start");
+            HLog.Log( logPrefix, "On Start" );
         }
 
-        public void didReceiveConversionData(string conversionData)
+        public void didReceiveConversionData( string conversionData )
         {
-            Debug.Log($"{className} got conversion data = {conversionData}");
-            HAnalyticsAppsFlyer.InstallType = conversionData.Contains("Non") ? 
-                InstallType.NonOrganic : 
-                InstallType.Organic;
+            HLog.Log( logPrefix, $"Got conversion data = {conversionData}" );
+
+            HAnalyticsAppsFlyer.InstallType =
+                conversionData.Contains( "Non" ) ? InstallType.NonOrganic : InstallType.Organic;
         }
 
-        public void didReceiveConversionDataWithError(string error)
+        public void didReceiveConversionDataWithError( string error )
         {
-            Debug.Log($"{className} got conversion data error = {error}");
+            HLog.Log( logPrefix, $"Got conversion data error = {error}" );
         }
 
-        public void didFinishValidateReceipt(string validateResult)
+        public void didFinishValidateReceipt( string validateResult )
         {
-            Debug.Log($"{className} got didFinishValidateReceipt  = {validateResult}");
+            HLog.Log( logPrefix, $"Got didFinishValidateReceipt = {validateResult}" );
         }
 
-        public void didFinishValidateReceiptWithError(string error)
+        public void didFinishValidateReceiptWithError( string error )
         {
-            Debug.Log($"{className} got idFinishValidateReceiptWithError error = {error}");
+            HLog.Log( logPrefix, $"Got idFinishValidateReceiptWithError error = {error}" );
         }
 
-        public void onAppOpenAttribution(string validateResult)
+        public void onAppOpenAttribution( string validateResult )
         {
-            Debug.Log($"{className} got onAppOpenAttribution  = {validateResult}");
+            HLog.Log( logPrefix, $"Got onAppOpenAttribution = {validateResult}" );
         }
 
-        public void onAppOpenAttributionFailure(string error)
+        public void onAppOpenAttributionFailure( string error )
         {
-            Debug.Log($"{className} got onAppOpenAttributionFailure error = {error}");
+            HLog.Log( logPrefix, $"Got onAppOpenAttributionFailure error = {error}" );
         }
 
         public void onInAppBillingSuccess()
         {
-            Debug.Log($"{className} got onInAppBillingSuccess success");
+            HLog.Log( logPrefix, "Got onInAppBillingSuccess success" );
         }
 
-        public void onInAppBillingFailure(string error)
+        public void onInAppBillingFailure( string error )
         {
-            Debug.Log($"{className} got onInAppBillingFailure error = {error}");
+            HLog.Log( logPrefix, $"Got onInAppBillingFailure error = {error}" );
         }
 
-        public void onInviteLinkGenerated(string link)
+        public void onInviteLinkGenerated( string link )
         {
-            Debug.Log($"{className} generated userInviteLink {link}");
+            HLog.Log( logPrefix, $"Generated userInviteLink {link}" );
         }
     }
 }

@@ -162,13 +162,13 @@ PlayerSettings:
   androidSupportedAspectRatio: 2
   androidMaxAspectRatio: 3
   applicationIdentifier:
-    Android: com.turbolabz.instantchess.android.googleplay
+    Android: com.turbolabz.instantchess.ios
     Standalone: com.turbolabz.chess.linux.steam
     Tizen: com.turbolabz.chess.google
-    iPhone: com.turbolabz.instantchess.android.googleplay
+    iPhone: com.turbolabz.instantchess.ios
     tvOS: com.turbolabz.chess.google
   buildNumber:
-    iPhone: 497
+    iPhone: 500
   AndroidBundleVersionCode: 500
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
@@ -961,7 +961,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC;SUBSCRIPTION_TEST
+    4: CT_OC
     7: CT_OC;SUBSCRIPTION_TEST
     13: CT_OC
     14: CT_OC

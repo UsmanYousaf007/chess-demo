@@ -24,13 +24,17 @@ namespace TurboLabz.InstantFramework
         private const string FILE_EXT = ".wav";
         private Dictionary<string, int> streamFiles;
 
+        private Dictionary<AudioClip, string> audioClips;
+
         public void Init()
         {
             appEventSignal.AddListener(OnAppEvent);
             sounds = GameObject.Find(OBJ_NAME).GetComponent<AudioList>();
             sounds.playStandardClickSignal.AddListener(PlayStandardClick);
 
-            CreatePool(
+            audioClips = new Dictionary<AudioClip, string>();
+            ConfigureAudioClips(
+                ".wav",
                 sounds.SFX_CAPTURE,
                 sounds.SFX_CHECK,
                 sounds.SFX_CLICK,
@@ -43,24 +47,32 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_SHOP_PURCHASE_ITEM,
                 sounds.SFX_TOOL_TIP,
                 sounds.SFX_REWARD_UNLOCKED,
-                sounds.SFX_CLOCK_WARNING,
                 sounds.SFX_EFFECT_SLAM,
                 sounds.SFX_EFFECT_CHEST_ACTIVATE,
                 sounds.SFX_EFFECT_CHEST_SPEW,
-                sounds.SFX_EFFECT_COIN_SPREAD,
                 sounds.SFX_EFFECT_COIN_TRAVEL,
                 sounds.SFX_EFFECT_COIN_FILL,
-                sounds.SFX_EFFECT_GEM_SPREAD,
                 sounds.SFX_EFFECT_GEM_TRAVEL,
                 sounds.SFX_EFFECT_GEM_FILL,
                 sounds.SFX_EFFECT_RING_SLAM
-                //sounds.SFX_EFFECT_STAR_SPREAD,
-                //sounds.SFX_EFFECT_STAR_TRAVEL,
-                //sounds.SFX_EFFECT_STAR_FILL,
-                //sounds.SFX_EFFECT_TROPHY_SPREAD,
-                //sounds.SFX_EFFECT_TROPHY_TRAVEL,
-                //sounds.SFX_EFFECT_TROPHY_FILL
             );
+
+            ConfigureAudioClips(
+                ".ogg",
+                sounds.SFX_CLOCK_WARNING,
+                sounds.SFX_EFFECT_COIN_SPREAD,
+                sounds.SFX_EFFECT_GEM_SPREAD
+            );
+
+            CreatePool();
+        }
+
+        private void ConfigureAudioClips(string fileExt, params AudioClip[] clips)
+        {
+            foreach (AudioClip clip in clips)
+            {
+                audioClips.Add(clip, fileExt);
+            }
         }
 
         public void Play(AudioClip sound)
@@ -114,7 +126,19 @@ namespace TurboLabz.InstantFramework
             return preferencesModel.isAudioOn;
         }
 
-        private void CreatePool(params AudioClip[] clips)
+        private void CreatePool()
+        {
+            AndroidNativeAudio.makePool(audioClips.Count);
+
+            streamFiles = new Dictionary<string, int>();
+
+            foreach (KeyValuePair<AudioClip, string> clip in audioClips)
+            {
+                LoadSound(clip.Key, clip.Value);
+            }
+        }
+
+        /*private void CreatePool(params AudioClip[] clips)
         {
             AndroidNativeAudio.makePool(clips.Length);
 
@@ -122,8 +146,31 @@ namespace TurboLabz.InstantFramework
 
             foreach (AudioClip clip in clips)
             {
-                LoadSound(clip);
+                LoadSound(clip, FILE_EXT);
             }
+        }*/
+
+        /*private void CreatePool(params AudioClip[] clips)
+        {
+            AndroidNativeAudio.makePool(clips.Length);
+
+            streamFiles = new Dictionary<string, int>();
+
+            foreach (AudioClip clip in clips)
+            {
+                if (clip.name == "GemSpreadFx" || clip.name == "CoinSpreadFx")
+                {
+                    LoadSound(clip, ".ogg");
+                }
+                else {
+                    LoadSound(clip, FILE_EXT);
+                }
+            }
+        }*/
+
+        private void LoadSound(AudioClip clip, string fileEx)
+        {
+            streamFiles.Add(clip.name, AndroidNativeAudio.load(clip.name + fileEx));
         }
 
         private void LoadSound(AudioClip clip)

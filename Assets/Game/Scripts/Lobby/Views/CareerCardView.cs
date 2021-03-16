@@ -223,7 +223,9 @@ namespace TurboLabz.InstantFramework
             bettingMinus.image.color = minimumBetReached ? new Color(1f, 1f, 1f, 128f / 255f) : Color.white;
 
             bettingValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex], false);
-            rewardValue.text = FormatUtil.AbbreviateNumber(settingsModel.bettingIncrements[bettingIndex] * 2, false);
+
+            var reward = settingsModel.bettingIncrements[bettingIndex] * settingsModel.matchCoinsMultiplayer[Settings.ABTest.COINS_TEST_GROUP];
+            rewardValue.text = FormatUtil.AbbreviateNumber((long)reward, true);
         }
     }
 }

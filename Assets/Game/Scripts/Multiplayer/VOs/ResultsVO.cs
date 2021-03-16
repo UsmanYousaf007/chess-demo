@@ -39,5 +39,6 @@ namespace TurboLabz.Multiplayer
         public bool powerMode;
         public int earnedStars;
         public StoreItem rewardDoubleStoreItem;
+        public float coinsMultiplyer;
     }
 }

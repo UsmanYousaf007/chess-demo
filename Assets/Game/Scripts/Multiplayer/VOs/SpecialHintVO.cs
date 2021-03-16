@@ -8,5 +8,6 @@
         public bool isPlayerTurn;
         public int hintCount;
         public int powerModeHints;
+        public int advantageThreshold;
     }
 }

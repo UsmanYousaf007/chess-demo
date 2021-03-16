@@ -123,6 +123,7 @@ namespace TurboLabz.CPU
             specialHintVO.isPlayerTurn = isPlayerTurn;
             specialHintVO.hintCount = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT);
             specialHintVO.powerModeHints = cmd.chessboardModel.freeHints;
+            specialHintVO.advantageThreshold = cmd.metaDataModel.settingsModel.advantageThreshold;
 
             cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
         }

@@ -957,9 +957,11 @@ MonoBehaviour:
   resultsBoostRatingToolTip: {fileID: 1024005139909254290}
   resultsBoostRatingToolTipText: {fileID: 1024005139909254289}
   resultsBoostRatingGemsCost: {fileID: 1024005139909254291}
+  resultsBoostRatingText: {fileID: 1024005139909254306}
   resultsBoostRatingIcon: {fileID: 1024005139909254293}
   resultsBoostRatingGemIcon: {fileID: 1024005139909254292}
   resultsBoostSheen: {fileID: 650793445}
+  resultsBoostRatingButtonAnim: {fileID: 1024005139909254305}
   resultsViewBoardButton: {fileID: 1024005139909254273}
   resultsViewBoardButtonLabel: {fileID: 1024005139909254272}
   viewBoardResultPanel: {fileID: 3350068405871205055}
@@ -1015,6 +1017,7 @@ MonoBehaviour:
   specialHintPowerModeHints: {fileID: 652821298}
   specialHintPowerModeHintsCount: {fileID: 652821297}
   specialHintGemIcon: {fileID: 652821299}
+  specialHintBubbleText: {fileID: 652821300}
   specialFreeHintContainer: {fileID: 652821288}
   topPanelObjects:
   - {fileID: 1104169958}
@@ -26548,6 +26551,18 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &495475111 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3498551274073546952, guid: d52e990089223428c8af8ea51f6751c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 495475096}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &497945567
 GameObject:
   m_ObjectHideFlags: 0
@@ -34348,6 +34363,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &652821300 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3498551274073546952, guid: d52e990089223428c8af8ea51f6751c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 652821285}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &658855321 stripped
@@ -47492,6 +47519,7 @@ MonoBehaviour:
   specialHintPowerModeHints: {fileID: 495475109}
   specialHintPowerModeHintsCount: {fileID: 495475108}
   specialHintGemIcon: {fileID: 495475110}
+  specialHintBubbleText: {fileID: 495475111}
   stepBackwardButton: {fileID: 802445959}
   stepForwardButton: {fileID: 191640676}
   powerplayAciveStepSprite: {fileID: 21300000, guid: 4a8cb4a28d91d42ed9bacd2a3f54c0a9,
@@ -121121,7 +121149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1024005139909254294 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4166733084036835134, guid: 91a22b3c6348040ba9fe46b345aca015,
+  m_CorrespondingSourceObject: {fileID: 7571036346515156330, guid: 91a22b3c6348040ba9fe46b345aca015,
     type: 3}
   m_PrefabInstance: {fileID: 1024005139909254269}
   m_PrefabAsset: {fileID: 0}
@@ -121237,6 +121265,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9a6d6393dcb848209791cc88c914a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1024005139909254305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5731860669004234262, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab03844731ef54386a75e2725f8b6eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1024005139909254306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4476427318776496186, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1577020451322261212

@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
         public const string BETTING_INCREMENTS = "bettingIncrements";
         public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
         public const string POWER_MODE_FREE_HINTS = "powerModeFreeHints";
+        public const string MATCH_COINS_MULTIPLYER = "matchCoinsMultiplyer";
 
         //free hint Settings
         public const string FREE_HINT_THRESHOLDS = "freeHintThresholds";

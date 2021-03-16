@@ -269,16 +269,5 @@ namespace HUF.PolicyGuard.Runtime.API
 
             return config;
         }
-
-        public static bool GetPersonanlisedAdStatus()
-        {
-#if UNITY_ANDROID
-        return HAds.HasConsent() != null;
-#elif UNITY_IOS && !UNITY_EDITOR
-        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) && WasATTPopupDisplayed();
-#elif UNITY_IOS && UNITY_EDITOR
-        return HAds.HasConsent() != null && !HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false);
-#endif
-        }
     }
 }

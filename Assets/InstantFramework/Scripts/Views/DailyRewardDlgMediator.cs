@@ -1,4 +1,6 @@
 ﻿using strange.extensions.mediation.impl;
+using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -13,10 +15,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
+        [Inject] public ILocalizationService localizationService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IInboxModel inboxModel { get; set; }
+        [Inject] public INotificationsModel notificationsModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         // Signals
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
@@ -63,6 +68,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnCollectButtonClicked()
         {
+            SetNextDayNotificationReminder();
             backendService.InBoxOpCollect(_dailyRewardVO.msgId).Then((res) => OnRewardCollected(false));
         }
 
@@ -112,6 +118,27 @@ namespace TurboLabz.InstantFramework
 
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             loadCareerCardSignal.Dispatch();
+        }
+
+        public void SetNextDayNotificationReminder()
+        {
+            notificationsModel.UnregisterNotifications("league");
+
+            var notification = new Notification();
+            notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+            notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+            notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
+            notification.sender = "league";
+            notificationsModel.RegisterNotification(notification);
+
+            LogUtil.Log(DateTime.Today.ToString());
+
+            var reminder = new Notification();
+            reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+            reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+            reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
+            reminder.sender = "league";
+            notificationsModel.RegisterNotification(reminder);
         }
     }
 }

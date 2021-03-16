@@ -22,6 +22,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
             fetchesFinished = 0;
             fetchesCount = package.huf.scopes.Count * 3;
 
+            package.huf.config.stableVersions.Clear();
+            package.huf.config.previewVersions.Clear();
+            package.huf.config.previewVersions.Clear();
             foreach ( var scope in package.huf.scopes )
             {
                 FetchPackageVersions( Models.Keys.Routing.PREVIEW_CHANNEL, scope );
@@ -65,7 +68,6 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
             void AddToVersionsList( List<Models.Version> configList, List<Models.Version> versions )
             {
-                configList.Clear();
                 foreach ( var version in versions )
                 {
                     if ( !configList.Exists( v => v.version == version.version ) )

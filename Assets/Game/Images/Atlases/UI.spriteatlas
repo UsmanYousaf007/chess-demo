@@ -66,7 +66,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 29890422
+    totalSpriteSurfaceArea: 29971860
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -169,6 +169,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f5575b522f9274ffaae543e98b0f8d28, type: 3}
   - {fileID: 21300000, guid: 37923d52479c344078123e2e9e06c45c, type: 3}
   - {fileID: 21300000, guid: 72fbb762b56ab41cdba2df3f69743590, type: 3}
+  - {fileID: 21300000, guid: 2eeda86277db04579a091a6541b4c237, type: 3}
   - {fileID: 21300000, guid: d3cbc862f6a594b5682e751029a66f28, type: 3}
   - {fileID: 21300000, guid: e3e710726bcd44bb7a5b91492e9365b1, type: 3}
   - {fileID: 21300000, guid: a9856092db98f4ca286349116bc42a6b, type: 3}
@@ -624,7 +625,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4aa5c8ff471904a1682a70cb85e1c2a6, type: 3}
   - {fileID: 21300000, guid: 56c649ff12c5f4892b8fd28262c077cd, type: 3}
   m_PackedSpriteNamesToIndex:
-  - ToolTipBubble
+  - TooltipBubble
   - PlayComputerMatchPattern
   - b
   - 3-top-sect-bg
@@ -723,6 +724,7 @@ SpriteAtlas:
   - a
   - SubOfferSeperator
   - gameUpdateBg
+  - RatingBoostRays
   - bannerButton
   - NavArenaBg
   - SpecialPackTile

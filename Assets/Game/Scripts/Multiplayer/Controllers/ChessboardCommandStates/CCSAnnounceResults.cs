@@ -35,6 +35,7 @@ namespace TurboLabz.Multiplayer
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
             vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
             vo.betValue = cmd.activeMatchInfo.betValue;
+            vo.coinsMultiplyer = cmd.metaDataModel.settingsModel.matchCoinsMultiplayer[Settings.ABTest.COINS_TEST_GROUP];
             vo.powerMode = cmd.activeMatchInfo.powerMode;
             vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
             vo.earnedStars = cmd.playerModel.leaguePromoted ? cmd.leaguesModel.GetLeagueInfo(cmd.playerModel.league - 1).winTrophies : cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;
@@ -99,11 +100,12 @@ namespace TurboLabz.Multiplayer
 
             if (vo.betValue > 0)
             {
-                var earnedCoins = vo.playerWins ? vo.betValue * 2 : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
+                var winnerCoins = vo.betValue * vo.coinsMultiplyer;
+                var earnedCoins = vo.playerWins ? winnerCoins : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
 
                 if (earnedCoins > 0)
                 {
-                    cmd.playerModel.coins += earnedCoins;
+                    cmd.playerModel.coins += (long)earnedCoins;
                     cmd.updatePlayerInventorySignal.Dispatch(cmd.playerModel.GetPlayerInventory());
                     cmd.analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)earnedCoins, "championship_coins", earnedCoins == vo.betValue ? "bet_reversed" : "game_won");
                 }

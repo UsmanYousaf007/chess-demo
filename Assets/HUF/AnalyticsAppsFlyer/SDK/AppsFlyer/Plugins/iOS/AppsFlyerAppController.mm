@@ -62,7 +62,7 @@
 
 -(void)didBecomeActive:(NSNotification*)notification {
     NSLog(@"got didBecomeActive(out) = %@", notification.userInfo);
-    if (didEnteredBackGround == YES) {
+    if (didEnteredBackGround == YES && AppsFlyeriOSWarpper.didCallStart == YES) {
         [[AppsFlyerLib shared] start];
         didEnteredBackGround = NO;
     }
@@ -105,27 +105,23 @@
 }
 
 +(void)load
- {
- [AppsFlyerAppController plugin];
- }
- 
- // Singleton accessor.
- + (AppsFlyerAppController *)plugin
- {
- static AppsFlyerAppController *sharedInstance = nil;
- static dispatch_once_t onceToken;
- 
- dispatch_once(&onceToken, ^{
- 
- sharedInstance = [[AppsFlyerAppController alloc] init];
- });
- 
- return sharedInstance;
- }
-
+{
+[AppsFlyerAppController plugin];
+}
+// Singleton accessor.
++ (AppsFlyerAppController *)plugin
+{
+static AppsFlyerAppController *sharedInstance = nil;
+static dispatch_once_t onceToken;
+dispatch_once(&onceToken, ^{
+sharedInstance = [[AppsFlyerAppController alloc] init];
+});
+return sharedInstance;
+}
 @end
 
 //IMPL_APP_CONTROLLER_SUBCLASS(AppsFlyerAppController)
+
 
 /**
 Note if you would not like to use IMPL_APP_CONTROLLER_SUBCLASS you can replace it with the code below.

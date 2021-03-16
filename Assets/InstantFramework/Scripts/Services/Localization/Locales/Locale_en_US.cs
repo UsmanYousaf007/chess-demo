@@ -190,7 +190,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
                 { LocalizationKey.RESULTS_BOOSTED, "Boosted!"},
                 { LocalizationKey.RESULTS_BOOST_DRAW, "Rating boosts are available for wins and losses only"},
-                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for ranked games only"},
+                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for career games only"},
 
                 #endregion
 

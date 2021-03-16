@@ -1,3 +1,18 @@
+## [1.6.5] - 2021-03-02
+### Fixed
+- Compile errors in Unity 2018
+
+
+## [1.6.4] - 2021-03-01
+### Added
+- Using at least minimum version of dependencies when updating multiple packages
+
+### Fixed
+- Missing versions in some packages
+- Install Unity button for HUF developers
+- Authors in Unity packages
+
+
 ## [1.6.3] - 2021-02-25
 ### Fixed
 - Internet connection issue causing log outs from HUF Package Manager

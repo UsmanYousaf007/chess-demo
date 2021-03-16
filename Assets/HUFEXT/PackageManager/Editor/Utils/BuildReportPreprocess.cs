@@ -74,7 +74,12 @@ namespace HUFEXT.PackageManager.Editor.Utils
             }
 
             OnReportGenerationCompleted = response;
-            packagesRequest = UnityEditor.PackageManager.Client.List( true );
+            
+#if UNITY_2019_1_OR_NEWER
+            packagesRequest = UnityEditor.PackageManager.Client.List( false, true );
+#else
+            packagesRequest = UnityEditor.PackageManager.Client.List( false );
+#endif
             EditorApplication.update += FetchUnityPackages;
             return status;
         }

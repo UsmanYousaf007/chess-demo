@@ -32,7 +32,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
 
             Core.Command.Execute( new Data.GetUnityPackagesCommand
             {
-                OnComplete = ( r, s ) =>
+                OnComplete = ( unityPackagesResult, unityPackageSerializedData ) =>
                 {
                     Core.Command.Execute( new Data.GetRemotePackagesCommand()
                     {

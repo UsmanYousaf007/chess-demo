@@ -58,17 +58,18 @@ namespace HUFEXT.PackageManager.Editor.Utils
         internal static void Log( string message )
         {
             if ( Core.Registry.IsSet( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS ) )
-            {
                 Debug.Log( string.Format( LOG_PREFIX, HUF_PACKAGE_MANAGER, COMMON, message ) );
-            }
         }
 
         internal static void Log( this Core.Command.Base command, string message )
         {
             if ( Core.Registry.IsSet( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS ) )
-            {
                 Debug.Log( string.Format( LOG_PREFIX, HUF_PACKAGE_MANAGER, command.GetType().Name, message ) );
-            }
+        }
+        
+        internal static void LogAlways( string message )
+        {
+            Debug.Log( string.Format( LOG_PREFIX, HUF_PACKAGE_MANAGER, COMMON, message ) );
         }
 
         internal static void LogWarning( string message, string title = "" )

@@ -23,6 +23,7 @@ namespace TurboLabz.InstantFramework
         // Inject Services
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
         [Inject] public IShareService share { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -46,6 +47,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnCloseButtonClicked()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
             //if (chessboardModel.isValidChallenge(matchInfoModel.activeChallengeId))

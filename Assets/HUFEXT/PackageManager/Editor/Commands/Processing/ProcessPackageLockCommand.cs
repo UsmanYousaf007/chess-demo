@@ -44,8 +44,13 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
             if ( !dependency.IsHufPackage )
             {
                 Common.Log( $"UPM dependency: {dependency.name}@{dependency.version}" );
-                var request = UnityEditor.PackageManager.Client.List();
+#if UNITY_2019_1_OR_NEWER
+                var request = UnityEditor.PackageManager.Client.List( false, true );
+#else
+                var request = UnityEditor.PackageManager.Client.List( false );
+#endif
                 while ( !request.IsCompleted ) { }
+
                 var unityPackages = request.Result.ToList();
                 var unityPackage = unityPackages.FirstOrDefault( p => p.name == dependency.name );
 

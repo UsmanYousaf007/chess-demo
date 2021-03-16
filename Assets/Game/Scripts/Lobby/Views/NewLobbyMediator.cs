@@ -71,6 +71,11 @@ namespace TurboLabz.InstantFramework
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
             view.RemovePromotion(item.key);
+
+            if (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
+            {
+                view.LogSubscriptionBannerPurchasedAnalytics(item.key);
+            }
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
