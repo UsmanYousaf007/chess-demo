@@ -7,6 +7,11 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 
+#if UNITY_IOS
+using HUF.Ads.Runtime.API;
+using TurboLabz.InstantGame;
+#endif
+
 namespace TurboLabz.InstantFramework
 {
     [System.CLSCompliant(false)]
@@ -37,6 +42,7 @@ namespace TurboLabz.InstantFramework
         public Button personalisedAdsOffBtn;
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
+        public Image personalisedAdsOffBall;
 
         public Text autoConvertPawntoQueenText;
         public Button autoConvertPawntoQueenOnBtn;
@@ -237,6 +243,14 @@ namespace TurboLabz.InstantFramework
         {
             showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
+
+#if UNITY_IOS
+            var canChangeAdsConsent = HAds.CanChangeAdsConsent();
+            var selectedColor = canChangeAdsConsent ? Colors.WHITE : Colors.DISABLED_WHITE;
+            personalisedAdsOffBtn.interactable = canChangeAdsConsent;
+            personalisedAdsOffText.color = selectedColor;
+            personalisedAdsOffBall.color = selectedColor;
+#endif
         }
 
         public void Hide()
