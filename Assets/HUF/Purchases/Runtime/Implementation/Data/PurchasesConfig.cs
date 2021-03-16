@@ -76,7 +76,8 @@ namespace HUF.Purchases.Runtime.Implementation.Data
 
         public string HuuugeIAPServerURL => IsHuuugeIAPServerProd ? huuugeIAPServerURLProduction : huuugeIAPServerURLDebug;
         public int HuuugeIAPServerAttempts => huuugeIAPServerAttempts;
-        public bool IsHuuugeServerVerificationEnabled => enableHuuugeServerVerification;
+        //public bool IsHuuugeServerVerificationEnabled => enableHuuugeServerVerification;
+        public bool IsHuuugeServerVerificationEnabled { get { return enableHuuugeServerVerification; } set { enableHuuugeServerVerification = value; } }
         public bool IsHuuugeIAPServerProd => forceProdHuuugeServerVerification || !Debug.isDebugBuild;
         public string HuuugeIAPServerToken => IsHuuugeIAPServerProd ? huuugeIAPServerTokenProduction : huuugeIAPServerTokenDebug;
 

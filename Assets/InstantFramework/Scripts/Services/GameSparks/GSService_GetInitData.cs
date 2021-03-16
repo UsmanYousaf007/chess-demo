@@ -54,7 +54,7 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-
+            
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
             appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
@@ -352,6 +352,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.minimumClientVersion = storeData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
             settingsModel.updateReleaseBannerMessage = storeData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
             settingsModel.manageSubscriptionURL = storeData.GetString(GSBackendKeys.MANAGE_SUBSCRIPTION_URL);
+            settingsModel.isHuuugeServerValidationEnabled = storeData.GetBoolean(GSBackendKeys.HUUUGE_SERVER_VERIFICATION_ENABLED).Value; //GSParser.GetSafeBool(huuugeServerSettings, "IsHuuugeServerVerificationEnabled");
             LogUtil.Log("======= manage subscription url " + settingsModel.manageSubscriptionURL);
         }
 

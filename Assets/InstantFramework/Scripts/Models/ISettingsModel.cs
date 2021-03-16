@@ -46,5 +46,7 @@ namespace TurboLabz.InstantFramework
         int advantageThreshold { get; set; }
         int purchasedHintsThreshold { get; set; }
         int powerModeFreeHints { get; set; }
+
+        bool isHuuugeServerValidationEnabled { get; set; }
     }
 }

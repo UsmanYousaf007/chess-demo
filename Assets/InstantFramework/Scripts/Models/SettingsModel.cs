@@ -38,6 +38,8 @@ namespace TurboLabz.InstantFramework
         public int purchasedHintsThreshold { get; set; }
         public int powerModeFreeHints { get; set; }
 
+        public bool isHuuugeServerValidationEnabled { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 

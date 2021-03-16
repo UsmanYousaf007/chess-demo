@@ -61,6 +61,7 @@ namespace TurboLabz.InstantFramework
         public const string POWER_MODE_FREE_HINTS = "powerModeFreeHints";
         public const string MATCH_COINS_MULTIPLYER = "matchCoinsMultiplyer";
 
+        public const string HUUUGE_SERVER_VERIFICATION_ENABLED = "huuugeServerVerificationEnabled";
         //free hint Settings
         public const string FREE_HINT_THRESHOLDS = "freeHintThresholds";
         public const string ADV_THRESHOLDS = "advantage";

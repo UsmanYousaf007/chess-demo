@@ -34,12 +34,13 @@ public class InAppPurchaseService : IStoreService
     //Models
     [Inject] public IMetaDataModel metaDataModel { get; set; }
     [Inject] public IPlayerModel playerModel { get; set; }
+    [Inject] public ISettingsModel settingsModel { get; set; }
     IPromise<bool> promise = null;
     IPromise<BackendResult> storePromise = null;
 
     private Dictionary<string, ProductInfo> _products = new Dictionary<string, ProductInfo>();
     private Dictionary<string, IProductInfo> _pendingVerification = new Dictionary<string, IProductInfo>();
-
+    PurchasesConfig purchasesConfig;
     #region Callbacks
     public void OnInitialized()
     {
@@ -107,7 +108,6 @@ public class InAppPurchaseService : IStoreService
 
     public void OnPurchaseSuccess(IProductInfo product, TransactionType transactionType, PriceConversionData priceConversion, PurchaseReceiptData receiptData)
     {
-        Debug.Log("OnPurchaseSuccess");
         // For informational purposes, we list the receipt(s)    
         Debug.Log("Receipt is valid. Contents:");
         Debug.Log(receiptData.receipt.TransactionID);
@@ -128,7 +128,6 @@ public class InAppPurchaseService : IStoreService
             expiryTimeStamp = TimeUtil.ToUnixTimestamp(HPurchases.GetSubscriptionExpirationDate(product.ProductId));
             if (HPurchases.IsSubscriptionInTrialMode(product.ProductId))
             {
-                Debug.Log("HPurchases.IsSubscriptionInTrialMode");
                 storeItem.currency1Cost = 0;
                 storeItem.productPrice = 0;
             }
@@ -241,6 +240,8 @@ public class InAppPurchaseService : IStoreService
     #region API
     public IPromise<bool> Init(Dictionary<string, ProductType> productsDict)
     {
+        purchasesConfig = HUF.Utils.Runtime.Configs.API.HConfigs.GetConfig<PurchasesConfig>();
+        purchasesConfig.IsHuuugeServerVerificationEnabled =  settingsModel.isHuuugeServerValidationEnabled;
         List<ProductInfo> products = null;
         if (HPurchases.IsInitialized)
         {
