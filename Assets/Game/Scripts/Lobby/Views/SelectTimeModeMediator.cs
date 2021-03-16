@@ -77,22 +77,22 @@ namespace TurboLabz.InstantFramework
             matchInfoVO.betValue = betValue;
             matchInfoVO.powerMode = isPowerMode;
 
-            var transactionVO = new VirtualGoodsTransactionVO();
-            transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-            transactionVO.consumeQuantity = (int)betValue;
-            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
-            virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            preGameAdsService.ShowPreGameAd(matchInfoVO.actionCode).Then(() =>
+            {
+                var transactionVO = new VirtualGoodsTransactionVO();
+                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+                transactionVO.consumeQuantity = (int)betValue;
+                virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+                virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            });
         }
 
         private void OnTransactionResult(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
-                preGameAdsService.ShowPreGameAd(matchInfoVO.actionCode).Then(() =>
-                {
-                    FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
-                });
+                FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
             }
         }
 
