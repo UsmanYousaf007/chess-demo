@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateShopBundlePurchasedViewSignal updateShopBundlePurchasedViewSignal { get; set; }
         [Inject] public UpdatePurchaseSuccessDlgSignal updatePurchaseSuccessDlgSignal { get; set; }
+        [Inject] public ShopVistedSignal shopVistedSignal { get; set; }
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SHOP)
             {
+                shopVistedSignal.Dispatch();
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.shop);
             }

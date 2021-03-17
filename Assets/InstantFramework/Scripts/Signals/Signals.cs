@@ -214,6 +214,7 @@ namespace TurboLabz.InstantFramework
     public class SpotCoinsPurchaseDlgClosedSignal : Signal { }
     public class HideNotificationViewSignal : Signal { }
     public class GDPRDlgClosedSignal : Signal { }
+    public class ShopVistedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

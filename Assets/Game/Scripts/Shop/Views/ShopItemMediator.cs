@@ -74,6 +74,12 @@ namespace TurboLabz.InstantFramework
             view.SetOwnedStatus();
         }
 
+        [ListensTo(typeof(ShopVistedSignal))]
+        public void OnShopVisit()
+        {
+            view.SetOwnedStatus();
+        }
+
         [ListensTo(typeof(ActivePromotionSaleSingal))]
         public void OnShowSale(string key)
         {
