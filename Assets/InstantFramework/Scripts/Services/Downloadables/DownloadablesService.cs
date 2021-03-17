@@ -7,6 +7,7 @@ using System;
 using strange.extensions.promise.api;
 using UnityEngine;
 using UnityEngine.U2D;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -77,13 +78,19 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                if (downloadablesModel.downloadableItems[shortCode] == null)
+                try
                 {
-                    downloadablesModel.downloadableItems[shortCode] = _dlItem;
+                    if (downloadablesModel.downloadableItems[shortCode] == null)
+                    {
+                        downloadablesModel.downloadableItems[shortCode] = _dlItem;
+                    }
+                    downloadablesModel.downloadableItems[shortCode].bundle = bundle;
+                    downloadablesModel.MarkUpdated(shortCode);
                 }
-
-                downloadablesModel.downloadableItems[shortCode].bundle = bundle;
-                downloadablesModel.MarkUpdated(shortCode);
+                catch (Exception e)
+                {
+                    LogUtil.Log("Downloadable item not found " + e, "red");
+                }
 
                 TLUtils.LogUtil.Log("DownloadablesService::OnDownloadContentComplete() ==> bundle:" + bundle.name, "cyan");
             }
