@@ -293,8 +293,8 @@ namespace TurboLabz.InstantFramework
 #else
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();
 #endif
-            //injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
-            injectionBinder.Bind<IStoreService>().To<InAppPurchaseService>().ToSingleton();
+            injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
+            //injectionBinder.Bind<IStoreService>().To<InAppPurchaseService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IAWSService>().To<AWSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
