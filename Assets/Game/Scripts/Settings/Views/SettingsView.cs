@@ -146,7 +146,10 @@ namespace TurboLabz.InstantFramework
 
             //Crashlytics Test
             crashlyticsTestCrash.gameObject.SetActive(Debug.isDebugBuild);
-            crashlyticsTestCrash.onClick.AddListener(() => HCrashreportFirebase.Log("TestError"));
+            crashlyticsTestCrash.onClick.AddListener(() => {
+                HCrashreportFirebase.Log("TestError");
+                throw new System.Exception("test crash please ignore");
+            });
         }
 
         protected override void OnEnable()

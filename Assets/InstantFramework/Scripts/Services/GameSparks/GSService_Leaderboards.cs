@@ -44,7 +44,7 @@ namespace TurboLabz.InstantFramework
             {
                 AllStarLeaderboardEntry leaderboardEntry = new AllStarLeaderboardEntry();
 
-                leaderboardEntry.score = int.Parse(entry.JSONData["Score"].ToString());
+                leaderboardEntry.score = long.Parse(entry.JSONData["Score"].ToString());
                 leaderboardEntry.playerId = entry.JSONData["userId"].ToString();
                 leaderboardEntry.rank = (int)entry.Rank;
 

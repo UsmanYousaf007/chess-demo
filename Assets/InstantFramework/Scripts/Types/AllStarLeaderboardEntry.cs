@@ -6,7 +6,7 @@ namespace TurboLabz.InstantFramework
     public class AllStarLeaderboardEntry
     {
         public string playerId;
-        public int score;
+        public long score;
         public int rank;
         public PublicProfile publicProfile;
 
