@@ -66,7 +66,7 @@ allprojects {
             url "https://jitpack.io/" // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISVungleAdapterDependencies.xml:8
         }
         maven {
-            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:20, Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22, Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20, Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:20, Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:20
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:20, Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:22, Packages/com.google.firebase.auth/Firebase/Editor/AuthDependencies.xml:20, Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:20, Packages/com.google.firebase.crashlytics/Firebase/Editor/CrashlyticsDependencies.xml:20, Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:20
         }
         mavenLocal()
         jcenter()
@@ -115,6 +115,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-common:19.3.1' // Packages/com.google.firebase.app/Firebase/Editor/AppDependencies.xml:13
     implementation 'com.google.firebase:firebase-config:20.0.0' // Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:13
     implementation 'com.google.firebase:firebase-config-unity:7.0.2' // Packages/com.google.firebase.remote-config/Firebase/Editor/RemoteConfigDependencies.xml:20
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2' // Packages/com.google.firebase.crashlytics/Firebase/Editor/CrashlyticsDependencies.xml:13
+    implementation 'com.google.firebase:firebase-crashlytics-unity:7.0.2' // Packages/com.google.firebase.crashlytics/Firebase/Editor/CrashlyticsDependencies.xml:20
     implementation 'com.google.firebase:firebase-messaging:21.0.0' // Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:13
     implementation 'com.google.firebase:firebase-messaging-unity:7.0.2' // Packages/com.google.firebase.messaging/Firebase/Editor/MessagingDependencies.xml:20
     implementation 'com.google.firebase:firebase-storage:19.2.0' // Packages/com.google.firebase.storage/Firebase/Editor/StorageDependencies.xml:13

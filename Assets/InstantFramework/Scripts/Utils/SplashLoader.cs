@@ -39,6 +39,7 @@ public class SplashLoader : MonoBehaviour {
     {
         if (HAnalytics.GetGDPRConsent() == null)
         {
+            HNotifications.Local.AskForPermission(true);
             SetupPolicyGuardConfig(firstSession: true);
             HPolicyGuard.Initialize();
         }

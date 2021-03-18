@@ -194,6 +194,11 @@
 -dontwarn com.google.gson.Gson$6
 #end of Assets/HUF/AuthFirebase/Plugins/Android/proguardTemplate.txt
 
+#start of Assets/HUF/CrashreportFirebase/Plugins/Android/ProguardTemplate.txt
+-keep class com.firebase.** { *; }
+-keep class com.crashlytics.** { *; }
+#end of Assets/HUF/CrashreportFirebase/Plugins/Android/ProguardTemplate.txt
+
 #start of Assets/HUF/InitFirebase/proguardTemplate.txt
 #firebase
 -keep class com.google.firebase.** { *; }

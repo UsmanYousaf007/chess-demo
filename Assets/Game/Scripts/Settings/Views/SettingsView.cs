@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
+using HUF.CrashreportFirebase.Runtime.API;
 
 #if UNITY_IOS
 using HUF.Ads.Runtime.API;
@@ -70,6 +71,8 @@ namespace TurboLabz.InstantFramework
 
         public Button chatOnDiscordBtn;
         public Text chatOnDiscordText;
+
+        public Button crashlyticsTestCrash;
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
@@ -140,6 +143,10 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
+
+            //Crashlytics Test
+            crashlyticsTestCrash.gameObject.SetActive(Debug.isDebugBuild);
+            crashlyticsTestCrash.onClick.AddListener(() => HCrashreportFirebase.Log("TestError"));
         }
 
         protected override void OnEnable()
