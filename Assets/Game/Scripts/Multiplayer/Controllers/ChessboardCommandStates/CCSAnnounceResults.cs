@@ -35,7 +35,7 @@ namespace TurboLabz.Multiplayer
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
             vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
             vo.betValue = cmd.activeMatchInfo.betValue;
-            vo.coinsMultiplyer = cmd.metaDataModel.settingsModel.matchCoinsMultiplayer[Settings.ABTest.COINS_TEST_GROUP];
+            vo.coinsMultiplyer = cmd.metaDataModel.settingsModel.GetSafeCoinsMultiplyer(Settings.ABTest.COINS_TEST_GROUP);
             vo.powerMode = cmd.activeMatchInfo.powerMode;
             vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
             vo.earnedStars = cmd.playerModel.leaguePromoted ? cmd.leaguesModel.GetLeagueInfo(cmd.playerModel.league - 1).winTrophies : cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;

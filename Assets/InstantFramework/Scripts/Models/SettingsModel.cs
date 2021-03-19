@@ -85,5 +85,10 @@ namespace TurboLabz.InstantFramework
         {
             return inventorySpecialItemsRewardedVideoCost.ContainsKey(key) ? inventorySpecialItemsRewardedVideoCost[key] : 0;
         }
+
+        public float GetSafeCoinsMultiplyer(string key)
+        {
+            return matchCoinsMultiplayer.ContainsKey(key) ? matchCoinsMultiplayer[key] : 2.0f;
+        }
     }
 }

@@ -48,5 +48,7 @@ namespace TurboLabz.InstantFramework
         int powerModeFreeHints { get; set; }
 
         bool isHuuugeServerValidationEnabled { get; set; }
+
+        float GetSafeCoinsMultiplyer(string key);
     }
 }
