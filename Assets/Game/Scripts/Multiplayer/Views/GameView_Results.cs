@@ -179,6 +179,7 @@ namespace TurboLabz.Multiplayer
         public void UpdateResultsDialog(ResultsVO vo)
         {
             DisableInteraction();
+            DisableFreeHint();
 
             if (vo.reason == GameEndReason.DECLINED)
             {
@@ -196,7 +197,7 @@ namespace TurboLabz.Multiplayer
             rewardDoublerStoreItem = vo.rewardDoubleStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
-            
+
             if (!animationPlayed)
             {
                 var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;

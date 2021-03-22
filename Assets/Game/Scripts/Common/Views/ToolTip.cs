@@ -10,6 +10,8 @@ public class ToolTip : MonoBehaviour
     public bool autoDisable;
     public float disableAfterSeconds;
 
+    [HideInInspector] public bool hiddenByClick;
+
     private void OnEnable()
     {
         if (autoDisable)
@@ -53,6 +55,7 @@ public class ToolTip : MonoBehaviour
 
     public void OnClick()
     {
+        hiddenByClick = true;
         DisableMe();
     }
 

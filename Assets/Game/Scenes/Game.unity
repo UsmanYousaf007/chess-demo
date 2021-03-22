@@ -996,7 +996,8 @@ MonoBehaviour:
   specialHintPowerModeHintsCount: {fileID: 652821297}
   specialHintGemIcon: {fileID: 652821299}
   specialHintBubbleText: {fileID: 652821300}
-  specialFreeHintContainer: {fileID: 652821288}
+  specialFreeHintContainer: {fileID: 652821301}
+  specialFreeHintText: {fileID: 652821288}
   topPanelObjects:
   - {fileID: 1104169958}
   warning: {fileID: 416562081}
@@ -26406,12 +26407,18 @@ MonoBehaviour:
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &495475107 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3498551273721919520, guid: d52e990089223428c8af8ea51f6751c6,
+--- !u!114 &495475107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2825688813703199119, guid: d52e990089223428c8af8ea51f6751c6,
     type: 3}
   m_PrefabInstance: {fileID: 495475096}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab03844731ef54386a75e2725f8b6eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &495475108 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8458939508876877381, guid: d52e990089223428c8af8ea51f6751c6,
@@ -34136,18 +34143,30 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 652821285}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &652821287 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3498551273721919520, guid: d52e990089223428c8af8ea51f6751c6,
+--- !u!114 &652821287 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2825688813703199119, guid: d52e990089223428c8af8ea51f6751c6,
     type: 3}
   m_PrefabInstance: {fileID: 652821285}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &652821288 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3498551273509628911, guid: d52e990089223428c8af8ea51f6751c6,
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab03844731ef54386a75e2725f8b6eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &652821288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3498551272723962991, guid: d52e990089223428c8af8ea51f6751c6,
     type: 3}
   m_PrefabInstance: {fileID: 652821285}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &652821289 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3498551273874216914, guid: d52e990089223428c8af8ea51f6751c6,
@@ -34266,6 +34285,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &652821301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3498551273509628905, guid: d52e990089223428c8af8ea51f6751c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 652821285}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &658855321 stripped
@@ -88958,7 +88989,7 @@ MonoBehaviour:
   Omer: {fileID: 475948730}
   Ali: {fileID: 802965410}
   Maryam: {fileID: 818767042}
-  environment: 2
+  environment: 0
   configURL: https://chess-star.s3.amazonaws.com/preview495.png
 --- !u!4 &1628862473
 Transform:

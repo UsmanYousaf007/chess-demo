@@ -1192,7 +1192,9 @@ MonoBehaviour:
   animate: 1
   animationStartPoint: {x: 0, y: 90, z: 0}
   animationEndPoint: {x: 0, y: 80, z: 0}
-  autoDisable: 1
+  useDisplacement: 0
+  displacement: {x: 0, y: 0, z: 0}
+  autoDisable: 0
   disableAfterSeconds: 5
 --- !u!114 &6283515493120810153
 MonoBehaviour:
