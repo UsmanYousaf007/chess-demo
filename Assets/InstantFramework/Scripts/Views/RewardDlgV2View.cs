@@ -121,7 +121,10 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+                    if (_currentChestAnimSequence != null)
+                    {
+                        _currentAnimSequence.SetupRewardQuantity(_reward.Quantity);
+                    }
 
                     _currentAnimSequence?.transform.parent.gameObject.SetActive(true);
                 }
