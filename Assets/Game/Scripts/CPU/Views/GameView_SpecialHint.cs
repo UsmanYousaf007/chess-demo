@@ -21,7 +21,7 @@ namespace TurboLabz.CPU
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
         public GameObject specialFreeHintContainer;
-        public GameObject freeHintTooltip;
+        public ToolTip freeHintTooltip;
         public GameObject specialHintPowerModeHints;
         public Text specialHintPowerModeHintsCount;
         public Image specialHintGemIcon;
@@ -36,6 +36,7 @@ namespace TurboLabz.CPU
         private int powerModeHints;
         private bool specialHintBubbleShown;
         private int specialHintBubbleAdvantageThreshold;
+        private bool specialHintUsedAfterTooltip;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal notEnoughGemsSignal = new Signal();
@@ -56,6 +57,8 @@ namespace TurboLabz.CPU
             specialHintView.Hide();
             specialHintToolTip.SetActive(false);
             specialHintBubbleShown = false;
+            specialHintUsedAfterTooltip = false;
+            freeHintTooltip.hiddenByClick = false;
         }
 
         public void SetupSpecialHintButton(SpecialHintVO vo)
@@ -132,6 +135,8 @@ namespace TurboLabz.CPU
             specialHintButton.interactable = false;
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 0.5f);
             specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 0.5f);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 0.5f);
+            freeHintTooltip.gameObject.SetActive(false);
         }
 
         private void EnableSpecialHintButton()
@@ -139,6 +144,7 @@ namespace TurboLabz.CPU
             specialHintButton.interactable = true;
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 1);
             specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 1);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 1);
         }
 
         public void RenderSpecialHint(HintVO vo)
@@ -217,15 +223,17 @@ namespace TurboLabz.CPU
             specialHintThinkinig.SetActive(true);
             EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
             specialHintClickedSignal.Dispatch(vo);
+            specialHintUsedAfterTooltip = specialHintBubbleShown;
+            freeHintTooltip.gameObject.SetActive(false);
         }
 
         private void ShowSpecialHintBubble(int opponentScore)
         {
-            if (!specialHintBubbleShown && opponentScore >= specialHintBubbleAdvantageThreshold)
+            if (!freeHintTooltip.hiddenByClick && !specialHintUsedAfterTooltip && opponentScore >= specialHintBubbleAdvantageThreshold)
             {
                 specialHintBubbleShown = true;
-                freeHintTooltip.SetActive(true);
-                specialHintBubbleText.text = "Stuck? Use a Hint";
+                freeHintTooltip.gameObject.SetActive(true);
+                specialHintBubbleText.text = "Stuck? Use a HINT";
             }
         }
     }

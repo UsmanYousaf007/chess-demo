@@ -20,12 +20,13 @@ namespace TurboLabz.Multiplayer
         public Text specialHintTooltipText;
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
-        public GameObject freeHintTooltip;
+        public ToolTip freeHintTooltip;
         public GameObject specialHintPowerModeHints;
         public Text specialHintPowerModeHintsCount;
         public Image specialHintGemIcon;
         public Text specialHintBubbleText;
-        public GameObject specialFreeHintContainer;
+        public Image specialFreeHintContainer;
+        public Text specialFreeHintText;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -36,6 +37,7 @@ namespace TurboLabz.Multiplayer
         private int powerModeHints;
         private bool specialHintBubbleShown;
         private int specialHintBubbleAdvantageThreshold;
+        private bool specialHintUsedAfterTooltip;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal<VirtualGoodsTransactionVO> notEnoughSpecialHintsSingal = new Signal<VirtualGoodsTransactionVO>();
@@ -55,6 +57,8 @@ namespace TurboLabz.Multiplayer
             specialHintView.Hide();
             specialHintToolTip.SetActive(false);
             specialHintBubbleShown = false;
+            specialHintUsedAfterTooltip = false;
+            freeHintTooltip.hiddenByClick = false;
         }
 
         public void SetupSpecialHintButton(SpecialHintVO vo)
@@ -103,7 +107,7 @@ namespace TurboLabz.Multiplayer
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
-            specialFreeHintContainer.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+            specialFreeHintContainer.gameObject.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
             //freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
             specialHintPowerModeHints.SetActive(powerModeHints > 0);
             specialHintPowerModeHintsCount.text = powerModeHints.ToString();
@@ -126,6 +130,10 @@ namespace TurboLabz.Multiplayer
             specialHintButton.interactable = false;
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 0.5f);
             specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 0.5f);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 0.5f);
+            specialFreeHintContainer.color = Colors.ColorAlpha(specialFreeHintContainer.color, 0.5f);
+            specialFreeHintText.color = Colors.ColorAlpha(specialFreeHintText.color, 0.5f);
+            freeHintTooltip.gameObject.SetActive(false);
         }
 
         private void EnableSpecialHintButton()
@@ -133,6 +141,9 @@ namespace TurboLabz.Multiplayer
             specialHintButton.interactable = true;
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 1);
             specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 1);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 1);
+            specialFreeHintContainer.color = Colors.ColorAlpha(specialFreeHintContainer.color, 1);
+            specialFreeHintText.color = Colors.ColorAlpha(specialFreeHintText.color, 1);
         }
 
         public void RenderSpecialHint(HintVO vo)
@@ -214,17 +225,29 @@ namespace TurboLabz.Multiplayer
             specialHintThinkinig.SetActive(true);
             EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
             specialHintClickedSignal.Dispatch(vo);
+            specialHintUsedAfterTooltip = specialHintBubbleShown;
+            freeHintTooltip.gameObject.SetActive(false);
         }
 
         private void ShowSpecialHintBubble(int opponentScore)
         {
-            if (!specialHintBubbleShown && opponentScore >= specialHintBubbleAdvantageThreshold)
+            if (!freeHintTooltip.hiddenByClick && !specialHintUsedAfterTooltip && opponentScore >= specialHintBubbleAdvantageThreshold)
             {
                 specialHintBubbleShown = true;
-                freeHintTooltip.SetActive(true);
-                var freeText = preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) ? "Free " : string.Empty;
-                specialHintBubbleText.text = $"Stuck? Use a {freeText}Hint";
+                freeHintTooltip.gameObject.SetActive(true);
+                var freeText = preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) ? "FREE " : string.Empty;
+                specialHintBubbleText.text = $"Stuck? Use a {freeText}HINT";
             }
+        }
+
+        private void DisableFreeHint()
+        {
+            if (preferencesModel.freeHint.HasFlag(FreePowerUpStatus.NOT_CONSUMED | FreePowerUpStatus.AVAILABLE))
+            {
+                preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
+            }
+
+            SetupSpecialHintButton();
         }
     }
 }
