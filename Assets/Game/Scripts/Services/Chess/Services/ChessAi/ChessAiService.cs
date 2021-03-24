@@ -102,7 +102,9 @@ namespace TurboLabz.Chess
             string searchDepth;
 
             // Execute the move
-            searchDepth = (aiMoveInputVO.isStrength || aiMoveInputVO.isHint) ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+            searchDepth = (aiMoveInputVO.isStrength || aiMoveInputVO.isHint) ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() :
+                aiMoveInputVO.analyse ? ChessAiConfig.SF_ANALYSIS_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+
             AiLog("searchDepth = " + searchDepth);
             
             plugin.GoDepth(searchDepth);
@@ -164,6 +166,10 @@ namespace TurboLabz.Chess
             {
                 //GetBestMove();
                 GetHint();
+            }
+            else if (aiMoveInputVO.analyse)
+            {
+                GetMoveAnalysis();
             }
             else
             {

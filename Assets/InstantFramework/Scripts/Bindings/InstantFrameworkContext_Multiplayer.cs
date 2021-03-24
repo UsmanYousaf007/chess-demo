@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetHintSignal>().To<GetHintCommand>();
             commandBinder.Bind<UpdatePlayerNotificationCountSignal>().To<UpdatePlayerNotificationCountCommand>();
             commandBinder.Bind<OnboardingTooltipSignal>().To<OnboardingTooltipCommand>();
+            commandBinder.Bind<AnalyseMoveSignal>().To<AnalyseMoveCommand>();
 
             // Bind signals for dispatching to/from mediators
             injectionBinder.Bind<SetupChessboardSignal>().ToSingleton();

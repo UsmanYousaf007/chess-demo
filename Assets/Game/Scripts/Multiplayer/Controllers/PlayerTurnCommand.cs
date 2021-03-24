@@ -26,6 +26,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public CancelHintSingal cancelHintSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public AnalyseMoveSignal analyseMoveSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -78,6 +79,8 @@ namespace TurboLabz.Multiplayer
 
             Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             chessboard.lastPlayerMove = move;
+
+            analyseMoveSignal.Dispatch();
         }
     }
 }

@@ -33,6 +33,7 @@ namespace TurboLabz.Chess
         // Search depth is key to making stockfish smarter
         public const int SF_MIN_SEARCH_DEPTH = 0; 
         public const int SF_MAX_SEARCH_DEPTH = 12;
+        public const int SF_ANALYSIS_SEARCH_DEPTH = 6;
 
         // Basic move selection
         public const int OPENING_MOVES_SELECT_COUNT = 3;

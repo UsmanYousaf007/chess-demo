@@ -3,6 +3,7 @@
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
 using System.Collections.Generic;
+using TurboLabz.Chess;
 using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
@@ -61,6 +62,8 @@ namespace TurboLabz.InstantFramework
         public long betValue { get; set; }
         public bool powerMode { get; set; }
         public int freeHints { get; set; }
+        public List<MoveAnalysis> movesAnalysisList { get; set; }
+        public MatchAnalysis matchAnalysis { get; set; }
 
         public bool isBotMatch
         {
@@ -100,6 +103,8 @@ namespace TurboLabz.InstantFramework
             lastAdShownUTC = 0;
             gameTimeMode = GameTimeMode.Default;
             freeHints = 0;
+            movesAnalysisList = new List<MoveAnalysis>();
+            matchAnalysis = new MatchAnalysis();
         }
     }
 

@@ -99,4 +99,5 @@ namespace TurboLabz.Multiplayer
     public class SetupSpecialHintSignal : Signal<SpecialHintVO> { }
     public class SpecialHintAvailableSignal : Signal<bool> { }
     public class FreeHintAvailableSignal : Signal<bool> { }
+    public class AnalyseMoveSignal : Signal { }
 }

@@ -144,6 +144,13 @@ namespace TurboLabz.InstantFramework
 
                 chessboard.backendPlayerTimer = TimeSpan.FromMilliseconds(playerData.GetLong(GSBackendKeys.TIMER).Value);
                 chessboard.backendOpponentTimer = TimeSpan.FromMilliseconds(opponentData.GetLong(GSBackendKeys.TIMER).Value);
+
+                if (chessboard.moveList.Count > 0)
+                {
+                    var moveAnalysis = new MoveAnalysis();
+                    moveAnalysis.playerMove = chessboard.moveList[chessboard.moveList.Count - 1];
+                    matchInfo.movesAnalysisList.Add(moveAnalysis);
+                }
             }
         }
 
