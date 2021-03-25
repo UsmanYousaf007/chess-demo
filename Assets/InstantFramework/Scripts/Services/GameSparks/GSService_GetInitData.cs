@@ -14,19 +14,24 @@ using System;
 using GameSparks.Api.Requests;
 using UnityEngine;
 using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        bool isStoreAvailable;
+
         public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
             // Fetch init data from server
+            isStoreAvailable = false;
             return new GSGetInitDataRequest(GetRequestContext()).Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
         void OnGetInitDataSuccess(object r, Action<object> a)
         {
+            routineRunner = new NormalRoutineRunner();
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
@@ -62,6 +67,14 @@ namespace TurboLabz.InstantFramework
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
+            Debug.Log("ItemsPrices::FillStoreSettingsModel call completed: " + DateTime.Now);
+
+            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            if (promise != null)
+            {
+                Debug.Log("ItemsPrices::OnStoreInit call time: " + DateTime.Now);
+                promise.Then(OnStoreInit);
+            }
 
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_ADS_SETTINGS);
@@ -80,6 +93,14 @@ namespace TurboLabz.InstantFramework
 
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
+
+            if (playerModel.HasSubscription())
+            {
+                settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
+                settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
+
+                LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
+            }
 
             GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
             FillChatModel(chatData);
@@ -150,11 +171,30 @@ namespace TurboLabz.InstantFramework
                 // need not be set from the server. Do not set activeChallengeId here.
             }
 
-            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
-            if (promise != null)
+            
+            routineRunner.StartCoroutine(OnInitDataComplete());
+            
+           
+            //IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            //if (promise != null)
+            //{
+            //    Debug.Log("ItemsPrices::OnStoreInit call time: " + DateTime.Now);
+            //    promise.Then(OnStoreInit);
+            //}
+
+            
+        }
+
+        private IEnumerator OnInitDataComplete()
+        {
+            while (!isStoreAvailable)
             {
-                promise.Then(OnStoreInit);
+                yield return null;
             }
+
+            setDefaultSkinSignal.Dispatch();
+            getInitDataCompleteSignal.Dispatch();
+            yield break;
         }
 
         private void OnStoreInit(bool success)
@@ -173,24 +213,25 @@ namespace TurboLabz.InstantFramework
                         storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
                 }
-
+                Debug.Log("ItemsPrices::OnStoreInit time after price fetch: " + DateTime.Now);
+                
                 storeAvailableSignal.Dispatch(true);
             }
+            isStoreAvailable = true;
+            //if (playerModel.HasSubscription())
+            //{
+            //    settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
+            //    settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
 
-            if (playerModel.HasSubscription())
-            {
-                settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
-                settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
+            //    LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
+            //}
 
-                LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
-            }
+            //setDefaultSkinSignal.Dispatch();
 
-            setDefaultSkinSignal.Dispatch();
-
-            if (playerModel.subscriptionExipryTimeStamp > 0)
-            {
-                getInitDataCompleteSignal.Dispatch();
-            }
+            //if (playerModel.subscriptionExipryTimeStamp > 0)
+            //{
+            //    getInitDataCompleteSignal.Dispatch();
+            //}
 
         }
 
@@ -992,5 +1033,15 @@ namespace TurboLabz.InstantFramework
         }
     }
 
+
+
     #endregion
+
+    [Flags]
+    public enum StoreStatus
+    {
+        NotStarted = 1,
+        InProgress = 2,
+        Completed = 4
+    }
 }
