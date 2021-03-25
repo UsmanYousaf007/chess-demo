@@ -180,7 +180,7 @@ namespace TurboLabz.InstantFramework
 
                 #region GameResults
 
-                { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
+                { LocalizationKey.RESULTS_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_TOURNAMENT_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
                 { LocalizationKey.RESULTS_RECOVER_RATING_BUTTON, "Recover Rating" },
