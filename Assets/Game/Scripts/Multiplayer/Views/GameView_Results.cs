@@ -59,7 +59,6 @@ namespace TurboLabz.Multiplayer
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
         public ViewBoardResults viewBoardResultPanel;
-        public Button showCrossPromoButton;
 
         public Text resultsRewardLabel;
         public Text resultsBetReversedLabel;
@@ -75,6 +74,12 @@ namespace TurboLabz.Multiplayer
 
         public Button resultsContinueButton;
         public Button resultsContinueButton2;
+
+        public Button fullAnalysisBtn;
+        public TMP_Text fullAnalysisGemsCount;
+        public TMP_Text bunders;
+        public TMP_Text mistakes;
+        public TMP_Text perfect;
 
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
@@ -128,8 +133,8 @@ namespace TurboLabz.Multiplayer
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
             resultsContinueButton2.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
             resultsDoubleRewardButton.onClick.AddListener(OnRewardDoublerClicked);
+            //fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
@@ -142,7 +147,6 @@ namespace TurboLabz.Multiplayer
             resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsContinueButton.onClick.RemoveAllListeners();
             resultsContinueButton2.onClick.RemoveAllListeners();
-            showCrossPromoButton.onClick.RemoveAllListeners();
             resultsDoubleRewardButton.onClick.RemoveAllListeners();
         }
 
@@ -168,11 +172,6 @@ namespace TurboLabz.Multiplayer
             ShowViewBoardResultsPanel(false);
 
             preferencesModel.isRateAppDialogueShown = false;
-
-            if (HCrossPromo.service != null)
-            {
-                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
-            }
             appInfoModel.gameMode = GameMode.NONE;
         }
 
@@ -267,13 +266,13 @@ namespace TurboLabz.Multiplayer
             if (eloScoreDelta > 0)
             {
                 resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.GREEN_DIM;
+                resultsRatingChangeLabel.color = Colors.GREEN_LIGHT;
                 resultsRatingChangeLabel.gameObject.SetActive(true);
             }
             else if (eloScoreDelta < 0)
             {
                 resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.RED_DIM;
+                resultsRatingChangeLabel.color = Colors.RED_LIGHT;
                 resultsRatingChangeLabel.gameObject.SetActive(true);
             }
         }
@@ -525,6 +524,11 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
             backToLobbySignal.Dispatch();
+        }
+
+        private void OnFullAnalysisButtonClicked()
+        {
+            //add code here
         }
 
         private void OnResultsClosed()

@@ -23,6 +23,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
+using TMPro;
 
 namespace TurboLabz.CPU
 {
@@ -61,7 +62,6 @@ namespace TurboLabz.CPU
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
         public ViewBoardResults viewBoardResultPanel;
-        public Button showCrossPromoButton;
 
         public Text resultsRewardLabel;
         public Text resultsBetReversedLabel;
@@ -81,6 +81,12 @@ namespace TurboLabz.CPU
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
         public Sprite powerPlayOffSprite;
+
+        public Button fullAnalysisBtn;
+        public TMP_Text fullAnalysisGemsCount;
+        public TMP_Text bunders;
+        public TMP_Text mistakes;
+        public TMP_Text perfect;
 
         public RectTransform[] resultsLayouts;
 
@@ -130,7 +136,7 @@ namespace TurboLabz.CPU
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
             resultsContinueButton2.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
+            //fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
@@ -144,7 +150,6 @@ namespace TurboLabz.CPU
             resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsContinueButton.onClick.RemoveAllListeners();
             resultsContinueButton2.onClick.RemoveAllListeners();
-            showCrossPromoButton.onClick.RemoveAllListeners();
             resultsDoubleRewardButton.onClick.RemoveAllListeners();
         }            
 
@@ -166,11 +171,6 @@ namespace TurboLabz.CPU
             ShowViewBoardResultsPanel(false);
 
             preferencesModel.isRateAppDialogueShown = false;
-
-            if (HCrossPromo.service != null)
-            {
-                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
-            }
             appInfoModel.gameMode = GameMode.NONE;
         }
 
@@ -208,12 +208,12 @@ namespace TurboLabz.CPU
             if (eloScoreDelta > 0)
             {
                 resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.GREEN_DIM;
+                resultsRatingChangeLabel.color = Colors.GREEN_LIGHT;
             }
             else if (eloScoreDelta < 0)
             {
                 resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.RED_DIM;
+                resultsRatingChangeLabel.color = Colors.RED_LIGHT;
             }
         }
 
@@ -419,6 +419,11 @@ namespace TurboLabz.CPU
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             
             showAdSignal.Dispatch(vo, false);
+        }
+
+        private void OnFullAnalysisButtonClicked()
+        {
+            //add code here
         }
 
         private void OnResultsClosed()

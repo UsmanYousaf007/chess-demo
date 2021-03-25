@@ -12,10 +12,7 @@ public class WinResultAnimSequence : MonoBehaviour
     [SerializeField] private ParticleSystem _powerPlayFX;
     [SerializeField] private Text _coinsText;
     [SerializeField] private Text _starsText;
-    [SerializeField] private GameObject _viewBoardBtnObj;
-    [SerializeField] private Button _ratingBoosterBtn;
     [SerializeField] private Button _continueBtn;
-    [SerializeField] private GameObject _crossPromoBtnObj;
     [SerializeField] private GameObject [] _coinPanelChildObjects;
     [SerializeField] private GameObject [] _starsPanelChildObjects;
     [SerializeField] private Image powerPlayImage;
@@ -44,10 +41,6 @@ public class WinResultAnimSequence : MonoBehaviour
 
         _coinsText.text = "0";
         _starsText.text = "0";
-
-        _viewBoardBtnObj.SetActive(!playerWon || !isRanked);
-        _crossPromoBtnObj.SetActive(!playerWon || !isRanked);
-        _ratingBoosterBtn.interactable = !playerWon;
 
         if (_animator == null)
         {
@@ -160,22 +153,17 @@ public class WinResultAnimSequence : MonoBehaviour
 
     private void OnStarsCountAnimationComplete()
     {
-        _viewBoardBtnObj.SetActive(true);
-        _crossPromoBtnObj.SetActive(true);
-        _ratingBoosterBtn.interactable = true;
         powerPlayImage.gameObject.SetActive(false);
         _continueBtn.gameObject.SetActive(true);
         _animator.enabled = false;
-
-        TweenInCrossPromo();
     }
 
     private void TweenInCrossPromo()
     {
-        Vector3 crossPromoTransformPosition = _crossPromoBtnObj.transform.position;
+        Vector3 crossPromoTransformPosition = _continueBtn.transform.position;
         float crossPromoY = crossPromoTransformPosition.y;
-        _crossPromoBtnObj.transform.position = new Vector3(crossPromoTransformPosition.x, -349f, crossPromoTransformPosition.z);
-        _crossPromoBtnObj.SetActive(true);
-        _crossPromoBtnObj.transform.DOMoveY(crossPromoY, 0.2f);
+        _continueBtn.transform.position = new Vector3(crossPromoTransformPosition.x, -349f, crossPromoTransformPosition.z);
+        _continueBtn.gameObject.SetActive(true);
+        _continueBtn.transform.DOMoveY(crossPromoY, 0.2f);
     }
 }
