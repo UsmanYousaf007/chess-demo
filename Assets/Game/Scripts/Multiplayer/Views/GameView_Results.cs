@@ -73,7 +73,6 @@ namespace TurboLabz.Multiplayer
         public Image resultsDoubleRewardGemIcon;
 
         public Button resultsContinueButton;
-        public Button resultsContinueButton2;
 
         public Button fullAnalysisBtn;
         public TMP_Text fullAnalysisGemsCount;
@@ -132,9 +131,8 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            resultsContinueButton2.onClick.AddListener(OnResultsSkipRewardButtonClicked);
             resultsDoubleRewardButton.onClick.AddListener(OnRewardDoublerClicked);
-            //fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
+            fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
@@ -146,7 +144,6 @@ namespace TurboLabz.Multiplayer
             declinedLobbyButton.onClick.RemoveAllListeners();
             resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsContinueButton.onClick.RemoveAllListeners();
-            resultsContinueButton2.onClick.RemoveAllListeners();
             resultsDoubleRewardButton.onClick.RemoveAllListeners();
         }
 
@@ -401,9 +398,9 @@ namespace TurboLabz.Multiplayer
             resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
             resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
+
             resultsContinueButton.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
-            //resultsContinueButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
-            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
         }

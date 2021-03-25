@@ -76,7 +76,6 @@ namespace TurboLabz.CPU
         public Image resultsDoubleRewardGemIcon;
 
         public Button resultsContinueButton;
-        public Button resultsContinueButton2;
 
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
@@ -135,8 +134,7 @@ namespace TurboLabz.CPU
             resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            resultsContinueButton2.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            //fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
+            fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
@@ -149,7 +147,6 @@ namespace TurboLabz.CPU
         {
             resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsContinueButton.onClick.RemoveAllListeners();
-            resultsContinueButton2.onClick.RemoveAllListeners();
             resultsDoubleRewardButton.onClick.RemoveAllListeners();
         }            
 
@@ -483,8 +480,7 @@ namespace TurboLabz.CPU
             resultsDoubleRewardButton.gameObject.SetActive(playerWins && isRankedGame);
 
             //resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
-            resultsContinueButton.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
-            resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+            //resultsContinueButton.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
 
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(false);
