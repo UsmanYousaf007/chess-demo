@@ -275,6 +275,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
             injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();
+            injectionBinder.Bind<IBlurBackgroundService>().To<BlurBackgroundService>().ToSingleton();
 
 
 #if !UNITY_EDITOR && UNITY_ANDROID

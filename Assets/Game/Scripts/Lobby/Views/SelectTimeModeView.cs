@@ -14,6 +14,8 @@ namespace TurboLabz.InstantFramework
     [CLSCompliant(false)]
     public class SelectTimeModeView : View
     {
+        public Image BlurBg;
+
         public TMP_Text startGame3mText;
         public Button startGame3mButton;
 
@@ -52,6 +54,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
 
         private StoreItem storeItem;
         private bool isPowerModeOn;
@@ -74,7 +77,8 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            gameObject.SetActive(true);
+            // Blur background and enable this dialog
+            blurBackgroundService.BlurBackground(BlurBg, 6, gameObject);
         }
 
         public void Hide()
