@@ -50,7 +50,7 @@ public class ToolTip : MonoBehaviour
     {
         CancelInvoke();
         StopAnimation();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public void OnClick()
