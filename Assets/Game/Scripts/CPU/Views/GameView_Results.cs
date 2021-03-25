@@ -481,8 +481,11 @@ namespace TurboLabz.CPU
             resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
             resultsDoubleRewardButton.gameObject.SetActive(playerWins && isRankedGame);
-            resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
+
+            //resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
+            resultsContinueButton.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
             resultsContinueButton2.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(false);
         }
