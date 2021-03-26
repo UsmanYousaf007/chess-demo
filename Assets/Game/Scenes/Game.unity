@@ -962,6 +962,7 @@ MonoBehaviour:
   resultsPowerplayImage: {fileID: 1024005139909254277}
   powerPlayOnSprite: {fileID: 21300000, guid: 56c649ff12c5f4892b8fd28262c077cd, type: 3}
   powerPlayOffSprite: {fileID: 21300000, guid: 4e25f2cfb51e74f18a42e72617bdb533, type: 3}
+  sparkles: {fileID: 1024005139909254272}
   resultsLayouts:
   - {fileID: 1024005139909254275}
   - {fileID: 1024005139909254274}
@@ -120581,6 +120582,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1024005139909254269}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1024005139909254272 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4334025493757519107, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1024005139909254274 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7732361291319314916, guid: 91a22b3c6348040ba9fe46b345aca015,
