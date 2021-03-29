@@ -50,6 +50,7 @@ namespace TurboLabz.Multiplayer
         public void OnRegisterResults()
         {
             view.InitResults();
+            view.InitAnalysis();
             view.backToLobbySignal.AddListener(OnBackToLobby);
             view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
@@ -59,6 +60,7 @@ namespace TurboLabz.Multiplayer
             view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
             view.doubleRewardSignal.AddListener(OnDoubleReward);
             view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
+            view.onAnalysiedMoveSelectedSignal.AddListener(OnAnalysiedMoveSelected);
         }
 
         public void OnRemoveResults()
@@ -191,6 +193,11 @@ namespace TurboLabz.Multiplayer
         {
             OnResultsDialogClosedSignal();
             view.UpdateAnalysisView(list);
+        }
+
+        private void OnAnalysiedMoveSelected(List<MoveAnalysis> list)
+        {
+            
         }
     }
 }

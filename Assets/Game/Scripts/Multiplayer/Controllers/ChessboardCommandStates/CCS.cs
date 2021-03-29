@@ -202,11 +202,20 @@ namespace TurboLabz.Multiplayer
         protected void HandleOpponentBackendMoved(ChessboardCommand cmd)
         {
             Chessboard chessboard = cmd.activeChessboard;
+            string promo = GetPromoFromMove(chessboard.opponentMoveFlag);
+
+            ChessMove move = new ChessMove();
+            move.from = chessboard.opponentFromSquare.fileRank;
+            move.to = chessboard.opponentToSquare.fileRank;
+            move.piece = chessboard.opponentFromSquare.piece;
+            move.promo = promo;
+
+            cmd.analyseMoveSignal.Dispatch(move, false);
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
                 chessboard.opponentFromSquare.fileRank,
                 chessboard.opponentToSquare.fileRank,
-                GetPromoFromMove(chessboard.opponentMoveFlag),
+                promo,
                 false, 
                 chessboard.squares);
 

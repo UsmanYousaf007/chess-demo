@@ -6,8 +6,13 @@ namespace TurboLabz.Multiplayer
 {
     public class AnalyseMoveCommand : Command
     {
+        //Parameters
+        [Inject] public ChessMove chessMove { get; set; }
+        [Inject] public bool isPlayerTurn { get; set; }
+
         // Services
         [Inject] public IChessAiService chessAiService { get; set; }
+        [Inject] public IChessService chessService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -25,10 +30,10 @@ namespace TurboLabz.Multiplayer
             vo.aiColor = chessboard.playerColor;
             vo.playerColor = chessboard.opponentColor;
             vo.squares = chessboard.squares;
-            vo.lastPlayerMove = chessboard.lastPlayerMove;
+            vo.lastPlayerMove = chessMove;
             vo.playerStrengthPct = 0.5f;
             vo.analyse = true;
-            vo.fen = chessboard.fen;
+            vo.fen = isPlayerTurn ? chessboard.fen : chessService.GetFen();
 
             chessAiService.AnalyseMove(vo).Then(OnMoveAnalysed);
         }
@@ -45,26 +50,29 @@ namespace TurboLabz.Multiplayer
             bestMove.piece = chessboard.squares[from.file, from.rank].piece;
 
             var moveAnalysis = new MoveAnalysis();
-            moveAnalysis.playerMove = chessboard.lastPlayerMove;
+            moveAnalysis.playerMove = chessMove;
             moveAnalysis.bestMove = bestMove;
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
 
             matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
 
-            switch (moveAnalysis.moveQuality)
+            if (isPlayerTurn)
             {
-                case MoveQuality.PERFECT:
-                    matchInfoModel.activeMatch.matchAnalysis.perfectMoves++;
-                    break;
+                switch (moveAnalysis.moveQuality)
+                {
+                    case MoveQuality.PERFECT:
+                        matchInfoModel.activeMatch.matchAnalysis.perfectMoves++;
+                        break;
 
-                case MoveQuality.BLUNDER:
-                    matchInfoModel.activeMatch.matchAnalysis.blunders++;
-                    break;
+                    case MoveQuality.BLUNDER:
+                        matchInfoModel.activeMatch.matchAnalysis.blunders++;
+                        break;
 
-                case MoveQuality.MISTAKE:
-                    matchInfoModel.activeMatch.matchAnalysis.mistakes++;
-                    break;
+                    case MoveQuality.MISTAKE:
+                        matchInfoModel.activeMatch.matchAnalysis.mistakes++;
+                        break;
+                }
             }
 
             Release();
