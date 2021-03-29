@@ -59,6 +59,7 @@ namespace TurboLabz.Multiplayer
         public bool inSafeMode { get; set; }
         public string fen { get; set; }
         public string previousPlayerTurnFen { get; set; }
+        public string fenBeforeLastMove { get; set; }
 
         // Overrides
         public string overrideFen { get; set; }

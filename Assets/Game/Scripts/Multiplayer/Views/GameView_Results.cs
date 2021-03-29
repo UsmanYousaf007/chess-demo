@@ -85,6 +85,8 @@ namespace TurboLabz.Multiplayer
         public Sprite powerPlayOnSprite;
         public Sprite powerPlayOffSprite;
 
+        public Image sparkles;
+
         public RectTransform[] resultsLayouts;
 
         public WinResultAnimSequence _winAnimationSequence;
@@ -234,6 +236,7 @@ namespace TurboLabz.Multiplayer
             {
                 analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.rating_booster);
             }
+            AnimateSparkes();
         }
 
         public void ShowViewBoardResultsPanel(bool show)
@@ -664,5 +667,34 @@ namespace TurboLabz.Multiplayer
             perfect.text = analysis.perfectMoves.ToString();
             mistakes.text = analysis.mistakes.ToString();
         }
+
+        #region Animations
+
+        void AnimateSparkes()
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendCallback(() => FadeInSparkles());
+            sequence.AppendInterval(1);
+            sequence.AppendCallback(() => FadeOutSparkes());
+            sequence.AppendInterval(4);
+            sequence.AppendCallback(() => AnimateSparkes());
+            sequence.PlayForward();
+        }
+
+        void FadeInSparkles()
+        {
+            sparkles.DOFade(1, 1);
+            LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0,0,180), 1);
+            LeanTween.scale(sparkles.gameObject, new Vector3(1.25f, 1.25f, 1.25f), 1);
+        }
+
+        void FadeOutSparkes()
+        {
+            LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0, 0, 0f), 1);
+            LeanTween.scale(sparkles.gameObject, new Vector3(1, 1, 1), 1);
+            sparkles.DOFade(0, 1);
+        }
+
+        #endregion
     }
 }

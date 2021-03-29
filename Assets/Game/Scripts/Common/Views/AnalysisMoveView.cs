@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class AnalysisMoveView : MonoBehaviour
 {
-    public Text moveNumber;
-    public Text move;
-    public Image piece;
-    public Image moveQuality;
+    [Serializable]
+    public class AnalysisMove
+    {
+        public Text moveNumber;
+        public Text move;
+        public Image piece;
+        public Image moveQuality;
+    }
+
+    public AnalysisMove normal;
+    public AnalysisMove zoomed;
 
     // Start is called before the first frame update
     void Start()
@@ -24,18 +32,24 @@ public class AnalysisMoveView : MonoBehaviour
 
     public void SetupMove(string moveNumber, string move, Sprite moveQuality)
     {
-        this.moveNumber.text = moveNumber;
-        this.move.text = move;
-        this.piece.enabled = false;
+        SetupMove(normal, moveNumber, move, moveQuality);
+        SetupMove(zoomed, moveNumber, move, moveQuality);
+    }
+
+    private void SetupMove(AnalysisMove analysis, string moveNumber, string move, Sprite moveQuality)
+    {
+        analysis.moveNumber.text = moveNumber;
+        analysis.move.text = move;
+        analysis.piece.enabled = false;
 
         if (moveQuality != null)
         {
-            this.moveQuality.enabled = true;
-            this.moveQuality.sprite = moveQuality;
+            analysis.moveQuality.enabled = true;
+            analysis.moveQuality.sprite = moveQuality;
         }
         else
         {
-            this.moveQuality.enabled = false;
+            analysis.moveQuality.enabled = false;
         }
     }
 }

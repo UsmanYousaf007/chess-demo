@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DanielLochner.Assets.SimpleScrollSnap;
+using Picker;
 using TurboLabz.Chess;
 using UnityEngine;
 
@@ -8,7 +8,8 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         [Header("Analysis")]
-        public SimpleScrollSnap movesContainer;
+        public Transform movesContainer;
+        public PickerScrollRect pickerSrollRect;
         public GameObject analysisMoveView;
         public Sprite moveAnalysisBlunder;
         public Sprite moveAnalysisMistake;
@@ -19,12 +20,9 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(true);
             analysisPanel.SetActive(false);
 
-            if (movesContainer.Panels != null)
+            foreach (Transform move in movesContainer)
             {
-                for (int i = 0; i < movesContainer.Panels.Length; i++)
-                {
-                    movesContainer.Remove(i);
-                }
+                Destroy(move.gameObject);
             }
         }
 
@@ -35,15 +33,13 @@ namespace TurboLabz.Multiplayer
             {
                 if (move.bestMove != null)
                 {
-                    var moveVO = analysisMoveView.GetComponent<AnalysisMoveView>();
+                    var moveView = Instantiate(analysisMoveView, movesContainer);
+                    var moveVO = moveView.GetComponent<AnalysisMoveView>();
 
                     moveVO.SetupMove($"{i}.", move.playerMove.ToShortString(),
                         move.moveQuality == MoveQuality.BLUNDER ? moveAnalysisBlunder :
                         move.moveQuality == MoveQuality.MISTAKE ? moveAnalysisMistake :
                         move.moveQuality == MoveQuality.PERFECT ? moveAnalysisPerfect : null);
-
-                    movesContainer.Add(analysisMoveView, i - 1);
-
                     i++;
                 }
             }
