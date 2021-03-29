@@ -123,13 +123,11 @@ namespace DanielLochner.Assets.SimpleScrollSnap
         private void Awake()
         {
             if (isForceInitialized) return;
-            isForceInitialized = true;
             Initialize();
         }
         private void Start()
         {
             if (isForceInitialized) return;
-            isForceInitialized = true;
 
             if (Validate())
             {

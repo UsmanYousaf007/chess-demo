@@ -39,6 +39,7 @@ namespace TurboLabz.Multiplayer
         public GameObject chessboardBlocker;
         public GameObject playerInfoPanel;
         public GameObject opponentInfoPanel;
+        public GameObject analysisPanel;
         public Text opponentConnectionMonitorLabel;
         public GameObject logoObject;
 
@@ -85,6 +86,7 @@ namespace TurboLabz.Multiplayer
             EnableSafeButton();
             ShowViewBoardResultsPanel(false);
             OnShowLogo();
+            OnParentShowAnalysis();
         }
 
         public void Hide()

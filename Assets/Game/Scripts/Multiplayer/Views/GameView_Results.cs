@@ -14,6 +14,7 @@ using TurboLabz.InstantGame;
 using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
 using TMPro;
+using System.Collections.Generic;
 
 namespace TurboLabz.Multiplayer
 {
@@ -96,7 +97,8 @@ namespace TurboLabz.Multiplayer
         public Signal notEnoughGemsSignal = new Signal();
         public Signal backToArenaSignal = new Signal();
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
-
+        public Signal<List<MoveAnalysis>> fullAnalysisButtonClickedSignal = new Signal<List<MoveAnalysis>>();
+        
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
@@ -116,6 +118,7 @@ namespace TurboLabz.Multiplayer
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
         private bool animationPlayed = false;
+        private List<MoveAnalysis> moveAnalysisList;
 
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         
@@ -193,6 +196,7 @@ namespace TurboLabz.Multiplayer
             rewardDoublerStoreItem = vo.rewardDoubleStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
+            moveAnalysisList = vo.moveAnalysisList;
 
             if (!animationPlayed)
             {
@@ -207,6 +211,7 @@ namespace TurboLabz.Multiplayer
             SetupBoostPrice();
             SetupRewardDoublerPrice();
             UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
+            UpdateMatchAnalysis(vo.matchAnalysis);
             BuildLayout();
 
             resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
@@ -526,7 +531,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnFullAnalysisButtonClicked()
         {
-            //add code here
+            fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
         }
 
         private void OnResultsClosed()
@@ -651,6 +656,13 @@ namespace TurboLabz.Multiplayer
             playerModel.adContext = analyticsContext;
 
             showAdSignal.Dispatch(vo, false);
+        }
+
+        private void UpdateMatchAnalysis(MatchAnalysis analysis)
+        {
+            bunders.text = analysis.blunders.ToString();
+            perfect.text = analysis.perfectMoves.ToString();
+            mistakes.text = analysis.mistakes.ToString();
         }
     }
 }

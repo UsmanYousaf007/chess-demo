@@ -16,6 +16,7 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using GameSparks.Core;
 using GameAnalyticsSDK;
+using System.Collections.Generic;
 
 namespace TurboLabz.Multiplayer 
 {
@@ -57,6 +58,7 @@ namespace TurboLabz.Multiplayer
             view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
             view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
             view.doubleRewardSignal.AddListener(OnDoubleReward);
+            view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
         }
 
         public void OnRemoveResults()
@@ -183,6 +185,12 @@ namespace TurboLabz.Multiplayer
                 view.SetupSpecialHintButton();
                 view.SetupRewardDoublerPrice();
             }
+        }
+
+        private void OnFullAnallysisButtonClicked(List<MoveAnalysis> list)
+        {
+            OnResultsDialogClosedSignal();
+            view.UpdateAnalysisView(list);
         }
     }
 }

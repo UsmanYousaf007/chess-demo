@@ -33,8 +33,12 @@ namespace TurboLabz.Multiplayer
             chessAiService.AnalyseMove(vo).Then(OnMoveAnalysed);
         }
 
-        private void OnMoveAnalysed(FileRank from, FileRank to, string quality)
+        private void OnMoveAnalysed(FileRank from, FileRank to, string analysis)
         {
+            var parsedAnalysis = analysis.Split('|');
+            var quality = parsedAnalysis[0];
+            var strength = float.Parse(parsedAnalysis[1]);
+
             var bestMove = new ChessMove();
             bestMove.from = from;
             bestMove.to = to;
@@ -44,6 +48,7 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.playerMove = chessboard.lastPlayerMove;
             moveAnalysis.bestMove = bestMove;
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
+            moveAnalysis.strength = strength;
 
             matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
 

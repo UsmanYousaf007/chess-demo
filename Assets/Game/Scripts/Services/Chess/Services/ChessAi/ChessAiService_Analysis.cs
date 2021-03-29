@@ -16,6 +16,7 @@ namespace TurboLabz.Chess
 
         private void GetMoveAnalysis()
         {
+            var strength = 0.0f;
             var moveQuality = MoveQuality.NORMAL;
             var from = aiMoveInputVO.lastPlayerMove.from;
             var to = aiMoveInputVO.lastPlayerMove.to;
@@ -30,11 +31,13 @@ namespace TurboLabz.Chess
                 if (moveFoundIndex == -1)
                 {
                     moveQuality = MoveQuality.BLUNDER;
+                    strength = 0;
                     LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
                 }
                 else if (moveFoundIndex == 0)
                 {
                     moveQuality = MoveQuality.PERFECT;
+                    strength = 1;
                     playerMadeTheBestMove = true;
                     LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
                 }
@@ -60,6 +63,7 @@ namespace TurboLabz.Chess
                         moveQuality = MoveQuality.BLUNDER;
                     }
 
+                    strength = CalculateMoveStrength(moveFoundIndex);
                     LogUtil.Log($"relativeMoveScore: {relativeMoveScore} | moveQuality: {moveQuality}","yellow");
                 }
 
@@ -68,7 +72,7 @@ namespace TurboLabz.Chess
                 to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
             }
 
-            lastDequeuedMethod.promise.Dispatch(from, to, moveQuality.ToString());
+            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}");
             lastDequeuedMethod.promise = null;
             lastDequeuedMethod = null;
         }

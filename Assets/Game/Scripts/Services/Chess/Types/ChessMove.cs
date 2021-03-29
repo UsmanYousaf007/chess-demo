@@ -42,6 +42,19 @@ namespace TurboLabz.Chess
             return sb.ToString();
         }
 
+        public string ToShortString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(piece.color.ToString()[0]);
+            sb.Append(piece.name);
+            sb.Append(" ");
+            sb.Append(GetAlgebraicLocation(from));
+            sb.Append(" ");
+            sb.Append(GetAlgebraicLocation(to));
+
+            return sb.ToString();
+        }
+
         public string GetAlgebraicLocation(FileRank fileRank)
         {
             return FILE_MAP[fileRank.file].ToString() + (fileRank.rank + 1).ToString();
