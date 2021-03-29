@@ -57,19 +57,19 @@ namespace TurboLabz.InstantFramework
             _dlItem.url = dlItem.url;
             _dlItem.bundle = dlItem.bundle;
 
-            if (downloadablesModel.IsUpdateAvailable(shortCode))
-            {
+            //if (downloadablesModel.IsUpdateAvailable(shortCode))
+            //{
                 new GetDownloadableContentRequest(dlcSignal, contentType).Send(backendService.GetDownloadableContentUrl,
                                                     dlItem.downloadShortCode,dlItem.shortCode, dlItem.lastModified)
                                                     .Then(OnDownloadContentComplete);
-            }
+            //}
 
-            else
-            {
-                new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.downloadShortCode,
-                                                    dlItem.shortCode, dlItem.lastModified)
-                                                    .Then(OnDownloadContentComplete);
-            }
+            //else
+            //{
+            //    new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.downloadShortCode,
+            //                                        dlItem.shortCode, dlItem.lastModified)
+            //                                        .Then(OnDownloadContentComplete);
+            //}
         }
 
         public void OnDownloadContentComplete(BackendResult result, AssetBundle bundle)
@@ -94,7 +94,7 @@ namespace TurboLabz.InstantFramework
 
                 TLUtils.LogUtil.Log("DownloadablesService::OnDownloadContentComplete() ==> bundle:" + bundle.name, "cyan");
             }
-
+            
             onDownloadContentCompleteCB?.Invoke(result, bundle);
         }
     }
