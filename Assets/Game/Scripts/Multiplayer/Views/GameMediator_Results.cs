@@ -36,6 +36,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -197,7 +198,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnAnalysiedMoveSelected(List<MoveAnalysis> list)
         {
-            
+            renderMoveAnalysisSignal.Dispatch(list);
         }
     }
 }

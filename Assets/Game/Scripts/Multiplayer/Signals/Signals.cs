@@ -100,4 +100,5 @@ namespace TurboLabz.Multiplayer
     public class SpecialHintAvailableSignal : Signal<bool> { }
     public class FreeHintAvailableSignal : Signal<bool> { }
     public class AnalyseMoveSignal : Signal<ChessMove, bool> { }
+    public class RenderMoveAnalysisSignal : Signal<List<MoveAnalysis>> { }
 }

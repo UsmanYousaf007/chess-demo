@@ -6,6 +6,7 @@
         public ChessMove bestMove;
         public MoveQuality moveQuality;
         public float strength;
+        public bool isPlayerMove;
 
         public static MoveQuality MoveQualityToEnum(string quality)
         {

@@ -54,6 +54,7 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.bestMove = bestMove;
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
+            moveAnalysis.isPlayerMove = isPlayerTurn;
 
             matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
 
