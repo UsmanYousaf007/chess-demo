@@ -3,6 +3,7 @@ using Picker;
 using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TurboLabz.Multiplayer
 {
@@ -15,6 +16,13 @@ namespace TurboLabz.Multiplayer
         public Sprite moveAnalysisBlunder;
         public Sprite moveAnalysisMistake;
         public Sprite moveAnalysisPerfect;
+        public DrawLine analysisLine;
+        public Image analysisArrowHead;
+        public Transform analysisLineEndPivot;
+        public GameObject analysisStrengthPanel;
+        public Text analysisStrengthLabel;
+        public Image analysisStrengthFiller;
+        public Image analysisStrengthFillerBg;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
 
