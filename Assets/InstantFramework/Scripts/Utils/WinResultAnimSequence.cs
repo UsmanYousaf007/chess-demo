@@ -1,21 +1,22 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using strange.extensions.promise.api;
+using strange.extensions.promise.impl;
 
 public class WinResultAnimSequence : MonoBehaviour
 {
-    [SerializeField] private GameObject _iconSparklesFXObj;
-    [SerializeField] private GameObject _iconRaysFXObj;
     [SerializeField] private RewardParticleEmitter _coinsParticleEmitter;
     [SerializeField] private RewardParticleEmitter _starsParticleEmitter;
     [SerializeField] private RewardParticleEmitter _powerPlayParticleEmitter;
     [SerializeField] private ParticleSystem _powerPlayFX;
     [SerializeField] private Text _coinsText;
     [SerializeField] private Text _starsText;
-    [SerializeField] private Button _continueBtn;
     [SerializeField] private GameObject [] _coinPanelChildObjects;
     [SerializeField] private GameObject [] _starsPanelChildObjects;
     [SerializeField] private Image powerPlayImage;
+
+    private IPromise servicePromise;
 
     private Animator _animator;
 
@@ -25,9 +26,6 @@ public class WinResultAnimSequence : MonoBehaviour
 
     public void Reset(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0, bool playerWon = false, bool isRanked = false)
     {
-        _iconSparklesFXObj.SetActive(false);
-        _iconRaysFXObj.SetActive(false);
-
         _coinsParticleEmitter.gameObject.SetActive(false);
         _coinsRewarded = coinsRewarded;
 
@@ -59,7 +57,7 @@ public class WinResultAnimSequence : MonoBehaviour
         }
     }
 
-    public void PlayAnimation()
+    /*public void PlayAnimation()
     {
         _animator.enabled = true;
 
@@ -72,6 +70,24 @@ public class WinResultAnimSequence : MonoBehaviour
         {
             _starsPanelChildObjects[i].SetActive(true);
         }
+    }*/
+
+    public IPromise PlayAnimation(string actionCode = null)
+    {
+        servicePromise = new Promise();
+
+        _animator.enabled = true;
+        for (int i = 0; i < _coinPanelChildObjects.Length; i++)
+        {
+            _coinPanelChildObjects[i].SetActive(true);
+        }
+
+        for (int i = 0; i < _starsPanelChildObjects.Length; i++)
+        {
+            _starsPanelChildObjects[i].SetActive(true);
+        }
+
+        return servicePromise;
     }
 
     private void PlayCoinEffect()
@@ -154,16 +170,13 @@ public class WinResultAnimSequence : MonoBehaviour
     private void OnStarsCountAnimationComplete()
     {
         powerPlayImage.gameObject.SetActive(false);
-        _continueBtn.gameObject.SetActive(true);
+        //_continueBtn.gameObject.SetActive(true);
         _animator.enabled = false;
+        servicePromise.Dispatch();
     }
 
     private void TweenInCrossPromo()
     {
-        Vector3 crossPromoTransformPosition = _continueBtn.transform.position;
-        float crossPromoY = crossPromoTransformPosition.y;
-        _continueBtn.transform.position = new Vector3(crossPromoTransformPosition.x, -349f, crossPromoTransformPosition.z);
-        _continueBtn.gameObject.SetActive(true);
-        _continueBtn.transform.DOMoveY(crossPromoY, 0.2f);
+        float crossPromoY = 2;
     }
 }

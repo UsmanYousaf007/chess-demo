@@ -89,8 +89,6 @@ namespace TurboLabz.Multiplayer
 
         public RectTransform[] resultsLayouts;
 
-        public WinResultAnimSequence _winAnimationSequence;
-
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
@@ -119,11 +117,10 @@ namespace TurboLabz.Multiplayer
         private StoreItem rewardDoublerStoreItem;
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
-        private bool animationPlayed = false;
         private List<MoveAnalysis> moveAnalysisList;
 
         [Inject] public IPreferencesModel preferencesModel { get; set; }
-        
+
         public void InitResults()
         {
             // Declined dialog
@@ -159,22 +156,10 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
-            EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
+            resultsDialog.transform.localScale = new Vector3(0f, 0, 0f);
             resultsDialog.SetActive(true);
-
-            HidePossibleMoves();
-            HideOpponentConnectionMonitor();
-
-            if (!ArePlayerMoveIndicatorsVisible())
-            {
-                HidePlayerToIndicator();
-            }
-
-            HideSafeMoveBorder();
-            ShowViewBoardResultsPanel(false);
-
-            preferencesModel.isRateAppDialogueShown = false;
-            appInfoModel.gameMode = GameMode.NONE;
+            Invoke("AnimateResultsDialog", animDelay);
+            AnimateSparkes();
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -200,11 +185,11 @@ namespace TurboLabz.Multiplayer
             challengeId = vo.challengeId;
             moveAnalysisList = vo.moveAnalysisList;
 
-            if (!animationPlayed)
+            /*if (!animationPlayed)
             {
                 var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
                 _winAnimationSequence.Reset((long)coinsRewarded, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
-            }
+            }*/
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
@@ -212,12 +197,12 @@ namespace TurboLabz.Multiplayer
             SetupResultsLayout();
             SetupBoostPrice();
             SetupRewardDoublerPrice();
-            UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             UpdateMatchAnalysis(vo.matchAnalysis);
+            //UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             BuildLayout();
 
-            resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            Invoke("AnimateResultsDialog", animDelay);
+            //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
+            //Invoke("AnimateResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -236,7 +221,7 @@ namespace TurboLabz.Multiplayer
             {
                 analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.rating_booster);
             }
-            AnimateSparkes();
+            //AnimateSparkes();
         }
 
         public void ShowViewBoardResultsPanel(bool show)
@@ -413,13 +398,13 @@ namespace TurboLabz.Multiplayer
             resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
         }
 
-        private void UpdateRewards(long betValue, int stars, bool powerMode)
+        /*private void UpdateRewards(long betValue, int stars, bool powerMode)
         {
             //resultsEarnedCoinsLabel.text = playerWins ? $"{betValue * 2}" : betValue.ToString();
             //resultsEarnedStarsLabel.text = powerMode ? $"{stars * 2}" : stars.ToString();
             resultsPowerplayImage.enabled = powerMode;
             resultsPowerplayImage.sprite = powerMode ? powerPlayOnSprite : powerPlayOffSprite;
-        }
+        }*/
 
         private void BuildLayout()
         {
@@ -431,7 +416,7 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateResultsDialog()
         {
-            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnAnimateResultsComplete);
+            resultsDialog.transform.DOScale(Vector3.one, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnAnimateResultsComplete);
 
             if (isDraw || !playerWins)
             {
@@ -445,11 +430,11 @@ namespace TurboLabz.Multiplayer
 
         private void OnAnimateResultsComplete()
         {
-            if (playerWins && !animationPlayed && isRankedGame)
+            /*if (playerWins && !animationPlayed && isRankedGame)
             {
                 _winAnimationSequence.PlayAnimation();
                 animationPlayed = true;
-            }
+            }*/
         }
 
         public bool IsResultsDialogVisible()
@@ -604,28 +589,6 @@ namespace TurboLabz.Multiplayer
             resultsEarnedCoinsLabel.text = $"{resultsBetValue * 4}";
         }
 
-        private void PlayEloBoostedAnimation(int ratingBoosted)
-        {
-            if (addedAnimation != null)
-            {
-                addedAnimation.Kill();
-                DOTween.Kill(resultsBoostRatingAddedCount.transform);
-            }
-
-            resultsBoostRatingAddedCount.text = $"+{ratingBoosted}";
-            resultsBoostRatingAddedCount.transform.localPosition = Vector3.zero;
-            resultsBoostRatingAddedCount.color = originalColor;
-            resultsBoostRatingAddedCount.gameObject.SetActive(true);
-            addedAnimation = DOTween.ToAlpha(() => resultsBoostRatingAddedCount.color, x => resultsBoostRatingAddedCount.color = x, 0.0f, 3.0f).OnComplete(OnFadeComplete);
-            resultsBoostRatingAddedCount.transform.DOMoveY(resultsBoostRatingAddedCount.transform.position.y + 100, 3.0f);
-            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-        }
-
-        private void OnFadeComplete()
-        {
-            resultsBoostRatingAddedCount.gameObject.SetActive(false);
-        }
-
         public void SetupBoostPrice()
         {
             if (ratingBoosterStoreItem == null)
@@ -670,6 +633,28 @@ namespace TurboLabz.Multiplayer
 
         #region Animations
 
+        private void PlayEloBoostedAnimation(int ratingBoosted)
+        {
+            if (addedAnimation != null)
+            {
+                addedAnimation.Kill();
+                DOTween.Kill(resultsBoostRatingAddedCount.transform);
+            }
+
+            resultsBoostRatingAddedCount.text = $"+{ratingBoosted}";
+            resultsBoostRatingAddedCount.transform.localPosition = Vector3.zero;
+            resultsBoostRatingAddedCount.color = originalColor;
+            resultsBoostRatingAddedCount.gameObject.SetActive(true);
+            addedAnimation = DOTween.ToAlpha(() => resultsBoostRatingAddedCount.color, x => resultsBoostRatingAddedCount.color = x, 0.0f, 3.0f).OnComplete(OnFadeComplete);
+            resultsBoostRatingAddedCount.transform.DOMoveY(resultsBoostRatingAddedCount.transform.position.y + 100, 3.0f);
+            audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+        }
+
+        private void OnFadeComplete()
+        {
+            resultsBoostRatingAddedCount.gameObject.SetActive(false);
+        }
+
         void AnimateSparkes()
         {
             Sequence sequence = DOTween.Sequence();
@@ -684,14 +669,20 @@ namespace TurboLabz.Multiplayer
         void FadeInSparkles()
         {
             sparkles.DOFade(1, 1);
-            LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0,0,180), 1);
-            LeanTween.scale(sparkles.gameObject, new Vector3(1.25f, 1.25f, 1.25f), 1);
+            sparkles.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 180), 1);
+            sparkles.gameObject.transform.DOScale(new Vector3(1.25f, 1.25f, 1.25f), 1);
+            //LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0,0,180), 1);
+            //LeanTween.scale(sparkles.gameObject, new Vector3(1.25f, 1.25f, 1.25f), 1);
         }
 
         void FadeOutSparkes()
         {
-            LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0, 0, 0f), 1);
-            LeanTween.scale(sparkles.gameObject, new Vector3(1, 1, 1), 1);
+            //LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0, 0, 0f), 1);
+            //LeanTween.scale(sparkles.gameObject, new Vector3(1, 1, 1), 1);
+
+            sparkles.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0f), 1);
+            sparkles.gameObject.transform.DOScale(new Vector3(1, 1, 1), 1);
+
             sparkles.DOFade(0, 1);
         }
 
