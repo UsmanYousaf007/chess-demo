@@ -79,7 +79,7 @@ namespace TurboLabz.Multiplayer
                     view.HideChallengeSent();
                 }
                 view.FlashClocks(false);
-                view.ShowResultsDialog();
+                view.StartGameEndFlow();
                 view.OnParentHideAdBanner();
             }
         }
@@ -97,6 +97,7 @@ namespace TurboLabz.Multiplayer
         public void OnUpdateResults(ResultsVO vo)
         {
             view.UpdateResultsDialog(vo);
+            view.UpdateRewardsDialog(vo);
         }
 
         private void OnBackToLobby()

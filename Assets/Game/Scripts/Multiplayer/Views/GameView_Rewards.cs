@@ -45,6 +45,7 @@ namespace TurboLabz.Multiplayer
         private float animRewardsDelay;
         private const float REWARDS_DIALOG_DURATION = 0.5f;
         private const float REWARDS_DELAY_TIME = 1f;
+        private const float REWARDS_TO_RESULTS_DELAY_TIME = 1f;
 
         #region Button Listeners
 
@@ -52,15 +53,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowRewardsDialog()
         {
-            /*if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
-            {
-                ShowResultsDialog();
-            }
-            else
-            {
-                rewardsDialog.SetActive(true);
-                Invoke("AnimateRewardsDialog", animRewardsDelay);
-            }*/
             rewardsDialog.SetActive(true);
             Invoke("AnimateRewardsDialog", animRewardsDelay);
         }
@@ -73,7 +65,15 @@ namespace TurboLabz.Multiplayer
 
             HidePossibleMoves();
             HideOpponentConnectionMonitor();
-            ShowRewardsDialog();
+
+            if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
+            {
+                ShowResultsDialog();
+            }
+            else
+            {
+                ShowRewardsDialog();
+            }
 
             if (!ArePlayerMoveIndicatorsVisible())
             {
@@ -126,19 +126,25 @@ namespace TurboLabz.Multiplayer
         #endregion
 
         #region Animations
-        private void OnAnimateRewardsComplete()
+        private void OnMirrorPanelAnimationComplete()
         {
             if (playerWins && !animationPlayed && isRankedGame)
             {
-                //_winAnimationSequence.PlayAnimation();
-                _winAnimationSequence.PlayAnimation().Then(() => ShowResultsDialog());
+                _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
                 animationPlayed = true;
             }
         }
 
+        private void OnAnimationRewardsComplete()
+        {
+            animationPlayed = true;
+            rewardsDialog.SetActive(false);
+            Invoke("ShowResultsDialog", REWARDS_TO_RESULTS_DELAY_TIME);
+        }
+
         private void AnimateRewardsDialog()
         {
-            mirrorPanel.transform.DOLocalMove(Vector3.zero, REWARDS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnAnimateRewardsComplete);
+            mirrorPanel.transform.DOLocalMove(Vector3.zero, REWARDS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnMirrorPanelAnimationComplete);
 
             if (isDraw || !playerWins)
             {

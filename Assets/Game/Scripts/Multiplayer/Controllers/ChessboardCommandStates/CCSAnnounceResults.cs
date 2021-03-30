@@ -17,8 +17,6 @@ namespace TurboLabz.Multiplayer
             Chessboard chessboard = cmd.activeChessboard;
             bool playerWins = (cmd.matchInfoModel.activeMatch.winnerId == cmd.playerModel.id) ? true : false;
 
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
-
             ResultsVO vo = new ResultsVO();
             vo.reason = chessboard.gameEndReason;
             vo.playerWins = playerWins;
@@ -43,6 +41,7 @@ namespace TurboLabz.Multiplayer
             vo.moveAnalysisList = cmd.activeMatchInfo.movesAnalysisList;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
+            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
 
