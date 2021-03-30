@@ -563,6 +563,10 @@ MonoBehaviour:
   analysisStrengthLabel: {fileID: 7101924180817001599}
   analysisStrengthFiller: {fileID: 7101924180817001597}
   analysisStrengthFillerBg: {fileID: 7101924180817001598}
+  analysisPlayerMovePivotHolder: {fileID: 7101924180817001604}
+  analysisPlayerMoveLeftPivot: {fileID: 7101924180817001606}
+  analysisPlayerMoveRightPivot: {fileID: 7101924180817001605}
+  analysisMoveQuality: {fileID: 7101924180817001607}
   backToFriendsLabel: {fileID: 1846981127}
   backToFriendsButton: {fileID: 350629966}
   shareScreenButton: {fileID: 1374265719}
@@ -125192,6 +125196,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c08ad943e1af44b7b5d032acbe5d5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &7101924180817001604 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8539698281498103678, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7101924180817001605 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3946480742347060034, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7101924180817001606 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7779685123586012245, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7101924180817001607 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6132878846516143130, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7252183527663007966
