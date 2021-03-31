@@ -56,6 +56,7 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
+            SetBlurBg(false);
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
             HidePlayerToIndicator();
