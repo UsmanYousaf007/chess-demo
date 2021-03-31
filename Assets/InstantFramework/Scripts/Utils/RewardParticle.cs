@@ -61,6 +61,7 @@ public class RewardParticle : View
         sequence.AppendInterval(spreadAirTime);
         //sequence.AppendCallback(() => playSFXSignal.Dispatch(travelSFX));
         sequence.Append(transform.DOMove(targetObject.transform.position, flyTime));
+        sequence.Insert(spreadTime + spreadAirTime + (flyTime  - (flyTime / 3.0f)), transform.DOScale(0.1f, flyTime / 3.0f));
         sequence.AppendCallback(EndReached);
         sequence.PlayForward();
     }
