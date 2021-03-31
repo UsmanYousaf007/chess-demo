@@ -20,14 +20,14 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        [Header("Declined Dialog")]
+        [Header("End Game Declined Dialog")]
         public GameObject declinedDialog;
         public Text declinedHeading;
         public Text declinedReason;
         public Button declinedLobbyButton;
         public Text declinedLobbyButtonLabel;
 
-        [Header("Results Dialog")]
+        [Header("End Game Results Dialog")]
         public GameObject resultsDialog;
 
         public Image resultsGameImage;
@@ -99,15 +99,10 @@ namespace TurboLabz.Multiplayer
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal<List<MoveAnalysis>> fullAnalysisButtonClickedSignal = new Signal<List<MoveAnalysis>>();
         
-        private const float RESULTS_DELAY_TIME = 1f;
-        private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
-        private const float RESULTS_DIALOG_DURATION = 0.5f;
-        private float resultsDialogHalfHeight;
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
         private bool playerWins;
         private bool isDraw;
-        private float animDelay;
         private string playerName;
         private string opponentName;
         private string challengeId;
@@ -118,8 +113,6 @@ namespace TurboLabz.Multiplayer
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
         private List<MoveAnalysis> moveAnalysisList;
-
-        [Inject] public IPreferencesModel preferencesModel { get; set; }
 
         public void InitResults()
         {
@@ -156,9 +149,8 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
-            resultsDialog.transform.localScale = new Vector3(0f, 0, 0f);
             resultsDialog.SetActive(true);
-            Invoke("AnimateResultsDialog", animDelay);
+            //Invoke("AnimateResultsDialog", animDelay);
             AnimateSparkes();
         }
 
@@ -221,12 +213,8 @@ namespace TurboLabz.Multiplayer
             {
                 analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.rating_booster);
             }
-            //AnimateSparkes();
-        }
 
-        public void ShowViewBoardResultsPanel(bool show)
-        {
-            viewBoardResultPanel.gameObject.SetActive(show);
+            resultsDialog.transform.localScale = new Vector3(0f, 0, 0f);
         }
 
         public void HideResultsDialog()
@@ -414,29 +402,6 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void AnimateResultsDialog()
-        {
-            resultsDialog.transform.DOScale(Vector3.one, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnAnimateResultsComplete);
-
-            if (isDraw || !playerWins)
-            {
-                audioService.Play(audioService.sounds.SFX_DEFEAT);
-            }
-            else
-            {
-                audioService.Play(audioService.sounds.SFX_VICTORY);
-            }
-        }
-
-        private void OnAnimateResultsComplete()
-        {
-            /*if (playerWins && !animationPlayed && isRankedGame)
-            {
-                _winAnimationSequence.PlayAnimation();
-                animationPlayed = true;
-            }*/
-        }
-
         public bool IsResultsDialogVisible()
         {
             return resultsDialog.activeSelf;
@@ -526,6 +491,7 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
             uiBlocker.SetActive(false);
+            BlurBg.enabled = false;
             resultsDialogClosedSignal.Dispatch();
             ShowViewBoardResultsPanel(true);
         }
@@ -537,7 +503,6 @@ namespace TurboLabz.Multiplayer
 
             ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
-
 
         private void OnCrossPromoButtonClicked()
         {

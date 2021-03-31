@@ -19,7 +19,7 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-        [Header("Rewards Dialog")]
+        [Header("End Game Rewards Dialog")]
         public GameObject rewardsDialog;
         public GameObject mirrorPanel;
 
@@ -38,31 +38,23 @@ namespace TurboLabz.Multiplayer
         public Sprite rewardsPowerPlayOnSprite;
         public Sprite rewardsPowerPlayOffSprite;
 
-        public WinResultAnimSequence _winAnimationSequence;
-        private bool animationPlayed = false;
-
-        private float rewardsDialogHalfHeight;
-        private float animRewardsDelay;
-        private const float REWARDS_DIALOG_DURATION = 0.5f;
-        private const float REWARDS_DELAY_TIME = 1f;
-        private const float REWARDS_TO_RESULTS_DELAY_TIME = 1f;
-
-        #region Button Listeners
-
-        #endregion
+        public CanvasGroup rewardsCanvasGroup;
 
         public void ShowRewardsDialog()
         {
+            if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
+                return;
+            //BlurBg.enabled = true;
             rewardsDialog.SetActive(true);
-            Invoke("AnimateRewardsDialog", animRewardsDelay);
+            //Invoke("AnimateRewardsDialog", REWARDS_DELAY_TIME);
         }
 
         #region Setup
 
-        public void StartGameEndFlow()
+        /*public void StartGameEndFlow()
         {
-            EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
-
+            //EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
+            //BlurBg.enabled = true;
             HidePossibleMoves();
             HideOpponentConnectionMonitor();
 
@@ -85,14 +77,14 @@ namespace TurboLabz.Multiplayer
 
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
-        }
+        }*/
 
         private void SetupRewardsLayout()
         {
             rewardsBetReversedImg.gameObject.SetActive(isDraw && isRankedGame);
             rewardsVictoryRewardImg.gameObject.SetActive(playerWins && isRankedGame);
 
-            titleTxt.text = (isDraw && isRankedGame)? "Draw" : "You Win";
+            titleTxt.text = (isDraw && isRankedGame)? "DRAW" : "YOU WIN";
 
             rewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             rewardsStars.gameObject.SetActive(playerWins && isRankedGame);
@@ -111,8 +103,6 @@ namespace TurboLabz.Multiplayer
             if (!playerWins && isRankedGame && !isDraw)
                 return;
 
-            animRewardsDelay = REWARDS_DELAY_TIME;
-
             if (!animationPlayed)
             {
                 var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
@@ -126,35 +116,7 @@ namespace TurboLabz.Multiplayer
         #endregion
 
         #region Animations
-        private void OnMirrorPanelAnimationComplete()
-        {
-            if (playerWins && !animationPlayed && isRankedGame)
-            {
-                _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
-                animationPlayed = true;
-            }
-        }
-
-        private void OnAnimationRewardsComplete()
-        {
-            animationPlayed = true;
-            rewardsDialog.SetActive(false);
-            Invoke("ShowResultsDialog", REWARDS_TO_RESULTS_DELAY_TIME);
-        }
-
-        private void AnimateRewardsDialog()
-        {
-            mirrorPanel.transform.DOLocalMove(Vector3.zero, REWARDS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnMirrorPanelAnimationComplete);
-
-            if (isDraw || !playerWins)
-            {
-                audioService.Play(audioService.sounds.SFX_DEFEAT);
-            }
-            else
-            {
-                audioService.Play(audioService.sounds.SFX_VICTORY);
-            }
-        }
+        
 
         #endregion
 

@@ -163,14 +163,13 @@ public class WinResultAnimSequence : MonoBehaviour
         }
         else
         {
-            OnStarsCountAnimationComplete();
+            Invoke("OnStarsCountAnimationComplete", 1f);
         }
     }
 
     private void OnStarsCountAnimationComplete()
     {
         powerPlayImage.gameObject.SetActive(false);
-        //_continueBtn.gameObject.SetActive(true);
         _animator.enabled = false;
         servicePromise.Dispatch();
     }

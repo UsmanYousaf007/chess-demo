@@ -93,6 +93,7 @@ namespace TurboLabz.Multiplayer
         { 
             gameObject.SetActive(false);
             uiBlocker.SetActive(false);
+            BlurBg.enabled = false;
             chessboardBlocker.SetActive(false);
             OnParentHideChessboard();
             OnParentHideClickAndDrag();
