@@ -107,5 +107,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(UpdateNewRankChampionshipDlgViewSignal))]
+        public void UpdateView(string challengeId, bool playerWins, float duration)
+        {
+            view.UpdateView(challengeId, playerWins, duration);
+        }
+
     }
 }

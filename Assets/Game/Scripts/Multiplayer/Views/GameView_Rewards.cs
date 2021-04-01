@@ -44,40 +44,10 @@ namespace TurboLabz.Multiplayer
         {
             if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
                 return;
-            //BlurBg.enabled = true;
             rewardsDialog.SetActive(true);
-            //Invoke("AnimateRewardsDialog", REWARDS_DELAY_TIME);
         }
 
         #region Setup
-
-        /*public void StartGameEndFlow()
-        {
-            //EnableModalBlocker(Colors.UI_BLOCKER_DARK_ALPHA);
-            //BlurBg.enabled = true;
-            HidePossibleMoves();
-            HideOpponentConnectionMonitor();
-
-            if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
-            {
-                ShowResultsDialog();
-            }
-            else
-            {
-                ShowRewardsDialog();
-            }
-
-            if (!ArePlayerMoveIndicatorsVisible())
-            {
-                HidePlayerToIndicator();
-            }
-
-            HideSafeMoveBorder();
-            ShowViewBoardResultsPanel(false);
-
-            preferencesModel.isRateAppDialogueShown = false;
-            appInfoModel.gameMode = GameMode.NONE;
-        }*/
 
         private void SetupRewardsLayout()
         {
@@ -110,6 +80,7 @@ namespace TurboLabz.Multiplayer
             }
 
             mirrorPanel.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
+            FadeRewardsDialogue(1);
             SetupRewardsLayout();
             UpdateRewards(vo.powerMode);
         }

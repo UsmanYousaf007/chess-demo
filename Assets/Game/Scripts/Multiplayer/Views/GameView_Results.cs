@@ -29,7 +29,7 @@ namespace TurboLabz.Multiplayer
 
         [Header("End Game Results Dialog")]
         public GameObject resultsDialog;
-
+        public CanvasGroup resultsCanvasGroup;
         public Image resultsGameImage;
         public Sprite winSprite;
         public Sprite defeatSprite;
@@ -114,6 +114,8 @@ namespace TurboLabz.Multiplayer
         private long resultsBetValue;
         private List<MoveAnalysis> moveAnalysisList;
 
+        [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
+        
         public void InitResults()
         {
             // Declined dialog
@@ -150,7 +152,7 @@ namespace TurboLabz.Multiplayer
         public void ShowResultsDialog()
         {
             resultsDialog.SetActive(true);
-            //Invoke("AnimateResultsDialog", animDelay);
+            //Invoke("ScaleInResultsDialog", animDelay);
             AnimateSparkes();
         }
 
@@ -194,7 +196,7 @@ namespace TurboLabz.Multiplayer
             BuildLayout();
 
             //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            //Invoke("AnimateResultsDialog", animDelay);
+            //Invoke("ScaleInResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -380,8 +382,8 @@ namespace TurboLabz.Multiplayer
             resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
             resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
 
-            resultsContinueButton.gameObject.SetActive(playerWins || isDraw || !isRankedGame);
-
+            //resultsContinueButton.gameObject.SetActive(playerWins || isDraw || !isRankedGame);
+            resultsContinueButton.gameObject.SetActive(true);
             resultsRatingContainer.gameObject.SetActive(isRankedGame);
             resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
         }
@@ -501,7 +503,11 @@ namespace TurboLabz.Multiplayer
             audioService.PlayStandardClick();
             animationPlayed = false;
 
-            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
+            FadeOutResultsDialog(0);
+            updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+
+            //ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 
         private void OnCrossPromoButtonClicked()

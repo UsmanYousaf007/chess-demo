@@ -20,7 +20,6 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
-
         public WinResultAnimSequence _winAnimationSequence;
         private bool animationPlayed = false;
 
@@ -36,7 +35,6 @@ namespace TurboLabz.Multiplayer
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
 
         private const float TRANSITION_DURATION = 0.5f;
-
 
         private void StartEndAnimationSequence()
         {
@@ -82,15 +80,15 @@ namespace TurboLabz.Multiplayer
 
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(REWARDS_TO_RESULTS_DELAY_TIME);
-            sequence.AppendCallback(() => FadeOutRewardsDialogue());
+            sequence.AppendCallback(() => FadeRewardsDialogue(0));
             sequence.AppendCallback(() => ShowResultsDialog());
-            sequence.AppendCallback(() => AnimateResultsDialog());
+            sequence.AppendCallback(() => ScaleInResultsDialog());
             sequence.PlayForward();
         }
 
-        private void FadeOutRewardsDialogue()
+        private void FadeRewardsDialogue(float val)
         {
-            rewardsCanvasGroup.DOFade(0, TRANSITION_DURATION);
+            rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION);
         }
 
         #endregion
@@ -98,18 +96,14 @@ namespace TurboLabz.Multiplayer
 
         #region Results Dialogue
 
-        private void AnimateResultsDialog()
+        private void ScaleInResultsDialog()
         {
             resultsDialog.transform.DOScale(Vector3.one, TRANSITION_DURATION).SetEase(Ease.OutBack);
+        }
 
-            if (isDraw || !playerWins)
-            {
-                audioService.Play(audioService.sounds.SFX_DEFEAT);
-            }
-            else
-            {
-                audioService.Play(audioService.sounds.SFX_VICTORY);
-            }
+        private void FadeOutResultsDialog(float val)
+        {
+            resultsCanvasGroup.DOFade(val, TRANSITION_DURATION);
         }
 
         #endregion

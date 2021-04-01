@@ -56,9 +56,14 @@ namespace TurboLabz.InstantFramework
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
             headingText.text = "Last Week Standings";
-            continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());
+            continueButton.onClick.AddListener(OnContinueButtonClicked);
             scrollRectChampionship.gameObject.SetActive(false);
             pleaseWaitPanel.SetActive(false);
+        }
+
+        public virtual void OnContinueButtonClicked()
+        {
+            continueBtnClickedSignal.Dispatch();
         }
 
         public ScrollRect GetScrollView()

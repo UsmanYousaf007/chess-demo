@@ -32,12 +32,20 @@ namespace TurboLabz.InstantFramework
         private long endTimeUTCSeconds;
         private JoinedTournamentData _joinedTournament;
 
+        private string challengeId;
+        private bool playerWins;
+        private float duration;
+
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
+
+        [Inject] public IMetaDataModel metaDataModel { get; set; }
+
         public override void Init()
         {
             scrollRectChampionship = scrollView;
             championshipBarsPool = new GameObjectsPool(championshipLeaderboardPlayerBarPrefab, 50);
 
-            continueButton.onClick.AddListener(() => continueBtnClickedSignal.Dispatch());
+            continueButton.onClick.AddListener(OnContinueButtonClicked);
 
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
@@ -55,16 +63,20 @@ namespace TurboLabz.InstantFramework
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
             }
 
-            congratulationsGraphic.SetActive(newRank);
-            newRankTxtGraphic.SetActive(newRank);
+            //congratulationsGraphic.SetActive(newRank);
+            //newRankTxtGraphic.SetActive(newRank);
 
-            rankGraphic.SetActive(!newRank);
-            yourRankTxtGraphic.SetActive(!newRank);
+            //rankGraphic.SetActive(!newRank);
+            //yourRankTxtGraphic.SetActive(!newRank);
 
             base.Show();
+
+            gameObject.transform.localScale = new Vector3(0, 0, 0);
             gameObject.SetActive(true);
+            ScaleInDialogue(duration);
 
             StartCoroutine(CountdownTimer());
+            metaDataModel.ShowChampionshipNewRankDialog = false;
         }
 
         private void UpdateScrollViewChampionship(float value)
@@ -83,6 +95,31 @@ namespace TurboLabz.InstantFramework
         {
             _joinedTournament = joinedTournament;
             base.UpdateView(playerId, joinedTournament);
+        }
+
+        public void UpdateView(string _challengeId, bool _playerWins, float _duration)
+        {
+            challengeId = _challengeId;
+            playerWins = _playerWins;
+            duration = _duration;
+        }
+
+        public override void OnContinueButtonClicked()
+        {
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
+        }
+
+        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
+        {
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+            vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            vo.placementId = placementId;
+            playerModel.adContext = analyticsContext;
+
+            showAdSignal.Dispatch(vo, false);
         }
 
         IEnumerator CountdownTimer()
@@ -109,6 +146,11 @@ namespace TurboLabz.InstantFramework
             {
                 timerText.text = "0:00";
             }
+        }
+
+        public void ScaleInDialogue(float duration)
+        {
+            gameObject.transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack);
         }
     }
 }

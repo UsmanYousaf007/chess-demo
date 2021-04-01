@@ -31,6 +31,10 @@ namespace TurboLabz.Multiplayer
         public void ShowEndGame()
         {
             blurBackgroundService.BlurBackground(BlurBg, 5, null);
+
+            resultsCanvasGroup.alpha = 1;
+            rewardsCanvasGroup.alpha = 1;
+
             HidePossibleMoves();
             HideOpponentConnectionMonitor();
 
@@ -47,14 +51,14 @@ namespace TurboLabz.Multiplayer
 
             if ((playerWins || isDraw) && !gameEnded)
             {
-                gameEnded = true;
                 StartEndAnimationSequence();
             }
             else
             {
                 ShowResultsDialog();
-                Invoke("AnimateResultsDialog", animDelay);
+                Invoke("ScaleInResultsDialog", animDelay);
             }
+            gameEnded = true;
         }
 
         public void UpdateEndGame()
