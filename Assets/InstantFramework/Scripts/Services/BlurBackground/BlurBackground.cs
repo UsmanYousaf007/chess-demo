@@ -42,8 +42,7 @@ namespace TurboLabz.InstantFramework
             screenImage.Apply();
             Texture2D nTex = ResizeTexture(screenImage, destTextureWidth, destTextureHeight);
             Texture2D.Destroy(screenImage);
-            Sprite sprite = Sprite.Create(nTex, new Rect(0, 0, nTex.width, nTex.height), new Vector2(0, 0));
-            destImage.sprite = sprite;
+            destImage.material.SetTexture("_MainTex", nTex);
             if (toEnableObj != null) toEnableObj.SetActive(true);
             promise.Dispatch();
         }
