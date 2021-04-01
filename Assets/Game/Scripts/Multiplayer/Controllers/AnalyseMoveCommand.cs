@@ -55,6 +55,8 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
             moveAnalysis.isPlayerMove = isPlayerTurn;
+            moveAnalysis.whiteScore = chessService.GetScore(ChessColor.WHITE);
+            moveAnalysis.blackScore = chessService.GetScore(ChessColor.BLACK);
 
             matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
 
