@@ -30,7 +30,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowEndGame()
         {
-            blurBackgroundService.BlurBackground(BlurBg, 5, null);
+            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_DARK);
 
             resultsCanvasGroup.alpha = 1;
             rewardsCanvasGroup.alpha = 1;
@@ -73,7 +73,7 @@ namespace TurboLabz.Multiplayer
 
         private void SetBlurBg(bool val)
         {
-            BlurBg.enabled = val;
+            BlurBg.gameObject.SetActive(val);
         }
     }
 }

@@ -8,6 +8,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using System;
 using TMPro;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -78,7 +79,7 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             // Blur background and enable this dialog
-            blurBackgroundService.BlurBackground(BlurBg, 6, gameObject);
+            blurBackgroundService.BlurBackground(BlurBg, 6, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject);
         }
 
         public void Hide()

@@ -9,6 +9,6 @@ namespace TurboLabz.InstantFramework
 {
     public interface IBlurBackgroundService
     {
-        IPromise BlurBackground(Image bgImage, int blurLevel, GameObject toEnableObj = null);
+        IPromise BlurBackground(Image bgImage, int blurLevel, float brighness = 1.0f, GameObject toEnableObj = null);
     }
 }

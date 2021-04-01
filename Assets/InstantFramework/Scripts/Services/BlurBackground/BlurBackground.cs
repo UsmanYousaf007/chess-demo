@@ -18,9 +18,10 @@ namespace TurboLabz.InstantFramework
 
         // Apply blur image to destImage. Optional: Enable toEnableObj after blur image applied
         // Blur level: 0-7 (high blur)
-        public IPromise BlurBackground (Image destImage, int blurLevel, GameObject toEnableObj)
+        public IPromise BlurBackground (Image destImage, int blurLevel, float brightness, GameObject toEnableObj)
         {
             destImage.material = blurImageEffectMaterial;
+            destImage.material.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
 
             Promise promise = new Promise();
             CaptureScreenSprite(Screen.width >> blurLevel, Screen.height >> blurLevel, destImage, toEnableObj, promise);
