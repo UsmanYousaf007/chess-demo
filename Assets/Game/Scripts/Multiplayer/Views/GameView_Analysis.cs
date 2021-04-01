@@ -78,7 +78,12 @@ namespace TurboLabz.Multiplayer
             {
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
-                moveVO.SetupMove($"{i}.", move.playerMove.ToShortString(), GetMoveQualitySprite(move.moveQuality));
+                moveVO.SetupMove($"{i}.",
+                    move.playerMove.ToShortString(),
+                    GetMoveQualitySprite(move.moveQuality),
+                    pool.GetObject(move.playerMove.piece.name).GetComponent<SpriteRenderer>().sprite,
+                    move.whiteScore,
+                    move.blackScore);
                 i++;
             }
         }
@@ -144,7 +149,7 @@ namespace TurboLabz.Multiplayer
             analysisArrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
             //Drawing the line from square to arrow head
-            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position));
+            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 30.0f);
 
             //Placing pivot holder for strength and move quality
             analysisPlayerMovePivotHolder.position = playerMoveToPosition;

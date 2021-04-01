@@ -25,8 +25,10 @@ public class DrawLine : MonoBehaviour
         lineRenderer.colorGradient = gradient;
     }
 
-    public void Draw(Vector3 pointA, Vector3 pointB)
+    public void Draw(Vector3 pointA, Vector3 pointB, float width = 20.0f)
     {
+        lineRenderer.startWidth = width;
+        lineRenderer.endWidth = width;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, pointA);
         lineRenderer.SetPosition(1, pointB);
