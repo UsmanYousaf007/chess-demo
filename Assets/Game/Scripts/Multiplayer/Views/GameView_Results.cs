@@ -20,6 +20,11 @@ namespace TurboLabz.Multiplayer
 {
     public partial class GameView
     {
+        [Header("Game Analyzing Dialog")]
+        public Image[] loadingBars;
+        public GameObject analyzingDlg;
+        public CanvasGroup analyzingDlgCanvasGroup;
+
         [Header("End Game Declined Dialog")]
         public GameObject declinedDialog;
         public Text declinedHeading;
@@ -486,7 +491,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnFullAnalysisButtonClicked()
         {
-            fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
+            AnimateAnalyzingDlg();
+            //fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
         }
 
         private void OnResultsClosed()

@@ -15,6 +15,7 @@ using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -104,6 +105,45 @@ namespace TurboLabz.Multiplayer
         private void FadeOutResultsDialog(float val)
         {
             resultsCanvasGroup.DOFade(val, TRANSITION_DURATION);
+        }
+
+        #endregion
+
+        #region Results Dialogue
+
+        private void FadeInOrOutAnalyzingDialog(float val)
+        {
+            analyzingDlgCanvasGroup.DOFade(val, TRANSITION_DURATION);
+            FadeOutResultsDialog(0);
+        }
+
+        public IEnumerator AnimateBars(float averageHeight)
+        {
+            float animateDuration = 0.3f;
+            while (true) {
+                foreach (Image bar in loadingBars)
+                {
+                    int val = (int)Random.Range(averageHeight / 2, averageHeight * 2);
+                    AnimateBar(bar, val, animateDuration);
+                }
+                yield return new WaitForSeconds(animateDuration);
+            }
+
+            //yield return null;
+        }
+
+        private void AnimateAnalyzingDlg()
+        {
+            resultsCanvasGroup.alpha = 0;
+            analyzingDlg.SetActive(true);
+            FadeInOrOutAnalyzingDialog(1);
+            float averageHeight = loadingBars[0].rectTransform.sizeDelta.y;
+            StartCoroutine(AnimateBars(averageHeight));
+        }
+
+        private void AnimateBar(Image bar, int val, float animateDuration)
+        {
+            bar.rectTransform.DOSizeDelta(new Vector2(bar.rectTransform.sizeDelta.x, val), animateDuration).SetEase(Ease.InOutBounce);
         }
 
         #endregion
