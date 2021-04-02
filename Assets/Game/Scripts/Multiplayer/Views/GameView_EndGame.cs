@@ -73,6 +73,7 @@ namespace TurboLabz.Multiplayer
 
         private void SetBlurBg(bool val)
         {
+            BlurBg.enabled = true;
             BlurBg.gameObject.SetActive(val);
         }
     }
