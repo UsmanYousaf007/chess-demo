@@ -14,6 +14,7 @@ using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
 using System.Collections;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
@@ -54,23 +55,42 @@ namespace TurboLabz.InstantFramework
         public Button playBtn;
         public GameObject maxBetTooltip;
 
+        [Header("Career Progression View")]
+        public Image careerTxtImg;
+        public Image starImg;
+        public RectTransform progressionBarFiller;
+        public GameObject progressionBar;
+        public Text playerStarsCountLabel;
+        private float progressionBarOriginalWidth;
+        public Image congratulationsImg;
+        public TMP_Text careerProgressionText;
+        public Button continueBtn;
+        public TMP_Text continueBtnText;
+        public Image blurredBgImg;
+        public ParticleSystem barParticleSystem;
+        public Slider progressBarSlider;
+        public CanvasGroup canvasGroup;
+
         //Models
         [Inject] public ILeaguesModel leaguesModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         //Signals
         public Signal<string, long> playMultiplayerButtonClickedSignal = new Signal<string, long>();
         public Signal OnInfoBtnClickedSignal = new Signal();
         public Signal<long> OnPlayButtonClickedSignal = new Signal<long>();
         public Signal<long> notEnoughCoinsSignal = new Signal<long>();
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
 
         LeagueTierIconsContainer leagueTierIconsContainer;
         int bettingIndex;
@@ -92,9 +112,23 @@ namespace TurboLabz.InstantFramework
             bettingMinus.onClick.AddListener(OnDecrementBetting);
 
             playBtn.onClick.AddListener(OnPlayButtonClicked);
+            continueBtn.onClick.AddListener(FadeOutCareerProgressionView);
         }
 
         public void UpdateView(CareerCardVO vo)
+        {
+            if(matchInfoModel.lastCompletedMatch.winnerId == playerModel.id)
+            {
+                AnimateCareerProgression(vo);
+            }
+            else
+            {
+                loadRewardsSignal.Dispatch();
+                PlayerInfo(vo);
+            }
+        }
+
+        private void PlayerInfo(CareerCardVO vo)
         {
             trophiesCountOnLosses.text = $"-{leaguesModel.leagues[playerModel.league.ToString()].lossTrophies}";
             trophiesCountOnWins.text = leaguesModel.leagues[playerModel.league.ToString()].winTrophies.ToString();
@@ -115,8 +149,11 @@ namespace TurboLabz.InstantFramework
                 SetupBetting();
             }
 
-            tooltipText.text = $"Minimum bet is {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0]*100)}% of your coin stock";
+            tooltipText.text = $"Minimum bet is {(int)(settingsModel.defaultBetIncrementByGamesPlayed[0] * 100)}% of your coin stock";
+
         }
+
+        float barFillPercentage;
 
         private void SetupTrophyProgressionBar(int currentTrophies)
         {
@@ -129,8 +166,18 @@ namespace TurboLabz.InstantFramework
                 if (value != null)
                 {
                     var requiredPoints = value.qualifyTrophies;
-                    var barFillPercentage = (float)currentPoints / requiredPoints;
+                    var oldPoints = (int)barFillPercentage * requiredPoints;
+                    barFillPercentage = (float)currentPoints / requiredPoints;
                     trophyProgressionBarFiller.sizeDelta = new Vector2(trophyProgressionBarOriginalWidth * barFillPercentage, trophyProgressionBarFiller.sizeDelta.y);
+
+                    if (!barParticleSystem.isPlaying)
+                    {
+                        barParticleSystem.Play();
+                    }
+                    progressBarSlider.DOValue(barFillPercentage, 1.5f).OnComplete(AnimationComplete);
+                    StartCoroutine(CountTo(currentPoints, oldPoints, 1.5f));
+
+                  
                     playerTrophiesCountLabel.text = $"{currentTrophies} / {requiredPoints}";
                 }
             }
@@ -207,6 +254,13 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.bet_increment_default, AnalyticsParameter.context, $"default_{gamesPlayedIndex + 1}_{defaultIndexUsed}");
         }
 
+        void LoadRewards()
+        {
+            loadRewardsSignal.Dispatch();
+            canvasGroup.gameObject.SetActive(false);
+            ResetCareerProgressoin();
+        }
+
         void SetupBetting()
         {
             var lastBettingIndex = bettingIndex >= settingsModel.bettingIncrements.Count - 1;
@@ -227,5 +281,106 @@ namespace TurboLabz.InstantFramework
             var reward = settingsModel.bettingIncrements[bettingIndex] * settingsModel.GetSafeCoinsMultiplyer(Settings.ABTest.COINS_TEST_GROUP);
             rewardValue.text = FormatUtil.AbbreviateNumber((long)reward, true);
         }
+
+        #region Animations
+
+        private void AnimateCareerProgression(CareerCardVO vo)
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(1f);
+            sequence.AppendCallback(() => BlurBg());
+            sequence.AppendCallback(() => ResetCareerProgressoin());
+            sequence.AppendCallback(() => AnimateBlurredBg());
+            sequence.AppendInterval(1f);
+            sequence.AppendCallback(() => ScaleInCareerProgressionElements());
+            sequence.AppendInterval(1.3f);
+            sequence.AppendCallback(() => PlayerInfo(vo));
+            sequence.AppendInterval(3f);
+            sequence.AppendCallback(() => AnimateNextTitle());
+            sequence.PlayForward();
+        }
+
+        private void BlurBg()
+        {
+            blurBackgroundService.BlurBackground(blurredBgImg, 6, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
+        }    
+
+        private void AnimateBlurredBg()
+        {
+            blurredBgImg.DOFade(1, 1);
+        }
+
+        private void ScaleInCareerProgressionElements()
+        {
+            starImg.transform.DOScale(1.3f, 1.3f);
+            careerTxtImg.transform.DOScale(1.3f, 1.3f);
+            playerStarsCountLabel.transform.DOScale(1.3f, 1.3f);
+            progressBarSlider.transform.DOScale(1, 1.3f);
+        }
+
+        private void AniamteProgressionBar()
+        {
+            if (!barParticleSystem.isPlaying)
+            {
+                barParticleSystem.Play();
+            }
+            SetupTrophyProgressionBar(playerModel.trophies);
+        }
+
+        private void AnimationComplete()
+        {
+            barParticleSystem.Stop();
+        }
+
+        private void AnimateNextTitle()
+        {
+            if(playerModel.leaguePromoted)
+            {
+                congratulationsImg.DOFade(1, 1.3f);
+                careerProgressionText.DOFade(1, 1.3f);
+                continueBtn.image.DOFade(1, 1.3f);
+                continueBtnText.DOFade(1, 1.3f);
+            }else
+            {
+                FadeOutCareerProgressionView();
+            }
+        }
+
+        private void FadeOutCareerProgressionView()
+        {
+            canvasGroup.DOFade(0, 1).OnComplete(LoadRewards);
+
+        }
+
+        private void ResetCareerProgressoin()
+        {
+            barParticleSystem.Stop();
+            progressBarSlider.DOValue(barFillPercentage, 0);
+            progressBarSlider.transform.DOScale(0, 0);
+            starImg.transform.DOScale(0, 0);
+            careerTxtImg.transform.DOScale(0, 0);
+            playerStarsCountLabel.transform.DOScale(0, 0);
+            congratulationsImg.DOFade(0, 0);
+            careerProgressionText.DOFade(0, 0);
+            continueBtn.image.DOFade(0, 0);
+            continueBtnText.DOFade(0, 0);
+            blurredBgImg.DOFade(0, 0);
+            canvasGroup.alpha = 1;
+        }
+
+        IEnumerator CountTo(int target, int score, float duration)
+        {
+            int start = score;
+            for (float timer = 0; timer < duration; timer += Time.deltaTime)
+            {
+                float progress = timer / duration;
+                score = (int)Mathf.Lerp(start, target, progress);
+                playerStarsCountLabel.text = score.ToString();
+                yield return null;
+            }
+            score = target;
+        }
+
+        #endregion
     }
 }
