@@ -491,8 +491,8 @@ namespace TurboLabz.Multiplayer
 
         private void OnFullAnalysisButtonClicked()
         {
-            AnimateAnalyzingDlg();
-            //fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
+            //AnimateAnalyzingDlg();
+            fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
         }
 
         private void OnResultsClosed()
