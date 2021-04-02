@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public const string APP_UPDATE_FLAG = "appUpdateFlag";
         public const string NTH_WINS_APP_RATE_APP = "nthWinsRateApp";
         public const string GAMES_PLAYED_TODAY = "todayGamesCount";
+        public const string MAINTENANCE_WARNING_TIMESTAMP = "maintenanceWarningTimeStamp";
+
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";

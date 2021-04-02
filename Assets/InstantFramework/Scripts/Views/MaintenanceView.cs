@@ -4,24 +4,32 @@ using strange.extensions.mediation.impl;
 using UnityEngine;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using System.Collections;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
     public class MaintenanceView : View
     {
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
+
 
         public GameObject maintenancePanel;
         public GameObject maintenanceWarningStrip;
         public Text maintenanceMsgLabel;
         public Text maintenanceWarningMsgLabel;
         public Image maintenanceWarningBgColor;
+        private WaitForSecondsRealtime waitForOneRealSecond;
+
 
         public void Init()
         {
             maintenancePanel.SetActive(false);
             maintenanceWarningStrip.SetActive(false);
+            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
         public void ShowMaintenance()
@@ -37,12 +45,11 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(false);
             maintenancePanel.SetActive(false);
             maintenanceWarningStrip.SetActive(false);
-
         }
 
         public void ShowMaintenanceWarning()
         {
-            maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege;
+            //maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege;
             maintenanceWarningBgColor.color = Colors.Color(settingsModel.maintenanceWarningBgColor);
 
             if (maintenanceWarningStrip.activeSelf == false)
@@ -50,8 +57,9 @@ namespace TurboLabz.InstantFramework
                 gameObject.SetActive(true);
                 maintenancePanel.SetActive(false);
                 maintenanceWarningStrip.SetActive(true);
+
+                StartCoroutine(CountdownTimer());
             }
-        
         }
 
         public void HideMaintenanceWarning()
@@ -61,8 +69,41 @@ namespace TurboLabz.InstantFramework
                 gameObject.SetActive(false);
                 maintenancePanel.SetActive(false);
                 maintenanceWarningStrip.SetActive(false);
+
+                StopCoroutine(CountdownTimer());
+            }
+        }
+
+        IEnumerator CountdownTimer()
+        {
+            while (gameObject.activeInHierarchy)
+            {
+                UpdateTime();
+                yield return waitForOneRealSecond;
             }
 
+            yield return null;
+        }
+
+        public void UpdateTime()
+        {
+            long timeLeft = settingsModel.maintenanceWarningTimeStamp - backendService.serverClock.currentTimestamp;
+            string timerText;
+
+            if (timeLeft > 1)
+            {
+                timeLeft--;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+                timerText = timeLeftText;
+            }
+            else
+            {
+                timerText = "0:00";
+                showMaintenanceViewSignal.Dispatch(1);
+                StopCoroutine(CountdownTimer());
+            }
+
+            maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege + " " + timerText;
         }
     }
 }

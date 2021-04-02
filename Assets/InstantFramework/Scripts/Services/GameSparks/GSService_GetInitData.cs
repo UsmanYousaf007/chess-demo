@@ -336,6 +336,8 @@ namespace TurboLabz.InstantFramework
             settingsModel.defaultSubscriptionKey = GSParser.GetSafeString(gsSettingsData, GSBackendKeys.DEFAULT_SUBSCRIPTION_KEY, "Subscription");
             settingsModel.matchmakingRandomRange = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.MATCHMAKING_RANDOM_RANGE);
             settingsModel.powerModeFreeHints = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.POWER_MODE_FREE_HINTS);
+            settingsModel.maintenanceWarningTimeStamp = GSParser.GetSafeLong(gsSettingsData, GSBackendKeys.MAINTENANCE_WARNING_TIMESTAMP);
+
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {
