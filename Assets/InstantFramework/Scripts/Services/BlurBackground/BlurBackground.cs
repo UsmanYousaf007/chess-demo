@@ -16,24 +16,32 @@ namespace TurboLabz.InstantFramework
 
         Material blurImageEffectMaterial = Resources.Load("BlurImageEffectMaterial", typeof(Material)) as Material;
 
+        public Material GetBlurBackgroundMaterial()
+        {
+            return blurImageEffectMaterial;
+        }
+
         // Apply blur image to destImage. Optional: Enable toEnableObj after blur image applied
         // Blur level: 0-7 (high blur)
         public IPromise BlurBackground (Image destImage, int blurLevel, float brightness, GameObject toEnableObj)
         {
-            destImage.material = blurImageEffectMaterial;
-            destImage.material.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
+            blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
+            if (destImage)
+            {
+                destImage.material = blurImageEffectMaterial;
+            }
 
             Promise promise = new Promise();
-            CaptureScreenSprite(Screen.width >> blurLevel, Screen.height >> blurLevel, destImage, toEnableObj, promise);
+            CaptureScreenSprite(Screen.width >> blurLevel, Screen.height >> blurLevel, toEnableObj, promise);
             return promise;
         }
 
-        private void CaptureScreenSprite(int destTextureWidth, int destTextureHeight, Image destImage, GameObject toEnableObj, Promise promise)
+        private void CaptureScreenSprite(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
         {
-            routineRunner.StartCoroutine(CaptureScreenSpriteCR(destTextureWidth, destTextureHeight, destImage, toEnableObj, promise));
+            routineRunner.StartCoroutine(CaptureScreenSpriteCR(destTextureWidth, destTextureHeight, toEnableObj, promise));
         }
 
-        IEnumerator CaptureScreenSpriteCR(int destTextureWidth, int destTextureHeight, Image destImage, GameObject toEnableObj, Promise promise)
+        IEnumerator CaptureScreenSpriteCR(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
         {
             yield return new WaitForEndOfFrame();
 
@@ -42,7 +50,9 @@ namespace TurboLabz.InstantFramework
             screenImage.Apply();
             Texture2D nTex = ResizeTexture(screenImage, destTextureWidth, destTextureHeight);
             Texture2D.Destroy(screenImage);
-            destImage.material.SetTexture("_MainTex", nTex);
+            //Sprite sprite = Sprite.Create(nTex, new Rect(0, 0, nTex.width, nTex.height), new Vector2(0, 0));
+            //dest.sprite = sprite;
+            blurImageEffectMaterial.SetTexture("_MainTex", nTex);
             if (toEnableObj != null) toEnableObj.SetActive(true);
             promise.Dispatch();
         }

@@ -79,7 +79,7 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             // Blur background and enable this dialog
-            blurBackgroundService.BlurBackground(BlurBg, 6, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject);
+            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject);
         }
 
         public void Hide()
