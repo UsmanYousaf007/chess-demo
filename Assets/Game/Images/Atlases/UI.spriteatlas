@@ -66,7 +66,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 30789552
+    totalSpriteSurfaceArea: 30810496
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -417,6 +417,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: da65a539c14d74d12a75d40750c63288, type: 3}
   - {fileID: 21300000, guid: 8d4a88392160b4a01ae7b752052f373e, type: 3}
   - {fileID: 21300000, guid: b641ec39c9efa4139bfc397b80593758, type: 3}
+  - {fileID: 21300000, guid: 06e193492f49043a48b4ab9e20bba5d4, type: 3}
   - {fileID: 21300000, guid: 10e6d849f94904a4c93df00e3a0f99cc, type: 3}
   - {fileID: 21300000, guid: d90f9869990264d30b2189ebc3885558, type: 3}
   - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
@@ -607,7 +608,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 29a2f9ee5c3a8439f850f5c99250b931, type: 3}
   - {fileID: 21300000, guid: ae0a69fed66de45f6bb429409803917e, type: 3}
   - {fileID: 21300000, guid: 6a479efebb79f4d45a0ffff1c84f4f41, type: 3}
-  - {fileID: 21300000, guid: 1f1b150f125e445f0984a1d75d7a16c9, type: 3}
   - {fileID: 21300000, guid: 76ed4a0f8af4240eda7923ddfd14ddf7, type: 3}
   - {fileID: 21300000, guid: c9811a1f242a9421597693e97134c9bc, type: 3}
   - {fileID: 21300000, guid: 2fd6652f3f6134a7480247387aeac435, type: 3}
@@ -985,6 +985,7 @@ SpriteAtlas:
   - ErrorScreenBgTile
   - BtnIconUndo
   - BtnIconHint
+  - WeeklyChampRibbon
   - GemBluePlus
   - ClassicChessIcon
   - ComputerIcon
@@ -1175,7 +1176,6 @@ SpriteAtlas:
   - Trophy3d2
   - VictoryText
   - PlayIcon
-  - Ribbon
   - MasterTitleText
   - ConnectToFbBg
   - LiveTag

@@ -84,10 +84,16 @@ namespace TurboLabz.Multiplayer
             SetupRewardsLayout();
             UpdateRewards(vo.powerMode);
         }
+
+        public void HideRewardsDialog()
+        {
+            rewardsDialog.SetActive(false);
+        }
+
         #endregion
 
         #region Animations
-        
+
 
         #endregion
 

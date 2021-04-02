@@ -84,7 +84,7 @@ namespace TurboLabz.InstantFramework
         public Signal OnInfoBtnClickedSignal = new Signal();
         public Signal<long> OnPlayButtonClickedSignal = new Signal<long>();
         public Signal<long> notEnoughCoinsSignal = new Signal<long>();
-        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
+        public Signal loadRewardsSignal = new Signal();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -117,7 +117,7 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(CareerCardVO vo)
         {
-            if(matchInfoModel.lastCompletedMatch.winnerId == playerModel.id)
+            if(matchInfoModel.lastCompletedMatch != null && matchInfoModel.lastCompletedMatch.winnerId == playerModel.id)
             {
                 AnimateCareerProgression(vo);
             }

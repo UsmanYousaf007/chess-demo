@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
         [Inject] public LoadSpotCoinPurchaseSignal loadSpotCoinPurchaseSignal { get; set; }
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
 
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
@@ -49,12 +50,18 @@ namespace TurboLabz.InstantFramework
             view.OnPlayButtonClickedSignal.AddListener(PlayButtonClicked);
             view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
             view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
+            view.loadRewardsSignal.AddListener(OnLoadRewardsSignal);
         }
 
         [ListensTo(typeof(UpdateCareerCardSignal))]
         public void UpdateView(CareerCardVO vo)
         {
             view.UpdateView(vo);
+        }
+
+        private void OnLoadRewardsSignal()
+        {
+
         }
 
         public void InfoButtonClicked()

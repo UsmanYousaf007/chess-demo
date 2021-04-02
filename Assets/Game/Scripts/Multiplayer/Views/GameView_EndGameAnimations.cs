@@ -88,7 +88,7 @@ namespace TurboLabz.Multiplayer
 
         private void FadeRewardsDialogue(float val)
         {
-            rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION);
+            rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION).OnComplete(HideRewardsDialog); ;
         }
 
         #endregion
