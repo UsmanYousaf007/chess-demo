@@ -4,6 +4,7 @@ using strange.extensions.signal.impl;
 using TurboLabz.Chess;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace TurboLabz.Multiplayer
 {
@@ -76,12 +77,14 @@ namespace TurboLabz.Multiplayer
             int i = 1;
             foreach (var move in analysiedMoves)
             {
+                
+
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
                 moveVO.SetupMove($"{i}.",
                     move.playerMove.ToShortString(),
                     GetMoveQualitySprite(move.moveQuality),
-                    pool.GetObject(move.playerMove.piece.name).GetComponent<SpriteRenderer>().sprite,
+                    GetPieceSprite(move.playerMove.piece.name),
                     move.whiteScore,
                     move.blackScore);
                 i++;
@@ -178,6 +181,15 @@ namespace TurboLabz.Multiplayer
                 analysisStrengthFiller.transform.localScale = 
                 analysisStrengthFillerBg.transform.localScale = 
                 analysisStrengthLabel.transform.localScale = flipVector;
+        }
+
+        private Sprite GetPieceSprite(string piece)
+        {
+            var pieceGO = (from p in pieces
+                           where p.name.Equals(piece)
+                           select p).FirstOrDefault();
+
+            return pieceGO.GetComponent<SpriteRenderer>().sprite;
         }
     }
 }

@@ -13,18 +13,22 @@ public class AnalysisMoveView : MonoBehaviour
         public Text move;
         public Image piece;
         public Image moveQuality;
-        public Image advantageFiller;
+        public RectTransform advantageFiller;
+        public Image advantageFillerImage;
         public Text whiteAdvantage;
         public Text blackAdvantage;
     }
 
     public AnalysisMove normal;
     public AnalysisMove zoomed;
+    public Sprite whiteAdvantageFilledSprite;
+    public Sprite whiteAdvantagePartialSprite;
+    public float whiteAdvantageOriginalWidth;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -50,6 +54,10 @@ public class AnalysisMoveView : MonoBehaviour
         analysis.blackAdvantage.text = $"+{blackAdvantage}";
         analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage;
         analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage;
-        analysis.advantageFiller.fillAmount = (float)(15 + whiteAdvantage) / 30;
+
+        var fillAmount = whiteAdvantageOriginalWidth * ((float)(30 + whiteAdvantage) / 60);
+        analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
+        analysis.advantageFillerImage.enabled = fillAmount > 15;
+        analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
     }
 }

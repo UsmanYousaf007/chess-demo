@@ -150,7 +150,7 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.sessionCount++;
             initBackendOnceSignal.Dispatch();
-            setLeaguesSignal.Dispatch();
+            //setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
             //loadPromotionSingal.Dispatch();
             //autoSubscriptionDialogueService.Show();
