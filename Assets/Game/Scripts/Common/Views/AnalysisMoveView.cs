@@ -13,6 +13,7 @@ public class AnalysisMoveView : MonoBehaviour
         public Text move;
         public Image piece;
         public Image moveQuality;
+        public Image advantageBg;
         public RectTransform advantageFiller;
         public Image advantageFillerImage;
         public Text whiteAdvantage;
@@ -23,7 +24,6 @@ public class AnalysisMoveView : MonoBehaviour
     public AnalysisMove zoomed;
     public Sprite whiteAdvantageFilledSprite;
     public Sprite whiteAdvantagePartialSprite;
-    public float whiteAdvantageOriginalWidth;
 
     // Start is called before the first frame update
     void Start()
@@ -50,14 +50,29 @@ public class AnalysisMoveView : MonoBehaviour
         analysis.piece.sprite = piece;
         analysis.moveQuality.enabled = moveQuality != null;
         analysis.moveQuality.sprite = moveQuality;
-        analysis.whiteAdvantage.text = $"+{whiteAdvantage}";
-        analysis.blackAdvantage.text = $"+{blackAdvantage}";
-        analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage;
-        analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage;
 
-        var fillAmount = whiteAdvantageOriginalWidth * ((float)(30 + whiteAdvantage) / 60);
-        analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
-        analysis.advantageFillerImage.enabled = fillAmount > 15;
-        analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
+        var showAdvantage = whiteAdvantage != 0;
+        ShowAdvantage(analysis, showAdvantage);
+
+        if (showAdvantage)
+        {
+            analysis.whiteAdvantage.text = $"+{whiteAdvantage}";
+            analysis.blackAdvantage.text = $"+{blackAdvantage}";
+            analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage;
+            analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage;
+
+            var fillAmount = 230 * ((float)(30 + whiteAdvantage) / 60);
+            analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
+            analysis.advantageFillerImage.enabled = fillAmount > 15;
+            analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
+        }
+    }
+
+    private void ShowAdvantage(AnalysisMove analysis, bool show)
+    {
+        analysis.advantageBg.enabled =
+            analysis.advantageFillerImage.enabled =
+            analysis.blackAdvantage.enabled =
+            analysis.whiteAdvantage.enabled = show;
     }
 }

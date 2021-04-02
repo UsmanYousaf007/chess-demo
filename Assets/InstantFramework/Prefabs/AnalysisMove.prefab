@@ -727,7 +727,7 @@ RectTransform:
   m_GameObject: {fileID: 4380619458100305342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 6302139818120137252}
   - {fileID: 558732462697112349}
@@ -1039,6 +1039,7 @@ MonoBehaviour:
     move: {fileID: 6673490533697636188}
     piece: {fileID: 5632069202241331530}
     moveQuality: {fileID: 1207297197176361615}
+    advantageBg: {fileID: 2657876077935414493}
     advantageFiller: {fileID: 5416184917113544464}
     advantageFillerImage: {fileID: 2962387516699640044}
     whiteAdvantage: {fileID: 8386482903763040822}
@@ -1048,6 +1049,7 @@ MonoBehaviour:
     move: {fileID: 5077293508354223963}
     piece: {fileID: 4887846013064715270}
     moveQuality: {fileID: 1488049326542893096}
+    advantageBg: {fileID: 450045301556132585}
     advantageFiller: {fileID: 5226165338487450711}
     advantageFillerImage: {fileID: 197740956257198606}
     whiteAdvantage: {fileID: 2648784560101501564}
@@ -1247,7 +1249,7 @@ RectTransform:
   m_GameObject: {fileID: 8846657855998986884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 6856868911202197340}
   - {fileID: 7441946054340778280}
