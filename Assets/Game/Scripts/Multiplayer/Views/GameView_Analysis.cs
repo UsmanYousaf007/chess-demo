@@ -22,8 +22,6 @@ namespace TurboLabz.Multiplayer
         public Transform analysisLineEndPivot;
         public GameObject analysisStrengthPanel;
         public Text analysisStrengthLabel;
-        public Image analysisStrengthFiller;
-        public Image analysisStrengthFillerBg;
         public Transform analysisPlayerMovePivotHolder;
         public Transform analysisPlayerMoveLeftPivot;
         public Transform analysisPlayerMoveRightPivot;
@@ -165,7 +163,6 @@ namespace TurboLabz.Multiplayer
 
             //Setting strength value
             analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
-            analysisStrengthFiller.fillAmount = analysiedMove.strength;
 
             //Placing strength panel and quality icon
             FlipAnalysisStrengthPanel(showStrengthPanelOnRight ? 1 : -1);
@@ -177,10 +174,8 @@ namespace TurboLabz.Multiplayer
         private void FlipAnalysisStrengthPanel(float scale)
         {
             var flipVector = new Vector3(scale, 1, 1);
-            analysisStrengthPanel.transform.localScale = 
-                analysisStrengthFiller.transform.localScale = 
-                analysisStrengthFillerBg.transform.localScale = 
-                analysisStrengthLabel.transform.localScale = flipVector;
+            analysisStrengthPanel.transform.localScale = flipVector;
+            analysisStrengthLabel.transform.localScale = flipVector;
         }
 
         private Sprite GetPieceSprite(string piece)

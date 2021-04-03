@@ -20,9 +20,9 @@ namespace TurboLabz.Chess
             var moveQuality = MoveQuality.NORMAL;
             var from = aiMoveInputVO.lastPlayerMove.from;
             var to = aiMoveInputVO.lastPlayerMove.to;
-            var totolMoveCount = aiSearchResultMovesList.Count;
+            var totalMoveCount = aiSearchResultMovesList.Count;
 
-            if (totolMoveCount > 0)
+            if (totalMoveCount > 0)
             {
                 var moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
                 int moveFoundIndex = GetMoveIndex(moveString);
