@@ -43,9 +43,10 @@ namespace TurboLabz.InstantFramework
 
         IEnumerator CaptureScreenSpriteCR(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
         {
+            Texture2D screenImage = new Texture2D(Screen.width, Screen.height);
+
             yield return new WaitForEndOfFrame();
 
-            Texture2D screenImage = new Texture2D(Screen.width, Screen.height);
             screenImage.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
             screenImage.Apply();
             Texture2D nTex = ResizeTexture(screenImage, destTextureWidth, destTextureHeight);
@@ -53,6 +54,9 @@ namespace TurboLabz.InstantFramework
             //Sprite sprite = Sprite.Create(nTex, new Rect(0, 0, nTex.width, nTex.height), new Vector2(0, 0));
             //dest.sprite = sprite;
             blurImageEffectMaterial.SetTexture("_MainTex", nTex);
+
+            yield return new WaitForEndOfFrame();
+
             if (toEnableObj != null) toEnableObj.SetActive(true);
             promise.Dispatch();
         }
