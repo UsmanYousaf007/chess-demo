@@ -71,11 +71,6 @@ namespace TurboLabz.InstantFramework
                 toggleLeaderboardViewNavButtons.Dispatch(true);
                 updateTournamentLeaderboardView.Dispatch();
 
-                if (playerModel.subscriptionExipryTimeStamp == 0)
-                {
-                    getInitDataCompleteSignal.Dispatch();
-                }
-
                 getInitDataOnCompleteSignal.Dispatch();
             }
             else if (result != BackendResult.CANCELED)
