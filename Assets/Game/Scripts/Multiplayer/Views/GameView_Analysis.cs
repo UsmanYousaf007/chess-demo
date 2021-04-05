@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
         public Transform analysisPlayerMoveRightPivot;
         public Image analysisMoveQuality;
         public GameObject movesSpinnerParent;
+        public AnalysisMovesSpinnerDragHandler spinnerDragHandler;
 
         public Button strengthBtn;
         public Button arrowBtn;
@@ -58,6 +59,8 @@ namespace TurboLabz.Multiplayer
             strengthBtn.onClick.AddListener(OnClickedStrength);
             arrowBtn.onClick.AddListener(OnClickedArrow);
             moveQualityBtn.onClick.AddListener(OnClickedMoveQuality);
+
+            spinnerDragHandler.audioService = audioService;
         }
 
         public void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)

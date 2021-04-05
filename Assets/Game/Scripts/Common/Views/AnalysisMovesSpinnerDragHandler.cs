@@ -1,41 +1,44 @@
 ﻿using DG.Tweening;
 using Picker;
+using TurboLabz.InstantFramework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(PickerScrollRect))]
-public class AnalysisMovesSpinnerDragHandler : MonoBehaviour, IBeginDragHandler 
+public class AnalysisMovesSpinnerDragHandler : MonoBehaviour 
 {
     public Transform arrowLeft;
     public Transform arrowRight;
 
+    [HideInInspector] public IAudioService audioService;
+
     private float arrowLeftOriginalXPosition;
     private float arrowRightOriginalXPosition;
-    private PickerScrollRect _picker;
 
     private void OnEnable()
     {
-        _picker = GetComponent<PickerScrollRect>();
-        _picker.onSelectItem.AddListener(OnEndDrag);
-
         arrowLeftOriginalXPosition = arrowLeft.localPosition.x;
         arrowRightOriginalXPosition = arrowRight.localPosition.x;
     }
 
-    private void OnDisable()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        _picker.onSelectItem.RemoveListener(OnEndDrag);
+        if (collision.name.Equals("Trigger"))
+        {
+            arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition, 0.1f);
+            arrowRight.DOLocalMoveX(arrowRightOriginalXPosition, 0.1f);
+            audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
+#if UNITY_IOS
+            IOSNative.StartHapticFeedback(HapticFeedbackTypes.LIGHT);
+#endif
+        }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition - 20, 0.7f);
-        arrowRight.DOLocalMoveX(arrowRightOriginalXPosition + 20, 0.7f);
-    }
-
-    public void OnEndDrag(GameObject eventData)
-    {
-        arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition, 0.7f);
-        arrowRight.DOLocalMoveX(arrowRightOriginalXPosition, 0.7f);
+        if (collision.name.Equals("Trigger"))
+        {
+            arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition - 20, 0.1f);
+            arrowRight.DOLocalMoveX(arrowRightOriginalXPosition + 20, 0.1f);
+        }
     }
 }
