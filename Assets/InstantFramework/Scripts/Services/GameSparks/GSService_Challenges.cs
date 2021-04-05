@@ -422,7 +422,7 @@ namespace TurboLabz.InstantFramework
             JoinedTournamentData joinedTournament = null;
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
-            int previousRank = tournament.rank;
+            //int previousRank = tournament.rank;
 
             if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {

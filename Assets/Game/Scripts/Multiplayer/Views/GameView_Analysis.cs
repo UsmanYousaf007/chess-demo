@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
         public Image analysisMoveQuality;
         public GameObject movesSpinnerParent;
         public AnalysisMovesSpinnerDragHandler spinnerDragHandler;
+        public ScrollRectAlphaHandler scrollRectAlphaHandler;
 
         public Button strengthBtn;
         public Button arrowBtn;
@@ -37,6 +38,7 @@ namespace TurboLabz.Multiplayer
         public GameObject arrowTooltip;
         public GameObject moveQualityTooltip;
         public Text moveQualityTooltipText;
+        public Text arrowTooltipText;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
 
@@ -51,6 +53,7 @@ namespace TurboLabz.Multiplayer
         public void InitAnalysis()
         {
             pickerSrollRect.onSelectItem.AddListener(OnMoveSelected);
+            pickerSrollRect.onValueChanged.AddListener(scrollRectAlphaHandler.OnScroll);
 
             var originalScale = analysisPlayerMovePivotHolder.localScale;
             var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
@@ -82,6 +85,7 @@ namespace TurboLabz.Multiplayer
         private void ClearMovesList()
         {
             movesSpinnerParent.SetActive(false);
+            scrollRectAlphaHandler.Reset();
 
             foreach (Transform move in movesContainer)
             {
@@ -104,8 +108,11 @@ namespace TurboLabz.Multiplayer
                     move.blackScore,
                     isLocked);
                 i++;
+
+                scrollRectAlphaHandler.AddScrollItem(moveView);
             }
 
+            scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
         }
 
@@ -120,7 +127,7 @@ namespace TurboLabz.Multiplayer
         {
             return quality == MoveQuality.BLUNDER ? "Blunder" :
                    quality == MoveQuality.MISTAKE ? "Mistake" :
-                   quality == MoveQuality.PERFECT ? "Perfect" : null;
+                   quality == MoveQuality.PERFECT ? "Perfect" : string.Empty;
         }
 
         private void OnMoveSelected(GameObject obj)
@@ -154,6 +161,7 @@ namespace TurboLabz.Multiplayer
             var bestMoveToScreenPosition = mainCamera.WorldToScreenPoint(bestMoveToPosition);
             var showStrengthPanelOnRight = playerMoveToPosition.x < 0;
             var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT && !isLocked;
+            var arrowTooltipValue = analysiedMove.moveQuality == MoveQuality.PERFECT ? "perfect" : "better";
 
             //Player move indicators
             hindsightFromIndicator.transform.position = playerMoveFromPosition;
@@ -164,6 +172,7 @@ namespace TurboLabz.Multiplayer
             //Placing and rotating arrow head
             analysisArrowHead.rectTransform.position = bestMoveToScreenPosition;
             analysisArrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
+            arrowTooltip.transform.localEulerAngles = new Vector3(0, 0, -angle);
 
             //Drawing the line from square to arrow head
             analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 30.0f);
@@ -177,6 +186,7 @@ namespace TurboLabz.Multiplayer
             analysisMoveQuality.sprite = GetMoveQualitySprite(analysiedMove.moveQuality);
             moveQualityTooltipText.text = GetMoveQualityText(analysiedMove.moveQuality);
             analysisMoveQuality.enabled = analysiedMove.moveQuality != MoveQuality.NORMAL;
+            arrowTooltipText.text = $"This was a {arrowTooltipValue} move";
 
             //Setting strength value
             analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
