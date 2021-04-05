@@ -28,6 +28,15 @@ namespace TurboLabz.Multiplayer
         public Image analysisMoveQuality;
         public GameObject movesSpinnerParent;
 
+        public Button strengthBtn;
+        public Button arrowBtn;
+        public Button moveQualityBtn;
+
+        public GameObject strengthTooltip;
+        public GameObject arrowTooltip;
+        public GameObject moveQualityTooltip;
+        public Text moveQualityTooltipText;
+
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
 
         private List<MoveAnalysis> analysiedMoves;
@@ -45,6 +54,10 @@ namespace TurboLabz.Multiplayer
             var originalScale = analysisPlayerMovePivotHolder.localScale;
             var vectorToScale = new Vector3(originalScale.x * scaleUniform, originalScale.y * scaleUniform, 1);
             analysisPlayerMovePivotHolder.localScale = vectorToScale;
+
+            strengthBtn.onClick.AddListener(OnClickedStrength);
+            arrowBtn.onClick.AddListener(OnClickedArrow);
+            moveQualityBtn.onClick.AddListener(OnClickedMoveQuality);
         }
 
         public void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)
@@ -100,6 +113,13 @@ namespace TurboLabz.Multiplayer
                    quality == MoveQuality.PERFECT ? moveAnalysisPerfect : null;
         }
 
+        private string GetMoveQualityText(MoveQuality quality)
+        {
+            return quality == MoveQuality.BLUNDER ? "Blunder" :
+                   quality == MoveQuality.MISTAKE ? "Mistake" :
+                   quality == MoveQuality.PERFECT ? "Perfect" : null;
+        }
+
         private void OnMoveSelected(GameObject obj)
         {
             var move = obj.GetComponent<AnalysisMoveView>();
@@ -152,6 +172,7 @@ namespace TurboLabz.Multiplayer
 
             //Setting move quality sprite
             analysisMoveQuality.sprite = GetMoveQualitySprite(analysiedMove.moveQuality);
+            moveQualityTooltipText.text = GetMoveQualityText(analysiedMove.moveQuality);
             analysisMoveQuality.enabled = analysiedMove.moveQuality != MoveQuality.NORMAL;
 
             //Setting strength value
@@ -186,5 +207,25 @@ namespace TurboLabz.Multiplayer
             analysisLine.gameObject.SetActive(show);
             analysisMoveQuality.gameObject.SetActive(show);
         }
+
+        #region Button Listeners
+
+        private void OnClickedArrow()
+        {
+            arrowTooltip.SetActive(true);
+        }
+
+        private void OnClickedStrength()
+        {
+            strengthTooltip.SetActive(true);
+        }
+
+        private void OnClickedMoveQuality()
+        {
+            moveQualityTooltip.SetActive(true);
+        }
+
+        #endregion
+
     }
 }
