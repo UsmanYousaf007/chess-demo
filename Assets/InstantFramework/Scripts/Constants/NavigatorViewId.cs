@@ -103,6 +103,7 @@ namespace TurboLabz.InstantFramework
         LEAGUE_PROMOTION_DLG,
         REWARD_DLG_V2,
         PURCHASE_SUCCESS_DLG,
-        GDPR_DLG
+        GDPR_DLG,
+        BUY_GAME_ANALYSIS_DLG
     }
 }

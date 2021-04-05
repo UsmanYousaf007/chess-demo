@@ -122,6 +122,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
                 { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints can be used in a game."},
+                { LocalizationKey.GM_BUY_GAME_ANALYSIS_TITLE_TEXT, "Activate Full Analysis to traverse and analyze moves"},
 
                 #endregion
 
