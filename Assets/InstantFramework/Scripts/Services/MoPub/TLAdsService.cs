@@ -319,5 +319,11 @@ namespace TurboLabz.InstantFramework
             return HAds.HasConsent() != null || HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) || HPolicyGuard.WasATTPopupDisplayed();
 #endif
         }
+
+        //ask sami
+        public bool IsPlayerQualifiedForRewarded(int itemCost, int playDaysRequired)
+        {
+            return playerModel.gems < itemCost && preferencesModel.playDays > playDaysRequired;
+        }
     }
 }

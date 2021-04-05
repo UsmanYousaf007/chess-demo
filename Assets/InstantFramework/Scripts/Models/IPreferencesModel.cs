@@ -72,7 +72,6 @@ namespace TurboLabz.InstantFramework
         int gamesPlayedPerDay { get; set; }
         bool FTUE { get; set; }
         int purchasesCount { get; set; }
-
         void ResetDailyPrefers();
 
         //for appsflyer events for HUUUGE
@@ -95,5 +94,9 @@ namespace TurboLabz.InstantFramework
         FreePowerUpStatus freeDailyRatingBooster { get; set; }
 
         bool isLeaderboardTooltipShown { get; set; }
+
+        long rvCoolDownTimeUTC{ get; set; }
+        int playDays { get; set; }
+
     }
 }

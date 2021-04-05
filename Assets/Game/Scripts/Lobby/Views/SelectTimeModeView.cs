@@ -9,6 +9,8 @@ using strange.extensions.signal.impl;
 using System;
 using TMPro;
 using TurboLabz.InstantGame;
+using System.Collections;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -40,11 +42,24 @@ namespace TurboLabz.InstantFramework
         public Button closeButton;
         public TMP_Text freeHintsText;
 
+        public Button powerPlayWithRVBtn;
+        public Image powerPlayWithRVTick;
+        public GameObject powerPlayPlusWithRV;
+        public Image gemIconWithRv;
+        public TMP_Text gemCostWithRv;
+
+        public Button rewardedVideoBtn;
+        public GameObject powerPlayAdTimer;
+        public TMP_Text powerPlayAdTimerRemainingTime;
+        public GameObject getRV;
+        public GameObject tooltip;
+
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
-
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
         //Signals
         public Signal<string, bool> playMultiplayerButtonClickedSignal = new Signal<string, bool>();
         public Signal powerModeButtonClickedSignal = new Signal();
@@ -56,11 +71,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
         [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         private StoreItem storeItem;
         private bool isPowerModeOn;
         private long betValue;
 
+        private bool canSeeRV;
+        private bool isCoolDownComplete;
         public void Init()
         {
             startGame3mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random3.ToString()); });
@@ -74,17 +93,24 @@ namespace TurboLabz.InstantFramework
             startGame30mText.text = localizationService.Get(LocalizationKey.MIN30_GAME_TEXT);
 
             powerPlayOnBtn.onClick.AddListener(OnPowerPlayButtonClicked);
+            powerPlayWithRVBtn.onClick.AddListener(OnPowerPlayButtonClicked);
+
+            rewardedVideoBtn.onClick.AddListener(OnPlayRewardedVideoClicked);
         }
 
         public void Show()
         {
             // Blur background and enable this dialog
-            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject);
+            
+            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject).Then(startCR);
+            //gameObject.SetActive(true);
         }
 
         public void Hide()
         {
+            StopCoroutine(RvCoolDownTimer());
             gameObject.SetActive(false);
+
         }
 
         public void UpdateView(long betValue)
@@ -100,12 +126,25 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-
+            canSeeRV = adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
+            isCoolDownComplete = IsRvCoolDownDone();
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
-            SetupState(isPowerModeOn);
+            SetupState(isPowerModeOn, canSeeRV);
             SetupPlayButtons(true);
+            //if (isActiveAndEnabled && gameObject.activeInHierarchy && !isCoolDownComplete)
+            //if(!isCoolDownComplete)
+            //{
+            //    StartCoroutine(RvCoolDownTimer());
+            //}
         }
 
+        void startCR()
+        {
+            if (gameObject.activeInHierarchy && !isCoolDownComplete)
+            {
+                StartCoroutine(RvCoolDownTimer());
+            }
+        }
         void OnStartGameBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
@@ -128,6 +167,7 @@ namespace TurboLabz.InstantFramework
             if (playerModel.gems >= storeItem.currency3Cost)
             {
                 powerPlayOnBtn.interactable = false;
+                powerPlayWithRVBtn.interactable = false;
                 powerModeButtonClickedSignal.Dispatch();
             }
             else
@@ -136,22 +176,53 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void SetupState(bool powerModeEnabled)
+        void SetupState(bool powerModeEnabled, bool canSeeRV)
         {
-            onText.enabled = powerModeEnabled;
-            gemIcon.enabled = !powerModeEnabled;
-            gemCost.enabled = !powerModeEnabled;
-            powerPlayTick.enabled = powerModeEnabled;
-            powerPlayPlus.SetActive(!powerModeEnabled);
-            gemCost.text = storeItem.currency3Cost.ToString();
-            powerPlayOnBtn.interactable = !powerModeEnabled;
+ 
+            SetupPowerplayBtns(powerModeEnabled, canSeeRV);
+            //powerPlayTick.enabled = powerModeEnabled;
+            //powerPlayPlus.SetActive(!powerModeEnabled);
+            //gemCost.text = storeItem.currency3Cost.ToString();
+            //powerPlayOnBtn.interactable = !powerModeEnabled;
             isPowerModeOn = powerModeEnabled;
+            
+        }
+
+        void SetupPowerplayBtns(bool powerModeEnabled, bool canSeeRV)
+        {
+            powerPlayOnBtn.gameObject.SetActive(!canSeeRV);
+            powerPlayWithRVBtn.gameObject.SetActive(canSeeRV);
+            rewardedVideoBtn.gameObject.SetActive(canSeeRV);
+            if (!canSeeRV)
+            {
+                powerPlayTick.enabled = powerModeEnabled;
+                powerPlayPlus.SetActive(!powerModeEnabled);
+                onText.enabled = powerModeEnabled;
+                gemIcon.enabled = !powerModeEnabled;
+                gemCost.enabled = !powerModeEnabled;
+                gemCost.text = storeItem.currency3Cost.ToString();
+                powerPlayOnBtn.interactable = !powerModeEnabled;
+
+            }
+            else 
+            {
+                powerPlayWithRVTick.enabled = powerModeEnabled;
+                powerPlayPlusWithRV.SetActive(!powerModeEnabled);
+                gemIconWithRv.enabled = !powerModeEnabled;
+                gemCostWithRv.enabled = !powerModeEnabled;
+                powerPlayAdTimer.SetActive(!isCoolDownComplete);
+                powerPlayWithRVBtn.interactable = !powerModeEnabled;
+                getRV.SetActive(isCoolDownComplete);
+                tooltip.SetActive(false);
+            }
+
+
         }
 
         public void OnEnablePowerMode()
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-            SetupState(true);
+            SetupState(true, canSeeRV);
         }
 
         private void OnCloseButtonClicked()
@@ -168,5 +239,89 @@ namespace TurboLabz.InstantFramework
                 startGame30mButton.interactable = enable;
         }
 
+
+
+        void OnPlayRewardedVideoClicked()
+        {
+            
+            if (isCoolDownComplete)
+            {
+                powerPlayAdTimer.SetActive(true);
+                getRV.SetActive(false);
+                SetupTimer();
+                isCoolDownComplete = false;
+                StartCoroutine(RvCoolDownTimer());
+            }
+            else
+            {
+                
+                tooltip.SetActive(true);
+            }
+            
+
+        }
+
+        void SetupTimer()
+        {
+            if (isCoolDownComplete)
+            {
+                if (preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired)
+                {
+                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.freemiumTimerCooldownTime).ToUnixTimeMilliseconds();
+                }
+                else
+                {
+                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.premiumTimerCooldownTime).ToUnixTimeMilliseconds();
+                }
+            }
+        }
+
+        public IEnumerator RvCoolDownTimer()
+        {
+            while (!isCoolDownComplete)
+            {
+                UpdateRvTimer();
+                isCoolDownComplete = IsRvCoolDownDone();
+                yield return new WaitForSecondsRealtime(1);
+                
+            }
+            OnTimerCompleted();
+            yield return null;
+        }
+
+        void UpdateRvTimer()
+        {
+            long timeLeft = preferencesModel.rvCoolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (timeLeft>0)
+            {
+                timeLeft -=1000;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+                powerPlayAdTimerRemainingTime.text = timeLeftText;
+            }
+            else
+            {
+                powerPlayAdTimerRemainingTime.text = "0s";
+            }
+        }
+
+        void OnTimerCompleted()
+        {
+            isCoolDownComplete = true;
+            powerPlayAdTimer.SetActive(false);
+            getRV.SetActive(true);
+        }
+
+        bool IsRvCoolDownDone()
+        {
+           return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+
+        //void RebuildLayout()
+        //{
+        //    foreach (var layout in layouts)
+        //    {
+        //        LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+        //    }
+        //}
     }
 }

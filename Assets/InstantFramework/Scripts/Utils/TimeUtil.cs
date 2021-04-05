@@ -214,5 +214,19 @@ namespace TurboLabz.TLUtils
                 return years <= 1 ? "an year ago" : years + " years ago";
             }
         }
+
+        public static int GetDaysDifference(DateTime current, DateTime source)
+        {
+            int days = (source - current).Days;
+            return days;
+        }
+
+        public static int GetDaysDifference(long current, DateTime source)
+        {
+            DateTime currentlocalTime = ToDateTime(current).ToLocalTime();
+            int days = (source - currentlocalTime).Days;
+            return days;
+        }
+
     }
 }

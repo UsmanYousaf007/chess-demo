@@ -307,7 +307,10 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.secondsLeftDisableTournamentPregame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_LEFT_DISABLE_TOURNAMENT_ADS) * 60;
             adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
             adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
-
+            adsSettingsModel.minPlayDaysRequired = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MIN_PLAY_DAYS_REQUIRED);
+            adsSettingsModel.minPurchasesRequired = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MIN_PURCHASES_REQUIRED);
+            adsSettingsModel.premiumTimerCooldownTime = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.PREMIUM_TIMER_COOLDOWN_TIME);
+            adsSettingsModel.freemiumTimerCooldownTime = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.FREEMIUM_TIMER_COOLDOWN_TIME);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

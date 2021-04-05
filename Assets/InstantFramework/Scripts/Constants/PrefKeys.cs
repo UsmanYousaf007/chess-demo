@@ -104,6 +104,11 @@ namespace TurboLabz.InstantGame
         public const string RESOURCE_BUNDLE = "resourceBundle";
         public const string IS_LEADERBOARD_TOOLTIP_SHOWN = "isLeaderboardTooltipShown";
 
+        //Ad Timer
+        public const string PLAY_DAYS = "playDays";
+        public const string RV_COOLDOWN_TIME = "rvCoolDownTime";
+        public const string TIMER_TYPE = "timerType";
+
         public static readonly string[] DAILY_RESOURCE_MAMANGER = { RESOURCE_USED, RESOURCE_GEMS, RESOURCE_VIDEOS, RESOURCE_FREE, RESOURCE_BUNDLE };
     }
 }

@@ -165,6 +165,10 @@ namespace TurboLabz.InstantFramework
         public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
         public const string ENABLE_BANNER_ADS = "enableBannerAds";
 
+        public const string MIN_PLAY_DAYS_REQUIRED = "minPlayDaysRequired";
+        public const string MIN_PURCHASES_REQUIRED = "minPurchasesRequired";
+        public const string PREMIUM_TIMER_COOLDOWN_TIME = "premiumTimerCooldownTimeInMin";
+        public const string FREEMIUM_TIMER_COOLDOWN_TIME = "freemiumTimerCooldownTimeInMin";
 
         // AB Test Settings
         public const string AB_TEST_ADS_SETTINGS = "abTestAds";

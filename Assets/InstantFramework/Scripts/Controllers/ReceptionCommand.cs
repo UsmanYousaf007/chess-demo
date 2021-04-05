@@ -148,6 +148,11 @@ namespace TurboLabz.InstantFramework
 
         private void DispatchGameSignals()
         {
+            var daysBetweenLastLogin = TimeUtil.GetDaysDifference(backendService.serverClock.currentTimestamp, preferencesModel.lastLaunchTime);
+            if (daysBetweenLastLogin > 0)
+            {
+                preferencesModel.playDays++;
+            }
             preferencesModel.sessionCount++;
             initBackendOnceSignal.Dispatch();
             //setLeaguesSignal.Dispatch();
@@ -289,7 +294,8 @@ namespace TurboLabz.InstantFramework
 
         private void SendDailyAnalytics()
         {
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - preferencesModel.lastLaunchTime).Days;
+            var currentlocalTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime();
+            var daysBetweenLastLogin = TimeUtil.GetDaysDifference(currentlocalTime, preferencesModel.lastLaunchTime);
 
             if (daysBetweenLastLogin >= 1)
             {

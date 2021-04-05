@@ -31,6 +31,13 @@ namespace TurboLabz.InstantFramework
         bool showInGame30Min { get; set; }
         bool showInGameClassic { get; set; }
         bool isBannerEnabled { get; set; }
+
+        /*Timed ads settings*/
+        int minPlayDaysRequired { get; set; }
+        int minPurchasesRequired { get; set; }
+        float premiumTimerCooldownTime { get; set; }
+        float freemiumTimerCooldownTime { get; set; }
+
     }
 }
 
