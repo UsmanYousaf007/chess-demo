@@ -78,7 +78,7 @@ namespace TurboLabz.InstantFramework
         private bool isPowerModeOn;
         private long betValue;
 
-        private bool canSeeRV;
+        private bool canSeeRewardedVideo;
         private bool isCoolDownComplete;
         public void Init()
         {
@@ -102,7 +102,7 @@ namespace TurboLabz.InstantFramework
         {
             // Blur background and enable this dialog
             
-            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject).Then(startCR);
+            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject).Then(SyncRvTimer);
             //gameObject.SetActive(true);
         }
 
@@ -126,19 +126,14 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-            canSeeRV = adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
+            canSeeRewardedVideo = adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
             isCoolDownComplete = IsRvCoolDownDone();
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
-            SetupState(isPowerModeOn, canSeeRV);
+            SetupState(isPowerModeOn, canSeeRewardedVideo);
             SetupPlayButtons(true);
-            //if (isActiveAndEnabled && gameObject.activeInHierarchy && !isCoolDownComplete)
-            //if(!isCoolDownComplete)
-            //{
-            //    StartCoroutine(RvCoolDownTimer());
-            //}
         }
 
-        void startCR()
+        void SyncRvTimer()
         {
             if (gameObject.activeInHierarchy && !isCoolDownComplete)
             {
@@ -178,18 +173,6 @@ namespace TurboLabz.InstantFramework
 
         void SetupState(bool powerModeEnabled, bool canSeeRV)
         {
- 
-            SetupPowerplayBtns(powerModeEnabled, canSeeRV);
-            //powerPlayTick.enabled = powerModeEnabled;
-            //powerPlayPlus.SetActive(!powerModeEnabled);
-            //gemCost.text = storeItem.currency3Cost.ToString();
-            //powerPlayOnBtn.interactable = !powerModeEnabled;
-            isPowerModeOn = powerModeEnabled;
-            
-        }
-
-        void SetupPowerplayBtns(bool powerModeEnabled, bool canSeeRV)
-        {
             powerPlayOnBtn.gameObject.SetActive(!canSeeRV);
             powerPlayWithRVBtn.gameObject.SetActive(canSeeRV);
             rewardedVideoBtn.gameObject.SetActive(canSeeRV);
@@ -204,7 +187,7 @@ namespace TurboLabz.InstantFramework
                 powerPlayOnBtn.interactable = !powerModeEnabled;
 
             }
-            else 
+            else
             {
                 powerPlayWithRVTick.enabled = powerModeEnabled;
                 powerPlayPlusWithRV.SetActive(!powerModeEnabled);
@@ -216,13 +199,19 @@ namespace TurboLabz.InstantFramework
                 tooltip.SetActive(false);
             }
 
-
+            isPowerModeOn = powerModeEnabled;
+            
         }
 
         public void OnEnablePowerMode()
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-            SetupState(true, canSeeRV);
+            SetupState(true, canSeeRewardedVideo);
+        }
+
+        public bool IsRvCoolDownDone()
+        {
+            return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         private void OnCloseButtonClicked()
@@ -240,15 +229,13 @@ namespace TurboLabz.InstantFramework
         }
 
 
-
-        void OnPlayRewardedVideoClicked()
-        {
-            
+        private void OnPlayRewardedVideoClicked()
+        {            
             if (isCoolDownComplete)
             {
                 powerPlayAdTimer.SetActive(true);
                 getRV.SetActive(false);
-                SetupTimer();
+                SetupCoolDownTimer();
                 isCoolDownComplete = false;
                 StartCoroutine(RvCoolDownTimer());
             }
@@ -257,11 +244,9 @@ namespace TurboLabz.InstantFramework
                 
                 tooltip.SetActive(true);
             }
-            
-
         }
 
-        void SetupTimer()
+        private void SetupCoolDownTimer()
         {
             if (isCoolDownComplete)
             {
@@ -276,7 +261,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public IEnumerator RvCoolDownTimer()
+        private IEnumerator RvCoolDownTimer()
         {
             while (!isCoolDownComplete)
             {
@@ -289,7 +274,7 @@ namespace TurboLabz.InstantFramework
             yield return null;
         }
 
-        void UpdateRvTimer()
+        private void UpdateRvTimer()
         {
             long timeLeft = preferencesModel.rvCoolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (timeLeft>0)
@@ -304,24 +289,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        void OnTimerCompleted()
+        private void OnTimerCompleted()
         {
             isCoolDownComplete = true;
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
         }
-
-        bool IsRvCoolDownDone()
-        {
-           return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
-
-        //void RebuildLayout()
-        //{
-        //    foreach (var layout in layouts)
-        //    {
-        //        LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
-        //    }
-        //}
     }
 }

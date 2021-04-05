@@ -15,6 +15,9 @@ using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
 using TMPro;
 using System.Collections.Generic;
+using System;
+using System.Collections;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.Multiplayer
 {
@@ -118,6 +121,8 @@ namespace TurboLabz.Multiplayer
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
         private List<MoveAnalysis> moveAnalysisList;
+        private bool canSeeRewardedVideo;
+        private bool isCoolDownComplete;
 
         [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
         
@@ -414,6 +419,11 @@ namespace TurboLabz.Multiplayer
             return resultsDialog.activeSelf;
         }
 
+        public bool IsRvCoolDownDone()
+        {
+            return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+
         private void HandleDeclinedDialog()
         {
             resultsDialog.SetActive(false);
@@ -606,6 +616,56 @@ namespace TurboLabz.Multiplayer
             bunders.text = analysis.blunders.ToString();
             perfect.text = analysis.perfectMoves.ToString();
             mistakes.text = analysis.mistakes.ToString();
+        }
+
+        private void SetupCoolDownTimer()
+        {
+            if (isCoolDownComplete)
+            {
+                if (preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired)
+                {
+                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.freemiumTimerCooldownTime).ToUnixTimeMilliseconds();
+                }
+                else
+                {
+                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.premiumTimerCooldownTime).ToUnixTimeMilliseconds();
+                }
+            }
+        }
+
+        private IEnumerator RvCoolDownTimer()
+        {
+            while (!isCoolDownComplete)
+            {
+                UpdateRvTimer();
+                isCoolDownComplete = IsRvCoolDownDone();
+                yield return new WaitForSecondsRealtime(1);
+
+            }
+            OnTimerCompleted();
+            yield return null;
+        }
+
+        private void UpdateRvTimer()
+        {
+            long timeLeft = preferencesModel.rvCoolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (timeLeft > 0)
+            {
+                timeLeft -= 1000;
+                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+                //powerPlayAdTimerRemainingTime.text = timeLeftText;
+            }
+            else
+            {
+                //powerPlayAdTimerRemainingTime.text = "0s";
+            }
+        }
+
+        private void OnTimerCompleted()
+        {
+            isCoolDownComplete = true;
+            //powerPlayAdTimer.SetActive(false);
+            //getRV.SetActive(true);
         }
 
         #region Animations
