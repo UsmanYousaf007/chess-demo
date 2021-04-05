@@ -26,6 +26,7 @@ namespace TurboLabz.Multiplayer
         public Transform analysisPlayerMoveLeftPivot;
         public Transform analysisPlayerMoveRightPivot;
         public Image analysisMoveQuality;
+        public GameObject movesSpinnerParent;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
 
@@ -46,11 +47,11 @@ namespace TurboLabz.Multiplayer
             analysisPlayerMovePivotHolder.localScale = vectorToScale;
         }
 
-        public void UpdateAnalysisView(List<MoveAnalysis> moves)
+        public void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)
         {
             analysiedMoves = moves;
             ClearMovesList();
-            SetupMovesList();
+            SetupMovesList(isLocked);
             ResetCapturedPieces();
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
@@ -64,19 +65,19 @@ namespace TurboLabz.Multiplayer
 
         private void ClearMovesList()
         {
+            movesSpinnerParent.SetActive(false);
+
             foreach (Transform move in movesContainer)
             {
                 Destroy(move.gameObject);
             }
         }
 
-        private void SetupMovesList()
+        private void SetupMovesList(bool isLocked)
         {
             int i = 1;
             foreach (var move in analysiedMoves)
             {
-                
-
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
                 moveVO.SetupMove($"{i}.",
@@ -84,9 +85,12 @@ namespace TurboLabz.Multiplayer
                     GetMoveQualitySprite(move.moveQuality),
                     GetPieceSprite(move.playerMove.piece.name),
                     move.whiteScore,
-                    move.blackScore);
+                    move.blackScore,
+                    isLocked);
                 i++;
             }
+
+            movesSpinnerParent.SetActive(true);
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality)
@@ -101,25 +105,14 @@ namespace TurboLabz.Multiplayer
             var move = obj.GetComponent<AnalysisMoveView>();
             var moveNumber = move.normal.moveNumber.text;
             var moveIndex = int.Parse(moveNumber.Remove(moveNumber.Length - 1));
-            var selectedMoves = GetSelectedMoves(moveIndex);
+            var selectedMoves = moveAnalysisList.GetRange(0, moveAnalysisList.Count - analysiedMoves.Count + moveIndex);
 
             onAnalysiedMoveSelectedSignal.Dispatch(selectedMoves);
-            OnAnalysisBoardUpdated(moveIndex);
+            ShowSelectedMoveAnalysis(!move.IsLocked);
+            OnAnalysisBoardUpdated(moveIndex, move.IsLocked);
         }
 
-        private List<MoveAnalysis> GetSelectedMoves(int moveIndex)
-        {
-            var selectedMoves = new List<MoveAnalysis>();
-
-            for (int i = 0; i < moveIndex; i++)
-            {
-                selectedMoves.Add(analysiedMoves[i]);
-            }
-
-            return selectedMoves;
-        }
-
-        private void OnAnalysisBoardUpdated(int moveIndex)
+        private void OnAnalysisBoardUpdated(int moveIndex, bool isLocked)
         {
             var analysiedMove = analysiedMoves[moveIndex - 1];
             var mainCamera = Camera.main;
@@ -137,7 +130,7 @@ namespace TurboLabz.Multiplayer
             var angle = Mathf.Atan2(bestMoveFromPosition.y - bestMoveToPosition.y, bestMoveFromPosition.x - bestMoveToPosition.x) * Mathf.Rad2Deg;
             var bestMoveToScreenPosition = mainCamera.WorldToScreenPoint(bestMoveToPosition);
             var showStrengthPanelOnRight = playerMoveToPosition.x < 0;
-            var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT;
+            var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT && !isLocked;
 
             //Player move indicators
             hindsightFromIndicator.transform.position = playerMoveFromPosition;
@@ -185,6 +178,13 @@ namespace TurboLabz.Multiplayer
                            select p).FirstOrDefault();
 
             return pieceGO.GetComponent<SpriteRenderer>().sprite;
+        }
+
+        private void ShowSelectedMoveAnalysis(bool show)
+        {
+            analysisArrowHead.gameObject.SetActive(show);
+            analysisLine.gameObject.SetActive(show);
+            analysisMoveQuality.gameObject.SetActive(show);
         }
     }
 }

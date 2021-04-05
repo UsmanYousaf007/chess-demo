@@ -24,6 +24,11 @@ public class AnalysisMoveView : MonoBehaviour
     public AnalysisMove zoomed;
     public Sprite whiteAdvantageFilledSprite;
     public Sprite whiteAdvantagePartialSprite;
+    public Sprite moveQualityInactive;
+
+    public bool IsLocked => isLocked;
+
+    private bool isLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +42,9 @@ public class AnalysisMoveView : MonoBehaviour
         
     }
 
-    public void SetupMove(string moveNumber, string move, Sprite moveQuality, Sprite piece, int whiteAdvantage, int blackAdvantage)
+    public void SetupMove(string moveNumber, string move, Sprite moveQuality, Sprite piece, int whiteAdvantage, int blackAdvantage, bool isLocked)
     {
+        this.isLocked = isLocked;
         SetupMove(normal, moveNumber, move, moveQuality, piece, whiteAdvantage, blackAdvantage);
         SetupMove(zoomed, moveNumber, move, moveQuality, piece, whiteAdvantage, blackAdvantage);
     }
@@ -48,22 +54,22 @@ public class AnalysisMoveView : MonoBehaviour
         analysis.moveNumber.text = moveNumber;
         analysis.move.text = move;
         analysis.piece.sprite = piece;
-        analysis.moveQuality.enabled = moveQuality != null;
-        analysis.moveQuality.sprite = moveQuality;
+        analysis.moveQuality.enabled = moveQuality != null || isLocked;
+        analysis.moveQuality.sprite = isLocked ? moveQualityInactive : moveQuality;
 
-        var showAdvantage = whiteAdvantage != 0;
+        var showAdvantage = whiteAdvantage != 0 || isLocked;
         ShowAdvantage(analysis, showAdvantage);
 
         if (showAdvantage)
         {
             analysis.whiteAdvantage.text = $"+{whiteAdvantage}";
             analysis.blackAdvantage.text = $"+{blackAdvantage}";
-            analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage;
-            analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage;
+            analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage && !isLocked;
+            analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage && !isLocked;
 
             var fillAmount = 230 * ((float)(30 + whiteAdvantage) / 60);
             analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
-            analysis.advantageFillerImage.enabled = fillAmount > 15;
+            analysis.advantageFillerImage.enabled = fillAmount > 15 && !isLocked;
             analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
         }
     }

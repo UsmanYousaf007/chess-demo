@@ -66,7 +66,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 366f162b3b90d48e4a36559311e9dd18, type: 3}
     - {fileID: 102900000, guid: 71a9c88ff22c040cc973fafdc2f8c427, type: 3}
     - {fileID: 102900000, guid: 80e6bb43c9d9145a6b35fdbf9c2980f1, type: 3}
-    totalSpriteSurfaceArea: 30856452
+    totalSpriteSurfaceArea: 31003848
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -126,6 +126,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 529470412ee7b48a9bc6ee754b8130f4, type: 3}
   - {fileID: 21300000, guid: 31e8aa41dbe5f48ee9bdeb76adea8cc6, type: 3}
   - {fileID: 21300000, guid: cb90de510c5c445edb41f9069f7b73e7, type: 3}
+  - {fileID: 21300000, guid: dfa12461725334284964415972f4f84f, type: 3}
   - {fileID: 21300000, guid: 52abbc61199a74886a2e3599c93df55b, type: 3}
   - {fileID: 21300000, guid: dc454171052ba4bf5832b8fe3dae6af3, type: 3}
   - {fileID: 21300000, guid: a73ff5710a1624f2995cfe18122ba358, type: 3}
@@ -258,6 +259,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: baf397c4df788460e872d672a6724bdd, type: 3}
   - {fileID: 21300000, guid: c3a93cc41e2244fb4aca595c323ac93e, type: 3}
   - {fileID: 21300000, guid: 7aeb41d4bb18046b992656f58eb330c4, type: 3}
+  - {fileID: 21300000, guid: 1907b5d4c6df64e53ab271c98a908efc, type: 3}
   - {fileID: 21300000, guid: 66819ad4f13864b24887003606fe4958, type: 3}
   - {fileID: 21300000, guid: 4a29cad4991d94cc78d18c5895dd7973, type: 3}
   - {fileID: 21300000, guid: c293ffd4307cf4eeb8274334b8bd9bee, type: 3}
@@ -280,6 +282,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: aa2106450608d42d29c1f67200230e8c, type: 3}
   - {fileID: 21300000, guid: 694c0955bbd8940888fe97b5489909ac, type: 3}
   - {fileID: 21300000, guid: f8f7ff55a4ce0434a997c27236ae963f, type: 3}
+  - {fileID: 21300000, guid: 3e8671654a03249d9a4fc6207550e385, type: 3}
   - {fileID: 21300000, guid: 6714a4659eb584a95b6602081d464757, type: 3}
   - {fileID: 21300000, guid: 6a529a65f22b64207bf97b226eb28078, type: 3}
   - {fileID: 21300000, guid: 15a7607564d634b13a36e018e0988616, type: 3}
@@ -398,6 +401,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
   - {fileID: 21300000, guid: 468b8898a93cd4f2fafa81bbf132b495, type: 3}
   - {fileID: 21300000, guid: fbfbc1a808c6845a592c2d77fd679892, type: 3}
+  - {fileID: 21300000, guid: f10ac2a8b72c946eebb723e8b4384c60, type: 3}
   - {fileID: 21300000, guid: 9a17f6a890e4c4cc9bc06c7fd7cec3fa, type: 3}
   - {fileID: 21300000, guid: 975e3ba8aebab4752928c1fd7b096066, type: 3}
   - {fileID: 21300000, guid: 7aa353b83f2fc438a82febf616c27c03, type: 3}
@@ -425,6 +429,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 06e193492f49043a48b4ab9e20bba5d4, type: 3}
   - {fileID: 21300000, guid: 10e6d849f94904a4c93df00e3a0f99cc, type: 3}
   - {fileID: 21300000, guid: d90f9869990264d30b2189ebc3885558, type: 3}
+  - {fileID: 21300000, guid: 60330579cc00049baab434f3c3906673, type: 3}
   - {fileID: 21300000, guid: 2ab5648995f684723aa61105f1c7e2f1, type: 3}
   - {fileID: 21300000, guid: 6e65078966ff340049209cc975d87968, type: 3}
   - {fileID: 21300000, guid: fa74bb899770648d7a369a5a15a2bc15, type: 3}
@@ -574,6 +579,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 50431fad00b3f42c995b75e15f24f852, type: 3}
   - {fileID: 21300000, guid: 14e4e4bdcfff44636b40fc6aa24a5bd1, type: 3}
   - {fileID: 21300000, guid: 3dd855bdd21a34c57a6cb4d6d5ae384a, type: 3}
+  - {fileID: 21300000, guid: 67374abdb3268485f8016b766f726e7a, type: 3}
   - {fileID: 21300000, guid: 446402cd7eb104dbab12aae71d79d696, type: 3}
   - {fileID: 21300000, guid: 806532cd389b847949c859982e56bb0f, type: 3}
   - {fileID: 21300000, guid: 9e512fcd568ef44e89c058d0f1cdf4c5, type: 3}
@@ -699,6 +705,7 @@ SpriteAtlas:
   - SubBannerBtn
   - VictoryIcon
   - FulLAnalysisBtn
+  - BoostBtnHalf
   - NoRewardGiftIcon
   - GemThumb
   - CoinPack1Icon
@@ -831,6 +838,7 @@ SpriteAtlas:
   - trashBtn
   - FilmReelTopRight
   - PatternViewBoardResult
+  - PowerPlayActivateBtnWithRV
   - 1-tabdiv
   - InfoIcon
   - 5MinBlitzTile
@@ -853,6 +861,7 @@ SpriteAtlas:
   - PurpleMistTxture
   - profilePattern
   - JrProTitleText
+  - BoostWatchAd
   - SpecialItemHintIcon
   - SpecialBundleWelcomeThumb
   - gameUpdateBannerIcon
@@ -971,6 +980,7 @@ SpriteAtlas:
   - DefeatIcon
   - BankIcon
   - TrophyIconClr
+  - PowerPlayBtnAd
   - GoldBtn
   - ChampionshipTrophies
   - LessonIconClr
@@ -998,6 +1008,7 @@ SpriteAtlas:
   - WeeklyChampRibbon
   - GemBluePlus
   - ClassicChessIcon
+  - VideoIcon
   - ComputerIcon
   - first-rank
   - SpecialBundleEliteThumb
@@ -1147,6 +1158,7 @@ SpriteAtlas:
   - NavBg
   - SpecialBundleWelcomeText
   - 1MinBulletTile
+  - VideoAdIconDark
   - AdvScenariosIcon
   - 10mBtn
   - GameAnalysislogo

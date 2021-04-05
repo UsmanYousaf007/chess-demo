@@ -512,6 +512,7 @@ namespace TurboLabz.Multiplayer
             BlurBg.enabled = false;
             resultsDialogClosedSignal.Dispatch();
             ShowViewBoardResultsPanel(true);
+            UpdateAnalysisView(moveAnalysisList.GetRange(Mathf.Max(0, moveAnalysisList.Count - 5), Mathf.Min(5, moveAnalysisList.Count)), true);
         }
 
         public void OnResultsSkipRewardButtonClicked()
