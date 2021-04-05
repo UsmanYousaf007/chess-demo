@@ -565,8 +565,6 @@ MonoBehaviour:
   analysisPlayerMoveLeftPivot: {fileID: 7101924180817001606}
   analysisPlayerMoveRightPivot: {fileID: 7101924180817001605}
   analysisMoveQuality: {fileID: 7101924180817001607}
-  analysisSelectionArrowLeft: {fileID: 7101924180817001598}
-  analysisSelectionArrowRight: {fileID: 7101924180817001597}
   backToFriendsLabel: {fileID: 1846981127}
   backToFriendsButton: {fileID: 350629966}
   shareScreenButton: {fileID: 1374265719}
@@ -7955,6 +7953,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectTimeMode
       objectReference: {fileID: 0}
+    - target: {fileID: 45315421121953025, guid: c8e348a7ec3ad4f73858f8ecc9da49e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 45315421121953024, guid: c8e348a7ec3ad4f73858f8ecc9da49e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8243,7 +8246,7 @@ PrefabInstance:
     - target: {fileID: 5804660950509753436, guid: c8e348a7ec3ad4f73858f8ecc9da49e3,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 491.93515
       objectReference: {fileID: 0}
     - target: {fileID: 1760345259500543995, guid: c8e348a7ec3ad4f73858f8ecc9da49e3,
         type: 3}
@@ -125445,18 +125448,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4f3315e998104706b3a13b1e8b202b5, type: 3}
---- !u!224 &7101924180817001597 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8997708848002875968, guid: c4f3315e998104706b3a13b1e8b202b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 7101924180817001596}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &7101924180817001598 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1025395395202574649, guid: c4f3315e998104706b3a13b1e8b202b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 7101924180817001596}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7101924180817001599 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2202999416897235521, guid: c4f3315e998104706b3a13b1e8b202b5,
