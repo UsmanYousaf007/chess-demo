@@ -11,14 +11,13 @@ using TMPro;
 using TurboLabz.InstantGame;
 using System.Collections;
 using TurboLabz.TLUtils;
+using DG.Tweening;
 
 namespace TurboLabz.InstantFramework
 {
     [CLSCompliant(false)]
     public class SelectTimeModeView : View
     {
-        public Image BlurBg;
-
         public TMP_Text startGame3mText;
         public Button startGame3mButton;
 
@@ -82,6 +81,8 @@ namespace TurboLabz.InstantFramework
         private bool isCoolDownComplete;
         public void Init()
         {
+            UIDlgManager.Setup(gameObject);
+
             startGame3mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random3.ToString()); });
             startGame5mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random.ToString()); });
             startGame10mButton.onClick.AddListener(delegate { OnStartGameBtnClicked(FindMatchAction.ActionCode.Random10.ToString()); });
@@ -100,17 +101,14 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            // Blur background and enable this dialog
-            
-            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, gameObject).Then(SyncRvTimer);
-            //gameObject.SetActive(true);
+            UIDlgManager.Show(gameObject);
+            SyncRvTimer();
         }
 
         public void Hide()
         {
             StopCoroutine(RvCoolDownTimer());
-            gameObject.SetActive(false);
-
+            UIDlgManager.Hide(gameObject);
         }
 
         public void UpdateView(long betValue)

@@ -39,6 +39,8 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            UIDlgManager.Setup(gameObject);
+
             closeButton.onClick.AddListener(OnCloseButtonClicked);
             powerPlayOnBtn.onClick.AddListener(OnPowerPlayButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
@@ -47,12 +49,13 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             UpdateView();
-            gameObject.SetActive(true);
+
+            UIDlgManager.Show(gameObject);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
         }
 
         public void OnEnablePowerMode()
