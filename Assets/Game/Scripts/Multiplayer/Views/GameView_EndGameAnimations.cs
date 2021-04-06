@@ -69,7 +69,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnMirrorPanelAnimationComplete()
         {
-            if (playerWins && !animationPlayed && isRankedGame)
+            if ((playerWins || isDraw) && !animationPlayed && isRankedGame)
             {
                 _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
             }
