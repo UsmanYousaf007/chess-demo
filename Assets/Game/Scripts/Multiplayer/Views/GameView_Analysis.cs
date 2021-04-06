@@ -83,6 +83,7 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
+            ShowViewBoardResultsPanel(false);
             SetBlurBg(false);
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
@@ -123,7 +124,7 @@ namespace TurboLabz.Multiplayer
 
             scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
-            pickerSrollRect.SetInitialPosition(0);
+            pickerSrollRect.verticalNormalizedPosition = 0.0f;
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality)
