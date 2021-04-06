@@ -14,6 +14,7 @@ using System.Text;
 using TurboLabz.InstantGame;
 using TurboLabz.CPU;
 using System.Collections;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,10 +26,10 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
 
-        //Listerners
-
-        // Models
+        //Listeners
+        [Inject] public FullAnalysisBoughtSignal fullAnalysisBoughtSignal { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -45,6 +46,9 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.BUY_GAME_ANALYSIS_DLG)
             {
                 view.Show();
+                view.notEnoughGemsSignal.AddListener(OnNotEnoughGems);
+                view.closeDlgSignal.AddListener(OnDialogClosedSignal);
+                view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
             }
         }
 
@@ -57,5 +61,38 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        [ListensTo(typeof(UpdateGetGameAnalysisDlg))]
+        public void OnUpdateView(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
+        {
+            view.UpdateView(matchAnalysis, storeItem, availableForFree);
+        }
+
+        [ListensTo(typeof(UpdatePlayerInventorySignal))]
+        public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.SetupPrice();
+            }
+        }
+
+        private void OnFullAnallysisButtonClicked()
+        {
+            getFullAnalysisSignal.Dispatch();
+            fullAnalysisBoughtSignal.AddOnce(() => {
+                OnDialogClosedSignal();
+            });
+        }
+
+        private void OnDialogClosedSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
+
+        private void OnNotEnoughGems()
+        {
+            SpotPurchaseMediator.analyticsContext = "game_analysis_view_board";
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
     }
 }

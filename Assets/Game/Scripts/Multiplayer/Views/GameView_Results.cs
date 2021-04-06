@@ -118,8 +118,6 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsBoostSheenWithRv;
         public ToolTip resultsBoostRatingButtonAnimWithRv;
 
-        [HideInInspector] public List<MoveAnalysis> moveAnalysisList;
-
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
@@ -145,8 +143,11 @@ namespace TurboLabz.Multiplayer
         private long resultsBetValue;
         private bool canSeeRewardedVideo;
         private bool isCoolDownComplete;
+        private List<MoveAnalysis> moveAnalysisList;
         private StoreItem fullGameAnalysisStoreItem;
         private bool haveEnoughGemsForFullAnalysis;
+        private bool freeGameAnalysisAvailable;
+        private MatchAnalysis matchAnalysis;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
@@ -217,6 +218,8 @@ namespace TurboLabz.Multiplayer
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
             moveAnalysisList = vo.moveAnalysisList;
+            freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
+            matchAnalysis = vo.matchAnalysis;
             isCoolDownComplete = IsRvCoolDownDone();
             canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(ratingBoosterStoreItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
             /*if (!animationPlayed)
@@ -680,7 +683,12 @@ namespace TurboLabz.Multiplayer
             resultsDoubleRewardGemsCost.text = rewardDoublerStoreItem.currency3Cost.ToString();
         }
 
-        public void SetupFullAnalysisPrice(bool availableForFree)
+        public void SetupFullAnalysisPrice()
+        {
+            SetupFullAnalysisPrice(freeGameAnalysisAvailable);
+        }
+
+        private void SetupFullAnalysisPrice(bool availableForFree)
         {
             if (fullGameAnalysisStoreItem == null)
             {

@@ -38,16 +38,15 @@ namespace TurboLabz.Multiplayer
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
         [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
+        [Inject] public UpdateGetGameAnalysisDlg updateGetGameAnalysisDlg { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
-        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
-        [Inject] public FullAnalysisBoughtSignal fullAnalysisBoughtSignal { get; set; }
 
         private VirtualGoodsTransactionVO rewardDoubleTransactionVO;
 
@@ -65,6 +64,7 @@ namespace TurboLabz.Multiplayer
             view.doubleRewardSignal.AddListener(OnDoubleReward);
             view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
             view.onAnalysiedMoveSelectedSignal.AddListener(OnAnalysiedMoveSelected);
+            view.showGetFullAnalysisDlg.AddListener(OnShowGetGameAnalysisDlg);
         }
 
         public void OnRemoveResults()
@@ -192,22 +192,34 @@ namespace TurboLabz.Multiplayer
                 view.SetupBoostPrice();
                 view.SetupSpecialHintButton();
                 view.SetupRewardDoublerPrice();
-                view.SetupFullAnalysisPrice(playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < rewardsSettingsModel.freeFullGameAnalysis);
+                view.SetupFullAnalysisPrice();
             }
         }
 
         private void OnFullAnallysisButtonClicked()
         {
             getFullAnalysisSignal.Dispatch();
-            fullAnalysisBoughtSignal.AddOnce(() => {
-                OnResultsDialogClosedSignal();
-                view.UpdateAnalysisView(view.moveAnalysisList);
-            });
         }
 
         private void OnAnalysiedMoveSelected(List<MoveAnalysis> list)
         {
             renderMoveAnalysisSignal.Dispatch(list);
+        }
+
+        [ListensTo(typeof(FullAnalysisBoughtSignal))]
+        public void OnFullAnalysisBought()
+        {
+            if (view.IsVisible())
+            {
+                OnResultsDialogClosedSignal();
+                view.UpdateAnalysisView();
+            }
+        }
+
+        private void OnShowGetGameAnalysisDlg(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG);
+            updateGetGameAnalysisDlg.Dispatch(matchAnalysis, storeItem, availableForFree);
         }
     }
 }

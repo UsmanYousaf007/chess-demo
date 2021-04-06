@@ -39,7 +39,7 @@ namespace Picker
 
         public void ScrollToItemAtIndex( int index, bool immdiate = false )
         {
-            Transform layoutTransform = m_pickerLayoutGroup.transform;
+            Transform layoutTransform = pickerLayoutGroup.transform;
 
             if(layoutTransform != null)
             {

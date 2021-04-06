@@ -74,6 +74,11 @@
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
                     return new NSCPUPowerplay();
                 }
+                else if (viewId == NavigatorViewId.BUY_GAME_ANALYSIS_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSBuyGameAanalysisView();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {

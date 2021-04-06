@@ -8,6 +8,7 @@ using UnityEngine;
 using strange.extensions.signal.impl;
 using System.Collections.Generic;
 using strange.extensions.promise.api;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
@@ -217,6 +218,7 @@ namespace TurboLabz.InstantFramework
     public class ShopVistedSignal : Signal { }
     public class GetFullAnalysisSignal : Signal { }
     public class FullAnalysisBoughtSignal : Signal { }
+    public class UpdateGetGameAnalysisDlg : Signal<MatchAnalysis, StoreItem, bool> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

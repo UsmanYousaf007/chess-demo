@@ -68,6 +68,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChampionshipNewRankDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG)
+            {
+                return new NSBuyGameAanalysisView();
+            }
 
             return null;
         }

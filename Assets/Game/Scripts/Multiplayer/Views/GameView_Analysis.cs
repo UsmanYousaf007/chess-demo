@@ -5,6 +5,7 @@ using TurboLabz.Chess;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -41,8 +42,10 @@ namespace TurboLabz.Multiplayer
         public Text arrowTooltipText;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
+        public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
 
         private List<MoveAnalysis> analysiedMoves;
+        private bool landingFirstTime;
 
         private void OnParentShowAnalysis()
         {
@@ -66,7 +69,12 @@ namespace TurboLabz.Multiplayer
             spinnerDragHandler.audioService = audioService;
         }
 
-        public void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)
+        public void UpdateAnalysisView()
+        {
+            UpdateAnalysisView(moveAnalysisList);
+        }
+
+        private void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)
         {
             analysiedMoves = moves;
             ClearMovesList();
@@ -80,6 +88,7 @@ namespace TurboLabz.Multiplayer
             HideOpponentFromIndicator();
             HidePlayerToIndicator();
             HidePlayerFromIndicator();
+            landingFirstTime = true;
         }
 
         private void ClearMovesList()
@@ -114,7 +123,7 @@ namespace TurboLabz.Multiplayer
 
             scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
-            pickerSrollRect.ScrollTo(pickerSrollRect.lastItemPosition, true);
+            pickerSrollRect.SetInitialPosition(0);
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality)
@@ -141,6 +150,13 @@ namespace TurboLabz.Multiplayer
             onAnalysiedMoveSelectedSignal.Dispatch(selectedMoves);
             ShowSelectedMoveAnalysis(!move.IsLocked);
             OnAnalysisBoardUpdated(moveIndex, move.IsLocked);
+
+            if (move.IsLocked && !landingFirstTime)
+            {
+                showGetFullAnalysisDlg.Dispatch(matchAnalysis, fullGameAnalysisStoreItem, freeGameAnalysisAvailable);
+            }
+
+            landingFirstTime = false;
         }
 
         private void OnAnalysisBoardUpdated(int moveIndex, bool isLocked)

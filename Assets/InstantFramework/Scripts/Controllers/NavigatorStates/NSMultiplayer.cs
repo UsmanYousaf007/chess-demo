@@ -170,6 +170,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSSpotInventory();
             }
+            else if (evt == NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG)
+            {
+                return new NSBuyGameAanalysisView();
+            }
 
             return null;
         }

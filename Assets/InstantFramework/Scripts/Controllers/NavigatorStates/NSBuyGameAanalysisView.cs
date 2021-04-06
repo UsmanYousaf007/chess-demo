@@ -4,7 +4,7 @@
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowView(NavigatorViewId.BUY_GAME_ANALYSIS_DLG);
+            ShowDialog(NavigatorViewId.BUY_GAME_ANALYSIS_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
@@ -15,13 +15,18 @@
             {
                 if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
-                    return new NSLobby();
+                    return new NSMultiplayer();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
+
             return null;
         }
     }
