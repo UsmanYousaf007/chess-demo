@@ -114,7 +114,7 @@ namespace Picker
 		{
 			get
 			{
-				Transform transform = m_pickerLayoutGroup.transform;
+				Transform transform = pickerLayoutGroup.transform;
 				int childCount = transform.childCount;
 				if( childCount <= 0 ) return 0f;
 				PickerItem pickerItem = transform.GetChild(childCount-1).GetComponent<PickerItem>();
