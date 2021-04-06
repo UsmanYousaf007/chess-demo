@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_IOS
 using System.Runtime.InteropServices;
 
 public class IOSNative 
@@ -18,3 +18,4 @@ public enum HapticFeedbackTypes
     MEDIUM,
     HEAVY
 }
+#endif
