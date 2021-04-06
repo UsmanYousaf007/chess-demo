@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-
+        [Inject] public ShowRewardedAdSignal rewardedAdSignal { get; set; }
         //Listerners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
             view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
             view.closeButtonSignal.AddListener(OnCloseSignal);
+            view.showRewardedAdSignal.AddListener(OnPlayRewardedVideoClicked);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -126,6 +127,29 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.power_mode);
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "booster_used", AnalyticsContext.power_mode.ToString());
             }
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_powerplay && result == AdsResult.FINISHED)
+            {
+                //view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                //view.SetupChest();
+
+                //var rewardDlgVO = new RewardDlgV2VO();
+                //rewardDlgVO.ShowChest = true;
+                //rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
+                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+                //updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+
+                //loadCareerCardSignal.Dispatch();
+            }
+        }
+
+        private void OnPlayRewardedVideoClicked(AdPlacements adPlacements)
+        {
+            rewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
         }
     }
 }
