@@ -418,6 +418,8 @@ namespace TurboLabz.InstantFramework
             public const string CLAIM_REWARD_TYPE = "claimRewardType";
             public const string TYPE_PERSONALISED_ADS_GEM = "personalisedAdsGemReward";
             public const string TYPE_FREE_FULL_GAME_ANALYSIS = "freeFullGameAnalysis";
+            public const string TYPE_POWERPLAY = "powerPlayReward";
+            public const string TYPE_RATING_BOOSTER = "ratingBoosterReward";
 
             public const string NONE = "none";
         }

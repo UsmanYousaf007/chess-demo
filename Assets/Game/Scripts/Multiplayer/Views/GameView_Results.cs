@@ -107,6 +107,7 @@ namespace TurboLabz.Multiplayer
         public TMP_Text remainingCoolDownTime;
         public GameObject getRV;
         public GameObject tooltip;
+        public ToolTip rewardedVideoButtonAnimWithRv;
 
         public Button resultsBoostRatingButtonWithRv;
         public GameObject resultsBoostRatingToolTipWithRv;
@@ -276,7 +277,7 @@ namespace TurboLabz.Multiplayer
             if (!isRanked)
             {
                 resultsFriendlyLabel.gameObject.SetActive(true);
-                SetupRatingBoostButton(false);
+                SetupRatingBoostButtonsSection(false);
                 return;
             }
 
@@ -386,7 +387,7 @@ namespace TurboLabz.Multiplayer
                 viewBoardResultPanel.reason.text = resultsGameResultReasonLabel.text;
             }
 
-            SetupRatingBoostButton(!isDraw);
+            SetupRatingBoostButtonsSection(!isDraw);
         }
 
         private void UpdateGameResultHeadingSection()
@@ -509,7 +510,7 @@ namespace TurboLabz.Multiplayer
                 if (haveEnoughGemsForRatingBooster)
                 {
                     boostRatingSignal.Dispatch(challengeId);
-                    SetupRatingBoostButton(false);
+                    SetupRatingBoostButtonsSection(false);
                     resultsBoostRatingButton.interactable = false;
 
                     resultsBoostRatingButtonWithRv.interactable = false;
@@ -600,7 +601,7 @@ namespace TurboLabz.Multiplayer
             //toggleBannerSignal.Dispatch(true);
         }
 
-        private void SetupRatingBoostButton(bool enable)
+        private void SetupRatingBoostButtonsSection(bool enable)
         {
             var color = enable ? Colors.WHITE : Colors.WHITE_100;
             resultsBoostRatingToolTip.gameObject.SetActive(false);
@@ -621,6 +622,10 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingTextWithRv.color = color;
             resultsBoostSheenWithRv.SetActive(enable);
             resultsBoostRatingButtonAnimWithRv.enabled = enable;
+
+            resultsBoostRatingButtonWithRv.interactable = true;
+            rewardedVideoButtonAnimWithRv.enabled = enable;
+            
         }
 
         private void SetupRewardsDoublerButton(bool enable)

@@ -239,7 +239,8 @@ namespace TurboLabz.InstantFramework
         rewarded_out_of_coins_lobby_banner_popup,
         rewarded_out_of_coins_lobby_popup,
         rewarded_coins_spot_state_1,
-
+        rewarded_powerplay,
+        rv_rating_booster,
         //Session
         num_facebook_friends,
 

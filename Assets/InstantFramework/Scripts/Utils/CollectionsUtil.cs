@@ -172,6 +172,8 @@ namespace TurboLabz.TLUtils
             stringToAdPlacementMap.Add("Rewarded_daily_reward", AdPlacements.Rewarded_daily_reward);
             stringToAdPlacementMap.Add("Rewarded_lobby_chest", AdPlacements.Rewarded_lobby_chest);
             stringToAdPlacementMap.Add("Rewarded_coins_purchase", AdPlacements.Rewarded_coins_purchase);
+            stringToAdPlacementMap.Add("Rewarded_powerplay", AdPlacements.Rewarded_powerplay);
+            stringToAdPlacementMap.Add("RV_rating_booster", AdPlacements.RV_rating_booster);
             stringToAdPlacementMap.Add("Interstitial_pregame", AdPlacements.Interstitial_pregame);
             stringToAdPlacementMap.Add("Interstitial_endgame", AdPlacements.Interstitial_endgame);
             stringToAdPlacementMap.Add("interstitial_in_game_cpu", AdPlacements.interstitial_in_game_cpu);
@@ -187,6 +189,8 @@ namespace TurboLabz.TLUtils
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_lobby_chest, GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_banner, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_powerplay, GSBackendKeys.ClaimReward.TYPE_POWERPLAY);
+            adPlacementToRewardTypeMap.Add(AdPlacements.RV_rating_booster, GSBackendKeys.ClaimReward.TYPE_RATING_BOOSTER);
         }
 
         private static void CreateAdPlacementToAdContextMap()
@@ -197,6 +201,8 @@ namespace TurboLabz.TLUtils
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_coins_chest);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_banner, AnalyticsContext.rewarded_out_of_coins_lobby_banner_popup);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_powerplay);
+            adPlacementToAdContextMap.Add(AdPlacements.RV_rating_booster, AnalyticsContext.rv_rating_booster);
         }
     }
 }
