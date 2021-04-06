@@ -36,7 +36,8 @@ namespace TurboLabz.InstantFramework
         private bool playerWins;
         private float duration;
 
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
+        //[Inject] public ShowAdSignal showAdSignal { get; set; }
+        public Signal<string, bool> continueButtonClickedSignal = new Signal<string, bool>();
 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
 
@@ -106,10 +107,12 @@ namespace TurboLabz.InstantFramework
 
         public override void OnContinueButtonClicked()
         {
-            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
+            //continueBtnClickedSignal.Dispatch();
+            continueButtonClickedSignal.Dispatch(challengeId, playerWins);
+            //ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 
-        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
+        /*private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
         {
             ResultAdsVO vo = new ResultAdsVO();
             vo.adsType = AdType.Interstitial;
@@ -120,7 +123,7 @@ namespace TurboLabz.InstantFramework
             playerModel.adContext = analyticsContext;
 
             showAdSignal.Dispatch(vo, false);
-        }
+        }*/
 
         IEnumerator CountdownTimer()
         {

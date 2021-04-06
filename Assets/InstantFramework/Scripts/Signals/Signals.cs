@@ -255,7 +255,10 @@ namespace TurboLabz.InstantFramework
     public class AppUpdateSignal : Signal<bool> { }
 
     public class UpdateCareerCardSignal : Signal<CareerCardVO> { }
+    public class ShowCareerProgressionSignal : Signal { }
     public class LoadLeaderboardSignal : Signal { }
+    public class UpdateTrophyBarSignal : Signal { }
+    public class ResetCareerprogressionViewSignal : Signal { }
 
     // All star leaderboard
     public class GetAllStarLeaderboardSignal : Signal { }

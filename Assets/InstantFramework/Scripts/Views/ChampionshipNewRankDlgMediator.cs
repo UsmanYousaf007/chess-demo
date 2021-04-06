@@ -24,6 +24,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
+        [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public ResetCareerprogressionViewSignal resetCareerprogressionViewSignalshowAdSignal { get; set; }
 
         private int oldRank = -1;
 
@@ -31,7 +33,7 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             view.loadPictureSignal.AddListener(OnLoadPicture);
-            view.continueBtnClickedSignal.AddListener(OnContinuePressed);
+            view.continueButtonClickedSignal.AddListener(OnContinuePressed);
         }
 
         private void OnLoadPicture(GetProfilePictureVO vo)
@@ -90,12 +92,27 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void OnContinuePressed()
+        private void OnContinuePressed(string challengeId, bool playerWins)
         {
             audioService.Play(audioService.sounds.SFX_CLICK);
 
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             startLobbyChampionshipTimerSignal.Dispatch();
+            resetCareerprogressionViewSignalshowAdSignal.Dispatch();
+            ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame, challengeId, playerWins);
+        }
+
+        private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId, string challengeId, bool playerWins)
+        {
+            ResultAdsVO vo = new ResultAdsVO();
+            vo.adsType = AdType.Interstitial;
+            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
+            vo.challengeId = challengeId;
+            vo.playerWins = playerWins;
+            vo.placementId = placementId;
+            playerModel.adContext = analyticsContext;
+
+            showAdSignal.Dispatch(vo, false);
         }
 
         [ListensTo(typeof(ProfilePictureLoadedSignal))]

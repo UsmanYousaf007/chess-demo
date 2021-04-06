@@ -183,6 +183,7 @@ namespace TurboLabz.Multiplayer
         {
             resultsDialog.SetActive(true);
             //Invoke("ScaleInResultsDialog", animDelay);
+            BuildLayout();
             AnimateSparkes();
         }
 
@@ -224,7 +225,7 @@ namespace TurboLabz.Multiplayer
             SetupRewardDoublerPrice();
             UpdateMatchAnalysis(vo.matchAnalysis);
             //UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
-            BuildLayout();
+            //BuildLayout();
 
             //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             //Invoke("ScaleInResultsDialog", animDelay);

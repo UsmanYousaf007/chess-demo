@@ -49,14 +49,15 @@ namespace TurboLabz.Multiplayer
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
 
-            if ((playerWins || isDraw) && !gameEnded)
+            if ((playerWins || isDraw) && !gameEnded && isRankedGame)
             {
                 StartEndAnimationSequence();
             }
             else
             {
-                ShowResultsDialog();
-                Invoke("ScaleInResultsDialog", animDelay);
+                //ShowResultsDialog();
+                //Invoke("ScaleInResultsDialog", animDelay);
+                AnimateResultsDlg();
             }
             gameEnded = true;
         }

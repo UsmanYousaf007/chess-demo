@@ -213,6 +213,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSGDPRDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG)
+            {
+                return new NSCareerProgessionDlg();
+            }
 
             return null;
         }

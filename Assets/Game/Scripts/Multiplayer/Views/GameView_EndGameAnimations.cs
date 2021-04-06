@@ -107,6 +107,17 @@ namespace TurboLabz.Multiplayer
             resultsCanvasGroup.DOFade(val, TRANSITION_DURATION);
         }
 
+        private void AnimateResultsDlg()
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendCallback(() => EnableModalBlocker());
+            sequence.AppendInterval(0.5f);
+            sequence.AppendCallback(() => SetBlurBg(true));
+            sequence.AppendCallback(() => ShowResultsDialog());
+            sequence.AppendCallback(() => ScaleInResultsDialog());
+            sequence.PlayForward();
+        }
+
         #endregion
 
         #region Results Dialogue

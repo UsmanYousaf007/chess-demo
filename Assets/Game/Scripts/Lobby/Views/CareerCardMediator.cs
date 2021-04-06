@@ -50,18 +50,12 @@ namespace TurboLabz.InstantFramework
             view.OnPlayButtonClickedSignal.AddListener(PlayButtonClicked);
             view.OnInfoBtnClickedSignal.AddListener(InfoButtonClicked);
             view.notEnoughCoinsSignal.AddListener(OnNotEnoughCoinsSignal);
-            view.loadRewardsSignal.AddListener(OnLoadRewardsSignal);
         }
 
         [ListensTo(typeof(UpdateCareerCardSignal))]
         public void UpdateView(CareerCardVO vo)
         {
             view.UpdateView(vo);
-        }
-
-        private void OnLoadRewardsSignal()
-        {
-
         }
 
         public void InfoButtonClicked()

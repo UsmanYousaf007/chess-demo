@@ -354,8 +354,11 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLeaguePromotionDlgViewSignal>().ToSingleton();
             injectionBinder.Bind<StartLobbyChampionshipTimerSignal>().ToSingleton();
             injectionBinder.Bind<GDPRDlgClosedSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateNewRankChampionshipDlgViewSignal>().ToSingleton();
-            
+            injectionBinder.Bind<UpdateNewRankChampionshipDlgViewSignal>().ToSingleton(); 
+            injectionBinder.Bind<ShowCareerProgressionSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTrophyBarSignal>().ToSingleton();
+            injectionBinder.Bind<ResetCareerprogressionViewSignal>().ToSingleton();  
+
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
             injectionBinder.Bind<IPreferencesModel>().To<PreferencesModel>().ToSingleton(); // Lifecycle handled
@@ -463,6 +466,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<RewardAnimSequence>().To<RewardAnimSequenceMediator>();
             mediationBinder.Bind<PurchaseSuccessDlgView>().To<PurchaseSuccessDlgMediator>();
             mediationBinder.Bind<RewardParticleEmitter>().To<RewardParticleEmitterMediator>();
+            mediationBinder.Bind<CareerProgressionView>().To<CareerProgressionMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

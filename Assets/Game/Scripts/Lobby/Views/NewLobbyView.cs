@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         private bool isInitialized;
 
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
         public void Init()
