@@ -351,6 +351,7 @@ namespace TurboLabz.InstantFramework
             rewardsSettingsModel.failSafeCoinReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD);
             rewardsSettingsModel.ratingBoostReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.RATING_BOOST);
             rewardsSettingsModel.personalisedAdsGemReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.PERSONALISED_ADS_GEM);
+            rewardsSettingsModel.freeFullGameAnalysis = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FREE_FULL_GAME_ANALYSIS);
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)

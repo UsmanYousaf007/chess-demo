@@ -37,14 +37,17 @@ namespace TurboLabz.Multiplayer
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
+        [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
 
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
+        [Inject] public FullAnalysisBoughtSignal fullAnalysisBoughtSignal { get; set; }
 
         private VirtualGoodsTransactionVO rewardDoubleTransactionVO;
 
@@ -189,13 +192,17 @@ namespace TurboLabz.Multiplayer
                 view.SetupBoostPrice();
                 view.SetupSpecialHintButton();
                 view.SetupRewardDoublerPrice();
+                view.SetupFullAnalysisPrice(playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < rewardsSettingsModel.freeFullGameAnalysis);
             }
         }
 
-        private void OnFullAnallysisButtonClicked(List<MoveAnalysis> list)
+        private void OnFullAnallysisButtonClicked()
         {
-            OnResultsDialogClosedSignal();
-            view.UpdateAnalysisView(list);
+            getFullAnalysisSignal.Dispatch();
+            fullAnalysisBoughtSignal.AddOnce(() => {
+                OnResultsDialogClosedSignal();
+                view.UpdateAnalysisView(view.moveAnalysisList);
+            });
         }
 
         private void OnAnalysiedMoveSelected(List<MoveAnalysis> list)

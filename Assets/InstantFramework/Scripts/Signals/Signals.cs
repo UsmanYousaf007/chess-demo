@@ -215,6 +215,8 @@ namespace TurboLabz.InstantFramework
     public class HideNotificationViewSignal : Signal { }
     public class GDPRDlgClosedSignal : Signal { }
     public class ShopVistedSignal : Signal { }
+    public class GetFullAnalysisSignal : Signal { }
+    public class FullAnalysisBoughtSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

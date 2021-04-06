@@ -44,5 +44,7 @@ namespace TurboLabz.Multiplayer
 
         public MatchAnalysis matchAnalysis;
         public List<MoveAnalysis> moveAnalysisList;
+        public StoreItem fullGameAnalysisStoreItem;
+        public bool freeGameAnalysisAvailable;
     }
 }

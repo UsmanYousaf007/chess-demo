@@ -343,6 +343,7 @@ namespace TurboLabz.InstantFramework
         lesson,
         theme,
         coins,
+        game_analysis,
 
         //tournament
         main,

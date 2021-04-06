@@ -114,6 +114,7 @@ namespace TurboLabz.Multiplayer
 
             scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
+            pickerSrollRect.ScrollTo(pickerSrollRect.lastItemPosition, true);
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality)

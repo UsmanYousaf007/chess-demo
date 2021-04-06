@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
         int powerUpCoinsValue { get; set; }
         int ratingBoostReward { get; set; }
         int personalisedAdsGemReward { get; set; }
+        int freeFullGameAnalysis { get; set; }
 
         float coefficientWinVideo { get; set; }
         float coefficientWinIntersitial { get; set; }

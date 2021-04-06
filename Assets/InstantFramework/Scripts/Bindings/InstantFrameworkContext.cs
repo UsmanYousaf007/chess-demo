@@ -114,6 +114,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<GetProfilePictureSignal>().To<GetProfilePictureCommand>();
             commandBinder.Bind<LoadSpotInventorySignal>().To<LoadSpotInventoryCommand>();
             commandBinder.Bind<LoadSpotCoinPurchaseSignal>().To<LoadSpotCoinPurchaseCommand>();
+            commandBinder.Bind<GetFullAnalysisSignal>().To<GetFullGameAnalysisCommand>();
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
@@ -241,6 +242,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<HideNotificationViewSignal>().ToSingleton();
             injectionBinder.Bind<GetInitDataOnCompleteSignal>().ToSingleton();
             injectionBinder.Bind<ShopVistedSignal>().ToSingleton();
+            injectionBinder.Bind<FullAnalysisBoughtSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();

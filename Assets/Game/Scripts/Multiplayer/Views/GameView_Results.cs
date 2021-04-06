@@ -88,6 +88,10 @@ namespace TurboLabz.Multiplayer
         public TMP_Text bunders;
         public TMP_Text mistakes;
         public TMP_Text perfect;
+        public GameObject resultsFullAnalysisFreeTag;
+        public GameObject resultsFullAnalysisFreeTitle;
+        public GameObject resultsFullAnalysisSparkle;
+        public GameObject resultsFullAnalysisGemIcon;
 
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
@@ -113,6 +117,7 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsBoostSheenWithRv;
         public ToolTip resultsBoostRatingButtonAnimWithRv;
 
+        [HideInInspector] public List<MoveAnalysis> moveAnalysisList;
 
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
@@ -122,7 +127,7 @@ namespace TurboLabz.Multiplayer
         public Signal notEnoughGemsSignal = new Signal();
         public Signal backToArenaSignal = new Signal();
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
-        public Signal<List<MoveAnalysis>> fullAnalysisButtonClickedSignal = new Signal<List<MoveAnalysis>>();
+        public Signal fullAnalysisButtonClickedSignal = new Signal();
         
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
@@ -137,9 +142,10 @@ namespace TurboLabz.Multiplayer
         private StoreItem rewardDoublerStoreItem;
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
-        private List<MoveAnalysis> moveAnalysisList;
         private bool canSeeRewardedVideo;
         private bool isCoolDownComplete;
+        private StoreItem fullGameAnalysisStoreItem;
+        private bool haveEnoughGemsForFullAnalysis;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
@@ -206,6 +212,7 @@ namespace TurboLabz.Multiplayer
             GameEndReason gameEndReason = vo.reason;
             ratingBoosterStoreItem = vo.ratingBoostStoreItem;
             rewardDoublerStoreItem = vo.rewardDoubleStoreItem;
+            fullGameAnalysisStoreItem = vo.fullGameAnalysisStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
             moveAnalysisList = vo.moveAnalysisList;
@@ -224,6 +231,9 @@ namespace TurboLabz.Multiplayer
             SetupBoostPrice();
             SetupRewardDoublerPrice();
             UpdateMatchAnalysis(vo.matchAnalysis);
+            SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
+            SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
+
             //UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
             //BuildLayout();
 
@@ -540,8 +550,16 @@ namespace TurboLabz.Multiplayer
 
         private void OnFullAnalysisButtonClicked()
         {
-            //AnimateAnalyzingDlg();
-            fullAnalysisButtonClickedSignal.Dispatch(moveAnalysisList);
+            if (haveEnoughGemsForFullAnalysis)
+            {
+                fullAnalysisButtonClickedSignal.Dispatch();
+                fullAnalysisBtn.interactable = false;
+            }
+            else
+            {
+                SpotPurchaseMediator.analyticsContext = "game_analysis";
+                notEnoughGemsSignal.Dispatch();
+            }
         }
 
         private void OnResultsClosed()
@@ -615,6 +633,16 @@ namespace TurboLabz.Multiplayer
             resultsDoubleRewardText.color = color2;
         }
 
+        private void SetupFullAnalysisTab(bool availableForFree)
+        {
+            resultsFullAnalysisFreeTag.SetActive(availableForFree);
+            resultsFullAnalysisFreeTitle.SetActive(availableForFree);
+            resultsFullAnalysisSparkle.SetActive(!availableForFree);
+            resultsFullAnalysisGemIcon.SetActive(!availableForFree);
+            fullAnalysisGemsCount.enabled = !availableForFree;
+            fullAnalysisBtn.interactable = true;
+        }
+
         public void OnRatingBoosted(int boostedRating)
         {
             PlayEloBoostedAnimation(boostedRating);
@@ -645,6 +673,17 @@ namespace TurboLabz.Multiplayer
 
             haveEnoughGemsForRewardDoubler = playerModel.gems >= rewardDoublerStoreItem.currency3Cost;
             resultsDoubleRewardGemsCost.text = rewardDoublerStoreItem.currency3Cost.ToString();
+        }
+
+        public void SetupFullAnalysisPrice(bool availableForFree)
+        {
+            if (fullGameAnalysisStoreItem == null)
+            {
+                return;
+            }
+
+            haveEnoughGemsForFullAnalysis = availableForFree || playerModel.gems >= fullGameAnalysisStoreItem.currency3Cost;
+            fullAnalysisGemsCount.text = fullGameAnalysisStoreItem.currency3Cost.ToString();
         }
 
         private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)

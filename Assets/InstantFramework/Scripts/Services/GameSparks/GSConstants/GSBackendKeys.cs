@@ -376,6 +376,7 @@ namespace TurboLabz.InstantFramework
             public const string DEFAULT_ITEMS_V1 = "DefaultOwnedItemsV1";
             public const string SPECIAL_ITEM_REWARD_DOUBLER = "SpecialItem2xReward";
             public const string DEFAULT_ITEMS_V2 = "DefaultOwnedItemsV2";
+            public const string FULL_GAME_ANALYSIS = "FullGameAnalysis";
 
             public const string SPECIAL_BUNDLE_WELCOME = "SpecialBundleWelcome";
             public const string SPECIAL_BUNDLE_ELITE = "SpecialBundleElite";
@@ -416,6 +417,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_COINS_PURCHASE = "coinPurchaseReward";
             public const string CLAIM_REWARD_TYPE = "claimRewardType";
             public const string TYPE_PERSONALISED_ADS_GEM = "personalisedAdsGemReward";
+            public const string TYPE_FREE_FULL_GAME_ANALYSIS = "freeFullGameAnalysis";
 
             public const string NONE = "none";
         }
@@ -619,6 +621,7 @@ namespace TurboLabz.InstantFramework
             public const string COEFFICIENT_LOSE_INTERSITIAL = "loseIntersitial";
             public const string RATING_BOOST = "ratingBoostTier1Reward";
             public const string PERSONALISED_ADS_GEM = "personalisedAdsGemReward";
+            public const string FREE_FULL_GAME_ANALYSIS = "freeFullGameAnalysis";
         }
 
         public static class PowerUp
