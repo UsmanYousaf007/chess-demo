@@ -97,6 +97,23 @@ namespace TurboLabz.Multiplayer
 
         public RectTransform[] resultsLayouts;
 
+        public GameObject ratingBoosterRvPanel;
+        public Button rewardedVideoBtn;
+        public GameObject ratingBoosterTimer;
+        public TMP_Text remainingCoolDownTime;
+        public GameObject getRV;
+        public GameObject tooltip;
+
+        public Button resultsBoostRatingButtonWithRv;
+        public GameObject resultsBoostRatingToolTipWithRv;
+        public Text resultsBoostRatingToolTipTextWithRv;
+        public Text resultsBoostRatingGemsCostWithRv;
+        public TMP_Text resultsBoostRatingTextWithRv;
+        public Image resultsBoostRatingGemIconWithRv;
+        public GameObject resultsBoostSheenWithRv;
+        public ToolTip resultsBoostRatingButtonAnimWithRv;
+
+
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
@@ -124,6 +141,7 @@ namespace TurboLabz.Multiplayer
         private bool canSeeRewardedVideo;
         private bool isCoolDownComplete;
 
+        [Inject] public IAdsService adsService { get; set; }
         [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
         
         public void InitResults()
@@ -136,10 +154,12 @@ namespace TurboLabz.Multiplayer
             declinedDialogHalfHeight = declinedDialog.GetComponent<RectTransform>().rect.height / 2f;
 
             resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
+            resultsBoostRatingButtonWithRv.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
             resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
             resultsDoubleRewardButton.onClick.AddListener(OnRewardDoublerClicked);
             fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
+            rewardedVideoBtn.onClick.AddListener(OnPlayRewardedVideoClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
@@ -188,7 +208,8 @@ namespace TurboLabz.Multiplayer
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
             moveAnalysisList = vo.moveAnalysisList;
-
+            isCoolDownComplete = IsRvCoolDownDone();
+            canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(ratingBoosterStoreItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
             /*if (!animationPlayed)
             {
                 var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
@@ -385,17 +406,26 @@ namespace TurboLabz.Multiplayer
 
         private void SetupResultsLayout()
         {
-            resultsBoostRatingButton.gameObject.SetActive(!isDraw);
-            resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
-            resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
-            resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
-            resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
-            resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
+            resultsBoostRatingButton.gameObject.SetActive(!canSeeRewardedVideo && !isDraw);
+            ratingBoosterRvPanel.SetActive(canSeeRewardedVideo && !isDraw);
+            if (!canSeeRewardedVideo)
+            {
+                
+                resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
+                resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
+                resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
+                resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
+                resultsDoubleRewardButton.gameObject.SetActive(false/*playerWins && isRankedGame*/);
 
-            //resultsContinueButton.gameObject.SetActive(playerWins || isDraw || !isRankedGame);
-            resultsContinueButton.gameObject.SetActive(true);
-            resultsRatingContainer.gameObject.SetActive(isRankedGame);
-            resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
+                //resultsContinueButton.gameObject.SetActive(playerWins || isDraw || !isRankedGame);
+                resultsContinueButton.gameObject.SetActive(true);
+                resultsRatingContainer.gameObject.SetActive(isRankedGame);
+                resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
+            }
+            else
+            {
+                //ratingBoosterRvPanel.SetActive(!isDraw);
+            }
         }
 
         /*private void UpdateRewards(long betValue, int stars, bool powerMode)
@@ -451,11 +481,17 @@ namespace TurboLabz.Multiplayer
             {
                 resultsBoostRatingToolTip.SetActive(true);
                 resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
+
+                resultsBoostRatingToolTipWithRv.SetActive(true);
+                resultsBoostRatingToolTipTextWithRv.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
             }
             else if (isDraw)
             {
                 resultsBoostRatingToolTip.SetActive(true);
                 resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_DRAW);
+
+                resultsBoostRatingToolTipWithRv.SetActive(true);
+                resultsBoostRatingToolTipTextWithRv.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_DRAW);
             }
             else
             {
@@ -464,6 +500,8 @@ namespace TurboLabz.Multiplayer
                     boostRatingSignal.Dispatch(challengeId);
                     SetupRatingBoostButton(false);
                     resultsBoostRatingButton.interactable = false;
+
+                    resultsBoostRatingButtonWithRv.interactable = false;
                 }
                 else
                 {
@@ -555,6 +593,15 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
             resultsBoostRatingButtonAnim.enabled = enable;
+
+            resultsBoostRatingToolTipWithRv.gameObject.SetActive(false);
+            resultsBoostRatingButtonWithRv.interactable = true;
+            resultsBoostRatingButtonWithRv.image.color = color;
+            resultsBoostRatingGemIconWithRv.color = color;
+            resultsBoostRatingGemsCostWithRv.color = color;
+            resultsBoostRatingTextWithRv.color = color;
+            resultsBoostSheenWithRv.SetActive(enable);
+            resultsBoostRatingButtonAnimWithRv.enabled = enable;
         }
 
         private void SetupRewardsDoublerButton(bool enable)
@@ -619,6 +666,24 @@ namespace TurboLabz.Multiplayer
             mistakes.text = analysis.mistakes.ToString();
         }
 
+        private void OnPlayRewardedVideoClicked()
+        {
+            if (isCoolDownComplete)
+            {
+                showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+                ratingBoosterTimer.SetActive(true);
+                getRV.SetActive(false);
+                SetupCoolDownTimer();
+                isCoolDownComplete = false;
+                StartCoroutine(RvCoolDownTimer());
+            }
+            else
+            {
+
+                tooltip.SetActive(true);
+            }
+        }
+
         private void SetupCoolDownTimer()
         {
             if (isCoolDownComplete)
@@ -654,19 +719,19 @@ namespace TurboLabz.Multiplayer
             {
                 timeLeft -= 1000;
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
-                //powerPlayAdTimerRemainingTime.text = timeLeftText;
+                remainingCoolDownTime.text = timeLeftText;
             }
             else
             {
-                //powerPlayAdTimerRemainingTime.text = "0s";
+                remainingCoolDownTime.text = "0s";
             }
         }
 
         private void OnTimerCompleted()
         {
             isCoolDownComplete = true;
-            //powerPlayAdTimer.SetActive(false);
-            //getRV.SetActive(true);
+            ratingBoosterTimer.SetActive(false);
+            getRV.SetActive(true);
         }
 
         #region Animations

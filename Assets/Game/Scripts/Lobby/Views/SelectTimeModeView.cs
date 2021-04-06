@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
         public Signal notEnoughCoinsSignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
         public Signal closeButtonSignal = new Signal();
-
+        public Signal<AdPlacements> showRewardedAdSignal = new Signal<AdPlacements>();
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -124,20 +124,13 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-            canSeeRewardedVideo = adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
+            canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
             isCoolDownComplete = IsRvCoolDownDone();
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
             SetupState(isPowerModeOn, canSeeRewardedVideo);
             SetupPlayButtons(true);
         }
 
-        void SyncRvTimer()
-        {
-            if (gameObject.activeInHierarchy && !isCoolDownComplete)
-            {
-                StartCoroutine(RvCoolDownTimer());
-            }
-        }
         void OnStartGameBtnClicked(string actionCode)
         {
             Debug.Log("OnQuickMatchBtnClicked");
@@ -161,6 +154,7 @@ namespace TurboLabz.InstantFramework
             {
                 powerPlayOnBtn.interactable = false;
                 powerPlayWithRVBtn.interactable = false;
+                powerPlayWithRVTick.enabled = true;
                 powerModeButtonClickedSignal.Dispatch();
             }
             else
@@ -198,7 +192,15 @@ namespace TurboLabz.InstantFramework
             }
 
             isPowerModeOn = powerModeEnabled;
-            
+
+        }
+
+        void SyncRvTimer()
+        {
+            if (gameObject.activeInHierarchy && !isCoolDownComplete)
+            {
+                StartCoroutine(RvCoolDownTimer());
+            }
         }
 
         public void OnEnablePowerMode()
@@ -231,6 +233,7 @@ namespace TurboLabz.InstantFramework
         {            
             if (isCoolDownComplete)
             {
+                showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
                 powerPlayAdTimer.SetActive(true);
                 getRV.SetActive(false);
                 SetupCoolDownTimer();

@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
 
         public GameObject maintenancePanel;
@@ -34,6 +35,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowMaintenance()
         {
+            toggleBannerSignal.Dispatch(false);
             maintenanceMsgLabel.text = settingsModel.maintenanceMessage;
             gameObject.SetActive(true);
             maintenancePanel.SetActive(true);
@@ -49,6 +51,7 @@ namespace TurboLabz.InstantFramework
 
         public void ShowMaintenanceWarning()
         {
+            toggleBannerSignal.Dispatch(false);
             //maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege;
             maintenanceWarningBgColor.color = Colors.Color(settingsModel.maintenanceWarningBgColor);
 
