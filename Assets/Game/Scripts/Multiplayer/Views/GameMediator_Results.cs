@@ -73,38 +73,6 @@ namespace TurboLabz.Multiplayer
             view.CleanupResults();
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnShowResultsView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
-            {
-                if (view.challengeSentDialog.activeSelf)
-                {
-                    view.HideChallengeSent();
-                }
-                view.FlashClocks(false);
-                view.ShowEndGame();
-                view.OnParentHideAdBanner();
-            }
-        }
-
-        [ListensTo(typeof(NavigatorHideViewSignal))]
-        public void OnHideResultsView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
-            {
-                view.HideResultsDialog();
-            }
-        }
-
-        [ListensTo(typeof(UpdateResultDialogSignal))]
-        public void OnUpdateResults(ResultsVO vo)
-        {
-            view.UpdateResultsDialog(vo);
-            view.UpdateRewardsDialog(vo);
-            view.UpdateEndGame();
-        }
-
         private void OnBackToLobby()
         {
             cancelHintSignal.Dispatch();

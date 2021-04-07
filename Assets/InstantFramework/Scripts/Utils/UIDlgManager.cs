@@ -34,6 +34,18 @@ namespace TurboLabz.InstantFramework
             gameObject.transform.SetParent(uiDlgContainer.transform);
         }
 
+        static public void AnimateDlg(GameObject gameObject)
+        {
+            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0.0f;
+            canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(1.0f, 0.25f);
+            canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
+
+            gameObject.SetActive(true);
+        }
+
         static public void Show(GameObject gameObject)
         {
             // Blur background and enable this dialog

@@ -88,7 +88,7 @@ namespace TurboLabz.Multiplayer
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
             ShowViewBoardResultsPanel(isLocked);
-            SetBlurBg(false);
+            HideGameEndDialog();
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
             HidePlayerToIndicator();

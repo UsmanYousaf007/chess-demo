@@ -38,6 +38,8 @@ namespace TurboLabz.Multiplayer
         [Header("End Game Results Dialog")]
         public GameObject resultsDialog;
         public CanvasGroup resultsCanvasGroup;
+        public GameObject gameEndDlgContainer;
+
         public Image resultsGameImage;
         public Sprite winSprite;
         public Sprite defeatSprite;
@@ -172,6 +174,8 @@ namespace TurboLabz.Multiplayer
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
             originalColor = resultsBoostRatingAddedCount.color;
+
+            UIDlgManager.Setup(gameEndDlgContainer);
         }
 
         public void CleanupResults()
@@ -184,13 +188,13 @@ namespace TurboLabz.Multiplayer
 
         public void OnParentShowResults()
         {
-            HideResultsDialog();
+            //HideResultsDialog();
+            HideGameEndDialog();
         }
 
         public void ShowResultsDialog()
         {
-            resultsDialog.SetActive(true);
-            //Invoke("ScaleInResultsDialog", animDelay);
+            UIDlgManager.AnimateDlg(resultsDialog);
             BuildLayout();
             AnimateSparkes();
         }
@@ -222,11 +226,6 @@ namespace TurboLabz.Multiplayer
             matchAnalysis = vo.matchAnalysis;
             isCoolDownComplete = IsRvCoolDownDone();
             canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(ratingBoosterStoreItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
-            /*if (!animationPlayed)
-            {
-                var coinsRewarded = playerWins ? vo.betValue * vo.coinsMultiplyer : vo.betValue;
-                _winAnimationSequence.Reset((long)coinsRewarded, vo.earnedStars, vo.powerMode == true ? vo.earnedStars : 0, playerWins, vo.isRanked);
-            }*/
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
@@ -237,12 +236,6 @@ namespace TurboLabz.Multiplayer
             UpdateMatchAnalysis(vo.matchAnalysis);
             SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
             SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
-
-            //UpdateRewards(vo.betValue, vo.earnedStars, vo.powerMode);
-            //BuildLayout();
-
-            //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            //Invoke("ScaleInResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -443,14 +436,6 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        /*private void UpdateRewards(long betValue, int stars, bool powerMode)
-        {
-            //resultsEarnedCoinsLabel.text = playerWins ? $"{betValue * 2}" : betValue.ToString();
-            //resultsEarnedStarsLabel.text = powerMode ? $"{stars * 2}" : stars.ToString();
-            resultsPowerplayImage.enabled = powerMode;
-            resultsPowerplayImage.sprite = powerMode ? powerPlayOnSprite : powerPlayOffSprite;
-        }*/
-
         private void BuildLayout()
         {
             foreach (var layout in resultsLayouts)
@@ -471,7 +456,8 @@ namespace TurboLabz.Multiplayer
 
         private void HandleDeclinedDialog()
         {
-            resultsDialog.SetActive(false);
+            //resultsDialog.SetActive(false);
+            UIDlgManager.Hide(resultsDialog);
             declinedDialog.SetActive(true);
             declinedDialog.transform.localPosition = new Vector3(0f, Screen.height + declinedDialogHalfHeight, 0f);
             Invoke("AnimateDeclinedDialog", RESULTS_SHORT_DELAY_TIME);
@@ -579,7 +565,7 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
             uiBlocker.SetActive(false);
-            BlurBg.enabled = false;
+            HideGameEndDialog();
             resultsDialogClosedSignal.Dispatch();
             //ShowViewBoardResultsPanel(true);
             UpdateAnalysisView(moveAnalysisList.GetRange(Mathf.Max(0, moveAnalysisList.Count - 5), Mathf.Min(5, moveAnalysisList.Count)), true);
@@ -592,10 +578,6 @@ namespace TurboLabz.Multiplayer
 
             FadeOutResultsDialog(0);
             showNewRankChampionshipDlgSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
-            //updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
-
-            //ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
 
         private void OnCrossPromoButtonClicked()

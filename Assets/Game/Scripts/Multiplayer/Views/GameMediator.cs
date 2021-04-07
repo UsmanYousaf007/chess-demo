@@ -96,7 +96,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.ShowViewBoardResultsPanel(isShow);
                 view.uiBlocker.SetActive(false);
-                view.BlurBg.enabled = false;
+                //view.BlurBg.enabled = false;
             }
         }
 

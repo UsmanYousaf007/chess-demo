@@ -59,6 +59,7 @@ namespace TurboLabz.InstantFramework
             continueButton.onClick.AddListener(OnContinueButtonClicked);
             scrollRectChampionship.gameObject.SetActive(false);
             pleaseWaitPanel.SetActive(false);
+            UIDlgManager.Setup(gameObject);
         }
 
         public virtual void OnContinueButtonClicked()
@@ -74,12 +75,12 @@ namespace TurboLabz.InstantFramework
         public virtual void Show()
         {
             pleaseWaitPanel.SetActive(true);
-            gameObject.SetActive(true);
+            UIDlgManager.Show(gameObject);
         }
 
         public virtual void Hide()
         {
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
             scrollRectChampionship.gameObject.SetActive(false);
         }
 

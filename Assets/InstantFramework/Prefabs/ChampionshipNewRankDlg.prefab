@@ -401,7 +401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -143}
+  m_AnchoredPosition: {x: 0, y: -149}
   m_SizeDelta: {x: 808, y: 141}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6666056161406441583
@@ -473,9 +473,9 @@ RectTransform:
   m_Father: {fileID: 2098991812884850778}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -261.7, y: -270.9}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 205, y: -270.9}
   m_SizeDelta: {x: 226.04, y: 110.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2098991811775847261
@@ -750,10 +750,10 @@ RectTransform:
   m_Father: {fileID: 2098991812884850778}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 258.1, y: -267.2}
-  m_SizeDelta: {x: 279.9, y: 50}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -72, y: -267.2}
+  m_SizeDelta: {x: 279.90002, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2098991813059440779
 CanvasRenderer:
@@ -783,7 +783,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Ends in 25m 50s
+  m_text: 25m 50s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b38ba342ebc8e4b26b554906f09bd919, type: 2}
   m_sharedMaterial: {fileID: -5623499407062287254, guid: b38ba342ebc8e4b26b554906f09bd919,
@@ -1179,6 +1179,7 @@ GameObject:
   - component: {fileID: 7424157872803466213}
   - component: {fileID: 7424157872803466212}
   - component: {fileID: 8393420207190421725}
+  - component: {fileID: 7085119400922742586}
   m_Layer: 5
   m_Name: ChampionshipNewRankDlg
   m_TagString: Untagged
@@ -1195,7 +1196,7 @@ RectTransform:
   m_GameObject: {fileID: 7424157872803466219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000495, y: 1.0000495, z: 1.0000495}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7424157873616622021}
   - {fileID: 7424157872635130352}
@@ -1283,6 +1284,18 @@ MonoBehaviour:
   newRankTxtGraphic: {fileID: 8081101872155125351}
   yourRankTxtGraphic: {fileID: 4969488221341646932}
   timerText: {fileID: 2098991813059440778}
+--- !u!225 &7085119400922742586
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424157872803466219}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7424157872938945414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,8 +1330,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 17.5}
+  m_SizeDelta: {x: -30, y: -35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7424157872938945147
 CanvasRenderer:
@@ -1369,6 +1382,7 @@ GameObject:
   - component: {fileID: 7424157873442630409}
   - component: {fileID: 7424157873442630422}
   - component: {fileID: 7424157873442630423}
+  - component: {fileID: 4595519313884982852}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -1489,6 +1503,18 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!225 &4595519313884982852
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7424157873442630418}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7424157873616622018
 GameObject:
   m_ObjectHideFlags: 0

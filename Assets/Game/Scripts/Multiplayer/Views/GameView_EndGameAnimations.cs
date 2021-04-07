@@ -44,7 +44,6 @@ namespace TurboLabz.Multiplayer
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() => EnableModalBlocker());
             sequence.AppendInterval(0.5f);
-            sequence.AppendCallback(() => SetBlurBg(true));
             sequence.AppendCallback(() => ShowRewardsDialog());
             sequence.AppendCallback(() => AnimateRewardsDialog());
             sequence.PlayForward();
@@ -54,9 +53,6 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateRewardsDialog()
         {
-            if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
-                return;
-
             mirrorPanel.transform.DOLocalMove(Vector3.zero, REWARDS_DIALOG_DURATION).SetEase(Ease.OutBack).OnComplete(OnMirrorPanelAnimationComplete);
 
             if (isDraw || !playerWins)
@@ -71,10 +67,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnMirrorPanelAnimationComplete()
         {
-            if ((playerWins || isDraw) && !animationPlayed && isRankedGame)
-            {
-                _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
-            }
+            _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
         }
 
         private void OnAnimationRewardsComplete()
@@ -91,7 +84,7 @@ namespace TurboLabz.Multiplayer
 
         private void FadeRewardsDialogue(float val)
         {
-            rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION).OnComplete(HideRewardsDialog); ;
+            rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION).OnComplete(HideRewardsDialog);
         }
 
         #endregion
@@ -106,7 +99,7 @@ namespace TurboLabz.Multiplayer
 
         private void FadeOutResultsDialog(float val)
         {
-            resultsCanvasGroup.DOFade(val, TRANSITION_DURATION);
+            resultsCanvasGroup.DOFade(val, TRANSITION_DURATION).OnComplete(HideResultsDialog);
         }
 
         private void AnimateResultsDlg()
@@ -114,9 +107,8 @@ namespace TurboLabz.Multiplayer
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() => EnableModalBlocker());
             sequence.AppendInterval(0.5f);
-            sequence.AppendCallback(() => SetBlurBg(true));
             sequence.AppendCallback(() => ShowResultsDialog());
-            sequence.AppendCallback(() => ScaleInResultsDialog());
+            //sequence.AppendCallback(() => ScaleInResultsDialog());
             sequence.PlayForward();
         }
 

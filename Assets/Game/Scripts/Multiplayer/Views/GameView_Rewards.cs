@@ -42,8 +42,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowRewardsDialog()
         {
-            if (!isRankedGame || (isRankedGame && !playerWins && !isDraw))
-                return;
             rewardsDialog.SetActive(true);
         }
 

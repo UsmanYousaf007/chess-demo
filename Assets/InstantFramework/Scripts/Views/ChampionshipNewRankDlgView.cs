@@ -64,20 +64,18 @@ namespace TurboLabz.InstantFramework
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
             }
 
-            //congratulationsGraphic.SetActive(newRank);
-            //newRankTxtGraphic.SetActive(newRank);
-
-            //rankGraphic.SetActive(!newRank);
-            //yourRankTxtGraphic.SetActive(!newRank);
-
-            base.Show();
-
-            gameObject.transform.localScale = new Vector3(0, 0, 0);
-            gameObject.SetActive(true);
-            ScaleInDialogue(duration);
+            continueButton.GetComponent<CanvasGroup>().alpha = 0;
+            UIDlgManager.AnimateDlg(gameObject);
 
             StartCoroutine(CountdownTimer());
+            Invoke("AnimateContinueButton", 1f);
+
             metaDataModel.ShowChampionshipNewRankDialog = false;
+        }
+
+        private void AnimateContinueButton()
+        {
+            continueButton.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
         }
 
         private void UpdateScrollViewChampionship(float value)
@@ -107,23 +105,8 @@ namespace TurboLabz.InstantFramework
 
         public override void OnContinueButtonClicked()
         {
-            //continueBtnClickedSignal.Dispatch();
             continueButtonClickedSignal.Dispatch(challengeId, playerWins);
-            //ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }
-
-        /*private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
-        {
-            ResultAdsVO vo = new ResultAdsVO();
-            vo.adsType = AdType.Interstitial;
-            vo.rewardType = GSBackendKeys.ClaimReward.NONE;
-            vo.challengeId = challengeId;
-            vo.playerWins = playerWins;
-            vo.placementId = placementId;
-            playerModel.adContext = analyticsContext;
-
-            showAdSignal.Dispatch(vo, false);
-        }*/
 
         IEnumerator CountdownTimer()
         {

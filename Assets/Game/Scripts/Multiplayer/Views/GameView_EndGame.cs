@@ -21,7 +21,6 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         [Header("End Game")]
-        public Image BlurBg;
         private bool gameEnded = false;
 
         [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -30,8 +29,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowEndGame()
         {
-            blurBackgroundService.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_DARK);
-
             resultsCanvasGroup.alpha = 1;
             rewardsCanvasGroup.alpha = 1;
 
@@ -49,15 +46,15 @@ namespace TurboLabz.Multiplayer
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
 
+            UIDlgManager.Show(gameEndDlgContainer);
+
             if ((playerWins || isDraw) && !gameEnded && isRankedGame)
             {
                 StartEndAnimationSequence();
             }
             else
             {
-                //ShowResultsDialog();
-                //Invoke("ScaleInResultsDialog", animDelay);
-                AnimateResultsDlg();
+                ShowResultsDialog();
             }
             gameEnded = true;
         }
@@ -72,10 +69,9 @@ namespace TurboLabz.Multiplayer
             viewBoardResultPanel.gameObject.SetActive(show);
         }
 
-        private void SetBlurBg(bool val)
+        public void HideGameEndDialog()
         {
-            BlurBg.enabled = true;
-            BlurBg.gameObject.SetActive(val);
+            UIDlgManager.Hide(gameEndDlgContainer);
         }
     }
 }
