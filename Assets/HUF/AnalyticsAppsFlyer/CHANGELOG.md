@@ -1,10 +1,21 @@
 ## Internal SDK
 
-- AppsFlyer Unity Plugin - v6.2.3
+- AppsFlyer Unity Plugin - v6.2.4.1
   - Android AppsFlyer SDK v6.2.0
-  - iOS AppsFlyer SDK v6.2.3
-  
- ## [2.6.1] - 2021-03-09
+  - iOS AppsFlyer SDK v6.2.4
+
+
+  ## [2.6.3] - 2021-03-24
+  ### Update
+  - Update to v6.2.4.1
+
+
+## [2.6.2] - 2021-03-11
+### Fixed
+- Errors on game close when trying to send event
+
+
+## [2.6.1] - 2021-03-09
  ### Fixed
  - Multiple warnings
  

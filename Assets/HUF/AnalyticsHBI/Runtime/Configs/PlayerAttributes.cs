@@ -56,7 +56,7 @@ namespace HUF.AnalyticsHBI.Runtime.Configs
         public string MediaSource => GetStringAttribute( Attribute.calc_first_media_source );
         public string PlayerId => GetStringAttribute( Attribute.player_id );
 
-        public string ToString()
+        public override string ToString()
         {
             return $"RevenueSumInDollars: {RevenueSumInDollars}, LastLoginTime: {LastLoginTime}," +
                    $" FirstPurchase: {( FirstPurchase != null ? JsonUtility.ToJson( FirstPurchase ) : "null" )}, " +

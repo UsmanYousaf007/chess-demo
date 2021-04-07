@@ -81,6 +81,12 @@ public class AndroidAgent : IronSourceIAgent
 		getBridge().Call("setMetaData", key, values);
 	}
 
+	public int? getConversionValue()
+    {
+		Debug.Log("Unsupported Platform");
+		return null;
+	}
+
 	//******************* SDK Init *******************//
 
 	public void setUserId(string userId) {

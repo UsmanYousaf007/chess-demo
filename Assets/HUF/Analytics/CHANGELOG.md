@@ -1,3 +1,8 @@
+## [2.5.0] - 2021-03-04
+### Added 
+- LogSuccessfulPurchaseEvent and made LogMonetizationEvent obsolete
+
+
 ## [2.4.0] - 2021-02-17
 ### Removed 
 - ATT plugins was moved to the Policy Guard package.

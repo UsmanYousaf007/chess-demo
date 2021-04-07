@@ -20,7 +20,7 @@ namespace HUFEXT.AdsManager.Runtime.Config
 
         public override void RegisterManualInitializers()
         {
-            AddManualInitializer( "Ads Manager", HAdsManager.Init );
+            AddManualSynchronousInitializer( "Ads Manager", HAdsManager.Init );
         }
     }
 }

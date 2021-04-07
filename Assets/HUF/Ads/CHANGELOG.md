@@ -1,3 +1,19 @@
+## [2.6.0] - 2021-03-16
+### Added
+- Mock ads simulation on devices
+
+
+## [2.5.2] - 2021-03-11
+### Added
+- `CollectSensitiveData` now handles lack of ATT acceptation and can open iOS app settings.
+
+
+## [2.5.1] - 2021-03-08
+### Added
+- Events in editor banners.
+- New SKANetworks added to list.
+
+
 ## [2.5.0] - 2021-02-17
 ### Added
 - Function `bool? HasConsent()` to check if the ads consent is granted or set overall.

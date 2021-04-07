@@ -186,7 +186,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         {
             if ( !HAds.Rewarded.TryShow( placementId ) )
             {
-                OnInterstitialEnded.Dispatch( new AdCallback( placementId, MediationId, AdResult.Failed ) );
+                OnRewardedEnded.Dispatch( new AdCallback( placementId, MediationId, AdResult.Failed ) );
             }
         }
 

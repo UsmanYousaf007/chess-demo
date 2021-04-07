@@ -19,13 +19,5 @@ namespace HUF.GenericDialog.Runtime.Configs
         public string primaryButtonTranslation;
         public string secondaryButtonTranslation;
         public string tertiaryButtonTranslation;
-
-        public string HeaderTranslation => headerTranslation.Replace( "#COLOR#", $"#{ColorUtility.ToHtmlStringRGBA(linkColor)}" );
-        public string ContentTranslation => contentTranslation.Replace( "#COLOR#", $"#{ColorUtility.ToHtmlStringRGBA(linkColor)}" );
-        public string PrimaryButtonTranslation => primaryButtonTranslation.Replace( "#COLOR#", $"#{ColorUtility.ToHtmlStringRGBA(linkColor)}" );
-        public string SecondaryButtonTranslation => secondaryButtonTranslation.Replace( "#COLOR#", $"#{ColorUtility.ToHtmlStringRGBA(linkColor)}" );
-        public string TertiaryButtonTranslation => tertiaryButtonTranslation.Replace( "#COLOR#", $"#{ColorUtility.ToHtmlStringRGBA(linkColor)}" );
-
-        public Color linkColor;
     }
 }

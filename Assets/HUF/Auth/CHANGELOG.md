@@ -1,3 +1,8 @@
+## [2.3.1] - 2021-03-03
+### Fixed
+- Multiple warnings
+
+
 ## [2.3.0] - 2021-01-13
 ### Changed
 - UnityActions to Actions in Auth Packages

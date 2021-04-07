@@ -6,7 +6,6 @@ using HUF.PolicyGuard.Runtime.Implementations;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using HUF.Utils.Runtime.PlayerPrefs;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -19,6 +18,7 @@ namespace HUF.PolicyGuard.Runtime.API
         static PolicyGuardConfig config;
         static PolicyGuardService service;
 
+#pragma warning disable 0067
         /// <summary>
         /// Raised when the GDPR window appears.
         /// </summary>
@@ -38,7 +38,7 @@ namespace HUF.PolicyGuard.Runtime.API
         public static event Action OnPersonalizedAdsPopupShowed;
 
         /// <summary>
-        /// Raised when the user closes the Personalized Ads popup with a result.
+        /// Raised when the user closes the Personalized Ads pop-up with a result.
         /// </summary>
         [PublicAPI]
         public static event Action<bool> OnPersonalizedAdsPopupClosed;
@@ -100,6 +100,14 @@ namespace HUF.PolicyGuard.Runtime.API
         public static event Action<bool> OnPersonalizedAdsConsentChanged;
 
         /// <summary>
+        /// Checks if the service is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized => service != null;
+
+#pragma warning restore 0067
+
+        /// <summary>
         /// Initialize Policy Guard Service and start checking policies if needed.
         /// Should be called only if an AutoInit option is disabled.
         /// </summary>
@@ -121,21 +129,23 @@ namespace HUF.PolicyGuard.Runtime.API
             HAnalytics.OnCollectSensitiveDataSet += status => { OnAnalyticsConsentChanged.Dispatch( status ); };
             HAds.OnCollectSensitiveDataSet += status => { OnAdsConsentChanged.Dispatch( status ); };
 #if UNITY_IOS
+            service.OnATTNativePopupClosed += status =>
+            {
+                OnATTNativePopupClosed.Dispatch( status == AppTrackingTransparencyBridge.AuthorizationStatus.Authorized );
+            };
+
             AppTrackingTransparencyBridge.OnAuthorizationStatusChanged += status =>
             {
                 OnATTConsentChanged.Dispatch( status );
             };
-
-            service.OnATTNativePopupClose += status => { OnATTNativePopupClosed.Dispatch(status == AppTrackingTransparencyBridge.AuthorizationStatus.Authorized); };
 #endif
             HAds.OnPersonalizedAdsConsentChanged += status => { OnPersonalizedAdsConsentChanged.Dispatch( status ); };
-
             service.CheckFlow();
         }
 
         /// <summary>
         /// Shows an ATT pop-up if it was never shown.
-        /// The Flow is dependent on the config setting and can show the Pre-opt in popup before the native one.
+        /// The Flow is dependent on the config setting and can show the Pre-opt in pop-up before the native one.
         /// Should be called only if <see cref="PolicyGuardConfig.useAutomatedFlow"/> option is disabled.
         /// </summary>
         [PublicAPI]
@@ -151,7 +161,24 @@ namespace HUF.PolicyGuard.Runtime.API
         }
 
         /// <summary>
-        /// Shows a GDPR popup if it was never shown.
+        /// Shows a GDPR pop-up with personalized ads if it was never shown.
+        /// In case of the ATT not displayed or not accepted, the GDPR pop-up without the ads consent will be shown.
+        /// Should be called only if <see cref="PolicyGuardConfig.useAutomatedFlow"/> option is disabled.
+        /// </summary>
+        [PublicAPI]
+        public static bool TryShowGDPRWithAds()
+        {
+            if ( service == null )
+            {
+                HLog.LogError( logPrefix, "Service is not initialized" );
+                return false;
+            }
+
+            return service.TryShowGDPRWithAds();
+        }
+
+        /// <summary>
+        /// Shows a GDPR pop-up if it was never shown.
         /// Should be called only if <see cref="PolicyGuardConfig.useAutomatedFlow"/> option is disabled.
         /// </summary>
         [PublicAPI]
@@ -167,7 +194,7 @@ namespace HUF.PolicyGuard.Runtime.API
         }
 
         /// <summary>
-        /// Shows a Personalized Ads popup. On iOS it is required to have the ATT authorized.
+        /// Shows a Personalized Ads pop-up. On iOS it is required to have the ATT authorized.
         /// </summary>
         [PublicAPI]
         public static bool TryShowPersonalizedAdsPopup()
@@ -194,7 +221,7 @@ namespace HUF.PolicyGuard.Runtime.API
         }
 
         /// <summary>
-        /// Checks AppTrackingTransparency status. When checked for the first time causes a system popup to appear.
+        /// Checks AppTrackingTransparency status. When checked for the first time causes a system pop-up to appear.
         /// </summary>
         /// <param name="callback">A nullable callback with an authorization status.</param>
         [PublicAPI]
@@ -204,7 +231,7 @@ namespace HUF.PolicyGuard.Runtime.API
         }
 
         /// <summary>
-        /// Checks if the AppTrackingTransparency system popup was ever displayed.
+        /// Checks if the AppTrackingTransparency system pop-up was ever displayed.
         /// </summary>
         [PublicAPI]
         public static bool WasATTPopupDisplayed()
@@ -212,6 +239,7 @@ namespace HUF.PolicyGuard.Runtime.API
             return AppTrackingTransparencyBridge.HasDoneInitialRequest;
         }
 #endif
+
         /// <summary>
         /// Checks if a user did authorize the AppTrackingTransparency consent.
         /// </summary>
@@ -238,12 +266,33 @@ namespace HUF.PolicyGuard.Runtime.API
         /// <summary>
         /// Checks if there is a pop-up shown by the service.
         /// </summary>
-        /// <returns>Informs if any policy pop-up is currently shown</returns>
+        /// <returns>Informs if any policy pop-up is currently shown.</returns>
         [PublicAPI]
         public static bool IsPolicyFlowRunning()
         {
             return IsATTAuthorized();
         }
+
+        /// <summary>
+        /// Checks if there is a pop-up shown by the service.
+        /// </summary>
+        /// <returns>Informs if any policy pop-up is currently shown.</returns>
+        [PublicAPI]
+        public static bool IsPolicyFlowEnded()
+        {
+            return service != null && service.IsCheckFlowEnded;
+        }
+
+#if UNITY_IOS
+        /// <summary>
+        /// Opens an  iOS setting of the game, for a user to change the ATT permission.
+        /// </summary>
+        [PublicAPI]
+        public static void OpenATTNativeSettings()
+        {
+            AppTrackingTransparencyBridge.OpenATTSettings();
+        }
+#endif
 
         [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterSceneLoad )]
         static void AutoInit()

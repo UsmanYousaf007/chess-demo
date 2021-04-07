@@ -1,3 +1,8 @@
+## [3.0.1] - 2021-03-03
+### Fixed
+- Multiple warnings
+
+
 ## [3.0.0] - 2020-10-12
 ### Changed
 - Multiple storage services support

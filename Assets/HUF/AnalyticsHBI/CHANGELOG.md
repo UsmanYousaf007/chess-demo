@@ -2,6 +2,15 @@
 HDS SDK Android v1.3.1
 HDS SDK iOS v1.3.1
 
+## [2.5.5] - 2021-03-18
+### Fixed
+- Reverted plist postprocess for HDS domains exceptions
+
+## [2.5.4] - 2021-03-03
+### Fixed
+- A warning
+
+
 ## [2.5.3] - 2021-02-18
 ### Changed
 - Changed reference to the ATT class to the new Policy Guard package.

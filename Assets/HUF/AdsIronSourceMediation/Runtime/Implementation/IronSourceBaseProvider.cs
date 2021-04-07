@@ -53,7 +53,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
             IronSource.Agent.setUserId( SystemInfo.deviceUniqueIdentifier );
 #endif
 
-            //Facebook.Unity.FB.Mobile.SetAdvertiserTrackingEnabled( HAds.HasPersonalizedAdConsent() == true );
+            Facebook.Unity.FB.Mobile.SetAdvertiserTrackingEnabled( HAds.HasPersonalizedAdConsent() == true );
 
             IronSource.Agent.setConsent( HAds.HasPersonalizedAdConsent() == true );
             IronSource.Agent.init(
@@ -68,9 +68,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
 
             PauseManager.Instance.OnAppPause += HandleAppPause;
             IsInitialized = true;
-
-            if ( adsService != null )
-                adsService.ServiceInitialized();
+            adsService?.ServiceInitialized();
             return true;
         }
 
@@ -92,6 +90,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         public void CollectSensitiveData( bool consentStatus )
         {
             IronSource.Agent.setConsent( consentStatus );
+            Facebook.Unity.FB.Mobile.SetAdvertiserTrackingEnabled( consentStatus );
         }
 
         void HandleAppPause( bool pauseStatus )

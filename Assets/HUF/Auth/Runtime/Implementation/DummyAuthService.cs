@@ -14,10 +14,13 @@ namespace HUF.Auth.Runtime.Implementation
         public string UserId => string.Empty;
         public string UserName => string.Empty;
         public bool IsInitialized => true;
+        
+#pragma warning disable 0067
         public event Action<string> OnInitialized;
         public event Action OnInitializationFailure;
         public event Action<string, AuthSignInResult> OnSignInResult;
         public event Action<string> OnSignOutComplete;
+#pragma warning restore 0067
 
         public DummyAuthService( string nameSuffix )
         {

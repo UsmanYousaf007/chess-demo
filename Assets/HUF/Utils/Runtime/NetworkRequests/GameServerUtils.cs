@@ -57,7 +57,7 @@ namespace HUF.Utils.Runtime.NetworkRequests
                 {
                     yield return new WaitForSecondsRealtime( data.errorRetryWait );
 
-                    CoroutineManager.StartCoroutine( AsyncRequestCoroutine( data, response, ++retryCount ) );
+                    yield return CoroutineManager.StartCoroutine( AsyncRequestCoroutine( data, response, ++retryCount ) );
                     yield break;
                 }
 

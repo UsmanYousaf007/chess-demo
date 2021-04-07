@@ -12,12 +12,21 @@ using UnityEngine.UI;
 
 namespace HUF.GenericDialog.Runtime.API
 {
+
     /// <summary>
     /// Class used for marking HGenericDialog's prefabs and binding UI with a logic
     /// </summary>
     [PublicAPI]
     public abstract class HGenericDialogInstance : MonoBehaviour
     {
+        public const string COLOR_TAG = "{COLOR}";
+
+        /// <summary>
+        /// <see cref="Color"/> of links in texts.
+        /// </summary>
+        [PublicAPI]
+        [SerializeField] Color linkColor;
+
         /// <summary>
         /// <see cref="Button"/> reference that acts as a primary (accented) button.
         /// </summary>
@@ -48,8 +57,7 @@ namespace HUF.GenericDialog.Runtime.API
         [PublicAPI]
         [SerializeField] GameObject tertiaryButtonRoot = null;
 
-        [NonSerialized]
-        protected HGenericDialogConfig config = null;
+        [NonSerialized] protected HGenericDialogConfig config = null;
 
         /// <summary>
         /// <para>A function that can be used to obtain current session number.
@@ -72,6 +80,12 @@ namespace HUF.GenericDialog.Runtime.API
         /// </summary>
         [PublicAPI]
         public UnityEvent OnClosePopup;
+
+        /// <summary>
+        /// Event triggered to set the content of the dialog's header.
+        /// </summary>
+        [PublicAPI]
+        public StringUnityEvent OnHeaderTextOverride;
 
         /// <summary>
         /// Event triggered to set the dialog's content
@@ -97,28 +111,29 @@ namespace HUF.GenericDialog.Runtime.API
         [PublicAPI]
         public StringUnityEvent OnTertiaryTextOverride;
 
-        /// <summary>
-        /// Event triggered to set the content of the dialog's header.
-        /// </summary>
-        [PublicAPI]
-        public StringUnityEvent OnHeaderTextOverride;
-
         public void Initialize( HGenericDialogConfig config )
         {
             this.config = config;
 
-            primaryButtonHandler.onClick.AddListener( HandlePrimaryButtonClick );
+            if ( primaryButtonHandler != null )
+                primaryButtonHandler.onClick.AddListener( HandlePrimaryButtonClick );
 
-            if(secondaryButtonRoot.gameObject != null)
+            if ( secondaryButtonRoot != null )
             {
-                secondaryButtonRoot.gameObject.SetActive( config.showSecondaryButton );
-                secondaryButtonHandler.onClick.AddListener( HandleSecondaryButtonClick );
+                secondaryButtonRoot.SetActive( config.showSecondaryButton );
+
+                if ( secondaryButtonHandler != null )
+                    secondaryButtonHandler.onClick.AddListener( HandleSecondaryButtonClick );
             }
-            if(tertiaryButtonRoot.gameObject != null)
+
+            if ( tertiaryButtonRoot != null )
             {
-                tertiaryButtonRoot.gameObject.SetActive( config.showTertiaryButton );
-                tertiaryButtonHandler.onClick.AddListener( HandleTertiaryButtonClick );
+                tertiaryButtonRoot.SetActive( config.showTertiaryButton );
+
+                if ( tertiaryButtonHandler != null )
+                    tertiaryButtonHandler.onClick.AddListener( HandleTertiaryButtonClick );
             }
+
             HandleTranslation( config );
             HandleInitialization( config );
         }
@@ -150,7 +165,6 @@ namespace HUF.GenericDialog.Runtime.API
         [PublicAPI]
         protected virtual void HandleInitialization( HGenericDialogConfig config ) { }
 
-
         /// <summary>
         /// Called during initialization to allow handling of custom and complex translations.
         /// </summary>
@@ -167,11 +181,23 @@ namespace HUF.GenericDialog.Runtime.API
 #else
             var getContent = new Func<string, string>( ( id ) => id );
 #endif
-            OnHeaderTextOverride?.Invoke( getContent( config.HeaderTranslation ) );
-            OnContentTextOverride?.Invoke( getContent( config.ContentTranslation ) );
-            OnPrimaryTextOverride?.Invoke( getContent( config.PrimaryButtonTranslation ) );
-            OnSecondaryTextOverride?.Invoke( getContent(config.SecondaryButtonTranslation) );
-            OnTertiaryTextOverride?.Invoke( getContent(config.TertiaryButtonTranslation) );
+            OnHeaderTextOverride?.Invoke( getContent(
+                config.headerTranslation.Replace( COLOR_TAG, $"#{ColorUtility.ToHtmlStringRGBA( linkColor )}" ) ) );
+
+            OnContentTextOverride?.Invoke( getContent(
+                config.contentTranslation.Replace( COLOR_TAG, $"#{ColorUtility.ToHtmlStringRGBA( linkColor )}" ) ) );
+
+            OnPrimaryTextOverride?.Invoke( getContent(
+                config.primaryButtonTranslation.Replace( COLOR_TAG,
+                    $"#{ColorUtility.ToHtmlStringRGBA( linkColor )}" ) ) );
+
+            OnSecondaryTextOverride?.Invoke( getContent(
+                config.secondaryButtonTranslation.Replace( COLOR_TAG,
+                    $"#{ColorUtility.ToHtmlStringRGBA( linkColor )}" ) ) );
+
+            OnTertiaryTextOverride?.Invoke( getContent(
+                config.tertiaryButtonTranslation.Replace( COLOR_TAG,
+                    $"#{ColorUtility.ToHtmlStringRGBA( linkColor )}" ) ) );
         }
 
         /// <summary>

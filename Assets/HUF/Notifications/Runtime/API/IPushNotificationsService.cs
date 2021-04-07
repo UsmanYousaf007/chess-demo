@@ -10,4 +10,5 @@ namespace HUF.Notifications.Runtime.API
         string CachedToken { get; }
         FirebaseMessage CachedMessage { get; }
         event Action<byte[]> OnNotificationReceived;
-    }}
+    }
+}

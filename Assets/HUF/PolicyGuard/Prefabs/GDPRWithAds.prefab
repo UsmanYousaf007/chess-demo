@@ -723,6 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e085e0d5dd43b886d69b7e02a47496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkColor: {r: 0.6698113, g: 0, b: 0, a: 1}
   primaryButtonHandler: {fileID: 8296625937540568384}
   secondaryButtonHandler: {fileID: 8296625938061794144}
   tertiaryButtonHandler: {fileID: 2278177886845427950}
@@ -731,6 +732,20 @@ MonoBehaviour:
   OnClosePopup:
     m_PersistentCalls:
       m_Calls: []
+  OnHeaderTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8296625938262056010}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnContentTextOverride:
     m_PersistentCalls:
       m_Calls:
@@ -777,20 +792,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 309790420375694239}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnHeaderTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8296625938262056010}
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -1163,12 +1164,12 @@ PrefabInstance:
     - target: {fileID: 5560918946073618384, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946073618384, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Size
-      value: 0.99999994
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5560918946707238118, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
@@ -1309,7 +1310,7 @@ PrefabInstance:
     - target: {fileID: 5560918947117450691, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000058943784
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 5560918947378549556, guid: 3ca1072bb332748db972165959102b79,
         type: 3}

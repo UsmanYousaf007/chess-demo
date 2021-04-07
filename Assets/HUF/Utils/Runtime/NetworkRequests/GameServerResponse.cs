@@ -1,5 +1,7 @@
 ﻿using System;
+using HUF.GameServer.Runtime.Response;
 using JetBrains.Annotations;
+using UnityEngine.Networking;
 
 namespace HUF.Utils.Runtime.NetworkRequests
 {
@@ -23,6 +25,24 @@ namespace HUF.Utils.Runtime.NetworkRequests
         }
 
         public GameServerResponse( GameServerResponse<TStatus> other ) : this( other.status, other.responseCode ) { }
+
+        public static bool TryGetFailedResponse( UnityWebRequest request, TStatus failedStatus, out GameServerResponse<TStatus, TData>
+            response )
+        {
+            response = null;
+
+            if ( request.isNetworkError )
+            {
+                response = new GameServerResponse<TStatus, TData>( failedStatus );
+                return true;
+            }
+
+            if ( !request.isHttpError )
+                return false;
+
+            response = new GameServerResponse<TStatus, TData>( failedStatus, request.responseCode );
+            return true;
+        }
     }
 
     public class GameServerResponse<T> : GameServerResponse where T : Enum
@@ -45,6 +65,23 @@ namespace HUF.Utils.Runtime.NetworkRequests
         }
 
         public GameServerResponse( GameServerResponse<T> other ) : this( other.status, other.responseCode ) { }
+
+        public static bool TryGetFailedResponse( UnityWebRequest request, T failedStatus, out GameServerResponse<T> response )
+        {
+            response = null;
+
+            if ( request.isNetworkError )
+            {
+                response = new GameServerResponse<T>( failedStatus );
+                return true;
+            }
+
+            if ( !request.isHttpError )
+                return false;
+
+            response = new GameServerResponse<T>( failedStatus, request.responseCode );
+            return true;
+        }
     }
 
     public abstract class GameServerResponse

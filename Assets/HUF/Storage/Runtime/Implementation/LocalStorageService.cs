@@ -9,53 +9,63 @@ namespace HUF.Storage.Runtime.Implementation
 {
     public class LocalStorageService : IDownloadService
     {
+#pragma warning disable 0067
         public event Action<API.StorageService> OnInit;
+#pragma warning restore 0067
 
         public bool IsInitialized => true;
 
-        public void GetFileBytes(string fileId, Action<ObjectResultContainer<byte[]>> completeHandler)
+        public void GetFileBytes( string fileId, Action<ObjectResultContainer<byte[]>> completeHandler )
         {
-            new BytesLocalHandler(fileId, completeHandler).DownloadFile();
+            new BytesLocalHandler( fileId, completeHandler ).DownloadFile();
         }
 
-        public void GetTexture(string fileId, Action<ObjectResultContainer<Texture2D>> completeHandler)
+        public void GetTexture( string fileId, Action<ObjectResultContainer<Texture2D>> completeHandler )
         {
-            new TextureLocalHandler(fileId, completeHandler).DownloadFile();
+            new TextureLocalHandler( fileId, completeHandler ).DownloadFile();
         }
 
-        public void GetAudioClip(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler)
+        public void GetAudioClip( string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler )
         {
-            new AudioClipLocalHandler(fileId, completeHandler).DownloadFile();
+            new AudioClipLocalHandler( fileId, completeHandler ).DownloadFile();
         }
 
-        public void GetAssetBundle(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler)
+        public void GetAssetBundle( string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler )
         {
-            new AssetBundleLocalHandler(fileId, completeHandler).DownloadFile();
+            new AssetBundleLocalHandler( fileId, completeHandler ).DownloadFile();
         }
 
-        public void GetFileBytes(string fileId, Action<ObjectResultContainer<byte[]>> completeHandler, string filePath)
+        public void GetFileBytes( string fileId,
+            Action<ObjectResultContainer<byte[]>> completeHandler,
+            string filePath )
         {
-            new BytesLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+            new BytesLocalHandler( fileId, completeHandler, filePath ).DownloadFile();
         }
 
-        public void GetTexture(string fileId, Action<ObjectResultContainer<Texture2D>> completeHandler, string filePath)
+        public void GetTexture( string fileId,
+            Action<ObjectResultContainer<Texture2D>> completeHandler,
+            string filePath )
         {
-            new TextureLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+            new TextureLocalHandler( fileId, completeHandler, filePath ).DownloadFile();
         }
 
-        public void GetAudioClip(string fileId, Action<ObjectResultContainer<AudioClip>> completeHandler, string filePath)
+        public void GetAudioClip( string fileId,
+            Action<ObjectResultContainer<AudioClip>> completeHandler,
+            string filePath )
         {
-            new AudioClipLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+            new AudioClipLocalHandler( fileId, completeHandler, filePath ).DownloadFile();
         }
 
-        public void GetAssetBundle(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler, string filePath)
+        public void GetAssetBundle( string fileId,
+            Action<ObjectResultContainer<AssetBundle>> completeHandler,
+            string filePath )
         {
-            new AssetBundleLocalHandler(fileId, completeHandler, filePath).DownloadFile();
+            new AssetBundleLocalHandler( fileId, completeHandler, filePath ).DownloadFile();
         }
 
-        public void GetUpdateInfo(string fileId, Action<MetadataResultContainer> completeHandler)
+        public void GetUpdateInfo( string fileId, Action<MetadataResultContainer> completeHandler )
         {
-            completeHandler.Dispatch(new MetadataResultContainer(new StorageResultContainer(fileId)));
+            completeHandler.Dispatch( new MetadataResultContainer( new StorageResultContainer( fileId ) ) );
         }
 
         public string GetRemotePath( string fileId )

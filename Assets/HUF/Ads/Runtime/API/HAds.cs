@@ -1,12 +1,16 @@
 using System;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Analytics.Runtime.API;
-using HUF.PolicyGuard.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.PlayerPrefs;
 using JetBrains.Annotations;
 using UnityEngine;
+
+#if HUF_POLICY_GUARD
+using HUF.PolicyGuard.Runtime.API;
+using HUF.PolicyGuard.Runtime.Implementations;
+#endif
 
 namespace HUF.Ads.Runtime.API
 {
@@ -65,12 +69,11 @@ namespace HUF.Ads.Runtime.API
         {
             get
             {
-                if (service == null)
-                {
-                    service = new AdsService();
-                    service.RegisterToInitializationEvent(AdsServiceInitialized);
-                    
-                }
+                if ( service != null )
+                    return service;
+
+                service = new AdsService();
+                service.RegisterToInitializationEvent(AdsServiceInitialized);
 
                 return service;
             }
@@ -83,11 +86,30 @@ namespace HUF.Ads.Runtime.API
         [PublicAPI]
         public static void CollectSensitiveData(bool consentStatus)
         {
+#if UNITY_IOS
             if ( !HPolicyGuard.IsATTAuthorized() )
             {
-                HLog.LogWarning( logPrefix, "ATT is not Authorized. Ads consent cannot be set" );
+                if ( consentStatus == false )
+                {
+                    HLog.LogWarning( logPrefix, "ATT is not Authorized. Ads consent cannot be set" );
+                    return;
+                }
+
+                HPolicyGuard.OpenATTNativeSettings();
+#if UNITY_EDITOR
+                HPolicyGuard.CheckATTStatus( status =>
+                {
+                    if ( status == AppTrackingTransparencyBridge.AuthorizationStatus.Authorized )
+                        CollectSensitiveData( true );
+                    else
+                    {
+                        HLog.LogWarning( logPrefix, "ATT is not Authorized. Ads consent cannot be set" );
+                    }
+                });
+#endif
                 return;
             }
+#endif
 
             bool? previousValue = HasConsent();
             HPlayerPrefs.SetBool(ADS_CONSENT_SENSITIVE_DATA, consentStatus);
