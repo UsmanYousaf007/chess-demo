@@ -55,6 +55,7 @@ namespace TurboLabz.Multiplayer
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
             offerDrawButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON);
+            UIDlgManager.Setup(gameMenu);
         }
 
         public void OnParentShowMenu()
@@ -72,18 +73,14 @@ namespace TurboLabz.Multiplayer
 
         public void ShowMenu()
         {
-            EnableModalBlocker();
-            gameMenu.SetActive(true);
-
             DisableMenuButton();
+            UIDlgManager.Show(gameMenu);
         }
 
         public void HideMenu()
         {
-            DisableModalBlocker();
-            gameMenu.SetActive(false);
-
             EnableMenuButton();
+            UIDlgManager.Hide(gameMenu);
         }
 
         public void OnEscapeClicked()

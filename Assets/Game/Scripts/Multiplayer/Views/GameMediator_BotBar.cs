@@ -38,7 +38,6 @@ namespace TurboLabz.Multiplayer
 
         public void OnShowShareDialogSignal()
         {
-            view.chessboardBlocker.SetActive(true);
             shareScreenDialogSignal.Dispatch();
         }
 
