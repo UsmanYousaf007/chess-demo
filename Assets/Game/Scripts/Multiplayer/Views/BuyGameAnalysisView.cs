@@ -60,16 +60,17 @@ namespace TurboLabz.InstantFramework
             closeBtn.onClick.AddListener(OnCloseBtnClicked);
             buyFullAnalysisBtn.onClick.AddListener(OnBuyFullAnalysisBtnClicked);
             titleText.text = localizationService.Get(LocalizationKey.GM_BUY_GAME_ANALYSIS_TITLE_TEXT);
+            UIDlgManager.Setup(gameObject);
         }
 
         public void Show()
         {
-            gameObject.SetActive(true);
+            UIDlgManager.Show(gameObject);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
         }
 
         private void OnCloseBtnClicked()
