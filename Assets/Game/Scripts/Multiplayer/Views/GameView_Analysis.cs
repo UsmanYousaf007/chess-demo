@@ -41,6 +41,8 @@ namespace TurboLabz.Multiplayer
         public Text moveQualityTooltipText;
         public Text arrowTooltipText;
 
+        public Image gameAnalysisLogo;
+
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
         public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
 
@@ -51,6 +53,8 @@ namespace TurboLabz.Multiplayer
         {
             playerInfoPanel.SetActive(true);
             analysisPanel.SetActive(false);
+            gameAnalysisLogo.enabled = false;
+            SetGameAnalysisBottomBar(false);
         }
 
         public void InitAnalysis()
@@ -90,6 +94,8 @@ namespace TurboLabz.Multiplayer
             HidePlayerToIndicator();
             HidePlayerFromIndicator();
             landingFirstTime = true;
+            gameAnalysisLogo.enabled = true;
+            SetGameAnalysisBottomBar(true);
         }
 
         private void ClearMovesList()

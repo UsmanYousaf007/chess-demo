@@ -127,7 +127,7 @@ namespace TurboLabz.Multiplayer
         public Signal backToArenaSignal = new Signal();
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal fullAnalysisButtonClickedSignal = new Signal();
-        
+       
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
         private bool playerWins;
@@ -150,8 +150,8 @@ namespace TurboLabz.Multiplayer
         private MatchAnalysis matchAnalysis;
 
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
-        
+        public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
+
         public void InitResults()
         {
             // Declined dialog
@@ -344,7 +344,7 @@ namespace TurboLabz.Multiplayer
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_INSUFFICIENT_MATERIAL);
                     break;
 
-                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE: 
+                case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE:
                 case GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE:
                     isDraw = true;
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_DRAW_BY_FIFTY_MOVE_RULE);
@@ -425,7 +425,7 @@ namespace TurboLabz.Multiplayer
             ratingBoosterRvPanel.SetActive(canSeeRewardedVideo && !isDraw);
             if (!canSeeRewardedVideo)
             {
-                
+
                 resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
                 resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
                 resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
@@ -556,7 +556,8 @@ namespace TurboLabz.Multiplayer
         {
             if (haveEnoughGemsForFullAnalysis)
             {
-                fullAnalysisButtonClickedSignal.Dispatch();
+                AnimateAnalyzingDlg();
+                Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
                 fullAnalysisBtn.interactable = false;
             }
             else
@@ -564,6 +565,14 @@ namespace TurboLabz.Multiplayer
                 SpotPurchaseMediator.analyticsContext = "game_analysis";
                 notEnoughGemsSignal.Dispatch();
             }
+            
+        }
+
+        private void ShowGameAnalysis()
+        {
+            StopCoroutine(AnimateBars(0));
+            analyzingDlg.SetActive(false);
+            fullAnalysisButtonClickedSignal.Dispatch();
         }
 
         private void OnResultsClosed()
@@ -582,8 +591,9 @@ namespace TurboLabz.Multiplayer
             animationPlayed = false;
 
             FadeOutResultsDialog(0);
-            updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+            showNewRankChampionshipDlgSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            //updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
 
             //ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame);
         }

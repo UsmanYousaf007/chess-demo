@@ -35,6 +35,8 @@ namespace TurboLabz.Multiplayer
         private const float RESULTS_DELAY_TIME = 1f;
         private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
 
+        private const float GAME_ANALYZING_DURATION = 4f;
+
         private const float TRANSITION_DURATION = 0.5f;
 
         private void StartEndAnimationSequence()
@@ -139,8 +141,6 @@ namespace TurboLabz.Multiplayer
                 }
                 yield return new WaitForSeconds(animateDuration);
             }
-
-            //yield return null;
         }
 
         private void AnimateAnalyzingDlg()

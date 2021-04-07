@@ -19,19 +19,25 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         public Signal ShowShareDialogSignal = new Signal();
+        public Signal<string, bool, float> exitButtonClickedSignal = new Signal<string, bool, float>();
 
         [Header("Bot Bar")]
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
 
+        public Button exitButton;
+
         public Button shareScreenButton;
         public Texture2D logo;
         private bool showAdOnBack;
+
+        public GameObject chatInputContainer;
 
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
             backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
+            exitButton.onClick.AddListener(OnExitButtonClicked);
         }
 
         void OnParentShowBotBar()
@@ -45,6 +51,13 @@ namespace TurboLabz.Multiplayer
         {
             backToFriendsButton.gameObject.SetActive(isLongPlay);
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
+        }
+
+        void SetGameAnalysisBottomBar(bool val)
+        {
+            chatInputContainer.SetActive(!val);
+            exitButton.gameObject.SetActive(val);
+            menuButton.gameObject.SetActive(!val);
         }
 
         void OnBackToFriendsClicked()
@@ -87,6 +100,11 @@ namespace TurboLabz.Multiplayer
         {
             yield return new WaitForSeconds(.25f);
             ShowShareDialogSignal.Dispatch();
+        }
+
+        void OnExitButtonClicked()
+        {
+            exitButtonClickedSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
         }
     }
 }
