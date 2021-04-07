@@ -13,6 +13,7 @@ namespace HUF.RemoteConfigs.Runtime.API
     {
         Firebase = 0,
         HUF = 1,
+        RhinoRage = 2,
         Other = 99
     }
 

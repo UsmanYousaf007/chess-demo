@@ -29,7 +29,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => bannerAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     bannerAdProvider = new BannerEditorAdsProvider();
                     bannerAdProvider.Init();
@@ -51,7 +51,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => interstitialAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     interstitialAdProvider = new InterstitialEditorAdProvider();
                     interstitialAdProvider.Init();
@@ -73,7 +73,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => rewardedAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     rewardedAdProvider = new RewardedEditorAdsProvider();
                     rewardedAdProvider.Init();

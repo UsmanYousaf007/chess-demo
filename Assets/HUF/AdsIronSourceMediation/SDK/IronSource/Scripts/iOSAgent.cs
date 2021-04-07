@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Linq;
 using System;
+using System.Globalization;
 
 public class iOSAgent : IronSourceIAgent
 {
@@ -34,6 +35,9 @@ public class iOSAgent : IronSourceIAgent
 
 	[DllImport("__Internal")]
 	private static extern void CFSetMetaDataWithValues (string key, params string[] values);
+
+	[DllImport("__Internal")]
+	private static extern string CFGetConversionValue();
 
 	//******************* SDK Init *******************//
 
@@ -208,6 +212,18 @@ public class iOSAgent : IronSourceIAgent
 	public void setMetaData(string key, string value)
 	{
 	        CFSetMetaData(key, value);
+	}
+
+	public int? getConversionValue()
+	{
+		CultureInfo invCulture = CultureInfo.InvariantCulture;
+		int parsedInt;
+		if(int.TryParse(string.Format(invCulture, "{0}", CFGetConversionValue()), NumberStyles.Any, invCulture, out parsedInt))
+        {
+			return parsedInt;
+        }
+
+		return null;
 	}
 
 	//******************* SDK Init *******************//

@@ -1,3 +1,11 @@
+## [3.1.0] - 2021-03-04
+### Added
+- Subtitle for notifications on iOS
+
+### Fixed
+- Notifications text used as subtitle on iOS
+
+
 ## [3.0.0] - 2021-02-10
 ### Changed
 - `OnNotificationsReceived` now provides raw `bytes[]` 

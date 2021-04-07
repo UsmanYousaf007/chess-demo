@@ -22,7 +22,8 @@
     public const string IMPRESSION_DATA_KEY_REVENUE = "revenue";
     public const string IMPRESSION_DATA_KEY_PRECISION = "precision";
     public const string IMPRESSION_DATA_KEY_LIFETIME_REVENUE = "lifetimeRevenue";
-    public const string IMPRESSION_DATA_KEY_ENCRYPTED_CPM = "encryptedCPM"; 
+    public const string IMPRESSION_DATA_KEY_ENCRYPTED_CPM = "encryptedCPM";
+    public const string IMPRESSION_DATA_KEY_CONVERSION_VALUE= "conversionValue";
     public const string GENDER_MALE = "male";
     public const string GENDER_FEMALE = "female";
     public const string GENDER_UNKNOWN = "unknown";

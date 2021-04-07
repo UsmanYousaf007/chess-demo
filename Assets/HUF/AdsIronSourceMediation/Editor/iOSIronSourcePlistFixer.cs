@@ -54,8 +54,6 @@ namespace HUF.AdsIronSourceMediation.Editor
                 var errorLog = $"{nameof(IronSourceAdsProviderConfig)} config AdMob key is empty!";
                 HLog.LogError( logPrefix,  errorLog);
                 throw new BuildFailedException( errorLog );
-
-                return false;
             }
             
             PlistElementDict securityDict = rootDict;

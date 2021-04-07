@@ -12,7 +12,7 @@ namespace HUF.NotificationsUnity.Runtime.Wrappers
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             service = new Implementation.Android.UnityAndroidNotificationsService();
-#elif UNITY_IOS
+#elif UNITY_IOS && !UNITY_EDITOR
             service = new Implementation.iOS.UnityiOSNotificationsService();
 #else
             service = new Implementation.Dummy.DummyNotificationsService();

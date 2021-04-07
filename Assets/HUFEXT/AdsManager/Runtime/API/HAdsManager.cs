@@ -30,6 +30,11 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// </summary>
         [PublicAPI] public static Action<AdsManagerFetchCallbackData> OnAdFetch;
 
+        /// <summary>
+        /// Occurs when the service is initialized.
+        /// </summary>
+        [PublicAPI] public static Action OnInitialized;
+
         static AdsManagerConfig Config
         {
             get
@@ -41,7 +46,33 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Initializes HUF Ads manager.
+        /// Initializes HUF ads manager.
+        /// </summary>
+        /// <param name="callback">A callback invoked after the initialization is finished regardless of the outcome.</param>
+        [PublicAPI]
+        public static void Init( Action callback )
+        {
+            Init();
+
+            if ( callback == null )
+                return;
+
+            void HandleInitComplete()
+            {
+                adsService.OnInitialized -= HandleInitComplete;
+                callback();
+            }
+
+            if ( adsService.IsInitialized )
+                callback();
+            else
+            {
+                adsService.OnInitialized += HandleInitComplete;
+            }
+        }
+
+        /// <summary>
+        /// Initializes HUF ads manager.
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -57,10 +88,20 @@ namespace HUFEXT.AdsManager.Runtime.API
                 adsService = new HUFAdsService( new BaseAdMediation(), false );
                 mediationsList.Insert( 0, adsService );
                 adsService.OnAdFetch += HandleAdFetch;
-                HLog.Log( logPrefix, $"Service initialized" );
+
+                if ( adsService.IsInitialized )
+                    HandleInitialized();
+                else
+                    adsService.OnInitialized += HandleInitialized;
             }
             else
                 HLog.LogError( logPrefix, $"AdsManagerConfig does not exist" );
+        }
+
+        static void HandleInitialized()
+        {
+            OnInitialized.Dispatch();
+            HLog.Log( logPrefix, "Service initialized" );
         }
 
         /// <summary>
@@ -122,6 +163,29 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
+        /// Checks if an ad is fetched and ready to show.
+        /// </summary>
+        /// <param name="placementId">Ad placement ID</param>
+        [PublicAPI]
+        public static bool IsAdReady( string placementId )
+        {
+            if ( adsService == null || placementId.IsNullOrEmpty() )
+            {
+                return false;
+            }
+
+            foreach ( var mediation in mediationsList )
+            {
+                if ( mediation.CanShowAd( placementId ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Sets default banner position. It applies to all new banners and does not destroy/move old ones.
         /// </summary>
         /// <param name="position">new position</param>
@@ -172,6 +236,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void HideBanner()
         {
+            if ( adsService == null )
+            {
+                HLog.LogWarning( logPrefix, "AdsManagerIsNotInitialized" );
+                return;
+            }
+
             HideBanner( adsService.DefaultBannerPlacement );
         }
 

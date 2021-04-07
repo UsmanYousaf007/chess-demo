@@ -1,3 +1,24 @@
+## [3.9.0] - 2021-03-11
+### Added
+- Expanded GameServerResponse class to eliminate repeating code patterns
+
+
+## [3.8.8] - 2021-03-09
+### Fixed
+- A warning
+
+
+## [3.8.7] - 2021-03-08
+### Fixed
+- Config preset error during build process when config is empty.
+- `AsyncRequestCoroutine` is waiting for all retries to end in the `GameServerUtils` class  
+
+
+## [3.8.6] - 2021-02-26
+### Fixed
+- Safe Area scaling
+
+
 ## [3.8.5] - 2021-02-25
 ### Fixed
 - Added missing reference to DisablingAlwaysEmbedSwiftStandardLibrariesiOS

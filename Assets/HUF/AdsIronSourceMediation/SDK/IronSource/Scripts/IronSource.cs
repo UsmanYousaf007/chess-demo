@@ -7,7 +7,7 @@ public class IronSource : IronSourceIAgent
 {
 	private IronSourceIAgent _platformAgent ;
 	private static IronSource _instance;
-	private const string UNITY_PLUGIN_VERSION = "7.1.0.2-r";
+	private const string UNITY_PLUGIN_VERSION = "7.1.3-r";
 	private static bool isUnsupportedPlatform;
 
 	private IronSource ()
@@ -102,6 +102,11 @@ public class IronSource : IronSourceIAgent
 	{
 		_platformAgent.setMetaData(key, values);
 	}
+
+	public int? getConversionValue()
+    {
+		return _platformAgent.getConversionValue();
+    }
 
 	//******************* SDK Init *******************//
 

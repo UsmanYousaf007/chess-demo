@@ -1,3 +1,16 @@
+## [2.3.1] - 2021-03-11
+### Added
+- Editor notification helper window
+
+
+## [2.3.0] - 2021-03-04
+### Added
+- Subtitle for notifications on iOS
+
+### Fixed
+- Notification text used as subtitle on iOS
+
+
 ## [2.2.1] - 2020-10-06
 ### Added
 - Documentation

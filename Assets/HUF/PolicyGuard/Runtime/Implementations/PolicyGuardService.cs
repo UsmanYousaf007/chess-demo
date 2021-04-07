@@ -6,12 +6,15 @@ using HUF.GenericDialog.Runtime.API;
 using HUF.GenericDialog.Runtime.Configs;
 using HUF.PolicyGuard.Runtime.API;
 using HUF.PolicyGuard.Runtime.Configs;
+using HUF.PolicyGuard.Runtime.Configs.Data;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.PlayerPrefs;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
 #if HUFEXT_COUNTRY_CODE
 using HUFEXT.CountryCode.Runtime.API;
 
@@ -22,11 +25,12 @@ namespace HUF.PolicyGuard.Runtime.Implementations
     public class PolicyGuardService
     {
         public const string ATT_POSTPONED_KEY = "HUF_ATT_POSTPONED";
-        const float SHOW_PREFAB_DELAY = 0.0f; //old value 0.2f
+        const float SHOW_PREFAB_DELAY = 0.2f;
+        EventSystem eventSystem;
 
         readonly WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime( SHOW_PREFAB_DELAY );
         readonly HLogPrefix logPrefix = new HLogPrefix( HPolicyGuard.logPrefix, nameof(PolicyGuardService) );
-
+#pragma warning disable 0067
         public event Action OnGDPRPopupShowed;
         public event Action<bool> OnGDPRPopupCloses;
         public event Action OnPersonalizedAdsPopupShowed;
@@ -37,14 +41,30 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         public event Action OnEndCheckingPolicy;
 
 #if UNITY_IOS
-        public event Action<AppTrackingTransparencyBridge.AuthorizationStatus> OnATTNativePopupClose;
+        public event Action<AppTrackingTransparencyBridge.AuthorizationStatus> OnATTNativePopupClosed;
 #endif
 
+#pragma warning restore 0067
         PolicyGuardConfig config;
+        bool isCheckFlowEnded = false;
+
+        public bool IsCheckFlowEnded => isCheckFlowEnded;
 
         public PolicyGuardService()
         {
             config = HConfigs.GetConfig<PolicyGuardConfig>();
+
+            if ( config.OverridePersonalizedAdsPopup )
+                config.ReferenceToPersonalizedAdsPopup.prefab = config.OverridePersonalizedAdsPopup;
+
+            if ( config.OverrideGDPRPopup )
+                config.ReferenceToGDPRPopup.prefab = config.OverrideGDPRPopup;
+
+            if ( config.OverrideATTPreOptInPopup )
+                config.ReferenceToATTPreOptInPopup.prefab = config.OverrideATTPreOptInPopup;
+
+            if ( config.OverrideGDPRWithAdsPopup )
+                config.ReferenceToGDPRWithAdsPopup.prefab = config.OverrideGDPRWithAdsPopup;
 #if UNITY_IOS && !UNITY_EDITOR
             // Refresh ATT status on game start
             if ( HPolicyGuard.WasATTPopupDisplayed() )
@@ -55,9 +75,18 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         public void CheckFlow()
         {
             if ( !config.UseAutomatedFlow )
+            {
+                isCheckFlowEnded = true;
                 return;
+            }
 
-            if ( TryShowGDPR() )
+            if ( config.UseCustomAutomatedPopupsFlow && config.PopupsFlow.Count > 0 )
+            {
+                CheckPerPlatformFlow();
+                return;
+            }
+
+            if ( TryShowGDPRWithAds() )
             {
                 return;
             }
@@ -72,19 +101,21 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                 return;
             }
 
+            isCheckFlowEnded = true;
             OnEndCheckingPolicy.Dispatch();
         }
 
         public bool TryShowATT()
         {
 #if UNITY_IOS
-            if ( HPolicyGuard.WasATTPopupDisplayed() ||
-                 AppTrackingTransparencyBridge.GetCurrentAuthorizationStatus() != AppTrackingTransparencyBridge.AuthorizationStatus.NotDetermined)
+            if ( !CanShowATT() )
+            {
                 return false;
+            }
 
             if ( config.ShowATTPreOptInPopup )
             {
-                ShowATTPopup();
+                ShowPreATTPopup();
                 return true;
             }
 
@@ -95,7 +126,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 #endif
         }
 
-        public bool TryShowGDPR()
+        public bool TryShowGDPRWithAds()
         {
 #if HUFEXT_COUNTRY_CODE
             if ( config.EnableCountryCheck && !IsGDPRRequiredForCurrentCountry() )
@@ -106,6 +137,11 @@ namespace HUF.PolicyGuard.Runtime.Implementations
                 return false;
             }
 #endif
+            return TryShowGDPR();
+        }
+
+        public bool TryShowGDPR()
+        {
             if ( HAnalytics.GetGDPRConsent() != null )
                 return false;
 
@@ -116,44 +152,36 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
         public bool TryShowPersonalizedAdsPopup()
         {
-            if ( !HPolicyGuard.IsATTAuthorized() )
+            if ( !HPolicyGuard.IsATTAuthorized() || HAds.HasPersonalizedAdConsent() != null )
             {
                 return false;
             }
 
             ShowGenericDialog(config.ReferenceToPersonalizedAdsPopup,
-                delegate (bool consent)
+                delegate (bool? consent)
                 {
-                    HAds.CollectSensitiveData(consent);
-                    OnPersonalizedAdsPopupCloses.Dispatch(consent);
+                    HAds.CollectSensitiveData(consent == true);
+                    OnPersonalizedAdsPopupCloses.Dispatch(consent == true);
                     CheckFlow();
                 });
 
             OnPersonalizedAdsPopupShowed.Dispatch();
-
-            //CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToPersonalizedAdsPopup,
-            //    delegate( bool consent )
-            //    {
-            //        HAds.CollectSensitiveData( consent );
-            //        OnPersonalizedAdsPopupCloses.Dispatch( consent );
-            //        CheckFlow();
-            //    } ) );
             return true;
         }
 
 #if UNITY_IOS
-        void ShowATTPopup()
+        void ShowPreATTPopup()
         {
             CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToATTPreOptInPopup,
-                HandleATTPopupClose ) );
+                HandlePreATTPopupClose ) );
             OnATTPopupShowed.Dispatch();
         }
 
-        void HandleATTPopupClose( bool consent )
+        void HandlePreATTPopupClose( bool? consent )
         {
-            OnATTPopupCloses.Dispatch( consent );
+            OnATTPopupCloses.Dispatch( consent == true );
 
-            if ( consent )
+            if ( consent == true )
                 ShowNativeATTPopup();
             else
             {
@@ -170,8 +198,18 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
         void HandleATTStatus( AppTrackingTransparencyBridge.AuthorizationStatus status )
         {
-            OnATTNativePopupClose.Dispatch( status );
+            OnATTNativePopupClosed.Dispatch( status );
             CheckFlow();
+        }
+
+        static bool CanShowATT()
+        {
+            if ( HPolicyGuard.WasATTPopupDisplayed() ||
+                 AppTrackingTransparencyBridge.GetCurrentAuthorizationStatus() !=
+                 AppTrackingTransparencyBridge.AuthorizationStatus.NotDetermined )
+                return false;
+
+            return true;
         }
 #endif
 
@@ -187,7 +225,8 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         {
             if ( !HPolicyGuard.IsATTAuthorized() || !config.ShowAdsPrivacyConsentInGDPRPopup )
             {
-                CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToGDPRPopup, HandleGDPRPopupClose ) );
+                CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.ReferenceToGDPRPopup,
+                    HandleGDPRPopupClose ) );
             }
             else
             {
@@ -209,40 +248,128 @@ namespace HUF.PolicyGuard.Runtime.Implementations
             if ( !HGenericDialog.ShowDialog( config.ReferenceToGDPRWithAdsPopup, out var instance ) )
                 return;
 
+            TryCreateEventSystem();
             var popup = (GDPRWithAdsDialog)instance;
             popup.OnPrimaryButtonClicked += () => HandleGDPRPopupClose( true );
-
-            popup.OnAdsConsentSet += consent =>
-            {
-                OnPersonalizedAdsPopupCloses.Dispatch( consent );
-            };
+            popup.OnAdsConsentSet += consent => { OnPersonalizedAdsPopupCloses.Dispatch( consent ); };
         }
 
-        void HandleGDPRPopupClose( bool consent )
+        void HandleGDPRPopupClose( bool? consent )
         {
-            HAnalytics.CollectSensitiveData( consent );
-            OnGDPRPopupCloses.Dispatch( consent );
+            TryDestroyEventSystem();
+            HAnalytics.CollectSensitiveData( consent == true );
+            OnGDPRPopupCloses.Dispatch( consent == true );
             CheckFlow();
         }
 
-        void ShowGenericDialog( HGenericDialogConfig config, Action<bool> response )
+        void ShowGenericDialog( HGenericDialogConfig config, Action<bool?> response )
         {
             if ( !HGenericDialog.ShowDialog( config, out var instance ) )
             {
                 HLog.LogError( logPrefix,
                     $"Generic dialog creation error for {( config == null ? "Null config" : config.ConfigId )}" );
+                return;
             }
 
+            TryCreateEventSystem();
             var popup = (GenericEventDialog)instance;
-            popup.OnPrimaryButtonClicked += () => { response.Dispatch( true ); };
-            popup.OnSecondaryButtonClicked += () => { response.Dispatch( false ); };
+
+            popup.OnPrimaryButtonClicked += () =>
+            {
+                response.Dispatch( true );
+                TryDestroyEventSystem();
+            };
+
+            popup.OnSecondaryButtonClicked += () =>
+            {
+                response.Dispatch( false );
+                TryDestroyEventSystem();
+            };
+
+            popup.OnTertiaryButtonClicked += () =>
+            {
+                response.Dispatch( null );
+                TryDestroyEventSystem();
+            };
         }
 
-        IEnumerator ShowDialogWithDelay( HGenericDialogConfig config, Action<bool> response )
+        IEnumerator ShowDialogWithDelay( HGenericDialogConfig config, Action<bool?> response )
         {
             yield return waitTime;
 
             ShowGenericDialog( config, response );
+        }
+
+        void CheckPerPlatformFlow()
+        {
+            for ( int i = 0; i < config.PopupsFlow.Count; i++ )
+            {
+                if ( config.PopupsFlow[i].type == PolicyPopup.PopupType.Custom )
+                {
+                    if ( HPlayerPrefs.HasKey( config.PopupsFlow[i].playerPrefsKey ) ||
+                         config.PopupsFlow[i].popupConfig == null )
+                        continue;
+
+                    CoroutineManager.StartCoroutine( ShowDialogWithDelay( config.PopupsFlow[i].popupConfig,
+                        result =>
+                        {
+                            if ( config.PopupsFlow[i].setKeyAutomatically )
+                                PlayerPrefs.SetInt( config.PopupsFlow[i].playerPrefsKey,
+                                    (int)( result == null
+                                        ? PlayerPrefsKeyState.Postponed
+                                        : result == true
+                                            ? PlayerPrefsKeyState.Accepted
+                                            : PlayerPrefsKeyState.Denied
+                                    ) );
+                            CheckFlow();
+                        } ) );
+                    return;
+                }
+
+                switch ( config.PopupsFlow[i].type )
+                {
+                    case PolicyPopup.PopupType.GDPRWithAds:
+                        if ( TryShowGDPRWithAds() )
+                            return;
+
+                        break;
+                    case PolicyPopup.PopupType.GDPR:
+                        if ( TryShowGDPR() )
+                            return;
+
+                        break;
+                    case PolicyPopup.PopupType.ATT:
+                        if ( !HPlayerPrefs.GetBool( ATT_POSTPONED_KEY ) && TryShowATT() )
+                            return;
+
+                        break;
+                    case PolicyPopup.PopupType.PersonalizedAds:
+                        if ( TryShowPersonalizedAdsPopup() )
+                            return;
+
+                        break;
+                    default:
+                        continue;
+                }
+            }
+
+            isCheckFlowEnded = true;
+            OnEndCheckingPolicy.Dispatch();
+        }
+
+        void TryCreateEventSystem()
+        {
+            if ( config.CreateUnityUIEventSystemIfNotExists && EventSystem.current == null )
+            {
+                eventSystem = new GameObject( "EventSystem", typeof(EventSystem), typeof(StandaloneInputModule) )
+                    .GetComponent<EventSystem>();
+            }
+        }
+
+        void TryDestroyEventSystem()
+        {
+            if ( eventSystem != null )
+                Object.Destroy( eventSystem.gameObject );
         }
     }
 }

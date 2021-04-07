@@ -742,6 +742,15 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
     UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidShowSuccess", MakeStringCopy(consentViewType));
 }
 
+#pragma mark ConversionValue API
+
+-(const char *) getConversionValue {
+    NSNumber *conversionValue = [IronSource getConversionValue];
+    char *res = MakeStringCopy([conversionValue stringValue]);
+    return res;
+}
+
+
 #pragma mark - C Section
 
 #ifdef __cplusplus
@@ -980,6 +989,12 @@ extern "C" {
     
     void CFShowConsentViewWithType (char* consentViewType){
         [[iOSBridge start] showConsentViewWithType:GetStringParam(consentViewType)];
+    }
+
+#pragma mark ConversionValue API
+    
+    const char *CFGetConversionValue(){
+        return [[iOSBridge start] getConversionValue];
     }
     
 #ifdef __cplusplus

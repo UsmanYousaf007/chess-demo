@@ -143,7 +143,8 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
                 if ( !isProcessEventsQueueScheduled )
                 {
                     isProcessEventsQueueScheduled = true;
-                    IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
+                    if (IntervalManager.Instance != null)
+                        IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
                 }
             }
         }
@@ -173,7 +174,8 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
             if ( eventsQueue.Count > 0 )
             {
                 isProcessEventsQueueScheduled = true;
-                IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
+                if (IntervalManager.Instance != null)
+                    IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
             }
         }
     }

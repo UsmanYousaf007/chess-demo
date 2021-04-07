@@ -118,7 +118,9 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         {
             HLog.Log( logPrefix, $"ShowBannerPersistent {tryShowBannerPersistent}" );
             tryShowBannerPersistent = true;
-            ShowAd( null, placementId );
+
+            if ( IsReady() )
+                ShowAd( null, placementId );
         }
 
         protected override void SubscribeToEvents()

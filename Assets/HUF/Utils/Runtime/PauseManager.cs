@@ -10,6 +10,7 @@ namespace HUF.Utils.Runtime
 {
     public class PauseManager : HSingleton<PauseManager>
     {
+#pragma warning disable 0067
         /// <summary>
         /// Raised when the game is paused.
         /// </summary>
@@ -33,6 +34,7 @@ namespace HUF.Utils.Runtime
         /// </summary>
         [PublicAPI]
         public event Action OnBackButtonPress;
+#pragma warning restore 0067
 
         bool currentFocus;
         ScreenOrientation lastScreenOrientation = ScreenOrientation.Portrait;

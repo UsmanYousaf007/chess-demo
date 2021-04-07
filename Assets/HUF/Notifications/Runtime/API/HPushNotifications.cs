@@ -52,4 +52,5 @@ namespace HUF.Notifications.Runtime.API
         public string CachedToken => notifications?.CachedToken;
         public FirebaseMessage CachedMessage => notifications?.CachedMessage;
 
-    }}
+    }
+}

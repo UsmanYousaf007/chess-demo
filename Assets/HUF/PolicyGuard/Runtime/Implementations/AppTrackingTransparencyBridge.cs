@@ -77,6 +77,8 @@ namespace HUF.PolicyGuard.Runtime.Implementations
 
         public static AuthorizationStatus GetCurrentAuthorizationStatus()
         {
+            if ( IsIOSLowerThan14() )
+                return AuthorizationStatus.Authorized;
 #if UNITY_EDITOR
             return (AuthorizationStatus)HPlayerPrefs.GetInt( LAST_ATT_STATUS_KEY );
 #else
@@ -88,10 +90,21 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         {
 #if UNITY_EDITOR
             return false;
-#endif
+#else
             int current = int.Parse( Device.systemVersion.Split( '.' )[0] );
             return current <= 13;
+#endif
         }
+
+        public static void OpenATTSettings()
+        {
+#if UNITY_EDITOR
+            return;
+#else
+            HUF_OpenATTSettings();
+#endif
+        }
+
 
         internal static void CheckAuthorizationStatus( Action<AuthorizationStatus> callback = null )
         {
@@ -224,6 +237,11 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         [UsedImplicitly]
         [System.Runtime.InteropServices.DllImport( "__Internal" )]
         static extern int HUF_CurrentPermissionStatus();
+
+        [UsedImplicitly]
+        [System.Runtime.InteropServices.DllImport( "__Internal" )]
+        static extern void HUF_OpenATTSettings();
+
     }
 }
 #endif

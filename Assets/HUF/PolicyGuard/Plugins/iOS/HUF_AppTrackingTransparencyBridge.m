@@ -7,8 +7,14 @@
 typedef void (*AuthorizationStatusCallback) ();
 void HUF_RequestTrackingPermission(AuthorizationStatusCallback callback);
 int HUF_CurrentPermissionStatus();
+void HUF_OpenATTSettings();
 
 static AuthorizationStatusCallback cachedCallback = NULL;
+
+void HUF_OpenATTSettings()
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+}
 
 void HUF_RequestTrackingPermission(AuthorizationStatusCallback callback)
 {

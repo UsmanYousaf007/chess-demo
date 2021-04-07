@@ -34,11 +34,16 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
         Vector2 bannerPosition;
         Vector2 bannerSize;
         CanvasBlocker canvasBlocker;
+        BannerEditorAdsProvider bannerEditorAdsProvider;
 
-        public void Show( BannerPosition bannerPosition )
+        public float HeightInPixels =>
+            isLeaderboard ? LEADERBOARD_HEIGHT_IN_DP : bannerHeightsInDp[currentBannerHeightId];
+
+        public void Show( BannerEditorAdsProvider bannerEditorAdsProvider, BannerPosition bannerPosition )
         {
             gameObject.SetActive( true );
             bannerAlignment = bannerPosition;
+            this.bannerEditorAdsProvider = bannerEditorAdsProvider;
         }
 
         public void Hide()
@@ -77,6 +82,11 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
             }
         }
 
+        void BannerIsRefreshed()
+        {
+            bannerEditorAdsProvider.BannerIsRefreshed();
+        }
+
         void Awake()
         {
             bannerColor = firstBannerColor;
@@ -102,17 +112,14 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
             }
 
             float bannerWidth = 0;
-            float bannerHeight = 0;
+            float bannerHeight = HAdsUtils.ConvertDpToPixels( HeightInPixels );
 
             if ( isLeaderboard )
             {
                 bannerWidth = HAdsUtils.ConvertDpToPixels( LEADERBOARD_WIDTH_IN_DP );
-                bannerHeight = HAdsUtils.ConvertDpToPixels( LEADERBOARD_HEIGHT_IN_DP );
             }
             else
             {
-                bannerHeight = HAdsUtils.ConvertDpToPixels( bannerHeightsInDp[currentBannerHeightId] );
-
                 if ( isBannerWidthAdaptive )
                     bannerWidth = ADAPTIVE_BANNER_WIDTH_TO_SCREEN_RATIO * ScreenSize.Width;
                 else
@@ -135,6 +142,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                     LEADERBOARD ) )
                 {
                     isLeaderboard = false;
+                    BannerIsRefreshed();
                 }
 
                 buttonPosition.x += bannerWidth - buttonWidth;
@@ -145,6 +153,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                     BANNER ) )
                 {
                     isLeaderboard = true;
+                    BannerIsRefreshed();
                 }
 
                 buttonPosition.x += buttonWidth;
@@ -153,6 +162,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                     isBannerWidthAdaptive ? ADAPTIVE_WIDTH : CONSTANT_WIDTH ) )
                 {
                     isBannerWidthAdaptive = !isBannerWidthAdaptive;
+                    BannerIsRefreshed();
                 }
 
                 buttonPosition.x += buttonWidth;
@@ -160,6 +170,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                 if ( GUI.Button( new Rect( buttonPosition, buttonSize ), CHANGE_HEIGHT ) )
                 {
                     currentBannerHeightId = ( currentBannerHeightId + 1 ) % bannerHeightsInDp.Length;
+                    BannerIsRefreshed();
                 }
 
                 buttonPosition.x += buttonWidth;
@@ -173,6 +184,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                     bannerColor = firstBannerColor;
                 bannerBackgroundTexture2D.SetPixel( 0, 0, bannerColor );
                 bannerBackgroundTexture2D.Apply();
+                BannerIsRefreshed();
             }
         }
     }

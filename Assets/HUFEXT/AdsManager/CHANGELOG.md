@@ -1,3 +1,12 @@
+## [1.6.1] - 2021-03-08
+### Added
+- New event to communicate that the service is initialized.
+- The `IsAdReady` function added.
+
+### Fixed
+- Fixed `ShowBannerPersistent` function to be able to be set before any ad is loaded.
+
+
 ## [1.6.0] - 2021-01-14
 ### Changed
 - UnityActions to Actions in Ads packages

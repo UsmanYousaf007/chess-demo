@@ -1,14 +1,14 @@
 <dependencies>
-<unityversion>4.3.11.3</unityversion>
+<unityversion>4.3.12.3</unityversion>
   <androidPackages>
-    <androidPackage spec="com.ironsource.adapters:inmobiadapter:4.3.8">
+    <androidPackage spec="com.ironsource.adapters:inmobiadapter:4.3.9">
       <repositories>
         <repository>https://dl.bintray.com/ironsource-mobile/android-adapters/</repository>
       </repositories>
     </androidPackage>
   </androidPackages>
   <androidPackages>
-    <androidPackage spec="com.inmobi.monetization:inmobi-ads:9.1.0">
+    <androidPackage spec="com.inmobi.monetization:inmobi-ads:9.1.6">
       <repositories>
         <repository>https://jcenter.bintray.com/</repository>
       </repositories>
@@ -44,7 +44,7 @@
   </androidPackages>
 
   <iosPods>
-    <iosPod name="IronSourceInMobiAdapter" version="4.3.8.3">
+    <iosPod name="IronSourceInMobiAdapter" version="4.3.9.3">
       <sources>
         <source>https://github.com/CocoaPods/Specs</source>
       </sources>

@@ -1,3 +1,43 @@
+## [1.2.1] - 2021-03-31
+### Fixed
+- Hardcoded color in personalized ads text.
+- iOS compilation error.
+
+## [1.2.0] - 2021-03-23
+### Added
+- Possibility to add the event system for UI if it does not exist using the `creatUnityUIEventSystemIfNotExist` flag.
+- Pop-up text validator to check if the pop-up texts were changed on purpose. 
+- Custom pop-up sample.
+
+### Changed
+- IMPORTANT! Links color was removed and there is a new tag for color `{COLOR}`.
+
+### Removed
+- Links color in policy guard config.
+- Links color in pop-up config.
+
+
+## [1.1.1] - 2021-03-18
+### Added
+- Possibility to set a custom links color in policy guard config.
+- Possibility to set a pop-ups custom flow in policy guard config.
+
+### Fixed
+- The GDPR links colors.
+
+
+## [1.1.0] - 2021-03-12
+### Added
+- Possibility to set custom prefab for pop-ups in policy guard config.
+- Possibility to delay closing pre ATT popup after native ATT is accepted.
+
+### Changed
+- Prefabs clean-up.
+
+### Fixed
+- Build warning clean-up.
+
+
 ## [1.0.3] - 2021-02-25
 ### Fixed
 - Prefabs compatible with Unity 2018.4.

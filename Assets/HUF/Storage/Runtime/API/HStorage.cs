@@ -11,11 +11,14 @@ namespace HUF.Storage.Runtime.API
     {
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HStorage) );
 
+        
+#pragma warning disable 0067
         /// <summary>
         /// Occurs when a storage service is initialized with storage enum
         /// </summary>
         [PublicAPI]
         public static event Action<StorageService> OnInit;
+#pragma warning restore 0067
 
         static Implementation.StorageService storageService;
 
