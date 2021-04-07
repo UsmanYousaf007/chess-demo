@@ -87,15 +87,15 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
-            ShowViewBoardResultsPanel(false);
+            ShowViewBoardResultsPanel(isLocked);
             SetBlurBg(false);
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
             HidePlayerToIndicator();
             HidePlayerFromIndicator();
             landingFirstTime = true;
-            gameAnalysisLogo.enabled = true;
-            SetGameAnalysisBottomBar(true);
+            gameAnalysisLogo.enabled = !isLocked;
+            SetGameAnalysisBottomBar(!isLocked);
         }
 
         private void ClearMovesList()
