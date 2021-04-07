@@ -16,7 +16,7 @@ namespace HUF.PolicyGuard.Runtime.API
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HPolicyGuard) );
 
         static PolicyGuardConfig config;
-        static PolicyGuardService service;
+        public static PolicyGuardService service;
 
 #pragma warning disable 0067
         /// <summary>

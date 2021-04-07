@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public bool isHuuugeServerValidationEnabled { get; set; }
         public long maintenanceWarningTimeStamp { get; set; }
 
+        public int sessionDurationForGDPRinMinutes { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantFramework
             purchasedHintsThreshold = 0;
             powerModeFreeHints = 0;
             maintenanceWarningTimeStamp = 0;
+            sessionDurationForGDPRinMinutes = 0;
         }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)

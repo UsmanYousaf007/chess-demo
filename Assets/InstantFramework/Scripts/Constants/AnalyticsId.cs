@@ -117,7 +117,9 @@ namespace TurboLabz.InstantFramework
 
         //Drop Offs
         terms_and_conditions_shown,
+        terms_and_conditions_shown_2,
         terms_and_conditions_accepted,
+        terms_and_conditions_accepted_2,
         gdpr,
         gdpr_player_interaction,
         pre_permission,

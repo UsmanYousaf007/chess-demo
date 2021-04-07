@@ -373,7 +373,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.matchmakingRandomRange = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.MATCHMAKING_RANDOM_RANGE);
             settingsModel.powerModeFreeHints = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.POWER_MODE_FREE_HINTS);
             settingsModel.maintenanceWarningTimeStamp = GSParser.GetSafeLong(gsSettingsData, GSBackendKeys.MAINTENANCE_WARNING_TIMESTAMP);
-
+            settingsModel.sessionDurationForGDPRinMinutes = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.SESSION_DURATION_FOR_GDPR, 15);
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {

@@ -23,6 +23,8 @@ public class SplashLoader : MonoBehaviour {
     public Text versionLabel;
     public GameObject ATT_BG;
 
+    private bool termsShown;
+
     void Awake()
     {
         Debug.unityLogger.logEnabled = Debug.isDebugBuild;
@@ -42,6 +44,8 @@ public class SplashLoader : MonoBehaviour {
             HNotifications.Local.AskForPermission(true);
             SetupPolicyGuardConfig(firstSession: true);
             HPolicyGuard.Initialize();
+            LogAnalytic(AnalyticsEventId.terms_and_conditions_shown_2);
+            termsShown = true;
         }
         else if (CheckPersonalizedAdsStatus() == false)
         {
@@ -56,6 +60,11 @@ public class SplashLoader : MonoBehaviour {
 
     void RunInitPipiline()
     {
+        if (termsShown)
+        {
+            LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted_2);
+        }
+
         HInitializationPipeline.RunPipeline();
     }
 
@@ -109,11 +118,13 @@ public class SplashLoader : MonoBehaviour {
     private void OnTermsAndConditionShown()
     {
         LogAnalytic(AnalyticsEventId.terms_and_conditions_shown);
+        HAnalytics.LogEvent(new AnalyticsEvent(AnalyticsEventId.terms_and_conditions_shown.ToString()), AnalyticsServiceName.HBI);
     }
 
     private void OnTermsAndConditionClosed(bool status)
     {
         LogAnalytic(AnalyticsEventId.terms_and_conditions_accepted);
+        HAnalytics.LogEvent(new AnalyticsEvent(AnalyticsEventId.terms_and_conditions_accepted.ToString()), AnalyticsServiceName.HBI);
     }
 
     private void OnGDPRShown()
@@ -177,7 +188,7 @@ public class SplashLoader : MonoBehaviour {
         LogUtil.Log($"{prefix} {evt}", "yellow");
     }
 
-    bool CheckPersonalizedAdsStatus()
+    public static bool CheckPersonalizedAdsStatus()
     {
 #if UNITY_ANDROID
         return HAds.HasConsent() != null;

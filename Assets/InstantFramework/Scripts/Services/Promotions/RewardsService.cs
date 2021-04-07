@@ -9,6 +9,9 @@ using strange.extensions.signal.impl;
 using System.Linq;
 using System.Collections;
 using UnityEngine;
+using HUF.Utils.Runtime.Configs.API;
+using HUF.PolicyGuard.Runtime.Configs;
+using HUF.PolicyGuard.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
@@ -39,6 +42,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IRateAppService rateAppService { get; set; }
         [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private bool isPromotionShownOnStart;
         private Dictionary<string, string> rewards;
@@ -180,12 +184,69 @@ namespace TurboLabz.InstantFramework
                 outOfCoinsPopupShown = true;
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
                 updateSpotCoinsWatchAdDlgSignal.Dispatch(0, metaDataModel.store.items["CoinPack1"], AdPlacements.Rewarded_coins_popup);
-                spotCoinsPurchaseDlgClosedSignal.AddOnce(() => lobbySequenceEndedSignal.Dispatch());
+                spotCoinsPurchaseDlgClosedSignal.AddOnce(CheckStatusGDPR);
+            }
+            else
+            {
+                CheckStatusGDPR();
+            }
+        }
+
+        private void CheckStatusGDPR()
+        {
+            if (SplashLoader.CheckPersonalizedAdsStatus() == false
+                && (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp)
+                - TimeUtil.ToDateTime(playerModel.creationDate)).TotalMinutes
+                >= metaDataModel.settingsModel.sessionDurationForGDPRinMinutes)
+            {
+                var config = HConfigs.GetConfig<PolicyGuardConfig>();
+                config.ShowATTPreOptInPopup = false;
+                config.ShowNativeATT = true;
+                config.ShowAdsConsent = true;
+
+                HPolicyGuard.OnEndCheckingPolicy += OnEndCheckPolicy;
+                HPolicyGuard.OnPersonalizedAdsPopupShowed += OnGDPRShown;
+                HPolicyGuard.OnPersonalizedAdsPopupClosed += OnGDPRClosed;
+                HPolicyGuard.OnATTNativePopupShowed += OnATTShown;
+                HPolicyGuard.OnATTNativePopupClosed += OnATTClosed;
+
+                HPolicyGuard.service = null;
+                HPolicyGuard.Initialize();
             }
             else
             {
                 lobbySequenceEndedSignal.Dispatch();
             }
+        }
+
+        private void OnGDPRShown()
+        {
+            analyticsService.DesignEvent(AnalyticsEventId.gdpr);
+            HPolicyGuard.OnPersonalizedAdsPopupShowed -= OnGDPRShown;
+        }
+
+        private void OnGDPRClosed(bool status)
+        {
+            analyticsService.DesignEvent(AnalyticsEventId.gdpr_player_interaction, (status ? AnalyticsContext.accepted : AnalyticsContext.rejected).ToString());
+            HPolicyGuard.OnPersonalizedAdsPopupClosed -= OnGDPRClosed;
+        }
+
+        private void OnATTShown()
+        {
+            analyticsService.DesignEvent(AnalyticsEventId.ATT_shown);
+            HPolicyGuard.OnATTNativePopupShowed -= OnATTShown;
+        }
+
+        private void OnATTClosed(bool status)
+        {
+            analyticsService.DesignEvent(AnalyticsEventId.ATT_interaction, (status ? AnalyticsContext.accepted : AnalyticsContext.rejected).ToString());
+            HPolicyGuard.OnATTNativePopupClosed -= OnATTClosed;
+        }
+
+        private void OnEndCheckPolicy()
+        {
+            lobbySequenceEndedSignal.Dispatch();
+            HPolicyGuard.OnEndCheckingPolicy -= OnEndCheckPolicy;
         }
     }
 }

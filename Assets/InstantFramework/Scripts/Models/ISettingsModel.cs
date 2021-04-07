@@ -51,5 +51,7 @@ namespace TurboLabz.InstantFramework
         long maintenanceWarningTimeStamp { get; set; }
 
         float GetSafeCoinsMultiplyer(string key);
+
+        int sessionDurationForGDPRinMinutes { get; set; }
     }
 }

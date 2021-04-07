@@ -158,9 +158,10 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(LobbySequenceEndedSignal))]
-        public void ShowTooltip()
+        public void OnLobbyPopupSequenceEnded()
         {
             view.ShowTooltip();
+            view.SetupChest();
         }
     }
 }
