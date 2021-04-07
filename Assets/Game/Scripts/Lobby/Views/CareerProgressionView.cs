@@ -21,6 +21,12 @@ namespace TurboLabz.InstantFramework
     [CLSCompliant(false)]
     public class CareerProgressionView : View
     {
+        public GameObject careerTitleRef;
+        public GameObject careerStarRef;
+        public GameObject careerBarRef;
+        public GameObject careerStarCountRef;
+
+
         public Image careerTxtImg;
         public Image starImg;
         public RectTransform progressionBarFiller;
@@ -35,6 +41,7 @@ namespace TurboLabz.InstantFramework
         public ParticleSystem barParticleSystem;
         public Slider progressBarSlider;
         public CanvasGroup canvasGroup;
+        public CanvasGroup careerSectionGroup;
 
         private int currentPointsCount;
         private bool isCareerProgressionShown;
@@ -56,7 +63,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
 
         LeagueTierIconsContainer leagueTierIconsContainer;
 
@@ -81,6 +87,11 @@ namespace TurboLabz.InstantFramework
 
         public void ShowCareerProgression()
         {
+            careerTxtImg.transform.position = careerTitleRef.transform.position;
+            starImg.transform.position = careerStarRef.transform.position;
+            progressBarSlider.transform.position = careerBarRef.transform.position;
+            playerStarsCountLabel.transform.position = careerStarCountRef.transform.position;
+
             if (!isCareerProgressionShown && (playerModel.league < (leaguesModel.leagues.Count - 1)) && matchInfoModel.lastCompletedMatch != null && matchInfoModel.lastCompletedMatch.winnerId == playerModel.id && matchInfoModel.lastCompletedMatch.isRanked)
             {
                 AnimateCareerProgression();
@@ -140,13 +151,12 @@ namespace TurboLabz.InstantFramework
         private void AnimateCareerProgression()
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.AppendInterval(1f);
+            sequence.AppendInterval(0.1f);
             sequence.AppendCallback(() => Reset());
-            sequence.AppendCallback(() => BlurBg());
             sequence.AppendCallback(() => FadeInCareerProgressionView());
-            sequence.AppendInterval(1f);
+            sequence.AppendCallback(() => BlurBg());
             sequence.AppendCallback(() => ScaleInCareerProgressionElements());
-            sequence.AppendInterval(1.3f);
+            sequence.AppendInterval(1.0f);
             sequence.AppendCallback(() => AniamteProgressionBar());
             sequence.AppendInterval(3f);
             sequence.AppendCallback(() => AnimateNextTitle());
@@ -155,7 +165,7 @@ namespace TurboLabz.InstantFramework
 
         private void BlurBg()
         {
-            blurBackgroundService.BlurBackground(blurredBgImg, 6, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
+            UIBlurBackground.BlurBackground(blurredBgImg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
         }
 
         private void AnimateBlurredBg()
@@ -165,10 +175,7 @@ namespace TurboLabz.InstantFramework
 
         private void ScaleInCareerProgressionElements()
         {
-            starImg.transform.DOScale(1.3f, 1.3f);
-            careerTxtImg.transform.DOScale(1.3f, 1.3f);
-            playerStarsCountLabel.transform.DOScale(1.3f, 1.3f);
-            progressBarSlider.transform.DOScale(1, 1.3f);
+            careerSectionGroup.transform.DOScale(1.3f, 0.8f).SetEase(Ease.InSine);
         }
 
         private void AniamteProgressionBar()
@@ -198,28 +205,33 @@ namespace TurboLabz.InstantFramework
 
         private void FadeOutCareerProgressionView()
         {
-            canvasGroup.DOFade(0, 1).OnComplete(LoadLobby);
+            blurredBgImg.DOFade(0, 0.3f);
+            UIBlurBackground.AnimateBrightness(0.7f, 0.3f);
+            careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
+            careerSectionGroup.DOFade(0.0f, 0.3f).OnComplete(LoadLobby); ;
             isCareerProgressionShown = true;
         }
 
         private void FadeInCareerProgressionView()
         {
-            canvasGroup.DOFade(1, 1);
+            canvasGroup.DOFade(1, 0);
         }
 
         public void Reset()
         {
             barParticleSystem.Stop();
             progressBarSlider.DOValue(barFillPercentage, 0);
-            progressBarSlider.transform.DOScale(0, 0);
-            starImg.transform.DOScale(0, 0);
-            careerTxtImg.transform.DOScale(0, 0);
-            playerStarsCountLabel.transform.DOScale(0, 0);
+            progressBarSlider.transform.DOScale(1, 0);
+            starImg.transform.DOScale(1, 0);
+            careerTxtImg.transform.DOScale(1, 0);
+            playerStarsCountLabel.transform.DOScale(1, 0);
             congratulationsImg.DOFade(0, 0);
             careerProgressionText.DOFade(0, 0);
             continueBtn.image.DOFade(0, 0);
             continueBtnText.DOFade(0, 0);
             blurredBgImg.DOFade(0, 0);
+            careerSectionGroup.DOFade(1, 0);
+            careerSectionGroup.transform.DOScale(1, 0);
             canvasGroup.alpha = 0;
             isCareerProgressionShown = false;
         }

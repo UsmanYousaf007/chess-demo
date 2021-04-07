@@ -116,14 +116,13 @@ namespace TurboLabz.InstantGame
             DispatchRemoveAdsSignal();
 
             loadCareerCardSignal.Dispatch();
-            //showCareerProgressionSignal.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG);
-
 
             if (preferencesModel.isLobbyLoadedFirstTime)
             {
                 loadPromotionSingal.Dispatch();
             }
+
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG);
 
             if (SplashLoader.launchCode == 1)
             {

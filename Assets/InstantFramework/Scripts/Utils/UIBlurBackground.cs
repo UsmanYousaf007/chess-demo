@@ -17,7 +17,6 @@ namespace TurboLabz.InstantFramework
     static public class UIBlurBackground
     {
         static private NormalRoutineRunner routineRunner = new NormalRoutineRunner();
-
         static Material blurImageEffectMaterial = Resources.Load("BlurImageEffectMaterial", typeof(Material)) as Material;
 
         static public Material GetBlurBackgroundMaterial()
@@ -27,7 +26,7 @@ namespace TurboLabz.InstantFramework
 
         // Apply blur image to destImage. Optional: Enable toEnableObj after blur image applied
         // Blur level: 0-7 (high blur)
-        static public IPromise BlurBackground(Image destImage, int blurLevel, float brightness, GameObject toEnableObj)
+        static public IPromise BlurBackground(Image destImage, int blurLevel, float brightness, GameObject toEnableObj = null)
         {
             blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
             if (destImage)
@@ -38,6 +37,29 @@ namespace TurboLabz.InstantFramework
             Promise promise = new Promise();
             CaptureScreenSprite(Screen.width >> blurLevel, Screen.height >> blurLevel, toEnableObj, promise);
             return promise;
+        }
+
+        static public void AnimateBrightness(float brightness, float dur)
+        {
+            float currBrightness = blurImageEffectMaterial.GetColor("_TintColor").r;
+            long destTime = TimeUtil.unixTimestampMilliseconds + (long)(dur * 1000);
+            routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, dur, destTime));
+        }
+
+        static private IEnumerator OnAnimateColorUpdateCR(float aBrightness, float bBrightness, float dur, long destTime)
+        {
+            long currTime = TimeUtil.unixTimestampMilliseconds;
+            while (TimeUtil.unixTimestampMilliseconds <= destTime)
+            {
+                float tParam = 1.0f - ((destTime - TimeUtil.unixTimestampMilliseconds) / (dur * 1000));
+                float brightness = Mathf.Lerp(aBrightness, bBrightness, tParam);
+
+                blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
+
+                yield return null;
+            }
+
+            blurImageEffectMaterial.SetColor("_TintColor", new Color(bBrightness, bBrightness, bBrightness, 1.0f));
         }
 
         static private void CaptureScreenSprite(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
