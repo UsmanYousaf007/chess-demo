@@ -72,11 +72,6 @@ public class SplashLoader : MonoBehaviour {
     {
         Settings.ABTest.COINS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("coins_test", Settings.ABTest.COINS_TEST_GROUP_DEFAULT);
         GameAnalytics.SetCustomDimension01(Settings.ABTest.COINS_TEST_GROUP);
-
-        Settings.ABTest.PROMOTION_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("promotions", Settings.ABTest.PROMOTION_TEST_GROUP_DEFAULT);
-        GameAnalytics.SetCustomDimension02(Settings.ABTest.PROMOTION_TEST_GROUP);
-
-        LogUtil.Log($"GA test group {Settings.ABTest.PROMOTION_TEST_GROUP}", "red");
     }
 
     private void SetupPolicyGuardConfig(bool firstSession)

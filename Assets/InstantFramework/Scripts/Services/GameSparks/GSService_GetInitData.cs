@@ -903,7 +903,12 @@ namespace TurboLabz.InstantFramework
         {
             if (promotionsData != null)
             {
-                foreach (var entry in promotionsData.BaseData)
+#if UNITY_IOS
+                var promotionsPlatformData = promotionsData.GetGSData(GSBackendKeys.STORE_IOS);  
+#elif UNITY_ANDROID
+                var promotionsPlatformData = promotionsData.GetGSData(GSBackendKeys.STORE_ANDROID);
+#endif
+                foreach (var entry in promotionsPlatformData.BaseData)
                 {
                     var sequence = entry.Value as List<object>;
                     var sequenceString = new List<string>();
@@ -1003,7 +1008,7 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #region REQUEST
+#region REQUEST
 
     public class GSGetInitDataRequest : GSFrameworkRequest
     {
@@ -1030,5 +1035,5 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #endregion
+#endregion
 }

@@ -70,16 +70,7 @@ namespace TurboLabz.InstantFramework
                 activePromotionSaleSingal.Dispatch(sale);
             }
 
-            if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
-            {
-                OnPromotionCycleOver();
-                return;
-            }
-
-            var promotionTestGroup = GetPromotionTestGroup();
-            var showMultiplePromotionsPerSession = promotionTestGroup == "A" || promotionTestGroup == "B";
-
-            if (showMultiplePromotionsPerSession || !promotionShown)
+            if (!promotionShown)
             {
                 SelectAndDispatchPromotion();
             }
@@ -91,19 +82,32 @@ namespace TurboLabz.InstantFramework
 
         private void SelectAndDispatchPromotion()
         {
+            var wholeSequenceCheckedCount = 0;
             var sequence = GetSequence();
             SetupPromotions();
 
-            while (preferencesModel.currentPromotionIndex < sequence.Count
-               && !promotionsMapping[sequence[preferencesModel.currentPromotionIndex]].condition())
+            //reset promotion index for old users in case they have seen all the promotions for the day
+            preferencesModel.currentPromotionIndex = preferencesModel.currentPromotionIndex >= sequence.Count ? 0 : preferencesModel.currentPromotionIndex;
+
+            //check for an active promotions in the sequence
+            while (!promotionsMapping[sequence[preferencesModel.currentPromotionIndex]].condition())
             {
                 preferencesModel.currentPromotionIndex++;
-            }
 
-            if (preferencesModel.currentPromotionIndex >= sequence.Count)
-            {
-                OnPromotionCycleOver();
-                return;
+                //check from start again in case last promotion checked
+                if (preferencesModel.currentPromotionIndex >= sequence.Count)
+                {
+                    preferencesModel.currentPromotionIndex = 0;
+                    wholeSequenceCheckedCount++;
+
+                    //this is to stop the infinite loop,
+                    //it will loop through the sequence twice and breaks it non of the promotions are avaialble
+                    if (wholeSequenceCheckedCount > 1)
+                    {
+                        OnPromotionCycleOver();
+                        return;
+                    }
+                }
             }
 
             promotionShown = true;
@@ -134,12 +138,8 @@ namespace TurboLabz.InstantFramework
 
         private List<string> GetSequence()
         {
-            var promotionTestGroup = GetPromotionTestGroup();
-            var daysCycle = promotionTestGroup == "A" || promotionTestGroup == "B" ? 2 : 5;
             var daysSincePlaying = (int)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalDays;
-            var sequenceIndex = daysSincePlaying % daysCycle;
-            //swap 0 and 1 in case test groups are B or D
-            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex;
+            var sequenceIndex = daysSincePlaying % promotionsSequence.Count;
             return promotionsSequence[sequenceIndex];
         }
 
@@ -156,11 +156,6 @@ namespace TurboLabz.InstantFramework
             {
                 navigatorEventSignal.Dispatch(promotionsMapping[promotionKey].navigatorEvent);
             }
-        }
-
-        private string GetPromotionTestGroup()
-        {
-            return Settings.ABTest.PROMOTION_TEST_GROUP.ToUpper();
         }
 
         private void SetupPromotions()
@@ -225,12 +220,7 @@ namespace TurboLabz.InstantFramework
             {
                 key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
                 navigatorEvent = NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG,
-                condition = delegate
-                {
-                    return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME) 
-                    && (!playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE) || DateTime.Now.DayOfWeek == DayOfWeek.Sunday);
-
-                }
+                condition = delegate { return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
             };
 
             promotionsMapping = new Dictionary<string, PromoionDlgVO>();

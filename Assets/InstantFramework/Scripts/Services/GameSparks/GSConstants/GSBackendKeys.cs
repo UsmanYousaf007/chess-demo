@@ -136,7 +136,7 @@ namespace TurboLabz.InstantFramework
         public const string LEAGUE_SETTINGS = "leagueSettings";
 
         // Promotions
-        public const string PROMOTION_SETTINGS = "promotionSettings";
+        public const string PROMOTION_SETTINGS = "promotionSettingsV2";
 
         // Ad Settings
         public const string ADS_SETTINGS = "adsSettings";
