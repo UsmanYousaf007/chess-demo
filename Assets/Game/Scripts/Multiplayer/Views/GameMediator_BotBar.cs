@@ -12,7 +12,6 @@ namespace TurboLabz.Multiplayer
     public partial class GameMediator
     {
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
-        [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
 
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
 
@@ -22,7 +21,6 @@ namespace TurboLabz.Multiplayer
             view.backToLobbySignal.AddListener(OnExitBackToLobby);
             view.shareScreenButton.onClick.AddListener(OnShareScreenClicked);
             view.ShowShareDialogSignal.AddListener(OnShowShareDialogSignal);
-            view.exitButtonClickedSignal.AddListener(OnExitClicked);
         }
 
         public void OnExitBackToLobby()
@@ -39,12 +37,6 @@ namespace TurboLabz.Multiplayer
         public void OnShowShareDialogSignal()
         {
             shareScreenDialogSignal.Dispatch();
-        }
-
-        private void OnExitClicked(string challengeId, bool playerWins, float TRANSITION_DURATION)
-        {
-            updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
     }
 }

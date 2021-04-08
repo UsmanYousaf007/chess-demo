@@ -11,6 +11,12 @@ namespace TurboLabz.Multiplayer
     public partial class GameMediator
     {
         // Dispatch Signals
+        [Inject] public UpdateNewRankChampionshipDlgViewSignal updateNewRankChampionshipDlgViewSignal { get; set; }
+
+        public void OnRegisterGameEnd()
+        {
+            view.showWeeklyChampionshipResultsSignal.AddListener(OnShowWeeklyChampionshipResultsSignal);
+        }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowResultsView(NavigatorViewId viewId)
@@ -42,6 +48,12 @@ namespace TurboLabz.Multiplayer
             view.UpdateResultsDialog(vo);
             view.UpdateRewardsDialog(vo);
             view.UpdateEndGame();
+        }
+
+        private void OnShowWeeklyChampionshipResultsSignal(string challengeId, bool playerWins, float TRANSITION_DURATION)
+        {
+            updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
     }
 }

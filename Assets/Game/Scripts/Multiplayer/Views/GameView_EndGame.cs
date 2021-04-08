@@ -26,6 +26,8 @@ namespace TurboLabz.Multiplayer
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
 
+        public Signal<string, bool, float> showWeeklyChampionshipResultsSignal = new Signal<string, bool, float>();
+
 
         public void ShowEndGame()
         {
@@ -52,6 +54,10 @@ namespace TurboLabz.Multiplayer
             {
                 StartEndAnimationSequence();
             }
+            else if(isGameAnalysisEnabled)
+            {
+                ShowWeeklyChampionshipResults();
+            }
             else
             {
                 ShowResultsDialog();
@@ -72,6 +78,11 @@ namespace TurboLabz.Multiplayer
         public void HideGameEndDialog()
         {
             UIDlgManager.Hide(gameEndDlgContainer);
+        }
+
+        private void ShowWeeklyChampionshipResults()
+        {
+            showWeeklyChampionshipResultsSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
         }
     }
 }

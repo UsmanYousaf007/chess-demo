@@ -53,6 +53,8 @@ namespace TurboLabz.Multiplayer
         private bool isMovesDialAnimating;
         private GameObject moveSelectGO;
 
+        private bool isGameAnalysisEnabled;
+
         private void OnParentShowAnalysis()
         {
             playerInfoPanel.SetActive(true);
@@ -60,6 +62,7 @@ namespace TurboLabz.Multiplayer
             gameAnalysisLogo.enabled = false;
             SetGameAnalysisBottomBar(false);
             animateMovesDial = true;
+            isGameAnalysisEnabled = false;
         }
 
         public void InitAnalysis()
@@ -96,6 +99,7 @@ namespace TurboLabz.Multiplayer
             opponentClockContainer.SetActive(false);
             landingFirstTime = isLocked;
             SetGameAnalysisBottomBar(!isLocked);
+            isGameAnalysisEnabled = !isLocked;
         }
 
         private void ClearMovesList()

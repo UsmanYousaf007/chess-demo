@@ -19,7 +19,6 @@ namespace TurboLabz.Multiplayer
     public partial class GameView
     {
         public Signal ShowShareDialogSignal = new Signal();
-        public Signal<string, bool, float> exitButtonClickedSignal = new Signal<string, bool, float>();
 
         [Header("Bot Bar")]
         public Text backToFriendsLabel;
@@ -104,7 +103,7 @@ namespace TurboLabz.Multiplayer
 
         void OnExitButtonClicked()
         {
-            exitButtonClickedSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            resultsDialogOpenedSignal.Dispatch();
         }
     }
 }
