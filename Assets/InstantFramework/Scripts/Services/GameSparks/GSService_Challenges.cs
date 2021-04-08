@@ -366,6 +366,7 @@ namespace TurboLabz.InstantFramework
             // Handle end game stats
             if (updatedStatsData != null)
             {
+                playerModel.trophiesPrev = playerModel.trophies;
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;

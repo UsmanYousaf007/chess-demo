@@ -44,6 +44,7 @@ namespace TurboLabz.InstantFramework
         public long gems { get; set; }
         public int trophies { get; set; }
         public int trophies2 { get; set; }
+        public int trophiesPrev { get; set; }
         public int league { get; set; }
         public long coins { get; set; }
         public bool leaguePromoted { get; set; }
@@ -125,6 +126,7 @@ namespace TurboLabz.InstantFramework
             gems = 0;
             trophies = 0;
             trophies2 = 0;
+            trophiesPrev = 0;
             league = 0;
             coins = 0;
             leaguePromoted = false;
