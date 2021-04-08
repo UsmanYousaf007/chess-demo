@@ -43,7 +43,8 @@ namespace TurboLabz.Multiplayer
             vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
             vo.canSeeRewardedVideo = cmd.adsService.IsPlayerQualifiedForRewarded(vo.ratingBoostStoreItem.currency3Cost, cmd.adsSettingsModel.minPlayDaysRequired);
             vo.rewardedVideoCoolDownInterval = cmd.preferencesModel.purchasesCount < cmd.adsSettingsModel.minPurchasesRequired ? cmd.adsSettingsModel.freemiumTimerCooldownTime : cmd.adsSettingsModel.premiumTimerCooldownTime;
-            
+            vo.coolDownTimeUTC = cmd.preferencesModel.rvCoolDownTimeUTC;
+
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
             

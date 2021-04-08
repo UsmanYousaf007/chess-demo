@@ -238,12 +238,17 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster && result == AdsResult.FINISHED)
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster)
             {
-                //analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, AnalyticsContext.rv_rating_booster);
-                //analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, 0, "booster_used", AnalyticsContext.rv_rating_booster.ToString());
-                //view.BoostRating();
-                //view.OnRatingBoosted(ratingBoost);
+                if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
+                {
+                    view.StartTimer();
+                }
+
+                else if (result == AdsResult.NOT_AVAILABLE)
+                {
+                    view.SetupVideoAvailabilityTooltip(true);
+                }
             }
         }
     }

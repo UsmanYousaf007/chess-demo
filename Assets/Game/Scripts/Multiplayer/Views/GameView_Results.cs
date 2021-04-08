@@ -108,7 +108,8 @@ namespace TurboLabz.Multiplayer
         public GameObject ratingBoosterTimer;
         public TMP_Text remainingCoolDownTime;
         public GameObject getRV;
-        public GameObject tooltip;
+        public GameObject timerRunningTooltip;
+        public GameObject videoNotAvailableTooltip;
         public ToolTip rewardedVideoButtonAnimWithRv;
 
         public Button resultsBoostRatingButtonWithRv;
@@ -230,8 +231,9 @@ namespace TurboLabz.Multiplayer
             moveAnalysisList = vo.moveAnalysisList;
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
             matchAnalysis = vo.matchAnalysis;
-            canSeeRewardedVideo = false;// vo.canSeeRewardedVideo;
+            canSeeRewardedVideo = vo.canSeeRewardedVideo;
             coolDownInterval = vo.rewardedVideoCoolDownInterval;
+            coolDownTimeUTC = vo.coolDownTimeUTC;
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
@@ -436,9 +438,14 @@ namespace TurboLabz.Multiplayer
                 resultsRatingContainer.gameObject.SetActive(isRankedGame);
                 resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
             }
+            else if (IsCoolDownComplete())
+            {
+                getRV.SetActive(true);
+                ratingBoosterTimer.SetActive(false);
+            }
             else
             {
-                //ratingBoosterRvPanel.SetActive(!isDraw);
+                StartTimer(coolDownTimeUTC);
             }
         }
 
@@ -733,14 +740,18 @@ namespace TurboLabz.Multiplayer
             if (IsCoolDownComplete())
             {
                 ratingBoosterRewardSignal.Dispatch();
-                ratingBoosterTimer.SetActive(true);
-                getRV.SetActive(false);
-                SetupTimer();
+               
             }
             else
             {
-                tooltip.SetActive(true);
+
+                timerRunningTooltip.SetActive(true);
             }
+        }
+
+        public void SetupVideoAvailabilityTooltip(bool enable)
+        {
+            videoNotAvailableTooltip.SetActive(enable);
         }
 
         public bool IsCoolDownComplete()
@@ -749,14 +760,17 @@ namespace TurboLabz.Multiplayer
             //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
         }
 
-        private void SetupTimer()
+        public void StartTimer(long coolDownTime = 0)
         {
-            if (IsCoolDownComplete())
-            {
+            if (coolDownTime == 0)
                 coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
-                setCoolDownTimer.Dispatch(coolDownTimeUTC);
-                schedulerSubscription.Dispatch(true);
-            }
+            else
+                coolDownTimeUTC = coolDownTime;
+            
+            ratingBoosterTimer.SetActive(true);
+            getRV.SetActive(false);
+            setCoolDownTimer.Dispatch(coolDownTimeUTC);
+            schedulerSubscription.Dispatch(true);
         }
 
         public void SchedulerCallBack()

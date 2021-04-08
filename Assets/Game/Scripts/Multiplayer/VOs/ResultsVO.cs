@@ -49,6 +49,6 @@ namespace TurboLabz.Multiplayer
 
         public bool canSeeRewardedVideo;
         public float rewardedVideoCoolDownInterval;
-        
+        public long coolDownTimeUTC;
     }
 }

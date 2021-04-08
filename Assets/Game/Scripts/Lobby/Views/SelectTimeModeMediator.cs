@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
 
         private MatchInfoVO matchInfoVO;
         private long betValue;
-
+        private bool rewardedVideoShown;
         public override void OnRegister()
         {
             view.Init();
@@ -81,14 +81,27 @@ namespace TurboLabz.InstantFramework
             matchInfoVO.betValue = betValue;
             matchInfoVO.powerMode = isPowerMode;
 
-            preGameAdsService.ShowPreGameAd(matchInfoVO.actionCode).Then(() =>
+
+            if (!this.rewardedVideoShown)
             {
-                var transactionVO = new VirtualGoodsTransactionVO();
-                transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-                transactionVO.consumeQuantity = (int)betValue;
-                virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
-                virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            });
+                preGameAdsService.ShowPreGameAd(matchInfoVO.actionCode).Then(() =>
+                {
+                    CreateVGoodsTransaction();
+                });
+            }
+            else
+            {
+                CreateVGoodsTransaction();
+            }
+        }
+
+        private void CreateVGoodsTransaction()
+        {
+            var transactionVO = new VirtualGoodsTransactionVO();
+            transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+            transactionVO.consumeQuantity = (int)betValue;
+            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+            virtualGoodsTransactionSignal.Dispatch(transactionVO);
         }
 
         private void OnTransactionResult(BackendResult result)
@@ -135,10 +148,21 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_powerplay && result == AdsResult.FINISHED)
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_powerplay )
             {
-                view.OnEnablePowerMode();
+                if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
+                {
+                    this.rewardedVideoShown = true;
+                    view.OnEnablePowerMode();
+                    view.StartTimer();
+                }
+
+                else if (result == AdsResult.NOT_AVAILABLE)
+                {
+                    view.SetupVideoAvailabilityTooltip(true);
+                }
             }
+            
         }
 
         private void OnPlayRewardedVideoClicked(AdPlacements adPlacements)

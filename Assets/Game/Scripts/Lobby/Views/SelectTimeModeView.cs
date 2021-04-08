@@ -51,7 +51,8 @@ namespace TurboLabz.InstantFramework
         public GameObject powerPlayAdTimer;
         public TMP_Text powerPlayAdTimerRemainingTime;
         public GameObject getRV;
-        public GameObject tooltip;
+        public GameObject timerRunningTooltip;
+        public GameObject videoNotAvailableTooltip;
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantFramework
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
         private float coolDownInterval;
+        private bool isTimerRunning;
         public void Init()
         {
             UIDlgManager.Setup(gameObject);
@@ -126,8 +128,9 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-            canSeeRewardedVideo = false;// vo.canSeeRewardedVideo;
+            canSeeRewardedVideo = vo.canSeeRewardedVideo;
             coolDownInterval = vo.rewardedVideoCoolDownInterval;
+            coolDownTimeUTC = vo.coolDownTimeUTC;
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
             SetupState(isPowerModeOn, canSeeRewardedVideo);
             SetupPlayButtons(true);
@@ -188,10 +191,13 @@ namespace TurboLabz.InstantFramework
                 powerPlayPlusWithRV.SetActive(!powerModeEnabled);
                 gemIconWithRv.enabled = !powerModeEnabled;
                 gemCostWithRv.enabled = !powerModeEnabled;
-                powerPlayAdTimer.SetActive(!isCoolDownComplete);
+                //powerPlayAdTimer.SetActive(!isCoolDownComplete);
                 powerPlayWithRVBtn.interactable = !powerModeEnabled;
-                getRV.SetActive(isCoolDownComplete);
-                tooltip.SetActive(false);
+                //getRV.SetActive(isCoolDownComplete);
+                timerRunningTooltip.SetActive(false);
+                videoNotAvailableTooltip.SetActive(false);
+                if (!isCoolDownComplete && !isTimerRunning)
+                { StartTimer(coolDownTimeUTC); }
             }
 
             isPowerModeOn = powerModeEnabled;
@@ -226,19 +232,20 @@ namespace TurboLabz.InstantFramework
                 startGame30mButton.interactable = enable;
         }
 
+        public void SetupVideoAvailabilityTooltip(bool enable)
+        {
+            videoNotAvailableTooltip.SetActive(enable);
+        }
 
         private void OnPlayRewardedVideoClicked()
         {
             if (IsCoolDownComplete())
             {
                 showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
-                powerPlayAdTimer.SetActive(true);
-                getRV.SetActive(false);
-                SetupTimer();
             }
             else
             {
-                tooltip.SetActive(true);
+                timerRunningTooltip.SetActive(true);
             }
         }
 
@@ -248,15 +255,20 @@ namespace TurboLabz.InstantFramework
             //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
         }
 
-
-        private void SetupTimer()
+        public void StartTimer(long coolDownTime = 0)
         {
-            if (IsCoolDownComplete())
-            {
+            if (coolDownTime == 0)
                 coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
-                setCoolDownTimer.Dispatch(coolDownTimeUTC);
-                schedulerSubscription.Dispatch(true);
-            }
+            else
+                coolDownTimeUTC = coolDownTime;
+
+            UpdateTimerText();
+            powerPlayAdTimer.SetActive(true);
+            getRV.SetActive(false);
+            setCoolDownTimer.Dispatch(coolDownTimeUTC);
+            schedulerSubscription.Dispatch(true);
+            isTimerRunning = true;
+
         }
 
         public void SchedulerCallBack()
@@ -290,6 +302,7 @@ namespace TurboLabz.InstantFramework
         {
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
+            isTimerRunning = false;
         }
     }
 }
