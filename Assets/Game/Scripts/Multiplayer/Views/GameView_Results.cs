@@ -577,6 +577,7 @@ namespace TurboLabz.Multiplayer
             HideGameEndDialog();
             resultsDialogClosedSignal.Dispatch();
             //ShowViewBoardResultsPanel(true);
+            animateMovesDial = true;
             UpdateAnalysisView(true);
         }
 
