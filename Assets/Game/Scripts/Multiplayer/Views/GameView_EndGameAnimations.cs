@@ -119,7 +119,6 @@ namespace TurboLabz.Multiplayer
         private void FadeInOrOutAnalyzingDialog(float val)
         {
             analyzingDlgCanvasGroup.DOFade(val, TRANSITION_DURATION);
-            FadeOutResultsDialog(0);
         }
 
         public IEnumerator AnimateBars(float averageHeight)

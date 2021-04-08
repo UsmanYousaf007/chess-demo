@@ -196,8 +196,7 @@ namespace TurboLabz.Multiplayer
         {
             if (view.IsVisible())
             {
-                OnResultsDialogClosedSignal();
-                view.UpdateAnalysisView();
+                view.AnalyzingGame();
             }
         }
 

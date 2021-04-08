@@ -66,7 +66,7 @@ namespace TurboLabz.InstantFramework
 
             if(HCrossPromo.service != null)
             {
-                showCrossPromoButton.interactable = HCrossPromo.service.hasContent;
+                showCrossPromoButton.gameObject.SetActive (HCrossPromo.service.hasContent);
             }
 
             ShowSaleItems(false);

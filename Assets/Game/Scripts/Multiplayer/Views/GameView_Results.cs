@@ -551,9 +551,7 @@ namespace TurboLabz.Multiplayer
         {
             if (haveEnoughGemsForFullAnalysis)
             {
-                AnimateAnalyzingDlg();
-                Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
-                animateMovesDial = true;
+                fullAnalysisButtonClickedSignal.Dispatch();
                 fullAnalysisBtn.interactable = false;
             }
             else
@@ -561,14 +559,21 @@ namespace TurboLabz.Multiplayer
                 SpotPurchaseMediator.analyticsContext = "game_analysis";
                 notEnoughGemsSignal.Dispatch();
             }
+        }
 
+        public void AnalyzingGame()
+        {
+            AnimateAnalyzingDlg();
+            Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
+            animateMovesDial = true;
         }
 
         private void ShowGameAnalysis()
         {
             StopCoroutine(AnimateBars(0));
             analyzingDlg.SetActive(false);
-            fullAnalysisButtonClickedSignal.Dispatch();
+            resultsDialogClosedSignal.Dispatch();
+            UpdateAnalysisView();
         }
 
         private void OnResultsClosed()
