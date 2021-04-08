@@ -35,7 +35,7 @@ namespace TurboLabz.InstantFramework
         public Image congratulationsImg;
         public TMP_Text careerProgressionText;
         public Button continueBtn;
-        public TMP_Text continueBtnText;
+        public Text continueBtnText;
         public Image blurredBgImg;
         public ParticleSystem barParticleSystem;
         public Slider progressBarSlider;
