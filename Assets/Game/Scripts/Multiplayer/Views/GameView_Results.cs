@@ -553,6 +553,7 @@ namespace TurboLabz.Multiplayer
             {
                 fullAnalysisButtonClickedSignal.Dispatch();
                 fullAnalysisBtn.interactable = false;
+                FadeOutResultsDialog(0);
             }
             else
             {
