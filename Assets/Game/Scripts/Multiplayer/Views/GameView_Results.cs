@@ -553,6 +553,7 @@ namespace TurboLabz.Multiplayer
             {
                 AnimateAnalyzingDlg();
                 Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
+                animateMovesDial = true;
                 fullAnalysisBtn.interactable = false;
             }
             else
