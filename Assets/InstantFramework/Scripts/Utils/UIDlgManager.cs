@@ -50,17 +50,9 @@ namespace TurboLabz.InstantFramework
         {
             // Blur background and enable this dialog
             Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
-            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
-
-            canvasGroup.alpha = 0.0f;
             UIBlurBackground.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, BlurBg.gameObject);
 
-            canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
-            canvasGroup.DOKill();
-            canvasGroup.DOFade(1.0f, 0.25f);
-            canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
-
-            gameObject.SetActive(true);
+            AnimateDlg(gameObject);
         }
 
         static public void Hide(GameObject gameObject)

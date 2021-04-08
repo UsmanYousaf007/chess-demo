@@ -2,9 +2,11 @@
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using HUFEXT.CrossPromo.Runtime.API;
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class ShopView : View
     {
         public Text bundleHeading;
@@ -31,13 +33,17 @@ namespace TurboLabz.InstantFramework
         public GameObject subscriptionRibbon;
         public ScrollRect scrollRect;
 
+        public Button showCrossPromoButton;
+
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
@@ -56,6 +62,13 @@ namespace TurboLabz.InstantFramework
             ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
             subscriptionButton.onClick.AddListener(OnSubscirptionButtonClicked);
             subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
+            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
+
+            if(HCrossPromo.service != null)
+            {
+                showCrossPromoButton.interactable = HCrossPromo.service.hasContent;
+            }
+
             ShowSaleItems(false);
         }
 
@@ -169,6 +182,22 @@ namespace TurboLabz.InstantFramework
         private void MoveScrollRect(float value)
         {
             scrollRect.verticalNormalizedPosition = value;
+        }
+
+        private void OnCrossPromoButtonClicked()
+        {
+            //toggleBannerSignal.Dispatch(false);
+            hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
+            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+        }
+
+        private void ToggleBannerSignalFunc()
+        {
+            appInfoModel.internalAdType = InternalAdType.NONE;
+            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
+            //toggleBannerSignal.Dispatch(true);
         }
     }
 }
