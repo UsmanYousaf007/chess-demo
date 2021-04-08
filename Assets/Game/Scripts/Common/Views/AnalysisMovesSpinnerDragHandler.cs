@@ -22,12 +22,17 @@ public class AnalysisMovesSpinnerDragHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!enabled)
+        {
+            return;
+        }
+
         if (collision.name.Equals("Trigger"))
         {
             arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition, 0.1f);
             arrowRight.DOLocalMoveX(arrowRightOriginalXPosition, 0.1f);
             audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
-#if UNITY_IOS
+#if UNITY_IOS && !UNITY_EDITOR
             IOSNative.StartHapticFeedback(HapticFeedbackTypes.LIGHT);
 #endif
         }
@@ -35,6 +40,11 @@ public class AnalysisMovesSpinnerDragHandler : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!enabled)
+        {
+            return;
+        }
+
         if (collision.name.Equals("Trigger"))
         {
             arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition - 20, 0.1f);

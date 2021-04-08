@@ -152,5 +152,11 @@ namespace TurboLabz.Multiplayer
         {
             chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_RENDER_COMPLETED);
         }
+
+        [ListensTo(typeof(UpdateKingCheckIndicatorSignal))]
+        public void OnUpdateKingCheckIndicator(MoveVO moveVO)
+        {
+            view.UpdateKingCheckIndicator(moveVO, true);
+        }
     }
 }

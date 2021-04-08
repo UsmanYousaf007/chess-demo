@@ -568,6 +568,7 @@ MonoBehaviour:
   movesSpinnerParent: {fileID: 7101924180817001597}
   spinnerDragHandler: {fileID: 7101924180817001613}
   scrollRectAlphaHandler: {fileID: 7101924180817001615}
+  analysisMovesSpinnerDragHandler: {fileID: 7101924180817001613}
   strengthBtn: {fileID: 7101924180817001610}
   arrowBtn: {fileID: 7101924180817001612}
   moveQualityBtn: {fileID: 7101924180817001608}
@@ -799,6 +800,7 @@ MonoBehaviour:
   opponentClockImage: {fileID: 533941041}
   waitingLabel: {fileID: 1155375618}
   opponentClockBg: {fileID: 111084072}
+  opponentClockContainer: {fileID: 1621961044}
   claimDrawDialog: {fileID: 940638625}
   drawYesButton: {fileID: 1341007206}
   drawNoButton: {fileID: 949282365}
@@ -813,7 +815,6 @@ MonoBehaviour:
   drawOfferRejectButtonText: {fileID: 2141748574}
   offerButtonsDlg: {fileID: 28025194}
   offerTextDlg: {fileID: 1993528779}
-  BlurBg: {fileID: 265371717}
   _winAnimationSequence: {fileID: 1864296156}
   menuButton: {fileID: 1877094329}
   resignButton: {fileID: 1446364531}
@@ -8507,7 +8508,7 @@ RectTransform:
   m_Children:
   - {fileID: 1858140068}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -14379,7 +14380,6 @@ RectTransform:
   - {fileID: 983374614}
   - {fileID: 1037790133}
   - {fileID: 1504374740}
-  - {fileID: 971925217}
   - {fileID: 2114619435}
   - {fileID: 1708956978}
   - {fileID: 1104169959}
@@ -20137,7 +20137,7 @@ PrefabInstance:
     - target: {fileID: 752687428813024367, guid: 51141be06fe73479bac825617d3f1c73,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 752687428813024367, guid: 51141be06fe73479bac825617d3f1c73,
         type: 3}
@@ -29097,7 +29097,7 @@ RectTransform:
   - {fileID: 793001021}
   - {fileID: 1199049490}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -52762,13 +52762,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 292687923}
-  m_RootOrder: 3
+  m_Father: {fileID: 1037790133}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -248}
-  m_SizeDelta: {x: -378, y: 65}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 52.22}
+  m_SizeDelta: {x: 543, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &971925218
 MonoBehaviour:
@@ -57105,6 +57105,7 @@ RectTransform:
   - {fileID: 459263425}
   - {fileID: 1621961045}
   - {fileID: 1357777215}
+  - {fileID: 971925217}
   - {fileID: 698312177839213178}
   m_Father: {fileID: 292687923}
   m_RootOrder: 1
@@ -60322,7 +60323,7 @@ RectTransform:
   - {fileID: 1284649357}
   - {fileID: 1922367766}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -67570,7 +67571,7 @@ RectTransform:
   m_Children:
   - {fileID: 1120017984}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -76409,7 +76410,7 @@ PrefabInstance:
     - target: {fileID: 1713002902982127734, guid: c39e2365f3db641268b85555a3d3e8cf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1713002902982127734, guid: c39e2365f3db641268b85555a3d3e8cf,
         type: 3}
@@ -93822,7 +93823,7 @@ RectTransform:
   - {fileID: 967243941}
   - {fileID: 369647944}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -117620,7 +117621,7 @@ RectTransform:
   - {fileID: 123806316}
   - {fileID: 853097084}
   m_Father: {fileID: 292687923}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -121446,6 +121447,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 322.73514
       objectReference: {fileID: 0}
+    - target: {fileID: 477120620001907277, guid: 91a22b3c6348040ba9fe46b345aca015,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5556719224594843709, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -122050,11 +122056,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -649.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 477120620001907277, guid: 91a22b3c6348040ba9fe46b345aca015,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3262481764568476925, guid: 91a22b3c6348040ba9fe46b345aca015,
         type: 3}
@@ -125976,7 +125977,7 @@ PrefabInstance:
     - target: {fileID: 698312177839213178, guid: 3c2fdb0404b874d4a9568bbe01311ad3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 698312177839213178, guid: 3c2fdb0404b874d4a9568bbe01311ad3,
         type: 3}
@@ -126240,7 +126241,7 @@ PrefabInstance:
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 387.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
@@ -126285,7 +126286,7 @@ PrefabInstance:
     - target: {fileID: 7101924181430175735, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7101924181430175735, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}

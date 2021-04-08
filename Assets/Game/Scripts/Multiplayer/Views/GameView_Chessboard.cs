@@ -618,7 +618,7 @@ namespace TurboLabz.Multiplayer
             //UpdateNotation(vo);
         }
 
-        private void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
+        public void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
         {
             kingCheckIndicator.SetActive(false);
 

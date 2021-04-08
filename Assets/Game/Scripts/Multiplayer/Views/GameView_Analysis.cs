@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using TurboLabz.InstantFramework;
+using System.Collections;
 
 namespace TurboLabz.Multiplayer
 {
@@ -30,6 +31,7 @@ namespace TurboLabz.Multiplayer
         public GameObject movesSpinnerParent;
         public AnalysisMovesSpinnerDragHandler spinnerDragHandler;
         public ScrollRectAlphaHandler scrollRectAlphaHandler;
+        public AnalysisMovesSpinnerDragHandler analysisMovesSpinnerDragHandler;
 
         public Button strengthBtn;
         public Button arrowBtn;
@@ -46,8 +48,10 @@ namespace TurboLabz.Multiplayer
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
         public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
 
-        private List<MoveAnalysis> analysiedMoves;
         private bool landingFirstTime;
+        private bool animateMovesDial;
+        private bool isMovesDialAnimating;
+        private GameObject moveSelectGO;
 
         private void OnParentShowAnalysis()
         {
@@ -55,6 +59,7 @@ namespace TurboLabz.Multiplayer
             analysisPanel.SetActive(false);
             gameAnalysisLogo.enabled = false;
             SetGameAnalysisBottomBar(false);
+            animateMovesDial = true;
         }
 
         public void InitAnalysis()
@@ -73,28 +78,23 @@ namespace TurboLabz.Multiplayer
             spinnerDragHandler.audioService = audioService;
         }
 
-        public void UpdateAnalysisView()
+        public void UpdateAnalysisView(bool isLocked = false)
         {
-            UpdateAnalysisView(moveAnalysisList);
-        }
-
-        private void UpdateAnalysisView(List<MoveAnalysis> moves, bool isLocked = false)
-        {
-            analysiedMoves = moves;
             ClearMovesList();
             SetupMovesList(isLocked);
             ResetCapturedPieces();
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
-            ShowViewBoardResultsPanel(isLocked);
             HideGameEndDialog();
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
             HidePlayerToIndicator();
             HidePlayerFromIndicator();
-            landingFirstTime = true;
-            gameAnalysisLogo.enabled = !isLocked;
+            ShowViewBoardResultsPanel(true);
+            matchTypeObject.SetActive(false);
+            opponentClockContainer.SetActive(false);
+            landingFirstTime = isLocked;
             SetGameAnalysisBottomBar(!isLocked);
         }
 
@@ -112,7 +112,7 @@ namespace TurboLabz.Multiplayer
         private void SetupMovesList(bool isLocked)
         {
             int i = 1;
-            foreach (var move in analysiedMoves)
+            foreach (var move in moveAnalysisList)
             {
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
@@ -130,7 +130,15 @@ namespace TurboLabz.Multiplayer
 
             scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
-            pickerSrollRect.verticalNormalizedPosition = 0.0f;
+
+            if (animateMovesDial)
+            {
+                StartCoroutine(AnimateMovesDial());
+            }
+            else
+            {
+                pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1, true);
+            }
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality)
@@ -149,26 +157,42 @@ namespace TurboLabz.Multiplayer
 
         private void OnMoveSelected(GameObject obj)
         {
+            if (isMovesDialAnimating)
+            {
+                moveSelectGO = obj;
+                return;
+            }
+
             var move = obj.GetComponent<AnalysisMoveView>();
             var moveNumber = move.normal.moveNumber.text;
             var moveIndex = int.Parse(moveNumber.Remove(moveNumber.Length - 1));
-            var selectedMoves = moveAnalysisList.GetRange(0, moveAnalysisList.Count - analysiedMoves.Count + moveIndex);
+            var selectedMoves = moveAnalysisList.GetRange(0, moveIndex);
+            var isLastMove = moveIndex == moveAnalysisList.Count;
 
-            onAnalysiedMoveSelectedSignal.Dispatch(selectedMoves);
+            gameAnalysisLogo.enabled = !isLastMove;
+            ShowViewBoardResultsPanel(isLastMove);
             ShowSelectedMoveAnalysis(!move.IsLocked);
-            OnAnalysisBoardUpdated(moveIndex, move.IsLocked);
 
-            if (move.IsLocked && !landingFirstTime)
+            if (move.IsLocked)
             {
-                showGetFullAnalysisDlg.Dispatch(matchAnalysis, fullGameAnalysisStoreItem, freeGameAnalysisAvailable);
-            }
+                if (!landingFirstTime)
+                {
+                    showGetFullAnalysisDlg.Dispatch(matchAnalysis, fullGameAnalysisStoreItem, freeGameAnalysisAvailable);
+                    pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1, true);
+                }
 
-            landingFirstTime = false;
+                landingFirstTime = false;
+            }
+            else
+            {
+                onAnalysiedMoveSelectedSignal.Dispatch(selectedMoves);
+                OnAnalysisBoardUpdated(moveIndex, move.IsLocked);
+            }
         }
 
         private void OnAnalysisBoardUpdated(int moveIndex, bool isLocked)
         {
-            var analysiedMove = analysiedMoves[moveIndex - 1];
+            var analysiedMove = moveAnalysisList[moveIndex - 1];
             var mainCamera = Camera.main;
 
             var playerMoveFromIndex = RankFileMap.Map[analysiedMove.playerMove.from.rank, analysiedMove.playerMove.from.file];
@@ -183,8 +207,8 @@ namespace TurboLabz.Multiplayer
 
             var angle = Mathf.Atan2(bestMoveFromPosition.y - bestMoveToPosition.y, bestMoveFromPosition.x - bestMoveToPosition.x) * Mathf.Rad2Deg;
             var bestMoveToScreenPosition = mainCamera.WorldToScreenPoint(bestMoveToPosition);
-            var showStrengthPanelOnRight = playerMoveToPosition.x < 0;
-            var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT && !isLocked;
+            //var showStrengthPanelOnRight = playerMoveToPosition.x < 0;
+            //var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT && !isLocked;
             var arrowTooltipValue = analysiedMove.moveQuality == MoveQuality.PERFECT ? "perfect" : "better";
 
             //Player move indicators
@@ -203,7 +227,7 @@ namespace TurboLabz.Multiplayer
 
             //Placing pivot holder for strength and move quality
             analysisPlayerMovePivotHolder.position = playerMoveToPosition;
-            var leftPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveLeftPivot.position);
+            //var leftPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveLeftPivot.position);
             var rightPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveRightPivot.position);
 
             //Setting move quality sprite
@@ -216,10 +240,10 @@ namespace TurboLabz.Multiplayer
             analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
 
             //Placing strength panel and quality icon
-            FlipAnalysisStrengthPanel(showStrengthPanelOnRight ? 1 : -1);
-            analysisStrengthPanel.transform.position = showStrengthPanelOnRight ? rightPivotPosition : leftPivotPosition;
-            analysisMoveQuality.transform.position = showStrengthPanelOnRight && showStrengthPanel ? leftPivotPosition : rightPivotPosition;
-            analysisStrengthPanel.SetActive(showStrengthPanel);
+            //FlipAnalysisStrengthPanel(showStrengthPanelOnRight ? 1 : -1);
+            //analysisStrengthPanel.transform.position = showStrengthPanelOnRight ? rightPivotPosition : leftPivotPosition;
+            analysisMoveQuality.transform.position = rightPivotPosition;
+            //analysisStrengthPanel.SetActive(showStrengthPanel);
         }
 
         private void FlipAnalysisStrengthPanel(float scale)
@@ -243,6 +267,23 @@ namespace TurboLabz.Multiplayer
             analysisArrowHead.gameObject.SetActive(show);
             analysisLine.gameObject.SetActive(show);
             analysisMoveQuality.gameObject.SetActive(show);
+            analysisStrengthPanel.SetActive(false);
+        }
+
+        private IEnumerator AnimateMovesDial()
+        {
+            ShowSelectedMoveAnalysis(false);
+            animateMovesDial = false;
+            isMovesDialAnimating = true;
+            analysisMovesSpinnerDragHandler.enabled = false;
+            pickerSrollRect.ScrollToItemAtIndex(Mathf.Max(moveAnalysisList.Count - 6, 0), true);
+            yield return new WaitForEndOfFrame();
+            pickerSrollRect.autoScrollSeconds = 2.3f;
+            pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1);
+            yield return new WaitForSeconds(pickerSrollRect.autoScrollSeconds);
+            analysisMovesSpinnerDragHandler.enabled = true;
+            isMovesDialAnimating = false;
+            OnMoveSelected(moveSelectGO);
         }
 
         #region Button Listeners
