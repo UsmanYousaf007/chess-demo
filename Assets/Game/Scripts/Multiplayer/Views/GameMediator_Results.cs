@@ -18,7 +18,7 @@ using GameSparks.Core;
 using GameAnalyticsSDK;
 using System.Collections.Generic;
 
-namespace TurboLabz.Multiplayer 
+namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
@@ -39,6 +39,10 @@ namespace TurboLabz.Multiplayer
         [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
         [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
         [Inject] public UpdateGetGameAnalysisDlg updateGetGameAnalysisDlg { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+
+        //Services
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -66,6 +70,9 @@ namespace TurboLabz.Multiplayer
             view.onAnalysiedMoveSelectedSignal.AddListener(OnAnalysiedMoveSelected);
             view.showGetFullAnalysisDlg.AddListener(OnShowGetGameAnalysisDlg);
             view.showNewRankChampionshipDlgSignal.AddListener(OnShowNewRankChampionshipDlg);
+            view.ratingBoosterRewardSignal.AddListener(OnPlayRewardedVideoClicked);
+            view.setCoolDownTimer.AddListener(OnSetCoolDownTimer);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
         public void OnRemoveResults()
@@ -134,8 +141,17 @@ namespace TurboLabz.Multiplayer
             if (view.IsVisible())
             {
                 view.OnRatingBoosted(ratingBoost);
-                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.rating_booster);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, consumedGems, "booster_used", AnalyticsContext.rating_booster.ToString());
+                if (consumedGems > 0)
+                {
+                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.rating_booster);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, consumedGems, "booster_used", AnalyticsContext.rating_booster.ToString());
+                }
+
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, AnalyticsContext.rv_rating_booster);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, 0, "booster_used", AnalyticsContext.rv_rating_booster.ToString());
+                }
             }
         }
 
@@ -195,6 +211,41 @@ namespace TurboLabz.Multiplayer
         {
             updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
+        }
+
+        private void OnPlayRewardedVideoClicked()
+        {
+            showRewardedAdSignal.Dispatch(AdPlacements.RV_rating_booster);
+        }
+
+        private void OnSetCoolDownTimer(long coolDownTimeUTC)
+        {
+            preferencesModel.rvCoolDownTimeUTC = coolDownTimeUTC;
+
+        }
+
+        private void OnSchedulerSubscriptionToggle(bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(view.SchedulerCallBack);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(view.SchedulerCallBack);
+            }
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster && result == AdsResult.FINISHED)
+            {
+                //analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, AnalyticsContext.rv_rating_booster);
+                //analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, 0, "booster_used", AnalyticsContext.rv_rating_booster.ToString());
+                //view.BoostRating();
+                //view.OnRatingBoosted(ratingBoost);
+            }
         }
     }
 }

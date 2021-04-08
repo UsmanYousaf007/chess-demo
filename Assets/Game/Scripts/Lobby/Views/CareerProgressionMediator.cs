@@ -28,7 +28,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
-        [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
+        //[Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
         [Inject] public LoadSpotCoinPurchaseSignal loadSpotCoinPurchaseSignal { get; set; }
         [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateTrophyBarSignal updateTrophyBarSignal { get; set; }

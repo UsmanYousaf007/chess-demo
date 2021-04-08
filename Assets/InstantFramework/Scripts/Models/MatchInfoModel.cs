@@ -64,6 +64,7 @@ namespace TurboLabz.InstantFramework
         public int freeHints { get; set; }
         public List<MoveAnalysis> movesAnalysisList { get; set; }
         public MatchAnalysis matchAnalysis { get; set; }
+        public string challengeId { get; set; }
 
         public bool isBotMatch
         {

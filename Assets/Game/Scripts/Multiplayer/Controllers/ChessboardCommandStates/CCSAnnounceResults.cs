@@ -41,11 +41,17 @@ namespace TurboLabz.Multiplayer
             vo.moveAnalysisList = cmd.activeMatchInfo.movesAnalysisList;
             vo.fullGameAnalysisStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS];
             vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
-
+            vo.canSeeRewardedVideo = cmd.adsService.IsPlayerQualifiedForRewarded(vo.ratingBoostStoreItem.currency3Cost, cmd.adsSettingsModel.minPlayDaysRequired);
+            vo.rewardedVideoCoolDownInterval = cmd.preferencesModel.purchasesCount < cmd.adsSettingsModel.minPurchasesRequired ? cmd.adsSettingsModel.freemiumTimerCooldownTime : cmd.adsSettingsModel.premiumTimerCooldownTime;
+            
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+            
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
+            cmd.matchInfoModel.lastCompletedMatch.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
+
+            
 
             var matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.eventID = AnalyticsEventId.match_end;

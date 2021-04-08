@@ -14,7 +14,7 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
+        [Inject] public LoadTimeSelectDlgSignal loadTimeSelectDlgSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
@@ -86,7 +86,7 @@ namespace TurboLabz.InstantFramework
                 if (betValue > 0)
                 {
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
-                    updateTimeSelectDlgSignal.Dispatch(betValue);
+                    loadTimeSelectDlgSignal.Dispatch(betValue);
                 }
                 else
                 {

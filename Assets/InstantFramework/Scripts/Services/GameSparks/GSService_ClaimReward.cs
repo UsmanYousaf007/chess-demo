@@ -33,13 +33,9 @@ namespace TurboLabz.InstantFramework
 
                 if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_BOOST_RATING))
                 {
-                    var vo = new EloVO();
                     var eloChange = GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RATING_BOOST);
                     var gemsCosumed = GSParser.GetSafeInt(data, GSBackendKeys.PlayerDetails.GEMS);
-                    playerModel.eloScore += eloChange;
-                    vo.playerEloScore = playerModel.eloScore;
-                    updateEloScoresSignal.Dispatch(vo);
-                    ratingBoostedSignal.Dispatch(eloChange, gemsCosumed);
+                    UpdateElo(eloChange, gemsCosumed);
                     playerModel.gems -= gemsCosumed;
                 }
                 else if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_PERSONALISED_ADS_GEM))
@@ -48,6 +44,11 @@ namespace TurboLabz.InstantFramework
                     var rewardQuantity = GSParser.GetSafeInt(rewardData, GSBackendKeys.PlayerDetails.GEMS);
                     playerModel.gems += rewardQuantity;
                     analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, rewardQuantity, "new_player", "gdpr_accepted");
+                }
+                else if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_RV_RATING_BOOSTER))
+                {
+                    int eloChange = GSParser.GetSafeInt(data, GSBackendKeys.Rewards.RV_RATING_BOOST);
+                    UpdateElo(eloChange, 0);
                 }
                 else
                 {
@@ -62,6 +63,15 @@ namespace TurboLabz.InstantFramework
 
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
+        }
+
+        private void UpdateElo(int eloChange, int gemsCosumed)
+        {
+            var vo = new EloVO();
+            playerModel.eloScore += eloChange;
+            vo.playerEloScore = playerModel.eloScore;
+            updateEloScoresSignal.Dispatch(vo);
+            ratingBoostedSignal.Dispatch(eloChange, gemsCosumed);
         }
 
         private int ParseRewards(GSData data, string rewardType)

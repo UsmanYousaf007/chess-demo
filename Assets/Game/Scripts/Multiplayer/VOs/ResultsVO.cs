@@ -46,5 +46,9 @@ namespace TurboLabz.Multiplayer
         public List<MoveAnalysis> moveAnalysisList;
         public StoreItem fullGameAnalysisStoreItem;
         public bool freeGameAnalysisAvailable;
+
+        public bool canSeeRewardedVideo;
+        public float rewardedVideoCoolDownInterval;
+        
     }
 }

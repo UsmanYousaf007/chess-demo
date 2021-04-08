@@ -66,6 +66,8 @@ namespace TurboLabz.InstantFramework
         public Signal notEnoughGemsSignal = new Signal();
         public Signal closeButtonSignal = new Signal();
         public Signal<AdPlacements> showRewardedAdSignal = new Signal<AdPlacements>();
+        public Signal<long> setCoolDownTimer = new Signal<long>();
+        public Signal<bool> schedulerSubscription = new Signal<bool>();
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -78,7 +80,8 @@ namespace TurboLabz.InstantFramework
         private long betValue;
 
         private bool canSeeRewardedVideo;
-        private bool isCoolDownComplete;
+        private long coolDownTimeUTC;
+        private float coolDownInterval;
         public void Init()
         {
             UIDlgManager.Setup(gameObject);
@@ -107,25 +110,24 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
-            StopCoroutine(RvCoolDownTimer());
             UIDlgManager.Hide(gameObject);
         }
 
-        public void UpdateView(long betValue)
+        public void UpdateView(SelectTimeDlgVO vo)
         {
-            this.betValue = betValue;
-
-            if (storeItem == null && storeSettingsModel.items.ContainsKey(shortCode))
-            {
-                storeItem = storeSettingsModel.items[shortCode];
-            }
+            this.betValue = vo.bet;
+            storeItem = vo.storeItem;
+            //if (storeItem == null && storeSettingsModel.items.ContainsKey(shortCode))
+            //{
+            //    storeItem = storeSettingsModel.items[shortCode];
+            //}
 
             if (storeItem == null)
             {
                 return;
             }
-            canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
-            isCoolDownComplete = IsRvCoolDownDone();
+            canSeeRewardedVideo = false;// vo.canSeeRewardedVideo;
+            coolDownInterval = vo.rewardedVideoCoolDownInterval;
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
             SetupState(isPowerModeOn, canSeeRewardedVideo);
             SetupPlayButtons(true);
@@ -181,6 +183,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
+                bool isCoolDownComplete = IsCoolDownComplete();
                 powerPlayWithRVTick.enabled = powerModeEnabled;
                 powerPlayPlusWithRV.SetActive(!powerModeEnabled);
                 gemIconWithRv.enabled = !powerModeEnabled;
@@ -197,21 +200,16 @@ namespace TurboLabz.InstantFramework
 
         void SyncRvTimer()
         {
-            if (gameObject.activeInHierarchy && !isCoolDownComplete)
-            {
-                StartCoroutine(RvCoolDownTimer());
-            }
+            //if (gameObject.activeInHierarchy && !isCoolDownComplete)
+            //{
+            //    StartCoroutine(RvCoolDownTimer());
+            //}
         }
 
         public void OnEnablePowerMode()
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             SetupState(true, canSeeRewardedVideo);
-        }
-
-        public bool IsRvCoolDownDone()
-        {
-            return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         private void OnCloseButtonClicked()
@@ -230,59 +228,57 @@ namespace TurboLabz.InstantFramework
 
 
         private void OnPlayRewardedVideoClicked()
-        {            
-            if (isCoolDownComplete)
+        {
+            if (IsCoolDownComplete())
             {
                 showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
                 powerPlayAdTimer.SetActive(true);
                 getRV.SetActive(false);
-                SetupCoolDownTimer();
-                isCoolDownComplete = false;
-                StartCoroutine(RvCoolDownTimer());
+                SetupTimer();
             }
             else
             {
-                
                 tooltip.SetActive(true);
             }
         }
 
-        private void SetupCoolDownTimer()
+        public bool IsCoolDownComplete()
         {
-            if (isCoolDownComplete)
+            return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
+        }
+
+
+        private void SetupTimer()
+        {
+            if (IsCoolDownComplete())
             {
-                if (preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired)
-                {
-                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.freemiumTimerCooldownTime).ToUnixTimeMilliseconds();
-                }
-                else
-                {
-                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.premiumTimerCooldownTime).ToUnixTimeMilliseconds();
-                }
+                coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
+                setCoolDownTimer.Dispatch(coolDownTimeUTC);
+                schedulerSubscription.Dispatch(true);
             }
         }
 
-        private IEnumerator RvCoolDownTimer()
+        public void SchedulerCallBack()
         {
-            while (!isCoolDownComplete)
+            if (!IsCoolDownComplete())
             {
-                UpdateRvTimer();
-                isCoolDownComplete = IsRvCoolDownDone();
-                yield return new WaitForSecondsRealtime(1);
-                
+                UpdateTimerText();
             }
-            OnTimerCompleted();
-            yield return null;
+            else
+            {
+                schedulerSubscription.Dispatch(false);
+                OnTimerCompleted();
+            }
         }
 
-        private void UpdateRvTimer()
+        private void UpdateTimerText()
         {
-            long timeLeft = preferencesModel.rvCoolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            long timeLeft = coolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (timeLeft>0)
             {
                 timeLeft -=1000;
-                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
-                powerPlayAdTimerRemainingTime.text = timeLeftText;
+                powerPlayAdTimerRemainingTime.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
             }
             else
             {
@@ -292,7 +288,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnTimerCompleted()
         {
-            isCoolDownComplete = true;
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
         }

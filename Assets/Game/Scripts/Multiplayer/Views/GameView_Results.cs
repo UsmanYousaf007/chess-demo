@@ -129,7 +129,10 @@ namespace TurboLabz.Multiplayer
         public Signal backToArenaSignal = new Signal();
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal fullAnalysisButtonClickedSignal = new Signal();
-       
+        public Signal ratingBoosterRewardSignal = new Signal();
+        public Signal<long> setCoolDownTimer = new Signal<long>();
+        public Signal<bool> schedulerSubscription = new Signal<bool>();
+
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
         private bool playerWins;
@@ -143,15 +146,18 @@ namespace TurboLabz.Multiplayer
         private StoreItem rewardDoublerStoreItem;
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
-        private bool canSeeRewardedVideo;
-        private bool isCoolDownComplete;
+
+
         private List<MoveAnalysis> moveAnalysisList;
         private StoreItem fullGameAnalysisStoreItem;
         private bool haveEnoughGemsForFullAnalysis;
         private bool freeGameAnalysisAvailable;
         private MatchAnalysis matchAnalysis;
 
-        [Inject] public IAdsService adsService { get; set; }
+        private bool canSeeRewardedVideo;
+        private long coolDownTimeUTC;
+        private float coolDownInterval;
+
         public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
 
         public void InitResults()
@@ -224,8 +230,8 @@ namespace TurboLabz.Multiplayer
             moveAnalysisList = vo.moveAnalysisList;
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
             matchAnalysis = vo.matchAnalysis;
-            isCoolDownComplete = IsRvCoolDownDone();
-            canSeeRewardedVideo = false;// adsService.IsPlayerQualifiedForRewarded(ratingBoosterStoreItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
+            canSeeRewardedVideo = false;// vo.canSeeRewardedVideo;
+            coolDownInterval = vo.rewardedVideoCoolDownInterval;
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
@@ -449,10 +455,7 @@ namespace TurboLabz.Multiplayer
             return resultsDialog.activeSelf;
         }
 
-        public bool IsRvCoolDownDone()
-        {
-            return preferencesModel.rvCoolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
+
 
         private void HandleDeclinedDialog()
         {
@@ -499,10 +502,7 @@ namespace TurboLabz.Multiplayer
                 if (haveEnoughGemsForRatingBooster)
                 {
                     boostRatingSignal.Dispatch(challengeId);
-                    SetupRatingBoostButtonsSection(false);
-                    resultsBoostRatingButton.interactable = false;
-
-                    resultsBoostRatingButtonWithRv.interactable = false;
+                    BoostRating();
                 }
                 else
                 {
@@ -510,6 +510,15 @@ namespace TurboLabz.Multiplayer
                     notEnoughGemsSignal.Dispatch();
                 }
             }
+        }
+
+        public void BoostRating()
+        {
+
+            SetupRatingBoostButtonsSection(false);
+            resultsBoostRatingButton.interactable = false;
+
+            resultsBoostRatingButtonWithRv.interactable = false;
         }
 
         private void OnRewardDoublerClicked()
@@ -551,7 +560,7 @@ namespace TurboLabz.Multiplayer
                 SpotPurchaseMediator.analyticsContext = "game_analysis";
                 notEnoughGemsSignal.Dispatch();
             }
-            
+
         }
 
         private void ShowGameAnalysis()
@@ -620,7 +629,7 @@ namespace TurboLabz.Multiplayer
 
             resultsBoostRatingButtonWithRv.interactable = true;
             rewardedVideoButtonAnimWithRv.enabled = enable;
-            
+
         }
 
         private void SetupRewardsDoublerButton(bool enable)
@@ -713,58 +722,55 @@ namespace TurboLabz.Multiplayer
 
         private void OnPlayRewardedVideoClicked()
         {
-            if (isCoolDownComplete)
+            if (IsCoolDownComplete())
             {
-                showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+                ratingBoosterRewardSignal.Dispatch();
                 ratingBoosterTimer.SetActive(true);
                 getRV.SetActive(false);
-                SetupCoolDownTimer();
-                isCoolDownComplete = false;
-                StartCoroutine(RvCoolDownTimer());
+                SetupTimer();
             }
             else
             {
-
                 tooltip.SetActive(true);
             }
         }
 
-        private void SetupCoolDownTimer()
+        public bool IsCoolDownComplete()
         {
-            if (isCoolDownComplete)
+            return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
+        }
+
+        private void SetupTimer()
+        {
+            if (IsCoolDownComplete())
             {
-                if (preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired)
-                {
-                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.freemiumTimerCooldownTime).ToUnixTimeMilliseconds();
-                }
-                else
-                {
-                    preferencesModel.rvCoolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(adsSettingsModel.premiumTimerCooldownTime).ToUnixTimeMilliseconds();
-                }
+                coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
+                setCoolDownTimer.Dispatch(coolDownTimeUTC);
+                schedulerSubscription.Dispatch(true);
             }
         }
 
-        private IEnumerator RvCoolDownTimer()
+        public void SchedulerCallBack()
         {
-            while (!isCoolDownComplete)
+            if (!IsCoolDownComplete())
             {
-                UpdateRvTimer();
-                isCoolDownComplete = IsRvCoolDownDone();
-                yield return new WaitForSecondsRealtime(1);
-
+                UpdateTimerText();
             }
-            OnTimerCompleted();
-            yield return null;
+            else
+            {
+                schedulerSubscription.Dispatch(false);
+                OnTimerCompleted();
+            }
         }
 
-        private void UpdateRvTimer()
+        private void UpdateTimerText()
         {
-            long timeLeft = preferencesModel.rvCoolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            long timeLeft = coolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (timeLeft > 0)
             {
                 timeLeft -= 1000;
-                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
-                remainingCoolDownTime.text = timeLeftText;
+                remainingCoolDownTime.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
             }
             else
             {
@@ -774,7 +780,6 @@ namespace TurboLabz.Multiplayer
 
         private void OnTimerCompleted()
         {
-            isCoolDownComplete = true;
             ratingBoosterTimer.SetActive(false);
             getRV.SetActive(true);
         }

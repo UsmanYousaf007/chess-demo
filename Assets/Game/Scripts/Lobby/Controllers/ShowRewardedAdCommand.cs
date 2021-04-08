@@ -14,13 +14,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
-
+      
         //Dispatch Signals
         [Inject] public RewardedVideoResultSignal rewardedVideoResultSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         public override void Execute()
         {
@@ -61,6 +62,10 @@ namespace TurboLabz.InstantFramework
 
             preferencesModel.intervalBetweenPregameAds = DateTime.Now;
             var jsonData = new GSRequestData().AddString("rewardType", CollectionsUtil.GetRewardTypeFromAdPlacement(adPlacement));
+            if (adPlacement == AdPlacements.RV_rating_booster)
+            {
+                jsonData.AddString("challengeId", matchInfoModel.lastCompletedMatch.challengeId);
+            }
             backendService.ClaimReward(jsonData).Then(OnRewardClaimed);
         }
 

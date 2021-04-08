@@ -190,7 +190,7 @@ namespace TurboLabz.TLUtils
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_banner, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_powerplay, GSBackendKeys.ClaimReward.TYPE_POWERPLAY);
-            adPlacementToRewardTypeMap.Add(AdPlacements.RV_rating_booster, GSBackendKeys.ClaimReward.TYPE_RATING_BOOSTER);
+            adPlacementToRewardTypeMap.Add(AdPlacements.RV_rating_booster, GSBackendKeys.ClaimReward.TYPE_RV_RATING_BOOSTER);
         }
 
         private static void CreateAdPlacementToAdContextMap()

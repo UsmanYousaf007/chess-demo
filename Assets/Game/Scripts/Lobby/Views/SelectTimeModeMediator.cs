@@ -27,10 +27,11 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
-
+        [Inject] public IPreferencesModel preferencesModel { get; set; }
         //Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPreGameAdsService preGameAdsService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         private MatchInfoVO matchInfoVO;
         private long betValue;
@@ -44,6 +45,8 @@ namespace TurboLabz.InstantFramework
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
             view.closeButtonSignal.AddListener(OnCloseSignal);
             view.showRewardedAdSignal.AddListener(OnPlayRewardedVideoClicked);
+            view.setCoolDownTimer.AddListener(OnSetCoolDownTimer);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -65,10 +68,10 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(UpdateTimeSelectDlgSignal))]
-        public void UpdateView(long betValue)
+        public void UpdateView(SelectTimeDlgVO selectTimeDlgVO)
         {
-            this.betValue = betValue;
-            view.UpdateView(betValue);
+            this.betValue = selectTimeDlgVO.bet;
+            view.UpdateView(selectTimeDlgVO);
         }
 
         private void OnPlayMatch(string actionCode, bool isPowerMode)
@@ -134,22 +137,31 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_powerplay && result == AdsResult.FINISHED)
             {
-                //view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-                //view.SetupChest();
-
-                //var rewardDlgVO = new RewardDlgV2VO();
-                //rewardDlgVO.ShowChest = true;
-                //rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
-                //updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-
-                //loadCareerCardSignal.Dispatch();
+                view.OnEnablePowerMode();
             }
         }
 
         private void OnPlayRewardedVideoClicked(AdPlacements adPlacements)
         {
-            rewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+            rewardedAdSignal.Dispatch(adPlacements);
+        }
+
+        private void OnSetCoolDownTimer(long coolDownTimeUTC)
+        {
+            preferencesModel.rvCoolDownTimeUTC = coolDownTimeUTC;
+
+        }
+
+        private void OnSchedulerSubscriptionToggle(bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(view.SchedulerCallBack);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(view.SchedulerCallBack);
+            }
         }
     }
 }

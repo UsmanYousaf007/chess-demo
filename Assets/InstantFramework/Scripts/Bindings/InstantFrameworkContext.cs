@@ -413,6 +413,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadLeaderboardSignal>().To<LoadLeaderboardCommand>();
             commandBinder.Bind<GetAllStarLeaderboardSignal>().To<GetAllStarLeaderboardCommand>();
             commandBinder.Bind<LoadCareerCardSignal>().To<LoadCareerCardCommand>();
+            commandBinder.Bind<LoadTimeSelectDlgSignal>().To<LoadSelectTimeDlgCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();

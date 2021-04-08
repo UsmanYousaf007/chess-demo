@@ -219,6 +219,7 @@ namespace TurboLabz.InstantFramework
     public class GetFullAnalysisSignal : Signal { }
     public class FullAnalysisBoughtSignal : Signal { }
     public class UpdateGetGameAnalysisDlg : Signal<MatchAnalysis, StoreItem, bool> { }
+    public class LoadTimeSelectDlgSignal : Signal<long> { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -267,7 +268,7 @@ namespace TurboLabz.InstantFramework
     // All star leaderboard
     public class GetAllStarLeaderboardSignal : Signal { }
     public class UpdateAllStarLeaderboardSignal : Signal { }
-    public class UpdateTimeSelectDlgSignal : Signal<long> { }
+    public class UpdateTimeSelectDlgSignal : Signal<SelectTimeDlgVO> { }
 
     public class StartLobbyChampionshipTimerSignal : Signal { }
 
