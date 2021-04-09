@@ -530,7 +530,7 @@ MonoBehaviour:
   analysisPanel: {fileID: 1690155914}
   opponentConnectionMonitorLabel: {fileID: 115240472}
   logoObject: {fileID: 1922367765}
-  opponentProfileView: {fileID: 2142313039}
+  opponentProfileView: {fileID: 0}
   friendlyObject: {fileID: 1431012172}
   rankedObject: {fileID: 1461211094}
   matchTypeText: {fileID: 1246862395}
@@ -1009,6 +1009,8 @@ MonoBehaviour:
   resultsFullAnalysisFreeTitle: {fileID: 1024005139909254276}
   resultsFullAnalysisSparkle: {fileID: 1024005139909254304}
   resultsFullAnalysisGemIcon: {fileID: 1024005139909254311}
+  resultsFullAnalysisdPanel: {fileID: 1024005139909254312}
+  resultsFullAnalysisDisabledPanel: {fileID: 1024005139909254313}
   resultsPowerplayImage: {fileID: 1024005139909254277}
   powerPlayOnSprite: {fileID: 21300000, guid: 56c649ff12c5f4892b8fd28262c077cd, type: 3}
   powerPlayOffSprite: {fileID: 21300000, guid: 4e25f2cfb51e74f18a42e72617bdb533, type: 3}
@@ -1023,8 +1025,8 @@ MonoBehaviour:
   ratingBoosterTimer: {fileID: 33661239}
   remainingCoolDownTime: {fileID: 1289452527}
   getRV: {fileID: 1619420053}
-  timerRunningTooltip: {fileID: 1514239382}
-  videoNotAvailableTooltip: {fileID: 1024005139909254312}
+  timerRunningTooltip: {fileID: 0}
+  videoNotAvailableTooltip: {fileID: 0}
   rewardedVideoButtonAnimWithRv: {fileID: 949412994}
   resultsBoostRatingButtonWithRv: {fileID: 737777193}
   resultsBoostRatingToolTipWithRv: {fileID: 1793981244}
@@ -24998,6 +25000,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 454425674}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &454425678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2088757692647766464, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 454425674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &454425679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7164022658739055553, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 454425674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &454425680 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7732361291319314916, guid: 91a22b3c6348040ba9fe46b345aca015,
@@ -47657,6 +47671,8 @@ MonoBehaviour:
   bunders: {fileID: 454425714}
   mistakes: {fileID: 454425713}
   perfect: {fileID: 454425712}
+  resultsFullAnalysisdPanel: {fileID: 454425678}
+  resultsFullAnalysisDisabledPanel: {fileID: 454425679}
   resultsLayouts:
   - {fileID: 454425703}
   - {fileID: 454425681}
@@ -83933,12 +83949,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1512858954}
   m_CullTransparentMesh: 0
---- !u!1 &1514239382 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6706720910068742940, guid: 91a22b3c6348040ba9fe46b345aca015,
-    type: 3}
-  m_PrefabInstance: {fileID: 1024005139909254269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1515308045
 GameObject:
   m_ObjectHideFlags: 0
@@ -122482,7 +122492,13 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1024005139909254312 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2799196333295495247, guid: 91a22b3c6348040ba9fe46b345aca015,
+  m_CorrespondingSourceObject: {fileID: 2088757692647766464, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1024005139909254313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7164022658739055553, guid: 91a22b3c6348040ba9fe46b345aca015,
     type: 3}
   m_PrefabInstance: {fileID: 1024005139909254269}
   m_PrefabAsset: {fileID: 0}
@@ -126237,7 +126253,7 @@ PrefabInstance:
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 387.2
       objectReference: {fileID: 0}
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
