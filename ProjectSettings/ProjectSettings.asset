@@ -121,7 +121,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 6.9.21
+  bundleVersion: 6.10.21
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -168,8 +168,8 @@ PlayerSettings:
     iPhone: com.turbolabz.instantchess.ios
     tvOS: com.turbolabz.chess.google
   buildNumber:
-    iPhone: 502
-  AndroidBundleVersionCode: 503
+    iPhone: 504
+  AndroidBundleVersionCode: 504
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
@@ -961,8 +961,8 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC
-    7: CT_OC
+    4: CT_OC;SUBSCRIPTION_TEST
+    7: CT_OC;SUBSCRIPTION_TEST
     13: CT_OC
     14: CT_OC
     19: CT_OC
