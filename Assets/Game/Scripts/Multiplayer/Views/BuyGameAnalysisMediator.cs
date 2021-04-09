@@ -61,7 +61,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(UpdateGetGameAnalysisDlg))]
+        [ListensTo(typeof(UpdateGetGameAnalysisDlgSignal))]
         public void OnUpdateView(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
         {
             view.UpdateView(matchAnalysis, storeItem, availableForFree);

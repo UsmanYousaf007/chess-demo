@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using GameSparks.Core;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -14,9 +16,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
-      
+        [Inject] public IRoutineRunner routineRunner { get; set; }
+
         //Dispatch Signals
         [Inject] public RewardedVideoResultSignal rewardedVideoResultSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showGenericProcessingSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -34,20 +38,15 @@ namespace TurboLabz.InstantFramework
             playerModel.adContext = CollectionsUtil.GetAdContextFromAdPlacement(adPlacement);
             analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
 
+            Retain();
+
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {
-                rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
-
-                //Special case for lobby chest
-                if (adPlacement == AdPlacements.Rewarded_lobby_chest)
-                {
-                    OnVideoShown(AdsResult.FINISHED);
-                }
-
+                showGenericProcessingSignal.Dispatch(true);
+                routineRunner.StartCoroutine(WaitForVideoToLoad());
                 return;
             }
 
-            Retain();
             adsService.ShowRewardedVideo(adPlacement).Then(OnVideoShown);
         }
 
@@ -81,6 +80,23 @@ namespace TurboLabz.InstantFramework
             }
 
             Release();
+        }
+
+        private IEnumerator WaitForVideoToLoad()
+        {
+            yield return new WaitForSeconds(2.0f);
+            analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+            showGenericProcessingSignal.Dispatch(false);
+
+            if (!adsService.IsRewardedVideoAvailable(adPlacement))
+            {
+                rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
+                Release();
+            }
+            else
+            {
+                adsService.ShowRewardedVideo(adPlacement).Then(OnVideoShown);
+            }
         }
     }
 }

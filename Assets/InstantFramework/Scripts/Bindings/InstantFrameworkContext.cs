@@ -243,7 +243,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetInitDataOnCompleteSignal>().ToSingleton();
             injectionBinder.Bind<ShopVistedSignal>().ToSingleton();
             injectionBinder.Bind<FullAnalysisBoughtSignal>().ToSingleton();
-            injectionBinder.Bind<UpdateGetGameAnalysisDlg>().ToSingleton();
+            injectionBinder.Bind<UpdateGetGameAnalysisDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ShowGenericProcessingSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -472,6 +473,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<PurchaseSuccessDlgView>().To<PurchaseSuccessDlgMediator>();
             mediationBinder.Bind<RewardParticleEmitter>().To<RewardParticleEmitterMediator>();
             mediationBinder.Bind<CareerProgressionView>().To<CareerProgressionMediator>();
+            mediationBinder.Bind<GenericProcessingView>().To<GenericProcessingMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();

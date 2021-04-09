@@ -38,7 +38,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
         [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
-        [Inject] public UpdateGetGameAnalysisDlg updateGetGameAnalysisDlg { get; set; }
+        [Inject] public UpdateGetGameAnalysisDlgSignal updateGetGameAnalysisDlg { get; set; }
         [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
 
         //Services

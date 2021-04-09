@@ -103,18 +103,25 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest && result == AdsResult.FINISHED)
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_lobby_chest)
             {
-                //view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-                view.SetupChest();
+                if (result == AdsResult.FINISHED)
+                {
+                    //view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
+                    view.SetupChest();
 
-                var rewardDlgVO = new RewardDlgV2VO();
-                rewardDlgVO.ShowChest = true;
-                rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
-                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
-                updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                    var rewardDlgVO = new RewardDlgV2VO();
+                    rewardDlgVO.ShowChest = true;
+                    rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
+                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
+                    updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
 
-                loadCareerCardSignal.Dispatch();
+                    loadCareerCardSignal.Dispatch();
+                }
+                else if (result == AdsResult.NOT_AVAILABLE)
+                {
+                    view.lobbyChestTooltip.SetActive(true);
+                }
             }
         }
 

@@ -39,6 +39,7 @@ namespace TurboLabz.InstantFramework
         public GameObject chestSpinGlow;
         public GameObject chestFrontSpinGlow;
         public RectTransform timerLayout;
+        public GameObject lobbyChestTooltip;
 
         private long endTimeUTCSeconds;
         private long chestTimeUTC;
