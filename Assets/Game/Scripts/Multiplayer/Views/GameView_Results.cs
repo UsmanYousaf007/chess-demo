@@ -234,7 +234,6 @@ namespace TurboLabz.Multiplayer
             canSeeRewardedVideo = vo.canSeeRewardedVideo;
             coolDownInterval = vo.rewardedVideoCoolDownInterval;
             coolDownTimeUTC = vo.coolDownTimeUTC;
-            isLongMatch = vo.isLongMatch;
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
