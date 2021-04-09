@@ -34,18 +34,6 @@ namespace TurboLabz.InstantFramework
             gameObject.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public void AnimateDlg(GameObject gameObject)
-        {
-            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0.0f;
-            canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
-            canvasGroup.DOKill();
-            canvasGroup.DOFade(1.0f, 0.25f);
-            canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
-
-            gameObject.SetActive(true);
-        }
-
         static public void Show(GameObject gameObject)
         {
             // Blur background and enable this dialog
@@ -67,5 +55,32 @@ namespace TurboLabz.InstantFramework
             UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
             BlurBg.DOFade(0.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
         }
+
+        static public void AnimateDlg(GameObject gameObject)
+        {
+            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0.0f;
+            canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(1.0f, 0.25f);
+            canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
+
+            gameObject.SetActive(true);
+        }
+
+        static public void ShowScreenDlg(GameObject gameObject)
+        {
+            Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
+            UIBlurBackground.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, BlurBg.gameObject);
+            UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
+            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0.0f;
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(1.0f, 0.25f);
+
+            gameObject.SetActive(true);
+        }
+
     }
 }

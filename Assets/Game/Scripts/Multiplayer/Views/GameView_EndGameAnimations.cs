@@ -136,9 +136,10 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateAnalyzingDlg()
         {
-            resultsCanvasGroup.alpha = 0;
-            analyzingDlg.SetActive(true);
-            FadeInOrOutAnalyzingDialog(1);
+            //resultsCanvasGroup.alpha = 0;
+            //analyzingDlg.SetActive(true);
+            UIDlgManager.ShowScreenDlg(analyzingDlg);
+            //FadeInOrOutAnalyzingDialog(1);
             float averageHeight = loadingBars[0].rectTransform.sizeDelta.y;
             StartCoroutine(AnimateBars(averageHeight));
         }

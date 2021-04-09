@@ -78,6 +78,8 @@ namespace TurboLabz.Multiplayer
         public void HideGameEndDialog()
         {
             UIDlgManager.Hide(gameEndDlgContainer);
+            HideResultsDialog();
+            HideRewardsDialog();
         }
 
         private void ShowWeeklyChampionshipResults()

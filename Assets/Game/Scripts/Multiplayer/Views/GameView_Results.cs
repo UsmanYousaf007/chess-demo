@@ -186,6 +186,7 @@ namespace TurboLabz.Multiplayer
             originalColor = resultsBoostRatingAddedCount.color;
 
             UIDlgManager.Setup(gameEndDlgContainer);
+            UIDlgManager.Setup(analyzingDlg);
         }
 
         public void CleanupResults()
@@ -592,8 +593,7 @@ namespace TurboLabz.Multiplayer
         private void ShowGameAnalysis()
         {
             StopCoroutine(AnimateBars(0));
-            analyzingDlg.SetActive(false);
-            resultsDialogClosedSignal.Dispatch();
+            UIDlgManager.Hide(analyzingDlg);
             UpdateAnalysisView();
         }
 
