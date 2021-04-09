@@ -420,6 +420,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_FREE_FULL_GAME_ANALYSIS = "freeFullGameAnalysis";
             public const string TYPE_POWERPLAY = "powerPlayReward";
             public const string TYPE_RV_RATING_BOOSTER = "ratingBoosterReward";
+            public const string TYPE_LOBBY_CHEST_V2 = "chestGemsReward";
 
             public const string NONE = "none";
         }

@@ -52,12 +52,12 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    var coinReward = ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);
+                    var chestReward = ParseRewards(data.GetGSData(GSBackendKeys.ClaimReward.REWARD_INFO), rewardType);
 
-                    if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST))
+                    if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST_V2))
                     {
                         playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
-                        lobbyChestRewardClaimedSignal.Dispatch(coinReward);
+                        lobbyChestRewardClaimedSignal.Dispatch(chestReward);
                     }
                 }
 
@@ -76,7 +76,7 @@ namespace TurboLabz.InstantFramework
 
         private int ParseRewards(GSData data, string rewardType)
         {
-            int coinReward = 0;
+            int rv = 0;
 
             if (data != null)
             {
@@ -88,11 +88,12 @@ namespace TurboLabz.InstantFramework
                     if (rewardCode.Equals(GSBackendKeys.PlayerDetails.GEMS))
                     {
                         playerModel.gems += rewardQuantity;
+                        rv = rewardQuantity;
                     }
                     else if (rewardCode.Equals(GSBackendKeys.PlayerDetails.COINS))
                     {
                         playerModel.coins += rewardQuantity;
-                        coinReward = rewardQuantity;
+                        rv = rewardQuantity;
                     }
                     else if (playerModel.inventory.ContainsKey(rewardCode))
                     {
@@ -109,8 +110,8 @@ namespace TurboLabz.InstantFramework
 
                     switch (rewardType)
                     {
-                        case GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST:
-                            itemId = "lobby_coins_chest_timer_end";
+                        case GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST_V2:
+                            itemId = "lobby_chest";
                             break;
 
                         case GSBackendKeys.ClaimReward.TYPE_DAILY:
@@ -129,7 +130,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            return coinReward;
+            return rv;
         }
     }
 

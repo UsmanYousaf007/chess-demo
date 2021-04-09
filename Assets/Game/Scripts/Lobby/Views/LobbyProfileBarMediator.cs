@@ -24,7 +24,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
-        private int rewardCoins;
+        private int chestReward;
 
         public override void OnRegister()
         {
@@ -112,7 +112,7 @@ namespace TurboLabz.InstantFramework
 
                     var rewardDlgVO = new RewardDlgV2VO();
                     rewardDlgVO.ShowChest = true;
-                    rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, rewardCoins));
+                    rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.GEMS, chestReward));
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                     updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
 
@@ -136,11 +136,11 @@ namespace TurboLabz.InstantFramework
         }
 
         [ListensTo(typeof(LobbyChestRewardClaimedSignal))]
-        public void OnLobbyChestRewardClaimed(int coins)
+        public void OnLobbyChestRewardClaimed(int reward)
         {
-            if (view.isActiveAndEnabled && coins > 0)
+            if (view.isActiveAndEnabled && reward > 0)
             {
-                rewardCoins = coins;
+                chestReward = reward;
             }
         }
 

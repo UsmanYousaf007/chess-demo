@@ -238,7 +238,7 @@ namespace TurboLabz.InstantFramework
         interstitial_in_game_30_min,
         interstitial_in_game_classic,
         rewarded_daily_doubler,
-        rewarded_lobby_coins_chest,
+        rewarded_lobby_chest,
         rewarded_out_of_coins_lobby_banner_popup,
         rewarded_out_of_coins_lobby_popup,
         rewarded_coins_spot_state_1,

@@ -186,7 +186,7 @@ namespace TurboLabz.TLUtils
             adPlacementToRewardTypeMap = new Dictionary<AdPlacements, string>();
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_purchase, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_daily_reward, GSBackendKeys.ClaimReward.TYPE_DAILY);
-            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_lobby_chest, GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_lobby_chest, GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST_V2);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_banner, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_powerplay, GSBackendKeys.ClaimReward.TYPE_POWERPLAY);
@@ -198,7 +198,7 @@ namespace TurboLabz.TLUtils
             adPlacementToAdContextMap = new Dictionary<AdPlacements, AnalyticsContext>();
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_purchase, AnalyticsContext.rewarded_coins_spot_state_1);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_daily_reward, AnalyticsContext.rewarded_daily_doubler);
-            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_coins_chest);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_chest);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_banner, AnalyticsContext.rewarded_out_of_coins_lobby_banner_popup);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_powerplay);

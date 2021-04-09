@@ -111,7 +111,7 @@ namespace TurboLabz.InstantFramework
 
             if (_reward != null)
             {
-                if (_reward.ShortCode == GSBackendKeys.PlayerDetails.COINS && _showCoinChest)
+                if (_showCoinChest)
                 {
                     _currentChestAnimSequence = _currentRewardContainer.containerParent.GetComponentInChildren<LobbyChestAnimSequence>(true);
                     _currentChestAnimSequence.countReward = _reward.Quantity;
