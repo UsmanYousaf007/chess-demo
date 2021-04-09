@@ -169,7 +169,8 @@ namespace TurboLabz.InstantFramework
         {
             UIBlurBackground.BlurBackground(blurredBgImg, 3, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
             blurredBgImg.DOFade(1.0f, 0);
-            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
+            UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.4f);
         }
 
         private void AnimateBlurredBg()
