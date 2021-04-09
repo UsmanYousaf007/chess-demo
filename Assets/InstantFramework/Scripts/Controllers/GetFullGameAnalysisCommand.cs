@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 using GameSparks.Core;
 using strange.extensions.command.impl;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Listeners
         [Inject] public PurchaseStoreItemResultSignal purchaseStoreItemResultSignal { get; set; }
@@ -43,6 +45,7 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 fullAnalysisBoughtSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.free_game_analysis_used);
             }
         }
 
@@ -51,6 +54,8 @@ namespace TurboLabz.InstantFramework
             if (result == PurchaseResult.PURCHASE_SUCCESS && item.key.Equals(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS))
             {
                 fullAnalysisBoughtSignal.Dispatch();
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.game_analysis);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "booster_used", AnalyticsContext.game_analysis.ToString());
             }
         }
     }

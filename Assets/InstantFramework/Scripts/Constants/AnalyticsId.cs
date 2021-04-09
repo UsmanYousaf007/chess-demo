@@ -166,6 +166,7 @@ namespace TurboLabz.InstantFramework
         gems_used,
         bet_increment_used,
         bet_increment_default,
+        free_game_analysis_used,
 
         //inbox
         inbox_visits,

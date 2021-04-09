@@ -91,7 +91,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnNotEnoughGems()
         {
-            SpotPurchaseMediator.analyticsContext = "game_analysis_view_board";
+            SpotPurchaseMediator.analyticsContext = "game_analysis";
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
     }
