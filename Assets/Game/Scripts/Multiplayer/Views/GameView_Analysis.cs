@@ -100,6 +100,8 @@ namespace TurboLabz.Multiplayer
             landingFirstTime = isLocked;
             SetGameAnalysisBottomBar(!isLocked);
             isGameAnalysisEnabled = !isLocked;
+            EmptyScores();
+            opponentProfileView.championshipTrophiesContainer.SetActive(false);
         }
 
         private void ClearMovesList()

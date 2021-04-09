@@ -42,6 +42,7 @@ namespace TurboLabz.Multiplayer
         public GameObject analysisPanel;
         public Text opponentConnectionMonitorLabel;
         public GameObject logoObject;
+        public OpponentProfileView opponentProfileView;
 
 		[Header("Match Status")]
 		public GameObject friendlyObject;
