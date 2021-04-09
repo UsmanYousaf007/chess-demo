@@ -54,7 +54,8 @@ namespace TurboLabz.InstantFramework
                 sounds.SFX_EFFECT_COIN_FILL,
                 sounds.SFX_EFFECT_GEM_TRAVEL,
                 sounds.SFX_EFFECT_GEM_FILL,
-                sounds.SFX_EFFECT_RING_SLAM
+                sounds.SFX_EFFECT_RING_SLAM,
+                sounds.SFX_MOVE_DIAL_SELECTED
             );
 
             ConfigureAudioClips(

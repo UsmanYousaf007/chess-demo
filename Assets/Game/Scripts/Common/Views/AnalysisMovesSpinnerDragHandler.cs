@@ -39,7 +39,7 @@ public class AnalysisMovesSpinnerDragHandler : MonoBehaviour
         {
             arrowLeft.DOLocalMoveX(arrowLeftOriginalXPosition, 0.1f);
             arrowRight.DOLocalMoveX(arrowRightOriginalXPosition, 0.1f);
-            audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
+            audioService.Play(audioService.sounds.SFX_MOVE_DIAL_SELECTED);
 #if UNITY_IOS && !UNITY_EDITOR
             IOSNative.StartHapticFeedback(HapticFeedbackTypes.LIGHT);
 #endif

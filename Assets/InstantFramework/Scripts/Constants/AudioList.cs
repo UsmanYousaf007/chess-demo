@@ -34,6 +34,7 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_SHOP_PURCHASE_ITEM;
     public AudioClip SFX_REWARD_UNLOCKED;
     public AudioClip SFX_CLOCK_WARNING;
+    public AudioClip SFX_MOVE_DIAL_SELECTED;
 
     // Effects
     public AudioClip SFX_EFFECT_SLAM;
