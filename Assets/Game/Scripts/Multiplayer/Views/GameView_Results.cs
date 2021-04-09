@@ -234,6 +234,7 @@ namespace TurboLabz.Multiplayer
             canSeeRewardedVideo = vo.canSeeRewardedVideo;
             coolDownInterval = vo.rewardedVideoCoolDownInterval;
             coolDownTimeUTC = vo.coolDownTimeUTC;
+            isLongMatch = vo.isLongMatch;
 
             UpdateGameEndReasonSection(vo.reason);
             UpdateGameResultHeadingSection();
@@ -590,9 +591,16 @@ namespace TurboLabz.Multiplayer
             uiBlocker.SetActive(false);
             HideGameEndDialog();
             resultsDialogClosedSignal.Dispatch();
-            //ShowViewBoardResultsPanel(true);
-            animateMovesDial = true;
-            UpdateAnalysisView(true);
+
+            if (isLongPlay)
+            {
+                ShowViewBoardResultsPanel(true);
+            }
+            else
+            {
+                animateMovesDial = true;
+                UpdateAnalysisView(true);
+            }
         }
 
         public void OnResultsSkipRewardButtonClicked()
