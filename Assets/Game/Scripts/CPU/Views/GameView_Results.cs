@@ -87,6 +87,9 @@ namespace TurboLabz.CPU
         public TMP_Text mistakes;
         public TMP_Text perfect;
 
+        public GameObject resultsFullAnalysisdPanel;
+        public GameObject resultsFullAnalysisDisabledPanel;
+
         public RectTransform[] resultsLayouts;
 
         public Signal resultsStatsButtonClickedSignal = new Signal();
@@ -148,12 +151,19 @@ namespace TurboLabz.CPU
             resultsViewBoardButton.onClick.RemoveAllListeners();
             resultsContinueButton.onClick.RemoveAllListeners();
             resultsDoubleRewardButton.onClick.RemoveAllListeners();
-        }            
+        }
+
+        public void SetGameAnalysisPanel()
+        {
+            resultsFullAnalysisdPanel.gameObject.SetActive(false);
+            resultsFullAnalysisDisabledPanel.gameObject.SetActive(true);
+        }
+
 
         public void ShowResultsDialog()
         {
             ShowResultsDialogCPU();
-
+            SetGameAnalysisPanel();
             EnableModalBlocker();
             resultsDialog.SetActive(true);
             DisableMenuButton();

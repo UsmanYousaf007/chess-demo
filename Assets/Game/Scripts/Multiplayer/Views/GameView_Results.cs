@@ -95,6 +95,9 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsFullAnalysisSparkle;
         public GameObject resultsFullAnalysisGemIcon;
 
+        public GameObject resultsFullAnalysisdPanel;
+        public GameObject resultsFullAnalysisDisabledPanel;
+
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
         public Sprite powerPlayOffSprite;
@@ -201,8 +204,8 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
-            UIDlgManager.AnimateDlg(resultsDialog);
             BuildLayout();
+            UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
         }
 
@@ -242,8 +245,12 @@ namespace TurboLabz.Multiplayer
             SetupBoostPrice();
             SetupRewardDoublerPrice();
             UpdateMatchAnalysis(vo.matchAnalysis);
-            SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
-            SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
+            SetGameAnalysisPanel();
+            if (!isLongPlay)
+            {
+                SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
+                SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
+            }
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -264,6 +271,12 @@ namespace TurboLabz.Multiplayer
             }
 
             resultsDialog.transform.localScale = new Vector3(0f, 0, 0f);
+        }
+
+        public void SetGameAnalysisPanel()
+        {
+            resultsFullAnalysisdPanel.gameObject.SetActive(!isLongPlay);
+            resultsFullAnalysisDisabledPanel.gameObject.SetActive(isLongPlay);
         }
 
         public void HideResultsDialog()
