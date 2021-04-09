@@ -530,7 +530,7 @@ MonoBehaviour:
   analysisPanel: {fileID: 1690155914}
   opponentConnectionMonitorLabel: {fileID: 115240472}
   logoObject: {fileID: 1922367765}
-  opponentProfileView: {fileID: 0}
+  opponentProfileView: {fileID: 2142313039}
   friendlyObject: {fileID: 1431012172}
   rankedObject: {fileID: 1461211094}
   matchTypeText: {fileID: 1246862395}
@@ -64909,6 +64909,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 547104929}
     m_Modifications:
+    - target: {fileID: 5326766634194520646, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
+        type: 3}
+      propertyPath: m_Name
+      value: UserProfilePic
+      objectReference: {fileID: 0}
     - target: {fileID: 5401505460131218112, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65023,11 +65028,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5326766634194520646, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7,
-        type: 3}
-      propertyPath: m_Name
-      value: UserProfilePic
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7daa8de2d62eb44bbbd883fb0b4c37e7, type: 3}
