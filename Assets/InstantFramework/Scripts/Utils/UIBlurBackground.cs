@@ -39,27 +39,34 @@ namespace TurboLabz.InstantFramework
             return promise;
         }
 
-        static public void AnimateBrightness(float brightness, float dur)
+        static public void SetBrightness (float brightness, float alpha)
         {
-            float currBrightness = blurImageEffectMaterial.GetColor("_TintColor").r;
-            long destTime = TimeUtil.unixTimestampMilliseconds + (long)(dur * 1000);
-            routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, dur, destTime));
+            blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
         }
 
-        static private IEnumerator OnAnimateColorUpdateCR(float aBrightness, float bBrightness, float dur, long destTime)
+        static public void AnimateBrightness(float brightness, float alpha, float dur)
+        {
+            float currBrightness = blurImageEffectMaterial.GetColor("_TintColor").r;
+            float currAlpha = blurImageEffectMaterial.GetColor("_TintColor").a;
+            long destTime = TimeUtil.unixTimestampMilliseconds + (long)(dur * 1000);
+            routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, currAlpha, alpha, dur, destTime));
+        }
+
+        static private IEnumerator OnAnimateColorUpdateCR(float aBrightness, float bBrightness, float aAlpha, float bApha, float dur, long destTime)
         {
             long currTime = TimeUtil.unixTimestampMilliseconds;
             while (TimeUtil.unixTimestampMilliseconds <= destTime)
             {
                 float tParam = 1.0f - ((destTime - TimeUtil.unixTimestampMilliseconds) / (dur * 1000));
                 float brightness = Mathf.Lerp(aBrightness, bBrightness, tParam);
+                float alpha = Mathf.Lerp(aAlpha, bApha, tParam);
 
-                blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
+                blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
 
                 yield return null;
             }
 
-            blurImageEffectMaterial.SetColor("_TintColor", new Color(bBrightness, bBrightness, bBrightness, 1.0f));
+            blurImageEffectMaterial.SetColor("_TintColor", new Color(bBrightness, bBrightness, bBrightness, bApha));
         }
 
         static private void CaptureScreenSprite(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)

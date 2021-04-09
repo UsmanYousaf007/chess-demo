@@ -168,6 +168,8 @@ namespace TurboLabz.InstantFramework
         private void BlurBg()
         {
             UIBlurBackground.BlurBackground(blurredBgImg, 3, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
+            blurredBgImg.DOFade(1.0f, 0);
+            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
         }
 
         private void AnimateBlurredBg()
@@ -208,7 +210,7 @@ namespace TurboLabz.InstantFramework
         private void FadeOutCareerProgressionView()
         {
             blurredBgImg.DOFade(0, 0.3f);
-            UIBlurBackground.AnimateBrightness(0.7f, 0.3f);
+            UIBlurBackground.AnimateBrightness(0.7f, 0.0f, 0.3f);
             careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
             careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLobby); ;
             isCareerProgressionShown = true;

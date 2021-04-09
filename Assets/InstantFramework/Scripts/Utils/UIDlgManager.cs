@@ -51,6 +51,8 @@ namespace TurboLabz.InstantFramework
             // Blur background and enable this dialog
             Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
             UIBlurBackground.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, BlurBg.gameObject);
+            UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
 
             AnimateDlg(gameObject);
         }
@@ -62,7 +64,8 @@ namespace TurboLabz.InstantFramework
 
             canvasGroup.DOKill();
             canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => gameObject.SetActive(false));
-            BlurBg.DOFade(0.0f, 0.2f).OnComplete(() => BlurBg.gameObject.SetActive(false));
+            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
+            BlurBg.DOFade(0.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
         }
     }
 }
