@@ -163,6 +163,11 @@ namespace TurboLabz.Multiplayer
 
         private void OnMoveSelected(GameObject obj)
         {
+            if (obj == null)
+            {
+                return;
+            }
+
             if (isMovesDialAnimating)
             {
                 moveSelectGO = obj;
