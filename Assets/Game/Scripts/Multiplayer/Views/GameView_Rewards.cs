@@ -52,8 +52,6 @@ namespace TurboLabz.Multiplayer
             rewardsBetReversedImg.gameObject.SetActive(isDraw && isRankedGame);
             rewardsVictoryRewardImg.gameObject.SetActive(playerWins && isRankedGame);
 
-            titleTxt.text = (isDraw && isRankedGame)? "DRAW" : "YOU WIN";
-
             rewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             rewardsStars.gameObject.SetActive(playerWins && isRankedGame);
 

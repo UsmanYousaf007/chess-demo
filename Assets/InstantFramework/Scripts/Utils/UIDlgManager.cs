@@ -12,12 +12,12 @@ namespace TurboLabz.InstantFramework
 {
     static public class UIDlgManager
     {
-        static public void Setup(GameObject gameObject)
+        static public void Setup(GameObject dlg)
         {
             // Add a full screen background rect for blur to the object
-            Transform uiDlgContainer = new GameObject(gameObject.name + "_UIDlgContainer", typeof(Image)).transform;
-            uiDlgContainer.SetParent(gameObject.transform.parent);
-            uiDlgContainer.SetSiblingIndex(gameObject.transform.GetSiblingIndex());
+            Transform uiDlgContainer = new GameObject(dlg.name + "_UIDlgContainer", typeof(Image)).transform;
+            uiDlgContainer.SetParent(dlg.transform.parent);
+            uiDlgContainer.SetSiblingIndex(dlg.transform.GetSiblingIndex());
 
             RectTransform rt = uiDlgContainer.GetComponent<RectTransform>();
             rt.pivot = new Vector2(0.5f, 0.5f);
@@ -30,56 +30,56 @@ namespace TurboLabz.InstantFramework
 
             uiDlgContainer.gameObject.SetActive(false);
 
-            gameObject.AddComponent<CanvasGroup>();
-            gameObject.transform.SetParent(uiDlgContainer.transform);
+            dlg.AddComponent<CanvasGroup>();
+            dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public void Show(GameObject gameObject)
+        static public void Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL)
         {
             // Blur background and enable this dialog
-            Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
-            UIBlurBackground.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, BlurBg.gameObject);
-            UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
-            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
+            Image BlurBg = dlg.transform.parent.GetComponent<Image>();
+            UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject);
+            UIBlurBackground.SetBrightness(blurBrightnessVal, 0.0f);
+            UIBlurBackground.AnimateBrightness(blurBrightnessVal, 1.0f, 0.25f);
 
-            AnimateDlg(gameObject);
+            AnimateDlg(dlg);
         }
 
-        static public void Hide(GameObject gameObject)
+        static public void Hide(GameObject dlg)
         {
-            Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
-            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            Image BlurBg = dlg.transform.parent.GetComponent<Image>();
+            CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
 
             canvasGroup.DOKill();
-            canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => gameObject.SetActive(false));
+            canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => dlg.SetActive(false));
             UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
             BlurBg.DOFade(0.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
         }
 
-        static public void AnimateDlg(GameObject gameObject)
+        static public void AnimateDlg(GameObject dlg)
         {
-            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0.0f;
             canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
             canvasGroup.DOKill();
             canvasGroup.DOFade(1.0f, 0.25f);
             canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
 
-            gameObject.SetActive(true);
+            dlg.SetActive(true);
         }
 
-        static public void ShowScreenDlg(GameObject gameObject)
+        static public void ShowScreenDlg(GameObject dlg)
         {
-            Image BlurBg = gameObject.transform.parent.GetComponent<Image>();
+            Image BlurBg = dlg.transform.parent.GetComponent<Image>();
             UIBlurBackground.BlurBackground(BlurBg, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL, BlurBg.gameObject);
             UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
             UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
-            CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0.0f;
             canvasGroup.DOKill();
             canvasGroup.DOFade(1.0f, 0.25f);
 
-            gameObject.SetActive(true);
+            dlg.SetActive(true);
         }
 
     }

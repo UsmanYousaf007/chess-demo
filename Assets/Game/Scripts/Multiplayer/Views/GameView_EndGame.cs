@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
 
-            UIDlgManager.Show(gameEndDlgContainer);
+            UIDlgManager.Show(gameEndDlgContainer, 0.19f);
 
             if ((playerWins || isDraw) && !gameEnded && isRankedGame)
             {
