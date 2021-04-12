@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
         private bool animationPlayed = false;
 
         private float resultsDialogHalfHeight;
-
+        private Sequence analysisFreeTagAnimationSequence;
         private float animDelay;
 
         private const float REWARDS_DIALOG_DURATION = 0.5f;
@@ -110,6 +110,31 @@ namespace TurboLabz.Multiplayer
             sequence.AppendCallback(() => ShowResultsDialog());
             //sequence.AppendCallback(() => ScaleInResultsDialog());
             sequence.PlayForward();
+        }
+
+        private void AnimateFreeTagOnFullAnalysis(bool animate)
+        {
+            if (analysisFreeTagAnimationSequence != null && analysisFreeTagAnimationSequence.IsPlaying())
+            {
+                analysisFreeTagAnimationSequence.Kill();
+                analysisFreeTagAnimationSequence = null;
+            }
+
+            if (!animate)
+            {
+                return;
+            }
+
+            if (analysisFreeTagAnimationSequence == null)
+            {
+                analysisFreeTagAnimationSequence = DOTween.Sequence();
+                analysisFreeTagAnimationSequence.AppendCallback(() => resultsFullAnalysisFreeTag.transform.localEulerAngles = Vector3.zero);
+                analysisFreeTagAnimationSequence.AppendCallback(() => resultsFullAnalysisFreeTag.transform.DOPunchRotation(Vector3.forward * 8, 1.3f));
+                analysisFreeTagAnimationSequence.AppendInterval(3.0f);
+                analysisFreeTagAnimationSequence.SetLoops(-1);
+            }
+
+            analysisFreeTagAnimationSequence.PlayForward();
         }
 
         #endregion

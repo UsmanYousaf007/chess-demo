@@ -203,7 +203,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
-            BuildLayout();
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
         }
@@ -244,11 +243,14 @@ namespace TurboLabz.Multiplayer
             SetupRewardDoublerPrice();
             UpdateMatchAnalysis(vo.matchAnalysis);
             SetGameAnalysisPanel();
+
             if (!isLongPlay)
             {
                 SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
                 SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
             }
+
+            BuildLayout();
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -682,6 +684,8 @@ namespace TurboLabz.Multiplayer
             resultsFullAnalysisGemIcon.SetActive(!availableForFree);
             fullAnalysisGemsCount.enabled = !availableForFree;
             fullAnalysisBtn.interactable = true;
+
+            AnimateFreeTagOnFullAnalysis(availableForFree);
         }
 
         public void OnRatingBoosted(int boostedRating)

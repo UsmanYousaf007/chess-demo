@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
         private bool hasEnoughGems;
         private bool availableForFree;
         private StoreItem storeItem;
+        private Sequence animationSequence;
 
         public void Init()
         {
@@ -110,12 +111,38 @@ namespace TurboLabz.InstantFramework
             buyFullAnalysisBtn.interactable = true;
             closeBtn.interactable = true;
             SetupPrice();
+            AnimateFreeTag(availableForFree);
         }
 
         public void SetupPrice()
         {
             hasEnoughGems = availableForFree || playerModel.gems >= storeItem.currency3Cost;
             fullAnalysisGemsCount.text = storeItem.currency3Cost.ToString();
+        }
+
+        private void AnimateFreeTag(bool animate)
+        {
+            if (animationSequence != null && animationSequence.IsPlaying())
+            {
+                animationSequence.Kill();
+                animationSequence = null;
+            }
+
+            if (!animate)
+            {
+                return;
+            }
+
+            if (animationSequence == null)
+            {
+                animationSequence = DOTween.Sequence();
+                animationSequence.AppendCallback(() => freeTag.transform.localEulerAngles = Vector3.zero);
+                animationSequence.AppendCallback(() => freeTag.transform.DOPunchRotation(Vector3.forward * 8, 1.3f));
+                animationSequence.AppendInterval(3.0f);
+                animationSequence.SetLoops(-1);
+            }
+
+            animationSequence.PlayForward();
         }
     }
 }

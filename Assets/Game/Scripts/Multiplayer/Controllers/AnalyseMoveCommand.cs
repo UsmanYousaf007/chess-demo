@@ -58,23 +58,29 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.whiteScore = chessService.GetScore(ChessColor.WHITE);
             moveAnalysis.blackScore = chessService.GetScore(ChessColor.BLACK);
 
-            matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
-
-            if (isPlayerTurn)
+            if (matchInfoModel.activeMatch != null)
             {
-                switch (moveAnalysis.moveQuality)
+                if (matchInfoModel.activeMatch.movesAnalysisList != null)
                 {
-                    case MoveQuality.PERFECT:
-                        matchInfoModel.activeMatch.matchAnalysis.perfectMoves++;
-                        break;
+                    matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
+                }
 
-                    case MoveQuality.BLUNDER:
-                        matchInfoModel.activeMatch.matchAnalysis.blunders++;
-                        break;
+                if (matchInfoModel.activeMatch.matchAnalysis != null && isPlayerTurn)
+                {
+                    switch (moveAnalysis.moveQuality)
+                    {
+                        case MoveQuality.PERFECT:
+                            matchInfoModel.activeMatch.matchAnalysis.perfectMoves++;
+                            break;
 
-                    case MoveQuality.MISTAKE:
-                        matchInfoModel.activeMatch.matchAnalysis.mistakes++;
-                        break;
+                        case MoveQuality.BLUNDER:
+                            matchInfoModel.activeMatch.matchAnalysis.blunders++;
+                            break;
+
+                        case MoveQuality.MISTAKE:
+                            matchInfoModel.activeMatch.matchAnalysis.mistakes++;
+                            break;
+                    }
                 }
             }
 
