@@ -134,7 +134,6 @@ namespace TurboLabz.Multiplayer
         public Signal<VirtualGoodsTransactionVO> doubleRewardSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal fullAnalysisButtonClickedSignal = new Signal();
         public Signal ratingBoosterRewardSignal = new Signal();
-        public Signal<long> setCoolDownTimer = new Signal<long>();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
 
         private float declinedDialogHalfHeight;
@@ -160,7 +159,6 @@ namespace TurboLabz.Multiplayer
 
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
-        private float coolDownInterval;
 
         public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
 
@@ -236,7 +234,6 @@ namespace TurboLabz.Multiplayer
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
             matchAnalysis = vo.matchAnalysis;
             canSeeRewardedVideo = vo.canSeeRewardedVideo;
-            coolDownInterval = vo.rewardedVideoCoolDownInterval;
             coolDownTimeUTC = vo.coolDownTimeUTC;
 
             UpdateGameEndReasonSection(vo.reason);
@@ -777,19 +774,14 @@ namespace TurboLabz.Multiplayer
         public bool IsCoolDownComplete()
         {
             return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
         }
 
         public void StartTimer(long coolDownTime = 0)
         {
-            if (coolDownTime == 0)
-                coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
-            else
-                coolDownTimeUTC = coolDownTime;
-            
+            coolDownTimeUTC = coolDownTime;
+            UpdateTimerText();
             ratingBoosterTimer.SetActive(true);
             getRV.SetActive(false);
-            setCoolDownTimer.Dispatch(coolDownTimeUTC);
             schedulerSubscription.Dispatch(true);
         }
 

@@ -45,7 +45,6 @@ namespace TurboLabz.InstantFramework
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
             view.closeButtonSignal.AddListener(OnCloseSignal);
             view.showRewardedAdSignal.AddListener(OnPlayRewardedVideoClicked);
-            view.setCoolDownTimer.AddListener(OnSetCoolDownTimer);
             view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
@@ -153,8 +152,7 @@ namespace TurboLabz.InstantFramework
                 if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
                 {
                     this.rewardedVideoShown = true;
-                    view.OnEnablePowerMode();
-                    view.StartTimer();
+    
                 }
 
                 else if (result == AdsResult.NOT_AVAILABLE)
@@ -165,16 +163,21 @@ namespace TurboLabz.InstantFramework
             
         }
 
+        [ListensTo(typeof(PowerPlayRewardClaimedSignal))]
+        public void OnPowerPlayRewardClaimed()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.OnEnablePowerMode();
+                view.StartTimer(playerModel.rvUnlockTimestamp);
+            }
+        }
+
         private void OnPlayRewardedVideoClicked(AdPlacements adPlacements)
         {
             rewardedAdSignal.Dispatch(adPlacements);
         }
 
-        private void OnSetCoolDownTimer(long coolDownTimeUTC)
-        {
-            preferencesModel.rvCoolDownTimeUTC = coolDownTimeUTC;
-
-        }
 
         private void OnSchedulerSubscriptionToggle(bool subscribe)
         {

@@ -92,8 +92,7 @@ namespace TurboLabz.InstantGame
         public bool isLeaderboardTooltipShown { get; set; }
         public bool FTUE { get; set; }
         public int purchasesCount { get; set; }
-        public int playDays { get; set; }
-        public long rvCoolDownTimeUTC { get; set; }
+
         
         [PostConstruct]
         public void PostConstruct()
@@ -496,17 +495,6 @@ namespace TurboLabz.InstantGame
                     purchasesCount = reader.Read<int>(PrefKeys.purchasesCount);
                 }
 
-                if (reader.HasKey(PrefKeys.PLAY_DAYS))
-                {
-                    playDays = reader.Read<int>(PrefKeys.PLAY_DAYS);
-                }
-
-                if (reader.HasKey(PrefKeys.RV_COOLDOWN_TIME))
-                {
-                    rvCoolDownTimeUTC = reader.Read<long>(PrefKeys.RV_COOLDOWN_TIME);
-                }
-
-
                 var transactionKeys = dailyResourceManager.Keys.ToList();
 
                 foreach (var transaction in transactionKeys)
@@ -614,8 +602,6 @@ namespace TurboLabz.InstantGame
                 writer.Write<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN, isLeaderboardTooltipShown);
                 writer.Write<bool>(PrefKeys.FTUE, FTUE);
                 writer.Write<int>(PrefKeys.purchasesCount, purchasesCount);
-                writer.Write<int>(PrefKeys.PLAY_DAYS, playDays);
-                writer.Write<long>(PrefKeys.RV_COOLDOWN_TIME, rvCoolDownTimeUTC);
 
                 foreach (var transaction in dailyResourceManager)
                 {

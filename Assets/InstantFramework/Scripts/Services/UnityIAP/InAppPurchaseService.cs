@@ -81,12 +81,12 @@ public class InAppPurchaseService : IStoreService
                     //                        new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     //                }
 #if SUBSCRIPTION_TEST
-                if (playerModel.subscriptionExipryTimeStamp > 0)
-                {
-                    playerModel.subscriptionExipryTimeStamp = 1;
-                    loadPromotionSingal.Dispatch();
-                    updatePlayerDataSignal.Dispatch();
-                }
+                    if (playerModel.subscriptionExipryTimeStamp > 0)
+                    {
+                        playerModel.subscriptionExipryTimeStamp = 1;
+                        loadPromotionSingal.Dispatch();
+                        updatePlayerDataSignal.Dispatch();
+                    }
 #endif
                 }
             }
@@ -104,11 +104,13 @@ public class InAppPurchaseService : IStoreService
 
     public void OnSubscriptionPurchased(ISubscriptionPurchaseData purchaseData)
     {
+        Debug.Log("OnSubscriptionPurchased");
     }
 
     public void OnPurchaseSuccess(IProductInfo product, TransactionType transactionType, PriceConversionData priceConversion, PurchaseReceiptData receiptData)
     {
-        // For informational purposes, we list the receipt(s)    
+        // For informational purposes, we list the receipt(s)
+        Debug.Log("OnPurchaseSuccess");
         Debug.Log("Receipt is valid. Contents:");
         Debug.Log(receiptData.receipt.TransactionID);
         Debug.Log(product.ProductId);
@@ -256,8 +258,11 @@ public class InAppPurchaseService : IStoreService
             products.Add(product);
             _products[prod.Key] = product;
         }
+
+        
         HPurchases.Init(products);
         promise = new Promise<bool>();
+
         return promise;
     }
 
@@ -296,6 +301,7 @@ public class InAppPurchaseService : IStoreService
 
     public void UpgardeSubscription(string oldProductId, string newProductId)
     {
+        LogUtil.Log("UpgardeSubscription: " + "oldProduct: " + oldProductId + "newProductId: " + newProductId);
         HPurchases.UpdateSubscription(oldProductId, newProductId);
     }
 
@@ -369,6 +375,15 @@ public class InAppPurchaseService : IStoreService
     {
         IAPProductType productType = ConvertUnityProdTypeToHUFProdType(type);
         ProductInfo product = new ProductInfo(productType, productId);
+
+        if (productType == IAPProductType.Subscription)
+        {
+            int subscriptionLength = 30;
+
+            if (productId.Contains("Annual") || productId.Contains("Year"))
+                subscriptionLength = 366;
+            product.SetSubscriptionInfo(1, subscriptionLength, 1, subscriptionLength);
+        }
         return product;
     }
 

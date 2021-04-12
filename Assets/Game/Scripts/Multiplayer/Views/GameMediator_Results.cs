@@ -10,13 +10,11 @@
 /// @description
 /// [add_description_here]
 
-using TurboLabz.InstantFramework;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
-using TurboLabz.InstantGame;
-using GameSparks.Core;
-using GameAnalyticsSDK;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
+using GameSparks.Core;
+using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
 namespace TurboLabz.Multiplayer
 {
@@ -71,7 +69,6 @@ namespace TurboLabz.Multiplayer
             view.showGetFullAnalysisDlg.AddListener(OnShowGetGameAnalysisDlg);
             view.showNewRankChampionshipDlgSignal.AddListener(OnShowNewRankChampionshipDlg);
             view.ratingBoosterRewardSignal.AddListener(OnPlayRewardedVideoClicked);
-            view.setCoolDownTimer.AddListener(OnSetCoolDownTimer);
             view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
@@ -140,7 +137,6 @@ namespace TurboLabz.Multiplayer
         {
             if (view.IsVisible())
             {
-                view.OnRatingBoosted(ratingBoost);
                 if (consumedGems > 0)
                 {
                     analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.rating_booster);
@@ -149,9 +145,13 @@ namespace TurboLabz.Multiplayer
 
                 else
                 {
+                    view.StartTimer(playerModel.rvUnlockTimestamp);
                     analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, AnalyticsContext.rv_rating_booster);
                     analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, 0, "booster_used", AnalyticsContext.rv_rating_booster.ToString());
                 }
+
+                view.OnRatingBoosted(ratingBoost);
+               
             }
         }
 
@@ -218,11 +218,6 @@ namespace TurboLabz.Multiplayer
             showRewardedAdSignal.Dispatch(AdPlacements.RV_rating_booster);
         }
 
-        private void OnSetCoolDownTimer(long coolDownTimeUTC)
-        {
-            preferencesModel.rvCoolDownTimeUTC = coolDownTimeUTC;
-
-        }
 
         private void OnSchedulerSubscriptionToggle(bool subscribe)
         {
@@ -243,7 +238,7 @@ namespace TurboLabz.Multiplayer
             {
                 if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
                 {
-                    view.StartTimer();
+                    //view.StartTimer();
                 }
 
                 else if (result == AdsResult.NOT_AVAILABLE)

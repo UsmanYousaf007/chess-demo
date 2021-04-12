@@ -322,10 +322,5 @@ namespace TurboLabz.InstantFramework
 #endif
         }
 
-        //ask sami
-        public bool IsPlayerQualifiedForRewarded(int itemCost, int playDaysRequired)
-        {
-            return playerModel.gems < itemCost && preferencesModel.playDays > playDaysRequired;
-        }
     }
 }

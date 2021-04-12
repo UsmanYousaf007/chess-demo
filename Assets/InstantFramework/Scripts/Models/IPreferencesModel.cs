@@ -95,8 +95,5 @@ namespace TurboLabz.InstantFramework
 
         bool isLeaderboardTooltipShown { get; set; }
 
-        long rvCoolDownTimeUTC{ get; set; }
-        int playDays { get; set; }
-
     }
 }

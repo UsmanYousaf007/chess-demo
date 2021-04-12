@@ -26,9 +26,9 @@ namespace TurboLabz.InstantFramework
             {
                 vo.storeItem = storeSettingsModel.items[shortCode];
             }
-            vo.canSeeRewardedVideo = adsService.IsPlayerQualifiedForRewarded(vo.storeItem.currency3Cost, adsSettingsModel.minPlayDaysRequired);
-            vo.rewardedVideoCoolDownInterval = preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired ? adsSettingsModel.freemiumTimerCooldownTime : adsSettingsModel.premiumTimerCooldownTime;
-            vo.coolDownTimeUTC = preferencesModel.rvCoolDownTimeUTC;
+            vo.canSeeRewardedVideo = playerModel.gems < adsSettingsModel.minGemsRequiredforRV && playerModel.rvUnlockTimestamp > 0;
+            //vo.rewardedVideoCoolDownInterval = preferencesModel.purchasesCount < adsSettingsModel.minPurchasesRequired ? adsSettingsModel.freemiumTimerCooldownTime : adsSettingsModel.premiumTimerCooldownTime;
+            vo.coolDownTimeUTC = playerModel.rvUnlockTimestamp;
             vo.bet = betValue;
 
             updateTimeSelectDlgSignal.Dispatch(vo);

@@ -48,6 +48,7 @@ namespace TurboLabz.InstantFramework
         public int league { get; set; }
         public long coins { get; set; }
         public bool leaguePromoted { get; set; }
+        public long rvUnlockTimestamp { get; set; }
 
         public string name
         {

@@ -41,9 +41,9 @@ namespace TurboLabz.Multiplayer
             vo.moveAnalysisList = cmd.activeMatchInfo.movesAnalysisList;
             vo.fullGameAnalysisStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS];
             vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
-            vo.canSeeRewardedVideo = cmd.adsService.IsPlayerQualifiedForRewarded(vo.ratingBoostStoreItem.currency3Cost, cmd.adsSettingsModel.minPlayDaysRequired);
-            vo.rewardedVideoCoolDownInterval = cmd.preferencesModel.purchasesCount < cmd.adsSettingsModel.minPurchasesRequired ? cmd.adsSettingsModel.freemiumTimerCooldownTime : cmd.adsSettingsModel.premiumTimerCooldownTime;
-            vo.coolDownTimeUTC = cmd.preferencesModel.rvCoolDownTimeUTC;
+
+            vo.canSeeRewardedVideo = cmd.playerModel.gems < cmd.adsSettingsModel.minGemsRequiredforRV && cmd.playerModel.rvUnlockTimestamp > 0;
+            vo.coolDownTimeUTC = cmd.playerModel.rvUnlockTimestamp;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
             cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);

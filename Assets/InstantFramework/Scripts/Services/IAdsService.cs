@@ -22,6 +22,5 @@ namespace TurboLabz.InstantFramework
         bool IsInterstitialNotCapped();
         bool GetAdsConsent();
         bool IsPersonalisedAdDlgShown();
-        bool IsPlayerQualifiedForRewarded(int costInGems, int playDaysRequired);
     }
 }

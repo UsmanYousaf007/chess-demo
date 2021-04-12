@@ -169,7 +169,7 @@ namespace TurboLabz.InstantFramework
         public const string MIN_PURCHASES_REQUIRED = "minPurchasesRequired";
         public const string PREMIUM_TIMER_COOLDOWN_TIME = "premiumTimerCooldownTimeInMin";
         public const string FREEMIUM_TIMER_COOLDOWN_TIME = "freemiumTimerCooldownTimeInMin";
-
+        public const string MIN_GEMS_REQUIRED_FOR_RV = "minGemsRequiredforRV";
         // AB Test Settings
         public const string AB_TEST_ADS_SETTINGS = "abTestAds";
 
@@ -574,7 +574,7 @@ namespace TurboLabz.InstantFramework
             public const string LEAGUE = "league";
             public const string COINS = "coins";
             public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
-            
+            public const string RV_UNLOCK_TIMESTAMP = "rvUnlockTimestamp";
         }
 
         public static class Match

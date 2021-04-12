@@ -245,7 +245,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<FullAnalysisBoughtSignal>().ToSingleton();
             injectionBinder.Bind<UpdateGetGameAnalysisDlgSignal>().ToSingleton();
             injectionBinder.Bind<ShowGenericProcessingSignal>().ToSingleton();
-
+            injectionBinder.Bind<PowerPlayRewardClaimedSignal>().ToSingleton();
+            
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

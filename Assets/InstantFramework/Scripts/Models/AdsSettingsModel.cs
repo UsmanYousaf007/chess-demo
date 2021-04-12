@@ -33,10 +33,7 @@ namespace TurboLabz.InstantFramework
         public bool isBannerEnabled { get; set; }
 
         /*Timed ads settings*/
-        public int minPlayDaysRequired { get; set; }
-        public int minPurchasesRequired { get; set; }
-        public float premiumTimerCooldownTime { get; set; }
-        public float freemiumTimerCooldownTime { get; set; }
+        public int minGemsRequiredforRV { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }

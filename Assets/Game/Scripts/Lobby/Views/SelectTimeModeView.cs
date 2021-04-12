@@ -67,7 +67,6 @@ namespace TurboLabz.InstantFramework
         public Signal notEnoughGemsSignal = new Signal();
         public Signal closeButtonSignal = new Signal();
         public Signal<AdPlacements> showRewardedAdSignal = new Signal<AdPlacements>();
-        public Signal<long> setCoolDownTimer = new Signal<long>();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -82,7 +81,6 @@ namespace TurboLabz.InstantFramework
 
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
-        private float coolDownInterval;
         private bool isTimerRunning;
         public void Init()
         {
@@ -107,7 +105,6 @@ namespace TurboLabz.InstantFramework
         public void Show()
         {
             UIDlgManager.Show(gameObject);
-            SyncRvTimer();
         }
 
         public void Hide()
@@ -129,7 +126,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
             canSeeRewardedVideo = vo.canSeeRewardedVideo;
-            coolDownInterval = vo.rewardedVideoCoolDownInterval;
             coolDownTimeUTC = vo.coolDownTimeUTC;
             freeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
             SetupState(isPowerModeOn, canSeeRewardedVideo);
@@ -191,9 +187,7 @@ namespace TurboLabz.InstantFramework
                 powerPlayPlusWithRV.SetActive(!powerModeEnabled);
                 gemIconWithRv.enabled = !powerModeEnabled;
                 gemCostWithRv.enabled = !powerModeEnabled;
-                //powerPlayAdTimer.SetActive(!isCoolDownComplete);
                 powerPlayWithRVBtn.interactable = !powerModeEnabled;
-                //getRV.SetActive(isCoolDownComplete);
                 timerRunningTooltip.SetActive(false);
                 videoNotAvailableTooltip.SetActive(false);
                 if (!isCoolDownComplete && !isTimerRunning)
@@ -202,14 +196,6 @@ namespace TurboLabz.InstantFramework
 
             isPowerModeOn = powerModeEnabled;
 
-        }
-
-        void SyncRvTimer()
-        {
-            //if (gameObject.activeInHierarchy && !isCoolDownComplete)
-            //{
-            //    StartCoroutine(RvCoolDownTimer());
-            //}
         }
 
         public void OnEnablePowerMode()
@@ -252,23 +238,16 @@ namespace TurboLabz.InstantFramework
         public bool IsCoolDownComplete()
         {
             return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            //return preferencesModel.rvCoolDownTimeUTC < backendService.serverClock.currentTimestamp;
         }
 
         public void StartTimer(long coolDownTime = 0)
         {
-            if (coolDownTime == 0)
-                coolDownTimeUTC = DateTimeOffset.UtcNow.AddMinutes(coolDownInterval).ToUnixTimeMilliseconds();
-            else
-                coolDownTimeUTC = coolDownTime;
-
+            coolDownTimeUTC = coolDownTime;
             UpdateTimerText();
             powerPlayAdTimer.SetActive(true);
             getRV.SetActive(false);
-            setCoolDownTimer.Dispatch(coolDownTimeUTC);
             schedulerSubscription.Dispatch(true);
             isTimerRunning = true;
-
         }
 
         public void SchedulerCallBack()

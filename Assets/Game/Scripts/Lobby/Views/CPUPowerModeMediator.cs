@@ -12,10 +12,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
+        [Inject] public ShowRewardedAdSignal rewardedAdSignal { get; set; }
 
+        //Models
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         //Service
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPreGameAdsService preGameAdsService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         public override void OnRegister()
         {
@@ -24,6 +29,9 @@ namespace TurboLabz.InstantFramework
             view.conutinueButtonSignal.AddListener(OnContinueButtonClicked);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);
             view.closeButtonSignal.AddListener(OnCloseSignal);
+
+            view.showRewardedAdSignal.AddListener(OnPlayRewardedVideoClicked);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -31,6 +39,9 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CPU_POWER_MODE)
             {
+         
+
+                
                 view.Show();
             }
         }
@@ -73,6 +84,39 @@ namespace TurboLabz.InstantFramework
                 view.OnEnablePowerMode();
                 analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.cpu_pre_game_power_mode);
                 analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "booster_used", AnalyticsContext.cpu_pre_game_power_mode.ToString());
+            }
+        }
+
+        [ListensTo(typeof(PowerPlayRewardClaimedSignal))]
+        public void OnPowerPlayRewardClaimed()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.OnEnablePowerMode();
+                view.StartTimer(playerModel.rvUnlockTimestamp);
+            }
+        }
+
+        private void OnPlayRewardedVideoClicked(AdPlacements adPlacements)
+        {
+            rewardedAdSignal.Dispatch(adPlacements);
+        }
+
+        //private void OnSetCoolDownTimer(long coolDownTimeUTC)
+        //{
+        //    preferencesModel.rvCoolDownTimeUTC = coolDownTimeUTC;
+
+        //}
+
+        private void OnSchedulerSubscriptionToggle(bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(view.SchedulerCallBack);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(view.SchedulerCallBack);
             }
         }
     }
