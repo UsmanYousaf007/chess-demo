@@ -212,7 +212,7 @@ namespace TurboLabz.InstantFramework
             }
 
             var discount = storeItem.productPrice > 0 ? 1 - (float)(saleItem.productPrice / storeItem.productPrice) : 0.5f;
-            orignalPrice.text = storeItem.remoteProductPrice;
+            orignalPrice.text = StrikeThrough(storeItem.remoteProductPrice);
             newPrice.text = saleItem.remoteProductPrice;
             ribbonText.text = $"FIRE SALE! {(int)(discount * 100)}% OFF";
         }
@@ -224,6 +224,16 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true;
                 ShowSaleItems(true);
             }
+        }
+
+        public string StrikeThrough(string s)
+        {
+            string strikethrough = "";
+            foreach (char c in s)
+            {
+                strikethrough = strikethrough + c + "<b>" +'\u0336' + "</b>";
+            }
+            return strikethrough;
         }
     }
 }

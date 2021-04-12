@@ -150,7 +150,7 @@ namespace TurboLabz.InstantFramework
             }
 
             var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
-            subscriptionOriginalPrice.text = storeItem.remoteProductPrice;
+            subscriptionOriginalPrice.text = StrikeThrough(storeItem.remoteProductPrice);
             subscriptionNewPrice.text = saleItem.remoteProductPrice;
             subscriptionRibbonText.text = $"MEGA SALE! {(int)(discount * 100)}% OFF";
         }
@@ -198,6 +198,16 @@ namespace TurboLabz.InstantFramework
             appInfoModel.internalAdType = InternalAdType.NONE;
             HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
             //toggleBannerSignal.Dispatch(true);
+        }
+
+        public string StrikeThrough(string s)
+        {
+            string strikethrough = "";
+            foreach (char c in s)
+            {
+                strikethrough = strikethrough + c + '\u0336';
+            }
+            return strikethrough;
         }
     }
 }
