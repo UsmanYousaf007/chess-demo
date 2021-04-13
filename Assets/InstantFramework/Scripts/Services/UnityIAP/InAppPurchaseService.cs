@@ -259,9 +259,10 @@ public class InAppPurchaseService : IStoreService
             _products[prod.Key] = product;
         }
 
-        
-        HPurchases.Init(products);
+
         promise = new Promise<bool>();
+        HPurchases.Init(products);
+       
 
         return promise;
     }

@@ -16,6 +16,23 @@ namespace HUF.Purchases.Runtime.Implementation.Data
         [SerializeField] ProductShopInfo iOSConfig = default;
         [SerializeField] SubscriptionSpecificInfo subscriptionSpecificInfo = default;
 
+        public ProductInfo( IAPProductType type,
+            string id,
+            string androidID = "",
+            string iOSId = "",
+            int priceInCents = 0,
+            SubscriptionSpecificInfo subscriptionSpecificInfo = null )
+        {
+            this.type = type;
+            productId = id;
+            androidConfig = new ProductShopInfo( androidID == string.Empty ? id : androidID, priceInCents );
+            iOSConfig = new ProductShopInfo( iOSId == string.Empty ? id : iOSId, priceInCents );
+
+            if ( subscriptionSpecificInfo == null )
+                subscriptionSpecificInfo = new SubscriptionSpecificInfo();
+            this.subscriptionSpecificInfo = subscriptionSpecificInfo;
+        }
+
         public IAPProductType Type => type;
 
         public string ProductId => productId;
@@ -25,7 +42,8 @@ namespace HUF.Purchases.Runtime.Implementation.Data
             get
             {
                 var shopId = string.Empty;
-                switch (Application.platform)
+
+                switch ( Application.platform )
                 {
                     case RuntimePlatform.WindowsEditor:
                     case RuntimePlatform.IPhonePlayer:
@@ -36,7 +54,7 @@ namespace HUF.Purchases.Runtime.Implementation.Data
                         break;
                 }
 
-                if (string.IsNullOrEmpty(shopId))
+                if ( string.IsNullOrEmpty( shopId ) )
                 {
                     shopId = productId;
                 }
@@ -49,7 +67,7 @@ namespace HUF.Purchases.Runtime.Implementation.Data
         {
             get
             {
-                switch (Application.platform)
+                switch ( Application.platform )
                 {
                     case RuntimePlatform.IPhonePlayer:
                         return iOSConfig.PriceInCents;
@@ -70,14 +88,6 @@ namespace HUF.Purchases.Runtime.Implementation.Data
             return type == IAPProductType.NonConsumable || type == IAPProductType.Subscription;
         }
 
-        public ProductInfo( IAPProductType type, string id, string androidID = "", string iOSId = "", int priceInCents = 0 )
-        {
-            this.type = type;
-            productId = id;
-            androidConfig = new ProductShopInfo( androidID == string.Empty ? id : androidID, priceInCents );
-            iOSConfig = new ProductShopInfo( iOSId == string.Empty ? id : iOSId, priceInCents );
-        }
-        
         public void SetSubscriptionInfo( int androidTrialPeroid, int androidPeroid, int iOSTrialPeroid, int iOSPeroid )
         {
             subscriptionSpecificInfo.SetAndroidInfo( androidTrialPeroid, androidPeroid );

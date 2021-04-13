@@ -18,6 +18,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
     public class EmptyPurchasesModel : IPurchasesModel
     {
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(EmptyPurchasesModel) );
+        readonly HashSet<string> boughtProducts = new HashSet<string>();
 
         public bool IsInitialized => isInitialized;
 
@@ -38,10 +39,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
 
         bool isInitialized = false;
         IPriceConversionService priceConversionService;
-
         string purchaseProductId;
-
-        readonly HashSet<string> boughtProducts = new HashSet<string>();
         PurchasesConfig purchasesConfig = null;
 
         public void Init()
@@ -106,43 +104,57 @@ namespace HUF.Purchases.Runtime.Implementation.Models
 
             if ( purchasesConfig.ShowDebugMenuInEditor )
             {
-                AddDebugScreenButton( true );
-                AddDebugScreenButton( false );
+                foreach(TestPaymentResult result in Enum.GetValues(typeof (TestPaymentResult)))
+                {
+                    AddDebugScreenButton( result );
+                }
                 DebugButtonsScreen.Instance.Show("Purchase Debug Screen");
             }
             else
             {
-                HandlePurchase( purchasesConfig.EditorDefaultPurchaseSuccess );
+                HandlePurchase( purchasesConfig.EditorDefaultPurchaseSuccess ? TestPaymentResult.Success: TestPaymentResult.Fail );
             }
         }
 
-        void AddDebugScreenButton( bool result )
+        void AddDebugScreenButton( TestPaymentResult result )
         {
             DebugButtonsScreen.Instance.AddGUIButton( $"Result:{result}", () => HandlePurchase( result ) );
         }
 
-        public void HandlePurchase( bool result )
+        public void HandlePurchase( TestPaymentResult result )
         {
             if ( purchasesConfig.ShowDebugMenuInEditor )
             {
                 DebugButtonsScreen.Instance.Hide();
             }
 
-            if ( result )
+            switch ( result )
             {
-                boughtProducts.Add( purchaseProductId );
+                case TestPaymentResult.Success:
+                {
+                    boughtProducts.Add( purchaseProductId );
 
-                OnPurchaseSuccess.Dispatch(
-                    purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
-                    TransactionType.Purchase,
-                    null,
-                    null );
-            }
-            else
-            {
-                OnPurchaseFailure.Dispatch(
-                    purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
-                    PurchaseFailureType.UserCancelled );
+                    OnPurchaseSuccess.Dispatch(
+                        purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
+                        TransactionType.Purchase,
+                        null,
+                        null );
+                    break;
+                }
+                case TestPaymentResult.Fail:
+                {
+                    OnPurchaseFailure.Dispatch(
+                        purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
+                        PurchaseFailureType.Unknown );
+                    break;
+                }
+                case TestPaymentResult.Cancel:
+                {
+                    OnPurchaseFailure.Dispatch(
+                        purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
+                        PurchaseFailureType.UserCancelled );
+                    break;
+                }
             }
         }
 
@@ -246,6 +258,13 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                 return purchasesConfig.PriceConversionCurrency.IsNotEmpty() ? purchasesConfig.PriceConversionCurrency : "USD" ;
 
             return string.Empty;
+        }
+
+        public enum TestPaymentResult
+        {
+            Success,
+            Fail,
+            Cancel
         }
     }
 }

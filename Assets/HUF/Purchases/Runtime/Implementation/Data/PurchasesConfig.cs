@@ -18,7 +18,7 @@ namespace HUF.Purchases.Runtime.Implementation.Data
 
         [Header("Refund")]
 #pragma warning disable 0414
-        [Warning(45.0f), SerializeField, UsedImplicitly] string refundWarningMessage = "Refund service works only when local verification is enabled";
+        [Warning, SerializeField, UsedImplicitly] string refundWarningMessage = "Refund service works only when local verification is enabled";
 #pragma warning restore 0414
         [SerializeField] bool enableRefundService = true;
 

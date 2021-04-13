@@ -1,10 +1,38 @@
+## [2.9.4] - 2021-03-25
+### Fixed
+- Potential division by zero error
+
+
+## [2.9.3] - 2021-03-23
+### Fixed
+- Null references of subscriptionSpecificInfo in ProductInfo class
+
+
+## [2.9.2] - 2021-03-08
+### Changed
+- Editor test purchase window now offer a Success, Fail and Cancel buttons with proper events send.
+- Removed Google Play billing library support - it is implemented in Unity IAP package v2.2.7
+
+
+## [2.9.1] - 2021-03-04
+### Fixed
+- A warning
+
+
+## [2.9.0] - 2021-02-24
+### Added
+- Added Google Play billing library support
+
+
 ## [2.8.2] - 2021-02-17
 ### Fixed
 - Compilation error in dummy version
 
+
 ## [2.8.1] - 2021-02-11
 ### Added
 - Price in cents parameter added to ProductInfo constructor
+
 
 ## [2.8.0] - 2021-01-22
 ### Added
@@ -19,6 +47,7 @@
 
 ### Removed
 - Warnings
+
 
 ## [2.7.2] - 2020-12-21
 ### Fixed

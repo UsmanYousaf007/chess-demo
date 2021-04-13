@@ -39,10 +39,10 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         };
 #else
         // Values based on https://developer.android.com/google/play/billing/test#renewals
-        Dictionary<int,int> DaysToMinutesDebug { get; } = new Dictionary<int, int>
+        Dictionary<int, int> DaysToMinutesDebug { get; } = new Dictionary<int, int>
         {
-            {7, 5}, {30, 5}, {28, 5}, {29, 5}, {31, 5}, {365, 30}, {6 * 30, 15}, {6 * 31, 15}, {6 * 28, 15},
-            {6 * 29, 15}
+            { 7, 5 }, { 30, 5 }, { 28, 5 }, { 29, 5 }, { 31, 5 }, { 365, 30 }, { 6 * 30, 15 }, { 6 * 31, 15 },
+            { 6 * 28, 15 }, { 6 * 29, 15 }
         };
 #endif
 #endif
@@ -58,7 +58,6 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             this.encryption = encryption;
             subscriptionsInfo = new Dictionary<string, SubscriptionInfo>();
             subscriptionCachedSaves = new Dictionary<string, SecureCustomPP<SubscriptionSaveData>>();
-
         }
 
         public void UpdateSubscriptions( Product[] products )
@@ -286,8 +285,16 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             if ( save == null )
                 return 0;
 
-            var expirationDelta = expirationDate - DateTimeUtils.FromTimestamp( save.expirationTimestamp );
             double periodInSeconds = TimeSpan.FromDays( productInfo.SubscriptionPeriod ).TotalSeconds;
+
+            if ( periodInSeconds == 0 )
+            {
+                HLog.LogError( logPrefix,
+                    $"Please fill subscriptionSpecificInfo for product with id: {productInfo.ProductId}\nUse values higher then zero." );
+                return 0;
+            }
+
+            var expirationDelta = expirationDate - DateTimeUtils.FromTimestamp( save.expirationTimestamp );
             return Mathf.CeilToInt( (float)( ( (int)expirationDelta.TotalSeconds ) / periodInSeconds ) );
         }
 

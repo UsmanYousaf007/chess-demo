@@ -24,11 +24,11 @@ namespace HUF.Purchases.Runtime.API
             {
                 if ( purchasesModel == null )
                 {
-#if UNITY_PURCHASING && !UNITY_EDITOR
+//#if UNITY_PURCHASING && !UNITY_EDITOR
                     purchasesModel = new PurchasesModel();
-#else
-                    purchasesModel = new EmptyPurchasesModel();
-#endif
+//#else
+                    //purchasesModel = new EmptyPurchasesModel();
+//#endif
                 }
 
                 return purchasesModel;
