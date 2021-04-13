@@ -157,7 +157,8 @@ namespace TurboLabz.InstantFramework
 
                 else if (result == AdsResult.NOT_AVAILABLE)
                 {
-                    view.SetupVideoAvailabilityTooltip(true);
+                    view.EnableVideoAvailabilityTooltip();
+                    Invoke("view.DisableVideoAvailabilityTooltip", 5);
                 }
             }
             

@@ -169,6 +169,7 @@ namespace TurboLabz.InstantFramework
             powerPlayOnBtn.gameObject.SetActive(!canSeeRV);
             powerPlayWithRVBtn.gameObject.SetActive(canSeeRV);
             rewardedVideoBtn.gameObject.SetActive(canSeeRV);
+  
             if (!canSeeRV)
             {
                 powerPlayTick.enabled = powerModeEnabled;
@@ -188,8 +189,11 @@ namespace TurboLabz.InstantFramework
                 gemIconWithRv.enabled = !powerModeEnabled;
                 gemCostWithRv.enabled = !powerModeEnabled;
                 powerPlayWithRVBtn.interactable = !powerModeEnabled;
+                //powerPlayWithRVBtn.gameObject.SetActive(!powerModeEnabled);
+                //rewardedVideoBtn.gameObject.SetActive(!powerModeEnabled);
                 timerRunningTooltip.SetActive(false);
                 videoNotAvailableTooltip.SetActive(false);
+
                 if (!isCoolDownComplete && !isTimerRunning)
                 { StartTimer(coolDownTimeUTC); }
             }
@@ -218,9 +222,26 @@ namespace TurboLabz.InstantFramework
                 startGame30mButton.interactable = enable;
         }
 
-        public void SetupVideoAvailabilityTooltip(bool enable)
+        public void EnableVideoAvailabilityTooltip()
         {
-            videoNotAvailableTooltip.SetActive(enable);
+            videoNotAvailableTooltip.SetActive(true);
+            Invoke("DisableVideoAvailabilityTooltip", 5);
+        }
+
+        public void DisableVideoAvailabilityTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(false);
+        }
+
+        public void EnableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(true);
+            Invoke("DisableTimerTooltip", 5);
+        }
+
+        public void DisableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(false);
         }
 
         private void OnPlayRewardedVideoClicked()
@@ -231,7 +252,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                timerRunningTooltip.SetActive(true);
+                EnableTimerTooltip();
             }
         }
 
@@ -281,6 +302,7 @@ namespace TurboLabz.InstantFramework
         {
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
+            DisableTimerTooltip();
             isTimerRunning = false;
         }
     }

@@ -769,13 +769,30 @@ namespace TurboLabz.Multiplayer
             else
             {
 
-                timerRunningTooltip.SetActive(true);
+                EnableTimerTooltip();
             }
         }
 
-        public void SetupVideoAvailabilityTooltip(bool enable)
+        public void EnableVideoAvailabilityTooltip()
         {
-            videoNotAvailableTooltip.SetActive(enable);
+            videoNotAvailableTooltip.SetActive(true);
+            Invoke("DisableVideoAvailabilityTooltip", 5);
+        }
+
+        public void DisableVideoAvailabilityTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(false);
+        }
+
+        public void EnableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(true);
+            Invoke("DisableTimerTooltip", 5);
+        }
+
+        public void DisableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(false);
         }
 
         public bool IsCoolDownComplete()

@@ -243,7 +243,7 @@ namespace TurboLabz.Multiplayer
 
                 else if (result == AdsResult.NOT_AVAILABLE)
                 {
-                    view.SetupVideoAvailabilityTooltip(true);
+                    view.EnableVideoAvailabilityTooltip();
                 }
             }
         }
