@@ -302,8 +302,10 @@ namespace TurboLabz.InstantFramework
         {
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
+            rewardedVideoBtn.interactable = false;
             DisableTimerTooltip();
             isTimerRunning = false;
+
         }
     }
 }

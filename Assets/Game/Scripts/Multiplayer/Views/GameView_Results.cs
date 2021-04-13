@@ -842,6 +842,9 @@ namespace TurboLabz.Multiplayer
         {
             ratingBoosterTimer.SetActive(false);
             getRV.SetActive(true);
+            rewardedVideoBtn.interactable = false;
+            DisableTimerTooltip();
+
         }
 
         #region Animations

@@ -166,9 +166,26 @@ namespace TurboLabz.InstantFramework
 
         }
 
-        public void SetupVideoAvailabilityTooltip(bool enable)
+        public void EnableVideoAvailabilityTooltip()
         {
-            videoNotAvailableTooltip.SetActive(enable);
+            videoNotAvailableTooltip.SetActive(true);
+            Invoke("DisableVideoAvailabilityTooltip", 5);
+        }
+
+        public void DisableVideoAvailabilityTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(false);
+        }
+
+        public void EnableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(true);
+            Invoke("DisableTimerTooltip", 5);
+        }
+
+        public void DisableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(false);
         }
 
         private void OnPlayRewardedVideoClicked()
@@ -179,7 +196,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                timerRunningTooltip.SetActive(true);
+                EnableTimerTooltip();
             }
         }
 
@@ -230,6 +247,8 @@ namespace TurboLabz.InstantFramework
             powerPlayAdTimer.SetActive(false);
             getRV.SetActive(true);
             isTimerRunning = false;
+            rewardedVideoBtn.interactable = false;
+            DisableTimerTooltip();
         }
     }
 }
