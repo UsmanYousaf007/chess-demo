@@ -13,23 +13,8 @@ namespace TurboLabz.InstantFramework
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
-        {
-            NavigatorViewId viewId = CameFrom (
-                NavigatorViewId.LOBBY,
-                NavigatorViewId.FRIENDS);
-            
-            if (evt == NavigatorEvent.ESCAPE) 
-            {
-                if (viewId == NavigatorViewId.LOBBY) 
-                {
-                    return new NSLobby();
-                } 
-                else if (viewId == NavigatorViewId.FRIENDS)
-                {
-                    return new NSFriends();
-                }
-            }
-            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
+        {   
+            if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
             }
