@@ -276,8 +276,8 @@ namespace TurboLabz.Multiplayer
 
         public void SetGameAnalysisPanel()
         {
-            resultsFullAnalysisdPanel.gameObject.SetActive(!isLongPlay);
-            resultsFullAnalysisDisabledPanel.gameObject.SetActive(isLongPlay);
+            resultsFullAnalysisdPanel.gameObject.SetActive(!isLongPlay && moveAnalysisList.Count > 0);
+            resultsFullAnalysisDisabledPanel.gameObject.SetActive(isLongPlay || moveAnalysisList.Count == 0);
         }
 
         public void HideResultsDialog()
