@@ -149,7 +149,7 @@ namespace TurboLabz.Multiplayer
         public IEnumerator AnimateBars()
         {
             float animateDuration = 0.3f;
-            while (true) {
+            while (animateBarsEnabled) {
                 foreach (Image bar in loadingBars)
                 {
                     int val = (int)Random.Range(averageHeightOfAnalyzingBar / 2, averageHeightOfAnalyzingBar * 2);
@@ -164,6 +164,7 @@ namespace TurboLabz.Multiplayer
         private void AnimateAnalyzingDlg()
         {
             UIDlgManager.ShowScreenDlg(analyzingDlg);
+            animateBarsEnabled = true;
             StartCoroutine(AnimateBars());
         }
 

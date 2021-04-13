@@ -28,6 +28,7 @@ namespace TurboLabz.Multiplayer
         public GameObject analyzingDlg;
         public CanvasGroup analyzingDlgCanvasGroup;
         float averageHeightOfAnalyzingBar;
+        bool animateBarsEnabled = false;
 
         [Header("End Game Declined Dialog")]
         public GameObject declinedDialog;
@@ -594,6 +595,7 @@ namespace TurboLabz.Multiplayer
 
         private void ShowGameAnalysis()
         {
+            animateBarsEnabled = false;
             StopCoroutine(AnimateBars());
             UIDlgManager.Hide(analyzingDlg);
             UpdateAnalysisView();
