@@ -7,8 +7,8 @@
         public MoveQuality moveQuality;
         public float strength;
         public bool isPlayerMove;
-        public int whiteScore;
-        public int blackScore;
+        public float playerAdvantage;
+        public int playerScore;
 
         public static MoveQuality MoveQualityToEnum(string quality)
         {

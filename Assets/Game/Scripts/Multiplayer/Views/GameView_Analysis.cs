@@ -117,18 +117,27 @@ namespace TurboLabz.Multiplayer
 
         private void SetupMovesList(bool isLocked)
         {
+            if (moveAnalysisList.Count == 0)
+            {
+                return;
+            }
+
+            var playerColor = moveAnalysisList[0].isPlayerMove ? ChessColor.WHITE : ChessColor.BLACK;
+
             int i = 1;
             foreach (var move in moveAnalysisList)
             {
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
+
                 moveVO.SetupMove($"{i}.",
                     move.playerMove.ToShortString(),
                     GetMoveQualitySprite(move.moveQuality),
                     GetPieceSprite(move.playerMove.piece.name),
-                    move.whiteScore,
-                    move.blackScore,
-                    isLocked);
+                    move.playerAdvantage,
+                    playerColor,
+                    isLocked
+                    );
                 i++;
 
                 scrollRectAlphaHandler.AddScrollItem(moveView);

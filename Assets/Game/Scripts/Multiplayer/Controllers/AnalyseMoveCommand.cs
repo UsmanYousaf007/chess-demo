@@ -1,6 +1,8 @@
 ﻿using strange.extensions.command.impl;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using UnityEngine;
+using System.Linq;
 
 namespace TurboLabz.Multiplayer
 {
@@ -55,13 +57,24 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
             moveAnalysis.isPlayerMove = isPlayerTurn;
-            moveAnalysis.whiteScore = chessService.GetScore(ChessColor.WHITE);
-            moveAnalysis.blackScore = chessService.GetScore(ChessColor.BLACK);
+            moveAnalysis.playerScore = int.Parse(parsedAnalysis[2]);
 
             if (matchInfoModel.activeMatch != null)
             {
                 if (matchInfoModel.activeMatch.movesAnalysisList != null)
                 {
+                    if (matchInfoModel.activeMatch.movesAnalysisList.Count == 0)
+                    {
+                        moveAnalysis.playerAdvantage = 0.0f;
+                    }
+                    else
+                    {
+                        var lastMove = matchInfoModel.activeMatch.movesAnalysisList.Last();
+                        moveAnalysis.playerAdvantage = (isPlayerTurn ?
+                            (moveAnalysis.playerScore - lastMove.playerScore) :
+                            (lastMove.playerScore - moveAnalysis.playerScore)) / 100.0f;
+                        moveAnalysis.playerAdvantage = Mathf.Clamp(moveAnalysis.playerAdvantage, -10.0f, 10.0f);
+                    }
                     matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
                 }
 

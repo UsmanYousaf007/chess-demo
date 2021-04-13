@@ -5,8 +5,8 @@ namespace TurboLabz.Chess
 {
     public partial class ChessAiService : IChessAiService
     {
-        private const int BLUNDER_RELATIVE_SCORE = 200;
-        private const int MISTAKE_RELATIVE_SCORE = 40;
+        private const int BLUNDER_RELATIVE_SCORE = 900;
+        private const int MISTAKE_RELATIVE_SCORE = 120;
         private const int PERFECT_RELATIVE_SCORE = 0;
 
         public IPromise<FileRank, FileRank, string> AnalyseMove(AiMoveInputVO vo)
@@ -21,6 +21,7 @@ namespace TurboLabz.Chess
             var from = aiMoveInputVO.lastPlayerMove.from;
             var to = aiMoveInputVO.lastPlayerMove.to;
             var totalMoveCount = aiSearchResultMovesList.Count;
+            var playerMoveScore = 0;
 
             if (totalMoveCount > 0)
             {
@@ -63,16 +64,17 @@ namespace TurboLabz.Chess
                         moveQuality = MoveQuality.BLUNDER;
                     }
 
-                    strength = CalculateMoveStrength(moveFoundIndex);
+                    //strength = CalculateMoveStrength(moveFoundIndex);
                     LogUtil.Log($"relativeMoveScore: {relativeMoveScore} | moveQuality: {moveQuality}","yellow");
                 }
 
+                playerMoveScore = scores[scores.Count - 1];
                 var bestMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
                 from = chessService.GetFileRankLocation(bestMove[0], bestMove[1]);
                 to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
             }
 
-            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}");
+            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{playerMoveScore}");
             lastDequeuedMethod.promise = null;
             lastDequeuedMethod = null;
         }

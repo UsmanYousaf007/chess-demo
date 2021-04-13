@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TurboLabz.Chess;
+using TurboLabz.InstantGame;
 
 public class AnalysisMoveView : MonoBehaviour
 {
@@ -42,14 +44,14 @@ public class AnalysisMoveView : MonoBehaviour
         
     }
 
-    public void SetupMove(string moveNumber, string move, Sprite moveQuality, Sprite piece, int whiteAdvantage, int blackAdvantage, bool isLocked)
+    public void SetupMove(string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor, bool isLocked)
     {
         this.isLocked = isLocked;
-        SetupMove(normal, moveNumber, move, moveQuality, piece, whiteAdvantage, blackAdvantage);
-        SetupMove(zoomed, moveNumber, move, moveQuality, piece, whiteAdvantage, blackAdvantage);
+        SetupMove(normal, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
+        SetupMove(zoomed, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
     }
 
-    private void SetupMove(AnalysisMove analysis, string moveNumber, string move, Sprite moveQuality, Sprite piece, int whiteAdvantage, int blackAdvantage)
+    private void SetupMove(AnalysisMove analysis, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor)
     {
         analysis.moveNumber.text = moveNumber;
         analysis.move.text = move;
@@ -57,28 +59,17 @@ public class AnalysisMoveView : MonoBehaviour
         analysis.moveQuality.enabled = moveQuality != null || isLocked;
         analysis.moveQuality.sprite = isLocked ? moveQualityInactive : moveQuality;
 
-        var showAdvantage = whiteAdvantage != 0 || isLocked;
-        ShowAdvantage(analysis, showAdvantage);
+        analysis.whiteAdvantage.text = analysis.blackAdvantage.text = string.Format("{0:0.0}", playerAdvantage);
+        analysis.whiteAdvantage.enabled = playerColor == ChessColor.WHITE && !isLocked;
+        analysis.blackAdvantage.enabled = playerColor == ChessColor.BLACK && !isLocked;
 
-        if (showAdvantage)
-        {
-            analysis.whiteAdvantage.text = $"+{whiteAdvantage}";
-            analysis.blackAdvantage.text = $"+{blackAdvantage}";
-            analysis.whiteAdvantage.enabled = whiteAdvantage > blackAdvantage && !isLocked;
-            analysis.blackAdvantage.enabled = whiteAdvantage < blackAdvantage && !isLocked;
+        playerAdvantage = playerColor == ChessColor.BLACK ? playerAdvantage * -1 : playerAdvantage;
+        var fillAmount = 230 * ((10 + playerAdvantage) / 20);
+        analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
+        analysis.advantageFillerImage.enabled = fillAmount > 15 && !isLocked;
+        analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
 
-            var fillAmount = 230 * ((float)(30 + whiteAdvantage) / 60);
-            analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
-            analysis.advantageFillerImage.enabled = fillAmount > 15 && !isLocked;
-            analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
-        }
-    }
-
-    private void ShowAdvantage(AnalysisMove analysis, bool show)
-    {
-        analysis.advantageBg.enabled =
-            analysis.advantageFillerImage.enabled =
-            analysis.blackAdvantage.enabled =
-            analysis.whiteAdvantage.enabled = show;
+        analysis.blackAdvantage.color = playerColor == ChessColor.BLACK && analysis.advantageFillerImage.sprite == whiteAdvantageFilledSprite ? Colors.BLACK : Colors.WHITE;
+        analysis.whiteAdvantage.color = playerColor == ChessColor.WHITE && analysis.advantageFillerImage.enabled ? Colors.BLACK : Colors.WHITE;
     }
 }
