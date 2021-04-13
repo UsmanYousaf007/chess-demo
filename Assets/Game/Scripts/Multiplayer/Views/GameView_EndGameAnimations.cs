@@ -146,27 +146,25 @@ namespace TurboLabz.Multiplayer
             analyzingDlgCanvasGroup.DOFade(val, TRANSITION_DURATION);
         }
 
-        public IEnumerator AnimateBars(float averageHeight)
+        public IEnumerator AnimateBars()
         {
             float animateDuration = 0.3f;
             while (true) {
                 foreach (Image bar in loadingBars)
                 {
-                    int val = (int)Random.Range(averageHeight / 2, averageHeight * 2);
+                    int val = (int)Random.Range(averageHeightOfAnalyzingBar / 2, averageHeightOfAnalyzingBar * 2);
                     AnimateBar(bar, val, animateDuration);
                 }
                 yield return new WaitForSeconds(animateDuration);
             }
+
+            yield return null;
         }
 
         private void AnimateAnalyzingDlg()
         {
-            //resultsCanvasGroup.alpha = 0;
-            //analyzingDlg.SetActive(true);
             UIDlgManager.ShowScreenDlg(analyzingDlg);
-            //FadeInOrOutAnalyzingDialog(1);
-            float averageHeight = loadingBars[0].rectTransform.sizeDelta.y;
-            StartCoroutine(AnimateBars(averageHeight));
+            StartCoroutine(AnimateBars());
         }
 
         private void AnimateBar(Image bar, int val, float animateDuration)

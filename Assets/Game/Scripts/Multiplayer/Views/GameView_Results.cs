@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
         public Image[] loadingBars;
         public GameObject analyzingDlg;
         public CanvasGroup analyzingDlgCanvasGroup;
+        float averageHeightOfAnalyzingBar;
 
         [Header("End Game Declined Dialog")]
         public GameObject declinedDialog;
@@ -182,6 +183,7 @@ namespace TurboLabz.Multiplayer
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
             originalColor = resultsBoostRatingAddedCount.color;
+            averageHeightOfAnalyzingBar = loadingBars[0].rectTransform.sizeDelta.y;
 
             UIDlgManager.Setup(gameEndDlgContainer);
             UIDlgManager.Setup(analyzingDlg);
@@ -592,7 +594,7 @@ namespace TurboLabz.Multiplayer
 
         private void ShowGameAnalysis()
         {
-            StopCoroutine(AnimateBars(0));
+            StopCoroutine(AnimateBars());
             UIDlgManager.Hide(analyzingDlg);
             UpdateAnalysisView();
         }

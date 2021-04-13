@@ -66,7 +66,6 @@ namespace TurboLabz.InstantFramework
 
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
             UIDlgManager.AnimateDlg(gameObject);
-
             StartCoroutine(CountdownTimer());
             Invoke("AnimateContinueButton", 1f);
 
