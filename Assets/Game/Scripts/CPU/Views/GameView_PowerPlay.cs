@@ -24,6 +24,9 @@ namespace TurboLabz.CPU
         public Sprite powerplayInActiveSprite;
         public Button showPowerplayDlgButton;
 
+        public Button powerPlayWithRVBtn;
+        public Button rewardedVideoBtn;
+
         private StoreItem storeItem;
         private bool isPowerModeOn;
 
@@ -118,6 +121,9 @@ namespace TurboLabz.CPU
 
         private void SetupState(bool powerModeEnabled)
         {
+            powerPlayWithRVBtn.gameObject.SetActive(false);
+            rewardedVideoBtn.gameObject.SetActive(false);
+
             powerPlayOnText.enabled = powerModeEnabled;
             powerPlayGemIcon.enabled = !powerModeEnabled;
             powerPlayGemCost.enabled = !powerModeEnabled;

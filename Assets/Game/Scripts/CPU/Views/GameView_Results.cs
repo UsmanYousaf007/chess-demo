@@ -92,6 +92,8 @@ namespace TurboLabz.CPU
 
         public RectTransform[] resultsLayouts;
 
+        public GameObject rewardedVideoPanel;
+
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
         public Signal resultsDialogClosedSignal = new Signal();
@@ -482,6 +484,7 @@ namespace TurboLabz.CPU
 
         private void SetupResultsLayout(bool isRankedGame)
         {
+            rewardedVideoPanel.SetActive(false);
             resultsBoostRatingButton.transform.parent.gameObject.SetActive(false);
             resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
             resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
