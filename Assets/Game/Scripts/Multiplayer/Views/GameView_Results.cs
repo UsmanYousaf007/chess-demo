@@ -205,6 +205,7 @@ namespace TurboLabz.Multiplayer
         {
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
+            BuildLayout();
         }
 
         public void UpdateResultsDialog(ResultsVO vo)

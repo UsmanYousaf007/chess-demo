@@ -50,7 +50,10 @@ namespace TurboLabz.InstantFramework
 
         public void PlayOneShot(AudioClip sound, float volume)
         {
-            audio.PlayOneShot(sound, volume);
+            if (preferencesModel.isAudioOn)
+            {
+                audio.PlayOneShot(sound, volume);
+            }
         }
 
         public void PlayStandardClick()
