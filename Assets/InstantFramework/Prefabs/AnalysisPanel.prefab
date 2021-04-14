@@ -459,8 +459,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 3311366268946600435}
-  c1: {r: 0.5058824, g: 0.7137255, b: 0.26666668, a: 0.87058824}
-  c2: {r: 0.5058824, g: 0.7137255, b: 0.26666668, a: 0.87058824}
+  c1: {r: 0.65882355, g: 0.80392164, b: 0.49411768, a: 0.87058824}
+  c2: {r: 0.65882355, g: 0.80392164, b: 0.49411768, a: 0.87058824}
 --- !u!1 &3210038151368021247
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -32, y: 715}
-  m_SizeDelta: {x: 64, y: 83}
+  m_SizeDelta: {x: 75, y: 83}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6688456410459696909
 CanvasRenderer:
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5058824, g: 0.7137255, b: 0.26666668, a: 0.87058824}
+  m_Color: {r: 0.65882355, g: 0.80392164, b: 0.49411768, a: 0.87058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -922,7 +922,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.8, y: 0}
+  m_AnchoredPosition: {x: 35.2, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6498440796589355432
