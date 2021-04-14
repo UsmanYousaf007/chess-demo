@@ -22,7 +22,7 @@ namespace TurboLabz.Chess
         public const string SF_SKILL_LEVEL = "19"; // We use multipv and custom code to generate moves, therefore DO NOT change this value
         //public const string SF_SLOW_MOVER = "10"; // This makes the engine think less. No documentation on this.
         //public const string SF_HASH = "128"; // This is a value in MB and it may improve performance as you increase it (testing pending)
-
+        public const string SF_ANALYSIS_MULTIPV = "20";
 
         // Duration difficulty thresholds
         public const double DURATION_FAST_MINS = 1;

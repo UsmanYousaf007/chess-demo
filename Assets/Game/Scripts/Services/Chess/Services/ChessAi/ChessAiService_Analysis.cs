@@ -11,7 +11,15 @@ namespace TurboLabz.Chess
 
         public IPromise<FileRank, FileRank, string> AnalyseMove(AiMoveInputVO vo)
         {
-            return AddToQueue(_GetAiMoveStrength, vo);
+            return AddToQueue(_AnalyseMove, vo);
+        }
+
+        private void _AnalyseMove(AiMoveInputVO vo)
+        {
+            NewGame(ChessAiConfig.SF_ANALYSIS_MULTIPV);
+            SetPosition(vo.fen);
+            aiMoveInputVO = vo;
+            routineRunner.StartCoroutine(GetAiResult());
         }
 
         private void GetMoveAnalysis()

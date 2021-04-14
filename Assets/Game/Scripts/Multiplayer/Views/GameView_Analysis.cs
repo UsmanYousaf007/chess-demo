@@ -19,6 +19,7 @@ namespace TurboLabz.Multiplayer
         public Sprite moveAnalysisBlunder;
         public Sprite moveAnalysisMistake;
         public Sprite moveAnalysisPerfect;
+        public Sprite moveAnalysisNormal;
         public DrawLine analysisLine;
         public Image analysisArrowHead;
         public Transform analysisLineEndPivot;
@@ -127,12 +128,14 @@ namespace TurboLabz.Multiplayer
             var playerColor = moveAnalysisList[0].isPlayerMove ? ChessColor.WHITE : ChessColor.BLACK;
 
             int i = 1;
+            int j = 1;
             foreach (var move in moveAnalysisList)
             {
                 var moveView = Instantiate(analysisMoveView, movesContainer);
                 var moveVO = moveView.GetComponent<AnalysisMoveView>();
 
-                moveVO.SetupMove($"{i}.",
+                moveVO.SetupMove(i,
+                    i % 2 == 1 ? $"{j}." : string.Empty,
                     move.playerMove.ToShortString(),
                     GetMoveQualitySprite(move.moveQuality),
                     GetPieceSprite(move.playerMove.piece.name),
@@ -141,6 +144,7 @@ namespace TurboLabz.Multiplayer
                     isLocked
                     );
                 i++;
+                if (i % 2 == 0) j++;
 
                 scrollRectAlphaHandler.AddScrollItem(moveView);
             }
@@ -150,7 +154,7 @@ namespace TurboLabz.Multiplayer
 
             if (animateMovesDial)
             {
-                StartCoroutine(AnimateMovesDial());
+                StartCoroutine(AnimateMovesDial(isLocked));
             }
             else
             {
@@ -158,18 +162,19 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private Sprite GetMoveQualitySprite(MoveQuality quality)
+        private Sprite GetMoveQualitySprite(MoveQuality quality, bool showNormal = false)
         {
             return quality == MoveQuality.BLUNDER ? moveAnalysisBlunder :
                    quality == MoveQuality.MISTAKE ? moveAnalysisMistake :
-                   quality == MoveQuality.PERFECT ? moveAnalysisPerfect : null;
+                   quality == MoveQuality.PERFECT ? moveAnalysisPerfect :
+                   quality == MoveQuality.NORMAL && showNormal ? moveAnalysisNormal : null;
         }
 
         private string GetMoveQualityText(MoveQuality quality)
         {
             return quality == MoveQuality.BLUNDER ? "Blunder" :
                    quality == MoveQuality.MISTAKE ? "Mistake" :
-                   quality == MoveQuality.PERFECT ? "Perfect" : string.Empty;
+                   quality == MoveQuality.PERFECT ? "Perfect" : "Ok";
         }
 
         private void OnMoveSelected(GameObject obj)
@@ -186,8 +191,7 @@ namespace TurboLabz.Multiplayer
             }
 
             var move = obj.GetComponent<AnalysisMoveView>();
-            var moveNumber = move.normal.moveNumber.text;
-            var moveIndex = int.Parse(moveNumber.Remove(moveNumber.Length - 1));
+            var moveIndex = move.MoveNumber;
             var selectedMoves = moveAnalysisList.GetRange(0, moveIndex);
             var isLastMove = moveIndex == moveAnalysisList.Count;
 
@@ -244,7 +248,7 @@ namespace TurboLabz.Multiplayer
             analysisArrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
             //Drawing the line from square to arrow head
-            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 30.0f);
+            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 37.0f);
 
             //Placing pivot holder for strength and move quality
             analysisPlayerMovePivotHolder.position = playerMoveToPosition;
@@ -253,9 +257,8 @@ namespace TurboLabz.Multiplayer
             analysisMoveQuality.transform.position = showQualityOnRight ? rightPivotPosition : leftPivotPosition;
 
             //Setting move quality sprite
-            analysisMoveQuality.sprite = GetMoveQualitySprite(analysiedMove.moveQuality);
+            analysisMoveQuality.sprite = GetMoveQualitySprite(analysiedMove.moveQuality, true);
             moveQualityTooltipText.text = GetMoveQualityText(analysiedMove.moveQuality);
-            analysisMoveQuality.enabled = analysiedMove.moveQuality != MoveQuality.NORMAL;
 
             //Setting strength value
             //analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
@@ -295,16 +298,18 @@ namespace TurboLabz.Multiplayer
             analysisStrengthPanel.SetActive(false);
         }
 
-        private IEnumerator AnimateMovesDial()
+        private IEnumerator AnimateMovesDial(bool isLocked)
         {
+            var scrollFromIndex = isLocked ? Mathf.Max(moveAnalysisList.Count - 6, 0) : Mathf.Min(moveAnalysisList.Count - 1, 5);
+            var scrollToIndex = isLocked ? moveAnalysisList.Count - 1 : 0;
             ShowSelectedMoveAnalysis(false);
             animateMovesDial = false;
             isMovesDialAnimating = true;
             analysisMovesSpinnerDragHandler.enabled = false;
-            pickerSrollRect.ScrollToItemAtIndex(Mathf.Max(moveAnalysisList.Count - 6, 0), true);
+            pickerSrollRect.ScrollToItemAtIndex(scrollFromIndex, true);
             yield return new WaitForEndOfFrame();
             pickerSrollRect.autoScrollSeconds = 2.3f;
-            pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1);
+            pickerSrollRect.ScrollToItemAtIndex(scrollToIndex);
             yield return new WaitForSeconds(pickerSrollRect.autoScrollSeconds);
             analysisMovesSpinnerDragHandler.enabled = true;
             isMovesDialAnimating = false;

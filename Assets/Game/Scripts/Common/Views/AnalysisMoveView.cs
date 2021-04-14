@@ -29,9 +29,10 @@ public class AnalysisMoveView : MonoBehaviour
     public Sprite moveQualityInactive;
 
     public bool IsLocked => isLocked;
+    public int MoveNumber => moveNumber;
 
     private bool isLocked;
-
+    private int moveNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,9 +45,10 @@ public class AnalysisMoveView : MonoBehaviour
         
     }
 
-    public void SetupMove(string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor, bool isLocked)
+    public void SetupMove(int moveNumberInt, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor, bool isLocked)
     {
         this.isLocked = isLocked;
+        this.moveNumber = moveNumberInt;
         SetupMove(normal, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
         SetupMove(zoomed, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
     }

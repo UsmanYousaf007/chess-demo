@@ -48,9 +48,9 @@ namespace TurboLabz.Chess
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
 
-        public void NewGame()
+        public void NewGame(string multiPV = ChessAiConfig.SF_MULTIPV)
         {
-            plugin.NewGame();
+            plugin.NewGame(multiPV);
             ChessAiPlugin.resultsReadySignal.RemoveAllListeners();
             ChessAiPlugin.resultsReadySignal.AddListener(ResultsReady);
         }

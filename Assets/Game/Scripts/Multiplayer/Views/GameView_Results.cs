@@ -209,7 +209,6 @@ namespace TurboLabz.Multiplayer
         {
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
-            BuildLayout();
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -254,6 +253,7 @@ namespace TurboLabz.Multiplayer
                 SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
                 SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
             }
+            BuildLayout();
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)

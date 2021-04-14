@@ -26,6 +26,10 @@
             {
                 return new NSSpotPurchase();
             }
+            else if (evt == NavigatorEvent.SHOW_GAME_ANALYZING_DLG)
+            {
+                return new NSGameAnalyzingDlg();
+            }
 
             return null;
         }
