@@ -105,6 +105,8 @@ namespace TurboLabz.InstantFramework
         PURCHASE_SUCCESS_DLG,
         GDPR_DLG,
         BUY_GAME_ANALYSIS_DLG,
-        CAREER_PROGRESSION_DLG
+        CAREER_PROGRESSION_DLG,
+        GAME_END_REWARDS_DLG,
+        GAME_ANALYZING_DLG
     }
 }

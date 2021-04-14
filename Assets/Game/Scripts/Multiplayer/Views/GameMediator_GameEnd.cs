@@ -29,7 +29,24 @@ namespace TurboLabz.Multiplayer
                 }
                 view.FlashClocks(false);
                 view.ShowEndGame();
+                view.ShowResultsDialog();
                 view.OnParentHideAdBanner();
+            }
+            else if(viewId == NavigatorViewId.GAME_END_REWARDS_DLG)
+            {
+                if (view.challengeSentDialog.activeSelf)
+                {
+                    view.HideChallengeSent();
+                }
+                view.FlashClocks(false);
+                view.ShowEndGame();
+                view.StartEndAnimationSequence();
+                //view.ShowRewardsDialog();
+                view.OnParentHideAdBanner();
+            }
+            else if (viewId == NavigatorViewId.GAME_ANALYZING_DLG)
+            {
+                view.AnalyzingGame();
             }
         }
 
@@ -39,6 +56,16 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
                 view.HideGameEndDialog();
+                view.ShowResultsDialog();
+            }
+            else if (viewId == NavigatorViewId.GAME_END_REWARDS_DLG)
+            {
+                view.HideGameEndDialog();
+                view.HideRewardsDialog();
+            }
+            else if (viewId == NavigatorViewId.GAME_ANALYZING_DLG)
+            {
+                view.HideGameAnalyzingDlg();
             }
         }
 

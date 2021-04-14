@@ -163,6 +163,7 @@ namespace TurboLabz.Multiplayer
         private long coolDownTimeUTC;
 
         public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
+        public Signal showGameAnalysisSignal = new Signal();
 
         public void InitResults()
         {
@@ -593,6 +594,11 @@ namespace TurboLabz.Multiplayer
 
         private void ShowGameAnalysis()
         {
+            showGameAnalysisSignal.Dispatch();
+        }
+
+        public void HideGameAnalyzingDlg()
+        {
             animateBarsEnabled = false;
             StopCoroutine(AnimateBars());
             UIDlgManager.Hide(analyzingDlg);
@@ -622,8 +628,9 @@ namespace TurboLabz.Multiplayer
             audioService.PlayStandardClick();
             animationPlayed = false;
 
-            FadeOutResultsDialog(0);
-            showNewRankChampionshipDlgSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            //FadeOutResultsDialog(0);
+            //showNewRankChampionshipDlgSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
+            ShowWeeklyChampionshipResults();
         }
 
         private void OnCrossPromoButtonClicked()

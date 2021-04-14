@@ -50,7 +50,7 @@ namespace TurboLabz.Multiplayer
 
             UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
 
-            if ((playerWins || isDraw) && !gameEnded && isRankedGame)
+            /*if ((playerWins || isDraw) && !gameEnded && isRankedGame)
             {
                 StartEndAnimationSequence();
             }
@@ -61,7 +61,7 @@ namespace TurboLabz.Multiplayer
             else
             {
                 Invoke("ShowResultsDialog", 0.3f);
-            }
+            }*/
             gameEnded = true;
         }
 

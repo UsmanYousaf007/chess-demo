@@ -49,6 +49,8 @@ namespace TurboLabz.InstantFramework
             continueButton.onClick.AddListener(OnContinueButtonClicked);
 
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
+
+            UIDlgManager.Setup(gameObject);
         }
 
         public void Show(JoinedTournamentData joinedTournament, bool newRank = false)
@@ -65,10 +67,8 @@ namespace TurboLabz.InstantFramework
             }
 
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
-            UIDlgManager.AnimateDlg(gameObject);
-            StartCoroutine(CountdownTimer());
+            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(()=> StartCoroutine(CountdownTimer()));
             Invoke("AnimateContinueButton", 1f);
-
             metaDataModel.ShowChampionshipNewRankDialog = false;
         }
 
@@ -125,11 +125,11 @@ namespace TurboLabz.InstantFramework
             {
                 timeLeft--;
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                timerText.text = timeLeftText;
+                timerText.text = "Ends In" + timeLeftText;
             }
             else
             {
-                timerText.text = "0:00";
+                timerText.text = "Ends In 0:00";
             }
         }
 

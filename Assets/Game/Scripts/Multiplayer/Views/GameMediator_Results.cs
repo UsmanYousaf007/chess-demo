@@ -70,6 +70,7 @@ namespace TurboLabz.Multiplayer
             view.showNewRankChampionshipDlgSignal.AddListener(OnShowNewRankChampionshipDlg);
             view.ratingBoosterRewardSignal.AddListener(OnPlayRewardedVideoClicked);
             view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
+            view.showGameAnalysisSignal.AddListener(OnShowGameAnalysisSignal);
         }
 
         public void OnRemoveResults()
@@ -191,13 +192,17 @@ namespace TurboLabz.Multiplayer
             renderMoveAnalysisSignal.Dispatch(list);
         }
 
+        private void OnShowGameAnalysisSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+        }
+
         [ListensTo(typeof(FullAnalysisBoughtSignal))]
         public void OnFullAnalysisBought()
         {
             if (view.IsVisible())
             {
-                OnResultsDialogClosedSignal();
-                view.AnalyzingGame();
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_ANALYZING_DLG);
             }
         }
 

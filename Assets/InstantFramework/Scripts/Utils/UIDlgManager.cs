@@ -7,11 +7,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TurboLabz.InstantGame;
+using strange.extensions.promise.api;
+using strange.extensions.promise.impl;
 
 namespace TurboLabz.InstantFramework
 {
     static public class UIDlgManager
     {
+        static Image lastScreenshot;
+
         static public void Setup(GameObject dlg)
         {
             // Add a full screen background rect for blur to the object
@@ -34,15 +38,30 @@ namespace TurboLabz.InstantFramework
             dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public void Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL)
+        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false)
         {
             // Blur background and enable this dialog
             Image BlurBg = dlg.transform.parent.GetComponent<Image>();
-            UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject);
+
+            Promise promise = new Promise();
+
+            if (useLastBlurredBg)
+            {
+                BlurBg.material = lastScreenshot.material;
+                BlurBg.gameObject.SetActive(true);
+                promise.Dispatch();
+                //UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise);
+            }
+            else
+            {
+                UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise).Then(() => lastScreenshot = BlurBg);
+            }
+
             UIBlurBackground.SetBrightness(blurBrightnessVal, 0.0f);
             UIBlurBackground.AnimateBrightness(blurBrightnessVal, 1.0f, 0.25f);
 
             AnimateDlg(dlg);
+            return promise;
         }
 
         static public void Hide(GameObject dlg)

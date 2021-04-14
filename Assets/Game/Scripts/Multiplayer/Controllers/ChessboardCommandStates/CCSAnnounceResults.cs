@@ -46,8 +46,20 @@ namespace TurboLabz.Multiplayer
             vo.coolDownTimeUTC = cmd.playerModel.rvUnlockTimestamp;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
-            
+            //cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+
+            if (vo.isRanked && (playerWins || vo.reason == GameEndReason.DRAW_BY_DRAW_OFFERED || vo.reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE ||
+            vo.reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE || vo.reason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL ||
+            vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE || vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE))
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_END_REWARDS_DLG);
+            }
+            else
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+            }
+
+
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
             cmd.matchInfoModel.lastCompletedMatch.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();

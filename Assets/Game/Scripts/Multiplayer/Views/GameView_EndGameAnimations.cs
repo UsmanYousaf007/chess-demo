@@ -39,7 +39,7 @@ namespace TurboLabz.Multiplayer
 
         private const float TRANSITION_DURATION = 0.5f;
 
-        private void StartEndAnimationSequence()
+        public void StartEndAnimationSequence()
         {
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() => EnableModalBlocker());
@@ -77,8 +77,10 @@ namespace TurboLabz.Multiplayer
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(REWARDS_TO_RESULTS_DELAY_TIME);
             sequence.AppendCallback(() => FadeRewardsDialogue(0));
-            sequence.AppendCallback(() => ShowResultsDialog());
-            sequence.AppendCallback(() => ScaleInResultsDialog());
+            sequence.AppendCallback(() => resultsDialogOpenedSignal.Dispatch());
+            //sequence.AppendCallback(() => HideRewardsDialog());
+            //sequence.AppendCallback(() => ShowResultsDialog());
+            //sequence.AppendCallback(() => ScaleInResultsDialog());
             sequence.PlayForward();
         }
 
@@ -163,7 +165,8 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateAnalyzingDlg()
         {
-            UIDlgManager.ShowScreenDlg(analyzingDlg);
+            //UIDlgManager.ShowScreenDlg(analyzingDlg);
+            UIDlgManager.Show(analyzingDlg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true);
             animateBarsEnabled = true;
             StartCoroutine(AnimateBars());
         }

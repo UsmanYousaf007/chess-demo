@@ -103,7 +103,8 @@ namespace TurboLabz.Multiplayer
 
         void OnExitButtonClicked()
         {
-            resultsDialogOpenedSignal.Dispatch();
+            //resultsDialogOpenedSignal.Dispatch();
+            ShowWeeklyChampionshipResults();
         }
     }
 }
