@@ -254,8 +254,6 @@ namespace TurboLabz.Multiplayer
                 SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
             }
 
-            BuildLayout();
-
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
             {

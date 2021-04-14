@@ -9,8 +9,7 @@ namespace TurboLabz.Multiplayer
     public class AnalyseMoveCommand : Command
     {
         //Parameters
-        [Inject] public ChessMove chessMove { get; set; }
-        [Inject] public bool isPlayerTurn { get; set; }
+        [Inject] public AnalyseMoveParameters parameters { get; set; }
 
         // Services
         [Inject] public IChessAiService chessAiService { get; set; }
@@ -19,6 +18,9 @@ namespace TurboLabz.Multiplayer
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IChessboardModel chessboardModel { get; set; }
+
+        // Dispatch Signals
+        [Inject] public MoveAnalysiedSignal moveAnalysiedSignal { get; set; }
 
         private Chessboard chessboard;
 
@@ -32,10 +34,10 @@ namespace TurboLabz.Multiplayer
             vo.aiColor = chessboard.playerColor;
             vo.playerColor = chessboard.opponentColor;
             vo.squares = chessboard.squares;
-            vo.lastPlayerMove = chessMove;
+            vo.lastPlayerMove = parameters.isLastTurn ? new ChessMove(true) : parameters.chessMove;
             vo.playerStrengthPct = 0.5f;
             vo.analyse = true;
-            vo.fen = isPlayerTurn ? chessboard.fen : chessService.GetFen();
+            vo.fen = parameters.isPlayerTurn ? chessboard.fen : chessService.GetFen();
 
             chessAiService.AnalyseMove(vo).Then(OnMoveAnalysed);
         }
@@ -52,46 +54,63 @@ namespace TurboLabz.Multiplayer
             bestMove.piece = chessboard.squares[from.file, from.rank].piece;
 
             var moveAnalysis = new MoveAnalysis();
-            moveAnalysis.playerMove = chessMove;
+            moveAnalysis.playerMove = parameters.chessMove;
             moveAnalysis.bestMove = bestMove;
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
-            moveAnalysis.isPlayerMove = isPlayerTurn;
+            moveAnalysis.isPlayerMove = parameters.isPlayerTurn;
             moveAnalysis.playerScore = int.Parse(parsedAnalysis[2]);
+            moveAnalysis.playerScoreDebug = int.Parse(parsedAnalysis[3]);
+            moveAnalysis.bestScore = int.Parse(parsedAnalysis[4]);
 
-            if (matchInfoModel.activeMatch != null)
+            var matchInfo = parameters.isLastTurn ? matchInfoModel.lastCompletedMatch : matchInfoModel.activeMatch;
+
+            if (matchInfo != null)
             {
-                if (matchInfoModel.activeMatch.movesAnalysisList != null)
+                if (matchInfo.movesAnalysisList != null)
                 {
-                    if (matchInfoModel.activeMatch.movesAnalysisList.Count == 0)
+                    if (matchInfo.movesAnalysisList.Count == 0)
                     {
                         moveAnalysis.playerAdvantage = 0.0f;
                     }
                     else
                     {
-                        var lastMove = matchInfoModel.activeMatch.movesAnalysisList.Last();
-                        moveAnalysis.playerAdvantage = (isPlayerTurn ?
+                        var lastMove = matchInfo.movesAnalysisList.Last();
+
+                        parameters.isPlayerTurn = parameters.isLastTurn ? !lastMove.isPlayerMove : parameters.isPlayerTurn;
+
+                        lastMove.playerAdvantage = (parameters.isPlayerTurn ?
                             (moveAnalysis.playerScore - lastMove.playerScore) :
                             (lastMove.playerScore - moveAnalysis.playerScore)) / 100.0f;
-                        moveAnalysis.playerAdvantage = Mathf.Clamp(moveAnalysis.playerAdvantage, -10.0f, 10.0f);
+
+                        lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
+
+                        if (parameters.isLastTurn)
+                        {
+                            moveAnalysiedSignal.Dispatch(lastMove);
+                        }
                     }
-                    matchInfoModel.activeMatch.movesAnalysisList.Add(moveAnalysis);
+
+                    if (!parameters.isLastTurn)
+                    {
+                        matchInfo.movesAnalysisList.Add(moveAnalysis);
+                    }
                 }
 
-                if (matchInfoModel.activeMatch.matchAnalysis != null && isPlayerTurn)
+                if (matchInfo.matchAnalysis != null && parameters.isPlayerTurn && !parameters.isLastTurn)
                 {
                     switch (moveAnalysis.moveQuality)
                     {
                         case MoveQuality.PERFECT:
-                            matchInfoModel.activeMatch.matchAnalysis.perfectMoves++;
+                            matchInfo.matchAnalysis.perfectMoves++;
                             break;
 
                         case MoveQuality.BLUNDER:
-                            matchInfoModel.activeMatch.matchAnalysis.blunders++;
+                            matchInfo.matchAnalysis.blunders++;
                             break;
 
                         case MoveQuality.MISTAKE:
-                            matchInfoModel.activeMatch.matchAnalysis.mistakes++;
+                            matchInfo.matchAnalysis.mistakes++;
                             break;
                     }
                 }

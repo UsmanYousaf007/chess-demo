@@ -64,8 +64,10 @@ namespace TurboLabz.InstantFramework
             appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
             appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
 
+            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
+            FillLessonsModel(lessonsData);
+
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
-            
             FillStoreSettingsModel(storeSettingsData);
             storeAvailableSignal.Dispatch(false);
             //Debug.Log("ItemsPrices::FillStoreSettingsModel call completed: " + DateTime.Now);
@@ -109,9 +111,6 @@ namespace TurboLabz.InstantFramework
 
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
-
-            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
-            FillLessonsModel(lessonsData);
 
             GSData joinedTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.JOINED_TOURNAMENTS);
             FillJoinedTournaments(joinedTournamentsData);

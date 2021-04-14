@@ -210,7 +210,9 @@ namespace TurboLabz.Multiplayer
             move.piece = chessboard.opponentFromSquare.piece;
             move.promo = promo;
 
-            cmd.analyseMoveSignal.Dispatch(move, false);
+            AnalyseMoveParameters parameters = new AnalyseMoveParameters();
+            parameters.chessMove = move;
+            cmd.analyseMoveSignal.Dispatch(parameters);
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
                 chessboard.opponentFromSquare.fileRank,

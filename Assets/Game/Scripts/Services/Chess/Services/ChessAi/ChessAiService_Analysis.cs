@@ -22,6 +22,8 @@ namespace TurboLabz.Chess
             var to = aiMoveInputVO.lastPlayerMove.to;
             var totalMoveCount = aiSearchResultMovesList.Count;
             var playerMoveScore = 0;
+            var playerMoveScoreDebug = 0;
+            var bestMoveScore = 0;
 
             if (totalMoveCount > 0)
             {
@@ -69,12 +71,14 @@ namespace TurboLabz.Chess
                 }
 
                 playerMoveScore = scores[scores.Count - 1];
+                bestMoveScore = scores[0];
+                playerMoveScoreDebug = moveFoundIndex != -1 ? scores[moveFoundIndex] : 0;
                 var bestMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
                 from = chessService.GetFileRankLocation(bestMove[0], bestMove[1]);
                 to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
             }
 
-            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{playerMoveScore}");
+            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{playerMoveScore}|{playerMoveScoreDebug}|{bestMoveScore}");
             lastDequeuedMethod.promise = null;
             lastDequeuedMethod = null;
         }

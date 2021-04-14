@@ -61,5 +61,15 @@ namespace TurboLabz.Chess
         {
             return GetAlgebraicLocation(fileRank) + GetAlgebraicLocation(to);
         }
+
+        public ChessMove(bool loadDummy = false)
+        {
+            if (loadDummy)
+            {
+                from = new FileRank();
+                to = new FileRank();
+                piece = new ChessPiece();
+            }
+        }
     }
 }

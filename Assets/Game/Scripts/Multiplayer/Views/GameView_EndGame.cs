@@ -60,7 +60,7 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                ShowResultsDialog();
+                Invoke("ShowResultsDialog", 0.3f);
             }
             gameEnded = true;
         }

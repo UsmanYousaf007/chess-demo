@@ -80,7 +80,10 @@ namespace TurboLabz.Multiplayer
             Chessboard chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
             chessboard.lastPlayerMove = move;
 
-            analyseMoveSignal.Dispatch(move, true);
+            AnalyseMoveParameters parameters = new AnalyseMoveParameters();
+            parameters.chessMove = move;
+            parameters.isPlayerTurn = true;
+            analyseMoveSignal.Dispatch(parameters);
         }
     }
 }

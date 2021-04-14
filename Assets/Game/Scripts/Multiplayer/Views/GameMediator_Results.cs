@@ -247,5 +247,11 @@ namespace TurboLabz.Multiplayer
                 }
             }
         }
+
+        [ListensTo(typeof(MoveAnalysiedSignal))]
+        public void OnLastMoveAnalysiedSignal(MoveAnalysis moveAnalysis)
+        {
+            view.LastMoveAnalysied(moveAnalysis);
+        }
     }
 }

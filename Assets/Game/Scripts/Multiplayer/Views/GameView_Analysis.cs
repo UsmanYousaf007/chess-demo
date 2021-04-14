@@ -44,6 +44,7 @@ namespace TurboLabz.Multiplayer
         public Text arrowTooltipText;
 
         public Image gameAnalysisLogo;
+        public Text analysisDebugText;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
         public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
@@ -63,6 +64,7 @@ namespace TurboLabz.Multiplayer
             SetGameAnalysisBottomBar(false);
             animateMovesDial = true;
             isGameAnalysisEnabled = false;
+            analysisDebugText.gameObject.SetActive(false);
         }
 
         public void InitAnalysis()
@@ -264,6 +266,11 @@ namespace TurboLabz.Multiplayer
             //analysisStrengthPanel.transform.position = showStrengthPanelOnRight ? rightPivotPosition : leftPivotPosition;
             analysisMoveQuality.transform.position = rightPivotPosition;
             //analysisStrengthPanel.SetActive(showStrengthPanel);
+
+            analysisDebugText.gameObject.SetActive(false);
+            var moveScore = analysiedMove.playerScoreDebug == 0 ? "not found" : analysiedMove.playerScoreDebug.ToString();
+            var delta = analysiedMove.playerScoreDebug == 0 ? "NaN" : (analysiedMove.bestScore - analysiedMove.playerScoreDebug).ToString();
+            analysisDebugText.text = $"BS:{analysiedMove.bestScore}, MS:{moveScore}, D:{delta}, AS:{analysiedMove.playerScore}";
         }
 
         private void FlipAnalysisStrengthPanel(float scale)
@@ -304,6 +311,11 @@ namespace TurboLabz.Multiplayer
             analysisMovesSpinnerDragHandler.enabled = true;
             isMovesDialAnimating = false;
             OnMoveSelected(moveSelectGO);
+        }
+
+        public void LastMoveAnalysied(MoveAnalysis moveAnalysis)
+        {
+            moveAnalysisList.Last().playerAdvantage = moveAnalysis.playerAdvantage;
         }
 
         #region Button Listeners

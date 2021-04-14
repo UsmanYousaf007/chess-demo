@@ -9,6 +9,8 @@
         public bool isPlayerMove;
         public float playerAdvantage;
         public int playerScore;
+        public int playerScoreDebug;
+        public int bestScore;
 
         public static MoveQuality MoveQualityToEnum(string quality)
         {

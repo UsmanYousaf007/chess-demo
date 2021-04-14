@@ -52,7 +52,9 @@ namespace TurboLabz.Multiplayer
             cmd.matchInfoModel.lastCompletedMatch.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
 
-            
+            var parameters = new AnalyseMoveParameters();
+            parameters.isLastTurn = true;
+            cmd.analyseMoveSignal.Dispatch(parameters);
 
             var matchAnalyticsVO = new MatchAnalyticsVO();
             matchAnalyticsVO.eventID = AnalyticsEventId.match_end;
