@@ -248,7 +248,7 @@ namespace TurboLabz.Multiplayer
             analysisArrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
 
             //Drawing the line from square to arrow head
-            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 37.0f);
+            analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 33.0f);
 
             //Placing pivot holder for strength and move quality
             analysisPlayerMovePivotHolder.position = playerMoveToPosition;
