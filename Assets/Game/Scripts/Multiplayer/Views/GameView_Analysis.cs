@@ -41,7 +41,7 @@ namespace TurboLabz.Multiplayer
         public GameObject arrowTooltip;
         public GameObject moveQualityTooltip;
         public Text moveQualityTooltipText;
-        public Text arrowTooltipText;
+        public Transform analysisArrowTooltipPivot;
 
         public Image gameAnalysisLogo;
         public Text analysisDebugText;
@@ -229,9 +229,8 @@ namespace TurboLabz.Multiplayer
 
             var angle = Mathf.Atan2(bestMoveFromPosition.y - bestMoveToPosition.y, bestMoveFromPosition.x - bestMoveToPosition.x) * Mathf.Rad2Deg;
             var bestMoveToScreenPosition = mainCamera.WorldToScreenPoint(bestMoveToPosition);
-            //var showStrengthPanelOnRight = playerMoveToPosition.x < 0;
+            var showQualityOnRight = playerMoveToPosition.x < 0;
             //var showStrengthPanel = analysiedMove.moveQuality != MoveQuality.PERFECT && !isLocked;
-            var arrowTooltipValue = analysiedMove.moveQuality == MoveQuality.PERFECT ? "perfect" : "better";
 
             //Player move indicators
             hindsightFromIndicator.transform.position = playerMoveFromPosition;
@@ -241,30 +240,29 @@ namespace TurboLabz.Multiplayer
 
             //Placing and rotating arrow head
             analysisArrowHead.rectTransform.position = bestMoveToScreenPosition;
+            arrowTooltip.transform.position = analysisArrowTooltipPivot.position;
             analysisArrowHead.transform.localEulerAngles = new Vector3(0, 0, angle);
-            arrowTooltip.transform.localEulerAngles = new Vector3(0, 0, -angle);
 
             //Drawing the line from square to arrow head
             analysisLine.Draw(bestMoveFromPosition, mainCamera.ScreenToWorldPoint(analysisLineEndPivot.position), 30.0f);
 
             //Placing pivot holder for strength and move quality
             analysisPlayerMovePivotHolder.position = playerMoveToPosition;
-            //var leftPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveLeftPivot.position);
+            var leftPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveLeftPivot.position);
             var rightPivotPosition = mainCamera.WorldToScreenPoint(analysisPlayerMoveRightPivot.position);
+            analysisMoveQuality.transform.position = showQualityOnRight ? rightPivotPosition : leftPivotPosition;
 
             //Setting move quality sprite
             analysisMoveQuality.sprite = GetMoveQualitySprite(analysiedMove.moveQuality);
             moveQualityTooltipText.text = GetMoveQualityText(analysiedMove.moveQuality);
             analysisMoveQuality.enabled = analysiedMove.moveQuality != MoveQuality.NORMAL;
-            arrowTooltipText.text = $"This was a {arrowTooltipValue} move";
 
             //Setting strength value
-            analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
+            //analysisStrengthLabel.text = $"{Mathf.RoundToInt(analysiedMove.strength * 100)}%";
 
             //Placing strength panel and quality icon
             //FlipAnalysisStrengthPanel(showStrengthPanelOnRight ? 1 : -1);
             //analysisStrengthPanel.transform.position = showStrengthPanelOnRight ? rightPivotPosition : leftPivotPosition;
-            analysisMoveQuality.transform.position = rightPivotPosition;
             //analysisStrengthPanel.SetActive(showStrengthPanel);
 
             analysisDebugText.gameObject.SetActive(false);

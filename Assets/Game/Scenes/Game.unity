@@ -578,6 +578,7 @@ MonoBehaviour:
   moveQualityTooltip: {fileID: 7101924180817001598}
   moveQualityTooltipText: {fileID: 1320688492}
   arrowTooltipText: {fileID: 7101924180817001614}
+  analysisArrowTooltipPivot: {fileID: 7101924180817001616}
   gameAnalysisLogo: {fileID: 971925218}
   analysisDebugText: {fileID: 1749903250}
   backToFriendsLabel: {fileID: 1846981127}
@@ -128701,6 +128702,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34bb1b0dae99740fcb5cf2f432d53072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7101924180817001616 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7748450263242232507, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7252183527663007966
 PrefabInstance:
   m_ObjectHideFlags: 0

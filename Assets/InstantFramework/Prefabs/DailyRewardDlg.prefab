@@ -275,12 +275,12 @@ RectTransform:
   m_LocalScale: {x: 1.28, y: 1.28, z: 1.28}
   m_Children:
   - {fileID: 6132234111738528124}
-  m_Father: {fileID: 3698179348143778456}
-  m_RootOrder: 5
+  m_Father: {fileID: 7642720394081702308}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 291}
+  m_AnchoredPosition: {x: 0, y: 207}
   m_SizeDelta: {x: 368.2, y: 151.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &567101644195470516
@@ -825,7 +825,7 @@ MonoBehaviour:
   _coinsText: {fileID: 3058617977188505970}
   _gemsContainer: {fileID: 4332435767229138207}
   _gemsText: {fileID: 1592325936359413060}
-  _gemsFx: {fileID: 4381769486723576014}
+  _gemsFx: {fileID: 1196313641512618557}
   _coinsFx: {fileID: 8826072776441602921}
   background: {fileID: 3698179348143778456}
   layout: {fileID: 6414125041967230750}
@@ -883,10 +883,9 @@ RectTransform:
   - {fileID: 7642720394208953878}
   - {fileID: 2625789432725339404}
   - {fileID: 7642720393877613876}
-  - {fileID: 909382253976840035}
   - {fileID: 5811145616310451251}
   - {fileID: 8295183682810388622}
-  - {fileID: 4381769486723576015}
+  - {fileID: 1196313641512618556}
   - {fileID: 8826072776441602920}
   - {fileID: 6414125041967230750}
   m_Father: {fileID: 3698179348109676674}
@@ -1059,7 +1058,7 @@ RectTransform:
   - {fileID: 8719377874852897948}
   - {fileID: 1548819264000176104}
   m_Father: {fileID: 3698179348143778456}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1183,7 +1182,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: -20, y: -70}
+  m_SizeDelta: {x: -30, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6842157731794508725
 CanvasRenderer:
@@ -1226,7 +1225,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Video will be available soon
+  m_Text: The video is loading, please try again
 --- !u!1 &5172182506052510128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,7 +1428,7 @@ RectTransform:
   - {fileID: 7227735615862895492}
   - {fileID: 719326204502044724}
   m_Father: {fileID: 3698179348143778456}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1550,7 +1549,7 @@ RectTransform:
   - {fileID: 3698179346803601533}
   - {fileID: 7642720394081702308}
   m_Father: {fileID: 3698179348143778456}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -2035,6 +2034,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 909382253976840035}
   - {fileID: 7642720394929959714}
   - {fileID: 7642720394342866016}
   m_Father: {fileID: 6414125041967230750}
@@ -2242,7 +2242,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7642720394081702308}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2398,7 +2398,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7642720394081702308}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -2870,7 +2870,7 @@ PrefabInstance:
     - target: {fileID: 3194464779634588401, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3194464779634588401, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
         type: 3}
@@ -2954,7 +2954,7 @@ PrefabInstance:
       objectReference: {fileID: 2320065641413537399}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2072bedbfcb3d4e1f81aec6f6df02877, type: 3}
---- !u!114 &4381769486723576014 stripped
+--- !u!114 &1196313641512618557 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3194464779634588400, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
     type: 3}
@@ -2966,7 +2966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5078920c0e87b4f0485ff15476de4f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &4381769486723576015 stripped
+--- !u!224 &1196313641512618556 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3194464779634588401, guid: 2072bedbfcb3d4e1f81aec6f6df02877,
     type: 3}
@@ -3027,7 +3027,7 @@ PrefabInstance:
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
