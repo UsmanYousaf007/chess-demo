@@ -65,8 +65,9 @@ namespace TurboLabz.InstantFramework
             appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
-
+            
             FillStoreSettingsModel(storeSettingsData);
+            storeAvailableSignal.Dispatch(false);
             //Debug.Log("ItemsPrices::FillStoreSettingsModel call completed: " + DateTime.Now);
 
             IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
@@ -156,7 +157,6 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            storeAvailableSignal.Dispatch(false);
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
 
             ParseActiveChallenges(response.ScriptData);
