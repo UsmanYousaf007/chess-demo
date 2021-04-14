@@ -438,9 +438,28 @@ namespace TurboLabz.Multiplayer
 
         private void SetupResultsLayout()
         {
-            resultsBoostRatingButton.gameObject.SetActive(!canSeeRewardedVideo && !isDraw);
-            ratingBoosterRvPanel.SetActive(canSeeRewardedVideo && !isDraw);
-            if (!canSeeRewardedVideo)
+            bool enableRewardedVideoPanel = canSeeRewardedVideo && isRankedGame;
+            bool enableRatingBoosterPanel = !canSeeRewardedVideo || !isRankedGame;
+
+            ratingBoosterRvPanel.SetActive(enableRewardedVideoPanel && !isDraw);
+            resultsBoostRatingButton.gameObject.SetActive(!enableRewardedVideoPanel && !isDraw);
+
+            if (enableRewardedVideoPanel)
+            {
+                ratingBoosterRvPanel.SetActive(!isDraw);
+                if (IsCoolDownComplete())
+                {
+                    getRV.SetActive(true);
+                    rewardedVideoBtn.interactable = isRankedGame;
+                    ratingBoosterTimer.SetActive(false);
+                }
+                else
+                {
+                    StartTimer(coolDownTimeUTC);
+                }
+            }
+
+            else if (!enableRewardedVideoPanel)
             {
 
                 resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
@@ -454,15 +473,7 @@ namespace TurboLabz.Multiplayer
                 resultsRatingContainer.gameObject.SetActive(isRankedGame);
                 resultsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
             }
-            else if (IsCoolDownComplete())
-            {
-                getRV.SetActive(true);
-                ratingBoosterTimer.SetActive(false);
-            }
-            else
-            {
-                StartTimer(coolDownTimeUTC);
-            }
+
         }
 
         private void BuildLayout()
@@ -771,7 +782,8 @@ namespace TurboLabz.Multiplayer
             if (IsCoolDownComplete())
             {
                 ratingBoosterRewardSignal.Dispatch();
-               
+                SetupRatingBoostButtonsSection(false);
+
             }
             else
             {
@@ -847,7 +859,7 @@ namespace TurboLabz.Multiplayer
         {
             ratingBoosterTimer.SetActive(false);
             getRV.SetActive(true);
-            rewardedVideoBtn.interactable = false;
+            //rewardedVideoBtn.interactable = false;
             DisableTimerTooltip();
 
         }
