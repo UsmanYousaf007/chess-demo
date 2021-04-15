@@ -41,7 +41,6 @@ namespace TurboLabz.Multiplayer
                 view.FlashClocks(false);
                 view.ShowEndGame();
                 view.StartEndAnimationSequence();
-                //view.ShowRewardsDialog();
                 view.OnParentHideAdBanner();
             }
             else if (viewId == NavigatorViewId.GAME_ANALYZING_DLG)
@@ -56,7 +55,6 @@ namespace TurboLabz.Multiplayer
             if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
             {
                 view.HideGameEndDialog();
-                view.ShowResultsDialog();
             }
             else if (viewId == NavigatorViewId.GAME_END_REWARDS_DLG)
             {

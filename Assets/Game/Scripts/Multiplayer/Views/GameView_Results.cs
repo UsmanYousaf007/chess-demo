@@ -36,6 +36,7 @@ namespace TurboLabz.Multiplayer
         public Text declinedReason;
         public Button declinedLobbyButton;
         public Text declinedLobbyButtonLabel;
+        private bool hasDeclined;
 
         [Header("End Game Results Dialog")]
         public GameObject resultsDialog;
@@ -207,6 +208,11 @@ namespace TurboLabz.Multiplayer
 
         public void ShowResultsDialog()
         {
+            if(hasDeclined)
+            {
+                HandleDeclinedDialog();
+                return;
+            }
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
             StartCoroutine(BuildLayout());
@@ -219,10 +225,11 @@ namespace TurboLabz.Multiplayer
 
             if (vo.reason == GameEndReason.DECLINED)
             {
-                HandleDeclinedDialog();
+                hasDeclined = true;
                 return;
             }
 
+            hasDeclined = false;
             playerWins = vo.playerWins;
             playerName = vo.playerName;
             opponentName = vo.opponentName;
@@ -492,11 +499,8 @@ namespace TurboLabz.Multiplayer
 
         private void HandleDeclinedDialog()
         {
-            //resultsDialog.SetActive(false);
-            UIDlgManager.Hide(resultsDialog);
-            declinedDialog.SetActive(true);
-            declinedDialog.transform.localPosition = new Vector3(0f, Screen.height + declinedDialogHalfHeight, 0f);
-            Invoke("AnimateDeclinedDialog", RESULTS_SHORT_DELAY_TIME);
+            resultsDialog.SetActive(false);
+            UIDlgManager.AnimateDlg(declinedDialog);
         }
 
         private void AnimateDeclinedDialog()
@@ -637,26 +641,7 @@ namespace TurboLabz.Multiplayer
         {
             audioService.PlayStandardClick();
             animationPlayed = false;
-
-            //FadeOutResultsDialog(0);
-            //showNewRankChampionshipDlgSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
             ShowWeeklyChampionshipResults();
-        }
-
-        private void OnCrossPromoButtonClicked()
-        {
-            //toggleBannerSignal.Dispatch(false);
-            hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
-            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
-            HCrossPromo.OpenPanel();
-            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
-        }
-
-        private void ToggleBannerSignalFunc()
-        {
-            appInfoModel.internalAdType = InternalAdType.NONE;
-            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
-            //toggleBannerSignal.Dispatch(true);
         }
 
         private void SetupRatingBoostButtonsSection(bool enable)

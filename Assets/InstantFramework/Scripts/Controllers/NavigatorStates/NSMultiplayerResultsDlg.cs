@@ -76,6 +76,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSGameAnalyzingDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
 
             return null;
         }
