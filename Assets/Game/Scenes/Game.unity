@@ -571,6 +571,8 @@ MonoBehaviour:
   spinnerDragHandler: {fileID: 7101924180817001613}
   scrollRectAlphaHandler: {fileID: 7101924180817001615}
   analysisMovesSpinnerDragHandler: {fileID: 7101924180817001613}
+  analysisFirstButton: {fileID: 7101924180817001617}
+  analysisLastButton: {fileID: 7101924180817001614}
   strengthBtn: {fileID: 7101924180817001610}
   arrowBtn: {fileID: 7101924180817001612}
   moveQualityBtn: {fileID: 7101924180817001608}
@@ -8547,7 +8549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -37476,7 +37478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 16.9, y: -5.8}
+  m_AnchoredPosition: {x: 26.4, y: -5.8}
   m_SizeDelta: {x: 27, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &706296118
@@ -128454,7 +128456,7 @@ PrefabInstance:
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 387.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
@@ -128753,6 +128755,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4bd548859fc4894a705f1946412e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7101924180817001614 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4162739872247799180, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7101924180817001615 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3524420522374985042, guid: c4f3315e998104706b3a13b1e8b202b5,
@@ -128771,6 +128785,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7101924180817001596}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7101924180817001617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2367163916515257981, guid: c4f3315e998104706b3a13b1e8b202b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7101924180817001596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7252183527663007966
 PrefabInstance:
   m_ObjectHideFlags: 0

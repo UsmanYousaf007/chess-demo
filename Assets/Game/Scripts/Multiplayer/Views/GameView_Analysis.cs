@@ -33,6 +33,8 @@ namespace TurboLabz.Multiplayer
         public AnalysisMovesSpinnerDragHandler spinnerDragHandler;
         public ScrollRectAlphaHandler scrollRectAlphaHandler;
         public AnalysisMovesSpinnerDragHandler analysisMovesSpinnerDragHandler;
+        public Button analysisFirstButton;
+        public Button analysisLastButton;
 
         public Button strengthBtn;
         public Button arrowBtn;
@@ -80,6 +82,8 @@ namespace TurboLabz.Multiplayer
             strengthBtn.onClick.AddListener(OnClickedStrength);
             arrowBtn.onClick.AddListener(OnClickedArrow);
             moveQualityBtn.onClick.AddListener(OnClickedMoveQuality);
+            analysisFirstButton.onClick.AddListener(OnClickAnalysisFirst);
+            analysisLastButton.onClick.AddListener(OnClickAnalysisLast);
 
             spinnerDragHandler.audioService = audioService;
         }
@@ -321,6 +325,12 @@ namespace TurboLabz.Multiplayer
             moveAnalysisList.Last().playerAdvantage = moveAnalysis.playerAdvantage;
         }
 
+        private void AutoScrollMovesDial(int itemIndex)
+        {
+            pickerSrollRect.autoScrollSeconds = 0.6f;
+            pickerSrollRect.ScrollToItemAtIndex(itemIndex);
+        }
+
         #region Button Listeners
 
         private void OnClickedArrow()
@@ -336,6 +346,16 @@ namespace TurboLabz.Multiplayer
         private void OnClickedMoveQuality()
         {
             moveQualityTooltip.SetActive(true);
+        }
+
+        private void OnClickAnalysisFirst()
+        {
+            AutoScrollMovesDial(0);
+        }
+
+        private void OnClickAnalysisLast()
+        {
+            AutoScrollMovesDial(moveAnalysisList.Count - 1);
         }
 
         #endregion
