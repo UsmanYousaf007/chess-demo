@@ -41,6 +41,8 @@ namespace TurboLabz.InstantFramework
                 iconsContainer = StoreIconsContainer.Load();
             }
 
+            //buyButton.onClick.AddListener(OnBuyButtonClicked);
+            thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
             SetupLoading(true);
         }
 
@@ -61,8 +63,6 @@ namespace TurboLabz.InstantFramework
                 title.text = storeItem.displayName.Split(' ')[0];
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
-                buyButton.onClick.AddListener(OnBuyButtonClicked);
-                thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
                 extraSavings.SetActive(!(string.IsNullOrEmpty(storeItem.description) || string.IsNullOrWhiteSpace(storeItem.description)));
                 extraSavingText.text = storeItem.description;
                 price.text = storeItem.currency3Payout.ToString();

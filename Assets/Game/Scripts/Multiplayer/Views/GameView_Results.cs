@@ -209,6 +209,7 @@ namespace TurboLabz.Multiplayer
         {
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
+            StartCoroutine(BuildLayout());
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -253,7 +254,6 @@ namespace TurboLabz.Multiplayer
                 SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
                 SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
             }
-            BuildLayout();
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -476,8 +476,9 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        private void BuildLayout()
+        IEnumerator BuildLayout()
         {
+            yield return new WaitForSeconds(0.3f);
             foreach (var layout in resultsLayouts)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
@@ -488,8 +489,6 @@ namespace TurboLabz.Multiplayer
         {
             return resultsDialog.activeSelf;
         }
-
-
 
         private void HandleDeclinedDialog()
         {
@@ -623,7 +622,7 @@ namespace TurboLabz.Multiplayer
             HideGameEndDialog();
             resultsDialogClosedSignal.Dispatch();
 
-            if (isLongPlay)
+            if (isLongPlay || moveAnalysisList.Count == 0)
             {
                 ShowViewBoardResultsPanel(true);
             }

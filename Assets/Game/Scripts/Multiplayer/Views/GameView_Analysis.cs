@@ -68,6 +68,7 @@ namespace TurboLabz.Multiplayer
             animateMovesDial = true;
             isGameAnalysisEnabled = false;
             analysisDebugText.gameObject.SetActive(false);
+            ShowSelectedMoveAnalysis(false);
         }
 
         public void InitAnalysis()
