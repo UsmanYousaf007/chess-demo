@@ -136,7 +136,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnPromotionCycleOver()
         {
-            promotionShown = false;
             promotionCycleOverSignal.Dispatch();
         }
 
