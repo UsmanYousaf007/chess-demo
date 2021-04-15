@@ -16,17 +16,19 @@ public class AnalysisMoveView : MonoBehaviour
         public Image piece;
         public Image moveQuality;
         public Image advantageBg;
-        public RectTransform advantageFiller;
-        public Image advantageFillerImage;
-        public Text whiteAdvantage;
-        public Text blackAdvantage;
+        public Image advantageFillerLeft;
+        public Image advantageFillerRight;
+        public Text advantageLeft;
+        public Text advantageRight;
+        public Image separator;
     }
 
     public AnalysisMove normal;
     public AnalysisMove zoomed;
-    public Sprite whiteAdvantageFilledSprite;
-    public Sprite whiteAdvantagePartialSprite;
+    public Sprite advantageFillerActive;
+    public Sprite advantageFillerInactive;
     public Sprite moveQualityInactive;
+    public Sprite advantageFillerPartial;
 
     public bool IsLocked => isLocked;
     public int MoveNumber => moveNumber;
@@ -60,18 +62,17 @@ public class AnalysisMoveView : MonoBehaviour
         analysis.piece.sprite = piece;
         analysis.moveQuality.enabled = moveQuality != null || isLocked;
         analysis.moveQuality.sprite = isLocked ? moveQualityInactive : moveQuality;
+        analysis.advantageBg.sprite = isLocked ? advantageFillerInactive : advantageFillerActive;
 
-        analysis.whiteAdvantage.text = analysis.blackAdvantage.text = string.Format("{0:0.0}", playerAdvantage);
-        analysis.whiteAdvantage.enabled = playerColor == ChessColor.WHITE && !isLocked;
-        analysis.blackAdvantage.enabled = playerColor == ChessColor.BLACK && !isLocked;
+        analysis.advantageLeft.text = string.Format("{0:0.#}", playerAdvantage);
+        analysis.advantageRight.text = string.Format("+{0:0.#}", playerAdvantage);
+        analysis.advantageFillerLeft.enabled = analysis.advantageLeft.enabled = playerAdvantage < 0 && !isLocked;
+        analysis.advantageFillerRight.enabled = analysis.advantageRight.enabled = playerAdvantage > 0 && !isLocked;
 
-        playerAdvantage = playerColor == ChessColor.BLACK ? playerAdvantage * -1 : playerAdvantage;
-        var fillAmount = 230 * ((10 + playerAdvantage) / 20);
-        analysis.advantageFiller.sizeDelta = new Vector2(fillAmount, analysis.advantageFiller.sizeDelta.y);
-        analysis.advantageFillerImage.enabled = fillAmount > 15 && !isLocked;
-        analysis.advantageFillerImage.sprite = fillAmount >= 215 ? whiteAdvantageFilledSprite : whiteAdvantagePartialSprite;
+        var fillAmount = 91 * (Mathf.Abs(playerAdvantage) / 10);
+        analysis.advantageFillerLeft.sprite = analysis.advantageFillerRight.sprite = fillAmount > 82 ? advantageFillerPartial : null;
+        ((RectTransform)analysis.advantageFillerLeft.transform).sizeDelta = ((RectTransform)analysis.advantageFillerRight.transform).sizeDelta  = new Vector2(fillAmount, 36);
 
-        analysis.blackAdvantage.color = playerColor == ChessColor.BLACK && analysis.advantageFillerImage.sprite == whiteAdvantageFilledSprite ? Colors.BLACK : Colors.WHITE;
-        analysis.whiteAdvantage.color = playerColor == ChessColor.WHITE && analysis.advantageFillerImage.enabled ? Colors.BLACK : Colors.WHITE;
+        analysis.separator.enabled = !isLocked;
     }
 }
