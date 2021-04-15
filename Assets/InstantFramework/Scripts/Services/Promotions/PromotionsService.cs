@@ -6,6 +6,8 @@
 using System;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -32,6 +34,7 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        private NormalRoutineRunner routineRunner = new NormalRoutineRunner();
         private Dictionary<string, PromoionDlgVO> promotionsMapping;
 
         [PostConstruct]
@@ -120,8 +123,9 @@ namespace TurboLabz.InstantFramework
                 subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
             }
 
-            navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
-            showFadeBlockerSignal.Dispatch();
+            //navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
+            // showFadeBlockerSignal.Dispatch();
+            routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
 
             if (promotionToDispatch.isOnSale)
             {
@@ -154,8 +158,19 @@ namespace TurboLabz.InstantFramework
 
             if (promotionsMapping.ContainsKey(promotionKey) && promotionsMapping[promotionKey].condition())
             {
-                navigatorEventSignal.Dispatch(promotionsMapping[promotionKey].navigatorEvent);
+                routineRunner.StartCoroutine(DispatchPromotionCR(promotionsMapping[promotionKey].navigatorEvent));
+                //navigatorEventSignal.Dispatch(promotionsMapping[promotionKey].navigatorEvent);
             }
+        }
+
+        private IEnumerator DispatchPromotionCR(NavigatorEvent eventId)
+        {
+            // Wait 2 frames so Lobby is ready before showing promo
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            navigatorEventSignal.Dispatch(eventId);
+            showFadeBlockerSignal.Dispatch();
         }
 
         private void SetupPromotions()

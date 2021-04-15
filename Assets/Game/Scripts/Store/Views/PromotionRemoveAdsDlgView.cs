@@ -48,6 +48,7 @@ public class PromotionRemoveAdsDlgView : View
 
     public void InitOnce()
     {
+        UIDlgManager.Setup(gameObject);
         waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
@@ -82,14 +83,18 @@ public class PromotionRemoveAdsDlgView : View
     public void Show()
     {
         UpdateView();
-        gameObject.SetActive(true);
+        UIDlgManager.Show(gameObject).Then(OnShowComplete);
+    }
+
+    public void OnShowComplete()
+    {
         timer = StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
         StopCoroutine(timer);
-        gameObject.SetActive(false);
+        UIDlgManager.Hide(gameObject);
     }
 
     private void SetupPopup()

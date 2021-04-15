@@ -50,6 +50,7 @@ public class PromotionEliteBundleDlgView : View
 
     public void InitOnce()
     {
+        UIDlgManager.Setup(gameObject);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
@@ -94,12 +95,12 @@ public class PromotionEliteBundleDlgView : View
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        UIDlgManager.Show(gameObject);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        UIDlgManager.Hide(gameObject);
     }
 
     private void OnCloseButtonClicked()
