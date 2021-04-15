@@ -107,13 +107,25 @@ namespace TurboLabz.InstantFramework
             int league = playerModel.league;
             int currentTrophies = playerModel.trophies;
 
-            league = playerModel.league + 1;
+            if (playerModel.leaguePromoted)
+            {
+                league = playerModel.league - 1;
+            }
+
+
+            league = league + 1;
             var updatedPointsCount = currentTrophies;
             leaguesModel.leagues.TryGetValue((league).ToString(), out League value);
 
             if (value != null)
             {
                 var requiredPoints = value.qualifyTrophies;
+
+                if (playerModel.leaguePromoted)
+                {
+                    updatedPointsCount = requiredPoints;
+                }
+
                 barFillPercentage = (float)updatedPointsCount / requiredPoints;
                 float barFilledPercentage = (float)playerModel.trophiesPrev / requiredPoints;
 
@@ -124,7 +136,7 @@ namespace TurboLabz.InstantFramework
 
                 progressBarSlider.DOValue(barFilledPercentage, 0);
                 progressBarSlider.DOValue(barFillPercentage, 1.5f).OnComplete(AnimationComplete);
-                StartCoroutine(CountTo(playerModel.trophies, playerModel.trophiesPrev, 1.5f));
+                StartCoroutine(CountTo(updatedPointsCount, playerModel.trophiesPrev, 1.5f));
             }
         }
 
