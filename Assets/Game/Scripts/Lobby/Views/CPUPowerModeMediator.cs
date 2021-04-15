@@ -94,6 +94,7 @@ namespace TurboLabz.InstantFramework
             {
                 view.OnEnablePowerMode();
                 view.StartTimer(playerModel.rvUnlockTimestamp);
+                analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.power_mode);
             }
         }
 

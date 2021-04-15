@@ -152,7 +152,7 @@ namespace TurboLabz.InstantFramework
                 if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
                 {
                     this.rewardedVideoShown = true;
-    
+                    analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.power_mode);
                 }
 
                 else if (result == AdsResult.NOT_AVAILABLE)

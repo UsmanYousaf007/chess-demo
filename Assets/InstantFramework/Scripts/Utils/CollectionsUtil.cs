@@ -201,8 +201,8 @@ namespace TurboLabz.TLUtils
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_chest);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_banner, AnalyticsContext.rewarded_out_of_coins_lobby_banner_popup);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
-            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_powerplay);
-            adPlacementToAdContextMap.Add(AdPlacements.RV_rating_booster, AnalyticsContext.rv_rating_booster);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.RV_rating_booster, AnalyticsContext.rewarded_rating_booster);
         }
     }
 }

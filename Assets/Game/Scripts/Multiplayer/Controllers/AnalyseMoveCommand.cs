@@ -84,6 +84,7 @@ namespace TurboLabz.Multiplayer
                             (lastMove.playerScore - moveAnalysis.playerScore)) / 100.0f;
 
                         lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
+                        moveAnalysis.playerAdvantage = lastMove.playerAdvantage;
 
                         if (parameters.isLastTurn)
                         {

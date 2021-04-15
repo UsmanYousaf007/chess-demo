@@ -167,6 +167,7 @@ namespace TurboLabz.InstantFramework
         bet_increment_used,
         bet_increment_default,
         free_game_analysis_used,
+        rv_used,
 
         //inbox
         inbox_visits,
@@ -242,8 +243,9 @@ namespace TurboLabz.InstantFramework
         rewarded_out_of_coins_lobby_banner_popup,
         rewarded_out_of_coins_lobby_popup,
         rewarded_coins_spot_state_1,
-        rewarded_powerplay,
-        rv_rating_booster,
+        rewarded_power_mode,
+        rewarded_rating_booster,
+
         //Session
         num_facebook_friends,
 
@@ -310,7 +312,6 @@ namespace TurboLabz.InstantFramework
         lucky_gem_booster,
         hint,
         key,
-        rewarded_rating_booster,
         rewarded_hints,
         rewarded_keys,
         rewarded_gem_booster,

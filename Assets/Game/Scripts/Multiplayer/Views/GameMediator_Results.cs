@@ -147,8 +147,7 @@ namespace TurboLabz.Multiplayer
                 else
                 {
                     view.StartTimer(playerModel.rvUnlockTimestamp);
-                    analyticsService.Event(AnalyticsEventId.inventory_rewarded_video_watched, AnalyticsContext.rv_rating_booster);
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, 0, "booster_used", AnalyticsContext.rv_rating_booster.ToString());
+                    analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.rating_booster);
                 }
 
                 view.OnRatingBoosted(ratingBoost);
