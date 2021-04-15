@@ -478,7 +478,7 @@ namespace TurboLabz.Multiplayer
 
         IEnumerator BuildLayout()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.4f);
             foreach (var layout in resultsLayouts)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(layout);

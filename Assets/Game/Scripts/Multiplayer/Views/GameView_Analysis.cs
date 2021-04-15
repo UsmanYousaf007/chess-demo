@@ -35,17 +35,16 @@ namespace TurboLabz.Multiplayer
         public AnalysisMovesSpinnerDragHandler analysisMovesSpinnerDragHandler;
         public Button analysisFirstButton;
         public Button analysisLastButton;
-
         public Button strengthBtn;
         public Button arrowBtn;
         public Button moveQualityBtn;
-
+        public Button analysisInfoButton;
+        public GameObject analysisInfoPanel;
         public GameObject strengthTooltip;
         public GameObject arrowTooltip;
         public GameObject moveQualityTooltip;
         public Text moveQualityTooltipText;
         public Transform analysisArrowTooltipPivot;
-
         public Image gameAnalysisLogo;
         public Text analysisDebugText;
 
@@ -69,6 +68,8 @@ namespace TurboLabz.Multiplayer
             isGameAnalysisEnabled = false;
             analysisDebugText.gameObject.SetActive(false);
             ShowSelectedMoveAnalysis(false);
+            analysisInfoButton.gameObject.SetActive(false);
+            analysisInfoPanel.gameObject.SetActive(false);
         }
 
         public void InitAnalysis()
@@ -85,6 +86,7 @@ namespace TurboLabz.Multiplayer
             moveQualityBtn.onClick.AddListener(OnClickedMoveQuality);
             analysisFirstButton.onClick.AddListener(OnClickAnalysisFirst);
             analysisLastButton.onClick.AddListener(OnClickAnalysisLast);
+            analysisInfoButton.onClick.AddListener(() => analysisInfoPanel.SetActive(true));
 
             spinnerDragHandler.audioService = audioService;
         }
@@ -110,6 +112,7 @@ namespace TurboLabz.Multiplayer
             isGameAnalysisEnabled = !isLocked;
             EmptyScores();
             opponentProfileView.championshipTrophiesContainer.SetActive(false);
+            analysisInfoButton.gameObject.SetActive(!isLocked);
         }
 
         private void ClearMovesList()
