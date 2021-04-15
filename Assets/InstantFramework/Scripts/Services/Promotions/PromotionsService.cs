@@ -158,8 +158,7 @@ namespace TurboLabz.InstantFramework
 
             if (promotionsMapping.ContainsKey(promotionKey) && promotionsMapping[promotionKey].condition())
             {
-                routineRunner.StartCoroutine(DispatchPromotionCR(promotionsMapping[promotionKey].navigatorEvent));
-                //navigatorEventSignal.Dispatch(promotionsMapping[promotionKey].navigatorEvent);
+                navigatorEventSignal.Dispatch(promotionsMapping[promotionKey].navigatorEvent);
             }
         }
 
