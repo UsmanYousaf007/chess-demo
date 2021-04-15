@@ -125,7 +125,7 @@ namespace TurboLabz.InstantFramework
             {
                 timeLeft--;
                 var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft * 1000));
-                timerText.text = "Ends In" + timeLeftText;
+                timerText.text = "Ends In " + timeLeftText;
             }
             else
             {
