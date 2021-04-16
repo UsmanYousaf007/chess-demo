@@ -61,13 +61,14 @@ namespace TurboLabz.InstantFramework
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IRewardsService rewardsService { get; set; }
 
         LeagueTierIconsContainer leagueTierIconsContainer;
 
         public void Init()
         {
             leagueTierIconsContainer = leagueTierIconsContainer == null ? LeagueTierIconsContainer.Load() : leagueTierIconsContainer;
-            continueBtn.onClick.AddListener(FadeOutCareerProgressionView);
+            continueBtn.onClick.AddListener(OnContinueButtonClicked);
         }
 
         public void Show()
@@ -227,6 +228,21 @@ namespace TurboLabz.InstantFramework
             careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
             careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLobby); ;
             isCareerProgressionShown = true;
+        }
+
+        private void OnContinueButtonClicked()
+        {
+            blurredBgImg.DOFade(0, 0.3f);
+            UIBlurBackground.AnimateBrightness(0.7f, 0.0f, 0.3f);
+            careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
+            careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLeaguePromotionReward); ;
+            isCareerProgressionShown = true; 
+        }
+
+        private void LoadLeaguePromotionReward()
+        {
+            LoadLobby();
+            rewardsService.LoadDailyReward("RewardLeaguePromotion");
         }
 
         private void FadeInCareerProgressionView()

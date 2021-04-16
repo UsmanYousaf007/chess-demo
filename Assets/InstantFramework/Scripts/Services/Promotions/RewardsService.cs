@@ -119,6 +119,19 @@ namespace TurboLabz.InstantFramework
             loadRewardDlgViewSignal.Dispatch(rewardKey, onCloseSignal);
         }
 
+        public void LoadDailyReward(string rewardKey)
+        {
+            if (rewards.Count == 0)
+            {
+                return;
+            }
+
+            rewards.Remove(rewardKey);
+            var onCloseSignal = new Signal();
+            onCloseSignal.AddListener(LoadDailyReward);
+            loadRewardDlgViewSignal.Dispatch(rewardKey, onCloseSignal);
+        }
+
         private string GetRewardKeyByValue(string value)
         {
             return (from r in rewards
