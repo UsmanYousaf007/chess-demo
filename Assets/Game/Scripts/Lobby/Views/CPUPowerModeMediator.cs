@@ -121,5 +121,25 @@ namespace TurboLabz.InstantFramework
                 schedulerService.UnSubscribe(view.SchedulerCallBack);
             }
         }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled && adPlacement == AdPlacements.Rewarded_powerplay)
+            {
+                if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
+                {
+                    //this.rewardedVideoShown = true;
+                    analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.power_mode);
+                }
+
+                else if (result == AdsResult.NOT_AVAILABLE)
+                {
+                    view.EnableVideoAvailabilityTooltip();
+                    Invoke("view.DisableVideoAvailabilityTooltip", 5);
+                }
+            }
+
+        }
     }
 }
