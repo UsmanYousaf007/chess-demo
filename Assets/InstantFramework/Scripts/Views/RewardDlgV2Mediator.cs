@@ -11,11 +11,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-
-        // Models
         
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgV2VO _rewardDlgVO;
         private bool _rewardTrophies = false;
@@ -51,6 +50,7 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.REWARD_DLG_V2)
             {
                 view.Hide();
+                rewardSequenceV2ClosedSignal.Dispatch();
             }
         }
 

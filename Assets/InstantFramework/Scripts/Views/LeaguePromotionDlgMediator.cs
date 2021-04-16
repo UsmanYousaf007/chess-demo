@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
+        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
 
@@ -68,12 +69,12 @@ namespace TurboLabz.InstantFramework
 
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             backendService.InBoxOpCollect(_rewardVO.msgId);
-            _rewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
             RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
             updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+            rewardSequenceV2ClosedSignal.AddOnce(() => _rewardVO.onCloseSignal?.Dispatch());
         }
     }
 }

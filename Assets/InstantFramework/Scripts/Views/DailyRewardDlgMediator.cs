@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgVO _dailyRewardVO;
 
@@ -106,7 +107,6 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            _dailyRewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
             if (videoWatched)
@@ -114,6 +114,11 @@ namespace TurboLabz.InstantFramework
                 RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
+                rewardSequenceV2ClosedSignal.AddOnce(() => _dailyRewardVO.onCloseSignal?.Dispatch());
+            }
+            else
+            {
+                _dailyRewardVO.onCloseSignal?.Dispatch();
             }
 
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());

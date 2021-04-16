@@ -240,7 +240,7 @@ namespace TurboLabz.InstantFramework
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
     public class UnlockCurrentJoinedTournamentSignal : Signal { }
     public class OnTournamentEndRewardViewClickedSignal : Signal<string> { }
-
+    public class RewardSequenceV2ClosedSignal : Signal { }
     // SKINS
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
