@@ -27,6 +27,7 @@ namespace TurboLabz.Multiplayer
         public Image rewardsBetReversedImg;
 
         public TMP_Text titleTxt;
+        public TMP_Text gameEndReasonTxt;
 
         public Text rewardsBetReversedLabel;
         public Text rewardsEarnedCoinsLabel;
@@ -42,6 +43,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowRewardsDialog()
         {
+            UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
             rewardsDialog.SetActive(true);
         }
 
@@ -54,6 +56,9 @@ namespace TurboLabz.Multiplayer
 
             rewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
             rewardsStars.gameObject.SetActive(playerWins && isRankedGame);
+
+            titleTxt.text = (isDraw && isRankedGame) ? "DRAW" : "YOU WIN";
+            gameEndReasonTxt.text = resultsGameResultReasonLabel.text;
 
             rewardsPowerplayImage.gameObject.SetActive(playerWins && isRankedGame);
         }
