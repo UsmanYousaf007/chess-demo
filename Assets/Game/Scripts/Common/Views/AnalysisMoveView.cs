@@ -66,8 +66,8 @@ public class AnalysisMoveView : MonoBehaviour
 
         analysis.advantageLeft.text = string.Format("{0:0.#}", playerAdvantage);
         analysis.advantageRight.text = string.Format("+{0:0.#}", playerAdvantage);
-        analysis.advantageFillerLeft.enabled = analysis.advantageLeft.enabled = playerAdvantage < 0 && !isLocked;
-        analysis.advantageFillerRight.enabled = analysis.advantageRight.enabled = playerAdvantage > 0 && !isLocked;
+        analysis.advantageFillerLeft.enabled = analysis.advantageLeft.enabled = playerAdvantage <= -0.1f && !isLocked;
+        analysis.advantageFillerRight.enabled = analysis.advantageRight.enabled = playerAdvantage >= 0.1f && !isLocked;
 
         var fillAmount = 91 * (Mathf.Abs(playerAdvantage) / 10);
         analysis.advantageFillerLeft.sprite = analysis.advantageFillerRight.sprite = fillAmount > 82 ? advantageFillerPartial : null;

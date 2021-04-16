@@ -77,7 +77,7 @@ namespace TurboLabz.Chess
 
         private void _GetAiMoveStrength(AiMoveInputVO vo)
         {
-            NewGame();
+            NewGame(ChessAiConfig.SF_ANALYSIS_MULTIPV);
             SetPosition(vo.fen);
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());

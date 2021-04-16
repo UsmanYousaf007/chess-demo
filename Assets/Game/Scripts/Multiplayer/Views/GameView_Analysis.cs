@@ -86,7 +86,7 @@ namespace TurboLabz.Multiplayer
             moveQualityBtn.onClick.AddListener(OnClickedMoveQuality);
             analysisFirstButton.onClick.AddListener(OnClickAnalysisFirst);
             analysisLastButton.onClick.AddListener(OnClickAnalysisLast);
-            analysisInfoButton.onClick.AddListener(() => analysisInfoPanel.SetActive(true));
+            analysisInfoButton.onClick.AddListener(OnClickAnalysisInfo);
 
             spinnerDragHandler.audioService = audioService;
         }
@@ -277,9 +277,9 @@ namespace TurboLabz.Multiplayer
             //analysisStrengthPanel.SetActive(showStrengthPanel);
 
             analysisDebugText.gameObject.SetActive(false);
-            var moveScore = analysiedMove.playerScoreDebug == 0 ? "not found" : analysiedMove.playerScoreDebug.ToString();
-            var delta = analysiedMove.playerScoreDebug == 0 ? "NaN" : (analysiedMove.bestScore - analysiedMove.playerScoreDebug).ToString();
-            analysisDebugText.text = $"BS:{analysiedMove.bestScore}, MS:{moveScore}, D:{delta}, AS:{analysiedMove.playerScore}";
+            var moveScore = analysiedMove.playerScore == 0 ? "N/A" : analysiedMove.playerScore.ToString();
+            var delta = analysiedMove.playerScore == 0 ? "NaN" : (analysiedMove.bestScore - analysiedMove.playerScore).ToString();
+            analysisDebugText.text = $"BS:{analysiedMove.bestScore}, MS:{moveScore}, D:{delta}, AS:{analysiedMove.advantageScore}";
         }
 
         private void FlipAnalysisStrengthPanel(float scale)
@@ -339,27 +339,38 @@ namespace TurboLabz.Multiplayer
 
         private void OnClickedArrow()
         {
+            audioService.PlayStandardClick();
             arrowTooltip.SetActive(true);
         }
 
         private void OnClickedStrength()
         {
+            audioService.PlayStandardClick();
             strengthTooltip.SetActive(true);
         }
 
         private void OnClickedMoveQuality()
         {
+            audioService.PlayStandardClick();
             moveQualityTooltip.SetActive(true);
         }
 
         private void OnClickAnalysisFirst()
         {
+            audioService.PlayStandardClick();
             AutoScrollMovesDial(0);
         }
 
         private void OnClickAnalysisLast()
         {
+            audioService.PlayStandardClick();
             AutoScrollMovesDial(moveAnalysisList.Count - 1);
+        }
+
+        public void OnClickAnalysisInfo()
+        {
+            audioService.PlayStandardClick();
+            analysisInfoPanel.SetActive(true);
         }
 
         #endregion

@@ -59,8 +59,8 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.moveQuality = MoveAnalysis.MoveQualityToEnum(quality);
             moveAnalysis.strength = strength;
             moveAnalysis.isPlayerMove = parameters.isPlayerTurn;
-            moveAnalysis.playerScore = int.Parse(parsedAnalysis[2]);
-            moveAnalysis.playerScoreDebug = int.Parse(parsedAnalysis[3]);
+            moveAnalysis.advantageScore = int.Parse(parsedAnalysis[2]);
+            moveAnalysis.playerScore = int.Parse(parsedAnalysis[3]);
             moveAnalysis.bestScore = int.Parse(parsedAnalysis[4]);
 
             var matchInfo = parameters.isLastTurn ? matchInfoModel.lastCompletedMatch : matchInfoModel.activeMatch;
@@ -80,8 +80,8 @@ namespace TurboLabz.Multiplayer
                         parameters.isPlayerTurn = parameters.isLastTurn ? !lastMove.isPlayerMove : parameters.isPlayerTurn;
 
                         lastMove.playerAdvantage = (parameters.isPlayerTurn ?
-                            (moveAnalysis.playerScore - lastMove.playerScore) :
-                            (lastMove.playerScore - moveAnalysis.playerScore)) / 100.0f;
+                             (moveAnalysis.bestScore - lastMove.advantageScore) :
+                             (lastMove.advantageScore - moveAnalysis.bestScore)) / 100.0f;
 
                         lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
                         moveAnalysis.playerAdvantage = lastMove.playerAdvantage;
