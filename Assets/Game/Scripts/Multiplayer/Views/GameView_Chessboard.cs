@@ -142,7 +142,7 @@ namespace TurboLabz.Multiplayer
 
             h = ((RectTransform)analysisPanel.transform).sizeDelta.y;
             ((RectTransform)analysisPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            analysisPanel.transform.position = playerProfileScreenPoint;
+            if (!NotchHandler.HasNotch()) analysisPanel.transform.position = playerProfileScreenPoint;
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)

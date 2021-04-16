@@ -326,7 +326,22 @@ namespace TurboLabz.Multiplayer
 
         public void LastMoveAnalysied(MoveAnalysis moveAnalysis)
         {
-            moveAnalysisList.Last().playerAdvantage = moveAnalysis.playerAdvantage;
+            if (moveAnalysis != null &&
+                moveAnalysis.playerMove != null &&
+                moveAnalysisList != null &&
+                moveAnalysisList.Count > 0)
+            {
+                var lastMove = moveAnalysisList.Last();
+
+                if (lastMove.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString()))
+                {
+                    lastMove.playerAdvantage = moveAnalysis.playerAdvantage;
+                }
+                else
+                {
+                    moveAnalysisList.Add(moveAnalysis);
+                }
+            }
         }
 
         private void AutoScrollMovesDial(int itemIndex)

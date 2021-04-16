@@ -132,6 +132,13 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform allStarLeaderboardHeader;
     public RectTransform allStarLeaderboardViewPort;
 
+    [Header("Multiplayer Analysis")]
+    public RectTransform multiplayerAnalysisPanel;
+    public RectTransform multiplayerPlayerPanel;
+    public Transform multiplayerBoard;
+    public RectTransform multiplayerOpponentsPanel;
+    public RectTransform multiplayerDrawOffer;
+
     public static bool HasNotch()
     {
 #if UNITY_EDITOR
@@ -317,6 +324,13 @@ public class NotchHandler : MonoBehaviour {
         SetY(allStarLeaderboardHeader, -160f);
         SetTop(allStarLeaderboardViewPort, -638f);
         SetBottom(allStarLeaderboardViewPort, 185);
+
+        //Multiplayer Analysis
+        SetY(multiplayerAnalysisPanel, -378f);
+        SetY(multiplayerPlayerPanel, -376f);
+        SetY(multiplayerOpponentsPanel, 528f);
+        SetY(multiplayerBoard, 73.7f);
+        SetY(multiplayerDrawOffer, -1015f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -358,5 +372,12 @@ public class NotchHandler : MonoBehaviour {
     void SetHeight(RectTransform tfm, float height)
     {
         tfm.sizeDelta = new Vector2(tfm.sizeDelta.x, height);
+    }
+
+    void SetY(Transform tfm, float y)
+    {
+        var localPosition = tfm.localPosition;
+        localPosition.y = y;
+        tfm.localPosition = localPosition;
     }
 }
