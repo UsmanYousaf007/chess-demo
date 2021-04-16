@@ -1,6 +1,8 @@
-﻿using strange.extensions.signal.impl;
+﻿using System;
+using strange.extensions.signal.impl;
 using TMPro;
 using TurboLabz.InstantFramework;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,9 +27,25 @@ namespace TurboLabz.CPU
         public Button showPowerplayDlgButton;
 
         public Button powerPlayWithRVBtn;
+        public Image powerPlayWithRVTick;
+        public GameObject powerPlayPlusWithRV;
+        public Image gemIconWithRv;
+        public TMP_Text gemCostWithRv;
+
         public Button rewardedVideoBtn;
+        public GameObject powerPlayAdTimer;
+        public TMP_Text powerPlayAdTimerRemainingTime;
+        public GameObject getRV;
+        public GameObject timerRunningTooltip;
+        public GameObject videoNotAvailableTooltip;
+
+        public IServerClock serverClock;
 
         private StoreItem storeItem;
+        private bool canSeeRewardedVideo;
+        private long coolDownTimeUTC;
+        private bool isTimerRunning;
+        
         private bool isPowerModeOn;
 
         //Models
@@ -38,12 +56,16 @@ namespace TurboLabz.CPU
         public Signal powerModeButtonClickedSignal = new Signal();
         public Signal powerplayCloseButtonSignal = new Signal();
         public Signal showPowerplayDlgButonSignal = new Signal();
+        public Signal<bool> schedulerSubscription = new Signal<bool>();
+        public Signal<AdPlacements> showRewardedAdInGameSignal = new Signal<AdPlacements>();
 
         public void InitPowerplay()
         {
             powerPlayCloseButton.onClick.AddListener(OnPowerplayCloseButtonClicked);
             powerPlayOnBtn.onClick.AddListener(OnPowerPlayButtonClicked);
+            powerPlayWithRVBtn.onClick.AddListener(OnPowerPlayButtonClicked);
             showPowerplayDlgButton.onClick.AddListener(OnShowPowerplayDlgButtonClicked);
+            rewardedVideoBtn.onClick.AddListener(OnPlayRewardedVideoClicked);
         }
 
         public void ShowPowerplay()
@@ -62,7 +84,7 @@ namespace TurboLabz.CPU
         public void OnEnablePowerMode()
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-            SetupState(true);
+            SetupState(true, false);
         }
 
         public void OnParentShowPowerplay()
@@ -90,7 +112,11 @@ namespace TurboLabz.CPU
             }
 
             powerPlayFreeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
-            SetupState(isPowerModeOn);
+            canSeeRewardedVideo = playerModel.gems < adsSettingsModel.minGemsRequiredforRV && playerModel.rvUnlockTimestamp > 0;
+            coolDownTimeUTC = playerModel.rvUnlockTimestamp;
+            
+            SetupState(isPowerModeOn, canSeeRewardedVideo);
+            
         }
 
         private void OnPowerplayCloseButtonClicked()
@@ -119,18 +145,40 @@ namespace TurboLabz.CPU
             }
         }
 
-        private void SetupState(bool powerModeEnabled)
+        private void SetupState(bool powerModeEnabled, bool canSeeRewardedVideo)
         {
-            powerPlayWithRVBtn.gameObject.SetActive(false);
-            rewardedVideoBtn.gameObject.SetActive(false);
+            bool showRewardedVideoPanel = canSeeRewardedVideo && !powerModeEnabled;
 
-            powerPlayOnText.enabled = powerModeEnabled;
-            powerPlayGemIcon.enabled = !powerModeEnabled;
-            powerPlayGemCost.enabled = !powerModeEnabled;
-            powerPlayTick.enabled = powerModeEnabled;
-            powerPlayPlus.gameObject.SetActive(!powerModeEnabled);
-            powerPlayGemCost.text = storeItem.currency3Cost.ToString();
-            powerPlayOnBtn.interactable = !powerModeEnabled;
+            powerPlayOnBtn.gameObject.SetActive(!showRewardedVideoPanel);
+            powerPlayWithRVBtn.gameObject.SetActive(showRewardedVideoPanel);
+            rewardedVideoBtn.gameObject.SetActive(showRewardedVideoPanel);
+
+            if (showRewardedVideoPanel)
+            {
+                powerPlayGemIcon.enabled = false;
+                powerPlayGemCost.enabled = false;
+                powerPlayOnText.enabled = false;
+
+                powerPlayWithRVTick.enabled = powerModeEnabled;
+                powerPlayPlusWithRV.SetActive(!powerModeEnabled);
+                gemIconWithRv.enabled = !powerModeEnabled;
+                gemCostWithRv.enabled = !powerModeEnabled;
+                powerPlayWithRVBtn.interactable = !powerModeEnabled;
+                timerRunningTooltip.SetActive(false);
+                videoNotAvailableTooltip.SetActive(false);
+                if (!IsCoolDownComplete() && !isTimerRunning)
+                { StartTimer(coolDownTimeUTC); }
+            }
+            else
+            {
+                powerPlayOnText.enabled = powerModeEnabled;
+                powerPlayGemIcon.enabled = !powerModeEnabled;
+                powerPlayGemCost.enabled = !powerModeEnabled;
+                powerPlayTick.enabled = powerModeEnabled;
+                powerPlayPlus.gameObject.SetActive(!powerModeEnabled);
+                powerPlayGemCost.text = storeItem.currency3Cost.ToString();
+                powerPlayOnBtn.interactable = !powerModeEnabled;
+            }
             isPowerModeOn = powerModeEnabled;
         }
 
@@ -140,6 +188,94 @@ namespace TurboLabz.CPU
             powerplayImage.sprite = powerplayEnabled ? powerplayActiveSprite : powerplayInActiveSprite;
             isPowerModeOn = powerplayEnabled;
             showPowerplayDlgButton.gameObject.SetActive(false);
+        }
+
+        public void EnableVideoAvailabilityTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(true);
+            Invoke("DisableVideoAvailabilityTooltip", 5);
+        }
+
+        public void DisableVideoAvailabilityTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(false);
+        }
+
+        public void EnableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(true);
+            Invoke("DisableTimerTooltip", 5);
+        }
+
+        public void DisableTimerTooltip()
+        {
+            timerRunningTooltip.SetActive(false);
+        }
+
+        private void OnPlayRewardedVideoClicked()
+        {
+            if (IsCoolDownComplete())
+            {
+                showRewardedAdInGameSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+            }
+            else
+            {
+                EnableTimerTooltip();
+            }
+        }
+
+        public bool IsCoolDownComplete()
+        {
+            return coolDownTimeUTC < serverClock.currentTimestamp;
+        }
+
+        public void StartTimer(long coolDownTime = 0)
+        {
+            if (!isTimerRunning)
+            {
+                coolDownTimeUTC = coolDownTime;
+                UpdateTimerText();
+                powerPlayAdTimer.SetActive(true);
+                getRV.SetActive(false);
+                schedulerSubscription.Dispatch(true);
+                isTimerRunning = true;
+            }
+        }
+
+        public void SchedulerCallBack()
+        {
+            if (!IsCoolDownComplete())
+            {
+                UpdateTimerText();
+            }
+            else
+            {
+                schedulerSubscription.Dispatch(false);
+                OnTimerCompleted();
+            }
+        }
+
+        private void UpdateTimerText()
+        {
+            long timeLeft = coolDownTimeUTC - serverClock.currentTimestamp;
+            if (timeLeft > 0)
+            {
+                timeLeft -= 1000;
+                powerPlayAdTimerRemainingTime.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+            }
+            else
+            {
+                powerPlayAdTimerRemainingTime.text = "0s";
+            }
+        }
+
+        private void OnTimerCompleted()
+        {
+            powerPlayAdTimer.SetActive(false);
+            getRV.SetActive(true);
+            isTimerRunning = false;
+            rewardedVideoBtn.interactable = false;
+            DisableTimerTooltip();
         }
     }
 }

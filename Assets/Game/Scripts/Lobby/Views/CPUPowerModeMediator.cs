@@ -40,9 +40,6 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CPU_POWER_MODE)
             {
-         
-
-                
                 view.Show();
             }
         }
