@@ -111,6 +111,7 @@ namespace TurboLabz.Multiplayer
 
         public GameObject ratingBoosterRvPanel;
         public Button rewardedVideoBtn;
+        public Image rewardedVideoBtnImg;
         public GameObject ratingBoosterTimer;
         public TMP_Text remainingCoolDownTime;
         public GameObject getRV;
@@ -119,6 +120,7 @@ namespace TurboLabz.Multiplayer
         public ToolTip rewardedVideoButtonAnimWithRv;
 
         public Button resultsBoostRatingButtonWithRv;
+        public Image resultsBoostRatingButtonWithRvImg;
         public GameObject resultsBoostRatingToolTipWithRv;
         public Text resultsBoostRatingToolTipTextWithRv;
         public Text resultsBoostRatingGemsCostWithRv;
@@ -126,6 +128,8 @@ namespace TurboLabz.Multiplayer
         public Image resultsBoostRatingGemIconWithRv;
         public GameObject resultsBoostSheenWithRv;
         public ToolTip resultsBoostRatingButtonAnimWithRv;
+
+        public IServerClock serverClock;
 
         public Signal resultsDialogClosedSignal = new Signal();
         public Signal resultsDialogOpenedSignal = new Signal();
@@ -138,6 +142,8 @@ namespace TurboLabz.Multiplayer
         public Signal fullAnalysisButtonClickedSignal = new Signal();
         public Signal ratingBoosterRewardSignal = new Signal();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
+        public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
+        public Signal showGameAnalysisSignal = new Signal();
 
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
@@ -162,9 +168,9 @@ namespace TurboLabz.Multiplayer
 
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
+        
 
-        public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
-        public Signal showGameAnalysisSignal = new Signal();
+
 
         public void InitResults()
         {
@@ -658,15 +664,16 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingButtonAnim.enabled = enable;
 
             resultsBoostRatingToolTipWithRv.gameObject.SetActive(false);
-            resultsBoostRatingButtonWithRv.interactable = true;
-            resultsBoostRatingButtonWithRv.image.color = color;
+            resultsBoostRatingButtonWithRv.interactable = enable;
+            resultsBoostRatingButtonWithRvImg.color = color;
             resultsBoostRatingGemIconWithRv.color = color;
             resultsBoostRatingGemsCostWithRv.color = color;
             resultsBoostRatingTextWithRv.color = color;
+            rewardedVideoBtnImg.color = color;
             resultsBoostSheenWithRv.SetActive(enable);
             resultsBoostRatingButtonAnimWithRv.enabled = enable;
 
-            resultsBoostRatingButtonWithRv.interactable = true;
+            rewardedVideoBtn.interactable = enable;
             rewardedVideoButtonAnimWithRv.enabled = enable;
 
         }
@@ -776,6 +783,11 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        public void OnRewardClaimed()
+        {
+            SetupRatingBoostButtonsSection(false);
+        }
+
         public void EnableVideoAvailabilityTooltip()
         {
             videoNotAvailableTooltip.SetActive(true);
@@ -800,7 +812,7 @@ namespace TurboLabz.Multiplayer
 
         public bool IsCoolDownComplete()
         {
-            return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            return coolDownTimeUTC < serverClock.currentTimestamp;
         }
 
         public void StartTimer(long coolDownTime = 0)
@@ -827,7 +839,7 @@ namespace TurboLabz.Multiplayer
 
         private void UpdateTimerText()
         {
-            long timeLeft = coolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            long timeLeft = coolDownTimeUTC - serverClock.currentTimestamp;
             if (timeLeft > 0)
             {
                 timeLeft -= 1000;

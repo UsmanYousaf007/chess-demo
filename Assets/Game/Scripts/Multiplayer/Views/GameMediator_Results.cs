@@ -56,6 +56,7 @@ namespace TurboLabz.Multiplayer
         {
             view.InitResults();
             view.InitAnalysis();
+            view.serverClock = backendService.serverClock;
             view.backToLobbySignal.AddListener(OnBackToLobby);
             view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
@@ -242,6 +243,7 @@ namespace TurboLabz.Multiplayer
             {
                 if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
                 {
+                    view.OnRewardClaimed();
                     //view.StartTimer();
                 }
 

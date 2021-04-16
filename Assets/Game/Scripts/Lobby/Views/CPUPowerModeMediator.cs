@@ -21,10 +21,11 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPreGameAdsService preGameAdsService { get; set; }
         [Inject] public ISchedulerService schedulerService { get; set; }
-
+        [Inject] public IBackendService backendService { get; set; }
         public override void OnRegister()
         {
             view.Init();
+            view.serverClock = backendService.serverClock;
             view.powerModeButtonClickedSignal.AddListener(OnPowerModeButtonClicked);
             view.conutinueButtonSignal.AddListener(OnContinueButtonClicked);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughGemsSignal);

@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
         public GameObject timerRunningTooltip;
         public GameObject videoNotAvailableTooltip;
 
+        public IServerClock serverClock;
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
@@ -116,10 +117,6 @@ namespace TurboLabz.InstantFramework
         {
             this.betValue = vo.bet;
             storeItem = vo.storeItem;
-            //if (storeItem == null && storeSettingsModel.items.ContainsKey(shortCode))
-            //{
-            //    storeItem = storeSettingsModel.items[shortCode];
-            //}
 
             if (storeItem == null)
             {
@@ -166,11 +163,27 @@ namespace TurboLabz.InstantFramework
 
         void SetupState(bool powerModeEnabled, bool canSeeRV)
         {
-            powerPlayOnBtn.gameObject.SetActive(!canSeeRV);
-            powerPlayWithRVBtn.gameObject.SetActive(canSeeRV);
-            rewardedVideoBtn.gameObject.SetActive(canSeeRV);
-  
-            if (!canSeeRV)
+            bool showRewardedVideoPanel = canSeeRV && !powerModeEnabled;
+
+            powerPlayOnBtn.gameObject.SetActive(!showRewardedVideoPanel);
+            powerPlayWithRVBtn.gameObject.SetActive(showRewardedVideoPanel);
+            rewardedVideoBtn.gameObject.SetActive(showRewardedVideoPanel);
+
+            
+            if (showRewardedVideoPanel)
+            {
+                powerPlayWithRVTick.enabled = powerModeEnabled;
+                powerPlayPlusWithRV.SetActive(!powerModeEnabled);
+                gemIconWithRv.enabled = !powerModeEnabled;
+                gemCostWithRv.enabled = !powerModeEnabled;
+                powerPlayWithRVBtn.interactable = !powerModeEnabled;
+                timerRunningTooltip.SetActive(false);
+                videoNotAvailableTooltip.SetActive(false);
+
+                if (!IsCoolDownComplete() && !isTimerRunning)
+                { StartTimer(coolDownTimeUTC); }
+            }
+            else
             {
                 powerPlayTick.enabled = powerModeEnabled;
                 powerPlayPlus.SetActive(!powerModeEnabled);
@@ -180,22 +193,6 @@ namespace TurboLabz.InstantFramework
                 gemCost.text = storeItem.currency3Cost.ToString();
                 powerPlayOnBtn.interactable = !powerModeEnabled;
 
-            }
-            else
-            {
-                bool isCoolDownComplete = IsCoolDownComplete();
-                powerPlayWithRVTick.enabled = powerModeEnabled;
-                powerPlayPlusWithRV.SetActive(!powerModeEnabled);
-                gemIconWithRv.enabled = !powerModeEnabled;
-                gemCostWithRv.enabled = !powerModeEnabled;
-                powerPlayWithRVBtn.interactable = !powerModeEnabled;
-                //powerPlayWithRVBtn.gameObject.SetActive(!powerModeEnabled);
-                //rewardedVideoBtn.gameObject.SetActive(!powerModeEnabled);
-                timerRunningTooltip.SetActive(false);
-                videoNotAvailableTooltip.SetActive(false);
-
-                if (!isCoolDownComplete && !isTimerRunning)
-                { StartTimer(coolDownTimeUTC); }
             }
 
             isPowerModeOn = powerModeEnabled;
@@ -258,17 +255,20 @@ namespace TurboLabz.InstantFramework
 
         public bool IsCoolDownComplete()
         {
-            return coolDownTimeUTC < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            return coolDownTimeUTC < serverClock.currentTimestamp;
         }
 
         public void StartTimer(long coolDownTime = 0)
         {
-            coolDownTimeUTC = coolDownTime;
-            UpdateTimerText();
-            powerPlayAdTimer.SetActive(true);
-            getRV.SetActive(false);
-            schedulerSubscription.Dispatch(true);
-            isTimerRunning = true;
+            if (!isTimerRunning)
+            {
+                coolDownTimeUTC = coolDownTime;
+                UpdateTimerText();
+                powerPlayAdTimer.SetActive(true);
+                getRV.SetActive(false);
+                schedulerSubscription.Dispatch(true);
+                isTimerRunning = true;
+            }
         }
 
         public void SchedulerCallBack()
@@ -286,7 +286,7 @@ namespace TurboLabz.InstantFramework
 
         private void UpdateTimerText()
         {
-            long timeLeft = coolDownTimeUTC - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            long timeLeft = coolDownTimeUTC - serverClock.currentTimestamp;
             if (timeLeft>0)
             {
                 timeLeft -=1000;

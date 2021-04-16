@@ -32,7 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPreGameAdsService preGameAdsService { get; set; }
         [Inject] public ISchedulerService schedulerService { get; set; }
-
+        [Inject] public IBackendService backendService { get; set; }
         private MatchInfoVO matchInfoVO;
         private long betValue;
         private bool rewardedVideoShown;
@@ -69,6 +69,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdateTimeSelectDlgSignal))]
         public void UpdateView(SelectTimeDlgVO selectTimeDlgVO)
         {
+            view.serverClock = backendService.serverClock;
             this.betValue = selectTimeDlgVO.bet;
             view.UpdateView(selectTimeDlgVO);
         }
@@ -184,6 +185,7 @@ namespace TurboLabz.InstantFramework
         {
             if (subscribe)
             {
+                
                 schedulerService.Subscribe(view.SchedulerCallBack);
             }
             else
