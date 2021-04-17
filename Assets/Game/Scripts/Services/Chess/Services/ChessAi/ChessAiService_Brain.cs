@@ -159,9 +159,15 @@ namespace TurboLabz.Chess
                 }
             }
 
-            lastDequeuedMethod.promise.Dispatch(from, to, promo);
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
+            // TODO: There is some case where a null expection occurs here. However the game continued seemingly fine.
+            // Placing a check here may ignore a lingering request, but there is a chance that the crash may occur in another spot.
+            // Further invenstigation is needed!
+            if (lastDequeuedMethod != null && lastDequeuedMethod.promise != null)
+            {
+                lastDequeuedMethod.promise.Dispatch(from, to, promo);
+                lastDequeuedMethod.promise = null;
+                lastDequeuedMethod = null;
+            }
         }
 
         private bool CancelMoveDueToNonPromotion(string promo)
