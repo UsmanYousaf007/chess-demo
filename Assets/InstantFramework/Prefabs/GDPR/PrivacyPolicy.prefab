@@ -554,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bbad3d5fb44555808adfc01e43bb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkColor: {r: 0, g: 0, b: 0, a: 0}
   primaryButtonHandler: {fileID: 5584116313280184542}
   secondaryButtonHandler: {fileID: 9098407829949146238}
   tertiaryButtonHandler: {fileID: 7765015726844320659}
@@ -563,6 +564,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnHeaderTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8834823871561653558}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
       Culture=neutral, PublicKeyToken=null
   OnContentTextOverride:
     m_PersistentCalls:
@@ -616,22 +633,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5170872725305378092}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
-  OnHeaderTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8834823871561653558}
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -1487,8 +1488,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 507.55487}
-  m_SizeDelta: {x: 558.5, y: 68.1}
+  m_AnchoredPosition: {x: 0, y: 531}
+  m_SizeDelta: {x: 595, y: 129}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2863075283308273791
 CanvasRenderer:
@@ -1518,9 +1519,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: By tapping Let's Play, I agree to the  <link="https://www.example.com"><color=#FFFFFF><u>Terms
-    of Use</u></color></link> and our <link="https://www.example.com"><color=#FFFFFF><u>Privacy
-    policy</u></color></link>
+  m_text: By continuing below you agree to be bound by our <link="https://www.huuugegames.com/terms-of-use"><color=#COLOR#><font="Ubuntu-Medium
+    SDF"><u>Terms of Use</u></font></color></link> and our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><font="Ubuntu-Medium
+    SDF"><u>Privacy Policy</u></font></color></link>.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db89ba2d836af4a90a6955e1bf452559, type: 2}
   m_sharedMaterial: {fileID: 917534731832158002, guid: db89ba2d836af4a90a6955e1bf452559,
@@ -1584,7 +1585,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -20.856543, y: -6.9522343, z: -20.85656, w: -4.634799}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_Maskable: 1
@@ -3220,31 +3221,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6774699726975093600, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282541216423661, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282541216423661, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_padding
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282541776091891, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4198282541776091891, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_padding
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4198282541537645110, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Color.r
@@ -3714,16 +3690,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4198282540822699648, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4530497562907115587, guid: 3ca1072bb332748db972165959102b79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5560918946919563284, guid: 3ca1072bb332748db972165959102b79,
         type: 3}
       propertyPath: m_Enabled
@@ -3773,6 +3739,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6774699726975093600, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198282541216423661, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198282541216423661, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_padding
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198282541776091891, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198282541776091891, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_padding
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198282540822699648, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530497562907115587, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ca1072bb332748db972165959102b79, type: 3}
