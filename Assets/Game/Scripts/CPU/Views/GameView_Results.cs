@@ -33,6 +33,7 @@ namespace TurboLabz.CPU
         public Button playbackOverlay;
 
         public GameObject resultsDialog;
+        public CanvasGroup resultsDialogCanvasGroup;
 
         public Image resultsGameImage;
         public Sprite winSprite;
@@ -121,6 +122,7 @@ namespace TurboLabz.CPU
         {
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
             playbackOverlay.gameObject.SetActive(false);
+            UIDlgManager.Setup(resultsDialog);
         }
 
         public void OnParentShowResults()
@@ -167,7 +169,15 @@ namespace TurboLabz.CPU
             ShowResultsDialogCPU();
             SetGameAnalysisPanel();
             EnableModalBlocker();
-            resultsDialog.SetActive(true);
+            if (menuOpensResultsDlg)
+            {
+                UIDlgManager.Show(resultsDialog);
+            }
+            else {
+                resultsDialogCanvasGroup.alpha = 0;
+                resultsDialog.SetActive(true);
+            }
+
             DisableMenuButton();
             HidePossibleMoves();
 
@@ -190,7 +200,7 @@ namespace TurboLabz.CPU
 
         public void HideResultsDialog()
         {
-            resultsDialog.SetActive(false);
+            UIDlgManager.Hide(resultsDialog);
         }
 
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
@@ -359,9 +369,9 @@ namespace TurboLabz.CPU
             UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
             SetupResultsLayout(false);
-            BuildLayout();
+            //BuildLayout();
 
-            resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
+            //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
@@ -393,7 +403,8 @@ namespace TurboLabz.CPU
 
         private void AnimateResultsDialog()
         {
-            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            //resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            UIDlgManager.Show(resultsDialog).Then(()=> BuildLayout());
 
             if (isDraw || !playerWins)
             {
