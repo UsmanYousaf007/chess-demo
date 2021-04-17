@@ -36,14 +36,17 @@ namespace TurboLabz.Multiplayer
                 if (preferencesModel.freeHint.HasFlag(FreePowerUpStatus.NOT_CONSUMED | FreePowerUpStatus.AVAILABLE))
                     preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
 
-
-                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium, matchInfoModel.activeMatch.freeHints);
-                getHintSignal.Dispatch(true);
-
-                if (!isPremium)
+                // Ensure that match is still active (that game has not ended when consume hint success returns)
+                if (matchInfoModel.activeMatch != null)
                 {
-                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
+                    view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium, matchInfoModel.activeMatch.freeHints);
+                    getHintSignal.Dispatch(true);
+
+                    if (!isPremium)
+                    {
+                        analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
+                        analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
+                    }
                 }
             }
             else

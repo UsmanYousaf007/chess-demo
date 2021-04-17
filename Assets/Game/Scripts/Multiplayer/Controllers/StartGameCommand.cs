@@ -7,6 +7,7 @@ using strange.extensions.command.impl;
 using strange.extensions.mediation.api;
 using TurboLabz.Multiplayer;
 using TurboLabz.TLUtils;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
@@ -28,6 +29,8 @@ namespace TurboLabz.InstantFramework
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
+        [Inject] public IChessAiService chessAiService { get; set; }
+
 
         public override void Execute()
         {
@@ -38,6 +41,8 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
+
+            chessAiService.AiMoveRequestInit();
 
             MatchInfo matchInfo = matchInfoModel.activeMatch;
 

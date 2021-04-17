@@ -27,6 +27,13 @@ namespace TurboLabz.Chess
         private AiMoveRequest lastDequeuedMethod;
         private bool taskIsReadyToExecute = true;
 
+        public void AiMoveRequestInit()
+        {
+            serviceRequestsQueue = new Queue<AiMoveRequest>();
+            lastDequeuedMethod = null;
+            taskIsReadyToExecute = true;
+        }
+
         private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO)
         {
             if (serviceRequestsQueue == null)
