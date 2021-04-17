@@ -6,6 +6,7 @@ using HUF.Ads.Runtime.Implementation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
 #if UNITY_IOS
 using HUF.PolicyGuard.Runtime.API;
@@ -91,6 +92,7 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "interstitial", HAds.Interstitial.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
+            PauseGame(true);
             return adEndedPromise;
         }
 
@@ -232,6 +234,7 @@ namespace TurboLabz.InstantFramework
 
         void OnInterstitailEnded(AdManagerCallback data)
         {
+            PauseGame(false);
             AdsResult adResultInstantFramework = AdsResult.FINISHED;
             switch (data.Result)
             {
@@ -319,6 +322,13 @@ namespace TurboLabz.InstantFramework
             return HAds.HasConsent() != null;
 #elif UNITY_IOS
             return HAds.HasConsent() != null || HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) || HPolicyGuard.WasATTPopupDisplayed();
+#endif
+        }
+
+        private void PauseGame(bool pause)
+        {
+#if UNITY_IOS
+            Time.timeScale = pause ? 0 : 1;
 #endif
         }
 
