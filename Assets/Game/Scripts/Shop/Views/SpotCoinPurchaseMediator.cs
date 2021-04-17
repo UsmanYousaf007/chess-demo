@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using strange.extensions.mediation.impl;
-using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,7 +21,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public SpotCoinsPurchaseDlgClosedSignal spotCoinsPurchaseDlgClosedSignal { get; set; }
-        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -131,12 +128,16 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case AdsResult.FINISHED:
+                        var vo = new VirtualGoodsTransactionVO();
+                        vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+                        vo.buyQuantity = 0;
+                        OnCoinsPurchased(vo);
+
                         var rewardDlgVO = new RewardDlgV2VO();
                         rewardDlgVO.Rewards.Add(new RewardDlgV2VO.Reward(GSBackendKeys.PlayerDetails.COINS, 2000));
                         rewardDlgVO.RVWatched = true;
                         navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                         updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-                        rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
                         break;
 
                     case AdsResult.NOT_AVAILABLE:
@@ -173,15 +174,6 @@ namespace TurboLabz.InstantFramework
             {
                 view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
             }
-        }
-
-        private IEnumerator DispatchCloseSignalAsync()
-        {
-            yield return new WaitForEndOfFrame();
-            var vo = new VirtualGoodsTransactionVO();
-            vo.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-            vo.buyQuantity = 0;
-            OnCoinsPurchased(vo);
         }
     }
 }

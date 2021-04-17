@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using strange.extensions.mediation.impl;
-using TurboLabz.InstantGame;
-using UnityEngine;
+﻿using strange.extensions.mediation.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -24,7 +21,6 @@ namespace TurboLabz.InstantFramework
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
-        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
 
@@ -69,19 +65,13 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_CLICK);
             backendService.InBoxOpCollect(_rewardVO.msgId);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _rewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
             RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_rewardVO, false);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
             updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-            rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
-        }
-
-        private IEnumerator DispatchCloseSignalAsync()
-        {
-            yield return new WaitForEndOfFrame();
-            _rewardVO.onCloseSignal?.Dispatch();
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

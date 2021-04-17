@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using strange.extensions.mediation.impl;
-using TurboLabz.InstantGame;
 using System.Linq;
-using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -30,7 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
         [Inject] public UpdateTrophiesSignal updateTrophiesSignal { get; set; }
-        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgVO _rewardVO;
         private bool _playerRewarded = false;
@@ -127,6 +124,8 @@ namespace TurboLabz.InstantFramework
 
             view.Hide();
             backendService.InBoxOpCollect(_rewardVO.msgId);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _rewardVO.onCloseSignal?.Dispatch();
 
             if (_playerRewarded)
             {
@@ -135,11 +134,6 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                 _playerRewarded = false;
-                rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
-            }
-            else
-            {
-                _rewardVO.onCloseSignal?.Dispatch();
             }
 
             JoinedTournamentData joinedTournamentData = tournamentsModel.GetJoinedTournament(_rewardVO.tournamentId);
@@ -192,13 +186,6 @@ namespace TurboLabz.InstantFramework
             }
 
             return rank.ToString();
-        }
-
-        private IEnumerator DispatchCloseSignalAsync()
-        {
-            yield return new WaitForEndOfFrame();
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            _rewardVO.onCloseSignal?.Dispatch();
         }
     }
 }

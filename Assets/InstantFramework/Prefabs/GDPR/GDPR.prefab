@@ -335,121 +335,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &7627073330717264850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6300214155691975282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03bbad3d5fb44555808adfc01e43bb4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  linkColor: {r: 0, g: 0, b: 0, a: 0}
-  primaryButtonHandler: {fileID: 4531781869217560702}
-  secondaryButtonHandler: {fileID: 5910358926430580305}
-  tertiaryButtonHandler: {fileID: 4465695628085634045}
-  secondaryButtonRoot: {fileID: 6848464957576006159}
-  tertiaryButtonRoot: {fileID: 1077193698988334488}
-  OnClosePopup:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnHeaderTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9180826973673070190}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
-  OnContentTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4024546099940990989}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
-  OnPrimaryTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7301889070899763275}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
-  OnSecondaryTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1525993138420604172}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
-  OnTertiaryTextOverride:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6443708418432839438}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &3543965506535336020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6300214157490355794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f484dcddc4c50e54b96cb5b75470fd3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2069545957205184631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,6 +2267,121 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6262891382369855189}
   m_CullTransparentMesh: 0
+--- !u!114 &7627073330717264850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300214155691975282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bbad3d5fb44555808adfc01e43bb4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkColor: {r: 0, g: 0, b: 0, a: 0}
+  primaryButtonHandler: {fileID: 4531781869217560702}
+  secondaryButtonHandler: {fileID: 5910358926430580305}
+  tertiaryButtonHandler: {fileID: 4465695628085634045}
+  secondaryButtonRoot: {fileID: 6848464957576006159}
+  tertiaryButtonRoot: {fileID: 1077193698988334488}
+  OnClosePopup:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnHeaderTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9180826973673070190}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
+      Culture=neutral, PublicKeyToken=null
+  OnContentTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4024546099940990989}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
+      Culture=neutral, PublicKeyToken=null
+  OnPrimaryTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7301889070899763275}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
+      Culture=neutral, PublicKeyToken=null
+  OnSecondaryTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1525993138420604172}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
+      Culture=neutral, PublicKeyToken=null
+  OnTertiaryTextOverride:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6443708418432839438}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HUF.Utils.Runtime.UnityEvents.StringUnityEvent, Assembly-CSharp, Version=1.8.1.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &3543965506535336020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6300214157490355794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484dcddc4c50e54b96cb5b75470fd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6321223264553381584
 GameObject:
   m_ObjectHideFlags: 0
@@ -3135,6 +3135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontStyle
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560918947589025989, guid: 3ca1072bb332748db972165959102b79,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5560918947589025995, guid: 3ca1072bb332748db972165959102b79,
         type: 3}

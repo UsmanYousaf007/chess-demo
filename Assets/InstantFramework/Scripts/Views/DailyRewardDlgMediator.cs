@@ -1,8 +1,6 @@
 ﻿using strange.extensions.mediation.impl;
 using TurboLabz.TLUtils;
 using System;
-using System.Collections;
-using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,7 +29,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
-        [Inject] public RewardSequenceV2ClosedSignal rewardSequenceV2ClosedSignal { get; set; }
 
         private RewardDlgVO _dailyRewardVO;
 
@@ -108,6 +105,8 @@ namespace TurboLabz.InstantFramework
         private void OnRewardCollected(bool videoWatched)
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _dailyRewardVO.onCloseSignal?.Dispatch();
 
             // Dispatch rewards sequence signal here
             if (videoWatched)
@@ -115,11 +114,6 @@ namespace TurboLabz.InstantFramework
                 RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-                rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
-            }
-            else
-            {
-                _dailyRewardVO.onCloseSignal?.Dispatch();
             }
 
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
@@ -145,13 +139,6 @@ namespace TurboLabz.InstantFramework
             reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
             reminder.sender = "league";
             notificationsModel.RegisterNotification(reminder);
-        }
-
-        private IEnumerator DispatchCloseSignalAsync()
-        {
-            yield return new WaitForEndOfFrame();
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            _dailyRewardVO.onCloseSignal?.Dispatch();
         }
     }
 }
