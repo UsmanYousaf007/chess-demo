@@ -41,12 +41,12 @@ namespace TurboLabz.Multiplayer
                 {
                     view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium, matchInfoModel.activeMatch.freeHints);
                     getHintSignal.Dispatch(true);
+                }
 
-                    if (!isPremium)
-                    {
-                        analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
-                        analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
-                    }
+                if (!isPremium)
+                {
+                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
                 }
             }
             else

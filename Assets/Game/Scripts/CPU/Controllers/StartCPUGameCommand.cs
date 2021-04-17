@@ -34,9 +34,12 @@ namespace TurboLabz.CPU
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IChessAiService chessAiService { get; set; }
 
         public override void Execute()
         {
+            chessAiService.AiMoveRequestInit();
+
             if (cpuGameModel.inProgress)
             {
                 chessboardModel.currentState = null;
