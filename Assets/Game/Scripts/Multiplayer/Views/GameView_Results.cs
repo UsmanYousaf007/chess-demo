@@ -168,9 +168,6 @@ namespace TurboLabz.Multiplayer
 
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
-        
-
-
 
         public void InitResults()
         {
@@ -219,6 +216,14 @@ namespace TurboLabz.Multiplayer
                 HandleDeclinedDialog();
                 return;
             }
+
+            Invoke("AnimateResultsDialog", animDelay);
+        }
+
+        private void AnimateResultsDialog()
+        {
+            rewardsDialog.SetActive(false);
+            UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
             StartCoroutine(BuildLayout());
@@ -347,6 +352,7 @@ namespace TurboLabz.Multiplayer
 
                 case GameEndReason.CHECKMATE:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
+                    animDelay = 0.5f;
                     break;
 
                 case GameEndReason.RESIGNATION:

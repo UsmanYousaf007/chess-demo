@@ -43,7 +43,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowRewardsDialog()
         {
-            UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
             rewardsDialog.SetActive(true);
         }
 

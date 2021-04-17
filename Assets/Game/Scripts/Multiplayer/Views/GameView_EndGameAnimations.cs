@@ -41,9 +41,12 @@ namespace TurboLabz.Multiplayer
 
         public void StartEndAnimationSequence()
         {
+            rewardsCanvasGroup.alpha = 1;
+            animDelay = RESULTS_DELAY_TIME;
             Sequence sequence = DOTween.Sequence();
             sequence.AppendCallback(() => EnableModalBlocker());
-            sequence.AppendInterval(0.5f);
+            sequence.AppendInterval(animDelay);
+            sequence.AppendCallback(() => UIDlgManager.EnableBlurBlg(gameEndDlgContainer));
             sequence.AppendCallback(() => ShowRewardsDialog());
             sequence.AppendCallback(() => AnimateRewardsDialog());
             sequence.PlayForward();
@@ -86,6 +89,7 @@ namespace TurboLabz.Multiplayer
 
         private void FadeRewardsDialogue(float val)
         {
+            animDelay = 0.5f;
             rewardsCanvasGroup.DOFade(val, TRANSITION_DURATION).OnComplete(HideRewardsDialog);
         }
 

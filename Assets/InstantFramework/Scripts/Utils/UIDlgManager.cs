@@ -101,5 +101,20 @@ namespace TurboLabz.InstantFramework
             dlg.SetActive(true);
         }
 
+        static public void DisableBlurBlg(GameObject dlg)
+        {
+            dlg.transform.parent.GetComponent<Image>().enabled = false;
+        }
+
+        static public void EnableBlurBlg(GameObject dlg)
+        {
+            if (dlg.transform.parent.GetComponent<Image>().enabled == false)
+            {
+                dlg.transform.parent.GetComponent<Image>().enabled = true;
+                UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+                UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
+            }
+        }
+
     }
 }

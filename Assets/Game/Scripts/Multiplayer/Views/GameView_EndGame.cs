@@ -32,7 +32,6 @@ namespace TurboLabz.Multiplayer
         public void ShowEndGame()
         {
             resultsCanvasGroup.alpha = 1;
-            rewardsCanvasGroup.alpha = 1;
 
             HidePossibleMoves();
             HideOpponentConnectionMonitor();
@@ -45,10 +44,14 @@ namespace TurboLabz.Multiplayer
             HideSafeMoveBorder();
             ShowViewBoardResultsPanel(false);
 
+            if (!gameEndDlgContainer.activeSelf)
+            {
+                UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
+                UIDlgManager.DisableBlurBlg(gameEndDlgContainer);
+            }
+
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
-
-            UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
 
             gameEnded = true;
         }
