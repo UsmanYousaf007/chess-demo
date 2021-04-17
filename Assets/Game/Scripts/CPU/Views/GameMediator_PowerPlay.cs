@@ -76,8 +76,6 @@ namespace TurboLabz.CPU
             if (view.isActiveAndEnabled)
             {
                 OnPowerModeBought();
-                analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.cpu_in_game_power_mode);
-                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP, 0, "power_mode", AnalyticsContext.cpu_in_game_power_mode.ToString());
             }
         }
 
