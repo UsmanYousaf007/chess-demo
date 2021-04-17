@@ -2,6 +2,7 @@
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using System.Linq;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -126,7 +127,6 @@ namespace TurboLabz.InstantFramework
 
             view.Hide();
             backendService.InBoxOpCollect(_rewardVO.msgId);
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
             if (_playerRewarded)
             {
@@ -135,7 +135,7 @@ namespace TurboLabz.InstantFramework
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
                 _playerRewarded = false;
-                rewardSequenceV2ClosedSignal.AddOnce(() => _rewardVO.onCloseSignal?.Dispatch());
+                rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
             }
             else
             {
@@ -192,6 +192,13 @@ namespace TurboLabz.InstantFramework
             }
 
             return rank.ToString();
+        }
+
+        private IEnumerator DispatchCloseSignalAsync()
+        {
+            yield return new WaitForEndOfFrame();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _rewardVO.onCloseSignal?.Dispatch();
         }
     }
 }

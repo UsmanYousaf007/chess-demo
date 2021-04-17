@@ -1,6 +1,8 @@
 ﻿using strange.extensions.mediation.impl;
 using TurboLabz.TLUtils;
 using System;
+using System.Collections;
+using UnityEngine;
 
 namespace TurboLabz.InstantFramework
 {
@@ -106,7 +108,6 @@ namespace TurboLabz.InstantFramework
         private void OnRewardCollected(bool videoWatched)
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
 
             // Dispatch rewards sequence signal here
             if (videoWatched)
@@ -114,7 +115,7 @@ namespace TurboLabz.InstantFramework
                 RewardDlgV2VO rewardDlgVO = new RewardDlgV2VO(_dailyRewardVO, videoWatched);
                 navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_REWARD_DLG_V2);
                 updateRewardDlgViewSignal.Dispatch(rewardDlgVO);
-                rewardSequenceV2ClosedSignal.AddOnce(() => _dailyRewardVO.onCloseSignal?.Dispatch());
+                rewardSequenceV2ClosedSignal.AddOnce(() => StartCoroutine(DispatchCloseSignalAsync()));
             }
             else
             {
@@ -144,6 +145,13 @@ namespace TurboLabz.InstantFramework
             reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
             reminder.sender = "league";
             notificationsModel.RegisterNotification(reminder);
+        }
+
+        private IEnumerator DispatchCloseSignalAsync()
+        {
+            yield return new WaitForEndOfFrame();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _dailyRewardVO.onCloseSignal?.Dispatch();
         }
     }
 }
