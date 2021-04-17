@@ -1,3 +1,8 @@
+## [2.9.5] - 2021-04-14
+### Fixed
+- Restoring non-consumables only restored some of them
+
+
 ## [2.9.4] - 2021-03-25
 ### Fixed
 - Potential division by zero error

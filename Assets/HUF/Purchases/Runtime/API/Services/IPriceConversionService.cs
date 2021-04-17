@@ -7,9 +7,7 @@ namespace HUF.Purchases.Runtime.API.Services
 {
     public interface IPriceConversionService
     {
-        event Action<Product> OnGetConversionEnd;
-
-        void TryGetConversion( Product product );
+        void TryGetConversion( Product product, Action<Product> getConversionEnd );
         void LoadPriceData( IPurchasesService purchasesService );
         PriceConversionData GetConversionData();
         void TryGetPriceConversionData( Action<PriceConversionResponse> response, string currency );

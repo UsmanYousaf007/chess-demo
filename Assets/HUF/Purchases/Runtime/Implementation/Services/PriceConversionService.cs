@@ -37,9 +37,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         readonly PurchasesConfig purchasesConfig;
 
         PriceConversionData pricesConversionData;
-
-        public event Action<Product> OnGetConversionEnd;
-
+        
         public PriceConversionService( PurchasesConfig purchasesConfig )
         {
             this.purchasesConfig = purchasesConfig;
@@ -61,25 +59,25 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 CoroutineManager.StartCoroutine(
                     RequestForConversionInternalServer( currencyISO,
                         purchasesConfig.GetDownloadRequestTimeout,
-                        null ) );
+                        null, null ) );
             }
             else
             {
                 CoroutineManager.StartCoroutine(
                     RequestForConversionExternalServer( currencyISO,
                         purchasesConfig.GetDownloadRequestTimeout,
-                        null ) );
+                        null, null ) );
             }
         }
 #endif
 
-        public void TryGetConversion( Product product )
+        public void TryGetConversion( Product product, Action<Product> getConversionEnded = null )
         {
             if ( purchasesConfig.IsForceDownloadEnabled == false &&
                  pricesConversionData != null &&
                  pricesConversionData.saveTime + purchasesConfig.CacheTime * 60 > DateTime.Now.ToTimestamp() )
             {
-                OnGetConversionEnd.Dispatch( product );
+                getConversionEnded.Dispatch( product );
                 HLog.Log( logPrefix, $"Price conversion got from cache" );
                 return;
             }
@@ -87,7 +85,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             if ( product.metadata.isoCurrencyCode == CONVERTED_CURRENCY )
             {
                 SavePriceData( sameConversionData );
-                OnGetConversionEnd.Dispatch( product );
+                getConversionEnded.Dispatch( product );
                 return;
             }
 
@@ -96,18 +94,18 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 CoroutineManager.StartCoroutine(
                     RequestForConversionInternalServer( product.metadata.isoCurrencyCode,
                         purchasesConfig.GetDownloadRequestTimeout,
-                        product ) );
+                        product, getConversionEnded ) );
             }
             else
             {
                 CoroutineManager.StartCoroutine(
                     RequestForConversionExternalServer( product.metadata.isoCurrencyCode,
                         purchasesConfig.GetDownloadRequestTimeout,
-                        product ) );
+                        product, getConversionEnded ) );
             }
         }
 
-        IEnumerator RequestForConversionInternalServer( string currencyToConvert, int timeout, Product product )
+        IEnumerator RequestForConversionInternalServer( string currencyToConvert, int timeout, Product product, Action<Product> getConversionEnded )
         {
             var www = UnityWebRequest.Get( string.Format( INTERNAL_SERVER_URL,
                 purchasesConfig.GetConversionApiInternalServerURL,
@@ -126,7 +124,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 ConvertInternalData( www.downloadHandler.text );
             }
 
-            OnGetConversionEnd.Dispatch( product );
+            getConversionEnded.Dispatch( product );
         }
 
         bool ConvertInternalData( string json )
@@ -146,7 +144,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             return true;
         }
 
-        IEnumerator RequestForConversionExternalServer( string currencyToConvert, int timeout, Product product )
+        IEnumerator RequestForConversionExternalServer( string currencyToConvert, int timeout, Product product, Action<Product> getConversionEnded )
         {
             var www = UnityWebRequest.Get(
                 $"{purchasesConfig.GetConversionApiExternalServerURL}/api/latest?access_key={purchasesConfig.GetExternalServerApiKey}" +
@@ -164,7 +162,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 ConvertExternalData( currencyToConvert, www.downloadHandler.text );
             }
 
-            OnGetConversionEnd.Dispatch( product );
+            getConversionEnded.Dispatch( product );
         }
 
         bool ConvertExternalData( string currency, string json )

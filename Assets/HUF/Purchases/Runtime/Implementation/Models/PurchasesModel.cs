@@ -162,8 +162,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             if ( purchasesConfig.IsDownloadPriceConversionEnabled &&
                  priceConversionService.GetConversionData() == null )
             {
-                priceConversionService.OnGetConversionEnd += HandleGetConversionAfterPurchaseEnd;
-                priceConversionService.TryGetConversion( product );
+                priceConversionService.TryGetConversion( product, HandleGetConversionAfterPurchaseEnd );
                 return;
             }
 
@@ -181,8 +180,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             var transactionType = TryRemoveAttempt( productId )
                 ? TransactionType.Purchase
                 : TransactionType.Restore;
-
-            priceConversionService.OnGetConversionEnd -= HandleGetConversionAfterPurchaseEnd;
+            
 
             OnPurchaseSuccess?.Invoke( productInfo,
                 transactionType,
@@ -293,8 +291,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             {
                 if ( purchasesConfig.IsDownloadPriceConversionEnabled )
                 {
-                    priceConversionService.OnGetConversionEnd += HandleGetConversionBeforePurchaseEnd;
-                    priceConversionService.TryGetConversion( product );
+                    priceConversionService.TryGetConversion( product, HandleGetConversionBeforePurchaseEnd );
                     return;
                 }
 
@@ -312,7 +309,6 @@ namespace HUF.Purchases.Runtime.Implementation.Models
         void HandleGetConversionBeforePurchaseEnd( Product product )
         {
             var productInfo = TryGetProductInfo( product.definition.id );
-            priceConversionService.OnGetConversionEnd -= HandleGetConversionBeforePurchaseEnd;
             TryBuyProduct( product.definition.id, productInfo, product );
         }
 
