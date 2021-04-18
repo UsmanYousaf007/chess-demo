@@ -1085,7 +1085,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Tap for gems
+  m_text: Tap for Gems
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db89ba2d836af4a90a6955e1bf452559, type: 2}
   m_sharedMaterial: {fileID: 917534731832158002, guid: db89ba2d836af4a90a6955e1bf452559,
@@ -4707,11 +4707,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5932125022388020314}
     m_Modifications:
-    - target: {fileID: 3617964122209363437, guid: 8068ae1b8e58446ef89d8c7411c77b33,
-        type: 3}
-      propertyPath: m_Name
-      value: ChestFrontSpinGlowGoldFx
-      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363346, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4827,6 +4822,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363437, guid: 8068ae1b8e58446ef89d8c7411c77b33,
+        type: 3}
+      propertyPath: m_Name
+      value: ChestFrontSpinGlowGoldFx
+      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363347, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -4837,6 +4837,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363345, guid: 8068ae1b8e58446ef89d8c7411c77b33,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363344, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key0.a
@@ -4846,11 +4851,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.maxGradient.key1.a
       value: 0.19607843
-      objectReference: {fileID: 0}
-    - target: {fileID: 3617964122209363345, guid: 8068ae1b8e58446ef89d8c7411c77b33,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8068ae1b8e58446ef89d8c7411c77b33, type: 3}
@@ -4873,11 +4873,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5932125022388020314}
     m_Modifications:
-    - target: {fileID: 3617964122209363437, guid: 8068ae1b8e58446ef89d8c7411c77b33,
-        type: 3}
-      propertyPath: m_Name
-      value: ChestSpinGlowGoldFx
-      objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363346, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4992,6 +4987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617964122209363437, guid: 8068ae1b8e58446ef89d8c7411c77b33,
+        type: 3}
+      propertyPath: m_Name
+      value: ChestSpinGlowGoldFx
       objectReference: {fileID: 0}
     - target: {fileID: 3617964122209363347, guid: 8068ae1b8e58446ef89d8c7411c77b33,
         type: 3}
