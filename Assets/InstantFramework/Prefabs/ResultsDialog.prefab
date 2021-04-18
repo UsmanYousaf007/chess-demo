@@ -2555,7 +2555,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 7e89fda50c1544b699aa84f1280e12b0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
@@ -10910,16 +10910,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8370755502600627802}
     m_Modifications:
-    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: m_Name
-      value: RewardCoinFx
-      objectReference: {fileID: 0}
-    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
-        type: 3}
-      propertyPath: targetObject
-      value: 
-      objectReference: {fileID: 6153227623038491173}
     - target: {fileID: 3194464779634588401, guid: f0c4746059fd94a59b49db124b496a7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11025,6 +11015,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588402, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: m_Name
+      value: RewardCoinFx
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194464779634588400, guid: f0c4746059fd94a59b49db124b496a7c,
+        type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 6153227623038491173}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0c4746059fd94a59b49db124b496a7c, type: 3}
 --- !u!1 &3632057175228449731 stripped
@@ -11365,16 +11365,6 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6899671575343990034, guid: 103b2062b102d4b05a0d03981b7bcd12,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899671575343990034, guid: 103b2062b102d4b05a0d03981b7bcd12,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6899671575343990028, guid: 103b2062b102d4b05a0d03981b7bcd12,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11484,6 +11474,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899671575343990034, guid: 103b2062b102d4b05a0d03981b7bcd12,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899671575343990034, guid: 103b2062b102d4b05a0d03981b7bcd12,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 103b2062b102d4b05a0d03981b7bcd12, type: 3}
