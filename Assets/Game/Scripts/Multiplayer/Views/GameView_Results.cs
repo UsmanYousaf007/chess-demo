@@ -224,9 +224,10 @@ namespace TurboLabz.Multiplayer
         {
             rewardsDialog.SetActive(false);
             UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
+            BuildLayout();
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
-            StartCoroutine(BuildLayout());
+            //StartCoroutine(BuildLayout());
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -495,9 +496,9 @@ namespace TurboLabz.Multiplayer
 
         }
 
-        IEnumerator BuildLayout()
+        void BuildLayout()
         {
-            yield return new WaitForSeconds(0.4f);
+            //yield return new WaitForSeconds(0.4f);
             foreach (var layout in resultsLayouts)
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
