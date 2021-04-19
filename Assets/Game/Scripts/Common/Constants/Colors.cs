@@ -37,6 +37,7 @@ namespace TurboLabz.InstantGame
         public static readonly Color BRONZE = new Color(151f / 255f, 97f / 255f, 65f / 255f, 1f);
         public static readonly Color RED_LIGHT = new Color(212f / 255f, 68f / 255f, 68f / 255f, 1f);
         public static readonly Color GREEN_LIGHT = new Color(126f / 255f, 212f / 255f, 68f / 255f, 1f);
+        public static readonly Color BLUE = new Color(49f / 255f, 173f / 255f, 235f / 255f, 0.87f);
 
 
         public static readonly Color DISABLED_WHITE = new Color(1f, 1f, 1f, 50f/255f);

@@ -416,7 +416,7 @@ namespace TurboLabz.Multiplayer
 
                 case GameEndReason.DRAW_BY_DRAW_OFFERED:
                     isDraw = true;
-                    resultsGameResultReasonLabel.color = Colors.YELLOW_DIM;
+                    resultsGameResultReasonLabel.color = Colors.BLUE;
                     Color c = resultsGameResultReasonLabel.color;
                     c.a = Colors.ENABLED_TEXT_ALPHA;
                     resultsGameResultReasonLabel.color = c;
