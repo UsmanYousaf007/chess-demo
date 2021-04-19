@@ -47,15 +47,15 @@ public class AnalysisMoveView : MonoBehaviour
         
     }
 
-    public void SetupMove(int moveNumberInt, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor, bool isLocked)
+    public void SetupMove(int moveNumberInt, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, bool isLocked)
     {
         this.isLocked = isLocked;
         this.moveNumber = moveNumberInt;
-        SetupMove(normal, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
-        SetupMove(zoomed, moveNumber, move, moveQuality, piece, playerAdvantage, playerColor);
+        SetupMove(normal, moveNumber, move, moveQuality, piece, playerAdvantage);
+        SetupMove(zoomed, moveNumber, move, moveQuality, piece, playerAdvantage);
     }
 
-    private void SetupMove(AnalysisMove analysis, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage, ChessColor playerColor)
+    private void SetupMove(AnalysisMove analysis, string moveNumber, string move, Sprite moveQuality, Sprite piece, float playerAdvantage)
     {
         analysis.moveNumber.text = moveNumber;
         analysis.move.text = move;

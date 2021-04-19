@@ -136,10 +136,7 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
-            var playerColor = moveAnalysisList[0].isPlayerMove ? ChessColor.WHITE : ChessColor.BLACK;
-
-            int i = 1;
-            int j = 1;
+            int i = 1, j = 1;
             foreach (var move in moveAnalysisList)
             {
                 var moveView = Instantiate(analysisMoveView, movesContainer);
@@ -151,7 +148,6 @@ namespace TurboLabz.Multiplayer
                     GetMoveQualitySprite(move.moveQuality),
                     GetPieceSprite(move.playerMove.piece.name),
                     move.playerAdvantage,
-                    playerColor,
                     isLocked
                     );
                 i++;
@@ -185,7 +181,7 @@ namespace TurboLabz.Multiplayer
         {
             return quality == MoveQuality.BLUNDER ? "Blunder" :
                    quality == MoveQuality.MISTAKE ? "Mistake" :
-                   quality == MoveQuality.PERFECT ? "Perfect" : "Ok";
+                   quality == MoveQuality.PERFECT ? "Perfect" : "OK move";
         }
 
         private void OnMoveSelected(GameObject obj)
