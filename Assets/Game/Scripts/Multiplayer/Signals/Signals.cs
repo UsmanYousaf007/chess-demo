@@ -102,5 +102,5 @@ namespace TurboLabz.Multiplayer
     public class AnalyseMoveSignal : Signal<AnalyseMoveParameters> { }
     public class RenderMoveAnalysisSignal : Signal<List<MoveAnalysis>> { }
     public class UpdateKingCheckIndicatorSignal : Signal<MoveVO> { }
-    public class MoveAnalysiedSignal : Signal<MoveAnalysis> { }
+    public class MoveAnalysiedSignal : Signal<string, MoveAnalysis, MatchAnalysis> { }
 }

@@ -37,8 +37,7 @@ namespace TurboLabz.Multiplayer
             vo.powerMode = cmd.activeMatchInfo.powerMode;
             vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
             vo.earnedStars = cmd.playerModel.leaguePromoted ? cmd.leaguesModel.GetLeagueInfo(cmd.playerModel.league - 1).winTrophies : cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;
-            vo.matchAnalysis = cmd.activeMatchInfo.matchAnalysis;
-            vo.moveAnalysisList = cmd.activeMatchInfo.movesAnalysisList;
+            vo.movesCount = cmd.activeChessboard.moveList.Count;
             vo.fullGameAnalysisStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS];
             vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
 
@@ -64,6 +63,7 @@ namespace TurboLabz.Multiplayer
 
             var parameters = new AnalyseMoveParameters();
             parameters.isLastTurn = true;
+            parameters.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.analyseMoveSignal.Dispatch(parameters);
 
             var matchAnalyticsVO = new MatchAnalyticsVO();
@@ -123,7 +123,8 @@ namespace TurboLabz.Multiplayer
             if (vo.betValue > 0)
             {
                 var winnerCoins = vo.betValue * vo.coinsMultiplyer;
-                var earnedCoins = vo.playerWins ? winnerCoins : matchAnalyticsVO.context == AnalyticsContext.draw ? vo.betValue : 0;
+                var isDraw = matchAnalyticsVO.context == AnalyticsContext.draw || matchAnalyticsVO.context == AnalyticsContext.draw_agreement;
+                var earnedCoins = vo.playerWins ? winnerCoins : isDraw ? vo.betValue : 0;
 
                 if (earnedCoins > 0)
                 {

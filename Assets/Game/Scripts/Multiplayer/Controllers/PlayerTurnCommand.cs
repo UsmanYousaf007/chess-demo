@@ -83,6 +83,7 @@ namespace TurboLabz.Multiplayer
             AnalyseMoveParameters parameters = new AnalyseMoveParameters();
             parameters.chessMove = move;
             parameters.isPlayerTurn = true;
+            parameters.challengeId = matchInfoModel.activeChallengeId;
             analyseMoveSignal.Dispatch(parameters);
         }
     }

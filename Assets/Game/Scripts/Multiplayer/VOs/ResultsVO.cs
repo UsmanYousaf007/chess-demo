@@ -42,8 +42,7 @@ namespace TurboLabz.Multiplayer
         public StoreItem rewardDoubleStoreItem;
         public float coinsMultiplyer;
 
-        public MatchAnalysis matchAnalysis;
-        public List<MoveAnalysis> moveAnalysisList;
+        public int movesCount;
         public StoreItem fullGameAnalysisStoreItem;
         public bool freeGameAnalysisAvailable;
 

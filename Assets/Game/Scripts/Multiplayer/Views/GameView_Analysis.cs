@@ -50,13 +50,15 @@ namespace TurboLabz.Multiplayer
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
         public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
+        public Signal showAnalyzingSignal = new Signal();
 
         private bool landingFirstTime;
         private bool animateMovesDial;
         private bool isMovesDialAnimating;
         private GameObject moveSelectGO;
-
-        private bool isGameAnalysisEnabled;
+        private bool moveAnalysisCompleted;
+        private bool isAnalysisLocked;
+        private bool isAnalyzingShown;
 
         private void OnParentShowAnalysis()
         {
@@ -65,11 +67,13 @@ namespace TurboLabz.Multiplayer
             gameAnalysisLogo.enabled = false;
             SetGameAnalysisBottomBar(false);
             animateMovesDial = true;
-            isGameAnalysisEnabled = false;
             analysisDebugText.gameObject.SetActive(false);
             ShowSelectedMoveAnalysis(false);
             analysisInfoButton.gameObject.SetActive(false);
             analysisInfoPanel.gameObject.SetActive(false);
+            moveAnalysisList = null;
+            isAnalysisLocked = true;
+            isAnalyzingShown = false;
         }
 
         public void InitAnalysis()
@@ -91,7 +95,7 @@ namespace TurboLabz.Multiplayer
             spinnerDragHandler.audioService = audioService;
         }
 
-        public void UpdateAnalysisView(bool isLocked = false)
+        private void UpdateAnalysisView(bool isLocked = false)
         {
             ClearMovesList();
             SetupMovesList(isLocked);
@@ -109,7 +113,6 @@ namespace TurboLabz.Multiplayer
             opponentClockContainer.SetActive(false);
             landingFirstTime = isLocked;
             SetGameAnalysisBottomBar(!isLocked);
-            isGameAnalysisEnabled = !isLocked;
             EmptyScores();
             opponentProfileView.championshipTrophiesContainer.SetActive(false);
             analysisInfoButton.gameObject.SetActive(!isLocked);
@@ -324,23 +327,47 @@ namespace TurboLabz.Multiplayer
             OnMoveSelected(moveSelectGO);
         }
 
-        public void LastMoveAnalysied(MoveAnalysis moveAnalysis)
+        public void MoveAnalysied(string challengeId, MoveAnalysis moveAnalysis, MatchAnalysis matchAnalysis)
         {
-            if (moveAnalysis != null &&
-                moveAnalysis.playerMove != null &&
-                moveAnalysisList != null &&
-                moveAnalysisList.Count > 0)
+            if (!this.challengeId.Equals(challengeId))
             {
-                var lastMove = moveAnalysisList.Last();
+                return;
+            }
 
-                if (lastMove.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString()))
+            if (moveAnalysis != null && moveAnalysis.playerMove != null)
+            {
+                if (moveAnalysisList == null)
                 {
-                    lastMove.playerAdvantage = moveAnalysis.playerAdvantage;
+                    moveAnalysisList = new List<MoveAnalysis>();
                 }
-                else
+
+                moveAnalysisList.Add(moveAnalysis);
+                moveAnalysisCompleted = moveAnalysisList.Count == movesCount;
+
+                if (moveAnalysisCompleted && isAnalyzingShown)
                 {
-                    moveAnalysisList.Add(moveAnalysis);
+                    ShowGameAnalysis();
                 }
+            }
+
+            if (matchAnalysis != null)
+            {
+                this.matchAnalysis = matchAnalysis;
+                UpdateMatchAnalysis();
+            }
+        }
+
+        public void ShowAnalysis(bool isLocked)
+        {
+            if (moveAnalysisCompleted)
+            {
+                UpdateAnalysisView(isLocked);
+            }
+            else
+            {
+                isAnalysisLocked = isLocked;
+                isAnalyzingShown = true;
+                showAnalyzingSignal.Dispatch();
             }
         }
 

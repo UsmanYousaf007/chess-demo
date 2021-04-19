@@ -13,6 +13,7 @@ namespace TurboLabz.Multiplayer
         //public bool isOneMinGame;
         //public bool isThirtyMinGame;
         public GameTimeMode gameTimeMode;
+        public string challengeId;
     }
 }
 

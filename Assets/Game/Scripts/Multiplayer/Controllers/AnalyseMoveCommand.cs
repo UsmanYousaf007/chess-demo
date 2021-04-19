@@ -63,12 +63,31 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.playerScore = int.Parse(parsedAnalysis[3]);
             moveAnalysis.bestScore = int.Parse(parsedAnalysis[4]);
 
-            var matchInfo = parameters.isLastTurn ? matchInfoModel.lastCompletedMatch : matchInfoModel.activeMatch;
+            var matchInfo = matchInfoModel.matches.ContainsKey(parameters.challengeId) ? matchInfoModel.matches[parameters.challengeId] :
+                matchInfoModel.lastCompletedMatch.challengeId.Equals(parameters.challengeId) ? matchInfoModel.lastCompletedMatch : null;
 
             if (matchInfo != null)
             {
                 if (matchInfo.movesAnalysisList != null)
                 {
+                    if (matchInfo.matchAnalysis != null && parameters.isPlayerTurn && !parameters.isLastTurn)
+                    {
+                        switch (moveAnalysis.moveQuality)
+                        {
+                            case MoveQuality.PERFECT:
+                                matchInfo.matchAnalysis.perfectMoves++;
+                                break;
+
+                            case MoveQuality.BLUNDER:
+                                matchInfo.matchAnalysis.blunders++;
+                                break;
+
+                            case MoveQuality.MISTAKE:
+                                matchInfo.matchAnalysis.mistakes++;
+                                break;
+                        }
+                    }
+
                     if (matchInfo.movesAnalysisList.Count == 0)
                     {
                         moveAnalysis.playerAdvantage = 0.0f;
@@ -86,10 +105,7 @@ namespace TurboLabz.Multiplayer
                         lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
                         moveAnalysis.playerAdvantage = lastMove.playerAdvantage;
 
-                        if (parameters.isLastTurn)
-                        {
-                            moveAnalysiedSignal.Dispatch(lastMove);
-                        }
+                        moveAnalysiedSignal.Dispatch(parameters.challengeId, lastMove, matchInfo.matchAnalysis);
                     }
 
                     if (!parameters.isLastTurn)
@@ -98,23 +114,7 @@ namespace TurboLabz.Multiplayer
                     }
                 }
 
-                if (matchInfo.matchAnalysis != null && parameters.isPlayerTurn && !parameters.isLastTurn)
-                {
-                    switch (moveAnalysis.moveQuality)
-                    {
-                        case MoveQuality.PERFECT:
-                            matchInfo.matchAnalysis.perfectMoves++;
-                            break;
-
-                        case MoveQuality.BLUNDER:
-                            matchInfo.matchAnalysis.blunders++;
-                            break;
-
-                        case MoveQuality.MISTAKE:
-                            matchInfo.matchAnalysis.mistakes++;
-                            break;
-                    }
-                }
+                
             }
 
             Release();

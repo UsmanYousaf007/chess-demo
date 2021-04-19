@@ -165,6 +165,7 @@ namespace TurboLabz.Multiplayer
         private bool haveEnoughGemsForFullAnalysis;
         private bool freeGameAnalysisAvailable;
         private MatchAnalysis matchAnalysis;
+        private int movesCount;
 
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
@@ -257,9 +258,8 @@ namespace TurboLabz.Multiplayer
             fullGameAnalysisStoreItem = vo.fullGameAnalysisStoreItem;
             resultsBetValue = vo.betValue;
             challengeId = vo.challengeId;
-            moveAnalysisList = vo.moveAnalysisList;
+            movesCount = vo.movesCount;
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
-            matchAnalysis = vo.matchAnalysis;
             canSeeRewardedVideo = vo.canSeeRewardedVideo;
             coolDownTimeUTC = vo.coolDownTimeUTC;
 
@@ -269,7 +269,7 @@ namespace TurboLabz.Multiplayer
             SetupResultsLayout();
             SetupBoostPrice();
             SetupRewardDoublerPrice();
-            UpdateMatchAnalysis(vo.matchAnalysis);
+            UpdateMatchAnalysis();
             SetGameAnalysisPanel();
 
             if (!isLongPlay)
@@ -301,8 +301,8 @@ namespace TurboLabz.Multiplayer
 
         public void SetGameAnalysisPanel()
         {
-            resultsFullAnalysisdPanel.gameObject.SetActive(!isLongPlay && moveAnalysisList.Count > 0);
-            resultsFullAnalysisDisabledPanel.gameObject.SetActive(isLongPlay || moveAnalysisList.Count == 0);
+            resultsFullAnalysisdPanel.gameObject.SetActive(!isLongPlay && movesCount > 0);
+            resultsFullAnalysisDisabledPanel.gameObject.SetActive(isLongPlay || movesCount == 0);
         }
 
         public void HideResultsDialog()
@@ -621,7 +621,7 @@ namespace TurboLabz.Multiplayer
         public void AnalyzingGame()
         {
             AnimateAnalyzingDlg();
-            Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
+            //Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
             animateMovesDial = true;
         }
 
@@ -635,7 +635,7 @@ namespace TurboLabz.Multiplayer
             animateBarsEnabled = false;
             StopCoroutine(AnimateBars());
             UIDlgManager.Hide(analyzingDlg);
-            UpdateAnalysisView();
+            UpdateAnalysisView(isAnalysisLocked);
         }
 
         private void OnResultsClosed()
@@ -645,14 +645,14 @@ namespace TurboLabz.Multiplayer
             HideGameEndDialog();
             resultsDialogClosedSignal.Dispatch();
 
-            if (isLongPlay || moveAnalysisList.Count == 0)
+            if (isLongPlay || movesCount == 0)
             {
                 ShowViewBoardResultsPanel(true);
             }
             else
             {
                 animateMovesDial = true;
-                UpdateAnalysisView(true);
+                ShowAnalysis(true);
             }
         }
 
@@ -774,11 +774,11 @@ namespace TurboLabz.Multiplayer
             showAdSignal.Dispatch(vo, false);
         }
 
-        private void UpdateMatchAnalysis(MatchAnalysis analysis)
+        private void UpdateMatchAnalysis()
         {
-            bunders.text = analysis.blunders.ToString();
-            perfect.text = analysis.perfectMoves.ToString();
-            mistakes.text = analysis.mistakes.ToString();
+            bunders.text = matchAnalysis.blunders.ToString();
+            perfect.text = matchAnalysis.perfectMoves.ToString();
+            mistakes.text = matchAnalysis.mistakes.ToString();
         }
 
         private void OnPlayRewardedVideoClicked()

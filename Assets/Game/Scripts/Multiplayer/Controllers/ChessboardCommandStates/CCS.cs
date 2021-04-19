@@ -94,6 +94,7 @@ namespace TurboLabz.Multiplayer
             //setupVO.isOneMinGame = cmd.activeMatchInfo.isOneMinGame;
             //setupVO.isThirtyMinGame = cmd.activeMatchInfo.isThirtyMinGame;
             setupVO.gameTimeMode = cmd.activeMatchInfo.gameTimeMode;
+            setupVO.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.setupChessboardSignal.Dispatch(setupVO);
 
             // Place the pieces
@@ -211,6 +212,7 @@ namespace TurboLabz.Multiplayer
             move.promo = promo;
 
             AnalyseMoveParameters parameters = new AnalyseMoveParameters();
+            parameters.challengeId = cmd.matchInfoModel.activeChallengeId;
             parameters.chessMove = move;
             cmd.analyseMoveSignal.Dispatch(parameters);
 
