@@ -32,7 +32,7 @@ namespace TurboLabz.Multiplayer
                 view.ShowResultsDialog();
                 view.OnParentHideAdBanner();
             }
-            else if(viewId == NavigatorViewId.GAME_END_REWARDS_DLG)
+            else if(viewId == NavigatorViewId.MULTIPLAYER_REWARDS_DLG)
             {
                 if (view.challengeSentDialog.activeSelf)
                 {
@@ -56,7 +56,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.HideGameEndDialog();
             }
-            else if (viewId == NavigatorViewId.GAME_END_REWARDS_DLG)
+            else if (viewId == NavigatorViewId.MULTIPLAYER_REWARDS_DLG)
             {
                 view.HideGameEndDialog();
                 view.HideRewardsDialog();

@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         MULTIPLAYER_ACCEPT_DLG,
         MULTIPLAYER_SAFE_MOVE_DLG,
         MULTIPLAYER_CHAT_DLG,
+        MULTIPLAYER_REWARDS_DLG,
         BUY_DLG,
         NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,
@@ -106,7 +107,6 @@ namespace TurboLabz.InstantFramework
         GDPR_DLG,
         BUY_GAME_ANALYSIS_DLG,
         CAREER_PROGRESSION_DLG,
-        GAME_END_REWARDS_DLG,
         GAME_ANALYZING_DLG
     }
 }

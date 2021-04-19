@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         SHOW_MULTIPLAYER_ACCEPT_DLG,
         SHOW_MULTIPLAYER_CHAT_DLG,
         SHOW_MULTIPLAYER_SAFE_MOVE_DLG,
+        SHOW_MULTIPLAYER_REWARDS_DLG,
         SHOW_STATS,
         SHOW_STORE,
         SHOW_SPOT_PURCHASE,
@@ -98,7 +99,6 @@ namespace TurboLabz.InstantFramework
         SHOW_GDPR_DLG,
         SHOW_GAME_BUY_ANALYSIS_DLG,
         SHOW_CAREER_PROGRESSION_DLG,
-        SHOW_GAME_END_REWARDS_DLG,
         SHOW_GAME_ANALYZING_DLG
     }
 }

@@ -178,9 +178,9 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSChampionshipNewRankDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_GAME_END_REWARDS_DLG)
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_REWARDS_DLG)
             {
-                return new NSGameEndRewardsDlg();
+                return new NSMultiplayerRewardsDlg();
             }
 
             return null;

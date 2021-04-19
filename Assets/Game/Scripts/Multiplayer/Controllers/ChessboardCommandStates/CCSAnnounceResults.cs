@@ -51,7 +51,7 @@ namespace TurboLabz.Multiplayer
             vo.reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE || vo.reason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL ||
             vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE || vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE))
             {
-                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_END_REWARDS_DLG);
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_REWARDS_DLG);
             }
             else
             {

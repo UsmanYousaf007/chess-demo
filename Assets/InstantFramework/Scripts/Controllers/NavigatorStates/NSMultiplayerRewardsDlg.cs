@@ -1,11 +1,11 @@
 ﻿
 namespace TurboLabz.InstantFramework
 {
-    public class NSGameEndRewardsDlg : NS
+    public class NSMultiplayerRewardsDlg : NS
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.GAME_END_REWARDS_DLG);
+            ShowDialog(NavigatorViewId.MULTIPLAYER_REWARDS_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
