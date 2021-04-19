@@ -169,6 +169,8 @@ namespace TurboLabz.Multiplayer
         private bool canSeeRewardedVideo;
         private long coolDownTimeUTC;
 
+        Sequence animSequence;
+
         public void InitResults()
         {
             // Declined dialog
@@ -193,6 +195,8 @@ namespace TurboLabz.Multiplayer
 
             UIDlgManager.Setup(gameEndDlgContainer);
             UIDlgManager.Setup(analyzingDlg);
+
+            animSequence = DOTween.Sequence();
         }
 
         public void CleanupResults()
@@ -305,6 +309,8 @@ namespace TurboLabz.Multiplayer
         {
             resultsDialog.SetActive(false);
             declinedDialog.SetActive(false);
+
+            animSequence.Kill();
         }
 
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
@@ -893,29 +899,25 @@ namespace TurboLabz.Multiplayer
 
         void AnimateSparkes()
         {
-            Sequence sequence = DOTween.Sequence();
-            sequence.AppendCallback(() => FadeInSparkles());
-            sequence.AppendInterval(1);
-            sequence.AppendCallback(() => FadeOutSparkes());
-            sequence.AppendInterval(4);
-            sequence.AppendCallback(() => AnimateSparkes());
-            sequence.PlayForward();
+            animSequence.Kill();
+            animSequence = DOTween.Sequence();
+            animSequence.AppendCallback(() => FadeInSparkles());
+            animSequence.AppendInterval(1);
+            animSequence.AppendCallback(() => FadeOutSparkes());
+            animSequence.AppendInterval(4);
+            animSequence.AppendCallback(() => AnimateSparkes());
         }
 
         void FadeInSparkles()
         {
             sparkles.DOFade(1, 1);
+
             sparkles.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 180), 1);
             sparkles.gameObject.transform.DOScale(new Vector3(1.25f, 1.25f, 1.25f), 1);
-            //LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0,0,180), 1);
-            //LeanTween.scale(sparkles.gameObject, new Vector3(1.25f, 1.25f, 1.25f), 1);
         }
 
         void FadeOutSparkes()
         {
-            //LeanTween.rotateLocal(sparkles.gameObject, new Vector3(0, 0, 0f), 1);
-            //LeanTween.scale(sparkles.gameObject, new Vector3(1, 1, 1), 1);
-
             sparkles.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0f), 1);
             sparkles.gameObject.transform.DOScale(new Vector3(1, 1, 1), 1);
 
