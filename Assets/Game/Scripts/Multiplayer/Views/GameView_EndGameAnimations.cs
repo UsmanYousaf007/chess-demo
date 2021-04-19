@@ -32,8 +32,8 @@ namespace TurboLabz.Multiplayer
         private const float REWARDS_TO_RESULTS_DELAY_TIME = 1f;
 
         private const float RESULTS_DIALOG_DURATION = 0.5f;
-        private const float RESULTS_DELAY_TIME = 1f;
-        private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
+        private const float RESULTS_DELAY_TIME = 2f;
+        private const float RESULTS_SHORT_DELAY_TIME = 1f;
 
         private const float GAME_ANALYZING_DURATION = 4f;
 
