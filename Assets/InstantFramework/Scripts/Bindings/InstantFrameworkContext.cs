@@ -510,6 +510,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowBottomNavSignal>().ToSingleton();
             injectionBinder.Bind<ShowThemesInventoryTabSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLessonCardSignal>().ToSingleton();
+            injectionBinder.Bind<GetGameStartTimeFailedSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

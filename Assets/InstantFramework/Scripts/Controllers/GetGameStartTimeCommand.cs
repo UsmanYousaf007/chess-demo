@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public GetGameStartTimeFailedSignal getGameStarTimeFailedSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -53,6 +54,7 @@ namespace TurboLabz.InstantFramework
             else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
+                getGameStarTimeFailedSignal.Dispatch();
             }
 
             Release();
