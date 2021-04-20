@@ -27,10 +27,14 @@ namespace TurboLabz.Multiplayer
                 {
                     view.HideChallengeSent();
                 }
-                view.FlashClocks(false);
-                view.ShowEndGame();
-                view.ShowResultsDialog();
-                view.OnParentHideAdBanner();
+
+                if (!view.resultsDialog.activeSelf)
+                { 
+                    view.FlashClocks(false);
+                    view.ShowEndGame();
+                    view.ShowResultsDialog();
+                    view.OnParentHideAdBanner();
+                }
             }
             else if(viewId == NavigatorViewId.MULTIPLAYER_REWARDS_DLG)
             {

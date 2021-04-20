@@ -53,7 +53,10 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SELECT_TIME_MODE)
             {
-                view.Show();
+                if (!view.isActiveAndEnabled)
+                {
+                    view.Show();
+                }
             }
         }
 
