@@ -71,6 +71,12 @@ namespace TurboLabz.Multiplayer
             view.MatchFound(vo);
         }
 
+        [ListensTo(typeof(GetGameStartTimeFailedSignal))]
+        public void OnGetGameStartTimeFailed()
+        {
+            LogUtil.Log("GAME GET START TIME FAILED!!", "red");
+        }
+
         public void OnFindMatchTimeout()
         {
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
@@ -79,10 +85,8 @@ namespace TurboLabz.Multiplayer
             {
                 RefundCoins(vo.bettingCoins);
             }
-            else
-            {
-                loadLobbySignal.Dispatch();
-            }
+
+            loadLobbySignal.Dispatch();
 
             //if (vo.isTournamentMatch && vo.isTicketSpent)
             //{
