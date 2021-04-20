@@ -240,6 +240,16 @@ namespace TurboLabz.Multiplayer
             UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
+
+            // Play sound effect
+            if (isDraw || !playerWins)
+            {
+                audioService.Play(audioService.sounds.SFX_DEFEAT);
+            }
+            else
+            {
+                audioService.Play(audioService.sounds.SFX_VICTORY);
+            }
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
