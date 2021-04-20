@@ -167,14 +167,6 @@ namespace TurboLabz.Multiplayer
             yield return null;
         }
 
-        private void AnimateAnalyzingDlg()
-        {
-            //UIDlgManager.ShowScreenDlg(analyzingDlg);
-            UIDlgManager.Show(analyzingDlg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true);
-            animateBarsEnabled = true;
-            StartCoroutine(AnimateBars());
-        }
-
         private void AnimateBar(Image bar, int val, float animateDuration)
         {
             bar.rectTransform.DOSizeDelta(new Vector2(bar.rectTransform.sizeDelta.x, val), animateDuration).SetEase(Ease.InOutBounce);

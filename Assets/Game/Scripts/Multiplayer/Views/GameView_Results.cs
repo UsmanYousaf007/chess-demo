@@ -29,7 +29,7 @@ namespace TurboLabz.Multiplayer
         public CanvasGroup analyzingDlgCanvasGroup;
         float averageHeightOfAnalyzingBar;
         bool animateBarsEnabled = false;
-        public TMP_Text analyzingProgress;
+        public RectTransform analyzingProgress;
 
         [Header("End Game Declined Dialog")]
         public GameObject declinedDialog;
@@ -98,7 +98,7 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsFullAnalysisFreeTitle;
         public GameObject resultsFullAnalysisSparkle;
         public GameObject resultsFullAnalysisGemIcon;
-
+        public GameObject resultsFullAnalysisProcessing;
         public GameObject resultsFullAnalysisdPanel;
         public GameObject resultsFullAnalysisDisabledPanel;
 
@@ -196,7 +196,7 @@ namespace TurboLabz.Multiplayer
             averageHeightOfAnalyzingBar = loadingBars[0].rectTransform.sizeDelta.y;
 
             UIDlgManager.Setup(gameEndDlgContainer);
-            UIDlgManager.Setup(analyzingDlg);
+            //UIDlgManager.Setup(analyzingDlg);
 
             animSequence = DOTween.Sequence();
         }
@@ -213,6 +213,8 @@ namespace TurboLabz.Multiplayer
         {
             //HideResultsDialog();
             HideGameEndDialog();
+            resultsFullAnalysisProcessing.SetActive(false);
+            analyzingDlg.gameObject.SetActive(false);
         }
 
         public void ShowResultsDialog()
@@ -635,23 +637,20 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void AnalyzingGame()
+        public void ShowAnalyzingGame()
         {
-            AnimateAnalyzingDlg();
-            //Invoke("ShowGameAnalysis", GAME_ANALYZING_DURATION);
-        }
-
-        private void ShowGameAnalysis()
-        {
-            showGameAnalysisSignal.Dispatch();
+            analyzingDlg.gameObject.SetActive(true);
+            animateBarsEnabled = true;
+            StartCoroutine(AnimateBars());
+            UpdateAnalysisView(true);
         }
 
         public void HideGameAnalyzingDlg()
         {
             animateBarsEnabled = false;
             StopCoroutine(AnimateBars());
-            UIDlgManager.Hide(analyzingDlg);
-            UpdateAnalysisView(isAnalysisLocked);
+            analyzingDlg.gameObject.SetActive(false);
+            UpdateAnalysisView();
         }
 
         private void OnResultsClosed()
@@ -794,6 +793,7 @@ namespace TurboLabz.Multiplayer
             bunders.text = matchAnalysis.blunders.ToString();
             perfect.text = matchAnalysis.perfectMoves.ToString();
             mistakes.text = matchAnalysis.mistakes.ToString();
+            resultsFullAnalysisProcessing.SetActive(!moveAnalysisCompleted);
         }
 
         private void OnPlayRewardedVideoClicked()

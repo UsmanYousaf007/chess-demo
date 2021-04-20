@@ -1016,6 +1016,7 @@ MonoBehaviour:
   resultsFullAnalysisFreeTitle: {fileID: 1024005139909254276}
   resultsFullAnalysisSparkle: {fileID: 1024005139909254304}
   resultsFullAnalysisGemIcon: {fileID: 1024005139909254311}
+  resultsFullAnalysisProcessing: {fileID: 1024005139909254316}
   resultsFullAnalysisdPanel: {fileID: 1024005139909254312}
   resultsFullAnalysisDisabledPanel: {fileID: 1024005139909254313}
   resultsPowerplayImage: {fileID: 1024005139909254277}
@@ -112243,18 +112244,12 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1944805389 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 935080871605617822, guid: 69e67cb3f34e04c709f934a6b98e7995,
+--- !u!224 &1944805389 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3605724308868684309, guid: 69e67cb3f34e04c709f934a6b98e7995,
     type: 3}
   m_PrefabInstance: {fileID: 1944805384}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1945339156
 GameObject:
   m_ObjectHideFlags: 0
@@ -125106,6 +125101,12 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1024005139909254316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1254059292091612156, guid: 91a22b3c6348040ba9fe46b345aca015,
+    type: 3}
+  m_PrefabInstance: {fileID: 1024005139909254269}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1577020451322261212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128946,7 +128947,7 @@ PrefabInstance:
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 387.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101924180287061828, guid: c4f3315e998104706b3a13b1e8b202b5,
         type: 3}
@@ -131042,6 +131043,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RaycastTarget
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 706571646228541518, guid: b0b9cce13c725417fb92a645567dfa61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0b9cce13c725417fb92a645567dfa61, type: 3}

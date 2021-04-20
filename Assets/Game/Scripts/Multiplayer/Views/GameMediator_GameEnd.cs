@@ -45,7 +45,7 @@ namespace TurboLabz.Multiplayer
             }
             else if (viewId == NavigatorViewId.GAME_ANALYZING_DLG)
             {
-                view.AnalyzingGame();
+                view.ShowAnalyzingGame();
             }
         }
 

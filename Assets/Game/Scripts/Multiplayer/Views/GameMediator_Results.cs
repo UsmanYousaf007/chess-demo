@@ -203,7 +203,7 @@ namespace TurboLabz.Multiplayer
         {
             if (view.IsVisible())
             {
-                view.ShowAnalysis(false);
+                view.ShowAnalysis();
             }
         }
 

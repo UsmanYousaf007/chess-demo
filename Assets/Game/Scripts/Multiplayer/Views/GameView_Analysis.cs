@@ -56,7 +56,6 @@ namespace TurboLabz.Multiplayer
         private bool isMovesDialAnimating;
         private GameObject moveSelectGO;
         private bool moveAnalysisCompleted;
-        private bool isAnalysisLocked;
         private bool isAnalyzingShown;
         private int analysiedMovesCount;
 
@@ -71,9 +70,7 @@ namespace TurboLabz.Multiplayer
             analysisInfoButton.gameObject.SetActive(false);
             analysisInfoPanel.gameObject.SetActive(false);
             moveAnalysisList = null;
-            isAnalysisLocked = true;
             isAnalyzingShown = false;
-            analyzingProgress.gameObject.SetActive(false);
             analysiedMovesCount = 0;
         }
 
@@ -343,13 +340,12 @@ namespace TurboLabz.Multiplayer
                     moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
                     analysiedMovesCount++;
                     moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
-                    analyzingProgress.gameObject.SetActive(false);
-                    analyzingProgress.text = $"Analysed {analysiedMovesCount}/{moveAnalysisList.Count} moves";
+                    analyzingProgress.sizeDelta = new Vector2(440 * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
                 }
 
                 if (moveAnalysisCompleted && isAnalyzingShown)
                 {
-                    ShowGameAnalysis();
+                    showGameAnalysisSignal.Dispatch();
                 }
             }
 
@@ -360,15 +356,14 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void ShowAnalysis(bool isLocked)
+        public void ShowAnalysis()
         {
             if (moveAnalysisCompleted)
             {
-                UpdateAnalysisView(isLocked);
+                UpdateAnalysisView();
             }
             else
             {
-                isAnalysisLocked = isLocked;
                 isAnalyzingShown = true;
                 showAnalyzingSignal.Dispatch();
             }
