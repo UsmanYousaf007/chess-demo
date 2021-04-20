@@ -227,12 +227,18 @@ namespace TurboLabz.Multiplayer
 
         private void AnimateResultsDialog()
         {
+            // Hide reward glass
             rewardsDialog.SetActive(false);
-            UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
+
+            // Setup layout
+            resultsDialog.SetActive(true);
             BuildLayout();
+            resultsDialog.SetActive(false);
+
+            // Animate the results dialog
+            UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
             UIDlgManager.AnimateDlg(resultsDialog);
             AnimateSparkes();
-            //StartCoroutine(BuildLayout());
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
