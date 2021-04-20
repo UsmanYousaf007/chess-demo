@@ -26,20 +26,26 @@ namespace TurboLabz.Multiplayer
 
         public override void Execute()
         {
-            Retain();
+            if (chessboardModel.chessboards.ContainsKey(parameters.challengeId))
+            {
+                Retain();
+                var moveAnalysis = new MoveAnalysis();
+                moveAnalysis.playerMove = parameters.chessMove;
+                moveAnalysiedSignal.Dispatch(parameters.challengeId, moveAnalysis, null);
 
-            chessboard = chessboardModel.chessboards[matchInfoModel.activeChallengeId];
+                chessboard = chessboardModel.chessboards[parameters.challengeId];
 
-            var vo = new AiMoveInputVO();
-            vo.aiColor = chessboard.playerColor;
-            vo.playerColor = chessboard.opponentColor;
-            vo.squares = chessboard.squares;
-            vo.lastPlayerMove = parameters.isLastTurn ? new ChessMove(true) : parameters.chessMove;
-            vo.playerStrengthPct = 0.5f;
-            vo.analyse = true;
-            vo.fen = parameters.isPlayerTurn ? chessboard.fen : chessService.GetFen();
+                var vo = new AiMoveInputVO();
+                vo.aiColor = chessboard.playerColor;
+                vo.playerColor = chessboard.opponentColor;
+                vo.squares = chessboard.squares;
+                vo.lastPlayerMove = parameters.isLastTurn ? new ChessMove(true) : parameters.chessMove;
+                vo.playerStrengthPct = 0.5f;
+                vo.analyse = true;
+                vo.fen = parameters.isPlayerTurn ? chessboard.fen : chessService.GetFen();
 
-            chessAiService.AnalyseMove(vo).Then(OnMoveAnalysed);
+                chessAiService.AnalyseMove(vo).Then(OnMoveAnalysed);
+            }
         }
 
         private void OnMoveAnalysed(FileRank from, FileRank to, string analysis)

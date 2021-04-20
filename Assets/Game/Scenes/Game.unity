@@ -961,6 +961,7 @@ MonoBehaviour:
   - {fileID: 1944805386}
   analyzingDlg: {fileID: 302536080}
   analyzingDlgCanvasGroup: {fileID: 302536081}
+  analyzingProgress: {fileID: 1944805389}
   declinedDialog: {fileID: 795188927}
   declinedHeading: {fileID: 618441803}
   declinedReason: {fileID: 674496373}
@@ -112240,6 +112241,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1944805389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 935080871605617822, guid: 69e67cb3f34e04c709f934a6b98e7995,
+    type: 3}
+  m_PrefabInstance: {fileID: 1944805384}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1945339156

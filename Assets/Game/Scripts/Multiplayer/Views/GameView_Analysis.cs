@@ -53,12 +53,12 @@ namespace TurboLabz.Multiplayer
         public Signal showAnalyzingSignal = new Signal();
 
         private bool landingFirstTime;
-        private bool animateMovesDial;
         private bool isMovesDialAnimating;
         private GameObject moveSelectGO;
         private bool moveAnalysisCompleted;
         private bool isAnalysisLocked;
         private bool isAnalyzingShown;
+        private int analysiedMovesCount;
 
         private void OnParentShowAnalysis()
         {
@@ -66,7 +66,6 @@ namespace TurboLabz.Multiplayer
             analysisPanel.SetActive(false);
             gameAnalysisLogo.enabled = false;
             SetGameAnalysisBottomBar(false);
-            animateMovesDial = true;
             analysisDebugText.gameObject.SetActive(false);
             ShowSelectedMoveAnalysis(false);
             analysisInfoButton.gameObject.SetActive(false);
@@ -74,6 +73,8 @@ namespace TurboLabz.Multiplayer
             moveAnalysisList = null;
             isAnalysisLocked = true;
             isAnalyzingShown = false;
+            analyzingProgress.gameObject.SetActive(false);
+            analysiedMovesCount = 0;
         }
 
         public void InitAnalysis()
@@ -159,14 +160,7 @@ namespace TurboLabz.Multiplayer
             scrollRectAlphaHandler.OnScroll(Vector2.zero);
             movesSpinnerParent.SetActive(true);
 
-            if (animateMovesDial)
-            {
-                StartCoroutine(AnimateMovesDial(isLocked));
-            }
-            else
-            {
-                pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1, true);
-            }
+            StartCoroutine(AnimateMovesDial(isLocked));
         }
 
         private Sprite GetMoveQualitySprite(MoveQuality quality, bool showNormal = false)
@@ -310,7 +304,6 @@ namespace TurboLabz.Multiplayer
             var scrollFromIndex = isLocked ? Mathf.Max(moveAnalysisList.Count - 6, 0) : Mathf.Min(moveAnalysisList.Count - 1, 5);
             var scrollToIndex = isLocked ? moveAnalysisList.Count - 1 : 0;
             ShowSelectedMoveAnalysis(false);
-            animateMovesDial = false;
             isMovesDialAnimating = true;
             analysisMovesSpinnerDragHandler.enabled = false;
             pickerSrollRect.ScrollToItemAtIndex(scrollFromIndex, true);
@@ -337,8 +330,22 @@ namespace TurboLabz.Multiplayer
                     moveAnalysisList = new List<MoveAnalysis>();
                 }
 
-                moveAnalysisList.Add(moveAnalysis);
-                moveAnalysisCompleted = moveAnalysisList.Count == movesCount;
+                var existingMove = (from m in moveAnalysisList
+                                  where m.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString())
+                                  select m).FirstOrDefault();
+
+                if (existingMove == null)
+                {
+                    moveAnalysisList.Add(moveAnalysis);
+                }
+                else
+                {
+                    moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
+                    analysiedMovesCount++;
+                    moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
+                    analyzingProgress.gameObject.SetActive(false);
+                    analyzingProgress.text = $"Analysed {analysiedMovesCount}/{moveAnalysisList.Count} moves";
+                }
 
                 if (moveAnalysisCompleted && isAnalyzingShown)
                 {
@@ -367,10 +374,13 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void AutoScrollMovesDial(int itemIndex)
+        private IEnumerator AutoScrollMovesDial(int itemIndex)
         {
+            analysisMovesSpinnerDragHandler.enabled = false;
             pickerSrollRect.autoScrollSeconds = 0.6f;
             pickerSrollRect.ScrollToItemAtIndex(itemIndex);
+            yield return new WaitForSeconds(pickerSrollRect.autoScrollSeconds);
+            analysisMovesSpinnerDragHandler.enabled = true;
         }
 
         #region Button Listeners
@@ -396,13 +406,13 @@ namespace TurboLabz.Multiplayer
         private void OnClickAnalysisFirst()
         {
             audioService.PlayStandardClick();
-            AutoScrollMovesDial(0);
+            StartCoroutine(AutoScrollMovesDial(0));
         }
 
         private void OnClickAnalysisLast()
         {
             audioService.PlayStandardClick();
-            AutoScrollMovesDial(moveAnalysisList.Count - 1);
+            StartCoroutine(AutoScrollMovesDial(moveAnalysisList.Count - 1));
         }
 
         public void OnClickAnalysisInfo()
