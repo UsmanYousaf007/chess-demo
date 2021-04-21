@@ -39,7 +39,7 @@ namespace TurboLabz.Multiplayer
                 vo.aiColor = chessboard.playerColor;
                 vo.playerColor = chessboard.opponentColor;
                 vo.squares = chessboard.squares;
-                vo.lastPlayerMove = parameters.isLastTurn ? new ChessMove(true) : parameters.chessMove;
+                vo.lastPlayerMove = parameters.chessMove;
                 vo.playerStrengthPct = 0.5f;
                 vo.analyse = true;
                 vo.fen = parameters.isPlayerTurn ? chessboard.fen : chessService.GetFen();
@@ -74,9 +74,9 @@ namespace TurboLabz.Multiplayer
 
             if (matchInfo != null)
             {
-                if (matchInfo.movesAnalysisList != null)
+                if (matchInfo.movesAnalysisList != null && matchInfo.matchAnalysis != null)
                 {
-                    if (matchInfo.matchAnalysis != null && parameters.isPlayerTurn && !parameters.isLastTurn)
+                    if (parameters.isPlayerTurn)
                     {
                         switch (moveAnalysis.moveQuality)
                         {
@@ -102,25 +102,17 @@ namespace TurboLabz.Multiplayer
                     {
                         var lastMove = matchInfo.movesAnalysisList.Last();
 
-                        parameters.isPlayerTurn = parameters.isLastTurn ? !lastMove.isPlayerMove : parameters.isPlayerTurn;
-
-                        lastMove.playerAdvantage = (parameters.isPlayerTurn ?
+                        moveAnalysis.playerAdvantage = (parameters.isPlayerTurn ?
                              (moveAnalysis.bestScore - lastMove.advantageScore) :
                              (lastMove.advantageScore - moveAnalysis.bestScore)) / 100.0f;
 
-                        lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
-                        moveAnalysis.playerAdvantage = lastMove.playerAdvantage;
+                        moveAnalysis.playerAdvantage = Mathf.Clamp(moveAnalysis.playerAdvantage, -10.0f, 10.0f);
 
-                        moveAnalysiedSignal.Dispatch(parameters.challengeId, lastMove, matchInfo.matchAnalysis);
                     }
 
-                    if (!parameters.isLastTurn)
-                    {
-                        matchInfo.movesAnalysisList.Add(moveAnalysis);
-                    }
+                    matchInfo.movesAnalysisList.Add(moveAnalysis);
+                    moveAnalysiedSignal.Dispatch(parameters.challengeId, moveAnalysis, matchInfo.matchAnalysis);
                 }
-
-                
             }
 
             Release();

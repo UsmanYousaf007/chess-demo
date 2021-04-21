@@ -4,7 +4,6 @@
     {
         public ChessMove chessMove;
         public bool isPlayerTurn;
-        public bool isLastTurn;
         public string challengeId;
     }
 }
