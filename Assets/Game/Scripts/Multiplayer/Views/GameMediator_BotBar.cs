@@ -21,6 +21,7 @@ namespace TurboLabz.Multiplayer
             view.backToLobbySignal.AddListener(OnExitBackToLobby);
             view.shareScreenButton.onClick.AddListener(OnShareScreenClicked);
             view.ShowShareDialogSignal.AddListener(OnShowShareDialogSignal);
+            view.analysisExitButtonClickedSignal.AddListener(OnAnalysisExitButtonSignal);
         }
 
         public void OnExitBackToLobby()
@@ -37,6 +38,11 @@ namespace TurboLabz.Multiplayer
         public void OnShowShareDialogSignal()
         {
             shareScreenDialogSignal.Dispatch();
+        }
+
+        private void OnAnalysisExitButtonSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
     }
 }

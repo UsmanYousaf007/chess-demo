@@ -32,6 +32,8 @@ namespace TurboLabz.Multiplayer
 
         public GameObject chatInputContainer;
 
+        public Signal analysisExitButtonClickedSignal = new Signal();
+
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
@@ -105,6 +107,7 @@ namespace TurboLabz.Multiplayer
         {
             //resultsDialogOpenedSignal.Dispatch();
             audioService.PlayStandardClick();
+            analysisExitButtonClickedSignal.Dispatch();
             ShowWeeklyChampionshipResults();
         }
     }
