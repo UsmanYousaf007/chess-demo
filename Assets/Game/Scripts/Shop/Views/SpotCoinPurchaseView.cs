@@ -44,6 +44,8 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            UIDlgManager.Setup(gameObject);
+
             close.onClick.AddListener(OnCloseButtonClicked);
             showMoreButton.onClick.AddListener(() => ButtonClicked(true));
             showLessButton.onClick.AddListener(() => ButtonClicked(false));
@@ -56,12 +58,12 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            gameObject.SetActive(true);
+            UIDlgManager.Show(gameObject);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
         }
 
         public void UpdateView(List<string> packsKeys)
