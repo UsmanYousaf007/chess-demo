@@ -53,7 +53,7 @@ namespace TurboLabz.InstantGame
         public const float UI_BLOCKER_LIGHT_ALPHA = 50f / 255f;
         public const float UI_BLOCKER_DARK_ALPHA = 150f / 255f;
 
-        public const float BLUR_BG_BRIGHTNESS_NORMAL = 100f / 255f;
+        public const float BLUR_BG_BRIGHTNESS_NORMAL = 90f / 255f;
         public const float BLUR_BG_BRIGHTNESS_DARK = 50f / 255f;
 
         public static Color ColorAlpha(Color c, float a) 
