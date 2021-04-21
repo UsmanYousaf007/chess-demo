@@ -148,12 +148,11 @@ namespace TurboLabz.Multiplayer
 
                 else
                 {
-                    view.StartTimer(playerModel.rvUnlockTimestamp);
                     analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.rating_booster);
                 }
 
-                view.OnRatingBoosted(ratingBoost);
-               
+                view.OnRewardClaimed();
+                view.OnRatingBoosted(ratingBoost);               
             }
         }
 
@@ -246,13 +245,7 @@ namespace TurboLabz.Multiplayer
         {
             if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster)
             {
-                if ((result == AdsResult.FINISHED || result == AdsResult.SKIPPED))
-                {
-                    view.OnRewardClaimed();
-                    //view.StartTimer();
-                }
-
-                else if (result == AdsResult.NOT_AVAILABLE)
+                if (result == AdsResult.NOT_AVAILABLE)
                 {
                     view.EnableVideoAvailabilityTooltip();
                 }
