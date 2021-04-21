@@ -40,20 +40,19 @@ namespace TurboLabz.InstantFramework
             {
                 CollectBtnClickedSignal?.Dispatch();
             });
+
+            UIDlgManager.Setup(gameObject);
         }
 
         public void Show()
         {
-            gameObject.SetActive(true);
-            StartAnimationSequence();
-            //StartCoroutine(StartAnimationCoroutine());
+            UIDlgManager.Show(gameObject).Then(()=> StartAnimationSequence());
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
             _animator.enabled = false;
-            //StopCoroutine(StartAnimationCoroutine());
         }
 
         public void UpdateView(RewardDlgVO vo, Dictionary<string, int> dailyReward, LeagueTierIconsContainer.LeagueAsset leagueAssets)
