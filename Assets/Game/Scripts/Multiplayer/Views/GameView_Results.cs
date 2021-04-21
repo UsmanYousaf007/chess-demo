@@ -160,7 +160,6 @@ namespace TurboLabz.Multiplayer
         private bool haveEnoughGemsForRewardDoubler;
         private long resultsBetValue;
 
-
         private List<MoveAnalysis> moveAnalysisList;
         private StoreItem fullGameAnalysisStoreItem;
         private bool haveEnoughGemsForFullAnalysis;
@@ -252,6 +251,10 @@ namespace TurboLabz.Multiplayer
             {
                 audioService.Play(audioService.sounds.SFX_VICTORY);
             }
+
+            resultsBoostRatingButtonAnim.enabled = true;
+            resultsBoostRatingButtonAnimWithRv.enabled = true;
+            rewardedVideoButtonAnimWithRv.enabled = true;
         }
 
         public void UpdateResultsDialog(ResultsVO vo)
@@ -688,7 +691,7 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingIcon.color = color;
             resultsBoostRatingText.color = color;
             resultsBoostSheen.SetActive(enable);
-            resultsBoostRatingButtonAnim.enabled = enable;
+            if (enable == false) resultsBoostRatingButtonAnim.enabled = enable;
 
             resultsBoostRatingToolTipWithRv.gameObject.SetActive(false);
             resultsBoostRatingButtonWithRv.interactable = enable;
@@ -698,10 +701,10 @@ namespace TurboLabz.Multiplayer
             resultsBoostRatingTextWithRv.color = color;
             rewardedVideoBtnImg.color = color;
             resultsBoostSheenWithRv.SetActive(enable);
-            resultsBoostRatingButtonAnimWithRv.enabled = enable;
+            if (enable == false) resultsBoostRatingButtonAnimWithRv.enabled = enable;
 
             rewardedVideoBtn.interactable = enable;
-            rewardedVideoButtonAnimWithRv.enabled = enable;
+            if (enable == false) rewardedVideoButtonAnimWithRv.enabled = enable;
 
         }
 
@@ -820,6 +823,7 @@ namespace TurboLabz.Multiplayer
         {
             videoNotAvailableTooltip.SetActive(true);
             Invoke("DisableVideoAvailabilityTooltip", 5);
+            SetupRatingBoostButtonsSection(true);
         }
 
         public void DisableVideoAvailabilityTooltip()
