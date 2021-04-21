@@ -74,13 +74,14 @@ namespace TurboLabz.Multiplayer
         public void ShowMenu()
         {
             DisableMenuButton();
-            UIDlgManager.Show(gameMenu);
+            UIDlgManager.Show(gameMenu).Then(()=> EnableModalBlocker());
         }
 
         public void HideMenu()
         {
             EnableMenuButton();
             UIDlgManager.Hide(gameMenu);
+            DisableModalBlocker();
         }
 
         public void OnEscapeClicked()
