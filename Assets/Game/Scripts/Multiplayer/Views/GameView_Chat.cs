@@ -51,7 +51,9 @@ namespace TurboLabz.Multiplayer
             opponentChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
             playerChatBubbleButton.onClick.AddListener(OnOpenChatDlg);
 
-            #if UNITY_EDITOR
+            //playerChatBubble.gameObject.SetActive(false);
+
+#if UNITY_EDITOR
             editorSubmit.gameObject.SetActive(true);
             editorSubmit.onClick.AddListener(()=>{OnSubmit(inputField.text);});
 #else
@@ -109,8 +111,11 @@ namespace TurboLabz.Multiplayer
 
             if (text.Length > 0)
             {
-                playerChatBubble.gameObject.SetActive(true);
-                playerChatBubble.SetText(text, true);
+                if (playerInfoPanel.activeSelf)
+                {
+                    playerChatBubble.gameObject.SetActive(true);
+                    playerChatBubble.SetText(text, true);
+                }
 
                 inputField.text = "";
 
