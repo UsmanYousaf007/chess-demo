@@ -360,6 +360,7 @@ namespace TurboLabz.Multiplayer
         {
             if (moveAnalysisCompleted)
             {
+                showGameAnalysisSignal.Dispatch();
                 UpdateAnalysisView();
             }
             else

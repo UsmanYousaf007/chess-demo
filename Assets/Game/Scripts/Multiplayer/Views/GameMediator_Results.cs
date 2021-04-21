@@ -202,7 +202,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnShowGameAnalysisSignal()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS);
         }
 
         [ListensTo(typeof(FullAnalysisBoughtSignal))]

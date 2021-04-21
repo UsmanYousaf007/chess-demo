@@ -30,6 +30,11 @@
             {
                 return new NSGameAnalyzingDlg();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
+            {
+                cmd.hideViewSignal.Dispatch(NavigatorViewId.BUY_GAME_ANALYSIS_DLG);
+                return new NSMultiplayerGameAnalysis();
+            }
 
             return null;
         }

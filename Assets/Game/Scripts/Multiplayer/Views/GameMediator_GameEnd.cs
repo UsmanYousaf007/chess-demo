@@ -69,6 +69,10 @@ namespace TurboLabz.Multiplayer
             {
                 view.HideGameAnalyzingDlg();
             }
+            else if (viewId == NavigatorViewId.MULTIPLAYER_GAME_ANALYSIS)
+            {
+                view.ShowWeeklyChampionshipResults();
+            }
         }
 
         [ListensTo(typeof(UpdateResultDialogSignal))]

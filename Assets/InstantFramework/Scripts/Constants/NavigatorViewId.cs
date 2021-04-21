@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         MULTIPLAYER_SAFE_MOVE_DLG,
         MULTIPLAYER_CHAT_DLG,
         MULTIPLAYER_REWARDS_DLG,
+        MULTIPLAYER_GAME_ANALYSIS,
         BUY_DLG,
         NOT_ENOUGH_BUCKS_DLG,
 		BUCK_PACKS_DLG,

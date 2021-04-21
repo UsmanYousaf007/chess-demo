@@ -28,9 +28,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
 
-        //Listeners
-        [Inject] public FullAnalysisBoughtSignal fullAnalysisBoughtSignal { get; set; }
-
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
@@ -79,9 +76,6 @@ namespace TurboLabz.InstantFramework
         private void OnFullAnallysisButtonClicked()
         {
             getFullAnalysisSignal.Dispatch();
-            fullAnalysisBoughtSignal.AddOnce(() => {
-                OnDialogClosedSignal();
-            });
         }
 
         private void OnDialogClosedSignal()

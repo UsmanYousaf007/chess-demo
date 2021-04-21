@@ -80,6 +80,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSFriends();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
+            {
+                return new NSMultiplayerGameAnalysis();
+            }
 
             return null;
         }

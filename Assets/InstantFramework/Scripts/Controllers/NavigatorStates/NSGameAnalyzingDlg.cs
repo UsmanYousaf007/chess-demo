@@ -14,6 +14,12 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSMultiplayer();
             }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
+            {
+                cmd.hideViewSignal.Dispatch(NavigatorViewId.GAME_ANALYZING_DLG);
+                return new NSMultiplayerGameAnalysis();
+            }
+
             return null;
         }
     }

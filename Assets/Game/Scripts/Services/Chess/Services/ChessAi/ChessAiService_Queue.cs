@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
-using TurboLabz.TLUtils;
 using System.Collections;
+using Priority_Queue;
 
 namespace TurboLabz.Chess
 {
@@ -23,27 +22,27 @@ namespace TurboLabz.Chess
             }
         }
 
-        private Queue<AiMoveRequest> serviceRequestsQueue;
+        private SimplePriorityQueue<AiMoveRequest> serviceRequestsQueue; 
         private AiMoveRequest lastDequeuedMethod;
         private bool taskIsReadyToExecute = true;
 
         public void AiMoveRequestInit()
         {
-            serviceRequestsQueue = new Queue<AiMoveRequest>();
+            serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
             lastDequeuedMethod = null;
             taskIsReadyToExecute = true;
         }
 
-        private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO)
+        private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO, float priority = 0)
         {
             if (serviceRequestsQueue == null)
             {
-                serviceRequestsQueue = new Queue<AiMoveRequest>();
+                serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
             }
 
             var promise = new Promise<FileRank, FileRank, string>();
             var methodToAdd = new AiMoveRequest(function, inputVO, promise);
-            serviceRequestsQueue.Enqueue(methodToAdd);
+            serviceRequestsQueue.Enqueue(methodToAdd, priority);
             ExecuteQueue();
 
             return promise;

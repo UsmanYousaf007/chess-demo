@@ -214,6 +214,7 @@ namespace TurboLabz.Multiplayer
             HideGameEndDialog();
             resultsFullAnalysisProcessing.SetActive(false);
             analyzingDlg.gameObject.SetActive(false);
+            matchAnalysis = new MatchAnalysis();
         }
 
         public void ShowResultsDialog()
@@ -796,7 +797,7 @@ namespace TurboLabz.Multiplayer
             bunders.text = matchAnalysis.blunders.ToString();
             perfect.text = matchAnalysis.perfectMoves.ToString();
             mistakes.text = matchAnalysis.mistakes.ToString();
-            resultsFullAnalysisProcessing.SetActive(!moveAnalysisCompleted);
+            //resultsFullAnalysisProcessing.SetActive(!moveAnalysisCompleted);
         }
 
         private void OnPlayRewardedVideoClicked()

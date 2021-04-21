@@ -73,7 +73,7 @@ namespace TurboLabz.Multiplayer
             HideRewardsDialog();
         }
 
-        private void ShowWeeklyChampionshipResults()
+        public void ShowWeeklyChampionshipResults()
         {
             showWeeklyChampionshipResultsSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
         }
