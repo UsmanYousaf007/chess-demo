@@ -680,7 +680,7 @@ namespace TurboLabz.Multiplayer
             ShowWeeklyChampionshipResults();
         }
 
-        private void SetupRatingBoostButtonsSection(bool enable)
+        public void SetupRatingBoostButtonsSection(bool enable)
         {
             var color = enable ? Colors.WHITE : Colors.WHITE_100;
             resultsBoostRatingToolTip.gameObject.SetActive(false);

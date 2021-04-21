@@ -106,7 +106,15 @@ namespace TurboLabz.Multiplayer
         {
             var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
                                               .AddString("challengeId", challengeId);
-            backendService.ClaimReward(jsonData);
+            backendService.ClaimReward(jsonData).Then(OnClaimRewardStatus);
+        }
+
+        private void OnClaimRewardStatus(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                view.SetupRatingBoostButtonsSection(true);
+            }
         }
 
         private void OnDoubleReward(VirtualGoodsTransactionVO vo)
@@ -241,11 +249,11 @@ namespace TurboLabz.Multiplayer
         }
 
         [ListensTo(typeof(RewardedVideoResultSignal))]
-        public void OnRewardClaimed(AdsResult result, AdPlacements adPlacement)
+        public void OnRewardedVideoResult(AdsResult result, AdPlacements adPlacement)
         {
             if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster)
             {
-                if (result == AdsResult.NOT_AVAILABLE)
+                if (result == AdsResult.NOT_AVAILABLE || result == AdsResult.FAILED)
                 {
                     view.EnableVideoAvailabilityTooltip();
                 }
