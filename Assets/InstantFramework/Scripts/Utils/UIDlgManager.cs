@@ -104,8 +104,8 @@ namespace TurboLabz.InstantFramework
         {
             if (dlg.transform.parent.GetComponent<Image>().enabled == false)
             {
-                dlg.transform.parent.GetComponent<Image>().enabled = true;
                 UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+                dlg.transform.parent.GetComponent<Image>().enabled = true;
                 UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
             }
         }

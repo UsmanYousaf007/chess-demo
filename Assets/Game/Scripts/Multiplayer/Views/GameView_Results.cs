@@ -542,6 +542,7 @@ namespace TurboLabz.Multiplayer
         private void HandleDeclinedDialog()
         {
             resultsDialog.SetActive(false);
+            UIDlgManager.EnableBlurBlg(gameEndDlgContainer);
             UIDlgManager.AnimateDlg(declinedDialog);
         }
 
