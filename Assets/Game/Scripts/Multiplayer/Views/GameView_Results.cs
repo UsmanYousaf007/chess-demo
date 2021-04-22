@@ -225,6 +225,7 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
+            EnableModalBlocker();
             Invoke("AnimateResultsDialog", animDelay);
         }
 
@@ -382,14 +383,13 @@ namespace TurboLabz.Multiplayer
 
                 case GameEndReason.CHECKMATE:
                     resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_CHECKMATE);
-                    animDelay = 0.5f;
                     break;
 
                 case GameEndReason.RESIGNATION:
                     if (!playerWins)
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
-                        animDelay = RESULTS_SHORT_DELAY_TIME;
+                        //animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerName);
                         //EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                     }
