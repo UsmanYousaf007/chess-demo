@@ -81,9 +81,6 @@ namespace TurboLabz.Multiplayer
             sequence.AppendInterval(REWARDS_TO_RESULTS_DELAY_TIME);
             sequence.AppendCallback(() => FadeRewardsDialogue(0));
             sequence.AppendCallback(() => resultsDialogOpenedSignal.Dispatch());
-            //sequence.AppendCallback(() => HideRewardsDialog());
-            //sequence.AppendCallback(() => ShowResultsDialog());
-            //sequence.AppendCallback(() => ScaleInResultsDialog());
             sequence.PlayForward();
         }
 

@@ -87,6 +87,7 @@ namespace TurboLabz.Multiplayer
 
         public void HideRewardsDialog()
         {
+            animationPlayed = false;
             rewardsDialog.SetActive(false);
         }
 

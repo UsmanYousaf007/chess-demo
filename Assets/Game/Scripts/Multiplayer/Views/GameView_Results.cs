@@ -677,7 +677,6 @@ namespace TurboLabz.Multiplayer
         public void OnResultsSkipRewardButtonClicked()
         {
             audioService.PlayStandardClick();
-            animationPlayed = false;
             ShowWeeklyChampionshipResults();
         }
 
