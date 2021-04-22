@@ -131,10 +131,12 @@ namespace TurboLabz.Multiplayer
 
             if (matchInfoModel.activeChallengeId == null)
             {
+                animDelay = 0f;
                 resultsDialogOpenedSignal.Dispatch();
             }
             else if (matchInfoModel.activeMatch == null || matchInfoModel.activeMatch.endGameResult != EndGameResult.NONE)
             {
+                animDelay = 0f;
                 resultsDialogOpenedSignal.Dispatch();
             }
             else
