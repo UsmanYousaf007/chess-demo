@@ -327,20 +327,23 @@ namespace TurboLabz.Multiplayer
                     moveAnalysisList = new List<MoveAnalysis>();
                 }
 
-                var existingMove = (from m in moveAnalysisList
-                                  where m.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString())
-                                  select m).FirstOrDefault();
-
-                if (existingMove == null)
+                if (moveAnalysis.bestMove == null)
                 {
                     moveAnalysisList.Add(moveAnalysis);
                 }
                 else
                 {
-                    moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
-                    analysiedMovesCount++;
-                    moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
-                    analyzingProgress.sizeDelta = new Vector2(440 * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
+                    var existingMove = (from m in moveAnalysisList
+                                        where m.bestMove == null && m.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString())
+                                        select m).FirstOrDefault();
+
+                    if (existingMove != null)
+                    {
+                        moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
+                        analysiedMovesCount++;
+                        moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
+                        analyzingProgress.sizeDelta = new Vector2(440 * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
+                    }
                 }
 
                 if (moveAnalysisCompleted && isAnalyzingShown)
