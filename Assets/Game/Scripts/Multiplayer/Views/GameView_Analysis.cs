@@ -58,6 +58,7 @@ namespace TurboLabz.Multiplayer
         private bool moveAnalysisCompleted;
         private bool isAnalyzingShown;
         private int analysiedMovesCount;
+        private Coroutine analysisMovesDialAnimatingRoutine;
 
         private void OnParentShowAnalysis()
         {
@@ -302,13 +303,13 @@ namespace TurboLabz.Multiplayer
             var scrollToIndex = isLocked ? moveAnalysisList.Count - 1 : 0;
             ShowSelectedMoveAnalysis(false);
             isMovesDialAnimating = true;
-            analysisMovesSpinnerDragHandler.enabled = false;
+            analysisFirstButton.interactable = analysisLastButton.interactable = analysisMovesSpinnerDragHandler.enabled = false;
             pickerSrollRect.ScrollToItemAtIndex(scrollFromIndex, true);
             yield return new WaitForEndOfFrame();
             pickerSrollRect.autoScrollSeconds = 2.3f;
             pickerSrollRect.ScrollToItemAtIndex(scrollToIndex);
             yield return new WaitForSeconds(pickerSrollRect.autoScrollSeconds);
-            analysisMovesSpinnerDragHandler.enabled = true;
+            analysisFirstButton.interactable = analysisLastButton.interactable = analysisMovesSpinnerDragHandler.enabled = true;
             isMovesDialAnimating = false;
             OnMoveSelected(moveSelectGO);
         }
@@ -373,7 +374,17 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private IEnumerator AutoScrollMovesDial(int itemIndex)
+        private void AutoScrollMovesDial(int itemIndex)
+        {
+            if (analysisMovesDialAnimatingRoutine != null)
+            {
+                StopCoroutine(analysisMovesDialAnimatingRoutine);
+            }
+
+            analysisMovesDialAnimatingRoutine = StartCoroutine(AutoScrollMovesDialRoutine(itemIndex));
+        }
+
+        private IEnumerator AutoScrollMovesDialRoutine(int itemIndex)
         {
             analysisMovesSpinnerDragHandler.enabled = false;
             pickerSrollRect.autoScrollSeconds = 0.6f;
@@ -405,13 +416,13 @@ namespace TurboLabz.Multiplayer
         private void OnClickAnalysisFirst()
         {
             audioService.PlayStandardClick();
-            StartCoroutine(AutoScrollMovesDial(0));
+            AutoScrollMovesDial(0);
         }
 
         private void OnClickAnalysisLast()
         {
             audioService.PlayStandardClick();
-            StartCoroutine(AutoScrollMovesDial(moveAnalysisList.Count - 1));
+            AutoScrollMovesDial(moveAnalysisList.Count - 1);
         }
 
         public void OnClickAnalysisInfo()
