@@ -102,7 +102,6 @@ namespace TurboLabz.Multiplayer
             playerInfoPanel.SetActive(false);
             analysisPanel.SetActive(true);
             uiBlocker.SetActive(false);
-            HideGameEndDialog();
             HideOpponentToIndicator();
             HideOpponentFromIndicator();
             HidePlayerToIndicator();
@@ -362,6 +361,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowAnalysis()
         {
+            HideGameEndDialog();
             if (moveAnalysisCompleted)
             {
                 showGameAnalysisSignal.Dispatch();

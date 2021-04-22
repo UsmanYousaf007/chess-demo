@@ -64,15 +64,23 @@ namespace TurboLabz.InstantFramework
             return promise;
         }
 
-        static public void Hide(GameObject dlg)
+        static public IPromise Hide(GameObject dlg)
         {
+            Promise promise = new Promise();
             Image BlurBg = dlg.transform.parent.GetComponent<Image>();
             CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
 
             canvasGroup.DOKill();
-            canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => dlg.SetActive(false));
+            canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => OnHide(promise,dlg));
             UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
             BlurBg.DOFade(0.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
+            return promise;
+        }
+
+        static private void OnHide(IPromise promise, GameObject dlg)
+        {
+            promise.Dispatch();
+            dlg.SetActive(false);
         }
 
         static public void AnimateDlg(GameObject dlg)
