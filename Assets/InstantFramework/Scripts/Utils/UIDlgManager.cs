@@ -36,7 +36,7 @@ namespace TurboLabz.InstantFramework
             dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false)
+        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false, bool noBlurrAnimation = false)
         {
             // Blur background and enable this dialog
             Image BlurBg = dlg.transform.parent.GetComponent<Image>();
@@ -53,6 +53,12 @@ namespace TurboLabz.InstantFramework
                 BlurBg.material = UIBlurBackground.GetBlurBackgroundMaterial();
                 BlurBg.gameObject.SetActive(true);
                 promise.Dispatch();
+
+                if (noBlurrAnimation)
+                {
+                    AnimateDlg(dlg);
+                    return promise;
+                }
             }
             else
             {

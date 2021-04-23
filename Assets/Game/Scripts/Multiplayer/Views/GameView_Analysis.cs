@@ -366,7 +366,6 @@ namespace TurboLabz.Multiplayer
 
         public void ShowAnalysis()
         {
-            HideGameEndDialog();
             isAnalyzingShown = true;
             showAnalyzingSignal.Dispatch();
             StartCoroutine(ShowAnalyzingFakeDelay());
@@ -391,6 +390,7 @@ namespace TurboLabz.Multiplayer
             if (moveAnalysisCompleted)
             {
                 showGameAnalysisSignal.Dispatch();
+                HideGameEndDialog();
             }
         }
 
