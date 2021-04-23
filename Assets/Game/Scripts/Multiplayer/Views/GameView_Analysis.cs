@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using TurboLabz.InstantFramework;
 using System.Collections;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.Multiplayer
 {
@@ -367,6 +368,10 @@ namespace TurboLabz.Multiplayer
         public void ShowAnalysis()
         {
             isAnalyzingShown = true;
+            if (!gameEndDlgContainer.activeSelf)
+            {
+                UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
+            }
             showAnalyzingSignal.Dispatch();
             StartCoroutine(ShowAnalyzingFakeDelay());
         }
