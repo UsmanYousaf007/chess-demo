@@ -43,6 +43,11 @@ namespace TurboLabz.InstantFramework
 
             Promise promise = new Promise();
 
+            if (dlg.activeSelf)
+            {
+                return promise;
+            }
+
             if (useLastBlurredBg)
             {
                 BlurBg.material = UIBlurBackground.GetBlurBackgroundMaterial();

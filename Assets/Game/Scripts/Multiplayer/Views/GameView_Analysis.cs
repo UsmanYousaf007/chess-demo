@@ -59,6 +59,9 @@ namespace TurboLabz.Multiplayer
         private bool isAnalyzingShown;
         private int analysiedMovesCount;
         private Coroutine analysisMovesDialAnimatingRoutine;
+        private float analysingProgressBarWidth;
+        private bool analysingFakeProcessingCompleted;
+        private int analysisngFakeDelayInSeconds = 4;
 
         private void OnParentShowAnalysis()
         {
@@ -73,6 +76,8 @@ namespace TurboLabz.Multiplayer
             moveAnalysisList = null;
             isAnalyzingShown = false;
             analysiedMovesCount = 0;
+            analysingProgressBarWidth = 440.0f;
+            analysingFakeProcessingCompleted = false;
         }
 
         public void InitAnalysis()
@@ -342,11 +347,11 @@ namespace TurboLabz.Multiplayer
                         moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
                         analysiedMovesCount++;
                         moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
-                        analyzingProgress.sizeDelta = new Vector2(440 * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
+                        SetAnalysingProgressBarWidth();
                     }
                 }
 
-                if (moveAnalysisCompleted && isAnalyzingShown)
+                if (moveAnalysisCompleted && isAnalyzingShown && analysingFakeProcessingCompleted)
                 {
                     showGameAnalysisSignal.Dispatch();
                 }
@@ -362,16 +367,36 @@ namespace TurboLabz.Multiplayer
         public void ShowAnalysis()
         {
             HideGameEndDialog();
+            isAnalyzingShown = true;
+            showAnalyzingSignal.Dispatch();
+            StartCoroutine(ShowAnalyzingFakeDelay());
+        }
+
+        private IEnumerator ShowAnalyzingFakeDelay()
+        {
+            var moveWidthInAnalysingBar = analysingProgressBarWidth / (moveAnalysisList.Count + analysisngFakeDelayInSeconds);
+            analysingProgressBarWidth -= moveWidthInAnalysingBar * analysisngFakeDelayInSeconds;
+            SetAnalysingProgressBarWidth();
+            var wait = new WaitForSeconds(1.0f);
+
+            for (int i = 0; i < analysisngFakeDelayInSeconds; i++)
+            {
+                yield return wait;
+                analysingProgressBarWidth += moveWidthInAnalysingBar;
+                SetAnalysingProgressBarWidth();
+            }
+
+            analysingFakeProcessingCompleted = true;
+
             if (moveAnalysisCompleted)
             {
                 showGameAnalysisSignal.Dispatch();
-                UpdateAnalysisView();
             }
-            else
-            {
-                isAnalyzingShown = true;
-                showAnalyzingSignal.Dispatch();
-            }
+        }
+
+        private void SetAnalysingProgressBarWidth()
+        {
+            analyzingProgress.sizeDelta = new Vector2(analysingProgressBarWidth * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
         }
 
         private void AutoScrollMovesDial(int itemIndex)

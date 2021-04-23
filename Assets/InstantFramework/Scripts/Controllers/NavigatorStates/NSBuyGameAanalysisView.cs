@@ -28,6 +28,7 @@
             }
             else if (evt == NavigatorEvent.SHOW_GAME_ANALYZING_DLG)
             {
+                cmd.hideViewSignal.Dispatch(NavigatorViewId.BUY_GAME_ANALYSIS_DLG);
                 return new NSGameAnalyzingDlg();
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
