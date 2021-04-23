@@ -40,6 +40,7 @@ namespace TurboLabz.Multiplayer
         public Transform chessboard;
         public Transform playerProfileUiAnchor;
         public Transform opponentProfileUiAnchor;
+        public Transform analysisPanelEndPivot;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -140,9 +141,12 @@ namespace TurboLabz.Multiplayer
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
 
-            h = ((RectTransform)analysisPanel.transform).sizeDelta.y;
-            ((RectTransform)analysisPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
-            if (!NotchHandler.HasNotch()) analysisPanel.transform.position = playerProfileScreenPoint;
+            if (!NotchHandler.HasNotch())
+            {
+                h = Mathf.Abs(playerInfoPanel.transform.localPosition.y - analysisPanelEndPivot.localPosition.y);
+                ((RectTransform)analysisPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+                analysisPanel.transform.position = playerProfileScreenPoint;
+            }
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
