@@ -27,6 +27,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
+        private static Coroutine waitForVideoToLoadCoroutine;
+
         public override void Execute()
         {
             if (!adsService.IsPersonalisedAdDlgShown())
@@ -43,7 +45,8 @@ namespace TurboLabz.InstantFramework
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {
                 showGenericProcessingSignal.Dispatch(true);
-                routineRunner.StartCoroutine(WaitForVideoToLoad());
+                if (waitForVideoToLoadCoroutine != null) routineRunner.StopCoroutine(waitForVideoToLoadCoroutine);
+                waitForVideoToLoadCoroutine = routineRunner.StartCoroutine(WaitForVideoToLoad());
                 return;
             }
 
