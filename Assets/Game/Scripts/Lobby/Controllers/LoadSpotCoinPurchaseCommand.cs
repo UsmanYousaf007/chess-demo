@@ -21,8 +21,6 @@ namespace TurboLabz.InstantFramework
 
         public override void Execute()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
-
             if (betValue <= settingsModel.bettingIncrements[0])
             {
                 updateSpotCoinsWatchAdDlgSignal.Dispatch(betValue, storeSettingsModel.items["CoinPack1"], AdPlacements.Rewarded_coins_purchase);
@@ -48,6 +46,8 @@ namespace TurboLabz.InstantFramework
                     updateSpotCoinsPurchaseDlgSignal.Dispatch(betValue, availablePacks);
                 }
             }
+
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
         }
     }
 }

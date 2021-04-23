@@ -58,7 +58,7 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            UIDlgManager.Show(gameObject);
+            UIDlgManager.Show(gameObject).Then(RebuildLayouts);
         }
 
         public void Hide()
