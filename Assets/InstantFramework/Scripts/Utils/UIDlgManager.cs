@@ -14,8 +14,6 @@ namespace TurboLabz.InstantFramework
 {
     static public class UIDlgManager
     {
-        static Image lastScreenshot;
-
         static public void Setup(GameObject dlg)
         {
             // Add a full screen background rect for blur to the object
@@ -47,14 +45,13 @@ namespace TurboLabz.InstantFramework
 
             if (useLastBlurredBg)
             {
-                BlurBg.material = lastScreenshot.material;
+                BlurBg.material = UIBlurBackground.GetBlurBackgroundMaterial();
                 BlurBg.gameObject.SetActive(true);
                 promise.Dispatch();
-                //UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise);
             }
             else
             {
-                UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise).Then(() => lastScreenshot = BlurBg);
+                UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise);
             }
 
             UIBlurBackground.SetBrightness(blurBrightnessVal, 0.0f);

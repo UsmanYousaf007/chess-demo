@@ -67,8 +67,13 @@ namespace TurboLabz.InstantFramework
             }
 
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
-            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(()=> StartCoroutine(CountdownTimer()));
-            Invoke("AnimateContinueButton", 1f);
+            UIBlurBackground.BlurBackground(null, 5, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(OnBgBlurComplete);
+        }
+
+        private void OnBgBlurComplete()
+        {
+            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(() => StartCoroutine(CountdownTimer()));
+            Invoke("AnimateContinueButton", 0.75f);
             metaDataModel.ShowChampionshipNewRankDialog = false;
         }
 
