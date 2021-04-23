@@ -355,6 +355,7 @@ namespace TurboLabz.Multiplayer
                 if (moveAnalysisCompleted && isAnalyzingShown && analysingFakeProcessingCompleted)
                 {
                     showGameAnalysisSignal.Dispatch();
+                    HideGameEndDialog();
                 }
             }
 
