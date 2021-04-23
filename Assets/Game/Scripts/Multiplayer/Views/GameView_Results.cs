@@ -195,7 +195,7 @@ namespace TurboLabz.Multiplayer
             averageHeightOfAnalyzingBar = loadingBars[0].rectTransform.sizeDelta.y;
 
             UIDlgManager.Setup(gameEndDlgContainer);
-            //UIDlgManager.Setup(analyzingDlg);
+            UIDlgManager.Setup(analyzingDlg);
 
             animSequence = DOTween.Sequence();
         }
@@ -213,7 +213,7 @@ namespace TurboLabz.Multiplayer
             //HideResultsDialog();
             HideGameEndDialog();
             resultsFullAnalysisProcessing.SetActive(false);
-            analyzingDlg.gameObject.SetActive(false);
+            //analyzingDlg.gameObject.SetActive(false);
             matchAnalysis = new MatchAnalysis();
         }
 
@@ -643,7 +643,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowAnalyzingGame()
         {
-            analyzingDlg.gameObject.SetActive(true);
+            UIDlgManager.Show(analyzingDlg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true);
             animateBarsEnabled = true;
             StartCoroutine(AnimateBars());
             UpdateAnalysisView(true);
@@ -653,7 +653,7 @@ namespace TurboLabz.Multiplayer
         {
             animateBarsEnabled = false;
             StopCoroutine(AnimateBars());
-            analyzingDlg.gameObject.SetActive(false);
+            UIDlgManager.Hide(analyzingDlg);
             UpdateAnalysisView();
         }
 

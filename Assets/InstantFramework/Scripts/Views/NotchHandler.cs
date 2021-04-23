@@ -138,6 +138,7 @@ public class NotchHandler : MonoBehaviour {
     public Transform multiplayerBoard;
     public RectTransform multiplayerOpponentsPanel;
     public RectTransform multiplayerDrawOffer;
+    public RectTransform multiplayerOpponentTrophiesPanel;
 
     public static bool HasNotch()
     {
@@ -331,6 +332,7 @@ public class NotchHandler : MonoBehaviour {
         SetY(multiplayerOpponentsPanel, 528f);
         SetY(multiplayerBoard, 73.7f);
         SetY(multiplayerDrawOffer, -1015f);
+        SetY(multiplayerOpponentTrophiesPanel, 40f);
     }
 
     void SetY(RectTransform tfm, float y)
