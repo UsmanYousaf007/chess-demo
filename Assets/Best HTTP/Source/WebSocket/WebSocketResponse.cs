@@ -663,7 +663,12 @@ namespace BestHTTP.WebSocket
             HTTPManager.Heartbeats.Unsubscribe(this);
             HTTPUpdateDelegator.OnApplicationForegroundStateChanged -= OnApplicationForegroundStateChanged;
 
-            newFrameSignal.Set();
+            // TODO: In some case a crash occurs on newFrameSignal.Set(); when closing the app in editor
+            // Placed a null check to avoid crash. This needs to be investigated
+            if (newFrameSignal != null)
+            {
+                newFrameSignal.Set();
+            }
             CloseStream();
 
             ProtocolEventHelper.EnqueueProtocolEvent(new ProtocolEventInfo(this));
