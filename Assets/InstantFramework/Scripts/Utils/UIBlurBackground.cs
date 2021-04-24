@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
     {
         static private NormalRoutineRunner routineRunner = new NormalRoutineRunner();
         static Material blurImageEffectMaterial = Resources.Load("BlurImageEffectMaterial", typeof(Material)) as Material;
+        static Coroutine colorUpdateCR;
 
         static public Material GetBlurBackgroundMaterial()
         {
@@ -51,7 +52,15 @@ namespace TurboLabz.InstantFramework
             float currBrightness = blurImageEffectMaterial.GetColor("_TintColor").r;
             float currAlpha = blurImageEffectMaterial.GetColor("_TintColor").a;
             long destTime = TimeUtil.unixTimestampMilliseconds + (long)(dur * 1000);
-            routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, currAlpha, alpha, dur, destTime));
+            colorUpdateCR = routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, currAlpha, alpha, dur, destTime));
+        }
+
+        static public void StopAnimateBrightness()
+        {
+            if (colorUpdateCR != null)
+            {
+                routineRunner.StopCoroutine(colorUpdateCR);
+            }
         }
 
         static private IEnumerator OnAnimateColorUpdateCR(float aBrightness, float bBrightness, float aAlpha, float bApha, float dur, long destTime)

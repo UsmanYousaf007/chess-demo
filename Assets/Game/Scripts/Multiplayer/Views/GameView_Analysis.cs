@@ -369,11 +369,13 @@ namespace TurboLabz.Multiplayer
         public void ShowAnalysis()
         {
             isAnalyzingShown = true;
+            showAnalyzingSignal.Dispatch();
             if (!gameEndDlgContainer.activeSelf)
             {
-                UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK);
+                UIBlurBackground.StopAnimateBrightness();
+                UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK, true, true);
+                //UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_DARK, 1.0f);
             }
-            showAnalyzingSignal.Dispatch();
             StartCoroutine(ShowAnalyzingFakeDelay());
         }
 
