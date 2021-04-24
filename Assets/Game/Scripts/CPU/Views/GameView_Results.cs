@@ -169,14 +169,8 @@ namespace TurboLabz.CPU
             ShowResultsDialogCPU();
             SetGameAnalysisPanel();
             EnableModalBlocker();
-            if (menuOpensResultsDlg)
-            {
-                UIDlgManager.Show(resultsDialog);
-            }
-            else {
-                resultsDialogCanvasGroup.alpha = 0;
-                resultsDialog.SetActive(true);
-            }
+
+            UIDlgManager.Show(resultsDialog).Then(OnResultDialogShown);
 
             DisableMenuButton();
             HidePossibleMoves();
@@ -191,6 +185,11 @@ namespace TurboLabz.CPU
 
             preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
+        }
+
+        private void OnResultDialogShown()
+        {
+            BuildLayout();
         }
 
         public void ShowViewBoardResultsPanel(bool show)
@@ -369,7 +368,7 @@ namespace TurboLabz.CPU
             UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
             SetupResultsLayout(false);
-            //BuildLayout();
+            BuildLayout();
 
             //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
             Invoke("AnimateResultsDialog", animDelay);
