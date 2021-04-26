@@ -143,7 +143,6 @@ namespace TurboLabz.Multiplayer
         public Signal fullAnalysisButtonClickedSignal = new Signal();
         public Signal ratingBoosterRewardSignal = new Signal();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
-        public Signal<string, bool, float> showNewRankChampionshipDlgSignal = new Signal<string, bool, float>();
         public Signal showGameAnalysisSignal = new Signal();
 
         private float declinedDialogHalfHeight;

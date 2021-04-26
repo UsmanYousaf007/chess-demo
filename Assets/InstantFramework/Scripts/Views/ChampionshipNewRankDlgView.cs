@@ -39,8 +39,6 @@ namespace TurboLabz.InstantFramework
         //[Inject] public ShowAdSignal showAdSignal { get; set; }
         public Signal<string, bool> continueButtonClickedSignal = new Signal<string, bool>();
 
-        [Inject] public IMetaDataModel metaDataModel { get; set; }
-
         public override void Init()
         {
             scrollRectChampionship = scrollView;
@@ -69,14 +67,12 @@ namespace TurboLabz.InstantFramework
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
             UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(() => StartCoroutine(CountdownTimer()));
             Invoke("AnimateContinueButton", 0.75f);
-            metaDataModel.ShowChampionshipNewRankDialog = false;
         }
 
         private void OnBgBlurComplete()
         {
             UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(() => StartCoroutine(CountdownTimer()));
             Invoke("AnimateContinueButton", 0.75f);
-            metaDataModel.ShowChampionshipNewRankDialog = false;
         }
 
         private void AnimateContinueButton()

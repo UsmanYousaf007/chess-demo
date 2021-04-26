@@ -465,7 +465,7 @@ namespace TurboLabz.InstantFramework
                 //    metaDataModel.ShowChampionshipNewRankDialog = true;
                 //}
 
-                metaDataModel.ShowChampionshipNewRankDialog = true;
+                metaDataModel.ShowChampionshipNewRankDialog = false;
             }
 
             updateTournamentsViewSignal.Dispatch();

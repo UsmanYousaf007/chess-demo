@@ -68,7 +68,6 @@ namespace TurboLabz.Multiplayer
             view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
             view.onAnalysiedMoveSelectedSignal.AddListener(OnAnalysiedMoveSelected);
             view.showGetFullAnalysisDlg.AddListener(OnShowGetGameAnalysisDlg);
-            view.showNewRankChampionshipDlgSignal.AddListener(OnShowNewRankChampionshipDlg);
             view.ratingBoosterRewardSignal.AddListener(OnPlayRewardedVideoClicked);
             view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
             view.showGameAnalysisSignal.AddListener(OnShowGameAnalysisSignal);
@@ -218,12 +217,6 @@ namespace TurboLabz.Multiplayer
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG);
             updateGetGameAnalysisDlg.Dispatch(matchAnalysis, storeItem, availableForFree);
-        }
-
-        private void OnShowNewRankChampionshipDlg(string challengeId, bool playerWins, float TRANSITION_DURATION)
-        {
-            updateNewRankChampionshipDlgViewSignal.Dispatch(challengeId, playerWins, TRANSITION_DURATION);
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG);
         }
 
         private void OnPlayRewardedVideoClicked()

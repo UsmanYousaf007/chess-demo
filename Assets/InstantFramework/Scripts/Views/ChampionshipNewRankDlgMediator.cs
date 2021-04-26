@@ -17,6 +17,7 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
 
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -63,21 +64,28 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.CHAMPIONSHIP_NEW_RANK_DLG)
             {
-                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                view.Show(joinedTournament, oldRank != -1 && joinedTournament.rank > oldRank);
-                oldRank = joinedTournament.rank;
-
-                if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                if (matchInfoModel.lastCompletedMatch.isRanked)
                 {
-                    view.UpdateView(playerModel.id, joinedTournament);
+                    JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                    view.Show(joinedTournament, oldRank != -1 && joinedTournament.rank > oldRank);
+                    oldRank = joinedTournament.rank;
+
+                    if (joinedTournament != null && joinedTournament.entries.Count > 0)
+                    {
+                        view.UpdateView(playerModel.id, joinedTournament);
+                    }
+                    else
+                    {
+                        getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                    }
+
+                    view.UpdateLeagueTitle(playerModel, tournamentsModel);
+                    //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
                 }
                 else
                 {
-                    getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                    OnContinuePressed(string.Empty, false);
                 }
-
-                view.UpdateLeagueTitle(playerModel, tournamentsModel);
-                //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
             }
         }
 
