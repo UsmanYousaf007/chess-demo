@@ -11,6 +11,7 @@ using System.IO;
 using TurboLabz.TLUtils;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,45 +26,57 @@ namespace TurboLabz.InstantFramework
             return blurImageEffectMaterial;
         }
 
+        static public void Setup(Image destImage, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL)
+        {
+            destImage.material = new Material(UIBlurBackground.GetBlurBackgroundMaterial());
+            destImage.material.SetColor("_TintColor", new Color(blurBrightnessVal, blurBrightnessVal, blurBrightnessVal, 1.0f));
+        }
+
+        static public void UseLastBlurBackground(Image destImage, float blurBrightnessVal)
+        {
+            destImage.material.SetTexture("_MainTex", blurImageEffectMaterial.GetTexture("_MainTex"));
+            destImage.material.SetColor("_TintColor", new Color(blurBrightnessVal, blurBrightnessVal, blurBrightnessVal, 1.0f));
+        }
+
         // Apply blur image to destImage. Optional: Enable toEnableObj after blur image applied
+        // Preconditions: destImage must have Setup applied on it
         // Blur level: 0-7 (high blur)
         static public Promise BlurBackground(Image destImage, int blurLevel, float brightness, GameObject toEnableObj = null, Promise promise = null)
         {
-            blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
-            if (destImage)
-            {
-                destImage.material = blurImageEffectMaterial;
-            }
+            Material mat = destImage.material;
+            mat.SetColor("_TintColor", new Color(brightness, brightness, brightness, 1.0f));
 
             if (promise == null)
+            {
                 promise = new Promise();
+            }
 
-            CaptureScreenSprite(Screen.width >> blurLevel, Screen.height >> blurLevel, toEnableObj, promise);
+            CaptureScreenSprite(mat, Screen.width >> blurLevel, Screen.height >> blurLevel, toEnableObj, promise);
             return promise;
         }
 
-        static public void SetBrightness (float brightness, float alpha)
+        static public void SetBrightness(Image destImage, float brightness, float alpha)
         {
-            blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
+            destImage.material.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
         }
 
-        static public void AnimateBrightness(float brightness, float alpha, float dur)
+        static public void AnimateBrightness(Image destImage, float brightness, float alpha, float dur)
         {
-            float currBrightness = blurImageEffectMaterial.GetColor("_TintColor").r;
-            float currAlpha = blurImageEffectMaterial.GetColor("_TintColor").a;
+            float currBrightness = destImage.material.GetColor("_TintColor").r;
+            float currAlpha = destImage.material.GetColor("_TintColor").a;
             long destTime = TimeUtil.unixTimestampMilliseconds + (long)(dur * 1000);
-            colorUpdateCR = routineRunner.StartCoroutine(OnAnimateColorUpdateCR(currBrightness, brightness, currAlpha, alpha, dur, destTime));
+            colorUpdateCR = routineRunner.StartCoroutine(OnAnimateColorUpdateCR(destImage.material, currBrightness, brightness, currAlpha, alpha, dur, destTime));
         }
 
         static public void StopAnimateBrightness()
         {
             if (colorUpdateCR != null)
             {
-                routineRunner.StopCoroutine(colorUpdateCR);
+               routineRunner.StopCoroutine(colorUpdateCR);
             }
         }
 
-        static private IEnumerator OnAnimateColorUpdateCR(float aBrightness, float bBrightness, float aAlpha, float bApha, float dur, long destTime)
+        static private IEnumerator OnAnimateColorUpdateCR(Material mat, float aBrightness, float bBrightness, float aAlpha, float bApha, float dur, long destTime)
         {
             long currTime = TimeUtil.unixTimestampMilliseconds;
             while (TimeUtil.unixTimestampMilliseconds <= destTime)
@@ -72,20 +85,20 @@ namespace TurboLabz.InstantFramework
                 float brightness = Mathf.Lerp(aBrightness, bBrightness, tParam);
                 float alpha = Mathf.Lerp(aAlpha, bApha, tParam);
 
-                blurImageEffectMaterial.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
+                mat.SetColor("_TintColor", new Color(brightness, brightness, brightness, alpha));
 
                 yield return null;
             }
 
-            blurImageEffectMaterial.SetColor("_TintColor", new Color(bBrightness, bBrightness, bBrightness, bApha));
+            mat.SetColor("_TintColor", new Color(bBrightness, bBrightness, bBrightness, bApha));
         }
 
-        static private void CaptureScreenSprite(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
+        static private void CaptureScreenSprite(Material mat, int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
         {
-            routineRunner.StartCoroutine(CaptureScreenSpriteCR(destTextureWidth, destTextureHeight, toEnableObj, promise));
+            routineRunner.StartCoroutine(CaptureScreenSpriteCR(mat, destTextureWidth, destTextureHeight, toEnableObj, promise));
         }
 
-        static IEnumerator CaptureScreenSpriteCR(int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
+        static private IEnumerator CaptureScreenSpriteCR(Material mat, int destTextureWidth, int destTextureHeight, GameObject toEnableObj, Promise promise)
         {
             Texture2D screenImage = new Texture2D(Screen.width, Screen.height);
 
@@ -97,6 +110,7 @@ namespace TurboLabz.InstantFramework
             Texture2D.Destroy(screenImage);
             //Sprite sprite = Sprite.Create(nTex, new Rect(0, 0, nTex.width, nTex.height), new Vector2(0, 0));
             //dest.sprite = sprite;
+            mat.SetTexture("_MainTex", nTex);
             blurImageEffectMaterial.SetTexture("_MainTex", nTex);
 
             yield return new WaitForEndOfFrame();

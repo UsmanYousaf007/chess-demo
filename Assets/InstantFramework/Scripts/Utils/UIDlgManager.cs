@@ -32,11 +32,13 @@ namespace TurboLabz.InstantFramework
 
             uiDlgContainer.gameObject.SetActive(false);
 
+            Image uiDlgContainerImage = uiDlgContainer.GetComponent<Image>();
+            UIBlurBackground.Setup(uiDlgContainerImage);
             dlg.AddComponent<CanvasGroup>();
             dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false, bool noBlurrAnimation = false)
+        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false)
         {
             // Blur background and enable this dialog
             Image BlurBg = dlg.transform.parent.GetComponent<Image>();
@@ -47,26 +49,22 @@ namespace TurboLabz.InstantFramework
             {
                 return promise;
             }
-
+            
             if (useLastBlurredBg)
             {
-                BlurBg.material = UIBlurBackground.GetBlurBackgroundMaterial();
+                UIBlurBackground.UseLastBlurBackground(BlurBg, blurBrightnessVal);
                 BlurBg.gameObject.SetActive(true);
                 promise.Dispatch();
-
-                if (noBlurrAnimation)
-                {
-                    AnimateDlg(dlg);
-                    return promise;
-                }
+                AnimateDlg(dlg);
+                return promise;
             }
             else
             {
                 UIBlurBackground.BlurBackground(BlurBg, 5, blurBrightnessVal, BlurBg.gameObject, promise);
             }
 
-            UIBlurBackground.SetBrightness(blurBrightnessVal, 0.0f);
-            UIBlurBackground.AnimateBrightness(blurBrightnessVal, 1.0f, 0.25f);
+            UIBlurBackground.SetBrightness(BlurBg, blurBrightnessVal, 0.0f);
+            UIBlurBackground.AnimateBrightness(BlurBg, blurBrightnessVal, 1.0f, 0.25f);
 
             AnimateDlg(dlg);
             return promise;
@@ -80,8 +78,8 @@ namespace TurboLabz.InstantFramework
 
             canvasGroup.DOKill();
             canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => OnHide(promise,dlg));
-            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
-            BlurBg.DOFade(0.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
+            UIBlurBackground.AnimateBrightness(BlurBg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f, 0.25f);
+            BlurBg.DOFade(1.0f, 0.25f).OnComplete(() => BlurBg.gameObject.SetActive(false));
             return promise;
         }
 
@@ -110,11 +108,12 @@ namespace TurboLabz.InstantFramework
 
         static public void EnableBlurBlg(GameObject dlg)
         {
-            if (dlg.transform.parent.GetComponent<Image>().enabled == false)
+            Image image = dlg.transform.parent.GetComponent<Image>();
+            if (image.enabled == false)
             {
-                UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
-                dlg.transform.parent.GetComponent<Image>().enabled = true;
-                UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
+                UIBlurBackground.SetBrightness(image, Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+                image.enabled = true;
+                UIBlurBackground.AnimateBrightness(image, Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.25f);
             }
         }
 

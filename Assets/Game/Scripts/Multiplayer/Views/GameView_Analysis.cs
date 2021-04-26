@@ -368,14 +368,12 @@ namespace TurboLabz.Multiplayer
 
         public void ShowAnalysis()
         {
+            if (gameEndDlgContainer.activeSelf)
+            {
+                HideGameEndDialog();
+            }
             isAnalyzingShown = true;
             showAnalyzingSignal.Dispatch();
-            if (!gameEndDlgContainer.activeSelf)
-            {
-                UIBlurBackground.StopAnimateBrightness();
-                UIDlgManager.Show(gameEndDlgContainer, Colors.BLUR_BG_BRIGHTNESS_DARK, true, true);
-                //UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_DARK, 1.0f);
-            }
             StartCoroutine(ShowAnalyzingFakeDelay());
         }
 
@@ -398,7 +396,6 @@ namespace TurboLabz.Multiplayer
             if (moveAnalysisCompleted)
             {
                 showGameAnalysisSignal.Dispatch();
-                HideGameEndDialog();
             }
         }
 

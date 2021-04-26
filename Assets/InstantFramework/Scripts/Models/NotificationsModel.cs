@@ -137,6 +137,11 @@ namespace TurboLabz.InstantFramework
 
         private void StopInGameScheduledNotifications()
         {
+            if (inGameScheduledNotifications == null)
+            {
+                return;
+            }
+
             foreach (var notification in inGameScheduledNotifications)
             {
                 routineRunner.StopCoroutine(notification);

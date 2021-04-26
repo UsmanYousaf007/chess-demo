@@ -643,7 +643,7 @@ namespace TurboLabz.Multiplayer
 
         public void ShowAnalyzingGame()
         {
-            UIDlgManager.Show(analyzingDlg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true, true);
+            UIDlgManager.Show(analyzingDlg, Colors.BLUR_BG_BRIGHTNESS_DARK, true);
             animateBarsEnabled = true;
             StartCoroutine(AnimateBars());
             UpdateAnalysisView(true);

@@ -67,6 +67,7 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            UIBlurBackground.Setup(blurredBgImg);
             leagueTierIconsContainer = leagueTierIconsContainer == null ? LeagueTierIconsContainer.Load() : leagueTierIconsContainer;
             continueBtn.onClick.AddListener(OnContinueButtonClicked);
         }
@@ -182,8 +183,8 @@ namespace TurboLabz.InstantFramework
         {
             UIBlurBackground.BlurBackground(blurredBgImg, 3, Colors.BLUR_BG_BRIGHTNESS_NORMAL, canvasGroup.gameObject);
             blurredBgImg.DOFade(1.0f, 0);
-            UIBlurBackground.SetBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
-            UIBlurBackground.AnimateBrightness(Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.4f);
+            UIBlurBackground.SetBrightness(blurredBgImg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, 0.0f);
+            UIBlurBackground.AnimateBrightness(blurredBgImg, Colors.BLUR_BG_BRIGHTNESS_NORMAL, 1.0f, 0.4f);
         }
 
         private void AnimateBlurredBg()
@@ -224,7 +225,7 @@ namespace TurboLabz.InstantFramework
         private void FadeOutCareerProgressionView()
         {
             blurredBgImg.DOFade(0, 0.3f);
-            UIBlurBackground.AnimateBrightness(0.7f, 0.0f, 0.3f);
+            UIBlurBackground.AnimateBrightness(blurredBgImg, 0.7f, 0.0f, 0.3f);
             careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
             careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLobby); ;
             isCareerProgressionShown = true;
@@ -233,7 +234,7 @@ namespace TurboLabz.InstantFramework
         private void OnContinueButtonClicked()
         {
             blurredBgImg.DOFade(0, 0.3f);
-            UIBlurBackground.AnimateBrightness(0.7f, 0.0f, 0.3f);
+            UIBlurBackground.AnimateBrightness(blurredBgImg, 0.7f, 0.0f, 0.3f);
             careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
             careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLeaguePromotionReward); ;
             isCareerProgressionShown = true; 
