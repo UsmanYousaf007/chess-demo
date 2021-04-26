@@ -198,6 +198,7 @@ namespace TurboLabz.Multiplayer
             UIDlgManager.Setup(analyzingDlg);
 
             animSequence = DOTween.Sequence();
+            gameEndDlgContainer.SetActive(false);
         }
 
         public void CleanupResults()
