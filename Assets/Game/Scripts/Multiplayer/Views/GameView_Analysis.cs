@@ -311,9 +311,9 @@ namespace TurboLabz.Multiplayer
             analysisFirstButton.interactable = analysisLastButton.interactable = analysisMovesSpinnerDragHandler.enabled = false;
             pickerSrollRect.ScrollToItemAtIndex(scrollFromIndex, true);
             yield return new WaitForEndOfFrame();
-            pickerSrollRect.autoScrollSeconds = 2.3f;
+            pickerSrollRect.autoScrollSeconds = 1.6f;
             pickerSrollRect.ScrollToItemAtIndex(scrollToIndex);
-            yield return new WaitForSeconds(pickerSrollRect.autoScrollSeconds);
+            yield return new WaitForSeconds(1.3f);
             analysisFirstButton.interactable = analysisLastButton.interactable = analysisMovesSpinnerDragHandler.enabled = true;
             isMovesDialAnimating = false;
             OnMoveSelected(moveSelectGO);
