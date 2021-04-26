@@ -629,6 +629,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnFullAnalysisButtonClicked()
         {
+            audioService.PlayStandardClick();
             if (haveEnoughGemsForFullAnalysis)
             {
                 fullAnalysisButtonClickedSignal.Dispatch();
