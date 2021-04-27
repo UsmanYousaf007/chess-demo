@@ -72,9 +72,7 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IBlurBackgroundService blurBackgroundService { get; set; }
-        [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IBackendService backendService { get; set; }
+
 
         private StoreItem storeItem;
         private bool isPowerModeOn;

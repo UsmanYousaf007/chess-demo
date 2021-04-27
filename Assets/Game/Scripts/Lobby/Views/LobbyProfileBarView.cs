@@ -54,7 +54,6 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IBackendService backendService { get; set; }
 
         //Signals
         public Signal leaderboardButtonClickedSignal = new Signal();
@@ -153,7 +152,7 @@ namespace TurboLabz.InstantFramework
 
         public void SetupChest()
         {
-            var isUnlocked = playerModel.chestUnlockTimestamp <= backendService.serverClock.currentTimestamp;
+            var isUnlocked = playerModel.chestUnlockTimestamp <= serverClock.currentTimestamp;
             chestTimeUTC = playerModel.chestUnlockTimestamp;
             SetupChestState(isUnlocked);
             SetupVideoIcon(isVideoAvailable, isUnlocked);
@@ -186,7 +185,7 @@ namespace TurboLabz.InstantFramework
 
         public void SchedulerCallbackLeaderboard()
         {
-            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
             if (timeLeft > 0)
             {
                 timeLeft--;
