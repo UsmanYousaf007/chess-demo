@@ -49,6 +49,8 @@ namespace TurboLabz.InstantFramework
         public Image tooltipBG;
         public GameObject tooltipGO;
 
+        public IServerClock serverClock;
+
         //Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -57,7 +59,7 @@ namespace TurboLabz.InstantFramework
         //Signals
         public Signal leaderboardButtonClickedSignal = new Signal();
         public Signal chestButtonClickedSignal = new Signal();
-
+        public Signal<Action,bool> schedulerSubscription = new Signal<Action,bool>();
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
@@ -102,8 +104,8 @@ namespace TurboLabz.InstantFramework
 
             if (isActiveAndEnabled && gameObject.activeInHierarchy)
             {
-                StartCoroutine(ChampionshipTimer());
-                StartCoroutine(CountdownChestTimer());
+                schedulerSubscription.Dispatch(SchedulerCallbackLeaderboard, true);                
+                schedulerSubscription.Dispatch(SchedulerCallbackChest,true);
             }
 
             RebuildLayout();
@@ -160,8 +162,8 @@ namespace TurboLabz.InstantFramework
         public void Hide()
         {
             tooltipGO.SetActive(false);
-            StopCoroutine(ChampionshipTimer());
-            StopCoroutine(CountdownChestTimer());
+            schedulerSubscription.Dispatch(SchedulerCallbackLeaderboard, false);
+            schedulerSubscription.Dispatch(SchedulerCallbackChest, false);
         }
 
         public void UpdateEloScores(EloVO vo)
@@ -182,18 +184,7 @@ namespace TurboLabz.InstantFramework
             chestButtonClickedSignal.Dispatch();
         }
 
-        public IEnumerator ChampionshipTimer()
-        {
-            while (gameObject.activeInHierarchy)
-            {
-                UpdateLeaderboardTime();
-                yield return new WaitForSecondsRealtime(1);
-            }
-
-            yield return null;
-        }
-
-        void UpdateLeaderboardTime()
+        public void SchedulerCallbackLeaderboard()
         {
             long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             if (timeLeft > 0)
@@ -208,25 +199,13 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        IEnumerator CountdownChestTimer()
+        public void SchedulerCallbackChest()
         {
-            while (gameObject.activeInHierarchy)
-            {
-                UpdateChestTime();
-                yield return new WaitForSecondsRealtime(1);
-            }
-
-            yield return null;
-        }
-
-        void UpdateChestTime()
-        {
-            var timeLeft = chestTimeUTC - backendService.serverClock.currentTimestamp;
+            long timeLeft = chestTimeUTC - serverClock.currentTimestamp;
             if (timeLeft > 0)
             {
                 timeLeft -= 1000;
-                var timeLeftText = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
-                chestTimeText.text = timeLeftText;
+                chestTimeText.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
 
                 if (chestTimeOver)
                 {

@@ -188,7 +188,6 @@ namespace TurboLabz.InstantFramework
         {
             if (subscribe)
             {
-                
                 schedulerService.Subscribe(view.SchedulerCallBack);
             }
             else
