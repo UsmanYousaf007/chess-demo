@@ -9,6 +9,7 @@ using strange.extensions.signal.impl;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -32,6 +33,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -58,6 +61,7 @@ namespace TurboLabz.InstantFramework
 
         public override void OnRegister()
         {
+            view.serverClock = backendService.serverClock;
             view.Init();
 
             // Button click handlers
@@ -70,6 +74,7 @@ namespace TurboLabz.InstantFramework
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
             view.loadPictureSignal.AddListener(OnLoadPicture);
             view.backSignal.AddListener(OnBackPressed);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
 
             onRewardDlgClosedSignal.AddListener(OnRewardClosed);
 
@@ -568,6 +573,18 @@ namespace TurboLabz.InstantFramework
             }
 
             return 0;
+        }
+
+        private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
         }
     }
 }
