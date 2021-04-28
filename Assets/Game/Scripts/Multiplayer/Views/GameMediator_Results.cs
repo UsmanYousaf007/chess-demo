@@ -258,5 +258,11 @@ namespace TurboLabz.Multiplayer
         {
             view.MoveAnalysied(challengeId, moveAnalysis, matchAnalysis);
         }
+
+        [ListensTo(typeof(UpdateAnalysedMoveAdvantageSignal))]
+        public void OnUpdateAnalysedMoveAdvantageSignal(string challengeId, MoveAnalysis moveAnalysis)
+        {
+            view.UpdateAnalysedMoveScore(challengeId, moveAnalysis);
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace TurboLabz.Multiplayer
 
         // Dispatch Signals
         [Inject] public MoveAnalysiedSignal moveAnalysiedSignal { get; set; }
+        [Inject] public UpdateAnalysedMoveAdvantageSignal updateAnalysedMoveAdvantageSignal { get; set; }
 
         private Chessboard chessboard;
 
@@ -68,6 +69,7 @@ namespace TurboLabz.Multiplayer
             moveAnalysis.advantageScore = int.Parse(parsedAnalysis[2]);
             moveAnalysis.playerScore = int.Parse(parsedAnalysis[3]);
             moveAnalysis.bestScore = int.Parse(parsedAnalysis[4]);
+            moveAnalysis.playerAdvantage = float.MaxValue;
 
             var matchInfo = matchInfoModel.matches.ContainsKey(parameters.challengeId) ? matchInfoModel.matches[parameters.challengeId] :
                 matchInfoModel.lastCompletedMatch.challengeId.Equals(parameters.challengeId) ? matchInfoModel.lastCompletedMatch : null;
@@ -103,10 +105,11 @@ namespace TurboLabz.Multiplayer
                              (lastMove.advantageScore - moveAnalysis.bestScore)) / 100.0f;
 
                         lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
-                        moveAnalysiedSignal.Dispatch(parameters.challengeId, lastMove, matchInfo.matchAnalysis);
+                        updateAnalysedMoveAdvantageSignal.Dispatch(parameters.challengeId, lastMove);
                     }
 
                     matchInfo.movesAnalysisList.Add(moveAnalysis);
+                    moveAnalysiedSignal.Dispatch(parameters.challengeId, moveAnalysis, matchInfo.matchAnalysis);
                 }
             }
 

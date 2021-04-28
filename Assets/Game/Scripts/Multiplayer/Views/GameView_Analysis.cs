@@ -347,10 +347,9 @@ namespace TurboLabz.Multiplayer
 
                     if (existingMove != null)
                     {
-                        var moveIndex = moveAnalysisList.IndexOf(existingMove);
-                        moveAnalysisList[moveIndex] = moveAnalysis;
+                        moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
                         analysiedMovesCount++;
-                        moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount + 1;
+                        moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
                         SetAnalysingProgressBarWidth();
                     }
                 }
@@ -366,6 +365,26 @@ namespace TurboLabz.Multiplayer
             {
                 this.matchAnalysis = matchAnalysis;
                 UpdateMatchAnalysis();
+            }
+        }
+
+        public void UpdateAnalysedMoveScore(string challengeId, MoveAnalysis moveAnalysis)
+        {
+            if (!this.challengeId.Equals(challengeId))
+            {
+                return;
+            }
+
+            if (moveAnalysis != null && moveAnalysis.playerMove != null && moveAnalysisList != null)
+            {
+                var existingMove = (from m in moveAnalysisList
+                                    where m.playerAdvantage == float.MaxValue && m.playerMove.ToShortString().Equals(moveAnalysis.playerMove.ToShortString())
+                                    select m).FirstOrDefault();
+
+                if (existingMove != null)
+                {
+                    moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
+                }
             }
         }
 
@@ -404,7 +423,7 @@ namespace TurboLabz.Multiplayer
 
         private void SetAnalysingProgressBarWidth()
         {
-            analyzingProgress.sizeDelta = new Vector2(analysingProgressBarWidth * ((float)(analysiedMovesCount + 1) / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
+            analyzingProgress.sizeDelta = new Vector2(analysingProgressBarWidth * ((float)(analysiedMovesCount) / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
         }
 
         private void AutoScrollMovesDial(int itemIndex)
