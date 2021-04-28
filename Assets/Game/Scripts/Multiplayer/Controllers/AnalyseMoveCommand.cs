@@ -94,24 +94,19 @@ namespace TurboLabz.Multiplayer
                         }
                     }
 
-                    if (matchInfo.movesAnalysisList.Count == 0)
-                    {
-                        moveAnalysis.playerAdvantage = 0.0f;
-                    }
-                    else
+                    if (matchInfo.movesAnalysisList.Count > 0)
                     {
                         var lastMove = matchInfo.movesAnalysisList.Last();
 
-                        moveAnalysis.playerAdvantage = (parameters.isPlayerTurn ?
+                        lastMove.playerAdvantage = (parameters.isPlayerTurn ?
                              (moveAnalysis.bestScore - lastMove.advantageScore) :
                              (lastMove.advantageScore - moveAnalysis.bestScore)) / 100.0f;
 
-                        moveAnalysis.playerAdvantage = Mathf.Clamp(moveAnalysis.playerAdvantage, -10.0f, 10.0f);
-
+                        lastMove.playerAdvantage = Mathf.Clamp(lastMove.playerAdvantage, -10.0f, 10.0f);
+                        moveAnalysiedSignal.Dispatch(parameters.challengeId, lastMove, matchInfo.matchAnalysis);
                     }
 
                     matchInfo.movesAnalysisList.Add(moveAnalysis);
-                    moveAnalysiedSignal.Dispatch(parameters.challengeId, moveAnalysis, matchInfo.matchAnalysis);
                 }
             }
 

@@ -46,6 +46,7 @@ namespace TurboLabz.Multiplayer
             backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
             showAdOnBack = false;
+            exitButton.interactable = true;
         }
 
         void UpdateBotBar()
@@ -108,7 +109,8 @@ namespace TurboLabz.Multiplayer
             //resultsDialogOpenedSignal.Dispatch();
             audioService.PlayStandardClick();
             analysisExitButtonClickedSignal.Dispatch();
-            ShowWeeklyChampionshipResults();
+            exitButton.interactable = false;
+            //ShowWeeklyChampionshipResults();
         }
     }
 }

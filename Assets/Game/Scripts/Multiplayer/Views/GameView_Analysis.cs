@@ -152,7 +152,9 @@ namespace TurboLabz.Multiplayer
                     GetMoveQualitySprite(move.moveQuality),
                     GetPieceSprite(move.playerMove.piece.name),
                     move.playerAdvantage,
-                    isLocked
+                    isLocked,
+                    move.isPlayerMove,
+                    i == moveAnalysisList.Count
                     );
                 i++;
                 if (i % 2 == 0) j++;
@@ -345,9 +347,10 @@ namespace TurboLabz.Multiplayer
 
                     if (existingMove != null)
                     {
-                        moveAnalysisList[moveAnalysisList.IndexOf(existingMove)] = moveAnalysis;
+                        var moveIndex = moveAnalysisList.IndexOf(existingMove);
+                        moveAnalysisList[moveIndex] = moveAnalysis;
                         analysiedMovesCount++;
-                        moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount;
+                        moveAnalysisCompleted = moveAnalysisList.Count == analysiedMovesCount + 1;
                         SetAnalysingProgressBarWidth();
                     }
                 }
@@ -401,7 +404,7 @@ namespace TurboLabz.Multiplayer
 
         private void SetAnalysingProgressBarWidth()
         {
-            analyzingProgress.sizeDelta = new Vector2(analysingProgressBarWidth * ((float)analysiedMovesCount / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
+            analyzingProgress.sizeDelta = new Vector2(analysingProgressBarWidth * ((float)(analysiedMovesCount + 1) / moveAnalysisList.Count), analyzingProgress.sizeDelta.y);
         }
 
         private void AutoScrollMovesDial(int itemIndex)
