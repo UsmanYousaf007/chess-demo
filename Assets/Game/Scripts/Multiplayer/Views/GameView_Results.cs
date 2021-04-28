@@ -685,7 +685,7 @@ namespace TurboLabz.Multiplayer
         {
             var color = enable ? Colors.WHITE : Colors.WHITE_100;
             resultsBoostRatingToolTip.gameObject.SetActive(false);
-            resultsBoostRatingButton.interactable = true;
+            resultsBoostRatingButton.interactable = enable;
             resultsBoostRatingButton.image.color = color;
             resultsBoostRatingGemIcon.color = color;
             resultsBoostRatingGemsCost.color = color;
