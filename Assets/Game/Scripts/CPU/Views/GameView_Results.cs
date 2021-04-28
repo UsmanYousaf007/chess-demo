@@ -101,14 +101,15 @@ namespace TurboLabz.CPU
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
 
-        private const float RESULTS_DELAY_TIME = 1f;
-        private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
+        private const float RESULTS_DELAY_TIME = 2f;
+        private const float RESULTS_SHORT_DELAY_TIME = 1f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
 
         private bool playerWins;
         private bool isDraw;
         private float animDelay;
+        private bool isResultsDlgShownOnMenuClciked = false;
 
         [HideInInspector] public bool menuOpensResultsDlg;
 
@@ -170,7 +171,10 @@ namespace TurboLabz.CPU
             SetGameAnalysisPanel();
             EnableModalBlocker();
 
-            UIDlgManager.Show(resultsDialog).Then(OnResultDialogShown);
+            if (isResultsDlgShownOnMenuClciked)
+            {
+                UIDlgManager.Show(resultsDialog).Then(OnResultDialogShown);
+            }
 
             DisableMenuButton();
             HidePossibleMoves();
@@ -262,7 +266,7 @@ namespace TurboLabz.CPU
                     if (!playerWins)
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
-                        animDelay = RESULTS_SHORT_DELAY_TIME;
+                        //animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                         //EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                         //enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
@@ -363,6 +367,7 @@ namespace TurboLabz.CPU
             isDraw = false;
             animDelay = RESULTS_DELAY_TIME;
             playerWins = isPlayerWins;
+            isResultsDlgShownOnMenuClciked = false;
 
             UpdateGameEndReasonSection(gameEndReason);
             UpdateResultRatingSection(false, 1, 0);
