@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using System;
+using strange.extensions.mediation.impl;
 using strange.extensions.promise.api;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
@@ -12,6 +13,7 @@ public class PromotionRemoveAdsDlgMediator : Mediator
     // Services
     [Inject] public IPromotionsService promotionsService { get; set; }
     [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public ISchedulerService schedulerService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -26,6 +28,7 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDialogue);
         view.purchaseSignal.AddListener(OnPurchase);
+        view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
     }
 
     [ListensTo(typeof(StoreAvailableSignal))]
@@ -78,6 +81,18 @@ public class PromotionRemoveAdsDlgMediator : Mediator
         {
             OnCloseDialogue();
             analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, view.isOnSale ? AnalyticsContext.remove_ads_fire_sale : AnalyticsContext.remove_ads);
+        }
+    }
+
+    private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+    {
+        if (subscribe)
+        {
+            schedulerService.Subscribe(callback);
+        }
+        else
+        {
+            schedulerService.UnSubscribe(callback);
         }
     }
 }

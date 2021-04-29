@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using System;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -32,9 +35,12 @@ namespace TurboLabz.InstantFramework
 
         public override void OnRegister()
         {
+            view.serverClock = backendService.serverClock;
+
             view.Init();
             view.loadPictureSignal.AddListener(OnLoadPicture);
             view.continueButtonClickedSignal.AddListener(OnContinuePressed);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
         private void OnLoadPicture(GetProfilePictureVO vo)
@@ -53,11 +59,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        //[ListensTo(typeof(ResetTournamentsViewSignal))]
-        //public void ResetView()
-        //{
-        //    view.ResetView();
-        //}
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
@@ -136,6 +137,18 @@ namespace TurboLabz.InstantFramework
         public void UpdateView(string challengeId, bool playerWins, float duration)
         {
             view.UpdateView(challengeId, playerWins, duration);
+        }
+
+        private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
         }
 
     }
