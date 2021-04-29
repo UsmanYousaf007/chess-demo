@@ -101,7 +101,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_CLICK);
 
-            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
             startLobbyChampionshipTimerSignal.Dispatch();
             resetCareerprogressionViewSignalshowAdSignal.Dispatch();
             ShowInterstitialOnBack(AnalyticsContext.interstitial_endgame, AdPlacements.Interstitial_endgame, challengeId, playerWins);
