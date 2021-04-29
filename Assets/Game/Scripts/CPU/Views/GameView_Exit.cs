@@ -151,7 +151,6 @@ namespace TurboLabz.CPU
 
             if (menuOpensResultsDlg)
             {
-                isResultsDlgShownOnMenuClciked = true;
                 showResultsDlgSignal.Dispatch();
             }
             else

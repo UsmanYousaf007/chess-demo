@@ -109,7 +109,6 @@ namespace TurboLabz.CPU
         private bool playerWins;
         private bool isDraw;
         private float animDelay;
-        private bool isResultsDlgShownOnMenuClciked = false;
 
         [HideInInspector] public bool menuOpensResultsDlg;
 
@@ -169,11 +168,14 @@ namespace TurboLabz.CPU
         {
             ShowResultsDialogCPU();
             SetGameAnalysisPanel();
-            EnableModalBlocker();
 
-            if (isResultsDlgShownOnMenuClciked)
+            if (menuOpensResultsDlg)
             {
-                UIDlgManager.Show(resultsDialog).Then(OnResultDialogShown);
+                UIDlgManager.Show(resultsDialog).Then(() => BuildLayout());
+            }
+            else
+            {
+                Invoke("AnimateResultsDialog", animDelay);
             }
 
             DisableMenuButton();
@@ -367,7 +369,6 @@ namespace TurboLabz.CPU
             isDraw = false;
             animDelay = RESULTS_DELAY_TIME;
             playerWins = isPlayerWins;
-            isResultsDlgShownOnMenuClciked = false;
 
             UpdateGameEndReasonSection(gameEndReason);
             UpdateResultRatingSection(false, 1, 0);
@@ -376,7 +377,7 @@ namespace TurboLabz.CPU
             BuildLayout();
 
             //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            Invoke("AnimateResultsDialog", animDelay);
+            //Invoke("AnimateResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
