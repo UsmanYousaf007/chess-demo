@@ -1,5 +1,6 @@
 ﻿using strange.extensions.promise.api;
 using TurboLabz.TLUtils;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Chess
 {
@@ -24,71 +25,103 @@ namespace TurboLabz.Chess
 
         private void GetMoveAnalysis()
         {
-            var strength = 0.0f;
-            var moveQuality = MoveQuality.NORMAL;
-            var from = aiMoveInputVO.lastPlayerMove.from;
-            var to = aiMoveInputVO.lastPlayerMove.to;
-            var totalMoveCount = aiSearchResultMovesList.Count;
-            var advantageScore = 0;
-            var playerMoveScore = 0;
-            var bestMoveScore = 0;
-
-            if (totalMoveCount > 0)
+            try
             {
-                var moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
-                int moveFoundIndex = GetMoveIndex(moveString);
-                var playerMadeTheBestMove = false;
+                var strength = 0.0f;
+                var moveQuality = MoveQuality.NORMAL;
+                var from = aiMoveInputVO.lastPlayerMove.from;
+                var to = aiMoveInputVO.lastPlayerMove.to;
+                var totalMoveCount = aiSearchResultMovesList.Count;
+                var advantageScore = 0;
+                var playerMoveScore = 0;
+                var bestMoveScore = 0;
 
-                if (moveFoundIndex == -1)
+                if (totalMoveCount > 0)
                 {
-                    moveQuality = MoveQuality.BLUNDER;
-                    strength = 0;
-                    LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
+                    var moveString = aiMoveInputVO.lastPlayerMove.MoveToString(from, to);
+                    int moveFoundIndex = GetMoveIndex(moveString);
+                    var playerMadeTheBestMove = false;
+
+                    if (moveFoundIndex == -1)
+                    {
+                        moveQuality = MoveQuality.BLUNDER;
+                        strength = 0;
+                        LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
+                    }
+                    else if (moveFoundIndex == 0)
+                    {
+                        moveQuality = MoveQuality.PERFECT;
+                        strength = 1;
+                        playerMadeTheBestMove = true;
+                        LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
+                    }
+                    else
+                    {
+                        var relativeMoveScore = scores[0] - scores[moveFoundIndex];
+
+                        if (relativeMoveScore == PERFECT_RELATIVE_SCORE)
+                        {
+                            moveQuality = MoveQuality.PERFECT;
+                            playerMadeTheBestMove = true;
+                        }
+                        else if (relativeMoveScore > PERFECT_RELATIVE_SCORE && relativeMoveScore < MISTAKE_RELATIVE_SCORE)
+                        {
+                            moveQuality = MoveQuality.NORMAL;
+                        }
+                        else if (relativeMoveScore >= MISTAKE_RELATIVE_SCORE && relativeMoveScore < BLUNDER_RELATIVE_SCORE)
+                        {
+                            moveQuality = MoveQuality.MISTAKE;
+                        }
+                        else if (relativeMoveScore >= BLUNDER_RELATIVE_SCORE)
+                        {
+                            moveQuality = MoveQuality.BLUNDER;
+                        }
+
+                        //strength = CalculateMoveStrength(moveFoundIndex);
+                        LogUtil.Log($"relativeMoveScore: {relativeMoveScore} | moveQuality: {moveQuality}", "yellow");
+                    }
+
+                    advantageScore = moveFoundIndex != -1 ? scores[moveFoundIndex] : scores[scores.Count - 1];
+                    bestMoveScore = scores[0];
+                    playerMoveScore = moveFoundIndex != -1 ? scores[moveFoundIndex] : 0;
+                    var bestMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
+                    from = chessService.GetFileRankLocation(bestMove[0], bestMove[1]);
+                    to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
                 }
-                else if (moveFoundIndex == 0)
+
+
+                lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{advantageScore}|{playerMoveScore}|{bestMoveScore}");
+                lastDequeuedMethod.promise = null;
+                lastDequeuedMethod = null;
+            }
+            catch (System.Exception ex)
+            {
+                if (aiMoveInputVO.lastPlayerMove == null)
                 {
-                    moveQuality = MoveQuality.PERFECT;
-                    strength = 1;
-                    playerMadeTheBestMove = true;
-                    LogUtil.Log($"moveQuality: {moveQuality}", "yellow");
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().aiMoveInputVO.lastPlayerMove is null");
+                }
+                else if (aiSearchResultMovesList == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().aiSearchResultMovesList is null");
+                }
+                else if (scores == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().scores is null");
+                }
+                else if (chessService == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().chessService is null");
                 }
                 else
                 {
-                    var relativeMoveScore = scores[0] - scores[moveFoundIndex];
-
-                    if (relativeMoveScore == PERFECT_RELATIVE_SCORE)
-                    {
-                        moveQuality = MoveQuality.PERFECT;
-                        playerMadeTheBestMove = true;
-                    }
-                    else if (relativeMoveScore > PERFECT_RELATIVE_SCORE && relativeMoveScore < MISTAKE_RELATIVE_SCORE)
-                    {
-                        moveQuality = MoveQuality.NORMAL;
-                    }
-                    else if (relativeMoveScore >= MISTAKE_RELATIVE_SCORE && relativeMoveScore < BLUNDER_RELATIVE_SCORE)
-                    {
-                        moveQuality = MoveQuality.MISTAKE;
-                    }
-                    else if (relativeMoveScore >= BLUNDER_RELATIVE_SCORE)
-                    {
-                        moveQuality = MoveQuality.BLUNDER;
-                    }
-
-                    //strength = CalculateMoveStrength(moveFoundIndex);
-                    LogUtil.Log($"relativeMoveScore: {relativeMoveScore} | moveQuality: {moveQuality}","yellow");
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().something is null");
                 }
-
-                advantageScore = moveFoundIndex != -1 ? scores[moveFoundIndex] : scores[scores.Count - 1];
-                bestMoveScore = scores[0];
-                playerMoveScore = moveFoundIndex != -1 ? scores[moveFoundIndex] : 0;
-                var bestMove = playerMadeTheBestMove ? aiSearchResultMovesList[moveFoundIndex] : aiSearchResultMovesList[0];
-                from = chessService.GetFileRankLocation(bestMove[0], bestMove[1]);
-                to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
             }
-
-            lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{advantageScore}|{playerMoveScore}|{bestMoveScore}");
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
+            finally
+            {
+                lastDequeuedMethod.promise = null;
+                lastDequeuedMethod = null;
+            }
         }
     }
 }

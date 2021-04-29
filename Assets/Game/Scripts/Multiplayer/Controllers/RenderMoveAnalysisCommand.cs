@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using strange.extensions.command.impl;
 using TurboLabz.Chess;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Multiplayer
 {
@@ -24,7 +25,29 @@ namespace TurboLabz.Multiplayer
 
             foreach (var move in moves)
             {
-                lastMoveResult = chessService.MakeMove(move.playerMove.from, move.playerMove.to, move.playerMove.promo, move.isPlayerMove, squares);
+                try
+                {
+                    lastMoveResult = chessService.MakeMove(move.playerMove.from, move.playerMove.to, move.playerMove.promo, move.isPlayerMove, squares);
+                }
+                catch (System.Exception ex)
+                {
+                    if (move.playerMove.from == null)
+                    {
+                        GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "RenderMoveAnalysisCommand.move.playerMove.from is null");
+                    }
+                    else if (move.playerMove.to == null)
+                    {
+                        GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "RenderMoveAnalysisCommand.move.playerMove.to is null");
+                    }
+                    else if (move.playerMove.promo == null)
+                    {
+                        GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "RenderMoveAnalysisCommand.move.playerMove.promo is null");
+                    }
+                    else
+                    {
+                        GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "RenderMoveAnalysisCommand.something is null");
+                    }
+                }
             }
 
             var moveVO = new MoveVO();

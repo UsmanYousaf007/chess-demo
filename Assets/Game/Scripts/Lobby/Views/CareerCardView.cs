@@ -97,14 +97,19 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateView(CareerCardVO vo)
         {
-            trophiesCountOnLosses.text = $"-{leaguesModel.leagues[playerModel.league.ToString()].lossTrophies}";
-            trophiesCountOnWins.text = leaguesModel.leagues[playerModel.league.ToString()].winTrophies.ToString();
+            var currentLeagueInfo = leaguesModel.GetCurrentLeagueInfo();
+            trophiesCountOnLosses.text = $"-{currentLeagueInfo.lossTrophies}";
+            trophiesCountOnWins.text = currentLeagueInfo.winTrophies.ToString();
 
             var leagueAssets = tournamentsModel.GetLeagueSprites((playerModel.league + 1).ToString());
-            nextTitleTrophy.sprite = leagueAssets.trophyImg;
-            nextTitle.sprite = leagueAssets.nameImg;
-            nextTitleGlow.sprite = leagueAssets.glowBg;
-            bgImage.sprite = leagueAssets.cardBg;
+
+            if (leagueAssets != null)
+            {
+                nextTitleTrophy.sprite = leagueAssets.trophyImg;
+                nextTitle.sprite = leagueAssets.nameImg;
+                nextTitleGlow.sprite = leagueAssets.glowBg;
+                bgImage.sprite = leagueAssets.cardBg;
+            }
 
             SetupTrophyProgressionBar(playerModel.trophies);
 

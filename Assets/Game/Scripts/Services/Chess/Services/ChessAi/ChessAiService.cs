@@ -20,6 +20,7 @@ using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using System;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Chess
 {
@@ -122,7 +123,6 @@ namespace TurboLabz.Chess
 
             ExecuteAiMove();
             taskIsReadyToExecute = true;
-            ExecuteQueue();
         }
 
         public void Shutdown()
@@ -143,38 +143,55 @@ namespace TurboLabz.Chess
 
         private void ExecuteAiMove()
         {
+            try
+            {
+                // Read the scores returned
+                aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
+                aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
+                scores = new List<int>();
 
-            // Read the scores returned
-            aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
-            aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
-            scores = new List<int>();
+                foreach (string score in aiSearchResultScoresList)
+                {
+                    scores.Add(int.Parse(score));
+                }
 
-            foreach (string score in aiSearchResultScoresList)
-            {
-                scores.Add(int.Parse(score));
-            }
+                // Read the moves returned
+                aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
+                aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
 
-            // Read the moves returned
-            aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
-            aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
-
-            if (aiMoveInputVO.isStrength)
-            {
-                GetMoveStrength();
+                if (aiMoveInputVO.isStrength)
+                {
+                    GetMoveStrength();
+                }
+                else if (aiMoveInputVO.isHint)
+                {
+                    //GetBestMove();
+                    GetHint();
+                }
+                else if (aiMoveInputVO.analyse)
+                {
+                    GetMoveAnalysis();
+                }
+                else
+                {
+                    SelectMove();
+                    aiMovePromise = null;
+                }
             }
-            else if (aiMoveInputVO.isHint)
+            catch (Exception ex)
             {
-                //GetBestMove();
-                GetHint();
-            }
-            else if (aiMoveInputVO.analyse)
-            {
-                GetMoveAnalysis();
-            }
-            else
-            {
-                SelectMove();
-                aiMovePromise = null;
+                if (ChessAiPlugin.results.aiSearchResultScoresStr == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().aiSearchResultScoresStr is null");
+                }
+                else if (ChessAiPlugin.results.aiSearchResultMovesStr == null)
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().aiSearchResultMovesStr is null");
+                }
+                else
+                {
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().something is null");
+                }
             }
             
         }

@@ -3,6 +3,7 @@ using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
 using System.Collections;
 using Priority_Queue;
+using UnityEngine;
 
 namespace TurboLabz.Chess
 {
@@ -25,12 +26,20 @@ namespace TurboLabz.Chess
         private SimplePriorityQueue<AiMoveRequest> serviceRequestsQueue; 
         private AiMoveRequest lastDequeuedMethod;
         private bool taskIsReadyToExecute = true;
+        private Coroutine queueExecutor;
 
         public void AiMoveRequestInit()
         {
             serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
             lastDequeuedMethod = null;
             taskIsReadyToExecute = true;
+
+            if (queueExecutor != null)
+            {
+                routineRunner.StopCoroutine(queueExecutor);
+            }
+
+            routineRunner.StartCoroutine(QueueExecutor());
         }
 
         private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO, float priority = 0)
@@ -43,30 +52,21 @@ namespace TurboLabz.Chess
             var promise = new Promise<FileRank, FileRank, string>();
             var methodToAdd = new AiMoveRequest(function, inputVO, promise);
             serviceRequestsQueue.Enqueue(methodToAdd, priority);
-            ExecuteQueue();
-
             return promise;
         }
 
-        private void ExecuteQueue()
+        private IEnumerator QueueExecutor()
         {
-            if (serviceRequestsQueue.Count <= 0)
+            while (true)
             {
-                return;
-            }
+                yield return null;
 
-            routineRunner.StartCoroutine(ProcessQueue());
-        }
-
-        private IEnumerator ProcessQueue()
-        {
-            yield return null;
-
-            if (taskIsReadyToExecute)
-            {
-                taskIsReadyToExecute = false;
-                lastDequeuedMethod = serviceRequestsQueue.Dequeue();
-                lastDequeuedMethod.function(lastDequeuedMethod.inputVO);
+                if (taskIsReadyToExecute && serviceRequestsQueue.Count > 0)
+                {
+                    taskIsReadyToExecute = false;
+                    lastDequeuedMethod = serviceRequestsQueue.Dequeue();
+                    lastDequeuedMethod.function(lastDequeuedMethod.inputVO);
+                }
             }
         }
     }
