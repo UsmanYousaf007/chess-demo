@@ -107,9 +107,9 @@ namespace TurboLabz.Multiplayer
         void OnExitButtonClicked()
         {
             //resultsDialogOpenedSignal.Dispatch();
+            exitButton.interactable = false;
             audioService.PlayStandardClick();
             analysisExitButtonClickedSignal.Dispatch();
-            exitButton.interactable = false;
             //ShowWeeklyChampionshipResults();
         }
     }
