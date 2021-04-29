@@ -140,5 +140,10 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack);
         }
+
+        public void ShowProcessing()
+        {
+            pleaseWaitPanel.SetActive(true);
+        }
     }
 }

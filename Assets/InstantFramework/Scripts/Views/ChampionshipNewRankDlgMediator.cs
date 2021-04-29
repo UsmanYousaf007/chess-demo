@@ -1,5 +1,7 @@
-﻿using strange.extensions.mediation.impl;
+﻿using System.Collections;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 using UnityEngine;
 
 namespace TurboLabz.InstantFramework
@@ -13,6 +15,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IRoutineRunner routineRunner { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -28,6 +31,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ResetCareerprogressionViewSignal resetCareerprogressionViewSignalshowAdSignal { get; set; }
 
+        // Listeners
+        [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSignal { get; set; }
+
         private int oldRank = -1;
 
         public override void OnRegister()
@@ -40,17 +46,6 @@ namespace TurboLabz.InstantFramework
         private void OnLoadPicture(GetProfilePictureVO vo)
         {
             getProfilePictureSignal.Dispatch(vo);
-        }
-
-        // NOTE: Do not update on signal. New Rank dialog does not need to refresh when it is
-        // already open.
-        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
-        public void UpdateView()
-        {
-            if (view.gameObject.activeInHierarchy)
-            {
-                view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
-            }
         }
 
         //[ListensTo(typeof(ResetTournamentsViewSignal))]
@@ -76,7 +71,9 @@ namespace TurboLabz.InstantFramework
                     }
                     else
                     {
-                        getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+                        view.ShowProcessing();
+                        routineRunner.StartCoroutine(GetLeaderboardDataAsync(joinedTournament));
+                        updateTournamentLeaderboardSignal.AddOnce(OnLeaderboardDataLoaded);
                     }
 
                     view.UpdateLeagueTitle(playerModel, tournamentsModel);
@@ -138,5 +135,19 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(challengeId, playerWins, duration);
         }
 
+        private IEnumerator GetLeaderboardDataAsync(JoinedTournamentData joinedTournament)
+        {
+            yield return new WaitForEndOfFrame();
+            getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
+        }
+
+        public void OnLeaderboardDataLoaded(string tournamentId)
+        {
+            JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament(tournamentId);
+            if (joinedTournament != null && joinedTournament.entries.Count > 0)
+            {
+                view.UpdateView(playerModel.id, joinedTournament);
+            }
+        }
     }
 }
