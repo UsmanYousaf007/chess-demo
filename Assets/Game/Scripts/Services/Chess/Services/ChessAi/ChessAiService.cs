@@ -35,16 +35,6 @@ namespace TurboLabz.Chess
             public AiMoveInputVO vo;
         }
 
-        public bool Busy
-        {
-            get
-            {
-                return aiMovePromise != null;
-            }
-        }
-
-        private IPromise<FileRank, FileRank, string> aiMovePromise;
-        private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
@@ -83,18 +73,6 @@ namespace TurboLabz.Chess
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());
         }
-
-        //private IEnumerator ProcessQueue(MoveRequest request)
-        //{
-        //	while (Busy)
-        //	{
-        //		yield return null;
-        //	}
-        //
-        //	aiMoveInputVO = request.vo;
-        //	aiMovePromise = request.promise;
-        //	routineRunner.StartCoroutine(GetAiResult());
-        //}
 
         private IEnumerator GetAiResult()
         {
@@ -175,7 +153,6 @@ namespace TurboLabz.Chess
                 else
                 {
                     SelectMove();
-                    aiMovePromise = null;
                 }
             }
             catch (Exception ex)

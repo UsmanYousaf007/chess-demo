@@ -44,7 +44,7 @@ namespace Picker
             if(layoutTransform != null)
             {
                 if (index < 0 || layoutTransform.childCount <= index)
-                    throw new System.ArgumentOutOfRangeException();
+                    return;
 
                 ScrollTo(layoutTransform.GetChild(index).GetComponent<PickerItem>(), immdiate);
             }

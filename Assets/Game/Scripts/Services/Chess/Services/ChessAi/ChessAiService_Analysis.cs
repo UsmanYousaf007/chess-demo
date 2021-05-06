@@ -89,10 +89,7 @@ namespace TurboLabz.Chess
                     to = chessService.GetFileRankLocation(bestMove[2], bestMove[3]);
                 }
 
-
                 lastDequeuedMethod.promise.Dispatch(from, to, $"{moveQuality}|{strength}|{advantageScore}|{playerMoveScore}|{bestMoveScore}");
-                lastDequeuedMethod.promise = null;
-                lastDequeuedMethod = null;
             }
             catch (System.Exception ex)
             {

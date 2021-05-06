@@ -211,10 +211,13 @@ namespace TurboLabz.Multiplayer
             move.piece = chessboard.opponentFromSquare.piece;
             move.promo = promo;
 
-            AnalyseMoveParameters parameters = new AnalyseMoveParameters();
-            parameters.challengeId = cmd.matchInfoModel.activeChallengeId;
-            parameters.chessMove = move;
-            cmd.analyseMoveSignal.Dispatch(parameters);
+            if (!cmd.activeMatchInfo.isLongPlay)
+            {
+                AnalyseMoveParameters parameters = new AnalyseMoveParameters();
+                parameters.challengeId = cmd.matchInfoModel.activeChallengeId;
+                parameters.chessMove = move;
+                cmd.analyseMoveSignal.Dispatch(parameters);
+            }
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
                 chessboard.opponentFromSquare.fileRank,
