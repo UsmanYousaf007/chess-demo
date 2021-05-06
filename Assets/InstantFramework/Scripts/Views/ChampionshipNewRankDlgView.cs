@@ -35,6 +35,7 @@ namespace TurboLabz.InstantFramework
         private string challengeId;
         private bool playerWins;
         private float duration;
+        private bool dataPopulated = false;
 
         //[Inject] public ShowAdSignal showAdSignal { get; set; }
         public Signal<string, bool> continueButtonClickedSignal = new Signal<string, bool>();
@@ -64,6 +65,11 @@ namespace TurboLabz.InstantFramework
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
             }
 
+            if(!dataPopulated)
+            {
+                ShowProcessing();
+            }
+
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
             UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(() => StartCoroutine(CountdownTimer()));
             Invoke("AnimateContinueButton", 0.75f);
@@ -89,6 +95,7 @@ namespace TurboLabz.InstantFramework
         {
             base.Hide();
             gameObject.SetActive(false);
+            dataPopulated = false;
             StopCoroutine(CountdownTimer());
         }
 
@@ -96,6 +103,7 @@ namespace TurboLabz.InstantFramework
         {
             _joinedTournament = joinedTournament;
             base.UpdateView(playerId, joinedTournament);
+            dataPopulated = true;
         }
 
         public void UpdateView(string _challengeId, bool _playerWins, float _duration)

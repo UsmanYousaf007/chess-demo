@@ -61,23 +61,7 @@ namespace TurboLabz.InstantFramework
             {
                 if (matchInfoModel.lastCompletedMatch.isRanked)
                 {
-                    JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                    view.Show(joinedTournament, oldRank != -1 && joinedTournament.rank > oldRank);
-                    oldRank = joinedTournament.rank;
-
-                    if (joinedTournament != null && joinedTournament.entries.Count > 0)
-                    {
-                        view.UpdateView(playerModel.id, joinedTournament);
-                    }
-                    else
-                    {
-                        view.ShowProcessing();
-                        routineRunner.StartCoroutine(GetLeaderboardDataAsync(joinedTournament));
-                        updateTournamentLeaderboardSignal.AddOnce(OnLeaderboardDataLoaded);
-                    }
-
-                    view.UpdateLeagueTitle(playerModel, tournamentsModel);
-                    //analyticsService.ScreenVisit(AnalyticsScreen.inventory);
+                    view.Show();
                 }
                 else
                 {
@@ -141,6 +125,7 @@ namespace TurboLabz.InstantFramework
             getChampionshipTournamentLeaderboardSignal.Dispatch(joinedTournament.id, false);
         }
 
+        [ListensTo(typeof(UpdateTournamentLeaderboardSignal))]
         public void OnLeaderboardDataLoaded(string tournamentId)
         {
             JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament(tournamentId);
