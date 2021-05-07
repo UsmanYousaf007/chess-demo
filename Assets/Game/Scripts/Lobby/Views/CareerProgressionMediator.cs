@@ -24,7 +24,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public CareerProgressionView view { get; set; }
 
         //Dispatch signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }

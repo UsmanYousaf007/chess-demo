@@ -23,9 +23,6 @@ namespace TurboLabz.InstantFramework
         // View injection
         [Inject] public LobbyTickerView view { get; set; }
 
-        //Dispatch signals
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
-
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
 
