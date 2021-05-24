@@ -21,6 +21,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateRewardDlgV2ViewSignal updateRewardDlgViewSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
 
+        //Services
+        [Inject] public ISchedulerService schedulerService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
 
@@ -31,6 +35,9 @@ namespace TurboLabz.InstantFramework
             view.Init();
             view.leaderboardButtonClickedSignal.AddListener(OnLeaderboardClicked);
             view.chestButtonClickedSignal.AddListener(OnChestClicked);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscription);
+
+            view.serverClock = backendService.serverClock;
         }
 
         [ListensTo(typeof(UpdateProfileSignal))]
@@ -149,8 +156,11 @@ namespace TurboLabz.InstantFramework
         {
             if (view.gameObject.activeInHierarchy)
             {
+                
                 view.SetupChampionshipTimer();
-                view.StartCoroutine(view.ChampionshipTimer());
+                OnSchedulerSubscription(view.SchedulerCallbackLeaderboard, true);
+                //view.StartCoroutine(view.ChampionshipTimer());
+
                 LayoutRebuilder.ForceRebuildLayoutImmediate(view.timerLayout);
             }
         }
@@ -161,5 +171,20 @@ namespace TurboLabz.InstantFramework
             view.ShowTooltip();
             view.SetupChest();
         }
+
+        private void OnSchedulerSubscription(Action callback,bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
+        }
+
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+﻿using System;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
@@ -15,7 +16,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IRoutineRunner routineRunner { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -38,9 +40,12 @@ namespace TurboLabz.InstantFramework
 
         public override void OnRegister()
         {
+            view.serverClock = backendService.serverClock;
+
             view.Init();
             view.loadPictureSignal.AddListener(OnLoadPicture);
             view.continueButtonClickedSignal.AddListener(OnContinuePressed);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
         }
 
         private void OnLoadPicture(GetProfilePictureVO vo)
@@ -53,6 +58,17 @@ namespace TurboLabz.InstantFramework
         //{
         //    view.ResetView();
         //}
+
+        // NOTE: Do not update on signal. New Rank dialog does not need to refresh when it is
+        // already open.
+        //[ListensTo(typeof(UpdateTournamentsViewSignal))]
+        public void UpdateView()
+        {
+            if (view.gameObject.activeInHierarchy)
+            {
+                view.UpdateView(playerModel.id, tournamentsModel.GetJoinedTournament());
+            }
+        }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
@@ -134,5 +150,18 @@ namespace TurboLabz.InstantFramework
                 view.UpdateView(playerModel.id, joinedTournament);
             }
         }
+
+        private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
+        }
+
     }
 }

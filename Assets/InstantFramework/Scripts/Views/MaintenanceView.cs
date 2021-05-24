@@ -6,31 +6,30 @@ using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
 using System.Collections;
 using System;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
     public class MaintenanceView : View
     {
-        [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public ShowMaintenanceViewSignal showMaintenanceViewSignal { get; set; }
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
+        public Signal<bool> schedulerSubscription = new Signal<bool>();
 
         public GameObject maintenancePanel;
         public GameObject maintenanceWarningStrip;
         public Text maintenanceMsgLabel;
         public Text maintenanceWarningMsgLabel;
         public Image maintenanceWarningBgColor;
-        private WaitForSecondsRealtime waitForOneRealSecond;
 
 
         public void Init()
         {
             maintenancePanel.SetActive(false);
             maintenanceWarningStrip.SetActive(false);
-            waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         }
 
         public void ShowMaintenance()
@@ -61,7 +60,7 @@ namespace TurboLabz.InstantFramework
                 maintenancePanel.SetActive(false);
                 maintenanceWarningStrip.SetActive(true);
 
-                StartCoroutine(CountdownTimer());
+                schedulerSubscription.Dispatch(true);
             }
         }
 
@@ -73,19 +72,21 @@ namespace TurboLabz.InstantFramework
                 maintenancePanel.SetActive(false);
                 maintenanceWarningStrip.SetActive(false);
 
-                StopCoroutine(CountdownTimer());
+                schedulerSubscription.Dispatch(false);
             }
         }
 
-        IEnumerator CountdownTimer()
+        public void SchedulerCallback()
         {
-            while (gameObject.activeInHierarchy)
+            if (gameObject.activeInHierarchy)
             {
                 UpdateTime();
-                yield return waitForOneRealSecond;
             }
 
-            yield return null;
+            else
+            {
+                schedulerSubscription.Dispatch(false);
+            }
         }
 
         public void UpdateTime()
@@ -103,7 +104,7 @@ namespace TurboLabz.InstantFramework
             {
                 timerText = "0:00";
                 showMaintenanceViewSignal.Dispatch(1);
-                StopCoroutine(CountdownTimer());
+                schedulerSubscription.Dispatch(false);
             }
 
             maintenanceWarningMsgLabel.text = settingsModel.maintenanceWarningMessege + " " + timerText;

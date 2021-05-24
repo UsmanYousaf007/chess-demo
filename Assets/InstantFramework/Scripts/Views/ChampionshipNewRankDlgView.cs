@@ -37,9 +37,9 @@ namespace TurboLabz.InstantFramework
         private float duration;
         private bool dataPopulated = false;
 
-        //[Inject] public ShowAdSignal showAdSignal { get; set; }
+        public IServerClock serverClock;
         public Signal<string, bool> continueButtonClickedSignal = new Signal<string, bool>();
-
+        public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
         public override void Init()
         {
             scrollRectChampionship = scrollView;
@@ -71,13 +71,13 @@ namespace TurboLabz.InstantFramework
             }
 
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
-            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(() => StartCoroutine(CountdownTimer()));
+            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(() => schedulerSubscription.Dispatch(SchedulerCallback, true));
             Invoke("AnimateContinueButton", 0.75f);
         }
 
         private void OnBgBlurComplete()
         {
-            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(() => StartCoroutine(CountdownTimer()));
+            UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, true).Then(() => schedulerSubscription.Dispatch(SchedulerCallback, true));
             Invoke("AnimateContinueButton", 0.75f);
         }
 
@@ -96,7 +96,7 @@ namespace TurboLabz.InstantFramework
             base.Hide();
             gameObject.SetActive(false);
             dataPopulated = false;
-            StopCoroutine(CountdownTimer());
+            schedulerSubscription.Dispatch(SchedulerCallback, false);
         }
 
         public override void UpdateView(string playerId, JoinedTournamentData joinedTournament)
@@ -118,20 +118,20 @@ namespace TurboLabz.InstantFramework
             continueButtonClickedSignal.Dispatch(challengeId, playerWins);
         }
 
-        IEnumerator CountdownTimer()
-        {
-            while (gameObject.activeInHierarchy)
-            {
-                UpdateTime();
-                yield return waitForOneRealSecond;
-            }
+        //IEnumerator CountdownTimer()
+        //{
+        //    while (gameObject.activeInHierarchy)
+        //    {
+        //        UpdateTime();
+        //        yield return waitForOneRealSecond;
+        //    }
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
-        public void UpdateTime()
+        public void SchedulerCallback()
         {
-            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
             if (timeLeft > 0)
             {
                 timeLeft--;

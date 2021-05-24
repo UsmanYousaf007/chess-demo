@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
@@ -15,6 +16,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public IBackendService backendService { get; set; }
     [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
     [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public ISchedulerService schedulerService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -40,6 +42,7 @@ public class SubscriptionDlgMediator : Mediator
         view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         view.purchaseSignal.AddListener(OnPurchase);
         view.showTermsSignal.AddListener(OnTermsClicked);
+        view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
     }
 
     [ListensTo(typeof(StoreAvailableSignal))]
@@ -160,5 +163,17 @@ public class SubscriptionDlgMediator : Mediator
     public void OnSetContext(string context)
     {
         this.context = context;
+    }
+
+    private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+    {
+        if (subscribe)
+        {
+            schedulerService.Subscribe(callback);
+        }
+        else
+        {
+            schedulerService.UnSubscribe(callback);
+        }
     }
 }

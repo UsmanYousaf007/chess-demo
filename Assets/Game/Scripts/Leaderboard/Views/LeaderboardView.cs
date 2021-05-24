@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
 
         public GameObject pleaseWaitPanel;
 
+        public IServerClock serverClock;
         private GameObjectsPool championshipBarsPool;
         private List<LeaderboardPlayerBar> championshipleaderboardPlayerBars = new List<LeaderboardPlayerBar>();
 
@@ -58,7 +59,6 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Models 
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -73,7 +73,8 @@ namespace TurboLabz.InstantFramework
 
         public Signal backSignal = new Signal();
         public Signal<GetProfilePictureVO> loadPictureSignal = new Signal<GetProfilePictureVO>();
-
+        public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
+        
         private WaitForSecondsRealtime waitForOneRealSecond;
         private long endTimeUTCSeconds;
         private JoinedTournamentData _joinedTournament;
@@ -125,34 +126,26 @@ namespace TurboLabz.InstantFramework
                     pleaseWaitPanel.SetActive(true);
                 }
             }
-            //else
-            //{
-            //    getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
-            //}
 
             SetupTab(championship, world);
             gameObject.SetActive(true);
             worldAlert.SetActive(!preferencesModel.allStarTabVisited);
-            StartCoroutine(CountdownTimer());
-
-            //scrollRectChampionship.gameObject.SetActive(false);
+            schedulerSubscription.Dispatch(SchedulerCallback, true);
             scrollRectAllStars.gameObject.SetActive(false);
         }
 
         private void UpdateScrollViewChampionship(float value)
         {
-            //scrollRectChampionship.gameObject.SetActive(true);
             scrollRectChampionship.verticalNormalizedPosition = value;
         }
         private void UpdateScrollViewAllStar(float value)
         {
-            //scrollRectAllStars.gameObject.SetActive(true);
             scrollRectAllStars.verticalNormalizedPosition = value;
         }
 
         public void Hide()
         {
-            StopCoroutine(CountdownTimer());
+            schedulerSubscription.Dispatch(SchedulerCallback, false);
             gameObject.SetActive(false);
             scrollRectChampionship.gameObject.SetActive(false);
             scrollRectAllStars.gameObject.SetActive(false);
@@ -160,14 +153,6 @@ namespace TurboLabz.InstantFramework
 
         public void OnDataAvailable(bool isAvailable)
         {
-            if (!isAvailable)
-            {
-                
-            }
-            else
-            {
-                
-            }
         }
 
         public void UpdatePicture(string playerId, Sprite picture)
@@ -345,7 +330,8 @@ namespace TurboLabz.InstantFramework
                 Sort();
 
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
-                StartCoroutine(CountdownTimer());
+                //StartCoroutine(CountdownTimer());
+                schedulerSubscription.Dispatch(SchedulerCallback, true);
             }
         }
 
@@ -384,7 +370,6 @@ namespace TurboLabz.InstantFramework
             GameObject obj = pool.GetObject();
             LeaderboardPlayerBar item = obj.GetComponent<LeaderboardPlayerBar>();
             item.transform.SetParent(parent, false);
-            //AddPlayerBarListeners(item);
             item.gameObject.SetActive(true);
             return item;
         }
@@ -451,13 +436,11 @@ namespace TurboLabz.InstantFramework
         {
             playerBar.button?.onClick.AddListener(() =>
             {
-                //playerBarClickedSignal.Dispatch(playerBar);
                 audioService.PlayStandardClick();
             });
 
             playerBar.chestButton?.onClick.AddListener(() =>
             {
-                //playerBarChestClickSignal.Dispatch(playerBar.reward);
                 audioService.PlayStandardClick();
             });
         }
@@ -477,19 +460,6 @@ namespace TurboLabz.InstantFramework
         private void OnClickChampionship()
         {
             audioService.PlayStandardClick();
-
-            /*ClearBars(allStarPlayerBars, allStarBarsPool);
-
-            if (_joinedTournament != null && _joinedTournament.entries.Count > 0)
-            {
-                PopulateEntries(_joinedTournament);
-            }
-            else
-            {
-                getChampionshipTournamentLeaderboardSignal.Dispatch(tournamentsModel.GetJoinedTournament().id, false);
-            }
-            */
-
             SetupTab(championship, world);
             scrollRectChampionship.gameObject.SetActive(true);
         }
@@ -497,9 +467,6 @@ namespace TurboLabz.InstantFramework
         public void OnClickWorld()
         {
             audioService.PlayStandardClick();
-            
-            //ClearBars(championshipleaderboardPlayerBars, championshipBarsPool);
-
             if (_allStarLeaderboardEntries != null && _allStarLeaderboardEntries.Count > 0)
             {
                 if (allStarPlayerBars.Count == 0)
@@ -528,20 +495,9 @@ namespace TurboLabz.InstantFramework
             oldTab.unSelected.enabled = true;
         }
 
-        IEnumerator CountdownTimer()
+        public void SchedulerCallback()
         {
-            while (gameObject.activeInHierarchy)
-            {
-                UpdateTime();
-                yield return waitForOneRealSecond;
-            }
-
-            yield return null;
-        }
-
-        public void UpdateTime()
-        {
-            long timeLeft = endTimeUTCSeconds - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
             if (timeLeft > 0)
             {
                 timeLeft--;

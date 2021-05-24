@@ -120,10 +120,10 @@ namespace TurboLabz.InstantFramework
 
         private void InitGame()
         {
-            DispatchGameSignals();
             schedulerService.Init();
-            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
             schedulerService.Start();
+            DispatchGameSignals();
+            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
             ResumeGame();
         }
 

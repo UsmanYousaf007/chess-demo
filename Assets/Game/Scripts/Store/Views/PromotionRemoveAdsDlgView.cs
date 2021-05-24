@@ -33,7 +33,6 @@ public class PromotionRemoveAdsDlgView : View
 
     private bool isStoreAvailable;
     private bool isShown;
-    private Coroutine timer;
 
     // Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -45,6 +44,7 @@ public class PromotionRemoveAdsDlgView : View
     // Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal<string> purchaseSignal = new Signal<string>();
+    public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
 
     public void InitOnce()
     {
@@ -88,12 +88,12 @@ public class PromotionRemoveAdsDlgView : View
 
     public void OnShowComplete()
     {
-        timer = StartCoroutine(CountdownTimer());
+        schedulerSubscription.Dispatch(SchedulerCallback, true);
     }
 
     public void Hide()
     {
-        StopCoroutine(timer);
+        schedulerSubscription.Dispatch(SchedulerCallback, false);
         UIDlgManager.Hide(gameObject);
     }
 
@@ -129,20 +129,20 @@ public class PromotionRemoveAdsDlgView : View
         purchaseSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
     }
 
+    private void SchedulerCallback()
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
+            //yield return waitForOneRealSecond;
+        }
+
+        //yield return null;
+    }
+
     public bool IsVisible()
     {
         return gameObject.activeSelf;
-    }
-
-    IEnumerator CountdownTimer()
-    {
-        while (gameObject.activeInHierarchy)
-        {
-            endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
-            yield return waitForOneRealSecond;
-        }
-
-        yield return null;
     }
 
     public void ShowProcessing(bool show, bool showProcessingUi)

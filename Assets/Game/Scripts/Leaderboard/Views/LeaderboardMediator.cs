@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using System;
+using strange.extensions.mediation.impl;
 using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -23,14 +26,15 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetAllStarLeaderboardSignal getAllStarLeaderboardSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
 
-        //[Inject] public GetTournamentLeaderboardSignal getChampionshipTournamentLeaderboardSignal { get; set; }
-
         public override void OnRegister()
         {
             view.Init();
 
             view.backSignal.AddListener(OnBackPressed);
             view.loadPictureSignal.AddListener(OnLoadPicture);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
+
+            view.serverClock = backendService.serverClock;
         }
 
         private void OnLoadPicture(GetProfilePictureVO vo)
@@ -56,11 +60,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        //[ListensTo(typeof(ResetTournamentsViewSignal))]
-        //public void ResetView()
-        //{
-        //    view.ResetChampionshipView();
-        //}
 
         [ListensTo(typeof(UpdateAllStarLeaderboardSignal))]
         public void OnUpdateAllStarLeaderboard()
@@ -76,12 +75,6 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.LEADERBOARD_VIEW)
             {
-                //JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
-                //if (joinedTournament != null && joinedTournament.entries.Count > 0)
-                //{
-                //    view.UpdateView(joinedTournament);
-                //}
-
                 view.UpdateLeague();
                 view.Show(tournamentsModel.GetJoinedTournament());
             }
@@ -97,12 +90,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        //[ListensTo(typeof(UpdateProfileSignal))]
-        //public void OnUpdateProfile(ProfileVO vo)
-        //{
-        //    view.UpdateView();
-        //}
-
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
@@ -112,6 +99,18 @@ namespace TurboLabz.InstantFramework
         private void OnBackPressed()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
         }
     }
 }
