@@ -211,7 +211,7 @@ namespace TurboLabz.TLUtils
             else
             {
                 int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
-                return years <= 1 ? "an year ago" : years + " years ago";
+                return years <= 1 ? "a year ago" : years + " years ago";
             }
         }
 

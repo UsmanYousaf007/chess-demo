@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
 
         public Signal _collectBtnClickedSignal = new Signal();
         public Signal _collect2xBtnClickedSignal = new Signal();
+        public Signal _simpleCollectAnimationCompletedSignal = new Signal();
 
         //private Animator _animator;
         private int _playerGems;
@@ -48,8 +49,9 @@ namespace TurboLabz.InstantFramework
 
             _collectBtn.onClick.AddListener(() =>
             {
-                PlaySimpleCollectAnimation();
-                //_collectBtnClickedSignal?.Dispatch();
+                //PlaySimpleCollectAnimation();
+                EnableButtons(false);
+                _collectBtnClickedSignal?.Dispatch();
             });
 
             _collect2xBtn.onClick.AddListener(() =>
@@ -73,14 +75,10 @@ namespace TurboLabz.InstantFramework
 
             _coinsContainer.SetActive(false);
             _gemsContainer.SetActive(false);
-            _coinsText.text = coins.ToString();
-            _gemsText.text = gems.ToString();
-            _collectBtn.enabled = true;
-            _collect2xBtn.enabled = true;
+            _coinsText.text = coins.ToString("N0");
+            _gemsText.text = gems.ToString("N0");
 
-            //_gemsRewardQuantity = 0;
-            //_coinsRewardQuantity = 0;
-
+            EnableButtons(true);
             gameObject.SetActive(true);
         }
 
@@ -88,6 +86,12 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.SetActive(false);
             //_animator.enabled = false;
+        }
+
+        public void EnableButtons(bool enable)
+        {
+            _collectBtn.enabled = enable;
+            _collect2xBtn.enabled = enable;
         }
 
         public void UpdateView(RewardDlgVO vo, bool hasConsent)
@@ -124,11 +128,10 @@ namespace TurboLabz.InstantFramework
             LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
         }
 
-        private void PlaySimpleCollectAnimation()
+        public void PlaySimpleCollectAnimation()
         {
-            _collectBtn.enabled = false;
-            _collect2xBtn.enabled = false;
-
+            //_collectBtn.enabled = false;
+            //_collect2xBtn.enabled = false;
             //_animator.enabled = true;
             PlayGemsAnimation();
         }
@@ -180,7 +183,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnAnimationEnd()
         {
-            _collectBtnClickedSignal?.Dispatch();
+            _simpleCollectAnimationCompletedSignal?.Dispatch();
         }
         #endregion
 

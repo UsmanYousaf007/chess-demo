@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
 
             view._collectBtnClickedSignal.AddListener(OnCollectButtonClicked);
             view._collect2xBtnClickedSignal.AddListener(OnCollect2xButtonClicked);
+            view._simpleCollectAnimationCompletedSignal.AddListener(() => OnRewardCollected(false));
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -68,17 +69,23 @@ namespace TurboLabz.InstantFramework
 
         public void OnCollectButtonClicked()
         {
-            SetNextDayNotificationReminder();
-            backendService.InBoxOpCollect(_dailyRewardVO.msgId).Then((res) => OnRewardCollected(false));
+            backendService.InBoxOpCollect(_dailyRewardVO.msgId).Then(OnCollectButtonBackendResponse);
         }
 
         private void OnCollect2xButtonClicked()
         {
             showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_daily_reward);
+        }
 
-            if (inboxModel.items.ContainsKey(_dailyRewardVO.msgId))
+        private void OnCollectButtonBackendResponse(BackendResult result)
+        {
+            if (result == BackendResult.SUCCESS)
             {
-                inboxModel.items.Remove(_dailyRewardVO.msgId);
+                view.PlaySimpleCollectAnimation();
+            }
+            else
+            {
+                view.EnableButtons(true);
             }
         }
 
@@ -90,10 +97,18 @@ namespace TurboLabz.InstantFramework
                 switch (result)
                 {
                     case AdsResult.FINISHED:
+                        if (inboxModel.items.ContainsKey(_dailyRewardVO.msgId))
+                        {
+                            inboxModel.items.Remove(_dailyRewardVO.msgId);
+                        }
+
                         OnRewardCollected(true);
                         break;
 
-                    //case AdsResult.FAILED: // Uncomment this for testing how tooltip is shown in inspectore
+                    case AdsResult.FAILED:
+                        view.EnableButtons(true);
+                        break;
+
                     case AdsResult.NOT_AVAILABLE:
                         audioService.Play(audioService.sounds.SFX_TOOL_TIP);
                         view.toolTip.SetActive(true);
@@ -104,6 +119,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardCollected(bool videoWatched)
         {
+            SetNextDayNotificationReminder();
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
             _dailyRewardVO.onCloseSignal?.Dispatch();
