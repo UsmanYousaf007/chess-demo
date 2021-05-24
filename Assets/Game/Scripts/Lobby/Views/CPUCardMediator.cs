@@ -26,7 +26,6 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public AdjustStrengthSignal adjustStrengthSignal { get; set; }
         [Inject] public StartCPUGameSignal startCPUGameSignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
         // Models
