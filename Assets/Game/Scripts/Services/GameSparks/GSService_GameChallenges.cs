@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void HandleActiveGameEnd(string challengeId)
+        private void HandleActiveGameEnd(string challengeId, bool isDraw = false)
         {
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
@@ -240,6 +240,11 @@ namespace TurboLabz.InstantFramework
             if (GameEndHasMove(chessboard))
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+            }
+
+            if (isDraw && chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
+            {
+                chessboard.gameEndReason = GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL;
             }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);
