@@ -10,7 +10,7 @@ using HUF.Purchases.Runtime.API.Data;
 using HUF.Purchases.Runtime.Implementation.Data;
 using TurboLabz.TLUtils;
 using UnityEngine;
-
+using GameAnalyticsSDK;
 public class InAppPurchaseService : IStoreService
 {
     #region Services
@@ -204,10 +204,13 @@ public class InAppPurchaseService : IStoreService
     public void OnPurchaseFailure(IProductInfo productInfo, PurchaseFailureType failureType)
     {
         var product = HPurchases.TryGetStoreProductInfo(productInfo.ProductId);
-        LogUtil.Log("UnityIAPService - Purchase failed: " + failureType.ToString());
+        string failureReason = "UnityIAPService - Purchase failed: " + failureType.ToString();
+
+        LogUtil.Log(failureReason);
+        GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, failureReason);
 
         showIAPProcessingSignal.Dispatch(false, false);
-
+        
         // Do nothing when user cancels
         if (failureType == PurchaseFailureType.UserCancelled)
         {
