@@ -144,6 +144,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 var subscriptionResponse = failure || !isSubscription
                     ? null
                     : JsonUtility.FromJson<SubscriptionResponse>( request.downloadHandler.text );
+                var responseError = failure ? request.downloadHandler.text : string.Empty;
 
                 var response = new ValidatorResponse
                 {
@@ -151,7 +152,8 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                     receipt = receipt,
                     requestId = requestId,
                     responseCode = request.responseCode,
-                    subscriptionResponse = subscriptionResponse
+                    subscriptionResponse = subscriptionResponse,
+                    responseError = responseError
                 };
                 OnHuuugeServerValidate.Dispatch( response );
                 yield break;

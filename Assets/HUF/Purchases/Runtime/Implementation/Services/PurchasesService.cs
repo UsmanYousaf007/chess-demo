@@ -24,6 +24,8 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 #if !UNITY_IOS
         const string SUBSCRIPTION_URL = "https://apps.apple.com/account/subscriptions";
 #endif
+        const string CONSUMED = "CONSUMED";
+
         public event Action<Product[]> OnInitComplete;
         public event Action<Product, IPurchaseReceipt> OnPurchaseSuccess;
         public event Action<string, PurchaseFailureType> OnPurchaseFailure;
@@ -47,7 +49,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         public PurchasesService( IEnumerable<IProductInfo> products,
             bool isLocalVerificationEnabled,
             bool isHuuugeServerVerificationEnabled,
-            float interruptedPaymentWaitTime)
+            float interruptedPaymentWaitTime )
         {
             this.isLocalVerificationEnabled = isLocalVerificationEnabled;
             this.isHuuugeServerVerificationEnabled = isHuuugeServerVerificationEnabled;
@@ -86,7 +88,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 
             foreach ( var productInfo in products )
             {
-                var storeIds = storeName.IsNotEmpty() ? new IDs {{productInfo.ShopId, storeName}} : null;
+                var storeIds = storeName.IsNotEmpty() ? new IDs { { productInfo.ShopId, storeName } } : null;
                 builder.AddProduct( productInfo.ProductId, productInfo.Type.GetPurchasingType(), storeIds );
             }
         }
@@ -143,15 +145,16 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 CoroutineManager.StopCoroutine( failPurchaseCoroutine );
                 failPurchaseCoroutine = null;
                 HLog.Log( logPrefix, $"Handle interrupted transaction {args.purchasedProduct.transactionID}" );
-                OnPurchaseHandleInterrupted.Dispatch( productId);
+                OnPurchaseHandleInterrupted.Dispatch( productId );
             }
 
-            HLog.Log( logPrefix, $"Purchase Product id: {(args.purchasedProduct.definition == null ? "null" : args.purchasedProduct.definition.id)}, {args.purchasedProduct.transactionID} " );
-
+            HLog.Log( logPrefix,
+                $"Purchase Product id: {( args.purchasedProduct.definition == null ? "null" : args.purchasedProduct.definition.id )}, {args.purchasedProduct.transactionID} " );
 
             if ( isLocalVerificationEnabled && !Application.isEditor )
             {
-                isValid = IsValidReceipt( args, out productReceipt ); }
+                isValid = IsValidReceipt( args, out productReceipt );
+            }
 
             if ( isValid )
             {
@@ -225,6 +228,20 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                         "All cases for server side processing malfunction, request should be retried." );
                     type = PurchaseFailureType.HuuugeIAPServerError;
                     break;
+                default:
+                    // this can occur when Apple sandbox experiences problems
+                    if ( response.responseError.Contains( CONSUMED ) )
+                    {
+                        HLog.LogError( logPrefix,
+                            $"Purchase was already consumed on the server: {response.responseError}" );
+                        storeController.ConfirmPendingPurchase( response.product );
+                    }
+                    else
+                    {
+                        HLog.LogError( logPrefix, $"Unknown verification error: {response.responseError}" );
+                    }
+
+                    break;
             }
 
             OnPurchaseFailure.Dispatch( response.product.definition.id, type );
@@ -278,17 +295,20 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         void IStoreListener.OnPurchaseFailed( Product product, PurchaseFailureReason failureReason )
         {
             HLog.Log( logPrefix, $"OnPurchaseFailed: {failureReason}. Product Id: {product.definition.id}" );
+
             if ( failureReason.GetFailureType() == PurchaseFailureType.Unknown )
             {
                 failPurchaseCoroutine = CoroutineManager.StartCoroutine( SendFailWithDelay( product, failureReason ) );
                 return;
             }
+
             OnPurchaseFailure.Dispatch( product.definition.id, failureReason.GetFailureType() );
         }
 
-        IEnumerator SendFailWithDelay(Product product, PurchaseFailureReason failureReason)
+        IEnumerator SendFailWithDelay( Product product, PurchaseFailureReason failureReason )
         {
             yield return new WaitForSecondsRealtime( interruptedPaymentWaitTime );
+
             failPurchaseCoroutine = null;
             HLog.Log( logPrefix, $"SendFailWithDelay2: {failureReason}. Product Id: {product.definition.id}" );
             OnPurchaseFailure.Dispatch( product.definition.id, failureReason.GetFailureType() );

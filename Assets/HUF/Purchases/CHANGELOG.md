@@ -1,3 +1,8 @@
+## [2.9.6] - 2021-05-13
+### Fixed
+- Purchasing consumables getting stuck when Apple sandbox have problems
+
+
 ## [2.9.5] - 2021-04-14
 ### Fixed
 - Restoring non-consumables only restored some of them

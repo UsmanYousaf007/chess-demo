@@ -16,5 +16,6 @@ namespace HUF.Purchases.Runtime.Implementation.Data
         public long responseCode;
         public string requestId;
         public SubscriptionResponse subscriptionResponse;
+        public string responseError;
     }
 }

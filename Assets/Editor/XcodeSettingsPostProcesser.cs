@@ -23,7 +23,8 @@ public class XcodeSettingsPostProcesser
         proj.ReadFromString(File.ReadAllText(projPath));
 
         string target = proj.TargetGuidByName("Unity-iPhone");
-        string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+        //string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+        string targetGuid = proj.GetUnityMainTargetGuid();
 
         //Required Frameworks
         proj.AddFrameworkToProject(target, "UserNotifications.framework", false);
