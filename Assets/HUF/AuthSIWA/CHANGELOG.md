@@ -1,6 +1,17 @@
 ## Internal SDK
 Sign in with Apple Github Plugin v1.3.0
 
+
+## [2.4.2] - 2021-05-21
+### Fixed
+- `.entitlements` file conflicting with custom build postprocesses creating their own `.entitlements` file
+
+
+## [2.4.1] - 2021-04-19
+### Fixed
+- `.entitlements` file conflicting with Firebase Notifications `.entitlements` file
+
+
 ## [2.4.0] - 2021-01-13
 ### Changed
 - UnityActions to Actions in Auth Packages
