@@ -15,11 +15,13 @@ namespace HUFEXT.ModuleStarter.Runtime.Config
         static Dictionary<string, OrderEntry> entries;
         static List<OrderEntry> sortedEntries;
         static int newPlaces;
-        public static IEnumerable<OrderEntry> Entries => sortedEntries;
 
         static readonly string basePath = Application.streamingAssetsPath;
         static readonly string path = Path.Combine( basePath, FILENAME );
 
+        public static IEnumerable<OrderEntry> Entries => sortedEntries;
+        public static int Count => sortedEntries.Count;
+        
         static ModuleInitializerConfig()
         {
             Load();

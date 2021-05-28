@@ -51,7 +51,7 @@ namespace HUFEXT.ModuleStarter.Runtime.API
 
             ModuleInitializer.ReloadAll();
             ModuleInitializerConfig.SortEntries();
-            CoroutineManager.StartCoroutine( InitRoutine( ModuleInitializerConfig.Entries ) );
+            CoroutineManager.StartCoroutine( InitRoutine( ModuleInitializerConfig.Entries, ModuleInitializerConfig.Count ) );
         }
 
         public static void Register( string uniqueName, InitCall initializer )
@@ -76,9 +76,10 @@ namespace HUFEXT.ModuleStarter.Runtime.API
             RunPipeline();
         }
 
-        static IEnumerator InitRoutine( IEnumerable<ModuleInitializerConfig.OrderEntry> entries )
+        static IEnumerator InitRoutine( IEnumerable<ModuleInitializerConfig.OrderEntry> entries, int count )
         {
-            float total = ModuleInitializer.ModulesCount;
+            IsFullyInitialized = false;
+            float total = count;
             int current = 0;
             OnInitializationProgress.Dispatch( 0 );
 
@@ -134,7 +135,7 @@ namespace HUFEXT.ModuleStarter.Runtime.API
 #if HUF_TESTS
         static void HandleInitStep(float fraction)
         {
-            HLog.Log( logPrefix, $"Init: {fraction * 100: F2}%" );
+            HLog.Log( logPrefix, $"Init: {(fraction * 100):F2}%" );
         }
 
         static void HandleInitFinish()

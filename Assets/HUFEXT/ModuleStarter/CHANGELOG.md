@@ -1,3 +1,12 @@
+## [1.1.8] - 2021-05-04
+### Added
+- Support for multi initialization
+
+## [1.1.7] - 2021-03-30
+### Fixed
+- Progress no longer can be greater than 100%
+
+
 ## [1.1.6] - 2021-01-22
 ### Fixed
 - Missing icon on Unity 2019 and newer

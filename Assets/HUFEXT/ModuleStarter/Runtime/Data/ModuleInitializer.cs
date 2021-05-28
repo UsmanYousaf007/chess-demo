@@ -15,7 +15,6 @@ namespace HUFEXT.ModuleStarter.Runtime.Data
         static readonly Dictionary<string, ModuleInitializer> initializers = new Dictionary<string, ModuleInitializer>();
 
         public static bool HasAnyModules => initializers.Count > 0;
-        public static int ModulesCount => initializers.Count;
 
         public InitCall Initializer { get; private set; }
         readonly string name;
