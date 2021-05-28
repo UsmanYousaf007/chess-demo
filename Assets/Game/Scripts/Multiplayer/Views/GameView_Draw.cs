@@ -88,15 +88,12 @@ namespace TurboLabz.Multiplayer
         public void HideDrawDialog()
         {
             DisableModalBlocker();
-            claimDrawDialog.SetActive(false);
+            UIDlgManager.AnimateDlgDisable(claimDrawDialog);
         }
 
         private void ActivateDialog()
         {
-            EnableModalBlocker();
-            claimDrawDialog.SetActive(true);
-            claimDrawDialog.transform.localPosition = new Vector3(0f, 1024f, 0f);
-            claimDrawDialog.transform.DOLocalMove(new Vector3(0f, 0f, 0f), 0.5f).SetEase(Ease.OutBack);
+            UIDlgManager.AnimateDlg(claimDrawDialog);
         }
 
         private void OnDrawClaimed()
