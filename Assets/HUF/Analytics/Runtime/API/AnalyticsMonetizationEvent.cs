@@ -6,35 +6,20 @@ namespace HUF.Analytics.Runtime.API
     public class AnalyticsMonetizationEvent : AnalyticsEvent
     {
         public const string CENTS_KEY = "cents";
-        
+
         /// <summary>
         /// Cents value
         /// </summary>
         [PublicAPI]
-        public int Cents => EventData.ContainsKey(CENTS_KEY) ? (int) EventData[CENTS_KEY] : 0;
-
-        AnalyticsMonetizationEvent(string name, int cents) : base(name)
-        {
-            SetCents(cents);
-        }
-
-        AnalyticsMonetizationEvent(Dictionary<string, object> eventData, int cents) : base(eventData)
-        {
-            SetCents(cents);
-        }
-
-        void SetCents(int cents)
-        {
-            EventData[CENTS_KEY] = cents;
-        }
+        public int Cents => EventData.ContainsKey( CENTS_KEY ) ? (int)EventData[CENTS_KEY] : 0;
 
         /// <summary>
         /// Create analytics event with given name and specific cents value<para />
         /// </summary>
         [PublicAPI]
-        public static AnalyticsMonetizationEvent Create(string eventName, int cents)
+        public static AnalyticsMonetizationEvent Create( string eventName, int cents )
         {
-            return IsNameValid(eventName) ? new AnalyticsMonetizationEvent(eventName, cents) : null;
+            return IsNameValid( eventName ) ? new AnalyticsMonetizationEvent( eventName, cents ) : null;
         }
 
         /// <summary>
@@ -48,15 +33,32 @@ namespace HUF.Analytics.Runtime.API
         /// <returns>New wrapped AnalyticsEvent object or null if no
         /// event name value is present in passed event data</returns>
         [PublicAPI]
-        public static AnalyticsMonetizationEvent Create(Dictionary<string, object> eventData, int cents)
+        public static AnalyticsMonetizationEvent Create( Dictionary<string, object> eventData, int cents )
         {
-            if (!HasParameterInDictionary(eventData, EventConsts.EVENT_NAME_KEY))
+            if ( !HasParameterInDictionary( eventData, EventConsts.EVENT_NAME_KEY ) )
             {
                 return null;
             }
 
-            var eventName = (string) eventData[EventConsts.EVENT_NAME_KEY];
-            return IsNameValid(eventName) ? new AnalyticsMonetizationEvent(eventData, cents) : null;
+            var eventName = (string)eventData[EventConsts.EVENT_NAME_KEY];
+            return IsNameValid( eventName ) ? new AnalyticsMonetizationEvent( eventData, cents ) : null;
+        }
+
+        internal override string Message() => $"Log monetization event: {this} to service: {service.Name}.";
+
+        AnalyticsMonetizationEvent( string name, int cents ) : base( name )
+        {
+            SetCents( cents );
+        }
+
+        AnalyticsMonetizationEvent( Dictionary<string, object> eventData, int cents ) : base( eventData )
+        {
+            SetCents( cents );
+        }
+
+        void SetCents( int cents )
+        {
+            EventData[CENTS_KEY] = cents;
         }
     }
 }

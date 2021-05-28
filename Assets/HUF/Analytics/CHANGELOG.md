@@ -1,3 +1,8 @@
+## [2.5.1] - 2021-04-29
+### Fixed
+- Performance when logging is turned off
+
+
 ## [2.5.0] - 2021-03-04
 ### Added 
 - LogSuccessfulPurchaseEvent and made LogMonetizationEvent obsolete

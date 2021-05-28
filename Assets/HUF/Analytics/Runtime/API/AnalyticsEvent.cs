@@ -9,14 +9,17 @@ namespace HUF.Analytics.Runtime.API
 {
     public class AnalyticsEvent
     {
+        internal IAnalyticsService service;
+
         /// <summary>
         /// Name of current event
         /// </summary>
-        [PublicAPI] public string EventName
+        [PublicAPI]
+        public string EventName
         {
             get
             {
-                if (EventData != null && EventData.ContainsKey(EventConsts.EVENT_NAME_KEY))
+                if ( EventData != null && EventData.ContainsKey( EventConsts.EVENT_NAME_KEY ) )
                 {
                     return EventData[EventConsts.EVENT_NAME_KEY] as string;
                 }
@@ -28,14 +31,15 @@ namespace HUF.Analytics.Runtime.API
         /// <summary>
         /// Parameters added to current event
         /// </summary>
-        [PublicAPI] public Dictionary<string, object> EventData { get; private set; }
+        [PublicAPI]
+        public Dictionary<string, object> EventData { get; private set; }
 
-        internal AnalyticsEvent(string name)
+        internal AnalyticsEvent( string name )
         {
-            AddEventData(EventConsts.EVENT_NAME_KEY, name);
+            AddEventData( EventConsts.EVENT_NAME_KEY, name );
         }
-        
-        internal AnalyticsEvent(Dictionary<string, object> eventData)
+
+        internal AnalyticsEvent( Dictionary<string, object> eventData )
         {
             EventData = eventData;
         }
@@ -45,21 +49,22 @@ namespace HUF.Analytics.Runtime.API
         /// <paramref name="eventName"/> can't be empty or null
         /// </summary>
         [PublicAPI]
-        public static AnalyticsEvent Create(string eventName)
+        public static AnalyticsEvent Create( string eventName )
         {
-            return IsNameValid(eventName) ? new AnalyticsEvent(eventName) : null;
+            return IsNameValid( eventName ) ? new AnalyticsEvent( eventName ) : null;
         }
 
-        protected static bool IsNameValid(string eventName)
+        protected static bool IsNameValid( string eventName )
         {
-            if (eventName.IsNullOrEmpty())
+            if ( eventName.IsNullOrEmpty() )
             {
-                Debug.LogWarning("[AnalyticsEvent] Event name can't be null or empty value");
+                Debug.LogWarning( "[AnalyticsEvent] Event name can't be null or empty value" );
                 return false;
             }
+
             return true;
         }
-        
+
         /// <summary>
         /// Create analytics event with wrapped parameters from passed dictionary. <para />
         /// Parameter with key "name" is required in dictionary, should store event name and can't be empty or null. <para />
@@ -69,22 +74,22 @@ namespace HUF.Analytics.Runtime.API
         /// <returns>New wrapped AnalyticsEvent object or null if no
         /// event name value is present in passed event data</returns>
         [PublicAPI]
-        public static AnalyticsEvent Create(Dictionary<string, object> eventData)
+        public static AnalyticsEvent Create( Dictionary<string, object> eventData )
         {
-            if (!HasParameterInDictionary(eventData, EventConsts.EVENT_NAME_KEY))
+            if ( !HasParameterInDictionary( eventData, EventConsts.EVENT_NAME_KEY ) )
             {
                 return null;
             }
 
-            var eventName = (string) eventData[EventConsts.EVENT_NAME_KEY];
-            return IsNameValid(eventName) ? new AnalyticsEvent(eventData) : null;
+            var eventName = (string)eventData[EventConsts.EVENT_NAME_KEY];
+            return IsNameValid( eventName ) ? new AnalyticsEvent( eventData ) : null;
         }
 
-        protected static bool HasParameterInDictionary(Dictionary<string, object> eventData, string name)
+        protected static bool HasParameterInDictionary( Dictionary<string, object> eventData, string name )
         {
-            if (!eventData.ContainsKey(name))
+            if ( !eventData.ContainsKey( name ) )
             {
-                Debug.LogWarning($"[AnalyticsEvent] Missing {name} parameter in dictionary.");
+                Debug.LogWarning( $"[AnalyticsEvent] Missing {name} parameter in dictionary." );
                 return false;
             }
 
@@ -95,9 +100,9 @@ namespace HUF.Analytics.Runtime.API
         /// Add parameter with value <see cref="EventName"/> and value given in parameter.
         /// </summary>
         [PublicAPI]
-        public AnalyticsEvent Value(int value)
+        public AnalyticsEvent Value( int value )
         {
-            AddEventData(EventConsts.VALUE_KEY, value);
+            AddEventData( EventConsts.VALUE_KEY, value );
             return this;
         }
 
@@ -105,9 +110,9 @@ namespace HUF.Analytics.Runtime.API
         /// Add parameter with value <see cref="EventName"/> and value given in parameter.
         /// </summary>
         [PublicAPI]
-        public AnalyticsEvent Value(long value)
+        public AnalyticsEvent Value( long value )
         {
-            AddEventData(EventConsts.VALUE_KEY, value);
+            AddEventData( EventConsts.VALUE_KEY, value );
             return this;
         }
 
@@ -117,9 +122,9 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, bool value)
+        public AnalyticsEvent Parameter( string name, bool value )
         {
-            AddEventData(name, value);
+            AddEventData( name, value );
             return this;
         }
 
@@ -129,9 +134,9 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, int value)
+        public AnalyticsEvent Parameter( string name, int value )
         {
-            AddEventData(name, value);
+            AddEventData( name, value );
             return this;
         }
 
@@ -141,9 +146,9 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, float value)
+        public AnalyticsEvent Parameter( string name, float value )
         {
-            AddEventData(name, Convert.ToDouble(value));
+            AddEventData( name, Convert.ToDouble( value ) );
             return this;
         }
 
@@ -153,9 +158,9 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, long value)
+        public AnalyticsEvent Parameter( string name, long value )
         {
-            AddEventData(name, Convert.ToInt64(value));
+            AddEventData( name, Convert.ToInt64( value ) );
             return this;
         }
 
@@ -165,9 +170,9 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, double value)
+        public AnalyticsEvent Parameter( string name, double value )
         {
-            AddEventData(name, value);
+            AddEventData( name, value );
             return this;
         }
 
@@ -177,29 +182,31 @@ namespace HUF.Analytics.Runtime.API
         /// <param name="name">Name of parameter</param>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent Parameter(string name, string value)
+        public AnalyticsEvent Parameter( string name, string value )
         {
-            AddEventData(name, value);
+            AddEventData( name, value );
             return this;
         }
 
-        void AddEventData(string name, object value)
+        internal virtual string Message() => $"Log event: {this} to service: {service.Name}.";
+        internal string CachedMessage() => $"Event {EventName} cached for {service.Name}.";
+
+        void AddEventData( string name, object value )
         {
-            if (value == null)
+            if ( value == null )
             {
-                Debug.LogError($"[AnalyticsEvent] Parameter can't be null. Parameter {name} won't be added.");
+                Debug.LogError( $"[AnalyticsEvent] Parameter can't be null. Parameter {name} won't be added." );
                 return;
             }
 
-            if (value is string && ((string)value).IsNullOrEmpty() )
+            if ( value is string && ( (string)value ).IsNullOrEmpty() )
             {
-                Debug.LogError($"[AnalyticsEvent] String parameter can't be empty. Parameter {name} won't be added.");
+                Debug.LogError( $"[AnalyticsEvent] String parameter can't be empty. Parameter {name} won't be added." );
                 return;
             }
 
-            if (EventData == null)
+            if ( EventData == null )
                 EventData = new Dictionary<string, object>();
-            
             EventData[name] = value;
         }
 
@@ -209,9 +216,9 @@ namespace HUF.Analytics.Runtime.API
         /// </summary>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent ST1(string value)
+        public AnalyticsEvent ST1( string value )
         {
-            return Parameter(EventConsts.ST1_KEY, value);
+            return Parameter( EventConsts.ST1_KEY, value );
         }
 
         /// <summary>
@@ -220,9 +227,9 @@ namespace HUF.Analytics.Runtime.API
         /// </summary>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent ST2(string value)
+        public AnalyticsEvent ST2( string value )
         {
-            return Parameter(EventConsts.ST2_KEY, value);
+            return Parameter( EventConsts.ST2_KEY, value );
         }
 
         /// <summary>
@@ -231,21 +238,22 @@ namespace HUF.Analytics.Runtime.API
         /// </summary>
         /// <param name="value">Value of parameter</param>
         [PublicAPI]
-        public AnalyticsEvent ST3(string value)
+        public AnalyticsEvent ST3( string value )
         {
-            return Parameter(EventConsts.ST3_KEY, value);
+            return Parameter( EventConsts.ST3_KEY, value );
         }
 
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append("{");
-            foreach (var pair in EventData)
+            stringBuilder.Append( "{" );
+
+            foreach ( var pair in EventData )
             {
-                stringBuilder.Append($"{pair.Key}: '{pair.Value}', ");
+                stringBuilder.Append( $"{pair.Key}: '{pair.Value}', " );
             }
 
-            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append("}").ToString();
+            return stringBuilder.Remove( stringBuilder.Length - 2, 2 ).Append( "}" ).ToString();
         }
 
         public static class EventConsts
