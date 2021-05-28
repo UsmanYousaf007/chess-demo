@@ -185,7 +185,7 @@ namespace TurboLabz.InstantFramework
 
         public void SchedulerCallbackLeaderboard()
         {
-            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp/1000;
             if (timeLeft > 0)
             {
                 timeLeft--;
