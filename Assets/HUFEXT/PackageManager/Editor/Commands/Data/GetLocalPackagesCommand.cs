@@ -80,7 +80,6 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             catch ( Exception )
             {
                 Utils.Common.Log( $"Skipping manifest at path: {path}" );
-                Complete( false );
             }
         }
 

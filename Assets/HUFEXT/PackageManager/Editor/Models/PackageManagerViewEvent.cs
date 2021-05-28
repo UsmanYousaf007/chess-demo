@@ -13,7 +13,7 @@ namespace HUFEXT.PackageManager.Editor.Models
         ShowUpdateWindow,
         ForceResolvePackages,
         AddScopedRegistry,
-        AddDefaultRegistries,
+        RemoveScopedRegistries,
         ClearCache,
         GenerateReportHUF,
         GenerateReportSDKs,

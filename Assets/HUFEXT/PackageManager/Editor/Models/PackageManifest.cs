@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
@@ -103,6 +104,9 @@ namespace HUFEXT.PackageManager.Editor.Models
                                     huf.status == PackageStatus.GitError;
 
         public bool IsHufPackage => name.Contains( ".huuuge." );
+
+        public bool HasExternalDependencies =>
+            huf.dependencies.Select( p => new Models.Dependency( p ) ).Any( d => !d.IsHufPackage );
 
         public bool SupportsCurrentUnityVersion
         {

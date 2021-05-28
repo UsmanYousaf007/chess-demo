@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using HUFEXT.PackageManager.Editor.Commands.Base;
 using UnityEditor;
 using UnityEngine;
 
@@ -258,9 +259,9 @@ namespace HUFEXT.PackageManager.Editor.Views
                     currentEvent.completed = true;
                     break;
                 }
-                case Models.EventType.AddDefaultRegistries:
+                case Models.EventType.RemoveScopedRegistries:
                 {
-                    Core.Command.Execute( new Commands.Base.AddGoogleScopedRegistryCommand() );
+                    Core.Command.Execute( new Commands.Base.RemoveScopedRegistriesCommand() );
                     currentEvent.completed = true;
                     break;
                 }

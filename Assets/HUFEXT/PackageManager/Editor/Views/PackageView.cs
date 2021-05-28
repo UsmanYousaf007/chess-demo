@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using HUFEXT.PackageManager.Editor.Commands.Base;
 using HUFEXT.PackageManager.Editor.Commands.Data;
 using HUFEXT.PackageManager.Editor.Models;
 using HUFEXT.PackageManager.Editor.Utils;
@@ -113,16 +114,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 case Models.PackageStatus.Git:
                 case Models.PackageStatus.GitUpdate:
                 case Models.PackageStatus.GitError:
-                    if ( GUILayout.Button( "Install Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
-                    {
-                        InstallUnityDependencies( new List<PackageManifest>() { package } );
-                    }
-
-                    if ( GUILayout.Button( "Install all Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
-                    {
-                        InstallUnityDependencies( Core.Packages.Local );
-                    }
-
+                    TryDrawExternalDependenciesButtons();
                     break;
                 case Models.PackageStatus.NotInstalled:
                 case Models.PackageStatus.ForceUpdate:
@@ -166,6 +158,8 @@ namespace HUFEXT.PackageManager.Editor.Views
                 case Models.PackageStatus.Embedded:
                 case Models.PackageStatus.Conflict:
                 {
+                    TryDrawExternalDependenciesButtons();
+                    
                     if ( GUILayout.Button( "Remove", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
                         RegisterEvent( new Models.PackageManagerViewEvent
@@ -175,7 +169,6 @@ namespace HUFEXT.PackageManager.Editor.Views
                             data = package.ToString()
                         } );
                     }
-
                     break;
                 }
             }
@@ -232,6 +225,24 @@ namespace HUFEXT.PackageManager.Editor.Views
                         }
                     }
                 } );
+            }
+
+            void TryDrawExternalDependenciesButtons()
+            {
+                if ( !package.HasExternalDependencies )
+                {
+                    return;
+                }
+
+                if ( GUILayout.Button( "Install Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+                {
+                    InstallUnityDependencies( new List<PackageManifest>() {package} );
+                }
+
+                if ( GUILayout.Button( "Install all Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
+                {
+                    InstallUnityDependencies( Core.Packages.Local );
+                }
             }
         }
 
@@ -484,11 +495,6 @@ namespace HUFEXT.PackageManager.Editor.Views
                             UnableToFindDocumentationDialog();
                         }
                     }
-                }
-
-                if ( package.IsRepository )
-                {
-                    return;
                 }
 
                 var originalSelectedPackage = window.state.originalSelectedPackage;

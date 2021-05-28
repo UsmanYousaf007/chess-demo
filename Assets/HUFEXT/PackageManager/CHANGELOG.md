@@ -1,3 +1,27 @@
+## [1.7.0] - 2021-05-06
+### Added
+- Button to remove GPR Scoped dependencies
+
+### Changed
+- Stopped for a time checking if packages are in conflict
+
+
+## [1.6.8] - 2021-04-12
+### Fixed
+- Install Unity Dependencies Buttons are shown properly
+- Automatically adding scoped registries when installing packages
+
+
+## [1.6.7] - 2021-04-09
+### Fixed
+- Issues with Update Packages window
+
+
+## [1.6.6] - 2021-03-17
+### Added
+- Other versions menu in packages from git repository
+
+
 ## [1.6.5] - 2021-03-02
 ### Fixed
 - Compile errors in Unity 2018

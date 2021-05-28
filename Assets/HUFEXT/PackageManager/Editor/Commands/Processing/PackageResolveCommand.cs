@@ -18,6 +18,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
     {
         public const string HPM_PACKAGES_TO_INSTALL = "HPM_PackagesToInstall";
         public const string COM_HUUUGE_HUFEXT_PACKAGE_MANAGER = "com.huuuge.hufext.packagemanager";
+        const string COM_HUUUGE_PLUGINS_EXTERNAL_DEPENDENCY_MANAGER = "com.huuuge.plugins.externaldependencymanager";
         readonly bool useLatestVersion = false;
         readonly List<Models.Dependency> dependencies = new List<Models.Dependency>();
         readonly List<Models.PackageManifest> packagesToInstall = new List<PackageManifest>();
@@ -42,21 +43,18 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
         public override void Execute()
         {
             packages = Core.Packages.Data;
+            var localPackages = Core.Packages.Local;
+            int packagesToInstallLeftCount = packagesToInstall.Count;
 
             foreach ( var packageToInstall in packagesToInstall )
             {
                 var packageCanBeResolved = packages.Exists( package => package.name == packageToInstall.name );
 
-                foreach ( var package in packages )
+                foreach ( var package in localPackages )
                 {
-                    if ( !package.IsInstalled )
-                    {
-                        continue;
-                    }
-
                     foreach ( var excludedPackage in package.huf.exclude )
                     {
-                        if ( excludedPackage != packageToInstall.name )
+                        if ( excludedPackage != packageToInstall.name || packageToInstall.name == COM_HUUUGE_PLUGINS_EXTERNAL_DEPENDENCY_MANAGER )
                         {
                             continue;
                         }
@@ -115,7 +113,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                                     }
                                 }
 
-                                if ( packagesToInstall.Last() == packageToInstall )
+                                packagesToInstallLeftCount--;
+
+                                if ( packagesToInstallLeftCount == 0 )
                                 {
                                     PauseInstallationIfPackageManagerNeedsToBeUpdated();
                                     Complete( true, Utils.Common.FromListToJson( dependencies ) );
@@ -180,7 +180,7 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     didResolveSucceededCallback?.Invoke( false );
                     return;
                 }
-                
+
                 // Using at least minimum version when updating multiple packages
                 if ( useLatestVersion && !dependency.IsVersionHigherOrEqualTo( package.huf.config.minimumVersion ) )
                     dependency.version = package.huf.config.minimumVersion;
@@ -194,14 +194,12 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                     continue;
                 }
 
-               
-
-                    // Infinite loop protection.
-                    if ( !AddToDependencies( dependency ) )
-                    {
-                        DecreaseDependenciesLeft();
-                        continue;
-                    }
+                // Infinite loop protection.
+                if ( !AddToDependencies( dependency ) )
+                {
+                    DecreaseDependenciesLeft();
+                    continue;
+                }
 
                 //Check what version is available
                 FindDependencyVersionChannelAndScope( dependency,

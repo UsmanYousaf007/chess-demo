@@ -34,9 +34,9 @@ namespace HUFEXT.PackageManager.Editor.Views
         bool Initialize()
         {
             packagesToUpdate = Core.Packages.Data
-                .Where( ( p ) => p.huf.status == Models.PackageStatus.UpdateAvailable ||
-                                 p.huf.status == Models.PackageStatus.ForceUpdate ||
-                                 p.huf.status == Models.PackageStatus.Migration )
+                .Where( ( p ) => p.IsHufPackage && ( p.huf.status == Models.PackageStatus.UpdateAvailable ||
+                                                     p.huf.status == Models.PackageStatus.ForceUpdate ||
+                                                     p.huf.status == Models.PackageStatus.Migration ) )
                 .ToList();
 
             if ( packagesToUpdate.Count == 0 )
@@ -147,7 +147,7 @@ namespace HUFEXT.PackageManager.Editor.Views
 
         void DrawItem( int i )
         {
-            var myStyle = new GUIStyle {margin = new RectOffset( 0, 0, 0, 0 )};
+            var myStyle = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
             var rect = EditorGUILayout.BeginVertical( myStyle, GUILayout.Height( 30f ) );
 
             {

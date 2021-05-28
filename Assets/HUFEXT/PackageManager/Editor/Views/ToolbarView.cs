@@ -46,7 +46,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 var menu = new GenericMenu();
                 RegisterMenuItem( ref menu, "Copy developer ID to clipboard", Models.EventType.CopyDeveloperID );
                 menu.AddSeparator( string.Empty );
-                RegisterMenuItem( ref menu, "Add default registries", Models.EventType.AddDefaultRegistries );
+                RegisterMenuItem( ref menu, "Remove GPR scoped registries", Models.EventType.RemoveScopedRegistries );
                 //menu.AddDisabledItem( new GUIContent( "Add custom registry..." ) );
                 RegisterMenuItem( ref menu, "Add custom registry...", Models.EventType.AddScopedRegistry );
                 menu.ShowAsContext();
@@ -116,6 +116,8 @@ namespace HUFEXT.PackageManager.Editor.Views
                     window.state.showUnityPackages );
                 menu.AddSeparator( string.Empty );
                 RegisterMenuItem( ref menu, "Update packages...", Models.EventType.ShowUpdateWindow );
+                menu.AddSeparator( string.Empty );
+                RegisterMenuItem( ref menu, "Remove GPR scoped registries", Models.EventType.RemoveScopedRegistries );
                 menu.AddSeparator( string.Empty );
                 RegisterMenuItem( ref menu, "Generate report/Only HUF", Models.EventType.GenerateReportHUF );
                 RegisterMenuItem( ref menu, "Generate report/SDK Report", Models.EventType.GenerateReportSDKs );
