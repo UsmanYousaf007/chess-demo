@@ -124,7 +124,8 @@ public class XcodeSettingsPostProcesser
 
         //Adding Apple Sign-In Capability
 #if UNITY_IOS
-	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
+        PBXProject projIos = new PBXProject();
+        ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", projIos.GetUnityMainTargetGuid());
 	    ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
 	    projCapability.WriteToFile();
 #endif
