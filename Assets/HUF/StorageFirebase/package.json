@@ -1,27 +1,23 @@
 {
   "name": "com.huuuge.huf.storage.firebase",
   "displayName": "Storage Firebase",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "unity": "2018.4",
   "description": "Storage Firebase module offers full integration with Firebase Remote Storage.\nThere is option to:\n\n• Download textures\n• Download audio clips\n• Download byte files\n• Download asset bundles\n• Upload files on storage\n• Remove files from storage",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.firebase.wrapper@^3.0.0",
+      "com.huuuge.huf.firebase.wrapper@^3.2.0",
       "com.huuuge.huf.utils@^3.0.5",
       "com.huuuge.huf.storage@^3.0.0",
-      "com.huuuge.huf.remoteconfig@^3.0.0",
-      "com.google.firebase.storage@^7.0.2"
+      "com.huuuge.huf.remoteconfig@^3.0.0"
     ],
-    "exclude": [
-      "com.huuuge.plugins.externaldependencymanager"
-    ],
-    "date": "15.02.2021 15:05",
-    "commit": "ef41bd4",
-    "build": "50",
+    "date": "10.05.2021 16:59",
+    "commit": "1b7866f",
+    "build": "54",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/StorageFirebase",
-    "rollout": "32"
+    "rollout": "38"
   },
   "doc_section": "Storage"
 }
