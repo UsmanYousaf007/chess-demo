@@ -22,7 +22,7 @@ namespace HUF.RemoteConfigs.Runtime.API
         const string CACHE_KEY = "HRC_Cache{0}";
         const long UTC_OFFSET = 1589440000;
 
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HRemoteConfigs) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HRemoteConfigs) );
 
         static IRemoteConfigsService[] remoteConfigsService =
             new IRemoteConfigsService[Enum.GetNames( typeof(RemoteConfigService) ).Length];

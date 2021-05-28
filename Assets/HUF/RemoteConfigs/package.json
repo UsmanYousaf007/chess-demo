@@ -1,20 +1,20 @@
 {
   "name": "com.huuuge.huf.remoteconfig",
   "displayName": "Remote Configs",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "unity": "2018.4",
   "description": "Remote Configs feature gives an option to change values of configs during the application's lifecycle. Applying new values should be always preceded by the fetch operation.",
   "huf": {
     "dependencies": [
       "com.huuuge.huf.utils@^3.8.6"
     ],
-    "date": "17.03.2021 10:20",
-    "commit": "4a4d3f8",
-    "build": "23",
+    "date": "12.04.2021 15:50",
+    "commit": "5362945",
+    "build": "25",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/RemoteConfigs",
-    "rollout": "34"
+    "rollout": "36"
   },
   "doc_section": "Remote Configs"
 }

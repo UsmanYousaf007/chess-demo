@@ -1,3 +1,8 @@
+## [3.0.2] - 2021-03-26
+### Changed
+- LogPrefix made public.
+
+
 ## [3.0.1] - 2021-02-03
 ### Added
 - Rhino Rage service added.
