@@ -92,7 +92,7 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 
             HLog.Log( logPrefix, $"Fetch started." );
             var cacheExpirationTimeSpan = TimeSpan.FromSeconds( Config.CacheExpirationInSeconds );
-            FirebaseRemoteConfig.FetchAsync( cacheExpirationTimeSpan ).ContinueWithOnMainThread( HandleFetchCompleted );
+            FirebaseRemoteConfig.DefaultInstance.FetchAsync( cacheExpirationTimeSpan ).ContinueWithOnMainThread( HandleFetchCompleted );
         }
 
         void DetachCallbacks()
@@ -135,14 +135,9 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 
         void HandleFetchCompleted( Task fetchTask )
         {
-            if ( TryActivateFetchedConfig() )
-            {
-                HLog.Log( logPrefix, $"Fetch completed." );
-                FinalizeFetchCompleted();
-                return;
-            }
+            FirebaseRemoteConfig.DefaultInstance.ActivateAsync().ContinueWithOnMainThread( HandleActivateConfig );
 
-            if ( FirebaseRemoteConfig.Info.LastFetchStatus == LastFetchStatus.Success )
+            if ( FirebaseRemoteConfig.DefaultInstance.Info.LastFetchStatus == LastFetchStatus.Success )
             {
                 HLog.Log( logPrefix, $"Firebase cache used. Nothing new was fetched" );
                 OnFetchComplete.Dispatch( SERVICE_TYPE );
@@ -161,9 +156,9 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
             }
             else
             {
-                failReason = FirebaseRemoteConfig.Info.LastFetchFailureReason.ToString();
+                failReason = FirebaseRemoteConfig.DefaultInstance.Info.LastFetchFailureReason.ToString();
 
-                switch ( FirebaseRemoteConfig.Info.LastFetchFailureReason )
+                switch ( FirebaseRemoteConfig.DefaultInstance.Info.LastFetchFailureReason )
                 {
                     case FetchFailureReason.Invalid:
                         failReason = "There is no error but nothing was fetched. " +
@@ -172,7 +167,7 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
                         break;
                     case FetchFailureReason.Throttled:
                         failReason =
-                            $"Throttled by the server until {FirebaseRemoteConfig.Info.ThrottledEndTime}. You are sending too many fetch requests in too short a time.";
+                            $"Throttled by the server until {FirebaseRemoteConfig.DefaultInstance.Info.ThrottledEndTime}. You are sending too many fetch requests in too short a time.";
                         break;
                     case FetchFailureReason.Error:
                         failReason = "There was an unknown error on the Server.";
@@ -190,13 +185,14 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
             SaveCache();
         }
 
-        bool TryActivateFetchedConfig()
+        void HandleActivateConfig(Task<bool> activateTask)
         {
-            if ( !FirebaseRemoteConfig.ActivateFetched() )
-                return false;
+            if (activateTask.Result == false)
+                return;
 
+            HLog.Log( logPrefix, $"Fetch completed." );
+            FinalizeFetchCompleted();
             CreateFetchedDict();
-            return true;
         }
 
         void CreateFetchedDictFromCache()
@@ -209,9 +205,9 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
         {
             fetchedDict.Clear();
 
-            foreach ( var key in FirebaseRemoteConfig.Keys )
+            foreach ( var key in FirebaseRemoteConfig.DefaultInstance.Keys )
             {
-                var value = FirebaseRemoteConfig.GetValue( key ).StringValue;
+                var value = FirebaseRemoteConfig.DefaultInstance.GetValue( key ).StringValue;
                 fetchedDict.Add( key, value );
             }
         }
