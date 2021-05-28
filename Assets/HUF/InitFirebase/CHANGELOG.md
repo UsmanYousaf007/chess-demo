@@ -1,6 +1,24 @@
 ## External SDKs
-- Firebase SDK Unity plugin - 7.0.2
-- Firebase App - 7.0.2
+- Firebase SDK Unity plugin - 7.2.0
+- Firebase App - 7.2.0
+
+## [3.2.0] - 2021-05-05
+### Changed
+- Moved Firebase SDKs from Unity Package Manager
+
+### Updated
+- Firebase SDK Unity plugin - 7.2.0
+
+
+## [3.1.6] - 2021-04-12
+### Updated
+- Firebase SDK Unity plugin - 7.1.0
+
+
+## [3.1.5] - 2021-04-07
+### Fixed
+- Firebase fixer to respect changes in its base class
+- Framework Fixer for Unity 2018
 
 
 ## [3.1.4] - 2021-03-08

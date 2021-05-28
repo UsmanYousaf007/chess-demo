@@ -9,7 +9,7 @@ using UnityEditor.iOS.Xcode;
 namespace HUF.InitFirebase.Editor
 {
     [UsedImplicitly]
-#if UNITY_2018 || !UNITY_2019_3_OR_NEWER
+#if UNITY_2018
     public class iOSFirebaseFrameworkManager : iOSProjectBaseFrameworkManager
 #elif UNITY_2019_3_OR_NEWER
     public class iOSFirebaseFrameworkManager : iOSProjectBaseFixer
@@ -17,7 +17,7 @@ namespace HUF.InitFirebase.Editor
     {
         public override int callbackOrder => PostProcessBuildNumbers.PODFILE_GENERATION - 1;
 
-#if UNITY_2018 || !UNITY_2019_3_OR_NEWER
+#if UNITY_2018
         protected override IEnumerable<string> FrameworksToAdd { get; } = new[]
         {
             "GameKit.framework"

@@ -1,19 +1,19 @@
 {
   "name": "com.huuuge.plugins.firebase",
   "displayName": "Firebase SDK",
-  "version": "7.0.2",
+  "version": "7.2.0",
   "unity": "2018.4",
   "description": "Firebase Helps You Build, Improve, & Grow Your Mobile Apps. Check It Out Today! Types: iOS, Android, Web",
   "huf": {
     "dependencies": [
-      "com.google.external-dependency-manager@^1.2.155"
+      "com.huuuge.plugins.externaldependencymanager@^1.2.165"
     ],
-    "date": "16.02.2021 12:30",
-    "commit": "7747fc9",
-    "build": "15",
+    "date": "10.05.2021 16:50",
+    "commit": "0a6e907",
+    "build": "20",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/Firebase",
-    "rollout": "32"
+    "rollout": "38"
   }
 }

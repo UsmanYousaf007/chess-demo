@@ -1,4 +1,17 @@
-## [7.0.2] - 2021-11-16
+## [7.2.0] - 2021-05-06
+### Changed
+- Moved Firebase SDKs from Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 7.2.0
+
+
+## [7.1.0] - 2021-04-19
+### Update
+- Firebase SDK Unity plugin - 7.1.0
+
+
+## [7.0.2] - 2020-11-16
 ### Update
 - Firebase SDK Unity plugin - 7.0.2
 
