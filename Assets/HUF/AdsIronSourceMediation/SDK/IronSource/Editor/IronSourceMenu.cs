@@ -28,7 +28,7 @@ public class IronSourceMenu : UnityEditor.Editor
     [MenuItem("IronSource/Developer Settings/IronSource Mediation Settings", false, 3)]
     public static void mediationSettings()
     {
-        string path = "Assets/IronSource/Resources";
+        string path = "Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Resources";
 
         if (!Directory.Exists(path))
         {

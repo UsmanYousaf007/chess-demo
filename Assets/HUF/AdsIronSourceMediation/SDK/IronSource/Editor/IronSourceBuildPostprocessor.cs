@@ -1,4 +1,4 @@
-﻿#if UNITY_IOS
+#if UNITY_IOS
 
 using UnityEngine;
 using UnityEditor;
@@ -19,7 +19,7 @@ namespace IronSource.Editor
 		{
 			if (buildTarget == BuildTarget.iOS) {
 				string projectPath = buildPath + "/Unity-iPhone.xcodeproj/project.pbxproj";
-				string dirpath = Application.dataPath + "/IronSource/Editor/";
+				string dirpath = Application.dataPath + "/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/";
 				string currentNamespace = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
 
 				updateProject (buildTarget, projectPath);
