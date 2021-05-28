@@ -1,3 +1,13 @@
+## [2.6.2] - 2021-05-17
+### Fixed
+- Banner heights in BannerCallbackData from mock banner
+
+
+## [2.6.1] - 2021-05-07
+### Added
+- New SKANetworks added to list.
+
+
 ## [2.6.0] - 2021-03-16
 ### Added
 - Mock ads simulation on devices

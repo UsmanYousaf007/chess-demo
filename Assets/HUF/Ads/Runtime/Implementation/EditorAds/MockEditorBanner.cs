@@ -19,7 +19,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
         const string CONSTANT_WIDTH = "Constant width";
         const string CHANGE_HEIGHT = "Change height";
         const string CHANGE_COLOR = "Change color";
-        readonly int[] bannerHeightsInDp = {50, 70};
+        readonly int[] bannerHeightsInDp = { 50, 70 };
         readonly Color firstBannerColor = Color.magenta;
         readonly Color secondBannerColor = Color.clear;
 
@@ -36,8 +36,8 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
         CanvasBlocker canvasBlocker;
         BannerEditorAdsProvider bannerEditorAdsProvider;
 
-        public float HeightInPixels =>
-            isLeaderboard ? LEADERBOARD_HEIGHT_IN_DP : bannerHeightsInDp[currentBannerHeightId];
+        public float HeightInPixels => HAdsUtils.ConvertDpToPixels(
+            isLeaderboard ? LEADERBOARD_HEIGHT_IN_DP : bannerHeightsInDp[currentBannerHeightId] );
 
         public void Show( BannerEditorAdsProvider bannerEditorAdsProvider, BannerPosition bannerPosition )
         {
@@ -112,7 +112,7 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
             }
 
             float bannerWidth = 0;
-            float bannerHeight = HAdsUtils.ConvertDpToPixels( HeightInPixels );
+            float bannerHeight = HeightInPixels;
 
             if ( isLeaderboard )
             {
