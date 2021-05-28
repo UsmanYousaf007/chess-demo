@@ -1,13 +1,25 @@
 ## Internal SDK
 
-- AppsFlyer Unity Plugin - v6.2.4.1
-  - Android AppsFlyer SDK v6.2.0
-  - iOS AppsFlyer SDK v6.2.4
+- AppsFlyer Unity Plugin - v6.2.6.1
+  - Android AppsFlyer SDK v6.2.3
+  - iOS AppsFlyer SDK v6.2.6
+
+## [2.6.5] - 2020-05-06
+### Changed
+- External Dependency Manager dependency to HUF
 
 
-  ## [2.6.3] - 2021-03-24
-  ### Update
-  - Update to v6.2.4.1
+## [2.6.4] - 2021-04-27
+### Updated
+- AppsFlyer Unity Plugin - 6.2.6.1
+
+### Fixed
+- Conversion data callbacks not registering properly
+
+
+## [2.6.3] - 2021-03-24
+### Update
+- Update to v6.2.4.1
 
 
 ## [2.6.2] - 2021-03-11
