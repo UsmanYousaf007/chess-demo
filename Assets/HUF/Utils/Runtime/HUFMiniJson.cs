@@ -97,14 +97,14 @@ namespace HUF.Utils.Runtime
         }
 
         [Serializable]
-        struct DictHelper
+        public struct DictHelper
         {
             public string key;
             public string value;
         }
 
         [Serializable]
-        struct DictArrayHelper
+        public struct DictArrayHelper
         {
             public DictHelper[] items;
 

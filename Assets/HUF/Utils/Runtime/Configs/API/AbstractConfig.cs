@@ -18,7 +18,6 @@ namespace HUF.Utils.Runtime.Configs.API
 
         [SerializeField] [ConfigId] protected string configId;
 
-        public int callbackOrder => 10;
         public string ConfigId => configId;
 
 #pragma warning disable 67
@@ -91,6 +90,13 @@ namespace HUF.Utils.Runtime.Configs.API
         {
 #if UNITY_EDITOR
             OnChangedInEditor.Dispatch();
+#endif
+        }
+
+        protected virtual void Reset()
+        {
+#if UNITY_EDITOR
+            ConfigUtils.OverlayPreset( this );
 #endif
         }
 

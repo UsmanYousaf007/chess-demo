@@ -5,10 +5,6 @@ using System.Linq;
 using HUF.Utils.Runtime.BuildSupport;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-#if HUFEXT_PACKAGE_MANAGER
-using HUFEXT.PackageManager.Editor.Commands.Data;
-using HUFEXT.PackageManager.Editor.Core;
-#endif
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -34,9 +30,6 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
         public const string PROJECT_PROPERTY_FULL_NAME = "project.properties";
         public const string ANDROID_ADDITIONAL_MANIFEST_FOLDER_END_NAME = ".androidlib";
         public const string META_FILES = ".meta";
-
-        const string FIREBASE_NOTIFICATIONS_PACKAGE_NAME = "com.huuuge.huf.notifications.firebase";
-        const string FIREBASE_MESSAGING_PACKAGE_NAME = "com.google.firebase.messaging";
 
         const string FIREBASE_NOTIFICATIONS_ANDROID_ACTIVITY_NAME =
             "<activity android:name=\"com.google.firebase.MessagingUnityPlayerActivity\"";
@@ -225,41 +218,31 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
 
         static void CheckIfMainAndroidManifestActivityIsCorrect()
         {
-#if HUFEXT_PACKAGE_MANAGER
-            Command.Execute( new GetLocalPackagesCommand()
-            {
-                OnComplete = ( result, serializedData ) =>
-                {
-                    bool hasFirebaseNotificationPackage =
-                        HUFEXT.PackageManager.Editor.Core.Packages.Local.Any( a =>
-                            a.name == FIREBASE_NOTIFICATIONS_PACKAGE_NAME );
-
-                    if ( !hasFirebaseNotificationPackage )
-                        hasFirebaseNotificationPackage =
-                            HUFEXT.PackageManager.Editor.Core.Packages.Unity.Any( a =>
-                                a.name == FIREBASE_MESSAGING_PACKAGE_NAME );
-                    var mainManifestPath = $"{ANDROID_PLUGINS_FOLDER}/{MANIFEST_FULL_NAME}";
-                    bool mainManifestExists = File.Exists( mainManifestPath );
-
-                    if ( mainManifestExists )
-                    {
-                        var mainManifestContent = File.ReadAllText( mainManifestPath );
-
-                        bool mainManifestContainsActivity = mainManifestContent.Contains(
-                            FIREBASE_NOTIFICATIONS_ANDROID_ACTIVITY_NAME );
-
-                        if ( mainManifestContainsActivity && !hasFirebaseNotificationPackage )
-                        {
-                            HLog.LogError( logPrefix, FIREBASE_NOTIFICATIONS_PACKAGE_NEEDS_TO_BE_INSTALLED_ERROR );
-                        }
-                        else if ( !mainManifestContainsActivity && hasFirebaseNotificationPackage )
-                            HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
-                    }
-                    else if ( hasFirebaseNotificationPackage )
-                        HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
-                }
-            } );
+#if HUF_NOTIFICATIONS_FIREBASE
+            bool hasFirebaseNotificationPackage = true;
+#else
+            bool hasFirebaseNotificationPackage = false;
 #endif
+            
+            var mainManifestPath = $"{ANDROID_PLUGINS_FOLDER}/{MANIFEST_FULL_NAME}";
+            bool mainManifestExists = File.Exists( mainManifestPath );
+
+            if ( mainManifestExists )
+            {
+                var mainManifestContent = File.ReadAllText( mainManifestPath );
+
+                bool mainManifestContainsActivity = mainManifestContent.Contains(
+                    FIREBASE_NOTIFICATIONS_ANDROID_ACTIVITY_NAME );
+
+                if ( mainManifestContainsActivity && !hasFirebaseNotificationPackage )
+                {
+                    HLog.LogError( logPrefix, FIREBASE_NOTIFICATIONS_PACKAGE_NEEDS_TO_BE_INSTALLED_ERROR );
+                }
+                else if ( !mainManifestContainsActivity && hasFirebaseNotificationPackage )
+                    HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
+            }
+            else if ( hasFirebaseNotificationPackage )
+                HLog.LogWarning( logPrefix, FIREBASE_NOTIFICATIONS_WONT_WORK_WARNING );
         }
 #endif
 
@@ -306,7 +289,7 @@ namespace HUF.Utils.Editor.BuildSupport.AssetsBuilder
 
             foreach ( var directory in directories )
             {
-                CopyFiles( $"{source}/{directory.Name}", $"{destination}/{directory.Name}" );
+                CopyFiles( $"{source}/{directory.Name}", $"{destination}/{directory.Name}" ); 
             }
         }
 

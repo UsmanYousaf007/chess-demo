@@ -20,7 +20,8 @@ namespace HUF.Utils.Runtime.Logging
     public static class HLog
     {
         static bool canLogMessages = Config != null &&
-                                     ( Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds || Config.CanLogOnProd );
+                                     ( Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds ||
+                                       Config.CanLogOnProd );
 
         static bool canLogTime = Config != null && Config.ShowTimeInNativeLogs;
         static HLogConfig config;
@@ -77,6 +78,18 @@ namespace HUF.Utils.Runtime.Logging
         }
 
         /// <summary>
+        /// Logs the value of message in the console.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogError(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( prefixSource, message, LogType.Error );
+        }
+
+        /// <summary>
         /// Logs a message in the console.
         /// </summary>
         [PublicAPI]
@@ -84,6 +97,18 @@ namespace HUF.Utils.Runtime.Logging
         public static void LogWarning(
             HLogPrefix prefixSource,
             string message )
+        {
+            Log( prefixSource, message, LogType.Warning );
+        }
+
+        /// <summary>
+        /// Logs the value of message in the console.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogWarning(
+            HLogPrefix prefixSource,
+            Func<string> message )
         {
             Log( prefixSource, message, LogType.Warning );
         }
@@ -97,7 +122,27 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild && (Config == null || !Config.DisableHLogsOnDebugBuilds));
+            Log( prefixSource,
+                message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
+        }
+
+        /// <summary>
+        /// Logs the value of message that is not filtered out like HBI ID but only on debug.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogImportant(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( prefixSource,
+                message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
         }
 
         /// <summary>
@@ -109,11 +154,31 @@ namespace HUF.Utils.Runtime.Logging
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
+            Log( prefixSource,
+                message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
         }
 
         /// <summary>
-        /// Logs a message in the console when the build is set to DEBUG.
+        /// Logs the value of message that is not filtered out like Ads adapters status.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogAlways(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( prefixSource,
+                message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
+        }
+
+        /// <summary>
+        /// Logs a message in the console when if the criteria from the config are met.
         /// </summary>
         [PublicAPI]
         [MethodImpl( MethodImplOptions.AggressiveInlining )]
@@ -124,10 +189,36 @@ namespace HUF.Utils.Runtime.Logging
             Object context = null,
             bool isNotFiltered = false )
         {
+            if ( IsMessageFilteredOut( prefixSource, type, isNotFiltered ) )
+                return;
+            
+            LogMessage( prefixSource, message, type, context );
+        }
+
+        /// <summary>
+        /// Logs the value of message in the console when if the criteria from the config are met.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void Log(
+            HLogPrefix prefixSource,
+            Func<string> message,
+            LogType type = LogType.Log,
+            Object context = null,
+            bool isNotFiltered = false )
+        {
+            if ( IsMessageFilteredOut( prefixSource, type, isNotFiltered ) )
+                return;
+
+            LogMessage( prefixSource, message(), type, context );
+        }
+
+        static bool IsMessageFilteredOut( HLogPrefix prefixSource, LogType type, bool isNotFiltered )
+        {
             if ( type == LogType.Log && !isNotFiltered )
             {
                 if ( !canLogMessages )
-                    return;
+                    return true;
 
                 if ( Config != null && Config.IsFilteringLogs )
                 {
@@ -137,10 +228,18 @@ namespace HUF.Utils.Runtime.Logging
 
                     //Equals to: ( !Config.InvertFilter && !match ) || ( Config.InvertFilter && match )
                     if ( Config.InvertFilter == match )
-                        return;
+                        return true;
                 }
             }
 
+            return false;
+        }
+
+        static void LogMessage( HLogPrefix prefixSource,
+            string message,
+            LogType type = LogType.Log,
+            Object context = null )
+        {
             switch ( type )
             {
                 case LogType.Error:

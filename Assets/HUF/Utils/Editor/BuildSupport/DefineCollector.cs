@@ -33,7 +33,9 @@ namespace HUF.Utils.Editor.BuildSupport
 
         static readonly string[] rspFiles =
         {
+#if !UNITY_2021_1_OR_NEWER
             "mcs.rsp",
+#endif
             "csc.rsp"
         };
 

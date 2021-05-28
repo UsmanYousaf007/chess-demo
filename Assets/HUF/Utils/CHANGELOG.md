@@ -1,3 +1,55 @@
+## [3.12.1] - 2021-05-06
+### Fixed
+- Checking if Notifications Firebase is installed when MessagingUnityPlayerActivity is used
+
+
+## [3.12.0] - 2021-04-29
+### Added
+- Providing function as message to HLog
+
+
+## [3.11.2] - 2021-04-27
+### Fixed
+- Warning in Unity 2021 caused by creating deprecated `mcs.rsp` file
+
+
+## [3.11.1] - 2021-04-26
+### Changed
+- Moved OnBackButtonPress from PauseManager to a new InteractionManager class
+
+
+## [3.11.0] - 2021-04-20
+### Added
+- Unity 2020.3+ Build fix button
+
+
+## [3.10.2] - 2021-04-16
+### Fixed
+- `FrameworksToAddToMainTarget` property in `iOSProjectBaseFrameworkManager` for Unity 2019.3+  changed to virtual
+
+
+## [3.10.1] - 2021-04-07
+### Changed
+- Made iOS fixer `projectPath` protected
+- Made Dictionary helper
+
+
+## [3.10.0] - 2021-03-18
+## Warning
+- `AbstractConfig` **class now implements virtual `Reset` method. If any custom inheritor defines it too, it must be changed into an override.**
+
+### Added
+- Button for applying only non-empty properties from a default preset (if any)
+
+### Removed
+- Unused, derelict property `CallbackOrder` of `AbstractConfig`.
+
+
+## [3.9.1] - 2021-03-19
+### Added
+- Possibility to add iOS frameworks to both main and framework target on Unity 2019.3+
+
+
 ## [3.9.0] - 2021-03-11
 ### Added
 - Expanded GameServerResponse class to eliminate repeating code patterns

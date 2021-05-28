@@ -6,7 +6,7 @@ namespace HUF.Utils.Runtime
     public static class DateTimeUtils
     {
         /// <summary>
-        /// Marks a period of time from which UTC timestamp is counted
+        /// Marks a period of time from which UTC timestamp is counted.
         /// </summary>
         [PublicAPI]
         public static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

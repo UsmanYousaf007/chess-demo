@@ -1,4 +1,6 @@
 using HUF.Utils.Runtime.Configs.API;
+using HUF.Utils.Runtime.Configs.Implementation;
+using HUF.Utils.Runtime.Logging;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,10 +9,15 @@ namespace HUF.Utils.Editor.Configs
     [CustomEditor( typeof(AbstractConfig), true )]
     public class AbstractConfigEditor : UnityEditor.Editor
     {
-        bool showConfigEditor = true;
+
+        protected static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(AbstractConfigEditor) );
+
         static GUIContent headerContent = null;
         static GUIContent copyConfigContent = null;
         static GUIContent applyConfigContent = null;
+        static GUIContent applyPresetContent = null;
+
+        bool showConfigEditor = true;
 
         public static GUIContent HeaderContent
         {
@@ -29,41 +36,31 @@ namespace HUF.Utils.Editor.Configs
             }
         }
 
-        static GUIContent CopyConfigContent
-        {
-            get
+        static GUIContent CopyConfigContent =>
+            copyConfigContent ?? ( copyConfigContent = new GUIContent()
             {
-                if ( copyConfigContent == null )
-                {
-                    copyConfigContent = new GUIContent()
-                    {
-                        text = " Copy Config",
-                        image = EditorGUIUtility.IconContent( "d_TreeEditor.Duplicate" ).image,
-                        tooltip = "Copy config values to clipboard."
-                    };
-                }
+                text = " Copy Config",
+                image = EditorGUIUtility.IconContent( "d_TreeEditor.Duplicate" ).image,
+                tooltip = "Copies config values to the clipboard."
+            } );
 
-                return copyConfigContent;
-            }
-        }
-
-        static GUIContent ApplyConfigContent
-        {
-            get
+        static GUIContent ApplyConfigContent =>
+            applyConfigContent ?? ( applyConfigContent = new GUIContent()
             {
-                if ( applyConfigContent == null )
-                {
-                    applyConfigContent = new GUIContent()
-                    {
-                        text = " Apply Config",
-                        image = EditorGUIUtility.IconContent( "d_editicon.sml" ).image,
-                        tooltip = "Replace config values with values from clipboard."
-                    };
-                }
+                text = " Apply Config",
+                image = EditorGUIUtility.IconContent( "d_editicon.sml" ).image,
+                tooltip = "Replaces config values with values from the clipboard."
+            } );
 
-                return applyConfigContent;
-            }
-        }
+        static GUIContent ApplyPresetContent =>
+            applyPresetContent ?? ( applyPresetContent = new GUIContent()
+            {
+                text = " Overlay Default Preset",
+                image = EditorGUIUtility.IconContent( "d_Preset.Context" ).image,
+                tooltip = "Applies default preset properties, without clearing fields that were not defined in the preset."
+            } );
+
+
 
         public override void OnInspectorGUI()
         {
@@ -87,12 +84,7 @@ namespace HUF.Utils.Editor.Configs
             using ( new GUILayout.HorizontalScope() )
             {
                 if ( GUILayout.Button( CopyConfigContent, GUILayout.Height( 22f ) ) )
-                {
-                    var configData =
-                        AbstractConfig.RemoveObjectReferences( JsonUtility.ToJson( serializedObject.targetObject ) );
-                    GUIUtility.systemCopyBuffer = configData;
-                    Debug.Log( "Config copied to clipboard: " + configData );
-                }
+                    CopyConfig();
 
                 if ( GUILayout.Button( ApplyConfigContent, GUILayout.Height( 22f ) ) &&
                      EditorUtility.DisplayDialog( "Are you sure?",
@@ -100,12 +92,31 @@ namespace HUF.Utils.Editor.Configs
                          "Yes",
                          "No" ) )
                 {
-                    EditorUtility.SetDirty( target );
-                    var config = (AbstractConfig)target;
-                    config.ApplyJson( EditorGUIUtility.systemCopyBuffer );
-                    AssetDatabase.Refresh();
+                    ApplyConfig();
                 }
             }
+
+            using ( new GUILayout.HorizontalScope() )
+            {
+                if ( GUILayout.Button( ApplyPresetContent, GUILayout.Height( 22f ) ) )
+                    ConfigUtils.OverlayPreset( target );
+            }
+        }
+
+        void ApplyConfig()
+        {
+            EditorUtility.SetDirty( target );
+            var config = (AbstractConfig)target;
+            config.ApplyJson( EditorGUIUtility.systemCopyBuffer );
+            AssetDatabase.Refresh();
+        }
+
+        void CopyConfig()
+        {
+            var configData =
+                AbstractConfig.RemoveObjectReferences( JsonUtility.ToJson( serializedObject.targetObject ) );
+            GUIUtility.systemCopyBuffer = configData;
+            HLog.Log( logPrefix, $"Config copied to clipboard: {configData}" );
         }
 
         void DrawHeaderPanel()
