@@ -11,13 +11,20 @@ namespace HUF.NotificationsFirebase.Editor.iOS
         const string ENTITLEMENT_FILE = "Unity-IPhone/ios.entitlements";
         public override int callbackOrder => 0;
 
-        protected override bool Process(PBXProject project, string targetGuid, string projectPath)
+        protected override bool Process( PBXProject project )
         {
-            project.AddCapability(targetGuid, PBXCapabilityType.PushNotifications, ENTITLEMENT_FILE);
+#if UNITY_2019_3_OR_NEWER
+            string targetGuid = project.GetUnityMainTargetGuid();
+#else
+            string targetGuid = project.TargetGuidByName( PBXProject.GetUnityTargetName() );
+#endif
+            project.AddCapability( targetGuid, PBXCapabilityType.PushNotifications, ENTITLEMENT_FILE );
+
             var pbxCapabilityManager =
-                new ProjectCapabilityManager(projectPath, ENTITLEMENT_FILE, "Unity-iPhone");
-            pbxCapabilityManager.AddPushNotifications(true);
-            pbxCapabilityManager.AddBackgroundModes(BackgroundModesOptions.RemoteNotifications);
+                new ProjectCapabilityManager( projectPath, ENTITLEMENT_FILE, "Unity-iPhone" );
+            
+            pbxCapabilityManager.AddPushNotifications( true );
+            pbxCapabilityManager.AddBackgroundModes( BackgroundModesOptions.RemoteNotifications );
             pbxCapabilityManager.WriteToFile();
             return true;
         }

@@ -1,6 +1,24 @@
 ## External SDKs
-- Firebase Messaging - 7.0.2
-- Firebase Unity Plugin - 7.0.2
+- Firebase SDK Unity plugin - 7.2.0
+- Firebase Messaging - 7.2.0
+
+## [3.1.0] - 2021-05-06
+### Changed
+- Moved Firebase SDKs from Unity Package Manager
+
+### Update
+- Firebase SDK Unity plugin - 7.2.0
+
+
+## [3.0.2] - 2021-04-12
+### Updated
+- Firebase SDK Unity plugin - 7.1.0
+
+
+## [3.0.1] - 2021-04-08
+### Changed
+- Notifications fixer to work with newest Utils
+
 
 ## [3.0.0] - 2021-02-11
 ### Updated
