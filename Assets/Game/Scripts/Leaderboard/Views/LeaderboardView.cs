@@ -130,6 +130,7 @@ namespace TurboLabz.InstantFramework
             SetupTab(championship, world);
             gameObject.SetActive(true);
             worldAlert.SetActive(!preferencesModel.allStarTabVisited);
+            SchedulerCallback();
             schedulerSubscription.Dispatch(SchedulerCallback, true);
             scrollRectAllStars.gameObject.SetActive(false);
         }
@@ -331,6 +332,7 @@ namespace TurboLabz.InstantFramework
 
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;
                 //StartCoroutine(CountdownTimer());
+                SchedulerCallback();
                 schedulerSubscription.Dispatch(SchedulerCallback, true);
             }
         }
@@ -497,7 +499,7 @@ namespace TurboLabz.InstantFramework
 
         public void SchedulerCallback()
         {
-            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp/1000;
             if (timeLeft > 0)
             {
                 timeLeft--;

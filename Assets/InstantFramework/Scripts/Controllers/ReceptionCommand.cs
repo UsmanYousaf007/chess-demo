@@ -357,8 +357,8 @@ namespace TurboLabz.InstantFramework
         private void SendLeagueLifeCycleAnalytics()
         {
             var league = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
-            var daySinceCreationDate = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(playerModel.creationDate)).Days;
-            var dayToString = GetLeagueLifeCycleDay(daySinceCreationDate);
+            var daySinceCreationDate = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(playerModel.creationDate)).TotalDays;
+            var dayToString = GetLeagueLifeCycleDay((int)daySinceCreationDate);
 
             if (!string.IsNullOrEmpty(dayToString))
             {

@@ -101,6 +101,13 @@ namespace TurboLabz.InstantFramework
             dlg.SetActive(true);
         }
 
+        static public void AnimateDlgDisable(GameObject dlg)
+        {
+            CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(0.0f, 0.25f).OnComplete(() => dlg.SetActive(false));
+        }
+
         static public void DisableBlurBlg(GameObject dlg)
         {
             dlg.transform.parent.GetComponent<Image>().enabled = false;

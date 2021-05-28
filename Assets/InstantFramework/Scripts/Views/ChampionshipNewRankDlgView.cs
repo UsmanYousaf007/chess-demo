@@ -71,6 +71,7 @@ namespace TurboLabz.InstantFramework
             }
 
             continueButton.GetComponent<CanvasGroup>().alpha = 0;
+            SchedulerCallback();
             UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL).Then(() => schedulerSubscription.Dispatch(SchedulerCallback, true));
             Invoke("AnimateContinueButton", 0.75f);
         }
@@ -131,7 +132,7 @@ namespace TurboLabz.InstantFramework
 
         public void SchedulerCallback()
         {
-            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp;
+            long timeLeft = endTimeUTCSeconds - serverClock.currentTimestamp/1000;
             if (timeLeft > 0)
             {
                 timeLeft--;

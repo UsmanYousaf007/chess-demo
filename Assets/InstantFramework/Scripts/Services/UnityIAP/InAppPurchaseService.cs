@@ -10,7 +10,6 @@ using HUF.Purchases.Runtime.API.Data;
 using HUF.Purchases.Runtime.Implementation.Data;
 using TurboLabz.TLUtils;
 using UnityEngine;
-
 public class InAppPurchaseService : IStoreService
 {
     #region Services
@@ -205,9 +204,9 @@ public class InAppPurchaseService : IStoreService
     {
         var product = HPurchases.TryGetStoreProductInfo(productInfo.ProductId);
         LogUtil.Log("UnityIAPService - Purchase failed: " + failureType.ToString());
-
+        
         showIAPProcessingSignal.Dispatch(false, false);
-
+        
         // Do nothing when user cancels
         if (failureType == PurchaseFailureType.UserCancelled)
         {
@@ -227,6 +226,8 @@ public class InAppPurchaseService : IStoreService
             metaDataModel.store.failedPurchaseTransactionId = product.transactionID;
             if (storePromise != null)
             {
+                hAnalyticsService.LogEvent("purchase_failed", productInfo.ProductId, failureType.ToString());
+
                 storePromise.Dispatch(BackendResult.PURCHASE_FAILED);
                 storePromise = null;
             }
