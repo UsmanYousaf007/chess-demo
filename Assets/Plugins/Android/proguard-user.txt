@@ -247,8 +247,8 @@
 -keep class com.firebase.** { *; }
 #end of Assets/HUF/RemoteConfigsFirebase/Plugins/Android/ProguardTemplate.txt
 
-#start of Assets/HUF/StorageFirebase/proguard.txt
+#start of Assets/HUF/StorageFirebase/proguardTemplate.txt
 -keep class com.firebase.** { *; }
-#end of Assets/HUF/StorageFirebase/proguard.txt
+#end of Assets/HUF/StorageFirebase/proguardTemplate.txt
 
 ### HUF generated end ###################################
