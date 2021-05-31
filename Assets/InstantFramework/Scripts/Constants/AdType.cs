@@ -30,6 +30,7 @@ namespace TurboLabz.InstantFramework
         Rewarded_coins_popup,
         Rewarded_coins_banner,
         Rewarded_powerplay,
+        Rewarded_analysis,
         RV_rating_booster,
         Interstitial_pregame,
         Interstitial_endgame,

@@ -4,6 +4,8 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -34,9 +36,11 @@ namespace TurboLabz.InstantFramework
 
         /*Timed ads settings*/
         public int minGemsRequiredforRV { get; set; }
+        public List<string> adPlacements { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -56,6 +60,15 @@ namespace TurboLabz.InstantFramework
             autoSubscriptionDlgThreshold = 0;
             daysPerAutoSubscriptionDlgThreshold = 0;
             isBannerEnabled = true;
+        }
+
+        public bool CanShowAdWithAdPlacement(string adPlacement)
+        {
+            string result = adsSettingsModel.adPlacements.FirstOrDefault(s => s == adPlacement);
+            if (result == null)
+                return false;
+            else
+                return true;
         }
     }
 }

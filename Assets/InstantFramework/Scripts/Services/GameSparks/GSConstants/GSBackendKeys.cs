@@ -170,6 +170,8 @@ namespace TurboLabz.InstantFramework
         public const string PREMIUM_TIMER_COOLDOWN_TIME = "premiumTimerCooldownTimeInMin";
         public const string FREEMIUM_TIMER_COOLDOWN_TIME = "freemiumTimerCooldownTimeInMin";
         public const string MIN_GEMS_REQUIRED_FOR_RV = "minGemsRequiredforRV";
+
+        public const string AD_PLACEMENTS = "adPlacements";
         // AB Test Settings
         public const string AB_TEST_ADS_SETTINGS = "abTestAds";
 

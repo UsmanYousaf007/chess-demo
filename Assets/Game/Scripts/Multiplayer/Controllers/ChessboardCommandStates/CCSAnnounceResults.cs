@@ -41,7 +41,7 @@ namespace TurboLabz.Multiplayer
             vo.fullGameAnalysisStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS];
             vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
 
-            vo.canSeeRewardedVideo = cmd.playerModel.gems < cmd.adsSettingsModel.minGemsRequiredforRV && cmd.playerModel.rvUnlockTimestamp > 0;
+            vo.canSeeRewardedVideo = cmd.playerModel.gems < cmd.adsSettingsModel.minGemsRequiredforRV && cmd.playerModel.rvUnlockTimestamp > 0 && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.RV_rating_booster.ToString());
             vo.coolDownTimeUTC = cmd.playerModel.rvUnlockTimestamp;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
