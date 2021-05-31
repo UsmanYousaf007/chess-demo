@@ -250,6 +250,7 @@ namespace TurboLabz.InstantFramework
             playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
             playerModel.trophies2 = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
             playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
+            playerModel.dynamicBundleToDisplay = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DYNAMIC_BUNDLE_SHORT_CODE);
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
@@ -346,6 +347,8 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
             adsSettingsModel.minGemsRequiredforRV = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MIN_GEMS_REQUIRED_FOR_RV);
             adsSettingsModel.adPlacements = adsSettingsData.GetStringList(GSBackendKeys.AD_PLACEMENTS);
+            adsSettingsModel.removeInterAdsOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_INTER_ADS);
+            adsSettingsModel.removeRVOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_RV);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)

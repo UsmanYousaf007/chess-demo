@@ -28,7 +28,7 @@ There are two ways to set up the plugin on iOS:
 After building your project, verify that NativeCamera's "<provider ... />" tag is inserted in-between the "<application>...</application>" tags of PROJECT_PATH/Temp/StagingArea/AndroidManifest.xml. If not, please contact me.
 
 - Can't use the camera, it says "java.lang.ClassNotFoundException: com.yasirkula.unity.NativeCamera" in Logcat
-If your project uses ProGuard, try adding the following line to ProGuard filters: -keep class com.yasirkula.unity.* { *; }
+If you are sure that your plugin is up-to-date, then enable "Custom Proguard File" option from Player Settings and add the following line to that file: -keep class com.yasirkula.unity.* { *; }
 
 4. SCRIPTING API
 Please see the online documentation for a more in-depth documentation of the Scripting API: https://github.com/yasirkula/UnityNativeCamera
@@ -81,7 +81,8 @@ Texture2D NativeCamera.LoadImageAtPath( string imagePath, int maxSize = -1, bool
 // Creates a Texture2D thumbnail from a video file and returns it. Returns null, if something goes wrong
 // maxSize: determines the maximum size of the returned Texture2D in pixels. Larger thumbnails will be down-scaled. If untouched, its value will be set to SystemInfo.maxTextureSize. It is recommended to set a proper maxSize for better performance
 // captureTimeInSeconds: determines the frame of the video that the thumbnail is captured from. If untouched, OS will decide this value
-Texture2D NativeCamera.GetVideoThumbnail( string videoPath, int maxSize = -1, double captureTimeInSeconds = -1.0 );
+// markTextureNonReadable: see LoadImageAtPath
+Texture2D NativeCamera.GetVideoThumbnail( string videoPath, int maxSize = -1, double captureTimeInSeconds = -1.0, bool markTextureNonReadable = true );
 
 // Returns an ImageProperties instance that holds the width, height and mime type information of an image file without creating a Texture2D object. Mime type will be null, if it can't be determined
 NativeCamera.ImageProperties NativeCamera.GetImageProperties( string imagePath );

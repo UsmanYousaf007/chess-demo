@@ -41,6 +41,10 @@ namespace TurboLabz.InstantFramework
             long? coins = res.GetLong(GSBackendKeys.PlayerDetails.COINS);
             playerModel.coins += coins != null ? coins.Value : 0;
 
+            // Process dynamic bundle
+            var dynamicBundleShortCode = res.GetString(GSBackendKeys.PlayerDetails.DYNAMIC_BUNDLE_SHORT_CODE);
+            playerModel.dynamicBundleToDisplay = dynamicBundleShortCode;
+
             // Process goods
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)

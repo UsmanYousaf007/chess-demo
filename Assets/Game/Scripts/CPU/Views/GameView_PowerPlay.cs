@@ -112,7 +112,8 @@ namespace TurboLabz.CPU
             }
 
             powerPlayFreeHintsText.text = $"Get {settingsModel.powerModeFreeHints} Free Hints";
-            canSeeRewardedVideo = playerModel.gems < adsSettingsModel.minGemsRequiredforRV && playerModel.rvUnlockTimestamp > 0;
+            canSeeRewardedVideo = playerModel.gems < adsSettingsModel.minGemsRequiredforRV && playerModel.rvUnlockTimestamp > 0
+                && !(adsSettingsModel.removeRVOnPurchase && playerModel.HasPurchased());
             coolDownTimeUTC = playerModel.rvUnlockTimestamp;
             
             SetupState(isPowerModeOn, canSeeRewardedVideo);

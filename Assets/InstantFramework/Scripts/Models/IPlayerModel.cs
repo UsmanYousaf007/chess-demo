@@ -42,6 +42,7 @@ namespace TurboLabz.InstantFramework
         int league { get; set; }
         long coins { get; set; }
         bool leaguePromoted { get; set; }
+        string dynamicBundleToDisplay { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -100,5 +101,7 @@ namespace TurboLabz.InstantFramework
         int GetInventoryItemCount(string key);
         bool OwnsAllLessons();
         bool OwnsAllThemes();
+
+        bool HasPurchased();
     }
 }
