@@ -33,6 +33,7 @@ namespace HUF.PolicyGuard.Runtime.Configs
         [SerializeField] HGenericDialogInstance overrideGDPRWithAdsPopup;
         [SerializeField] HGenericDialogInstance overrideGDPRPopup;
         [SerializeField] HGenericDialogInstance overridePersonalizedAdsPopup;
+        [SerializeField] public GameObject anonymizationBlocker;
 
         [Header( "Country Check" )]
 

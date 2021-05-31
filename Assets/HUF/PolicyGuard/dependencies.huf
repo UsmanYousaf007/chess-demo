@@ -19,6 +19,7 @@ Assets/HUF/PolicyGuard/Plugins/iOS/HUF_AppTrackingTransparencyBridge.m
 Assets/HUF/PolicyGuard/Prefabs/PreATTPopup.prefab
 Assets/HUF/PolicyGuard/Prefabs/GDPRWithAds.prefab
 Assets/HUF/PolicyGuard/Prefabs/GenericPopupWithEvents.prefab
+Assets/HUF/PolicyGuard/Prefabs/DefaultAnonymizationBlocker.prefab
 Assets/HUF/PolicyGuard/Presets/PolicyGuardConfigPreset.preset
 Assets/HUF/PolicyGuard/Runtime/Configs/PolicyGuardConfig.cs
 Assets/HUF/PolicyGuard/Runtime/Configs/Data/PolicyPopup.cs
@@ -26,6 +27,7 @@ Assets/HUF/PolicyGuard/Runtime/Configs/Data/PlayerPrefsKeyState.cs
 Assets/HUF/PolicyGuard/Runtime/API/HPolicyGuard.cs
 Assets/HUF/PolicyGuard/Runtime/Implementations/PreATTLateClose.cs
 Assets/HUF/PolicyGuard/Runtime/Implementations/AppTrackingTransparencyBridge.cs
+Assets/HUF/PolicyGuard/Runtime/Implementations/AnonymizationHandler.cs
 Assets/HUF/PolicyGuard/Runtime/Implementations/GDPRWithAdsDialog.cs
 Assets/HUF/PolicyGuard/Runtime/Implementations/PolicyGuardService.cs
 Assets/HUF/PolicyGuard/Runtime/Implementations/GenericEventDialog.cs

@@ -1,7 +1,23 @@
+## [1.3.1] - 2021-05-17
+### Fixed
+- Fixed overriding setting if changed when building from commandline or CI
+
+
+## [1.3.0] - 2021-04-28
+### Added
+- Automatic handling of player Anonymization
+
+
+## [1.2.2] - 2021-04-28
+### Fixed
+- Removed text validator error on null config.
+
+
 ## [1.2.1] - 2021-03-31
 ### Fixed
 - Hardcoded color in personalized ads text.
 - iOS compilation error.
+
 
 ## [1.2.0] - 2021-03-23
 ### Added

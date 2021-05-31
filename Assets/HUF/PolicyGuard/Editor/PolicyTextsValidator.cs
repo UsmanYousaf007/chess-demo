@@ -65,6 +65,9 @@ namespace HUF.PolicyGuard.Editor
 
         static bool IsConfigChanged( HGenericDialogConfig currentConfig, string configPath )
         {
+            if ( currentConfig == null )
+                return true;
+
             if ( AssetDatabase.GetAssetPath( currentConfig )
                 .Contains( CONFIGS_PATH + configPath ) )
                 return false;
@@ -90,10 +93,10 @@ namespace HUF.PolicyGuard.Editor
         {
             HLog.LogWarning( logPrefix, MESSAGE_CONTENT );
 
-            if ( !EditorUtility.DisplayDialog( "IMPORTANT",
+            if ( EditorUtility.DisplayDialog( "IMPORTANT",
                 MESSAGE_CONTENT,
-                "I know, it is on purpose",
-                "Revert my changes" ) )
+                "Revert my changes",
+                "I know, it is on purpose") )
             {
                 RevertConfig( policyGuardConfig.ReferenceToPersonalizedAdsPopup, CONFIG_ADS_NAME );
                 RevertConfig( policyGuardConfig.ReferenceToGDPRPopup, CONFIG_GDPR_NAME );
