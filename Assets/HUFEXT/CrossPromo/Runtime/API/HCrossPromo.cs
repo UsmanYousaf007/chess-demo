@@ -9,7 +9,7 @@ namespace HUFEXT.CrossPromo.Runtime.API
 {
     public static class HCrossPromo
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HCrossPromo) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HCrossPromo) );
 
         public static CrossPromoService service;
         static bool isInitialized;

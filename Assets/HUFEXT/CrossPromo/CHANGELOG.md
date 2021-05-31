@@ -1,3 +1,18 @@
+## [2.1.3] - 2021-04-23
+### Fixed
+- Continue button from bottom panel not working
+
+
+## [2.1.2] - 2021-03-23
+### Fixed
+- Race condition between CrossPromo and Storage
+
+
+## [2.1.1] - 2021-03-11
+### Fixed
+- Often download of the same sprite
+
+
 ## [2.1.0] - 2020-11-03
 ### Changed
 - Support multiple remote configs services

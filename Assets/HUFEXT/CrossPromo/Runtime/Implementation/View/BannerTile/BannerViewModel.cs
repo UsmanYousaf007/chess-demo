@@ -2,6 +2,8 @@ using HUF.Storage.Runtime.API;
 using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
+using HUFEXT.CrossPromo.Runtime.API;
 using HUFEXT.CrossPromo.Runtime.Implementation.Model;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,22 +13,21 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 {
     public class BannerViewModel
     {
-        readonly string logPrefix;
+        static readonly HLogPrefix logPrefix = new HLogPrefix( HCrossPromo.logPrefix, nameof(BannerViewModel) );
+        readonly Vector2 spriteCreationPivot = new Vector2( 0.5f, 0.5f );
         readonly RectTransform parent;
         readonly RectTransform sizeArchetype;
-
-        public event UnityAction<RotationDirection> OnBannerRotate;
 
         TileModel model;
         BannerTileContainer container;
 
+        public event UnityAction<RotationDirection> OnBannerRotate;
+
         public BannerViewModel( TileModel model, RectTransform parent, RectTransform sizeArchetype )
         {
-            logPrefix = $"[{GetType().Name}]";
-            this.model = model;
             this.parent = parent;
             this.sizeArchetype = sizeArchetype;
-            LoadSprite( model.IsRemote );
+            UpdateView( model );
         }
 
         public void DestroyView()
@@ -40,16 +41,47 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 
         public void UpdateView( TileModel model )
         {
-            this.model = model;
+            if ( this.model != model )
+            {
+                this.model = model;
+                LoadSprite();
+            }
+        }
 
+        public void UpdateTexts()
+        {
+            var isInstalled = AppLauncher.AppLauncher.IsAppInstalled( model.PackageName );
+
+            if ( isInstalled == false && model.URLScheme.IsNullOrEmpty() == false )
+            {
+                isInstalled = AppLauncher.AppLauncher.IsAppInstalled( model.URLScheme );
+            }
+
+            UpdateTexts( isInstalled );
+        }
+
+        void LoadSprite()
+        {
             if ( SpriteBank.Sprites.ContainsKey( model.SpritePath ) )
             {
                 InternalViewUpdate( SpriteBank.Sprites[model.SpritePath] );
             }
             else
             {
-                LoadSprite( model.IsRemote );
+                if ( model.IsRemote )
+                {
+                    HandleRemoteSpriteCreation( model.SpritePath );
+                }
+                else
+                {
+                    HandleLocalSpriteCreation( model.SpritePath );
+                }
             }
+        }
+
+        void HandleRemoteSpriteCreation( string filePath )
+        {
+            HStorage.Texture.Get( filePath, HandleTextureFetched );
         }
 
         void HandleTextureFetched( ObjectResultContainer<Texture2D> resultContainer )
@@ -58,16 +90,17 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
             {
                 var name = resultContainer.StorageResultContainer.PathToFile;
 
-                if ( !SpriteBank.Sprites.ContainsKey( name ) )
+                if ( SpriteBank.Sprites.ContainsKey( name ) )
+                    HLog.LogError( logPrefix, $"SpriteBank already contains sprite: {name}" );
+                else
                 {
                     var tex = resultContainer.Result;
-                    var rect = new Rect( 0.0f, 0.0f, tex.width, tex.height );
-                    var pivot = new Vector2( 0.5f, 0.5f );
-                    var sprite = Sprite.Create( tex, rect, pivot );
+                    var rect = new Rect( 0, 0, tex.width, tex.height );
+                    var sprite = Sprite.Create( tex, rect, spriteCreationPivot );
 
                     if ( sprite == null )
                     {
-                        Debug.LogError( $"{logPrefix} Failed to create sprite from remote texture {name}" );
+                        HLog.LogError( logPrefix, $"Failed to create sprite from remote texture: {name}" );
                         return;
                     }
 
@@ -79,14 +112,9 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
             }
             else
             {
-                Debug.LogWarning(
-                    $"{logPrefix} Failed to download texture from remote texture {resultContainer.StorageResultContainer.PathToFile}" );
+                HLog.LogWarning( logPrefix,
+                    $"Failed to download texture from remote texture: {resultContainer.StorageResultContainer.PathToFile}, message: {resultContainer.StorageResultContainer.ErrorMessage}" );
             }
-        }
-
-        void HandleRemoteSpriteCreation( string filePath )
-        {
-            HStorage.Texture.Get( filePath, HandleTextureFetched );
         }
 
         void HandleLocalSpriteCreation( string filePath )
@@ -95,30 +123,14 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
 
             if ( sprite == null )
             {
-                Debug.LogError( $"{logPrefix} Failed to load sprite at path {filePath}" );
+                HLog.LogError( logPrefix, $"Failed to load sprite at path: {filePath}" );
                 HandleRemoteSpriteCreation( filePath );
                 return;
             }
 
-            if ( !SpriteBank.Sprites.ContainsKey( filePath ) )
-            {
-                sprite.name = filePath;
-                SpriteBank.Sprites.Add( filePath, sprite );
-            }
-
-            InternalViewUpdate( SpriteBank.Sprites[filePath] );
-        }
-
-        void LoadSprite( bool isRemote )
-        {
-            if ( isRemote )
-            {
-                HandleRemoteSpriteCreation( model.SpritePath );
-            }
-            else
-            {
-                HandleLocalSpriteCreation( model.SpritePath );
-            }
+            sprite.name = filePath;
+            SpriteBank.Sprites.Add( filePath, sprite );
+            InternalViewUpdate( sprite );
         }
 
         void InternalViewUpdate( Sprite sprite )
@@ -157,7 +169,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
         {
             var config = HConfigs.GetConfig<CrossPromoLocalConfig>();
             container = Object.Instantiate( config.BannerTileContainerPrefab, parent );
-            container.transform.name = "BannerContainer" + model.Uuid + model.SpritePath;
+            container.transform.name = $"BannerContainer {model.Uuid}{model.SpritePath}";
             container.OnBannerRotation += HandleBannerRotation;
             container.SetSizeArchetype( sizeArchetype );
         }
@@ -175,18 +187,6 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
         void OpenGame()
         {
             AppLauncher.AppLauncher.LaunchApp( model.PackageName );
-        }
-
-        public void UpdateTexts()
-        {
-            var isInstalled = AppLauncher.AppLauncher.IsAppInstalled( model.PackageName );
-
-            if ( isInstalled == false && model.URLScheme.IsNullOrEmpty() == false )
-            {
-                isInstalled = AppLauncher.AppLauncher.IsAppInstalled( model.URLScheme );
-            }
-
-            UpdateTexts( isInstalled );
         }
 
         void UpdateTexts( bool isInstalled )
