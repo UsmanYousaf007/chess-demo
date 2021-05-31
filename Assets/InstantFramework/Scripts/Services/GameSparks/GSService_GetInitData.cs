@@ -12,6 +12,7 @@ using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
 using System.Collections;
+
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
@@ -345,6 +346,7 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
             adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
             adsSettingsModel.minGemsRequiredforRV = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MIN_GEMS_REQUIRED_FOR_RV);
+            adsSettingsModel.adPlacements = adsSettingsData.GetStringList(GSBackendKeys.AD_PLACEMENTS);
             adsSettingsModel.removeInterAdsOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_INTER_ADS);
             adsSettingsModel.removeRVOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_RV);
         }

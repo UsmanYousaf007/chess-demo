@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -36,7 +37,9 @@ namespace TurboLabz.InstantFramework
 
         /*Timed ads settings*/
         int minGemsRequiredforRV { get; set; }
+        List<string> adPlacements { get; set; }
 
+        bool CanShowAdWithAdPlacement(string adPlacement);
     }
 }
 
