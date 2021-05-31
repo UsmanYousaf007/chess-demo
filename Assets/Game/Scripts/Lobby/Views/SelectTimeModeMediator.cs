@@ -100,11 +100,12 @@ namespace TurboLabz.InstantFramework
 
         private void CreateVGoodsTransaction()
         {
-            var transactionVO = new VirtualGoodsTransactionVO();
-            transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-            transactionVO.consumeQuantity = (int)betValue;
-            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
-            virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            //var transactionVO = new VirtualGoodsTransactionVO();
+            //transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.COINS;
+            //transactionVO.consumeQuantity = (int)betValue;
+            //virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+            //virtualGoodsTransactionSignal.Dispatch(transactionVO);
+            OnTransactionResult(BackendResult.SUCCESS);
         }
 
         private void OnTransactionResult(BackendResult result)
@@ -112,7 +113,6 @@ namespace TurboLabz.InstantFramework
             if (result == BackendResult.SUCCESS)
             {
                 FindMatchAction.Random(findMatchSignal, matchInfoVO, tournamentsModel.GetJoinedTournament().id);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
             }
         }
 
