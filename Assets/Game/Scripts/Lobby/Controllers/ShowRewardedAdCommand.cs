@@ -93,7 +93,16 @@ namespace TurboLabz.InstantFramework
 
             if (!adsService.IsRewardedVideoAvailable(adPlacement))
             {
-                rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
+                if (adPlacement == AdPlacements.Rewarded_coins_purchase ||
+                    adPlacement == AdPlacements.Rewarded_coins_banner ||
+                    adPlacement == AdPlacements.Rewarded_coins_popup)
+                {
+                    OnVideoShown(AdsResult.FINISHED);
+                }
+                else
+                {
+                    rewardedVideoResultSignal.Dispatch(AdsResult.NOT_AVAILABLE, adPlacement);
+                }
                 Release();
             }
             else

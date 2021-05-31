@@ -446,7 +446,11 @@ namespace TurboLabz.InstantGame
                                     (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
                                     actionCode == FindMatchAction.ActionCode.Random1.ToString());
 
-            if (!adsService.IsPersonalisedAdDlgShown())
+            if (adsSettingsModel.removeInterAdsOnPurchase && playerModel.HasPurchased())
+            {
+                retVal = false;
+            }
+            else if (!adsService.IsPersonalisedAdDlgShown())
             {
                 retVal = false;
             }

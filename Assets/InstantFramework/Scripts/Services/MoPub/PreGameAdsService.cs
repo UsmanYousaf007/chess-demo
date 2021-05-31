@@ -70,7 +70,11 @@ namespace TurboLabz.InstantFramework
                                     (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
                                     actionCode == FindMatchAction.ActionCode.Random1.ToString());
 
-            if (playerModel.HasRemoveAds())
+            if (adsSettingsModel.removeInterAdsOnPurchase && playerModel.HasRemoveAds())
+            {
+                retVal = false;
+            }
+            else if (playerModel.HasPurchased())
             {
                 retVal = false;
             }
