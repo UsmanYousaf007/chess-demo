@@ -166,7 +166,7 @@ namespace TurboLabz.Multiplayer
         private MatchAnalysis matchAnalysis;
         private int movesCount;
 
-        private bool canSeeRewardedVideo;
+        private bool isRatingBoosterRVEnabled;
         private long coolDownTimeUTC;
 
         Sequence animSequence;
@@ -284,7 +284,7 @@ namespace TurboLabz.Multiplayer
             challengeId = vo.challengeId;
             movesCount = vo.movesCount;
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
-            canSeeRewardedVideo = vo.canSeeRewardedVideo;
+            isRatingBoosterRVEnabled = vo.isRatingBoosterRVEnabled;
             coolDownTimeUTC = vo.coolDownTimeUTC;
 
             UpdateGameEndReasonSection(vo.reason);
@@ -487,8 +487,8 @@ namespace TurboLabz.Multiplayer
 
         private void SetupResultsLayout()
         {
-            bool enableRewardedVideoPanel = canSeeRewardedVideo && isRankedGame;
-            bool enableRatingBoosterPanel = !canSeeRewardedVideo || !isRankedGame;
+            bool enableRewardedVideoPanel = isRatingBoosterRVEnabled && isRankedGame;
+            bool enableRatingBoosterPanel = !isRatingBoosterRVEnabled || !isRankedGame;
 
             ratingBoosterRvPanel.SetActive(enableRewardedVideoPanel && !isDraw);
             resultsBoostRatingButton.gameObject.SetActive(!enableRewardedVideoPanel && !isDraw);

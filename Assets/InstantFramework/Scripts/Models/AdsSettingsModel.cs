@@ -66,11 +66,7 @@ namespace TurboLabz.InstantFramework
 
         public bool CanShowAdWithAdPlacement(string adPlacement)
         {
-            string result = adsSettingsModel.adPlacements.FirstOrDefault(s => s == adPlacement);
-            if (result == null)
-                return false;
-            else
-                return true;
+            return adsSettingsModel.adPlacements.FirstOrDefault(s => s == adPlacement) != null;
         }
     }
 }
