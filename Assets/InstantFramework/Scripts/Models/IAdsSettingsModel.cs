@@ -31,6 +31,8 @@ namespace TurboLabz.InstantFramework
         bool showInGame30Min { get; set; }
         bool showInGameClassic { get; set; }
         bool isBannerEnabled { get; set; }
+        bool removeInterAdsOnPurchase { get; set; }
+        bool removeRVOnPurchase { get; set; }
 
         /*Timed ads settings*/
         int minGemsRequiredforRV { get; set; }

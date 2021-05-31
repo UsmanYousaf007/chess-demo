@@ -164,6 +164,8 @@ namespace TurboLabz.InstantFramework
         public const string MINUTES_LEFT_DISABLE_TOURNAMENT_ADS = "minutesLeftDisableTournamentPregame";
         public const string MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS = "minutesElapsedDisable30MinInGame";
         public const string ENABLE_BANNER_ADS = "enableBannerAds";
+        public const string REMOVE_INTER_ADS = "removeInterAdsOnPurchase";
+        public const string REMOVE_RV = "removeRVOnPurchase";
 
         public const string MIN_PLAY_DAYS_REQUIRED = "minPlayDaysRequired";
         public const string MIN_PURCHASES_REQUIRED = "minPurchasesRequired";
@@ -380,6 +382,11 @@ namespace TurboLabz.InstantFramework
 
             public const string SPECIAL_BUNDLE_WELCOME = "SpecialBundleWelcome";
             public const string SPECIAL_BUNDLE_ELITE = "SpecialBundleElite";
+            public const string SPECIAL_BUNDLE_GOLDEN = "SpecialBundleGolden";
+            public const string SPECIAL_BUNDLE_EMERALD = "SpecialBundleEmerald";
+            public const string SPECIAL_BUNDLE_RUBY = "SpecialBundleRuby";
+            public const string SPECIAL_BUNDLE_DIAMOND = "SpecialBundleDiamond";
+            public const string SPECIAL_BUNDLE_GRAND_MASTER = "SpecialBundleGrandMaster";
 
             public static string GetOfferItemKey(string text)
             {
@@ -575,6 +582,7 @@ namespace TurboLabz.InstantFramework
             public const string COINS = "coins";
             public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
             public const string RV_UNLOCK_TIMESTAMP = "rvUnlockTimestamp";
+            public const string DYNAMIC_BUNDLE_SHORT_CODE = "dynamicBundleShortCode";
         }
 
         public static class Match
