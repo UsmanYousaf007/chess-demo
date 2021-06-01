@@ -15,7 +15,7 @@ namespace TurboLabz.InstantFramework
     {
         public IPromise<BackendResult> VirtualGoodsTransaction(GSRequestData jsonData)
         {
-            return new GSVirtualGoodsTransaction(GetRequestContext()).Send(jsonData, OnVirtualGoodsTransactionSuccess);
+            return new GSVirtualGoodsTransaction(GetRequestContext()).Send(jsonData, OnVirtualGoodsTransactionSuccess, OnVirtualGoodsTransactionFailed);
         }
 
         public class GSVirtualGoodsTransaction : GSFrameworkRequest
@@ -25,9 +25,10 @@ namespace TurboLabz.InstantFramework
 
             public GSVirtualGoodsTransaction(GSFrameworkRequestContext context) : base(context) { }
 
-            public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess)
+            public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess, Action<object> onFailure)
             {
                 this.onSuccess = onSuccess;
+                this.onFailure = onFailure;
                 this.errorCode = BackendResult.VIRTUAL_GOODS_TRANSACTION_FAILED;
 
                 new LogEventRequest()
@@ -97,6 +98,24 @@ namespace TurboLabz.InstantFramework
                         }
                     }
                 }
+            }
+        }
+
+        private void OnVirtualGoodsTransactionFailed(object r)
+        {
+            var response = (LogEventResponse)r;
+            var errorData = response.Errors;
+            var errorString = errorData.GetString("error");
+
+            if (errorString.Equals("coinsInsufficient"))
+            {
+                playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            }
+            else if (errorString.Equals("gemsInsufficient"))
+            {
+                playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
     }
