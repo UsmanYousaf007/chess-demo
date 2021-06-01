@@ -20,6 +20,12 @@ namespace HUF.PolicyGuard.Runtime.API
 
 #pragma warning disable 0067
         /// <summary>
+        /// Raised when Policy Guard is initialized.
+        /// </summary>
+        [PublicAPI]
+        public static event Action OnInitialized;
+        
+        /// <summary>
         /// Raised when the GDPR window appears.
         /// </summary>
         [PublicAPI]
@@ -141,6 +147,8 @@ namespace HUF.PolicyGuard.Runtime.API
 #endif
             HAds.OnPersonalizedAdsConsentChanged += status => { OnPersonalizedAdsConsentChanged.Dispatch( status ); };
             service.CheckFlow();
+            
+            OnInitialized.Dispatch();
         }
 
         /// <summary>

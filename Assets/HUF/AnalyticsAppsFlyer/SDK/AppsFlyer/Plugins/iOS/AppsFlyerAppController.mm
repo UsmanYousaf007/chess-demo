@@ -5,6 +5,7 @@
 //  Created by Jonathan Wesfield on 30/07/2019.
 //
 
+#import <AppTrackingTransparency/ATTrackingManager.h>
 #import <Foundation/Foundation.h>
 #import "UnityAppController.h"
 #import "AppDelegateListener.h"
@@ -47,6 +48,11 @@
 }
 
 - (void)didFinishLaunching:(NSNotification*)notification {
+    if (@available(iOS 14, *)) {
+          [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status){
+          }];
+    }
+
     NSLog(@"got didFinishLaunching = %@",notification.userInfo);
 
 

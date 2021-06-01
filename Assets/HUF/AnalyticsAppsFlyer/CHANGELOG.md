@@ -1,8 +1,16 @@
 ## Internal SDK
 
-- AppsFlyer Unity Plugin - v6.2.6.1
-  - Android AppsFlyer SDK v6.2.3
-  - iOS AppsFlyer SDK v6.2.6
+- AppsFlyer Unity Plugin - v6.3.0
+  - Android AppsFlyer SDK v6.3.0
+  - iOS AppsFlyer SDK v6.3.0
+
+## [2.7.0] - 2021-05-31
+### Updated
+- AppsFlyer Unity Plugin - 6.3.0
+
+### Fixed
+- Missing IDFA in installs
+
 
 ## [2.6.5] - 2020-05-06
 ### Changed

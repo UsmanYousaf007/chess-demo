@@ -1,3 +1,8 @@
+## [1.4.0] - 2021-06-01
+### Added
+- OnInitialized event
+
+
 ## [1.3.1] - 2021-05-17
 ### Fixed
 - Fixed overriding setting if changed when building from commandline or CI

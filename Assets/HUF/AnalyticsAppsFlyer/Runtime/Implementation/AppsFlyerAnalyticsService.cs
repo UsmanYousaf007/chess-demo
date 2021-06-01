@@ -6,6 +6,11 @@ using AppsFlyerSDK;
 using HUF.Analytics.Runtime.API;
 using HUF.Analytics.Runtime.Implementation;
 using HUF.AnalyticsAppsFlyer.Runtime.API;
+using HUF.AnalyticsAppsFlyer.Runtime.Implementation;
+#if HUF_POLICY_GUARD
+using HUF.PolicyGuard.Runtime.API;
+using HUF.PolicyGuard.Runtime.Configs;
+#endif
 using HUF.Utils.Runtime;
 #if HUF_ANALYTICS_HBI
 using HUF.AnalyticsHBI.Runtime.API;
@@ -43,9 +48,27 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
         }
 
         public string UserId => AppsFlyer.getAppsFlyerId();
+        AnalyticsModel model;
 
         public void Init( AnalyticsModel model )
         {
+            this.model = model;
+#if HUF_POLICY_GUARD
+            var policyGuardConfig = HConfigs.GetConfig<PolicyGuardConfig>();
+            var config = HConfigs.GetConfig<AppsFlyerAnalyticsConfig>();
+
+            if ( policyGuardConfig.AutoInit && config.AutoInit && !HPolicyGuard.IsInitialized )
+                HPolicyGuard.OnInitialized += Init;
+            else
+#endif
+                Init();
+        }
+
+        public void Init()
+        {
+#if HUF_POLICY_GUARD
+            HPolicyGuard.OnInitialized -= Init;
+#endif
             var config = HConfigs.GetConfig<AppsFlyerAnalyticsConfig>();
 
             if ( config == null )
@@ -67,6 +90,9 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
 #endif
             if ( !didSetCustomerUserID && !SystemInfo.deviceUniqueIdentifier.IsNullOrEmpty() )
                 AppsFlyer.setCustomerUserId( SystemInfo.deviceUniqueIdentifier );
+#if UNITY_IOS && !UNITY_EDITOR
+            AppsFlyeriOS.waitForATTUserAuthorizationWithTimeoutInterval(120);
+#endif
             AppsFlyer.setIsDebug( Debug.isDebugBuild );
             var callbacksClassName = AppsFlyerTrackerCallbacks.Instance.GetType().Name;
             MonoBehaviour callbacksObject = null;
@@ -143,7 +169,8 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
                 if ( !isProcessEventsQueueScheduled )
                 {
                     isProcessEventsQueueScheduled = true;
-                    if (IntervalManager.Instance != null)
+
+                    if ( IntervalManager.Instance != null )
                         IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
                 }
             }
@@ -174,7 +201,8 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
             if ( eventsQueue.Count > 0 )
             {
                 isProcessEventsQueueScheduled = true;
-                if (IntervalManager.Instance != null)
+
+                if ( IntervalManager.Instance != null )
                     IntervalManager.Instance.RunWithDelay( ProcessEventsQueue, DELAY_BETWEEN_SENDING_EVENTS );
             }
         }
