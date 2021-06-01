@@ -20,7 +20,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public PowerPlayRewardClaimedSignal powerPlayRewardClaimedSignal { get; set; }
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
-            return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess);
+            return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess, OnClaimRewardFailed);
         }
 
         private void OnClaimRewardSuccess(object r, Action<object> a)
@@ -68,6 +68,19 @@ namespace TurboLabz.InstantFramework
                     }
                 }
 
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            }
+        }
+
+        private void OnClaimRewardFailed(object r)
+        {
+            var response = (LogEventResponse)r;
+            var errorData = response.Errors;
+            var errorString = errorData.GetString("error");
+
+            if (errorString.Equals("invalidCoinPurchaseReward"))
+            {
+                playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }
         }
@@ -150,9 +163,10 @@ namespace TurboLabz.InstantFramework
 
         public GSClaimRewardRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess)
+        public IPromise<BackendResult> Send(GSRequestData jsonData, Action<object, Action<object>> onSuccess, Action<object> onFailure)
         {
             this.onSuccess = onSuccess;
+            this.onFailure = onFailure;
             this.errorCode = BackendResult.CLAIM_REWARD_REQUEST_FAILED;
 
             new LogEventRequest()  

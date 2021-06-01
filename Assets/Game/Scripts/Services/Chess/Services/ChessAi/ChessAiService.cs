@@ -159,7 +159,7 @@ namespace TurboLabz.Chess
             {
                 if (ChessAiPlugin.results.aiSearchResultScoresStr == null)
                 {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().aiSearchResultScoresStr is null");
+                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"ChessAiService.ExecuteAiMove().aiSearchResultScoresStr is null, isHint:{aiMoveInputVO.isHint} isAnalysis:{aiMoveInputVO.analyse}");
                 }
                 else if (ChessAiPlugin.results.aiSearchResultMovesStr == null)
                 {

@@ -7,6 +7,7 @@ using TurboLabz.InstantGame;
 using strange.extensions.command.impl;
 using System.Collections;
 using TurboLabz.TLUtils;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -29,6 +30,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
         [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -289,8 +292,16 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.SUCCESS)
             {
+                loadLobbySignal.Dispatch();
                 backendErrorSignal.Dispatch(result);
                 Release();
+            }
+            else
+            {
+                var betValue = FindMatchAction.actionData.betValue;
+                playerModel.coins -= betValue;
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
             }
         }
 
