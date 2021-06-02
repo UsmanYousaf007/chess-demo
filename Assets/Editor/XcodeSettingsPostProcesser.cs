@@ -125,15 +125,15 @@ public class XcodeSettingsPostProcesser
         File.WriteAllText(projPath, proj.WriteToString());
 
         //Adding Apple Sign-In Capability
-#if UNITY_IOS
-     //   ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", targetGuid);
-	    //ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
-	    //projCapability.WriteToFile();
+//#if UNITY_IOS
+//     //   ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", targetGuid);
+//	    //ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
+//	    //projCapability.WriteToFile();
 
-        ProjectCapabilityManager projCapManager = new ProjectCapabilityManager(projPath,"Entitlements.entitlements", "Unity-iPhone");
-        projCapManager.AddSignInWithApple();
-        projCapManager.WriteToFile();
+//        ProjectCapabilityManager projCapManager = new ProjectCapabilityManager(projPath,"Entitlements.entitlements", "Unity-iPhone");
+//        projCapManager.AddSignInWithApple();
+//        projCapManager.WriteToFile();
 
-#endif
+//#endif
     }
 }

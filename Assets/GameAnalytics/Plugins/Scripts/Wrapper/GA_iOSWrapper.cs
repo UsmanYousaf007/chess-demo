@@ -39,7 +39,7 @@ namespace GameAnalyticsSDK.Wrapper
         private static extern void configureAutoDetectAppVersion(bool flag);
 
         [DllImport ("__Internal")]
-        private static extern void initialize(string gamekey, string gamesecret);
+        private static extern void gaInitialize(string gamekey, string gamesecret);
 
         [DllImport ("__Internal")]
         private static extern void setCustomDimension01(string customDimension);
@@ -84,7 +84,7 @@ namespace GameAnalyticsSDK.Wrapper
         private static extern void addAdEvent(int adAction, int adType, string adSdkName, string adPlacement);
 
         [DllImport ("__Internal")]
-        private static extern void addImpressionEvent(string adNetworkName, string impressionData);
+        private static extern void addImpressionEvent(string adNetworkName, string adNetworkVersion, string impressionData);
 
         [DllImport ("__Internal")]
         private static extern void setEnabledInfoLog(bool enabled);
@@ -135,16 +135,102 @@ namespace GameAnalyticsSDK.Wrapper
         [DllImport ("__Internal")]
         private static extern long stopTimer(string key);
 
-        private static void subscribeMoPubImpressions()
+#if gameanalytics_mopub_enabled
+        [DllImport("__Internal")]
+        private static extern string _moPubGetSDKVersion();
+#endif
+
+#if gameanalytics_topon_enabled
+        [DllImport("__Internal")]
+        private static extern string getTopOnSdkVersion();
+#endif
+
+        private static void initialize(string gamekey, string gamesecret)
         {
-            GAMopubIntegration.ListenForImpressions(ImpressionHandler);
+            gaInitialize(gamekey, gamesecret);
         }
 
-        private static void ImpressionHandler(string json)
+        private static void subscribeMoPubImpressions()
+        {
+            GAMopubIntegration.ListenForImpressions(MopubImpressionHandler);
+        }
+
+        private static void MopubImpressionHandler(string json)
         {
             if(!string.IsNullOrEmpty(json))
             {
-                addImpressionEvent("mopub", json);
+#if gameanalytics_mopub_enabled
+                addImpressionEvent("mopub", _moPubGetSDKVersion(), json);
+#endif
+            }
+        }
+
+        private static void subscribeFyberImpressions()
+        {
+            GAFyberIntegration.ListenForImpressions(FyberImpressionHandler);
+        }
+
+        private static void FyberImpressionHandler(string json)
+        {
+            if(!string.IsNullOrEmpty(json))
+            {
+#if gameanalytics_fyber_enabled
+                addImpressionEvent("fyber", Fyber.FairBid.Version, json);
+#endif
+            }
+        }
+
+        private static void subscribeIronSourceImpressions()
+        {
+            GAIronSourceIntegration.ListenForImpressions(IronSourceImpressionHandler);
+        }
+
+        private static void IronSourceImpressionHandler(string json)
+        {
+            if(!string.IsNullOrEmpty(json))
+            {
+#if gameanalytics_ironsource_enabled
+
+                // Remove potential label/tag from version number
+                string v = IronSource.pluginVersion();
+                int index = v.IndexOf("-");
+                if(index >= 0)
+                {
+                    v = v.Substring(0, index);
+                }
+
+                addImpressionEvent("ironsource", v, json);
+#endif
+            }
+        }
+
+        private static void subscribeTopOnImpressions()
+        {
+            GATopOnIntegration.ListenForImpressions(TopOnImpressionHandler);
+        }
+
+        private static void TopOnImpressionHandler(string json)
+        {
+            if(!string.IsNullOrEmpty(json))
+            {
+#if gameanalytics_topon_enabled
+                addImpressionEvent("topon", getTopOnSdkVersion(), json);
+#endif
+            }
+        }
+
+        private static void subscribeMaxImpressions()
+        {
+            GAMaxIntegration.ListenForImpressions(MaxImpressionHandler);
+        }
+
+        private static void MaxImpressionHandler(string json)
+        {
+            if(!string.IsNullOrEmpty(json))
+            {
+#if gameanalytics_max_enabled
+                addImpressionEvent("max", MaxSdk.Version, json);
+#endif
             }
         }
 #endif

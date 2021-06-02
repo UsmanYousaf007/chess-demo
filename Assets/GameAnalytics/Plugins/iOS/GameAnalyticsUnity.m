@@ -104,7 +104,7 @@ void configureAutoDetectAppVersion(BOOL flag) {
     [GameAnalytics configureAutoDetectAppVersion:flag];
 }
 
-void initialize(const char *gameKey, const char *gameSecret) {
+void gaInitialize(const char *gameKey, const char *gameSecret) {
     NSString *gameKeyString = gameKey != NULL ? [NSString stringWithUTF8String:gameKey] : nil;
     NSString *gameSecretString = gameSecret != NULL ? [NSString stringWithUTF8String:gameSecret] : nil;
 
@@ -278,11 +278,12 @@ void addAdEvent(int adAction, int adType, const char *adSdkName, const char *adP
                             adPlacement:adPlacementString];
 }
 
-void addImpressionEvent(const char* adNetworkName, const char *json) {
+void addImpressionEvent(const char* adNetworkName, const char* adNetworkVersion, const char *json) {
     NSString *jsonString = json != NULL ? [NSString stringWithUTF8String:json] : nil;
     NSString *adNetworkNameString = adNetworkName != NULL ? [NSString stringWithUTF8String:adNetworkName] : nil;
+    NSString *adNetworkVersionString = adNetworkVersion != NULL ? [NSString stringWithUTF8String:adNetworkVersion] : nil;
 
-    if(jsonString != nil && adNetworkNameString != nil) {
+    if(jsonString != nil && adNetworkNameString != nil && adNetworkVersionString != nil) {
         NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error;
 
@@ -291,7 +292,7 @@ void addImpressionEvent(const char* adNetworkName, const char *json) {
             return;
         }
 
-        [GameAnalytics addImpressionEventWithAdNetworkName:adNetworkNameString impressionData:impressionData];
+        [GameAnalytics addImpressionEventWithAdNetworkName:adNetworkNameString adNetworkVersion:adNetworkVersionString impressionData:impressionData];
     }
 }
 
@@ -322,6 +323,8 @@ void gameAnalyticsStartSession() {
 void gameAnalyticsEndSession() {
     [GameAnalytics endSession];
 }
+
+
 
 void setCustomDimension01(const char *customDimension) {
     NSString *customDimensionString = customDimension != NULL ? [NSString stringWithUTF8String:customDimension] : nil;
