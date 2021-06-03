@@ -126,7 +126,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 6.11.21
+  bundleVersion: 6.12.21
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -177,7 +177,7 @@ PlayerSettings:
     tvOS: com.turbolabz.chess.google
   buildNumber:
     iPhone: 505
-  AndroidBundleVersionCode: 505
+  AndroidBundleVersionCode: 506
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
@@ -1027,8 +1027,8 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC;SUBSCRIPTION_TEST
-    7: CT_OC;SUBSCRIPTION_TEST
+    4: CT_OC;SUBSCRIPTION_TEST;gameanalytics_ironsource_enabled
+    7: CT_OC;SUBSCRIPTION_TEST;gameanalytics_ironsource_enabled
     13: CT_OC
     14: CT_OC
     19: CT_OC
