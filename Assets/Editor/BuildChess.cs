@@ -255,12 +255,12 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.preserveFramebufferAlpha = false;
         //PlayerSettings.productGUID = "??"; // readonly
         PlayerSettings.productName = "Chess Stars";
-        PlayerSettings.protectGraphicsMemory = false;
+        //PlayerSettings.protectGraphicsMemory = false;
         // PlayerSettings.renderingPath = RenderingPath.Forward; obsolete (used with editor)
         PlayerSettings.resizableWindow = false;
         //PlayerSettings.resolutionDialogBanner = null; // depricated
         PlayerSettings.runInBackground = true;
-        PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
+        //PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
         //PlayerSettings.showUnitySplashScreen = true; // obsolete
         PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
         PlayerSettings.SplashScreen.show = false;
@@ -280,7 +280,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.usePlayerLog = true;
 
         PlayerSettings.virtualRealitySplashScreen = null;
-        PlayerSettings.virtualRealitySupported = false;
+        //PlayerSettings.virtualRealitySupported = false;
         PlayerSettings.visibleInBackground = false;
 
         PlayerSettings.vulkanEnableSetSRGBWrite = false;

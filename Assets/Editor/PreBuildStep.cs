@@ -1,7 +1,9 @@
 ﻿using UnityEditor;
 using UnityEditor.Build;
 using System.IO;
-public class PreBuildStep : IPreprocessBuild
+using UnityEditor.Build.Reporting;
+//public class PreBuildStep : IPreprocessBuild
+public class PreBuildStep : IPreprocessBuildWithReport
 {
 #if UNITY_EDITOR
     public int callbackOrder { get { return 0; } }
@@ -9,7 +11,8 @@ public class PreBuildStep : IPreprocessBuild
     public string TMProRunTimeDestinationPath = "/data/turbo-labz/projects/instant-chess/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Runtime";
     public string[] TMProRunTimeFileNames = new string[] {"TMPro_Private.cs","TMPro_UGUI_Private.cs"};
 
-    public void OnPreprocessBuild(BuildTarget target, string path)
+    //public void OnPreprocessBuild(BuildTarget target, string path)
+    public void OnPreprocessBuild(BuildReport report)
     {
         TurboLabz.TLUtils.LogUtil.Log("PREBUILD STEP", "yellow");
 
