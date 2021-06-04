@@ -118,32 +118,36 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             var localConfig = HConfigs.GetConfig<CrossPromoLocalConfig>();
             var remoteConfig = HConfigs.GetConfig<CrossPromoRemoteConfig>();
 
-            if ( localConfig.UseDefaultAppOrientation )
-                defaultAppOrientation = localConfig.DefaultAppOrientation;
-            var canvas = CreateCanvas();
-
-            crossPromoView = Object
-                .Instantiate( localConfig.CrossPromoRootPrefab, canvas.transform )
-                .GetComponent<CrossPromoView>();
-
-            if ( localConfig.CustomBottomPanelContainer == null )
+            if ( crossPromoView == null )
             {
-                crossPromoView.BottomPanelContainer =
-                    Object.Instantiate( crossPromoView.BottomPanelContainerDefaultPrefab, crossPromoView.transform );
-            }
-            else
-            {
-                crossPromoView.BottomPanelContainer = Object.Instantiate( localConfig.CustomBottomPanelContainer,
-                    crossPromoView.transform );
+                if ( localConfig.UseDefaultAppOrientation )
+                    defaultAppOrientation = localConfig.DefaultAppOrientation;
+                var canvas = CreateCanvas();
+
+                crossPromoView = Object
+                    .Instantiate( localConfig.CrossPromoRootPrefab, canvas.transform )
+                    .GetComponent<CrossPromoView>();
+
+                if ( localConfig.CustomBottomPanelContainer == null )
+                {
+                    crossPromoView.BottomPanelContainer =
+                        Object.Instantiate( crossPromoView.BottomPanelContainerDefaultPrefab, crossPromoView.transform );
+                }
+                else
+                {
+                    crossPromoView.BottomPanelContainer = Object.Instantiate( localConfig.CustomBottomPanelContainer,
+                        crossPromoView.transform );
+                }
+
+                topPanelContainer = crossPromoView.TopPanelContainer;
+                contentPanelContainer = crossPromoView.ContentPanelContainer;
+                bottomPanelContainer = crossPromoView.BottomPanelContainer;
+                ClosePanel();
             }
 
-            topPanelContainer = crossPromoView.TopPanelContainer;
-            contentPanelContainer = crossPromoView.ContentPanelContainer;
-            bottomPanelContainer = crossPromoView.BottomPanelContainer;
             HRemoteConfigs.ApplyConfig( ref remoteConfig );
             isInitialized = true;
             UpdateContainerPanels( remoteConfig );
-            ClosePanel();
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
         }
 

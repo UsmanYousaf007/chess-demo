@@ -1,3 +1,8 @@
+## [2.1.4] - 2021-06-01
+### Fixed
+- Creating multiple instances of CrossPromoView
+
+
 ## [2.1.3] - 2021-04-23
 ### Fixed
 - Continue button from bottom panel not working
@@ -64,4 +69,4 @@ Cross promo will from now not update when an app is getting back from the backgr
 - Added package manifest and changelog.
 
 ### Changed
-- Changed structure of package.
+- Changed structure of package
