@@ -40,7 +40,6 @@ MonoBehaviour:
   - 4.25.9
   - internal
   - internal
-  - internal
   SelectedPlatformOrganization:
   - 
   - 
@@ -54,50 +53,15 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.5.4
-  Changes: '6.5.4
-
-    - fixed typo error
-
-
-    6.5.3
-
-    - added support for max
-    in impression events
-
-    - fixed dupplicate symbol on ios
-
-
-    6.5.2
-
-    -
-    fixed crashes for android devices without google play API (android)
-
-
-    6.5.1
-
-    -
-    added support for OAID (android)
-
-    - added missing export function for UWP
-    lib (uwp)
-
-
-    6.5.0
-
-    - added app tracking transparency request function
-    (ios)
-
-
-    6.4.1
+  NewVersion: 6.4.1
+  Changes: '6.4.1
 
     - added idfa consent status field to events (ios)
 
 
     6.4.0
 
-    -
-    added support for unity package manager
+    - added support for unity package manager
 
 
     6.3.14
@@ -107,47 +71,40 @@ MonoBehaviour:
 
     6.3.13
 
-    -
-    fixed compiler errors for 2017.1
+    - fixed compiler errors for 2017.1
 
     - updated client ts validator
 
 
     6.3.12
 
-    -
-    changed AppTrackingTransparency dependency to be optional for iOS
+    - changed AppTrackingTransparency dependency to be optional for iOS
 
 
     6.3.11
 
-    -
-    fixed dependencies for iOS (min. XCode 12 required)
+    - fixed dependencies for iOS (min. XCode 12 required)
 
 
     6.3.10
 
-    - fix to
-    mopub impression events, require min. mopub v5.14.0
+    - fix to mopub impression events, require min. mopub v5.14.0
 
-    - REMEMBER to update
-    to this version of the SDK if you use MoPub impression events and you have min.
-    v5.14.0 of MoPub SDK inatalled or else the SDK will not send MoPub impression
-    event for you any more
+    - REMEMBER to update to this version of the SDK if you use MoPub impression events
+    and you have min. v5.14.0 of MoPub SDK inatalled or else the SDK will not send
+    MoPub impression event for you any more
 
 
     6.3.9
 
-    - fixed ironsource impression event compile
-    error
+    - fixed ironsource impression event compile error
 
 
     6.3.8
 
     - removed memory info from automatic crash reports
 
-    -
-    updated sqlite lib
+    - updated sqlite lib
 
 
     6.3.7
@@ -157,32 +114,28 @@ MonoBehaviour:
 
     6.3.6
 
-    -
-    updated validator for impression events (android, ios)
+    - updated validator for impression events (android, ios)
 
 
     6.3.5
 
-    - fixed
-    user log in function in editor for unity 2017
+    - fixed user log in function in editor for unity 2017
 
 
     6.3.4
 
-    - fixed null exception
-    happening some times on desktop platforms (mac, linux, windows)
+    - fixed null exception happening some times on desktop platforms (mac, linux,
+    windows)
 
 
     6.3.3
 
-    -
-    updated impression events
+    - updated impression events
 
 
     6.3.2
 
-    - fixed www build errors on unity
-    2017'
+    - fixed www build errors on unity 2017'
   SignUpOpen: 0
   StudioName: Turbo Labz
   GameName: Chess Star
