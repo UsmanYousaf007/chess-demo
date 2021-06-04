@@ -17,11 +17,11 @@ PlayerSettings:
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
-  m_ShowUnitySplashScreen: 0
-  m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 1
-  m_SplashScreenLogoStyle: 1
+  m_ShowUnitySplashScreen: 1
+  m_ShowUnitySplashLogo: 0
+  m_SplashScreenOverlayOpacity: 0
+  m_SplashScreenAnimation: 0
+  m_SplashScreenLogoStyle: 0
   m_SplashScreenDrawMode: 0
   m_SplashScreenBackgroundAnimationZoom: 1
   m_SplashScreenLogoAnimationZoom: 1
@@ -1006,10 +1006,11 @@ PlayerSettings:
   ps5SharedBinaryContentLabels: []
   ps5SharedBinarySystemFolders: []
   monoEnv: 
-  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: dcaba488132834cd4a182ebf923b67a9,
+  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: e767c53ba814a49c88e299a830e85cc1,
     type: 3}
-  splashScreenBackgroundSourcePortrait: {fileID: 0}
-  blurSplashScreenBackground: 1
+  splashScreenBackgroundSourcePortrait: {fileID: 21300000, guid: cd9b52976d6644e1983a4d342bdbf773,
+    type: 3}
+  blurSplashScreenBackground: 0
   spritePackerPolicy: 
   webGLMemorySize: 256
   webGLExceptionSupport: 1
@@ -1027,7 +1028,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: CT_OC
-    4: CT_OC;SUBSCRIPTION_TEST
+    4: CT_OC;SUBSCRIPTION_TEST;gameanalytics_ironsource_enabled
     7: CT_OC;SUBSCRIPTION_TEST;gameanalytics_ironsource_enabled
     13: CT_OC
     14: CT_OC
