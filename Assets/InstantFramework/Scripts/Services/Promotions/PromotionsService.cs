@@ -232,7 +232,7 @@ namespace TurboLabz.InstantFramework
             var eliteBundle = new PromoionDlgVO
             {
                 key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG,
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG,
                 condition = delegate { return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
             };
 

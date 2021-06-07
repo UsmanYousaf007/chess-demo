@@ -65,7 +65,7 @@
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
                     return new NSPromotionChessSetsBundleDlg();
                 }
-                else if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
+                else if (viewId == NavigatorViewId.PROMOTION_BUNDLE_DLG)
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.CONFIRM_DLG);
                     return new NSPromotionEliteBundleDlg();

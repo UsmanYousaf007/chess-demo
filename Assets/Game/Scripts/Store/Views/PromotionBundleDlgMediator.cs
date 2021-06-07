@@ -6,55 +6,39 @@ using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 [System.CLSCompliant(false)]
-public class PromotionEliteBundleDlgMediator : Mediator
+public class PromotionBundleDlgMediator : PromotionBundleMediator
 {
     // View injection
-    [Inject] public PromotionEliteBundleDlgView view { get; set; }
-
-    // Services
-    [Inject] public IPromotionsService promotionsService { get; set; }
-    [Inject] public IAnalyticsService analyticsService { get; set; }
-
-    // Dispatch Signals
-    [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-    [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
-
-    //Models
-    [Inject] public IPreferencesModel preferencesModel { get; set; }
+    [Inject] public PromotionBundleDlgView view { get; set; }
 
     public override void OnRegister()
     {
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDialogue);
-        view.purchaseSignal.AddListener(OnPurchase);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
     public void OnShowView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
+        if (viewId == NavigatorViewId.PROMOTION_BUNDLE_DLG)
         {
-            view.Show();
-            analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, AnalyticsContext.elite);
+            if (view.key == playerModel.dynamicBundleToDisplay)
+            {
+                view.Show();
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, AnalyticsContext.elite);
+            }
         }
-    }
-
-    [ListensTo(typeof(StoreAvailableSignal))]
-    public void OnStoreAvailable(bool isAvailable)
-    {
-        if (isAvailable)
-        {
-            view.Init();
-        }
-        view.SetupPurchaseButton(isAvailable);
     }
 
     [ListensTo(typeof(NavigatorHideViewSignal))]
     public void OnHideView(NavigatorViewId viewId)
     {
-        if (viewId == NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG)
+        if (viewId == NavigatorViewId.PROMOTION_BUNDLE_DLG)
         {
-            view.Hide();
+            if (view.key == playerModel.dynamicBundleToDisplay)
+            {
+                view.Hide();
+            }
         }
     }
 
@@ -62,17 +46,6 @@ public class PromotionEliteBundleDlgMediator : Mediator
     {
         navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         promotionsService.LoadPromotion();
-    }
-
-    private void OnPurchase()
-    {
-        purchaseStoreItemSignal.Dispatch(view.key, true);
-    }
-
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
     }
 
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]

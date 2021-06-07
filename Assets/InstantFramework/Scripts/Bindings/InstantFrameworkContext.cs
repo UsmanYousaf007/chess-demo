@@ -450,7 +450,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SpotInventoryView>().To<SpotInventoryMediator>();
             mediationBinder.Bind<PromotionChessCourseBundleDlgView>().To<PromotionChessCourseBundleDlgMediator>();
             mediationBinder.Bind<PromotionChessSetsBundleDlgView>().To<PromotionChessSetsBundleDlgMediator>();
-            mediationBinder.Bind<PromotionEliteBundleDlgView>().To<PromotionEliteBundleDlgMediator>();
+            mediationBinder.Bind<PromotionBundleDlgView>().To<PromotionBundleDlgMediator>();
             mediationBinder.Bind<PromotionRemoveAdsDlgView>().To<PromotionRemoveAdsDlgMediator>();
             mediationBinder.Bind<PromotionWelcomeBundleDlgView>().To<PromotionWelcomeBundleDlgMediator>();
             mediationBinder.Bind<CPUCardView>().To<CPUCardMediator>();

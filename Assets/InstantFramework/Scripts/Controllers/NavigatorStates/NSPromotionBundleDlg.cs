@@ -4,7 +4,7 @@
     {
         public override void RenderDisplayOnEnter()
         {
-            ShowDialog(NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG);
+            ShowDialog(NavigatorViewId.PROMOTION_BUNDLE_DLG);
         }
 
         public override NS HandleEvent(NavigatorEvent evt)
@@ -19,12 +19,12 @@
                 }
                 else if (viewId == NavigatorViewId.RATE_APP_DLG)
                 {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG);
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_BUNDLE_DLG);
                     return new NSRateAppDlg();
                 }
                 else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
                 {
-                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_ELITE_BUNDLE_DLG);
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_BUNDLE_DLG);
                     return new NSSpotCoinPurchaseDlg();
                 }
             }
