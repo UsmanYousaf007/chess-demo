@@ -426,6 +426,18 @@ namespace TurboLabz.InstantFramework
             league.lossTrophies = GetSafeInt(trophiesData, "loss");
         }
 
+        public static void ParseDynamicSpotPurchaseBundle(DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle, GSData data)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            dynamicSpotPurchaseBundle.dynamicBundleShortCode = data.GetString("bundle");
+            dynamicSpotPurchaseBundle.leftPackShortCode = data.GetString("pack1");
+            dynamicSpotPurchaseBundle.rightPackShortCode = data.GetString("pack2");
+        }
+
         public static void LogLeague(League league)
         {
             LogUtil.Log("********** league.name " + " " + league.name);

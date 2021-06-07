@@ -303,6 +303,9 @@ namespace TurboLabz.InstantFramework
 
             GSParser.LogPlayerInfo(playerModel);
             GSParser.LogFriends("friends", playerModel.friends);
+
+            GSData dynamicSpotPurchaseBundleData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.DYNAMIC_GEM_SPOT_BUNDLE);
+            GSParser.ParseDynamicSpotPurchaseBundle(playerModel.dynamicGemSpotBundle, dynamicSpotPurchaseBundleData);
         }
 
         private void PopulateInboxModel(GSData inBoxMessagesData)

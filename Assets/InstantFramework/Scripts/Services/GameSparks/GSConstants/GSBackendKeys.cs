@@ -585,6 +585,7 @@ namespace TurboLabz.InstantFramework
             public const string CHEST_UNLOCK_TIMESTAMP = "chestUnlockTimestamp";
             public const string RV_UNLOCK_TIMESTAMP = "rvUnlockTimestamp";
             public const string DYNAMIC_BUNDLE_SHORT_CODE = "dynamicBundleShortCode";
+            public const string DYNAMIC_GEM_SPOT_BUNDLE = "dynamicGemSpotBundle";
         }
 
         public static class Match

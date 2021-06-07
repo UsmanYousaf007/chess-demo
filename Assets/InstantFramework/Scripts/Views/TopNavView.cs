@@ -49,6 +49,7 @@ namespace TurboLabz.InstantFramework
 
         private Color originalColor;
         private long totalCoins;
+        private long totalGems;
 
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -145,7 +146,7 @@ namespace TurboLabz.InstantFramework
         {
             if (boughtGemsCount != null && gameObject.activeInHierarchy)
             {
-                var addedGems = gems - long.Parse(gemsCount.text);
+                var addedGems = gems - totalGems;
 
                 if (addedGems > 0)
                 {
@@ -157,7 +158,8 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
-            gemsCount.text = gems.ToString();
+            gemsCount.text = gems.ToString("N0");
+            totalGems = gems;
         }
 
         public void UpdateCoinsCount(long coins)
