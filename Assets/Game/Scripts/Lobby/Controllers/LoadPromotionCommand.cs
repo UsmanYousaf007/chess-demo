@@ -186,73 +186,175 @@ namespace TurboLabz.InstantGame
 
             promotionCycle = new List<PromotionVO>();
 
-            var adsBanner = new PromotionVO
-            {
-                cycleIndex = 1,
-                key = LobbyPromotionKeys.ADS_BANNER,
-                analyticsContext = AnalyticsContext.lobby_remove_ads,
-                condition = delegate
-                {
-                    return !playerModel.HasRemoveAds();
-                },
-                onClick = delegate
-                {
-                    audioService.PlayStandardClick();
-                    purchaseStoreItemSignal.Dispatch(promotionsService.IsSaleActive(GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK) ? GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK : GSBackendKeys.ShopItem.REMOVE_ADS_PACK, true);
-                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_remove_ads);
-                }
-            };
-
-            var lessonsBanner = new PromotionVO
-            {
-                cycleIndex = 2,
-                key = LobbyPromotionKeys.LESSONS_BANNER,
-                analyticsContext = AnalyticsContext.lobby_lessons_pack,
-                condition = delegate
-                {
-                    return !playerModel.OwnsAllLessons();
-                },
-                onClick = delegate 
-                {
-                    audioService.PlayStandardClick();
-                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
-                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_lessons_pack);
-                }
-            };
-
-            var themesBanner = new PromotionVO
-            {
-                cycleIndex = 3,
-                key = LobbyPromotionKeys.THEMES_BANNER,
-                analyticsContext = AnalyticsContext.lobby_themes_pack,
-                condition = delegate
-                {
-                    return !playerModel.OwnsAllThemes();
-                },
-                onClick = delegate 
-                {
-                    audioService.PlayStandardClick();
-                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
-                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_themes_pack);
-                }
-            };
-
             var subscriptionBanner = new PromotionVO
             {
-                cycleIndex = 4,
+                cycleIndex = 1,
                 key = LobbyPromotionKeys.SUBSCRIPTION_BANNER,
-                analyticsContext = AnalyticsContext.lobby_subscription_banner,
+                analyticsContext = promotionsService.IsSaleActive(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SALE_TAG) ? AnalyticsContext.annual_mega_sale : AnalyticsContext.subscription,
                 condition = delegate
                 {
                     return !playerModel.HasSubscription();
                 },
-                onClick = delegate 
+                onClick = delegate
                 {
                     audioService.PlayStandardClick();
                     promotionsService.LoadSubscriptionPromotion();
-                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_subscription_banner);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, promotionsService.IsSaleActive(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SALE_TAG) ? AnalyticsContext.annual_mega_sale : AnalyticsContext.subscription);
                 }
             };
+
+            var eliteBanner = new PromotionVO
+            {
+                cycleIndex = 2,
+                key = LobbyPromotionKeys.ELITE_BANNER,
+                analyticsContext = AnalyticsContext.elite_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.elite_bundle);
+                }
+            };
+
+            var goldenBanner = new PromotionVO
+            {
+                cycleIndex = 3,
+                key = LobbyPromotionKeys.GOLDEN_BANNER,
+                analyticsContext = AnalyticsContext.golden_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.golden_bundle);
+                }
+            };
+
+            var emeraldBanner = new PromotionVO
+            {
+                cycleIndex = 4,
+                key = LobbyPromotionKeys.EMERALD_BANNER,
+                analyticsContext = AnalyticsContext.emerald_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.emerald_bundle);
+                }
+            };
+
+            var rubyBanner = new PromotionVO
+            {
+                cycleIndex = 5,
+                key = LobbyPromotionKeys.RUBY_BANNNER,
+                analyticsContext = AnalyticsContext.ruby_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.ruby_bundle);
+                }
+            };
+
+            var diamondBanner = new PromotionVO
+            {
+                cycleIndex = 6,
+                key = LobbyPromotionKeys.DIAMOND_BANNER,
+                analyticsContext = AnalyticsContext.diamond_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.diamond_bundle);
+                }
+            };
+
+            var grandMasterBanner = new PromotionVO
+            {
+                cycleIndex = 7,
+                key = LobbyPromotionKeys.GRAND_MASTER_BANNER,
+                analyticsContext = AnalyticsContext.grand_master_bundle,
+                condition = delegate
+                {
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER);
+                },
+                onClick = delegate
+                {
+                    audioService.PlayStandardClick();
+                    purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER, true);
+                    analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.grand_master_bundle);
+                }
+            };
+
+            //var adsBanner = new PromotionVO
+            //{
+            //    cycleIndex = 1,
+            //    key = LobbyPromotionKeys.ADS_BANNER,
+            //    analyticsContext = AnalyticsContext.lobby_remove_ads,
+            //    condition = delegate
+            //    {
+            //        return !playerModel.HasRemoveAds();
+            //    },
+            //    onClick = delegate
+            //    {
+            //        audioService.PlayStandardClick();
+            //        purchaseStoreItemSignal.Dispatch(promotionsService.IsSaleActive(GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK) ? GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK : GSBackendKeys.ShopItem.REMOVE_ADS_PACK, true);
+            //        analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_remove_ads);
+            //    }
+            //};
+
+            //var lessonsBanner = new PromotionVO
+            //{
+            //    cycleIndex = 2,
+            //    key = LobbyPromotionKeys.LESSONS_BANNER,
+            //    analyticsContext = AnalyticsContext.lobby_lessons_pack,
+            //    condition = delegate
+            //    {
+            //        return !playerModel.OwnsAllLessons();
+            //    },
+            //    onClick = delegate 
+            //    {
+            //        audioService.PlayStandardClick();
+            //        purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
+            //        analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_lessons_pack);
+            //    }
+            //};
+
+            //var themesBanner = new PromotionVO
+            //{
+            //    cycleIndex = 3,
+            //    key = LobbyPromotionKeys.THEMES_BANNER,
+            //    analyticsContext = AnalyticsContext.lobby_themes_pack,
+            //    condition = delegate
+            //    {
+            //        return !playerModel.OwnsAllThemes();
+            //    },
+            //    onClick = delegate 
+            //    {
+            //        audioService.PlayStandardClick();
+            //        purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_THEMES_PACK, true);
+            //        analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.lobby_themes_pack);
+            //    }
+            //};
 
             //var rewardsBanner = new PromotionVO
             //{
@@ -271,11 +373,17 @@ namespace TurboLabz.InstantGame
             //    }
             //};
 
-            promotionCycle.Add(adsBanner);
-            promotionCycle.Add(lessonsBanner);
-            promotionCycle.Add(themesBanner);
             promotionCycle.Add(subscriptionBanner);
-            //promotionCycle.Add(rewardsBanner);
+            promotionCycle.Add(eliteBanner);
+            promotionCycle.Add(goldenBanner);
+            promotionCycle.Add(emeraldBanner);
+            promotionCycle.Add(rubyBanner);
+            promotionCycle.Add(diamondBanner);
+            promotionCycle.Add(grandMasterBanner);
+            //promotionCycle.Add(adsBanner);
+            //promotionCycle.Add(lessonsBanner);
+            //promotionCycle.Add(themesBanner);
+            ////promotionCycle.Add(rewardsBanner);
         }
 
         IEnumerator LoadNextPromotionAfter(float seconds)

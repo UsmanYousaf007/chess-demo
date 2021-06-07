@@ -50,11 +50,11 @@ public class PromotionBundleMediator : Mediator
         view.ShowProcessing(show, showProcessingUi);
     }
 
-    [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
-    public void OnSubscriptionPurchased(StoreItem item)
+    [ListensTo(typeof(UpdatePromotionBundleSignal))]
+    public void OnUpdateBundle()
     {
-        if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
-        {
+        //if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
+        //{
             if (!view.isActiveAndEnabled && view.key == playerModel.dynamicBundleToDisplay)
             {
                 view.Show();
@@ -62,6 +62,6 @@ public class PromotionBundleMediator : Mediator
             {
                 view.Hide();
             }
-        }
+        //}
     }
 }

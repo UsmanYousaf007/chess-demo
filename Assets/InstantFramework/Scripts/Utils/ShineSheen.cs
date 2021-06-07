@@ -13,6 +13,8 @@ public class ShineSheen : MonoBehaviour
     public float offset;
     public float displacementDuration;
 
+    public bool useLocal = true;
+
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -27,10 +29,21 @@ public class ShineSheen : MonoBehaviour
 
     private void Animate()
     {
-        shine.DOLocalMoveX(offset, displacementDuration).SetEase(Ease.Linear).SetDelay(Random.Range(randomDelayMin, randomDelayMax)).OnComplete(() =>
+        if (useLocal)
+        {
+            shine.DOLocalMoveX(offset, displacementDuration).SetEase(Ease.Linear).SetDelay(Random.Range(randomDelayMin, randomDelayMax)).OnComplete(() =>
+                {
+                    shine.DOLocalMoveX(-offset, 0);
+                    Animate();
+                });
+        }
+        else
+        {
+            shine.DOMoveX(offset, displacementDuration).SetEase(Ease.Linear).SetDelay(Random.Range(randomDelayMin, randomDelayMax)).OnComplete(() =>
             {
-                shine.DOLocalMoveX(-offset, 0);
+                shine.DOMoveX(-offset, 0);
                 Animate();
             });
+        }
     }
 }

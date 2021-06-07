@@ -44,14 +44,14 @@ public class PromotionBundleView : View
     protected StoreItem bundleStoreItem;
     protected decimal totalBundlePrice;
 
-    public void InitOnce()
+    public virtual void InitOnce()
     {
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
     }
 
-    public void Init()
+    public  virtual void Init()
     {
-        var bundleStoreItem = storeSettingsModel.items[key];
+        bundleStoreItem = storeSettingsModel.items[key];
 
         if (bundleStoreItem == null)
             return;
@@ -75,17 +75,17 @@ public class PromotionBundleView : View
         //Discount on gems
         var storeItem = storeSettingsModel.items["GemPack150"];
         var costPerGem = storeItem.productPrice / storeItem.currency3Payout;
-        var priceForGems = bundleStoreItem.currency3Payout * costPerGem;
-        var discountOnGems = 1 - (bundleStoreItem.currency1Payout / priceForGems);
+        var priceForGems = bundleStoreItem.currency3Cost * costPerGem;
+        var discountOnGems = 1 - (bundleStoreItem.productPrice / priceForGems);
         gemsPercentageVal.text = discountOnGems.ToString();
 
         //Overall discount
         var coinsStoreItem = storeSettingsModel.items["CoinPack1"];
         var coinsPerGem = coinsStoreItem.currency4Payout / coinsStoreItem.currency3Payout;
-        var priceForCoinsInGems = bundleStoreItem.currency4Payout / coinsPerGem;
+        var priceForCoinsInGems = bundleStoreItem.currency4Cost / coinsPerGem;
         var priceForCoins = priceForCoinsInGems * costPerGem;
         totalBundlePrice = priceForGems + priceForCoins;
-        var overallDiscount = 1 - (bundleStoreItem.currency1Payout / totalBundlePrice);
+        var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
         overallPercentageVal.text = overallDiscount.ToString();
     }
 

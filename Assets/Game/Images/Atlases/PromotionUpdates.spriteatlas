@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 2
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 1024
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 1
@@ -64,40 +64,76 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: cd1f135626da943648f28e25c09e4bfd, type: 3}
-    totalSpriteSurfaceArea: 6640753
+    totalSpriteSurfaceArea: 12551672
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 4f32b0d09c7234b97a800198e04332e4, type: 3}
   - {fileID: 21300000, guid: 96f150f020f8e48bc9727a517b84b02c, type: 3}
-  - {fileID: 21300000, guid: 26e1aec1333b6474280bca00fcb54dc7, type: 3}
+  - {fileID: 21300000, guid: 13909421c12d343788ea0869981b8e59, type: 3}
+  - {fileID: 21300000, guid: d5202061f7b094f68a12e8b057504511, type: 3}
+  - {fileID: 21300000, guid: adc1be916c5194c099475417ccd6964d, type: 3}
+  - {fileID: 21300000, guid: 61f56b525f51e4559a261e692510daa5, type: 3}
   - {fileID: 21300000, guid: bde4376216c6647728e68a5fe6a4bb07, type: 3}
   - {fileID: 21300000, guid: 9d06e182d37f84eb0a0ffe1ec2d76a61, type: 3}
   - {fileID: 21300000, guid: fdeaa092ab38d460196f8e9736e4eda5, type: 3}
+  - {fileID: 21300000, guid: b6bd16e2a8b844fddbb99c55639e8f03, type: 3}
   - {fileID: 21300000, guid: cf003753d1ed940f98ba626b14a13890, type: 3}
+  - {fileID: 21300000, guid: f233a52419fee4dda952db07efe88f9e, type: 3}
+  - {fileID: 21300000, guid: 4bb95205116674781844852072e0de53, type: 3}
+  - {fileID: 21300000, guid: e2d1afb5d2881492586311023575f6b0, type: 3}
+  - {fileID: 21300000, guid: 4f84ba36179e647eea3501073ffebc6c, type: 3}
+  - {fileID: 21300000, guid: 61a989b7d740547d79d9ef074123b4d8, type: 3}
+  - {fileID: 21300000, guid: 903945a86de1441ccaca1fa3b29fe8fa, type: 3}
+  - {fileID: 21300000, guid: d6a16eb82573c44c8a84883b01868aee, type: 3}
+  - {fileID: 21300000, guid: 06cb6bc8b21464daeaaed745651c60a4, type: 3}
   - {fileID: 21300000, guid: 2b0f0109f8bff4f219324a86ff6c3615, type: 3}
   - {fileID: 21300000, guid: 372f9e1988c304aba97a6dee47adb912, type: 3}
-  - {fileID: 21300000, guid: 3f9c15598a6d24e3a83424f46283193e, type: 3}
-  - {fileID: 21300000, guid: b038f2f9b33fe45a5b5e23e8773e58fa, type: 3}
+  - {fileID: 21300000, guid: a9b9859905a444acfaa667fbb5ac9967, type: 3}
+  - {fileID: 21300000, guid: 7c26e1bab02f2479ea32d26846af40cb, type: 3}
   - {fileID: 21300000, guid: 5f1cbb0d758454ecd8e95db27a0b692b, type: 3}
+  - {fileID: 21300000, guid: 8413775d8405c4a25ae17da312bdbbad, type: 3}
+  - {fileID: 21300000, guid: 17d6b29dc419348c3b3a52936b7f49ed, type: 3}
+  - {fileID: 21300000, guid: 1f5cf29da4c07433c988e2a68aef2891, type: 3}
   - {fileID: 21300000, guid: 78c05e0e61bfe4e2c920142e1be27889, type: 3}
   - {fileID: 21300000, guid: d0783f2e66cbc48999a0bcd65fc288cf, type: 3}
   - {fileID: 21300000, guid: 72124c9e0709d409bbedacff4a5d088c, type: 3}
+  - {fileID: 21300000, guid: b7fd7feea1dd14022921e350a847e482, type: 3}
+  - {fileID: 21300000, guid: 26e6ff4f9f07d4973814982b8a206200, type: 3}
+  - {fileID: 21300000, guid: 8d7cb58f13a2943e2bcfb86aa07d9a19, type: 3}
   m_PackedSpriteNamesToIndex:
   - ChessSetsAdPromo
   - NoAdPromoDlg
-  - WlcmPromoDlg
+  - EmeraldBanner
+  - SaleTag1
+  - EliteBannerBtn
+  - EliteBanner
   - GemPack375Icon
   - LearnIconPromo
   - GoldBtn-2
+  - EmeraldBndleStock
   - OffBadge
+  - EliteBtn
+  - GoldBannerBtn
+  - Sale777Logo
+  - GoldPopupBtn
+  - ElitePopup
+  - PreSaleLogo
+  - EmeraldBannerBtn
+  - GoldBanner
   - SubBg
   - NoAdGraphic
-  - WlcmBndlePromoGrphic
-  - ElitePromoDlg
+  - GoldBndlePre
+  - SaleTag2
   - HotRibbon
+  - EliteBndle777
+  - EmeraldStockBtn
+  - EmeraldStockPopup
   - EliteBndlePromoGrphic
   - LearnPromoAdBg
   - FireSaleRibbon
+  - BigStockLogo
+  - EliteBorderMask
+  - GoldPopupPremium
   m_Tag: PromotionUpdates
   m_IsVariant: 0

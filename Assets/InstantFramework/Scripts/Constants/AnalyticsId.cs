@@ -372,6 +372,12 @@ namespace TurboLabz.InstantFramework
         subscription,
         annual_sub,
         monthly_sub,
+        elite_bundle,
+        golden_bundle,
+        emerald_bundle,
+        ruby_bundle,
+        diamond_bundle,
+        grand_master_bundle,
 
         //drop offs
         out_of_coins_pop_up,
