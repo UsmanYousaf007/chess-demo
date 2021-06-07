@@ -276,4 +276,5 @@ namespace TurboLabz.InstantFramework
 
     public class GetInitDataOnCompleteSignal : Signal { }
     public class UpdateNewRankChampionshipDlgViewSignal : Signal<string, bool, float> { }
+    public class UpdatePromotionBundleSignal : Signal { }
 }

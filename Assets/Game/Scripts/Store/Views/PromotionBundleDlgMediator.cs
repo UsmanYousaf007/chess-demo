@@ -6,10 +6,18 @@ using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 
 [System.CLSCompliant(false)]
-public class PromotionBundleDlgMediator : PromotionBundleMediator
+public class PromotionBundleDlgMediator : Mediator
 {
     // View injection
     [Inject] public PromotionBundleDlgView view { get; set; }
+    [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+
+    // Services
+    [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public IAnalyticsService analyticsService { get; set; }
+
+    //Models
+    [Inject] public IPlayerModel playerModel { get; set; }
 
     public override void OnRegister()
     {

@@ -451,6 +451,7 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<PromotionChessCourseBundleDlgView>().To<PromotionChessCourseBundleDlgMediator>();
             mediationBinder.Bind<PromotionChessSetsBundleDlgView>().To<PromotionChessSetsBundleDlgMediator>();
             mediationBinder.Bind<PromotionBundleDlgView>().To<PromotionBundleDlgMediator>();
+            mediationBinder.Bind<PromotionBundleView>().To<PromotionBundleMediator>();
             mediationBinder.Bind<PromotionRemoveAdsDlgView>().To<PromotionRemoveAdsDlgMediator>();
             mediationBinder.Bind<PromotionWelcomeBundleDlgView>().To<PromotionWelcomeBundleDlgMediator>();
             mediationBinder.Bind<CPUCardView>().To<CPUCardMediator>();
@@ -511,6 +512,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowThemesInventoryTabSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLessonCardSignal>().ToSingleton();
             injectionBinder.Bind<GetGameStartTimeFailedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePromotionBundleSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

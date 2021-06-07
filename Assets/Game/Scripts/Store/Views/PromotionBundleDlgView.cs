@@ -14,17 +14,16 @@ public class PromotionBundleDlgView : PromotionBundleView
     //Signals
     public Signal closeDailogueSignal = new Signal();
 
-    public void InitOnce()
+    public override void InitOnce()
     {
         base.InitOnce();
         UIDlgManager.Setup(gameObject);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
     }
 
-    public void Init()
+    public override void Init()
     {
-        base.Init();
-        var bundleStoreItem = storeSettingsModel.items[key];
+       bundleStoreItem = storeSettingsModel.items[key];
 
         if (bundleStoreItem == null)
             return;

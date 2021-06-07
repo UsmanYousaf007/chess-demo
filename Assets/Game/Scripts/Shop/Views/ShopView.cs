@@ -3,6 +3,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 using HUFEXT.CrossPromo.Runtime.API;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -52,6 +53,9 @@ namespace TurboLabz.InstantFramework
         private bool isSubscriber;
         private bool isOnSale;
 
+        public Dictionary<GameObject, string> promotionBundles;
+
+
         public void Init()
         {
             bundleHeading.text = localizationService.Get(LocalizationKey.SHOP_SAVER_BUNDLES);
@@ -86,7 +90,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnStoreAvailable(bool available)
         {
-            SetBundle();
+            //SetBundle();
             SetSubscriptionOwnedStatus();
             subscriptionButtonText.gameObject.SetActive(available && !isOnSale);
             subscriptionOriginalPrice.gameObject.SetActive(available && isOnSale);
