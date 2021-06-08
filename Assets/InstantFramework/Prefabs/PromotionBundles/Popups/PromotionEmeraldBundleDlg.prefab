@@ -1825,7 +1825,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -27.4}
+  m_AnchoredPosition: {x: 0, y: -27.400024}
   m_SizeDelta: {x: 220, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2413938310777410852
@@ -1964,28 +1964,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: SpecialBundleEmerald
-  closeButton: {fileID: 5909245701515367929}
-  purchaseText: {fileID: 119629602095000293}
   purchaseButton: {fileID: 7569848271926362412}
-  wasPriceText: {fileID: 1550012932535386286}
+  overallPercentageVal: {fileID: 6115605502932596441}
+  loading: {fileID: 5166707938117208748}
   uiBlocker: {fileID: 2600698820384270549}
   processingUi: {fileID: 540989224799000552}
-  loading: {fileID: 5166707938117208748}
-  percentageOff: {fileID: 6115605502932596441}
-  gemsPercentageMore: {fileID: 3273060422251985190}
+  purchaseText: {fileID: 119629602095000293}
+  gemsPercentageVal: {fileID: 3273060422251985190}
   currencyPayout:
     icon: {fileID: 0}
     count: {fileID: 1227880547117341925}
   currency2Payout:
     icon: {fileID: 0}
     count: {fileID: 4421944688764128811}
-  payouts:
-  - icon: {fileID: 0}
-    count: {fileID: 0}
-  - icon: {fileID: 0}
-    count: {fileID: 0}
-  - icon: {fileID: 0}
-    count: {fileID: 0}
+  closeButton: {fileID: 5909245701515367929}
+  wasPriceText: {fileID: 1550012932535386286}
 --- !u!222 &7063321720679027624
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2218,17 +2211,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.7058824
+      objectReference: {fileID: 0}
     - target: {fileID: 114193336233836730, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_Color.a
       value: 0.7058824
       objectReference: {fileID: 0}
     - target: {fileID: 114202170532279822, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.7058824
-      objectReference: {fileID: 0}
-    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_Color.a
       value: 0.7058824
@@ -2382,6 +2375,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114193336233836730, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_Color.r
@@ -2408,21 +2416,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114202170532279822, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114999210461475914, guid: 4b7f10b2adce04bffad6cbc4a667f3c8,
         type: 3}
       propertyPath: m_Color.b
       value: 0

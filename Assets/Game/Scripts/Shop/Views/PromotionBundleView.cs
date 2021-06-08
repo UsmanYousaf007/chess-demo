@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,6 @@ public class PromotionBundleView : View
     public Text gemsPercentageVal;
     public ShopPayout currencyPayout;
     public ShopPayout currency2Payout;
-    public ShopPayout[] payouts;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -59,15 +59,15 @@ public class PromotionBundleView : View
         CalculateDiscount();
         if (bundleStoreItem.currency3Cost > 0)
         {
-            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString();
+            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString("N0");
         }
 
         if (bundleStoreItem.currency4Cost > 0)
         {
-            currency2Payout.count.text = bundleStoreItem.currency4Cost.ToString();
+            currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false);
         }
 
-        purchaseText.text = bundleStoreItem.remoteProductPrice.ToString();
+        purchaseText.text = bundleStoreItem.remoteProductPrice;
     }
 
     protected void CalculateDiscount()
@@ -77,7 +77,7 @@ public class PromotionBundleView : View
         var costPerGem = storeItem.productPrice / storeItem.currency3Payout;
         var priceForGems = bundleStoreItem.currency3Cost * costPerGem;
         var discountOnGems = 1 - (bundleStoreItem.productPrice / priceForGems);
-        gemsPercentageVal.text = discountOnGems.ToString();
+        gemsPercentageVal.text = $"{(int)(discountOnGems * 100)}%";
 
         //Overall discount
         var coinsStoreItem = storeSettingsModel.items["CoinPack1"];
@@ -86,7 +86,7 @@ public class PromotionBundleView : View
         var priceForCoins = priceForCoinsInGems * costPerGem;
         totalBundlePrice = priceForGems + priceForCoins;
         var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
-        overallPercentageVal.text = overallDiscount.ToString();
+        overallPercentageVal.text = $"{(int)(overallDiscount * 100)}%";
     }
 
     public bool IsVisible()

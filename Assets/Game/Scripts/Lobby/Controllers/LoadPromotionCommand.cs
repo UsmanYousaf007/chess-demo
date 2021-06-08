@@ -193,7 +193,7 @@ namespace TurboLabz.InstantGame
                 analyticsContext = promotionsService.IsSaleActive(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SALE_TAG) ? AnalyticsContext.annual_mega_sale : AnalyticsContext.subscription,
                 condition = delegate
                 {
-                    return !playerModel.HasSubscription();
+                    return promotionsService.isDynamicBundleShownOnLaunch && !playerModel.HasSubscription();
                 },
                 onClick = delegate
                 {
@@ -210,7 +210,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.elite_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {
@@ -227,7 +228,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.golden_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {
@@ -244,7 +246,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.emerald_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {
@@ -261,7 +264,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.ruby_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {
@@ -278,7 +282,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.diamond_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {
@@ -295,7 +300,8 @@ namespace TurboLabz.InstantGame
                 analyticsContext = AnalyticsContext.grand_master_bundle,
                 condition = delegate
                 {
-                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER);
+                    return playerModel.dynamicBundleToDisplay.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER)
+                            && (!promotionsService.isDynamicBundleShownOnLaunch || playerModel.HasSubscription());
                 },
                 onClick = delegate
                 {

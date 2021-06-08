@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,17 +31,18 @@ public class PromotionBundleDlgView : PromotionBundleView
 
         purchaseText.text = "Now" + bundleStoreItem.remoteProductPrice;
         CalculateDiscount();
+
         if (bundleStoreItem.currency3Cost > 0)
         {
-            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString();
+            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString("N0");
         }
 
         if (bundleStoreItem.currency4Cost > 0)
         {
-            currency2Payout.count.text = bundleStoreItem.currency4Cost.ToString();
+            currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false);
         }
 
-        wasPriceText.text = totalBundlePrice.ToString();
+        wasPriceText.text = string.Format("Was {0} {1:0.##}", bundleStoreItem.remoteProductCurrencyCode, totalBundlePrice);
     }
 
     public void Show()
