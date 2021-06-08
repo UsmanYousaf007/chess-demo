@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PromotionEliteBundleDlg GrandMaster
       objectReference: {fileID: 0}
+    - target: {fileID: 8925774032801914317, guid: f949956b35b5d4216aef2fef20c1dd15,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8925774032801914318, guid: f949956b35b5d4216aef2fef20c1dd15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -116,6 +121,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722729001499407626, guid: f949956b35b5d4216aef2fef20c1dd15,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -58
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722729001499407626, guid: f949956b35b5d4216aef2fef20c1dd15,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5258088332410999817, guid: f949956b35b5d4216aef2fef20c1dd15,
         type: 3}
