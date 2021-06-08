@@ -4,6 +4,7 @@ using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
+using TurboLabz.TLUtils;
 
 [System.CLSCompliantAttribute(false)]
 public class PromotionBundleView : View
@@ -59,12 +60,12 @@ public class PromotionBundleView : View
         CalculateDiscount();
         if (bundleStoreItem.currency3Cost > 0)
         {
-            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString();
+            currencyPayout.count.text = bundleStoreItem.currency3Cost.ToString("N0"); ;
         }
 
         if (bundleStoreItem.currency4Cost > 0)
         {
-            currency2Payout.count.text = bundleStoreItem.currency4Cost.ToString();
+            currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false); ;
         }
 
         purchaseText.text = bundleStoreItem.remoteProductPrice.ToString();
@@ -77,7 +78,7 @@ public class PromotionBundleView : View
         var costPerGem = storeItem.productPrice / storeItem.currency3Payout;
         var priceForGems = bundleStoreItem.currency3Cost * costPerGem;
         var discountOnGems = 1 - (bundleStoreItem.productPrice / priceForGems);
-        gemsPercentageVal.text = discountOnGems.ToString();
+        gemsPercentageVal.text = $"{(int)(discountOnGems * 100)}%";
 
         //Overall discount
         var coinsStoreItem = storeSettingsModel.items["CoinPack1"];
@@ -86,7 +87,7 @@ public class PromotionBundleView : View
         var priceForCoins = priceForCoinsInGems * costPerGem;
         totalBundlePrice = priceForGems + priceForCoins;
         var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
-        overallPercentageVal.text = overallDiscount.ToString();
+        overallPercentageVal.text = $"{(int)(overallDiscount * 100)}%";
     }
 
     public bool IsVisible()
