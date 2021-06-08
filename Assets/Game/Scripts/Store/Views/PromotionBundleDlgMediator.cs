@@ -56,6 +56,16 @@ public class PromotionBundleDlgMediator : Mediator
         promotionsService.LoadPromotion();
     }
 
+    [ListensTo(typeof(StoreAvailableSignal))]
+    public void OnStoreAvailable(bool isAvailable)
+    {
+        if (isAvailable)
+        {
+            view.Init();
+        }
+        view.SetupPurchaseButton(isAvailable);
+    }
+
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {

@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
+using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
@@ -29,7 +30,6 @@ public class PromotionBundleView : View
     public Text gemsPercentageVal;
     public ShopPayout currencyPayout;
     public ShopPayout currency2Payout;
-    public ShopPayout[] payouts;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -65,10 +65,10 @@ public class PromotionBundleView : View
 
         if (bundleStoreItem.currency4Cost > 0)
         {
-            currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false); ;
+            currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false);
         }
 
-        purchaseText.text = bundleStoreItem.remoteProductPrice.ToString();
+        purchaseText.text = bundleStoreItem.remoteProductPrice;
     }
 
     protected void CalculateDiscount()
