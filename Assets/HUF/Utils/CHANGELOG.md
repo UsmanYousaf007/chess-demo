@@ -1,3 +1,19 @@
+## [3.13.2] - 2021-06-08
+### Fixed
+- ExtractCorePrefix ArgumentOutOfRange exception
+
+
+## [3.13.1] - 2021-06-08
+### Fixed
+- ExtractCoreNamespace null reference exception
+
+
+## [3.13.0] - 2021-05-30
+### Changed
+- Usage of LogPrefix is obsolete and will be eventually removed
+- Log prefixes are generated automagically
+
+
 ## [3.12.1] - 2021-05-06
 ### Fixed
 - Checking if Notifications Firebase is installed when MessagingUnityPlayerActivity is used

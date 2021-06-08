@@ -11,3 +11,11 @@ void HUFiOSSendNativeLog( const char* message)
     NSLog(@"[HUF_NATIVE_LOG] %@" ,@(message));
 }
 
+bool HUFIsIOSBuildConfigDebug()
+{
+#if DEBUG
+    return true;
+#endif
+    return false;
+}
+
