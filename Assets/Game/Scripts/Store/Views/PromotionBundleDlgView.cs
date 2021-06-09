@@ -67,8 +67,8 @@ public class PromotionBundleDlgView : PromotionBundleView
 
     public void AnimateRibbons()
     {
-        ribbon.transform.DOScale(1.0f, 1f).SetEase(Ease.OutSine);
-        gemsRibbon.transform.DOScale(0.67f, 1f).SetEase(Ease.OutSine);
+        ribbon.transform.DOScale(1.0f, 1f).SetEase(Ease.OutBounce);
+        gemsRibbon.transform.DOScale(0.67f, 1f).SetEase(Ease.OutBounce);
     }
 
     public void Reset()
