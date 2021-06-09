@@ -2,6 +2,11 @@
 Sign in with Apple Github Plugin v1.3.0
 
 
+## [2.4.3] - 2021-06-04
+### Fixed
+- Creating empty GameObject and named WrapperSIWA object
+
+
 ## [2.4.2] - 2021-05-21
 ### Fixed
 - `.entitlements` file conflicting with custom build postprocesses creating their own `.entitlements` file
