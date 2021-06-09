@@ -81,17 +81,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled && transactionVO.buyItemShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
             {
-                OnCloseDlgSignal();
-
-                if (betValue > 0)
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
-                    loadTimeSelectDlgSignal.Dispatch(betValue);
-                }
-                else
-                {
-                    loadCareerCardSignal.Dispatch();
-                }
+                OnCoinsPurchased();
 
                 if (transactionVO.buyQuantity > 0)
                 {
@@ -100,6 +90,30 @@ namespace TurboLabz.InstantFramework
                     analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, transactionVO.buyQuantity, "spot_purchase", $"coins_{transactionVO.buyQuantity}_state_{state}");
                     analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, transactionVO.consumeQuantity, "spot_purchase", $"coins_{transactionVO.buyQuantity}_state_{state}");
                 }
+            }
+        }
+
+        [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
+        public void OnBundlePurchased(StoreItem item)
+        {
+            if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG))
+            {
+                OnCoinsPurchased();
+            }
+        }
+
+        private void OnCoinsPurchased()
+        {
+            OnCloseDlgSignal();
+
+            if (betValue > 0)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SELECT_TIME_MODE);
+                loadTimeSelectDlgSignal.Dispatch(betValue);
+            }
+            else
+            {
+                loadCareerCardSignal.Dispatch();
             }
         }
 
