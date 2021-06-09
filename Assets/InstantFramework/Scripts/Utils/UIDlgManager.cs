@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
             dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
-        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false)
+        static public IPromise Show(GameObject dlg, float blurBrightnessVal = Colors.BLUR_BG_BRIGHTNESS_NORMAL, bool useLastBlurredBg = false, float dlgFromScale = 0.8f)
         {
             // Blur background and enable this dialog
             Image BlurBg = dlg.transform.parent.GetComponent<Image>();
@@ -55,7 +55,7 @@ namespace TurboLabz.InstantFramework
                 UIBlurBackground.UseLastBlurBackground(BlurBg, blurBrightnessVal);
                 BlurBg.gameObject.SetActive(true);
                 promise.Dispatch();
-                AnimateDlg(dlg);
+                AnimateDlg(dlg, dlgFromScale);
                 return promise;
             }
             else
@@ -89,11 +89,11 @@ namespace TurboLabz.InstantFramework
             dlg.SetActive(false);
         }
 
-        static public void AnimateDlg(GameObject dlg)
+        static public void AnimateDlg(GameObject dlg, float dlgFromScale = 0.8f)
         {
             CanvasGroup canvasGroup = dlg.GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0.0f;
-            canvasGroup.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
+            canvasGroup.transform.localScale = new Vector3(dlgFromScale, dlgFromScale, 0.0f);
             canvasGroup.DOKill();
             canvasGroup.DOFade(1.0f, 0.25f);
             canvasGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);

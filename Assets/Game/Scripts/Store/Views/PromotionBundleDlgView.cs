@@ -5,12 +5,16 @@ using TurboLabz.InstantGame;
 using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [System.CLSCompliantAttribute(false)]
 public class PromotionBundleDlgView : PromotionBundleView
 {
     public Button closeButton;
     public Text wasPriceText;
+    public GameObject ribbon;
+    public GameObject gemsRibbon;
+    public CanvasGroup canvasGroup;
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -29,7 +33,7 @@ public class PromotionBundleDlgView : PromotionBundleView
         if (bundleStoreItem == null)
             return;
 
-        purchaseText.text = "Now" + bundleStoreItem.remoteProductPrice;
+        purchaseText.text = bundleStoreItem.remoteProductPrice;
         CalculateDiscount();
 
         if (bundleStoreItem.currency3Cost > 0)
@@ -47,7 +51,7 @@ public class PromotionBundleDlgView : PromotionBundleView
 
     public void Show()
     {
-        UIDlgManager.Show(gameObject);
+        UIDlgManager.Show(gameObject, Colors.BLUR_BG_BRIGHTNESS_NORMAL, false, 0.5f).Then(()=> Animate());
     }
 
     public void Hide()
@@ -61,6 +65,31 @@ public class PromotionBundleDlgView : PromotionBundleView
         closeDailogueSignal.Dispatch();
     }
 
+    public void AnimateRibbons()
+    {
+        ribbon.transform.DOScale(1.0f, 1f).SetEase(Ease.OutSine);
+        gemsRibbon.transform.DOScale(0.67f, 1f).SetEase(Ease.OutSine);
+    }
+
+    public void Reset()
+    {
+        ribbon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        gemsRibbon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        canvasGroup.alpha = 0;
+    }
+
+    private void Animate()
+    {
+        Sequence animationSequence;
+
+        animationSequence = DOTween.Sequence();
+        animationSequence.AppendCallback(() => Reset());
+        animationSequence.AppendInterval(1f);
+        animationSequence.AppendCallback(() => AnimateRibbons());
+        animationSequence.AppendInterval(1f);
+        animationSequence.AppendCallback(() => canvasGroup.DOFade(1.0f, 1f));
+        animationSequence.PlayForward();
+    }
 }
 
 
