@@ -171,11 +171,5 @@ namespace TurboLabz.InstantGame
             analyticsService.Event(AnalyticsEventId.banner_clicked, AnalyticsContext.unlock_all_lessons);
             purchaseStoreItemSignal.Dispatch(GSBackendKeys.ShopItem.ALL_LESSONS_PACK, true);
         }
-
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessing(bool blocker, bool processing)
-        {
-            view.processing.SetActive(blocker);
-        }
     }
 }

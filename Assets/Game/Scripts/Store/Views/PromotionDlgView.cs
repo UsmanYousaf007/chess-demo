@@ -19,8 +19,6 @@ public class PromotionDlgView : View
     public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -91,12 +89,6 @@ public class PromotionDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

@@ -29,7 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
@@ -284,7 +284,7 @@ namespace TurboLabz.InstantFramework
         private void HandleFindMatchErrors(BackendResult result)
         {
             //-- Hide UI blocker and spinner here
-            showProcessingSignal.Dispatch(false, false);
+            showProcessingSignal.Dispatch(false);
 
             if (result == BackendResult.CANCELED)
             {

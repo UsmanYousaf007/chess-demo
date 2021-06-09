@@ -78,12 +78,6 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessing(bool blocker, bool processing)
-        {
-            view.ShowProcessing(blocker, processing);
-        }
-
         [ListensTo(typeof(ResetSubscirptionStatusSignal))]
         public void OnResetSubcriptionStatus()
         {

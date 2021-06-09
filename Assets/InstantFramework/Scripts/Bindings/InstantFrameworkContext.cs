@@ -504,7 +504,6 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowStrengthTrainingDailogueSignal>().ToSingleton();
             injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
-            injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTopiscViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLessonsViewSignal>().ToSingleton();
             injectionBinder.Bind<RatingBoostedSignal>().ToSingleton();

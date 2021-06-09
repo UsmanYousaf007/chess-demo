@@ -22,8 +22,6 @@ public class PromotionBundleView : View
     public Button purchaseButton;
     public Text overallPercentageVal;
     public GameObject loading;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public Text purchaseText;
 
     [Header("Items")]
@@ -106,12 +104,6 @@ public class PromotionBundleView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public void Show()

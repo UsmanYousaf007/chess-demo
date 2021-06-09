@@ -23,8 +23,6 @@ public class SubscriptionDlgView : View
     public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
     public VerticalLayoutGroup offerBg;
 
@@ -219,12 +217,6 @@ public class SubscriptionDlgView : View
         gameObject.SetActive(false);
         schedulerSubscription.Dispatch(SchedulerCallback, false);
         //StopCoroutine(timer);
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     private void OnCloseButtonClicked()

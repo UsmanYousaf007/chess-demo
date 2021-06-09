@@ -37,7 +37,6 @@ namespace TurboLabz.InstantGame
     public class UpdateStatsSignal : Signal<StatsVO> {};
 
 	// CPU STORE
-    public class ShowProcessingSignal : Signal<bool, bool> {}
     public class ShowThemesInventoryTabSignal : Signal { }
 
     // Player Profile

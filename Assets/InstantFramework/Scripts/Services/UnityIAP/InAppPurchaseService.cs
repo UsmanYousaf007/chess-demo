@@ -24,7 +24,7 @@ public class InAppPurchaseService : IStoreService
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
     [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-    [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
+    [Inject] public ShowGenericProcessingSignal showIAPProcessingSignal { get; set; }
     [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
     [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
 
@@ -197,7 +197,7 @@ public class InAppPurchaseService : IStoreService
             _pendingVerification.Remove(transactionID);
         }
 
-        showIAPProcessingSignal.Dispatch(false, false);
+        showIAPProcessingSignal.Dispatch(false);
     }
 
     public void OnPurchaseFailure(IProductInfo productInfo, PurchaseFailureType failureType)
@@ -205,7 +205,7 @@ public class InAppPurchaseService : IStoreService
         var product = HPurchases.TryGetStoreProductInfo(productInfo.ProductId);
         LogUtil.Log("UnityIAPService - Purchase failed: " + failureType.ToString());
         
-        showIAPProcessingSignal.Dispatch(false, false);
+        showIAPProcessingSignal.Dispatch(false);
         
         // Do nothing when user cancels
         if (failureType == PurchaseFailureType.UserCancelled)
@@ -337,7 +337,7 @@ public class InAppPurchaseService : IStoreService
             HPurchases.BuyProduct(storeProductId);
         }
 
-        showIAPProcessingSignal.Dispatch(true, true);
+        showIAPProcessingSignal.Dispatch(true);
 
         return storePromise;
     }

@@ -17,7 +17,7 @@ namespace TurboLabz.InstantGame
         // dispatch signals
         [Inject] public ClearFriendSignal clearFriendSignal { get; set; }
         [Inject] public SortFriendsSignal sortFriendsSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showProcessingSignal { get; set; }
 
         // models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -31,7 +31,7 @@ namespace TurboLabz.InstantGame
             Retain();
 
             //-- Show UI blocker here
-            showProcessingSignal.Dispatch(true, false);
+            showProcessingSignal.Dispatch(true);
 
             backendService.FriendsOpBlock(friendId).Then(OnFriendBlock);
         }
@@ -45,7 +45,7 @@ namespace TurboLabz.InstantGame
             }
 
             //-- Hide UI blocker here
-            showProcessingSignal.Dispatch(false, false);
+            showProcessingSignal.Dispatch(false);
 
             Release();
         }
