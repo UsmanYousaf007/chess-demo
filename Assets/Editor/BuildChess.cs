@@ -190,12 +190,14 @@ public class BuildChess : MonoBehaviour
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(GameAnalyticsInternalBuildName);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = false;
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.SubmitErrors = false;
             LogUtil.Log("GASettings Version : " + GameAnalyticsInternalBuildName);
         }
         else
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.SubmitErrors = true;
             LogUtil.Log("GASettings Version : " + bundleVersion);
         }
     }
@@ -263,7 +265,7 @@ public class BuildChess : MonoBehaviour
         //PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
         //PlayerSettings.showUnitySplashScreen = true; // obsolete
         PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
-        PlayerSettings.SplashScreen.show = false;
+        PlayerSettings.SplashScreen.show = true;
         // PlayerSettings.singlePassStereoRendering = false; // depricated
         //PlayerSettings.splashScreenStyle = SplashScreenStyle.Dark; // obsolete
         PlayerSettings.statusBarHidden = true;
