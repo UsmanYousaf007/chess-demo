@@ -13,6 +13,7 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -33,17 +34,45 @@ namespace TurboLabz.InstantFramework
                 if (coinPacks != null)
                 {
                     coinPacks.Sort((x, y) => x.currency4Payout.CompareTo(y.currency4Payout));
+                    coinPacks.Reverse();
+
                     var availablePacks = new List<string>();
 
                     foreach (var pack in coinPacks)
                     {
-                        if (pack.currency4Payout >= betValue)
+                        if (pack.currency4Payout >= betValue - playerModel.coins)
                         {
                             availablePacks.Add(pack.key);
                         }
                     }
 
-                    updateSpotCoinsPurchaseDlgSignal.Dispatch(betValue, availablePacks);
+                    var dynamicContent = new DynamicSpotPurchaseBundle();
+                    dynamicContent.leftPackShortCode = availablePacks[availablePacks.Count - 1];
+                    dynamicContent.rightPackShortCode = availablePacks[availablePacks.Count - 2];
+                    dynamicContent.dynamicBundleShortCode = playerModel.dynamicBundleToDisplay;
+
+                    var bundles = storeSettingsModel.lists.ContainsKey(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG) ?
+                        storeSettingsModel.lists[GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG] : null;
+
+                    if (bundles != null)
+                    {
+                        bundles.Sort((x, y) => x.currency4Cost.CompareTo(y.currency4Cost));
+
+                        foreach (var bundle in bundles)
+                        {
+                            if (bundle.currency4Cost >= betValue - playerModel.coins)
+                            {
+                                if (bundle.currency1Cost > storeSettingsModel.items[dynamicContent.dynamicBundleShortCode].currency1Cost)
+                                {
+                                    dynamicContent.dynamicBundleShortCode = bundle.key;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    updateSpotCoinsPurchaseDlgSignal.Dispatch(betValue, availablePacks, dynamicContent);
                 }
             }
 

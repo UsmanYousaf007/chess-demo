@@ -59,10 +59,10 @@ namespace TurboLabz.InstantFramework
         }
         
         [ListensTo(typeof(UpdateSpotCoinsPurchaseDlgSignal))]
-        public void OnUpdateView(long betValue, List<string> packs)
+        public void OnUpdateView(long betValue, List<string> packs, DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle)
         {
             this.betValue = betValue;
-            view.UpdateView(packs);
+            view.UpdateView(packs, dynamicSpotPurchaseBundle);
             adView = false;
         }
 

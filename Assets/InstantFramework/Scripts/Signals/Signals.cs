@@ -198,7 +198,7 @@ namespace TurboLabz.InstantFramework
     public class PromotionCycleOverSignal : Signal { }
     public class LoginAsGuestSignal : Signal { }
     public class LoadSpotCoinPurchaseSignal : Signal<long> { }
-    public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>> { }
+    public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>, DynamicSpotPurchaseBundle> { }
     public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem, AdPlacements> { }
     public class UpdateRewardDlgV2ViewSignal : Signal<RewardDlgV2VO> { }
     public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
