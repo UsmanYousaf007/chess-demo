@@ -53,6 +53,7 @@ namespace TurboLabz.InstantFramework
         private static StoreThumbsContainer thumbsContainer;
         private bool isOwned;
         private bool isOnSale;
+        private bool storeAvailable;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -148,6 +149,7 @@ namespace TurboLabz.InstantFramework
             thumbnailButton.enabled = available;
             price.gameObject.SetActive(available && !isOnSale);
             loading.SetActive(!available);
+            storeAvailable = available;
         }
 
         private void OnBuyButtonClicked()
@@ -234,6 +236,13 @@ namespace TurboLabz.InstantFramework
                 strikethrough = strikethrough + c + "<b>" +'\u0336' + "</b>";
             }
             return strikethrough;
+        }
+
+        public void OverrideItem(string newShortCode)
+        {
+            shortCode = newShortCode;
+            isInitlialised = false;
+            OnStoreAvailable(storeAvailable);
         }
     }
 }

@@ -10,6 +10,9 @@ public class PromotionBundleDlgMediator : Mediator
 {
     // View injection
     [Inject] public PromotionBundleDlgView view { get; set; }
+
+    // Dispatch Signals
+    [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
 
     // Services
@@ -23,6 +26,7 @@ public class PromotionBundleDlgMediator : Mediator
     {
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDialogue);
+        view.purchaseSignal.AddListener(OnPurchase);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -48,6 +52,11 @@ public class PromotionBundleDlgMediator : Mediator
                 view.Hide();
             }
         }
+    }
+
+    private void OnPurchase()
+    {
+        purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
     private void OnCloseDialogue()

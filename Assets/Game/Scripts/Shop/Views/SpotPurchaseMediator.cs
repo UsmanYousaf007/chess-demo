@@ -18,6 +18,7 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
         public static string analyticsContext = string.Empty;
 
@@ -32,6 +33,7 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
             {
+                view.SetupDynamicContent(playerModel.dynamicGemSpotBundle);
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_dlg);
                 analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, analyticsContext);
@@ -57,19 +59,16 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnPurchaseSuccess(StoreItem item)
         {
-            if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG))
+            if (view.isActiveAndEnabled)
             {
+                view.SetupDynamicContent(playerModel.dynamicGemSpotBundle);
+
+                //analytics
                 var context = $"{item.displayName.Replace(' ', '_').ToLower()}";
                 analyticsService.DesignEvent(AnalyticsEventId.shop_popup_purchase, "context", analyticsContext, context);
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Payout, "spot_purchase", $"{analyticsContext}_{context}");
                 OnCloseDlgSignal();
             }
-        }
-
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessing(bool blocker, bool processing)
-        {
-            view.ShowProcessing(blocker, processing);
         }
     }
 }
