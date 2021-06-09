@@ -9,8 +9,6 @@ namespace TurboLabz.InstantFramework
     {
         public Text title;
         public Button close;
-        public GameObject uiBlocker;
-        public GameObject processing;
         public Button showMoreButton;
         public Button showLessButton;
         public GameObject moreOffers;
@@ -18,6 +16,10 @@ namespace TurboLabz.InstantFramework
         public Transform bgGlow;
         public Transform bgGlowPivot;
         public GameObject extraBadge;
+        public ShopItemView leftGemsPack;
+        public ShopItemView rightGemsPacks;
+        public GameObject lessOffers;
+        public PromotionBundleView[] bundles;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -51,12 +53,6 @@ namespace TurboLabz.InstantFramework
             closeDlgSignal.Dispatch();
         }
 
-        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
-        {
-            uiBlocker.SetActive(showUiBlocked);
-            processing.SetActive(showProcessing);
-        }
-
         private void ButtonClicked(bool showMore)
         {
             audioService.PlayStandardClick();
@@ -69,6 +65,7 @@ namespace TurboLabz.InstantFramework
             showLessButton.gameObject.SetActive(showMore);
             moreOffers.SetActive(showMore);
             extraBadge.SetActive(!showMore);
+            lessOffers.SetActive(!showMore);
             RebuildLayouts();
         }
 
@@ -80,6 +77,17 @@ namespace TurboLabz.InstantFramework
             }
 
             bgGlow.position = bgGlowPivot.position;
+        }
+
+        public void SetupDynamicContent(DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle)
+        {
+            foreach (var bundle in bundles)
+            {
+                bundle.gameObject.SetActive(bundle.key.Equals(dynamicSpotPurchaseBundle.dynamicBundleShortCode));
+            }
+
+            leftGemsPack.OverrideItem(dynamicSpotPurchaseBundle.leftPackShortCode);
+            rightGemsPacks.OverrideItem(dynamicSpotPurchaseBundle.rightPackShortCode);
         }
     }
 }

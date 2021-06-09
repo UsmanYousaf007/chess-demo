@@ -21,8 +21,6 @@ public class PromotionWelcomeBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
 
     [Header("Items")]
@@ -103,12 +101,6 @@ public class PromotionWelcomeBundleDlgView : View
     {
         audioService.PlayStandardClick();
         closeDailogueSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

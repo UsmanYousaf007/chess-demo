@@ -18,8 +18,6 @@ public class PromotionRemoveAdsDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
 
     public GameObject saleObj;
@@ -143,12 +141,6 @@ public class PromotionRemoveAdsDlgView : View
     public bool IsVisible()
     {
         return gameObject.activeSelf;
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 }
 

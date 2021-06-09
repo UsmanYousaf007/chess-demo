@@ -121,12 +121,6 @@ public class SubscriptionDlgMediator : Mediator
         hAnalyticsService.LogEvent("start_trial_clicked", "subscription", "subscription_popup", analyticsFunnelId);
     }
 
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
-    }
-
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {

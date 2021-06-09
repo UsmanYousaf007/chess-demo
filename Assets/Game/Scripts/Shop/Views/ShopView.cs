@@ -3,6 +3,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 using HUFEXT.CrossPromo.Runtime.API;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,8 +24,6 @@ namespace TurboLabz.InstantFramework
         public Text ownedText;
         public GameObject loading;
         public RectTransform layout;
-        public GameObject uiBlocker;
-        public GameObject processing;
         public string subscriptionKey;
         public string subscriptionSaleKey;
         public Text subscriptionOriginalPrice;
@@ -51,6 +50,9 @@ namespace TurboLabz.InstantFramework
 
         private bool isSubscriber;
         private bool isOnSale;
+
+        public Dictionary<GameObject, string> promotionBundles;
+
 
         public void Init()
         {
@@ -86,7 +88,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnStoreAvailable(bool available)
         {
-            SetBundle();
+            //SetBundle();
             SetSubscriptionOwnedStatus();
             subscriptionButtonText.gameObject.SetActive(available && !isOnSale);
             subscriptionOriginalPrice.gameObject.SetActive(available && isOnSale);
@@ -123,12 +125,6 @@ namespace TurboLabz.InstantFramework
             }
 
             subscriptionButtonClickedSignal.Dispatch();
-        }
-
-        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
-        {
-            uiBlocker.SetActive(showUiBlocked);
-            processing.SetActive(showProcessing);
         }
 
         private void ShowSaleItems(bool show)

@@ -152,12 +152,6 @@ namespace TurboLabz.InstantGame
             OnShowShareDialogSignal();
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
-        }
-
         void OnTakePhotoBtnClicked()
         {
             audioService.PlayStandardClick();

@@ -372,12 +372,6 @@ namespace TurboLabz.InstantFramework
             removeCommunityFriendSignal.Dispatch(opponentId);
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
-        }
-
         void OnUpgradeToPremiumClicked()
         {
             promotionsService.LoadSubscriptionPromotion();

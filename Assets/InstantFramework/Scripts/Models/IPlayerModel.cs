@@ -43,6 +43,7 @@ namespace TurboLabz.InstantFramework
         long coins { get; set; }
         bool leaguePromoted { get; set; }
         string dynamicBundleToDisplay { get; set; }
+        DynamicSpotPurchaseBundle dynamicGemSpotBundle { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }

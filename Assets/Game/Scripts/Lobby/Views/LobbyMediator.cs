@@ -281,8 +281,6 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
-
-
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -337,7 +335,7 @@ namespace TurboLabz.InstantFramework
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             var friend = playerModel.GetFriend(playerId);
 
@@ -406,7 +404,7 @@ namespace TurboLabz.InstantFramework
         private void OnQuickMatchBtnClicked(string actionCode)
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             if (!playerModel.isPremium)
             {
@@ -426,7 +424,7 @@ namespace TurboLabz.InstantFramework
         private void OnClassicMatchBtnClicked()
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             if (!playerModel.HasSubscription())
             {
@@ -470,12 +468,6 @@ namespace TurboLabz.InstantFramework
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
             view.RemovePromotion(item.key);
-        }
-
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
         }
 
         [ListensTo(typeof(StoreAvailableSignal))]

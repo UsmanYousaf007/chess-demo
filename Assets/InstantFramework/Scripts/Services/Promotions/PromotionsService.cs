@@ -15,6 +15,7 @@ namespace TurboLabz.InstantFramework
     {
         public List<List<string>> promotionsSequence { get; set; }
         public bool promotionShown { get; set; }
+        public bool isDynamicBundleShownOnLaunch { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -123,6 +124,8 @@ namespace TurboLabz.InstantFramework
                 subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
             }
 
+            isDynamicBundleShownOnLaunch = promotionToDispatch.key.Equals("DynamicBundle");
+
             //navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
             // showFadeBlockerSignal.Dispatch();
             routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
@@ -178,27 +181,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            var removeAdsFull = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG,
-                condition = delegate { return !playerModel.HasRemoveAds(); }
-            };
-
-            var lessons = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.ALL_LESSONS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_COURSE_DLG,
-                condition = delegate { return !playerModel.OwnsAllLessons(); }
-            };
-
-            var themes = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.ALL_THEMES_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_SETS_BUNDLE_DLG,
-                condition = delegate { return !playerModel.OwnsAllThemes(); }
-            };
-
             var subscription = new PromoionDlgVO
             {
                 key = "Subscription",
@@ -214,37 +196,67 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true
             };
 
-            var removeAdsSale = new PromoionDlgVO
+            var dynamicBundle = new PromoionDlgVO
             {
-                key = GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG,
-                condition = delegate { return !playerModel.HasRemoveAds(); },
-                isOnSale = true
+                key = "DynamicBundle",
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG,
+                condition = delegate { return true; }
             };
 
-            var welcomeBundle = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_WELCOME_BUNDLE_DLG,
-                condition = delegate { return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
-            };
+            //var removeAdsFull = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.REMOVE_ADS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG,
+            //    condition = delegate { return !playerModel.HasRemoveAds(); }
+            //};
 
-            var eliteBundle = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG,
-                condition = delegate { return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
-            };
+            //var lessons = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.ALL_LESSONS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_COURSE_DLG,
+            //    condition = delegate { return !playerModel.OwnsAllLessons(); }
+            //};
+
+            //var themes = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.ALL_THEMES_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_SETS_BUNDLE_DLG,
+            //    condition = delegate { return !playerModel.OwnsAllThemes(); }
+            //};
+
+            //var removeAdsSale = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG,
+            //    condition = delegate { return !playerModel.HasRemoveAds(); },
+            //    isOnSale = true
+            //};
+
+            //var welcomeBundle = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_WELCOME_BUNDLE_DLG,
+            //    condition = delegate { return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
+            //};
+
+            //var eliteBundle = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG,
+            //    condition = delegate { return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
+            //};
 
             promotionsMapping = new Dictionary<string, PromoionDlgVO>();
-            promotionsMapping.Add(removeAdsFull.key, removeAdsFull);
-            promotionsMapping.Add(removeAdsSale.key, removeAdsSale);
             promotionsMapping.Add(subscription.key, subscription);
             promotionsMapping.Add(subscriptionSale.key, subscriptionSale);
-            promotionsMapping.Add(welcomeBundle.key, welcomeBundle);
-            promotionsMapping.Add(eliteBundle.key, eliteBundle);
-            promotionsMapping.Add(lessons.key, lessons);
-            promotionsMapping.Add(themes.key, themes);
+            promotionsMapping.Add(dynamicBundle.key, dynamicBundle);
+
+            //promotionsMapping.Add(removeAdsFull.key, removeAdsFull);
+            //promotionsMapping.Add(removeAdsSale.key, removeAdsSale);
+            //promotionsMapping.Add(welcomeBundle.key, welcomeBundle);
+            //promotionsMapping.Add(eliteBundle.key, eliteBundle);
+            //promotionsMapping.Add(lessons.key, lessons);
+            //promotionsMapping.Add(themes.key, themes);
         }
     }
 }

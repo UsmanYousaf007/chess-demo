@@ -69,12 +69,6 @@ public class PromotionWelcomeBundleDlgMediator : Mediator
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
-    }
-
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {

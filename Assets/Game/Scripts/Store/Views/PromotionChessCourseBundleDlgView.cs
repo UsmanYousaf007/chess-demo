@@ -13,8 +13,6 @@ public class PromotionChessCourseBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject lessonPrefab;
     public Transform lessonsContainer;
     public GameObject loading;
@@ -86,12 +84,6 @@ public class PromotionChessCourseBundleDlgView : View
     {
         audioService.PlayStandardClick();
         purchaseSignal.Dispatch();
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
     }
 
     public bool IsVisible()

@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
@@ -135,7 +135,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             toggleFacebookButton.Dispatch(false);
-            showProcessingSignal.Dispatch(true, false);
+            showProcessingSignal.Dispatch(true);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -176,7 +176,7 @@ namespace TurboLabz.InstantFramework
 
             authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);
-            showProcessingSignal.Dispatch(false, false);
+            showProcessingSignal.Dispatch(false);
 
             Release();
         }

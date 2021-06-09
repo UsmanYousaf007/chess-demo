@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSPromotionChessSetsBundleDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG)
+            else if (evt == NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG)
             {
                 return new NSPromotionEliteBundleDlg();
             }

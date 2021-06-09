@@ -50,6 +50,7 @@ namespace TurboLabz.InstantFramework
         public bool leaguePromoted { get; set; }
         public long rvUnlockTimestamp { get; set; }
         public string dynamicBundleToDisplay { get; set; }
+        public DynamicSpotPurchaseBundle dynamicGemSpotBundle { get; set; }
 
         public string name
         {
@@ -163,6 +164,9 @@ namespace TurboLabz.InstantFramework
             rewardShortCode = "";
             rewardQuantity = 0;
             adContext = AnalyticsContext.unknown;
+
+            dynamicBundleToDisplay = string.Empty;
+            dynamicGemSpotBundle = new DynamicSpotPurchaseBundle();
         }
 
         public bool OwnsVGood(string key)
