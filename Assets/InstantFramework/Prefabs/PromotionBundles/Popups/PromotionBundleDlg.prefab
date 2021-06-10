@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 568295156835550182}
   - component: {fileID: 17216074860085527}
   - component: {fileID: 6552689849923809595}
+  - component: {fileID: 6320739562385101529}
   m_Layer: 5
   m_Name: Rays
   m_TagString: Untagged
@@ -150,6 +151,19 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6320739562385101529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352503033278323076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d275e7b6b23643d4aae78aaacaa62b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
 --- !u!1 &369030288025159770
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,8 +427,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5256416089376134529}
-  m_RootOrder: 5
+  m_Father: {fileID: 161267220011345432}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -492,8 +506,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5256416089376134529}
-  m_RootOrder: 6
+  m_Father: {fileID: 161267220011345432}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -553,6 +567,7 @@ GameObject:
   - component: {fileID: 6512283837136338717}
   - component: {fileID: 8996141686733311967}
   - component: {fileID: 745265816586866319}
+  - component: {fileID: 7526931002071162951}
   m_Layer: 5
   m_Name: Rays
   m_TagString: Untagged
@@ -616,6 +631,19 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &7526931002071162951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2221084539076162404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d275e7b6b23643d4aae78aaacaa62b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
 --- !u!1 &2361347427507641709
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,11 +824,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 282558940808618234}
+  - {fileID: 4364364748555911106}
   - {fileID: 3006760540803067022}
-  - {fileID: 3824233283072010920}
   - {fileID: 6234260656092888336}
   m_Father: {fileID: 5256416089376134529}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1024,7 +1053,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 161267220011345432}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -1264,8 +1293,7 @@ RectTransform:
   - {fileID: 3686011050030576886}
   - {fileID: 3233570055828221471}
   - {fileID: 331567341364897962}
-  - {fileID: 4364364748555911106}
-  - {fileID: 282558940808618234}
+  - {fileID: 3824233283072010920}
   - {fileID: 161267220011345432}
   m_Father: {fileID: 8925774032801914318}
   m_RootOrder: 0
@@ -1695,8 +1723,8 @@ RectTransform:
   - {fileID: 4948287304779396590}
   - {fileID: 8502464836314913703}
   - {fileID: 6340783726270163769}
-  m_Father: {fileID: 161267220011345432}
-  m_RootOrder: 1
+  m_Father: {fileID: 5256416089376134529}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -2398,7 +2426,7 @@ RectTransform:
   - {fileID: 8722729001499407626}
   - {fileID: 7007102498095072718}
   m_Father: {fileID: 161267220011345432}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -2554,7 +2582,7 @@ MonoBehaviour:
     count: {fileID: 4421944688764128811}
   closeButton: {fileID: 5909245701515367929}
   wasPriceText: {fileID: 1550012932535386286}
-  ribbon: {fileID: 30090261307092657}
+  ribbon: {fileID: 8242380654392108471}
   gemsRibbon: {fileID: 982587613335013205}
   canvasGroup: {fileID: 3033364684229583236}
 --- !u!222 &7063321720679027624

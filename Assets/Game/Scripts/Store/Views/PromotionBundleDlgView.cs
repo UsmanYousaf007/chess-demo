@@ -74,7 +74,9 @@ public class PromotionBundleDlgView : PromotionBundleView
     public void Reset()
     {
         ribbon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        purchaseButton.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         gemsRibbon.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        purchaseButton.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
         canvasGroup.alpha = 0;
     }
 
@@ -85,9 +87,16 @@ public class PromotionBundleDlgView : PromotionBundleView
         animationSequence = DOTween.Sequence();
         animationSequence.AppendCallback(() => Reset());
         animationSequence.AppendInterval(1f);
-        animationSequence.AppendCallback(() => AnimateRibbons());
-        animationSequence.AppendInterval(1f);
-        animationSequence.AppendCallback(() => canvasGroup.DOFade(1.0f, 1f));
+        animationSequence.AppendCallback(() => ribbon.transform.DOScale(1.3f, 0.4f).SetEase(Ease.Linear));
+        animationSequence.AppendInterval(0.4f);
+        animationSequence.AppendCallback(() => ribbon.transform.DOScale(1.0f, 0.1f).SetEase(Ease.Linear));
+        animationSequence.AppendInterval(0.6f);
+        animationSequence.AppendCallback(() => gemsRibbon.transform.DOScale(1.3f, 0.4f).SetEase(Ease.Linear));
+        animationSequence.AppendInterval(0.4f);
+        animationSequence.AppendCallback(() => gemsRibbon.transform.DOScale(1.0f, 0.1f).SetEase(Ease.Linear));
+        animationSequence.AppendInterval(0.6f);
+        animationSequence.AppendCallback(() => canvasGroup.DOFade(1.0f, 0.5f));
+        animationSequence.AppendCallback(() => purchaseButton.transform.DOScale(1.0f, 0.7f));
         animationSequence.PlayForward();
     }
 }
