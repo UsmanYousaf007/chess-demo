@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 8925774032801914317, guid: f949956b35b5d4216aef2fef20c1dd15,
         type: 3}
       propertyPath: m_Name
-      value: PromotionEliteBundleDlg Elite
+      value: PromotionBundleDlg Elite
       objectReference: {fileID: 0}
     - target: {fileID: 8925774032801914317, guid: f949956b35b5d4216aef2fef20c1dd15,
         type: 3}
@@ -152,6 +152,18 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.60784316
       objectReference: {fileID: 0}
+    - target: {fileID: 4374577241426651854, guid: f949956b35b5d4216aef2fef20c1dd15,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d5202061f7b094f68a12e8b057504511,
+        type: 3}
+    - target: {fileID: 2155230186043287013, guid: f949956b35b5d4216aef2fef20c1dd15,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d5202061f7b094f68a12e8b057504511,
+        type: 3}
     - target: {fileID: 3006760540803067022, guid: f949956b35b5d4216aef2fef20c1dd15,
         type: 3}
       propertyPath: m_AnchoredPosition.y

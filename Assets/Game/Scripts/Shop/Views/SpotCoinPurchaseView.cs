@@ -28,6 +28,10 @@ namespace TurboLabz.InstantFramework
         public GameObject extraBadge;
         public Button collectButton;
         public Button closeButton3;
+        public ShopCoinItemView leftCoinsPack;
+        public ShopCoinItemView rightCoinsPacks;
+        public GameObject lessOffers;
+        public PromotionBundleView[] bundles;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -66,7 +70,7 @@ namespace TurboLabz.InstantFramework
             UIDlgManager.Hide(gameObject);
         }
 
-        public void UpdateView(List<string> packsKeys)
+        public void UpdateView(List<string> packsKeys, DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle)
         {
             normalDlg.SetActive(true);
             adDlg.SetActive(false);
@@ -84,6 +88,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            SetupDynamicContent(dynamicSpotPurchaseBundle);
             SetupLayout(false);
         }
 
@@ -116,6 +121,7 @@ namespace TurboLabz.InstantFramework
             showLessButton.gameObject.SetActive(showMore);
             moreOffers.SetActive(showMore);
             extraBadge.SetActive(!showMore);
+            lessOffers.SetActive(!showMore);
             RebuildLayouts();
         }
 
@@ -145,6 +151,17 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             closeDlgWithAnalyticSignal.Dispatch();
+        }
+
+        private void SetupDynamicContent(DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle)
+        {
+            foreach (var bundle in bundles)
+            {
+                bundle.gameObject.SetActive(bundle.key.Equals(dynamicSpotPurchaseBundle.dynamicBundleShortCode));
+            }
+
+            leftCoinsPack.Setup(dynamicSpotPurchaseBundle.leftPackShortCode);
+            rightCoinsPacks.Setup(dynamicSpotPurchaseBundle.rightPackShortCode);
         }
     }
 }
