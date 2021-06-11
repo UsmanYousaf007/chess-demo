@@ -86,6 +86,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateKingCheckIndicatorSignal>().ToSingleton();
             injectionBinder.Bind<MoveAnalysiedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateAnalysedMoveAdvantageSignal>().ToSingleton();
+            injectionBinder.Bind<AiTurnRequestedSignal>().ToSingleton();
 
             // Bind signals for dipatching from command to command
             injectionBinder.Bind<TakeTurnSwapTimeControlSignal>().ToSingleton();
