@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         void HEvent(string evt, params string [] param);
         void ResourceEvent(GAResourceFlowType flowType, string currency, int amount, string itemType, string itemId);
         void ValueEvent(AnalyticsEventId evt, string context, float val);
+        void ValueEvent(string evt, AnalyticsContext context, float val);
 
         void LevelComplete(int difficulty);
         void LevelFail(int difficulty);

@@ -50,6 +50,15 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
+            switch (adPlacement)
+            {
+                case AdPlacements.Rewarded_cpu_in_game_power_mode:
+                case AdPlacements.Rewarded_cpu_pregame_power_mode:
+                case AdPlacements.Rewarded_cpu_resume_power_mode:
+                    adPlacement = AdPlacements.Rewarded_powerplay;
+                    break;
+            }
+
             adsService.ShowRewardedVideo(adPlacement).Then(OnVideoShown);
         }
 

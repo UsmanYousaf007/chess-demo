@@ -39,13 +39,16 @@ namespace TurboLabz.InstantFramework
         private long coolDownTimeUTC;
         private bool isTimerRunning;
         public IServerClock serverClock;
+
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+
         //Services
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         //Signals
         public Signal powerModeButtonClickedSignal = new Signal();
@@ -84,6 +87,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             SetupState(true, canSeeRewardedVideo);
+            analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.cpu_pre_game_power_mode);
         }
 
         private void UpdateView()
@@ -195,7 +199,7 @@ namespace TurboLabz.InstantFramework
         {
             if (IsCoolDownComplete())
             {
-                showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+                showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_cpu_pregame_power_mode);
             }
             else
             {

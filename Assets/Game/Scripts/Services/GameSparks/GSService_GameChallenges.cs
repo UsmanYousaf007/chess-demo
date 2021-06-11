@@ -226,6 +226,7 @@ namespace TurboLabz.InstantFramework
                     {
                         preferencesModel.isFirstRankedGameOfTheDayFinished = true;
                         analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+                        analyticsService.Event(AnalyticsEventId.internal_matchmaking_elo, AnalyticsParameter.internal_matchmaking_elo, Mathf.Clamp(playerModel.eloScore, 500, 1400));
                     }
                 }
 

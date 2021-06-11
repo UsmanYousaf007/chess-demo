@@ -55,12 +55,14 @@ namespace TurboLabz.InstantFramework
         public GameObject videoNotAvailableTooltip;
 
         public IServerClock serverClock;
+
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public ISettingsModel settingsModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+
         //Signals
         public Signal<string, bool> playMultiplayerButtonClickedSignal = new Signal<string, bool>();
         public Signal powerModeButtonClickedSignal = new Signal();
@@ -69,10 +71,11 @@ namespace TurboLabz.InstantFramework
         public Signal closeButtonSignal = new Signal();
         public Signal<AdPlacements> showRewardedAdSignal = new Signal<AdPlacements>();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
+
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
-
+        [Inject] public IAnalyticsService analyticsService { get; set; }
 
         private StoreItem storeItem;
         private bool isPowerModeOn;
@@ -201,6 +204,7 @@ namespace TurboLabz.InstantFramework
         {
             audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             SetupState(true, canSeeRewardedVideo);
+            analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.power_mode);
         }
 
         private void OnCloseButtonClicked()

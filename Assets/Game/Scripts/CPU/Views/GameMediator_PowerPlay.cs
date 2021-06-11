@@ -68,6 +68,7 @@ namespace TurboLabz.CPU
             view.SetupPowerplayImage(true);
             OnPowerplayCloseSignal();
             view.SetupStepButtons();
+            analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.cpu_in_game_power_mode);
         }
 
         [ListensTo(typeof(PowerPlayRewardClaimedSignal))]
