@@ -111,6 +111,7 @@ namespace TurboLabz.InstantFramework
 
         //elo distribution
         elo,
+        internal_matchmaking_elo,
 
         //match end distribution
         match_end,
@@ -168,6 +169,7 @@ namespace TurboLabz.InstantFramework
         bet_increment_default,
         free_game_analysis_used,
         rv_used,
+        consumable_used,
 
         //inbox
         inbox_visits,
@@ -245,6 +247,10 @@ namespace TurboLabz.InstantFramework
         rewarded_coins_spot_state_1,
         rewarded_power_mode,
         rewarded_rating_booster,
+        rewarded_cpu_pregame_power_mode,
+        rewarded_cpu_in_game_power_mode,
+        rewarded_cpu_resume_power_mode,
+        rewarded_analysis,
 
         //Session
         num_facebook_friends,
@@ -349,6 +355,7 @@ namespace TurboLabz.InstantFramework
         theme,
         coins,
         game_analysis,
+        cpu_resume_game_power_mode,
 
         //tournament
         main,
@@ -391,6 +398,7 @@ namespace TurboLabz.InstantFramework
         count,
         level_difficulty,
         elo,
+        internal_matchmaking_elo,
         bot_difficulty,
         duration,
         theme_name,

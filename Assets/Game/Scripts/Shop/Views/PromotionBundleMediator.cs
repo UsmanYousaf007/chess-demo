@@ -18,6 +18,7 @@ public class PromotionBundleMediator : Mediator
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
     [Inject] public PurchaseStoreItemSignal purchaseStoreItemSignal { get; set; }
+    [Inject] public BuyDynamicBundleClickedSignal buyDynamicBundleClickedSignal { get; set; }
 
     //Models
     [Inject] public IPreferencesModel preferencesModel { get; set; }
@@ -41,21 +42,20 @@ public class PromotionBundleMediator : Mediator
 
     private void OnPurchase()
     {
+        buyDynamicBundleClickedSignal.Dispatch();
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
     [ListensTo(typeof(UpdatePromotionBundleSignal))]
     public void OnUpdateBundle()
     {
-        //if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG))
-        //{
-            if (!view.isActiveAndEnabled && view.key == playerModel.dynamicBundleToDisplay)
-            {
-                view.Show();
-            }else
-            {
-                view.Hide();
-            }
-        //}
+        if (view.key == playerModel.dynamicBundleToDisplay)
+        {
+            view.Show();
+        }
+        else
+        {
+            view.Hide();
+        }
     }
 }

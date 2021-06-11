@@ -79,6 +79,8 @@ namespace TurboLabz.InstantGame
 					analyticsService.Event(AnalyticsEventId.third_payment);
 					break;
 			}
+
+            GameAnalyticsSDK.GameAnalytics.SetCustomDimension01("payers");
 		}
 
 		private StoreItem FindRemoteStoreItem(string remoteId)

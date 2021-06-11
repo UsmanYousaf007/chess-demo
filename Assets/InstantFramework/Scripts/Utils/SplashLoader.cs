@@ -70,8 +70,8 @@ public class SplashLoader : MonoBehaviour {
 
     private static void OnRemoteConfigsUpdated()
     {
-        Settings.ABTest.COINS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("coins_test", Settings.ABTest.COINS_TEST_GROUP_DEFAULT);
-        GameAnalytics.SetCustomDimension01(Settings.ABTest.COINS_TEST_GROUP);
+        //Settings.ABTest.COINS_TEST_GROUP = GameAnalytics.GetRemoteConfigsValueAsString("coins_test", Settings.ABTest.COINS_TEST_GROUP_DEFAULT);
+        //GameAnalytics.SetCustomDimension01(Settings.ABTest.COINS_TEST_GROUP);
     }
 
     private void SetupPolicyGuardConfig(bool firstSession)

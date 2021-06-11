@@ -120,7 +120,7 @@ namespace TurboLabz.InstantFramework
             showMoreButton.gameObject.SetActive(!showMore);
             showLessButton.gameObject.SetActive(showMore);
             moreOffers.SetActive(showMore);
-            extraBadge.SetActive(!showMore);
+            extraBadge.SetActive(false);
             lessOffers.SetActive(!showMore);
             RebuildLayouts();
         }

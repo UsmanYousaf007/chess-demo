@@ -270,6 +270,8 @@ namespace TurboLabz.InstantFramework
                 tournamentsModel.LogConcludedJoinedTournaments();
             }
 
+            GameAnalyticsSDK.GameAnalytics.SetCustomDimension01(playerModel.HasPurchased() ? "payers" : "non_payers");
+
             SendDailyAnalytics();
         }
 

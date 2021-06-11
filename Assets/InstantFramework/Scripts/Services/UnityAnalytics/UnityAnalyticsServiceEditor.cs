@@ -72,6 +72,11 @@ namespace TurboLabz.InstantFramework
                 int rating = (int)val;
                 val = rating - (rating % 500);
             }
+            else if (param == AnalyticsParameter.internal_matchmaking_elo)
+            {
+                int rating = (int)val;
+                val = rating - (rating % 100);
+            }
             else if (param == AnalyticsParameter.bot_difficulty)
             {
                 val = Math.Round((float)val, 1);
@@ -192,6 +197,11 @@ namespace TurboLabz.InstantFramework
         }
 
         public void ValueEvent(AnalyticsEventId evt, string context, float val)
+        {
+            Print($"{evt}:{context}:{val}");
+        }
+
+        public void ValueEvent(string evt, AnalyticsContext context, float val)
         {
             Print($"{evt}:{context}:{val}");
         }
