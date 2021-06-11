@@ -6,15 +6,16 @@ using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 [System.CLSCompliantAttribute(false)]
 public class PromotionBundleDlgView : PromotionBundleView
 {
     public Button closeButton;
-    public Text wasPriceText;
     public GameObject ribbon;
     public GameObject gemsRibbon;
     public CanvasGroup canvasGroup;
+    public TMP_Text priceText;
 
     //Signals
     public Signal closeDailogueSignal = new Signal();
@@ -46,7 +47,7 @@ public class PromotionBundleDlgView : PromotionBundleView
             currency2Payout.count.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false);
         }
 
-        wasPriceText.text = string.Format("Was {0} {1:0.##}", bundleStoreItem.remoteProductCurrencyCode, totalBundlePrice);
+        priceText.text = "Now <size=122.9%><font=\"Ubuntu-Medium SDF\"> " + bundleStoreItem.remoteProductPrice + " </font ></size><alpha=#88>  "+ string.Format("Was {0} {1:0.##}", bundleStoreItem.remoteProductCurrencyCode, totalBundlePrice);
     }
 
     public void Show()
