@@ -64,10 +64,13 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: cd1f135626da943648f28e25c09e4bfd, type: 3}
-    totalSpriteSurfaceArea: 17562089
+    totalSpriteSurfaceArea: 21263291
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 37864a007a93045e2838706ee6e6956b, type: 3}
+  - {fileID: 21300000, guid: cf0f1e40efefa48caadd78dee9f678ad, type: 3}
+  - {fileID: 21300000, guid: 9cf152a06ce0942a799251ad2ef3671d, type: 3}
   - {fileID: 21300000, guid: 4f32b0d09c7234b97a800198e04332e4, type: 3}
   - {fileID: 21300000, guid: 96f150f020f8e48bc9727a517b84b02c, type: 3}
   - {fileID: 21300000, guid: 13909421c12d343788ea0869981b8e59, type: 3}
@@ -78,6 +81,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bde4376216c6647728e68a5fe6a4bb07, type: 3}
   - {fileID: 21300000, guid: 9d06e182d37f84eb0a0ffe1ec2d76a61, type: 3}
   - {fileID: 21300000, guid: fdeaa092ab38d460196f8e9736e4eda5, type: 3}
+  - {fileID: 21300000, guid: fc80b7c2781ea44468a41f110f9acd64, type: 3}
   - {fileID: 21300000, guid: b6bd16e2a8b844fddbb99c55639e8f03, type: 3}
   - {fileID: 21300000, guid: f85c8cf2b2f0e438fb05578bc5259213, type: 3}
   - {fileID: 21300000, guid: 11ae66134ff1f433fbd0a0ddc3d42e77, type: 3}
@@ -90,32 +94,50 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e2d1afb5d2881492586311023575f6b0, type: 3}
   - {fileID: 21300000, guid: acad2ad5dfc284d5d8ddd96cb9f8ee30, type: 3}
   - {fileID: 21300000, guid: 4f84ba36179e647eea3501073ffebc6c, type: 3}
+  - {fileID: 21300000, guid: fb1b9466f7eaa4f419ca5f3f0f08ea62, type: 3}
+  - {fileID: 21300000, guid: cc689af6fc1914377a90ffef786035db, type: 3}
   - {fileID: 21300000, guid: 61a989b7d740547d79d9ef074123b4d8, type: 3}
   - {fileID: 21300000, guid: 903945a86de1441ccaca1fa3b29fe8fa, type: 3}
+  - {fileID: 21300000, guid: df05ebb8741a54ffb9d457c81863ffbe, type: 3}
   - {fileID: 21300000, guid: d6a16eb82573c44c8a84883b01868aee, type: 3}
   - {fileID: 21300000, guid: 06cb6bc8b21464daeaaed745651c60a4, type: 3}
   - {fileID: 21300000, guid: 2b0f0109f8bff4f219324a86ff6c3615, type: 3}
   - {fileID: 21300000, guid: 372f9e1988c304aba97a6dee47adb912, type: 3}
   - {fileID: 21300000, guid: b075f56903a0848928f3d774fe006a96, type: 3}
+  - {fileID: 21300000, guid: 72758c69f8ef24e70ac8cdd9cce07479, type: 3}
   - {fileID: 21300000, guid: c8831679db54846db94b617fbda3c391, type: 3}
   - {fileID: 21300000, guid: a9b9859905a444acfaa667fbb5ac9967, type: 3}
   - {fileID: 21300000, guid: d078a4a98b22f4a8a9e07cb75fcb3950, type: 3}
+  - {fileID: 21300000, guid: 03eca9f93e48b4ffda118f0877346f67, type: 3}
   - {fileID: 21300000, guid: b2bc2e1a00d8f41e6a08846888b98612, type: 3}
   - {fileID: 21300000, guid: 7c26e1bab02f2479ea32d26846af40cb, type: 3}
   - {fileID: 21300000, guid: d79557da96ef6413399a0d06e3a12bfa, type: 3}
+  - {fileID: 21300000, guid: 69e2d03ba272046db881c06b1ca3b059, type: 3}
   - {fileID: 21300000, guid: e5cbb43bed5994e098ee27a6d020a9a0, type: 3}
+  - {fileID: 21300000, guid: eec4087bb143f44fa949e769c364abe7, type: 3}
+  - {fileID: 21300000, guid: e71dea7bc9da54054973cec03eb0daf1, type: 3}
   - {fileID: 21300000, guid: 8659fa9ba4498419b807b4f85cf98865, type: 3}
+  - {fileID: 21300000, guid: 8d160bab024de4e23b261d97eb3998eb, type: 3}
+  - {fileID: 21300000, guid: fd50860dcbc964408b81bff2a937ae62, type: 3}
   - {fileID: 21300000, guid: 5f1cbb0d758454ecd8e95db27a0b692b, type: 3}
   - {fileID: 21300000, guid: 8413775d8405c4a25ae17da312bdbbad, type: 3}
   - {fileID: 21300000, guid: 17d6b29dc419348c3b3a52936b7f49ed, type: 3}
   - {fileID: 21300000, guid: 1f5cf29da4c07433c988e2a68aef2891, type: 3}
+  - {fileID: 21300000, guid: 9f1860cdaf9a14e2ead191a250d1c292, type: 3}
   - {fileID: 21300000, guid: 78c05e0e61bfe4e2c920142e1be27889, type: 3}
   - {fileID: 21300000, guid: d0783f2e66cbc48999a0bcd65fc288cf, type: 3}
   - {fileID: 21300000, guid: 72124c9e0709d409bbedacff4a5d088c, type: 3}
   - {fileID: 21300000, guid: b7fd7feea1dd14022921e350a847e482, type: 3}
+  - {fileID: 21300000, guid: 9033ba4fbdb3540f3aa613cbb22d3f0e, type: 3}
+  - {fileID: 21300000, guid: d77b8c4f975234778a2ce0d9ce456e7d, type: 3}
   - {fileID: 21300000, guid: 26e6ff4f9f07d4973814982b8a206200, type: 3}
   - {fileID: 21300000, guid: 8d7cb58f13a2943e2bcfb86aa07d9a19, type: 3}
+  - {fileID: 21300000, guid: 0c6d65cf9a3c1403c949059f2cc996cb, type: 3}
+  - {fileID: 21300000, guid: f973d2effca6f42678dd272b3e1c38f3, type: 3}
   m_PackedSpriteNamesToIndex:
+  - GrandSaleGraphic
+  - EmeraldMask
+  - GrandSaleLogo
   - ChessSetsAdPromo
   - NoAdPromoDlg
   - EmeraldBanner
@@ -126,6 +148,7 @@ SpriteAtlas:
   - GemPack375Icon
   - LearnIconPromo
   - GoldBtn-2
+  - GrandBndle
   - EmeraldBndleStock
   - RubyBanner
   - DiamondBannerBtn
@@ -138,30 +161,45 @@ SpriteAtlas:
   - Sale777Logo
   - RubyBtn
   - GoldPopupBtn
+  - EmeraldGraphic
+  - GrandPopup
   - ElitePopup
-  - PreSaleLogo
+  - GoldLogo
+  - DiamondMask
   - EmeraldBannerBtn
   - GoldBanner
   - SubBg
   - NoAdGraphic
   - RubyBannerBtn
+  - RubyGraphic
   - DiamondBanner
-  - GoldBndlePre
+  - GoldBndlle
   - DiamondPopup
+  - Sale777BundleBtn
   - DiamondPopupBtn
   - SaleTag2
   - DiamondBndle
+  - GoldBndleBtn
   - RubyLogo
+  - DiamondGraphic
+  - GrandMask
   - DiamondLogo
+  - RubyMask
+  - RubyBndleBtn
   - HotRibbon
   - EliteBndle777
   - EmeraldStockBtn
   - EmeraldStockPopup
+  - EmeraldBndleBtn
   - EliteBndlePromoGrphic
   - LearnPromoAdBg
   - FireSaleRibbon
-  - BigStockLogo
+  - EmeraldLogo
+  - DiamondBndleBtn
+  - GoldMask
   - EliteBorderMask
   - GoldPopupPremium
+  - Sale777Graphic
+  - GoldGraphic
   m_Tag: PromotionUpdates
   m_IsVariant: 0
