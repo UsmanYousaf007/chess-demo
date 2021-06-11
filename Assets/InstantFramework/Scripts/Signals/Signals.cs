@@ -223,6 +223,8 @@ namespace TurboLabz.InstantFramework
     public class ShowGenericProcessingSignal : Signal<bool> { }
     public class PowerPlayRewardClaimedSignal : Signal { }
     public class GetGameStartTimeFailedSignal : Signal { }
+    public class BuyDynamicBundleClickedSignal : Signal { }
+
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
     public class TournamentOpFailedSignal : Signal { }

@@ -53,8 +53,48 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.4.1
-  Changes: '6.4.1
+  NewVersion: 6.5.6
+  Changes: '6.5.6
+
+    - fixed crash bug for ios
+
+
+    6.5.5
+
+    - reverted back to v6.5.2 as crashes happen for ios which have not been narrowed
+    down to what is causing this yet
+
+
+    6.5.4
+
+    - fixed typo error
+
+
+    6.5.3
+
+    - added support for max in impression events
+
+    - fixed dupplicate symbol on ios
+
+
+    6.5.2
+
+    - fixed crashes for android devices without google play API (android)
+
+
+    6.5.1
+
+    - added support for OAID (android)
+
+    - added missing export function for UWP lib (uwp)
+
+
+    6.5.0
+
+    - added app tracking transparency request function (ios)
+
+
+    6.4.1
 
     - added idfa consent status field to events (ios)
 
@@ -151,14 +191,9 @@ MonoBehaviour:
   UseIMEI: 0
   InternetConnectivity: 0
   CustomDimensions01:
-  - coins_A
-  - coins_B
-  CustomDimensions02:
-  - A
-  - B
-  - C
-  - D
-  - E
+  - payers
+  - non_payers
+  CustomDimensions02: []
   CustomDimensions03: []
   ResourceItemTypes:
   - spot_purchase
@@ -208,7 +243,7 @@ MonoBehaviour:
   FpsCirticalSubmitInterval: 1
   PlatformFoldOut: 0101
   CustomDimensions01FoldOut: 1
-  CustomDimensions02FoldOut: 0
+  CustomDimensions02FoldOut: 1
   CustomDimensions03FoldOut: 1
   ResourceItemTypesFoldOut: 1
   ResourceCurrenciesFoldOut: 1

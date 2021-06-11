@@ -85,7 +85,7 @@ public class PromotionBundleView : View
         var priceForCoins = priceForCoinsInGems * costPerGem;
         totalBundlePrice = priceForGems + priceForCoins;
         var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
-        overallPercentageVal.text = $"{(int)(overallDiscount * 100)}%";
+        overallPercentageVal.text = $"{(int)(overallDiscount * 100)}";
     }
 
     public bool IsVisible()

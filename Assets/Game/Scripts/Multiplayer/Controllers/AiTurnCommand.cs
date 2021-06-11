@@ -25,6 +25,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public AiTurnRequestedSignal aiTurnRequestedSignal { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -186,7 +187,9 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken); 
+                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken);
+                aiTurnRequestedSignal.Dispatch(delay);
+
             }
         }
 

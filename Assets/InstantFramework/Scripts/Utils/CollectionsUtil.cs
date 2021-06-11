@@ -164,6 +164,13 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("SHOP", AnalyticsContext.shop);
             stringToContextMap.Add("LOBBY", AnalyticsContext.games);
             stringToContextMap.Add("coins", AnalyticsContext.coins);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE, AnalyticsContext.elite_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN, AnalyticsContext.golden_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD, AnalyticsContext.emerald_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY, AnalyticsContext.ruby_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND, AnalyticsContext.diamond_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER, AnalyticsContext.grand_master_bundle);
+
         }
 
         private static void CreateStringToAdPlacementMap()
@@ -203,6 +210,10 @@ namespace TurboLabz.TLUtils
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
             adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_power_mode);
             adPlacementToAdContextMap.Add(AdPlacements.RV_rating_booster, AnalyticsContext.rewarded_rating_booster);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_in_game_power_mode, AnalyticsContext.rewarded_cpu_in_game_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_pregame_power_mode, AnalyticsContext.rewarded_cpu_pregame_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_resume_power_mode, AnalyticsContext.rewarded_cpu_resume_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_analysis, AnalyticsContext.rewarded_analysis);
         }
     }
 }

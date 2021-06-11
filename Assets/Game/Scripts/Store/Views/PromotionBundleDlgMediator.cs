@@ -18,15 +18,20 @@ public class PromotionBundleDlgMediator : Mediator
     // Services
     [Inject] public IPromotionsService promotionsService { get; set; }
     [Inject] public IAnalyticsService analyticsService { get; set; }
+    [Inject] public IBackendService backendService { get; set; }
 
     //Models
     [Inject] public IPlayerModel playerModel { get; set; }
+
+    private AnalyticsContext analyticsContext;
+    private long timeAtDlgShown;
 
     public override void OnRegister()
     {
         view.InitOnce();
         view.closeDailogueSignal.AddListener(OnCloseDialogue);
         view.purchaseSignal.AddListener(OnPurchase);
+        analyticsContext = CollectionsUtil.GetContextFromString(view.key);
     }
 
     [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -37,7 +42,9 @@ public class PromotionBundleDlgMediator : Mediator
             if (view.key == playerModel.dynamicBundleToDisplay)
             {
                 view.Show();
-                analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, AnalyticsContext.elite);
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, analyticsContext);
+                analyticsService.Event("ux_salepopup_shown", analyticsContext);
+                timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
         }
     }
@@ -47,15 +54,15 @@ public class PromotionBundleDlgMediator : Mediator
     {
         if (viewId == NavigatorViewId.PROMOTION_BUNDLE_DLG)
         {
-            if (view.key == playerModel.dynamicBundleToDisplay)
-            {
-                view.Hide();
-            }
+            view.Hide();
         }
     }
 
     private void OnPurchase()
     {
+        var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
+        analyticsService.Event("ux_salepopup_tapbuynow", analyticsContext);
+        analyticsService.ValueEvent("ux_salepopup_timeprebuynow", analyticsContext, timePreBuyNow);
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
@@ -80,13 +87,13 @@ public class PromotionBundleDlgMediator : Mediator
     {
         if (view.IsVisible() && view.key.Equals(item.key))
         {
-            OnCloseDialogue();
-
             //Analytics
             var context = item.displayName.Replace(' ', '_').ToLower();
-            analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, AnalyticsContext.elite);
-            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "promotion", $"{context}_gems");
-            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "promotion", $"{context}_coins");
+            analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, analyticsContext);
+            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "promotion", $"launch_pop_up_{context}_gems");
+            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "promotion", $"launch_pop_up_{context}_coins");
+
+            OnCloseDialogue();
         }
     }
 }

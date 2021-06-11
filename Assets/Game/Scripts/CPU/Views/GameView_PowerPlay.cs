@@ -217,7 +217,7 @@ namespace TurboLabz.CPU
         {
             if (IsCoolDownComplete())
             {
-                showRewardedAdInGameSignal.Dispatch(AdPlacements.Rewarded_powerplay);
+                showRewardedAdInGameSignal.Dispatch(AdPlacements.Rewarded_cpu_in_game_power_mode);
             }
             else
             {

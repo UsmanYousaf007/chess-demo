@@ -733,6 +733,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnRatingBoosted(int boostedRating)
         {
+            analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.rating_booster);
             PlayEloBoostedAnimation(boostedRating);
         }
 

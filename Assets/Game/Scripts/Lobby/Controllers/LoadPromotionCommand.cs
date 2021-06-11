@@ -31,7 +31,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
 
-        private const int TOTAL_PROMOTIONS = 4;
+        private const int TOTAL_PROMOTIONS = 7;
         private static List<PromotionVO> promotionCycle;
         private static bool isUpdateBannerShown;
 

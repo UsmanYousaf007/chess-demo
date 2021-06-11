@@ -209,6 +209,7 @@ namespace TurboLabz.Multiplayer
             if (view.IsVisible())
             {
                 view.ShowAnalysis();
+                analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.game_analysis);
             }
         }
 

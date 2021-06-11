@@ -62,27 +62,27 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void RemovePromotion(string key)
+        public void RemovePromotion()
         {
             if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
             {
-                if (IsVisible())
-                {
-                    analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
-                }
-
                 loadPromotionSingal.Dispatch();
             }
         }
 
         public void LogSubscriptionBannerPurchasedAnalytics(string key)
         {
-            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition() && IsVisible())
+            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
             {
                 var context = key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly_sub :
                     key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.annual_sub : AnalyticsContext.annual_mega_sale;
                 analyticsService.Event(AnalyticsEventId.banner_purchased, context);
             }
+        }
+
+        public void LogBannerPurchasedAnalytics()
+        {
+            analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
         }
 
         private void SetupSaleBanner()
