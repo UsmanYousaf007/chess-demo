@@ -78,6 +78,7 @@ namespace TurboLabz.InstantFramework
         {
             showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
+            scrollRect.verticalNormalizedPosition = 1;
             LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
         }
 

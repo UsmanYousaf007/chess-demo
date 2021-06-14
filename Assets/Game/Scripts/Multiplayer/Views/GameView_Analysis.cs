@@ -50,7 +50,7 @@ namespace TurboLabz.Multiplayer
         public Text analysisDebugText;
 
         public Signal<List<MoveAnalysis>> onAnalysiedMoveSelectedSignal = new Signal<List<MoveAnalysis>>();
-        public Signal<MatchAnalysis, StoreItem, bool> showGetFullAnalysisDlg = new Signal<MatchAnalysis, StoreItem, bool>();
+        public Signal<BuyGameAnalysisVO> showGetFullAnalysisDlg = new Signal<BuyGameAnalysisVO>();
         public Signal showAnalyzingSignal = new Signal();
 
         private bool landingFirstTime;
@@ -209,7 +209,14 @@ namespace TurboLabz.Multiplayer
             {
                 if (!landingFirstTime)
                 {
-                    showGetFullAnalysisDlg.Dispatch(matchAnalysis, fullGameAnalysisStoreItem, freeGameAnalysisAvailable);
+                    var vo = new BuyGameAnalysisVO();
+                    vo.matchAnalysis = matchAnalysis;
+                    vo.storeItem = fullGameAnalysisStoreItem;
+                    vo.availableForFree = freeGameAnalysisAvailable;
+                    vo.showRV = isAnalysisRVEnabled;
+                    vo.coolDownTime = coolDownTimeUTC;
+
+                    showGetFullAnalysisDlg.Dispatch(vo);
                     pickerSrollRect.ScrollToItemAtIndex(moveAnalysisList.Count - 1, true);
                 }
 
