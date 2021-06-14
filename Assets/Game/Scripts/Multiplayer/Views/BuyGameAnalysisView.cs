@@ -25,22 +25,35 @@ namespace TurboLabz.InstantFramework
 
         public Button closeBtn;
         public Button buyFullAnalysisBtn;
+        public Button rvFullAnalysisBtn;
+        public Button watchVideoBtn;
 
         public TMP_Text fullAnalysisGemsCount;
         public TMP_Text blunders;
         public TMP_Text mistakes;
         public TMP_Text perfect;
         public TMP_Text titleText;
+        public TMP_Text rvGemsCost;
+        public TMP_Text rvTimer;
 
         public GameObject freeTag;
         public GameObject freeTitle;
         public GameObject sparkle;
         public GameObject gemIcon;
+        public GameObject rvPanel;
+        public GameObject watchVideoPanel;
+        public GameObject timerPanel;
+        public GameObject videoNotAvailableTooltip;
+        public GameObject timerTooltip;
+
+        public IServerClock serverClock;
 
         //Signals
         public Signal fullAnalysisButtonClickedSignal = new Signal();
         public Signal notEnoughGemsSignal = new Signal();
         public Signal closeDlgSignal = new Signal();
+        public Signal watchVideoSignal = new Signal();
+        public Signal<bool> schedulerSubscription = new Signal<bool>();
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -55,11 +68,14 @@ namespace TurboLabz.InstantFramework
         private bool availableForFree;
         private StoreItem storeItem;
         private Sequence animationSequence;
+        private long coolDownTime;
 
         public void Init()
         {
             closeBtn.onClick.AddListener(OnCloseBtnClicked);
             buyFullAnalysisBtn.onClick.AddListener(OnBuyFullAnalysisBtnClicked);
+            watchVideoBtn.onClick.AddListener(OnWatchVideoClicked);
+
             titleText.text = localizationService.Get(LocalizationKey.GM_BUY_GAME_ANALYSIS_TITLE_TEXT);
             UIDlgManager.Setup(gameObject);
         }
@@ -96,13 +112,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        public void UpdateView(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
+        public void UpdateView(BuyGameAnalysisVO vo)
         {
-            this.storeItem = storeItem;
-            this.availableForFree = availableForFree;
-            blunders.text = matchAnalysis.blunders.ToString();
-            mistakes.text = matchAnalysis.mistakes.ToString();
-            perfect.text = matchAnalysis.perfectMoves.ToString();
+            storeItem = vo.storeItem;
+            availableForFree = vo.availableForFree;
+            coolDownTime = vo.coolDownTime;
+            blunders.text = vo.matchAnalysis.blunders.ToString();
+            mistakes.text = vo.matchAnalysis.mistakes.ToString();
+            perfect.text = vo.matchAnalysis.perfectMoves.ToString();
             freeTag.SetActive(availableForFree);
             freeTitle.SetActive(availableForFree);
             sparkle.SetActive(!availableForFree);
@@ -112,6 +129,7 @@ namespace TurboLabz.InstantFramework
             closeBtn.interactable = true;
             SetupPrice();
             AnimateFreeTag(availableForFree);
+            SetupAnalysisRV(vo.showRV);
         }
 
         public void SetupPrice()
@@ -143,6 +161,106 @@ namespace TurboLabz.InstantFramework
             }
 
             animationSequence.PlayForward();
+        }
+
+        private void SetupAnalysisRV(bool showRV)
+        {
+            rvPanel.SetActive(showRV);
+            buyFullAnalysisBtn.gameObject.SetActive(!showRV);
+            freeTitle.SetActive(showRV);
+            sparkle.SetActive(!showRV);
+            gemIcon.SetActive(!showRV);
+            fullAnalysisGemsCount.enabled = !showRV;
+            rvFullAnalysisBtn.interactable = true;
+
+            if (showRV)
+            {
+                if (IsCoolDownComplete())
+                {
+                    OnTimerCompleted();
+                }
+                else
+                {
+                    StartTimer();
+                }
+            }
+        }
+
+        private bool IsCoolDownComplete()
+        {
+            return coolDownTime < serverClock.currentTimestamp;
+        }
+
+        private void OnTimerCompleted()
+        {
+            timerPanel.SetActive(false);
+            watchVideoPanel.SetActive(true);
+            timerTooltip.SetActive(false);
+        }
+
+        private void StartTimer()
+        {
+            UpdateTimerText();
+            timerPanel.SetActive(true);
+            watchVideoPanel.SetActive(false);
+            schedulerSubscription.Dispatch(true);
+        }
+
+        private void UpdateTimerText()
+        {
+            long timeLeft = coolDownTime - serverClock.currentTimestamp;
+            if (timeLeft > 0)
+            {
+                timeLeft -= 1000;
+                rvTimer.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+            }
+            else
+            {
+                rvTimer.text = "0s";
+            }
+        }
+
+        public void SchedulerCallBack()
+        {
+            if (!IsCoolDownComplete())
+            {
+                UpdateTimerText();
+            }
+            else
+            {
+                schedulerSubscription.Dispatch(false);
+                OnTimerCompleted();
+            }
+        }
+
+        private void OnWatchVideoClicked()
+        {
+            if (IsCoolDownComplete())
+            {
+                watchVideoSignal.Dispatch();
+            }
+            else
+            {
+                timerTooltip.SetActive(true);
+                Invoke("DisableTimerTooltip", 5);
+            }
+        }
+
+        private void DisableTimerTooltip()
+        {
+            timerTooltip.SetActive(false);
+        }
+
+        public void EnableRVNotAvailableTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(true);
+            Invoke("DisableRVNotAvaillableTooltip", 5);
+
+        }
+
+        private void DisableRVNotAvaillableTooltip()
+        {
+            videoNotAvailableTooltip.SetActive(false);
         }
     }
 }

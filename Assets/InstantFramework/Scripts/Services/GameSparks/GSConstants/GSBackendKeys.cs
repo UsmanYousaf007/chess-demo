@@ -430,6 +430,7 @@ namespace TurboLabz.InstantFramework
             public const string TYPE_POWERPLAY = "powerPlayReward";
             public const string TYPE_RV_RATING_BOOSTER = "ratingBoosterReward";
             public const string TYPE_LOBBY_CHEST_V2 = "chestGemsReward";
+            public const string TYPE_RV_ANALYSIS = "analysisReward";
 
             public const string NONE = "none";
         }

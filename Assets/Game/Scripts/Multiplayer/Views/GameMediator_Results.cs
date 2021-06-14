@@ -71,6 +71,7 @@ namespace TurboLabz.Multiplayer
             view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
             view.showGameAnalysisSignal.AddListener(OnShowGameAnalysisSignal);
             view.showAnalyzingSignal.AddListener(OnShowAnalyzing);
+            view.rvAnalysisWatchVideoSignal.AddListener(OnRVAnalysisWatchVideoSignal);
         }
 
         public void OnRemoveResults()
@@ -213,15 +214,20 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        private void OnShowGetGameAnalysisDlg(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
+        private void OnShowGetGameAnalysisDlg(BuyGameAnalysisVO vo)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG);
-            updateGetGameAnalysisDlg.Dispatch(matchAnalysis, storeItem, availableForFree);
+            updateGetGameAnalysisDlg.Dispatch(vo);
         }
 
         private void OnPlayRewardedVideoClicked()
         {
             showRewardedAdSignal.Dispatch(AdPlacements.RV_rating_booster);
+        }
+
+        private void OnRVAnalysisWatchVideoSignal()
+        {
+            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_analysis);
         }
 
         private void OnShowAnalyzing()
@@ -244,11 +250,18 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(RewardedVideoResultSignal))]
         public void OnRewardedVideoResult(AdsResult result, AdPlacements adPlacement)
         {
-            if (view.isActiveAndEnabled && adPlacement == AdPlacements.RV_rating_booster)
+            if (view.isActiveAndEnabled)
             {
                 if (result == AdsResult.NOT_AVAILABLE || result == AdsResult.FAILED)
                 {
-                    view.EnableVideoAvailabilityTooltip();
+                    if (adPlacement == AdPlacements.RV_rating_booster)
+                    {
+                        view.EnableVideoAvailabilityTooltip();
+                    }
+                    else if (adPlacement == AdPlacements.Rewarded_analysis)
+                    {
+                        view.EnableAnalysisRVNotAvailableTooltip();
+                    }
                 }
             }
         }
