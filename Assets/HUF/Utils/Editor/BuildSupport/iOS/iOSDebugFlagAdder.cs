@@ -15,9 +15,11 @@ namespace HUF.Utils.Editor.BuildSupport.iOS
 
         protected override bool Process( PBXProject project )
         {
-            //string target = project.TargetGuidByName( PBXProject.GetUnityTargetName() );
-            string target = project.GetUnityFrameworkTargetGuid();
-
+#if UNITY_2019_1_OR_NEWER
+            string target = project.GetUnityMainTargetGuid();
+#else
+            string target = project.TargetGuidByName( PBXProject.GetUnityTargetName() );
+#endif
             var config = project.BuildConfigByName( target, DEBUG_CONFIGURATION );
             var property = project.GetBuildPropertyForConfig( config, FLAGS_PROPERTY );
 

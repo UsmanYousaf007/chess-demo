@@ -1,3 +1,8 @@
+## [3.13.3] - 2021-06-08
+### Fixed
+- iOS Debug flag adding on Unity 2019+
+
+
 ## [3.13.2] - 2021-06-08
 ### Fixed
 - ExtractCorePrefix ArgumentOutOfRange exception
