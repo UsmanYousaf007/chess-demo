@@ -15,6 +15,7 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using strange.extensions.signal.impl;
+using DG.Tweening;
 
 
 namespace TurboLabz.InstantFramework
@@ -70,6 +71,8 @@ namespace TurboLabz.InstantFramework
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+
+        private Sequence freeTagAnimationSequence;
 
         public void Init()
         {
@@ -180,6 +183,36 @@ namespace TurboLabz.InstantFramework
 
         public void ShowSale(bool show)
         {
+            if(show)
+            {
+                freeTagAnimationSequence = DOTween.Sequence();
+                freeTagAnimationSequence.AppendInterval(7f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.4f,0.2f));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0,0,20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.0f, 0.5f));
+                freeTagAnimationSequence.AppendInterval(0.5f);
+                freeTagAnimationSequence.SetLoops(-1);
+                freeTagAnimationSequence.PlayForward();
+            }
+            else
+            {
+                freeTagAnimationSequence.Kill();
+                freeTagAnimationSequence = null;
+            }
             saleRibbon.SetActive(show);
         }
     }
