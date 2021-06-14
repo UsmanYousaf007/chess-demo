@@ -2,19 +2,9 @@
 /// @copyright Copyright (C) Turbo Labz 2016 - All rights reserved
 /// Unauthorized copying of this file, via any medium is strictly prohibited
 /// Proprietary and confidential
-using UnityEngine;
-using UnityEngine.UI;
 using strange.extensions.mediation.impl;
-using strange.extensions.signal.impl;
-using TurboLabz.TLUtils;
 using System;
-using TMPro;
-using System.Collections.Generic;
-using System.Text;
-using TurboLabz.InstantGame;
-using TurboLabz.CPU;
-using System.Collections;
-using TurboLabz.Chess;
+
 
 namespace TurboLabz.InstantFramework
 {
@@ -27,14 +17,17 @@ namespace TurboLabz.InstantFramework
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
-
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         public override void OnRegister()
         {
             view.Init();
+            view.serverClock = backendService.serverClock;
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -46,6 +39,8 @@ namespace TurboLabz.InstantFramework
                 view.notEnoughGemsSignal.AddListener(OnNotEnoughGems);
                 view.closeDlgSignal.AddListener(OnDialogClosedSignal);
                 view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
+                view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
+                view.watchVideoSignal.AddListener(OnWatchVideoSignal);
             }
         }
 
@@ -55,13 +50,14 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.BUY_GAME_ANALYSIS_DLG)
             {
                 view.Hide();
+                OnSchedulerSubscriptionToggle(false);
             }
         }
 
         [ListensTo(typeof(UpdateGetGameAnalysisDlgSignal))]
-        public void OnUpdateView(MatchAnalysis matchAnalysis, StoreItem storeItem, bool availableForFree)
+        public void OnUpdateView(BuyGameAnalysisVO vo)
         {
-            view.UpdateView(matchAnalysis, storeItem, availableForFree);
+            view.UpdateView(vo);
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
@@ -87,6 +83,38 @@ namespace TurboLabz.InstantFramework
         {
             SpotPurchaseMediator.analyticsContext = "game_analysis";
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+        }
+
+        private void OnSchedulerSubscriptionToggle(bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(view.SchedulerCallBack);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(view.SchedulerCallBack);
+            }
+        }
+
+        private void OnWatchVideoSignal()
+        {
+            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_analysis);
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardedVideoResult(AdsResult result, AdPlacements adPlacement)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                if (result == AdsResult.NOT_AVAILABLE || result == AdsResult.FAILED)
+                {
+                    if (adPlacement == AdPlacements.Rewarded_analysis)
+                    {
+                        view.EnableRVNotAvailableTooltip();
+                    }
+                }
+            }
         }
     }
 }

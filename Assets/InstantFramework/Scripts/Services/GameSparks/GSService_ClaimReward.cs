@@ -18,6 +18,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public RatingBoostedSignal ratingBoostedSignal { get; set; }
         [Inject] public LobbyChestRewardClaimedSignal lobbyChestRewardClaimedSignal { get; set; }
         [Inject] public PowerPlayRewardClaimedSignal powerPlayRewardClaimedSignal { get; set; }
+        [Inject] public FullAnalysisBoughtSignal fullAnalysisBoughtSignal { get; set; }
+
         public IPromise<BackendResult> ClaimReward(GSRequestData jsonData)
         {
             return new GSClaimRewardRequest(GetRequestContext()).Send(jsonData, OnClaimRewardSuccess, OnClaimRewardFailed);
@@ -60,11 +62,15 @@ namespace TurboLabz.InstantFramework
                         playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
                         lobbyChestRewardClaimedSignal.Dispatch(chestReward);
                     }
-
                     else if(rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_POWERPLAY))
                     {
                         playerModel.rvUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP);
                         powerPlayRewardClaimedSignal.Dispatch();
+                    }
+                    else if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_RV_ANALYSIS))
+                    {
+                        playerModel.rvUnlockTimestamp = GSParser.GetSafeLong(data, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP);
+                        fullAnalysisBoughtSignal.Dispatch();
                     }
                 }
 

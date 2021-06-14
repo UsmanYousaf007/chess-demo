@@ -48,7 +48,7 @@ namespace TurboLabz.Multiplayer
                 !(cmd.adsSettingsModel.removeRVOnPurchase && cmd.playerModel.HasPurchased());
 
             vo.isRatingBoosterRVEnabled = isRVenabled && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.RV_rating_booster.ToString());
-            vo.isAnalysisRVEnabled = isRVenabled && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.Rewarded_analysis.ToString());
+            vo.isAnalysisRVEnabled = !vo.freeGameAnalysisAvailable && isRVenabled && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.Rewarded_analysis.ToString());
             vo.coolDownTimeUTC = cmd.playerModel.rvUnlockTimestamp;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);

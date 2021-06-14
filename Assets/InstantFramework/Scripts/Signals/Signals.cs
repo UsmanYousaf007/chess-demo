@@ -218,7 +218,7 @@ namespace TurboLabz.InstantFramework
     public class ShopVistedSignal : Signal { }
     public class GetFullAnalysisSignal : Signal { }
     public class FullAnalysisBoughtSignal : Signal { }
-    public class UpdateGetGameAnalysisDlgSignal : Signal<MatchAnalysis, StoreItem, bool> { }
+    public class UpdateGetGameAnalysisDlgSignal : Signal<BuyGameAnalysisVO> { }
     public class LoadTimeSelectDlgSignal : Signal<long> { }
     public class ShowGenericProcessingSignal : Signal<bool> { }
     public class PowerPlayRewardClaimedSignal : Signal { }

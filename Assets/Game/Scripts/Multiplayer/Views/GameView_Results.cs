@@ -101,6 +101,15 @@ namespace TurboLabz.Multiplayer
         public GameObject resultsFullAnalysisProcessing;
         public GameObject resultsFullAnalysisdPanel;
         public GameObject resultsFullAnalysisDisabledPanel;
+        public GameObject resultsRVAnalysisPanel;
+        public Button resultsRVAnalysisButton;
+        public Button resultsRVFullAnalysisButton;
+        public TMP_Text resultsRVAnalysisGemsCost;
+        public TMP_Text resultsRVAnalysisTimer;
+        public GameObject resultsRVAnalysisWatchVideo;
+        public GameObject resultsRVAnalysisTimerRunning;
+        public GameObject resultsRVAnalysisNotAvailableTooltip;
+        public GameObject resultsRVAnalysisTimerTooltip;
 
         public Image resultsPowerplayImage;
         public Sprite powerPlayOnSprite;
@@ -144,6 +153,7 @@ namespace TurboLabz.Multiplayer
         public Signal ratingBoosterRewardSignal = new Signal();
         public Signal<bool> schedulerSubscription = new Signal<bool>();
         public Signal showGameAnalysisSignal = new Signal();
+        public Signal rvAnalysisWatchVideoSignal = new Signal();
 
         private float declinedDialogHalfHeight;
         private Tweener addedAnimation;
@@ -167,6 +177,7 @@ namespace TurboLabz.Multiplayer
         private int movesCount;
 
         private bool isRatingBoosterRVEnabled;
+        private bool isAnalysisRVEnabled;
         private long coolDownTimeUTC;
 
         Sequence animSequence;
@@ -187,6 +198,9 @@ namespace TurboLabz.Multiplayer
             resultsDoubleRewardButton.onClick.AddListener(OnRewardDoublerClicked);
             fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             rewardedVideoBtn.onClick.AddListener(OnPlayRewardedVideoClicked);
+            resultsRVFullAnalysisButton.onClick.AddListener(OnFullAnalysisButtonClicked);
+            resultsRVAnalysisButton.onClick.AddListener(OnRVAnalytisWatchVideoButtonClicked);
+
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
 
@@ -285,6 +299,7 @@ namespace TurboLabz.Multiplayer
             movesCount = vo.movesCount;
             freeGameAnalysisAvailable = vo.freeGameAnalysisAvailable;
             isRatingBoosterRVEnabled = vo.isRatingBoosterRVEnabled;
+            isAnalysisRVEnabled = vo.isAnalysisRVEnabled;
             coolDownTimeUTC = vo.coolDownTimeUTC;
 
             UpdateGameEndReasonSection(vo.reason);
@@ -300,6 +315,7 @@ namespace TurboLabz.Multiplayer
             {
                 SetupFullAnalysisTab(vo.freeGameAnalysisAvailable);
                 SetupFullAnalysisPrice(vo.freeGameAnalysisAvailable);
+                SetupAnalysisRV(vo.isAnalysisRVEnabled);
             }
 
             // TODO: move this call to the clock partial class
@@ -525,6 +541,29 @@ namespace TurboLabz.Multiplayer
 
         }
 
+        private void SetupAnalysisRV(bool showRV)
+        {
+            resultsRVAnalysisPanel.SetActive(showRV);
+            fullAnalysisBtn.gameObject.SetActive(!showRV);
+            resultsFullAnalysisFreeTitle.SetActive(showRV);
+            resultsFullAnalysisSparkle.SetActive(!showRV);
+            resultsFullAnalysisGemIcon.SetActive(!showRV);
+            fullAnalysisGemsCount.enabled = !showRV;
+            resultsRVFullAnalysisButton.interactable = true;
+
+            if (showRV)
+            {
+                if (IsCoolDownComplete())
+                {
+                    OnTimerCompleted();
+                }
+                else
+                {
+                    StartTimer(coolDownTimeUTC);
+                }
+            }
+        }
+
         void BuildLayout()
         {
             //yield return new WaitForSeconds(0.4f);
@@ -634,6 +673,7 @@ namespace TurboLabz.Multiplayer
             {
                 fullAnalysisButtonClickedSignal.Dispatch();
                 fullAnalysisBtn.interactable = false;
+                resultsRVFullAnalysisButton.interactable = false;
             }
             else
             {
@@ -777,7 +817,7 @@ namespace TurboLabz.Multiplayer
             }
 
             haveEnoughGemsForFullAnalysis = availableForFree || playerModel.gems >= fullGameAnalysisStoreItem.currency3Cost;
-            fullAnalysisGemsCount.text = fullGameAnalysisStoreItem.currency3Cost.ToString();
+            resultsRVAnalysisGemsCost.text = fullAnalysisGemsCount.text = fullGameAnalysisStoreItem.currency3Cost.ToString();
         }
 
         private void ShowInterstitialOnBack(AnalyticsContext analyticsContext, AdPlacements placementId)
@@ -811,9 +851,26 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-
                 EnableTimerTooltip();
             }
+        }
+
+        private void OnRVAnalytisWatchVideoButtonClicked()
+        {
+            if (IsCoolDownComplete())
+            {
+                rvAnalysisWatchVideoSignal.Dispatch();
+            }
+            else
+            {
+                resultsRVAnalysisTimerTooltip.SetActive(true);
+                Invoke("DisableRVAnalysisTimerTooltip", 5);
+            }
+        }
+
+        private void DisableRVAnalysisTimerTooltip()
+        {
+            resultsRVAnalysisTimerTooltip.SetActive(false);
         }
 
         public void OnRewardClaimed()
@@ -826,6 +883,18 @@ namespace TurboLabz.Multiplayer
             videoNotAvailableTooltip.SetActive(true);
             Invoke("DisableVideoAvailabilityTooltip", 5);
             SetupRatingBoostButtonsSection(true);
+        }
+
+        public void EnableAnalysisRVNotAvailableTooltip()
+        {
+            resultsRVAnalysisNotAvailableTooltip.SetActive(true);
+            Invoke("DisableAnalysisRVNotAvaillableTooltip", 5);
+
+        }
+
+        private void DisableAnalysisRVNotAvaillableTooltip()
+        {
+            resultsRVAnalysisNotAvailableTooltip.SetActive(false);
         }
 
         public void DisableVideoAvailabilityTooltip()
@@ -855,6 +924,8 @@ namespace TurboLabz.Multiplayer
             UpdateTimerText();
             ratingBoosterTimer.SetActive(true);
             getRV.SetActive(false);
+            resultsRVAnalysisTimerRunning.SetActive(true);
+            resultsRVAnalysisWatchVideo.SetActive(false);
             schedulerSubscription.Dispatch(true);
         }
 
@@ -877,21 +948,23 @@ namespace TurboLabz.Multiplayer
             if (timeLeft > 0)
             {
                 timeLeft -= 1000;
-                remainingCoolDownTime.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
+                resultsRVAnalysisTimer.text = remainingCoolDownTime.text = TimeUtil.FormatTournamentClock(TimeSpan.FromMilliseconds(timeLeft));
             }
             else
             {
-                remainingCoolDownTime.text = "0s";
+                resultsRVAnalysisTimer.text = remainingCoolDownTime.text = "0s";
             }
         }
 
         private void OnTimerCompleted()
         {
             ratingBoosterTimer.SetActive(false);
+            resultsRVAnalysisTimerRunning.SetActive(false);
             getRV.SetActive(true);
+            resultsRVAnalysisWatchVideo.SetActive(true);
             //rewardedVideoBtn.interactable = false;
             DisableTimerTooltip();
-
+            resultsRVAnalysisTimerTooltip.SetActive(false);
         }
 
         #region Animations

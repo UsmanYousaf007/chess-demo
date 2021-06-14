@@ -180,6 +180,9 @@ namespace TurboLabz.TLUtils
             stringToAdPlacementMap.Add("Rewarded_lobby_chest", AdPlacements.Rewarded_lobby_chest);
             stringToAdPlacementMap.Add("Rewarded_coins_purchase", AdPlacements.Rewarded_coins_purchase);
             stringToAdPlacementMap.Add("Rewarded_powerplay", AdPlacements.Rewarded_powerplay);
+            stringToAdPlacementMap.Add("Rewarded_coins_banner", AdPlacements.Rewarded_coins_banner);
+            stringToAdPlacementMap.Add("Rewarded_coins_popup", AdPlacements.Rewarded_coins_popup);
+            stringToAdPlacementMap.Add("Rewarded_analysis", AdPlacements.Rewarded_analysis);
             stringToAdPlacementMap.Add("RV_rating_booster", AdPlacements.RV_rating_booster);
             stringToAdPlacementMap.Add("Interstitial_pregame", AdPlacements.Interstitial_pregame);
             stringToAdPlacementMap.Add("Interstitial_endgame", AdPlacements.Interstitial_endgame);
@@ -198,6 +201,7 @@ namespace TurboLabz.TLUtils
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
             adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_powerplay, GSBackendKeys.ClaimReward.TYPE_POWERPLAY);
             adPlacementToRewardTypeMap.Add(AdPlacements.RV_rating_booster, GSBackendKeys.ClaimReward.TYPE_RV_RATING_BOOSTER);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_analysis, GSBackendKeys.ClaimReward.TYPE_RV_ANALYSIS);
         }
 
         private static void CreateAdPlacementToAdContextMap()
