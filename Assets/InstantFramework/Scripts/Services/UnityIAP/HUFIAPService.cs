@@ -56,7 +56,7 @@
 //                    LogUtil.Log("Subscription Info: user have active subscription");
 //                    LogUtil.Log("Subscription Info: next billing date is: " + HPurchases.GetSubscriptionExpirationDate(productId));
 //                    LogUtil.Log("Subscription Info: is subscribed? " + HPurchases.IsSubscriptionActive(productId));
-                    
+
 //                    //LogUtil.Log("Subscription Info: is expired? " + info.isExpired().ToString());
 //                    //LogUtil.Log("Subscription Info: is cancelled? " + info.isCancelled());
 //                    LogUtil.Log("Subscription Info: is in free trial peroid? " + HPurchases.IsSubscriptionInTrialMode(productId));
@@ -79,7 +79,7 @@
 //                    //                    hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
 //                    //                        new KeyValuePair<string, object>("store_iap_id", product.transactionID));
 //                    //                }
-//#if SUBSCRIPTION_TEST
+//#if BUILD_TEST
 //                if (playerModel.subscriptionExipryTimeStamp > 0)
 //                {
 //                    playerModel.subscriptionExipryTimeStamp = 1;
@@ -98,7 +98,7 @@
 
 //	public void OnPurchaseInit(IProductInfo product)
 //	{
-       
+
 //    }
 
 //    public void OnSubscriptionPurchased(ISubscriptionPurchaseData purchaseData)
@@ -112,7 +112,7 @@
 //#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
 
 //            // For informational purposes, we list the receipt(s)
-            
+
 //                Debug.Log("Receipt is valid. Contents:");
 //                Debug.Log(receiptData.receipt.TransactionID);
 //                Debug.Log(product.ProductId);

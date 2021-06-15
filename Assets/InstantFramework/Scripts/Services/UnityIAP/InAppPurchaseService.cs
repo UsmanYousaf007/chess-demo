@@ -79,7 +79,7 @@ public class InAppPurchaseService : IStoreService
                     //                    hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
                     //                        new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     //                }
-#if SUBSCRIPTION_TEST
+#if BUILD_TEST
                     if (playerModel.subscriptionExipryTimeStamp > 0)
                     {
                         playerModel.subscriptionExipryTimeStamp = 1;
@@ -411,7 +411,7 @@ public class InAppPurchaseService : IStoreService
         if (name.Equals("completed"))
         {
             analyticsService.Event(AnalyticsEventId.subscription_renewed, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
-            GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+            analyticsService.BusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
         }
     }
 
