@@ -20,7 +20,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateShopBundlePurchasedViewSignal updateShopBundlePurchasedViewSignal { get; set; }
         [Inject] public UpdatePurchaseSuccessDlgSignal updatePurchaseSuccessDlgSignal { get; set; }
         [Inject] public ShopVistedSignal shopVistedSignal { get; set; }
-        [Inject] public UpdatePromotionBundleSignal updateBundleSignal { get; set; }
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -59,7 +58,6 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
-            updateBundleSignal.Dispatch();
             view.OnStoreAvailable(isAvailable);
         }
 
@@ -73,7 +71,6 @@ namespace TurboLabz.InstantFramework
         {
             view.SetSubscriptionOwnedStatus();
             //view.SetBundle();
-            updateBundleSignal.Dispatch();
 
             if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG))
             {
