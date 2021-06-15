@@ -160,6 +160,7 @@ namespace TurboLabz.Multiplayer
                 case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
+                case GameEndReason.STALEMATE:
                     context = AnalyticsContext.draw;
                     break;
 
