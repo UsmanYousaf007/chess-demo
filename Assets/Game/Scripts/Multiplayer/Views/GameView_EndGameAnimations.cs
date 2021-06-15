@@ -70,7 +70,7 @@ namespace TurboLabz.Multiplayer
 
         private void OnMirrorPanelAnimationComplete()
         {
-            _winAnimationSequence.PlayAnimation().Then(() => OnAnimationRewardsComplete());
+            _winAnimationSequence.PlayAnimation(null, isDraw).Then(() => OnAnimationRewardsComplete());
         }
 
         private void OnAnimationRewardsComplete()

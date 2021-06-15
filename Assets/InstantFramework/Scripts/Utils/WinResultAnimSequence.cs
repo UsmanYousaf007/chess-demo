@@ -23,6 +23,7 @@ public class WinResultAnimSequence : MonoBehaviour
     private long _coinsRewarded = 0;
     private int _starsRewarded = 0;
     private int _powerPlayBonus = 0;
+    private bool isDraw;
 
     public void Reset(long coinsRewarded, int starsRewarded, int powerPlayBonus = 0, bool playerWon = false, bool isRanked = false)
     {
@@ -72,10 +73,10 @@ public class WinResultAnimSequence : MonoBehaviour
         }
     }*/
 
-    public IPromise PlayAnimation(string actionCode = null)
+    public IPromise PlayAnimation(string actionCode = null, bool _isDraw = false)
     {
         servicePromise = new Promise();
-
+        isDraw = _isDraw;
         _animator.enabled = true;
         for (int i = 0; i < _coinPanelChildObjects.Length; i++)
         {
@@ -116,6 +117,8 @@ public class WinResultAnimSequence : MonoBehaviour
 
     private void PlayStarsEffect()
     {
+        if (isDraw)
+            return;
         _starsParticleEmitter.gameObject.SetActive(true);
         _starsParticleEmitter.PlayFx();
 
