@@ -126,6 +126,9 @@ namespace TurboLabz.InstantFramework
             audioService.PlayStandardClick();
             if (playerModel.gems >= storeItem.currency3Cost)
             {
+                powerPlayOnBtn.interactable = false;
+                powerPlayWithRVBtn.interactable = false;
+                powerPlayWithRVTick.enabled = true;
                 powerModeButtonClickedSignal.Dispatch();
             }
             else
