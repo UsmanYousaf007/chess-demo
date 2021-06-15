@@ -156,7 +156,7 @@ namespace TurboLabz.InstantFramework
                         item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly :
                         item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.yearly : AnalyticsContext.annual_mega_sale);
                 }
-                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", cents, item.kind, item.displayName, "default");
+                analyticsService.BusinessEvent("USD", cents, item.kind, item.displayName, "default");
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
             }
             else if (result == BackendResult.PURCHASE_CANCEL)
