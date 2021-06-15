@@ -376,7 +376,7 @@ public class InAppPurchaseService : IStoreService
     private ProductInfo CreateProduct(string productId, ProductType type)
     {
         IAPProductType productType = ConvertUnityProdTypeToHUFProdType(type);
-        ProductInfo product = new ProductInfo(productType, productId);
+        ProductInfo product = new ProductInfo(productType, productId, priceInCents: 1);
 
         if (productType == IAPProductType.Subscription)
         {

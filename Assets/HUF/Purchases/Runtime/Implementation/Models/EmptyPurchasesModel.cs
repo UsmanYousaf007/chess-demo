@@ -6,6 +6,7 @@ using HUF.Purchases.Runtime.API.Models;
 using HUF.Purchases.Runtime.API.Services;
 using HUF.Purchases.Runtime.Implementation.Data;
 using HUF.Purchases.Runtime.Implementation.Services;
+using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -17,6 +18,9 @@ namespace HUF.Purchases.Runtime.Implementation.Models
     [UsedImplicitly]
     public class EmptyPurchasesModel : IPurchasesModel
     {
+        const float INITIALIZATION_DELAY_LENGTH = 0.5f;
+        const float HANDLE_PURCHASE_DELAY_LENGTH = 0.5f;
+
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(EmptyPurchasesModel) );
         readonly HashSet<string> boughtProducts = new HashSet<string>();
 
@@ -52,13 +56,16 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                 return;
             }
 
-            priceConversionService = new PriceConversionService( purchasesConfig );
-            isInitialized = true;
-            OnInitialized.Dispatch();
+            IntervalManager.Instance.RunWithDelay( () =>
+                {
+                    priceConversionService = new PriceConversionService( purchasesConfig );
+                    isInitialized = true;
+                    OnInitialized.Dispatch();
+                },
+                INITIALIZATION_DELAY_LENGTH );
         }
 
-        public void UpdateSubscription( string oldProductId, string newProductId )
-        {}
+        public void UpdateSubscription( string oldProductId, string newProductId ) { }
 
         bool HaveInitAndConfig()
         {
@@ -67,7 +74,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
 
         public bool IsProductAvailable( string productId )
         {
-            if (HaveInitAndConfig() )
+            if ( HaveInitAndConfig() )
             {
                 var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
 
@@ -97,22 +104,25 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             if ( !IsProductAvailable( productId ) )
             {
                 var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
-                OnPurchaseFailure.Dispatch( product, PurchaseFailureType.Unknown );
+                OnPurchaseFailure.Dispatch( product, PurchaseFailureType.ProductUnavailable );
             }
 
             purchaseProductId = productId;
 
             if ( purchasesConfig.ShowDebugMenuInEditor )
             {
-                foreach(TestPaymentResult result in Enum.GetValues(typeof (TestPaymentResult)))
+                foreach ( TestPaymentResult result in Enum.GetValues( typeof(TestPaymentResult) ) )
                 {
                     AddDebugScreenButton( result );
                 }
-                DebugButtonsScreen.Instance.Show("Purchase Debug Screen");
+
+                DebugButtonsScreen.Instance.Show( "Purchase Debug Screen" );
             }
             else
             {
-                HandlePurchase( purchasesConfig.EditorDefaultPurchaseSuccess ? TestPaymentResult.Success: TestPaymentResult.Fail );
+                HandlePurchase( purchasesConfig.EditorDefaultPurchaseSuccess
+                    ? TestPaymentResult.Success
+                    : TestPaymentResult.Fail );
             }
         }
 
@@ -128,6 +138,125 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                 DebugButtonsScreen.Instance.Hide();
             }
 
+            IntervalManager.Instance.RunWithDelay( () => HandlePurchaseDelayedCoroutine( result ),
+                HANDLE_PURCHASE_DELAY_LENGTH );
+        }
+
+        public void RestorePurchases()
+        {
+            HLog.Log( logPrefix, $"Try restore purchases" );
+        }
+
+        public SubscriptionStatus GetSubscriptionStatus( string subscriptionId )
+        {
+            if ( HaveInitAndConfig() )
+                return boughtProducts.Contains( subscriptionId )
+                    ? SubscriptionStatus.Active
+                    : SubscriptionStatus.Unknown;
+
+            return SubscriptionStatus.Unknown;
+        }
+
+        public bool IsSubscriptionActive( string subscriptionId )
+        {
+            if ( HaveInitAndConfig() )
+                return purchasesConfig.EditorSubscriptionsAlwaysActive || boughtProducts.Contains( subscriptionId );
+
+            return false;
+        }
+
+        public bool IsSubscriptionInTrialMode( string subscriptionId )
+        {
+            if ( HaveInitAndConfig() )
+                return purchasesConfig.EditorSubscriptionsAlwaysInTrialMode;
+
+            return false;
+        }
+
+        public DateTime GetSubscriptionExpirationDate( string subscriptionId )
+        {
+            if ( IsSubscriptionActive( subscriptionId ) )
+            {
+                return DateTime.UtcNow.AddDays( 1 );
+            }
+
+            return DateTime.MinValue;
+        }
+
+        public int GetSubscriptionTrialPeriod( string subscriptionId )
+        {
+            if ( HaveInitAndConfig() )
+            {
+                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == subscriptionId );
+
+                if ( product != null )
+                {
+                    return product.SubscriptionTrialPeriod;
+                }
+            }
+
+            return 0;
+        }
+
+        public int GetSubscriptionPeriod( string subscriptionId )
+        {
+            if ( HaveInitAndConfig() )
+            {
+                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == subscriptionId );
+
+                if ( product != null )
+                {
+                    return product.SubscriptionPeriod;
+                }
+            }
+
+            return 0;
+        }
+
+        public PriceConversionData GetPriceConversionData()
+        {
+            return priceConversionService.GetConversionData();
+        }
+
+        public void TryGetPriceConversionData( Action<PriceConversionResponse> response, string currency )
+        {
+            priceConversionService.TryGetPriceConversionData( response, currency );
+        }
+
+        public decimal GetPrice( string productId )
+        {
+            if ( HaveInitAndConfig() )
+            {
+                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
+
+                if ( product != null )
+                {
+                    return (decimal)( product.PriceInCents / 100f );
+                }
+            }
+
+            return 1m;
+        }
+
+        public string GetCurrencyCode( string productId )
+        {
+            if ( HaveInitAndConfig() )
+                return purchasesConfig.PriceConversionCurrency.IsNotEmpty()
+                    ? purchasesConfig.PriceConversionCurrency
+                    : "USD";
+
+            return string.Empty;
+        }
+
+        public enum TestPaymentResult
+        {
+            Success,
+            Fail,
+            Cancel
+        }
+
+        void HandlePurchaseDelayedCoroutine( TestPaymentResult result )
+        {
             switch ( result )
             {
                 case TestPaymentResult.Success:
@@ -156,115 +285,6 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                     break;
                 }
             }
-        }
-
-        public void RestorePurchases()
-        {
-            HLog.Log( logPrefix, $"Try restore purchases" );
-        }
-
-        public SubscriptionStatus GetSubscriptionStatus( string subscriptionId )
-        {
-            if (HaveInitAndConfig())
-                return boughtProducts.Contains( subscriptionId ) ? SubscriptionStatus.Active : SubscriptionStatus.Unknown;
-
-            return SubscriptionStatus.Unknown;
-        }
-
-        public bool IsSubscriptionActive( string subscriptionId )
-        {
-            if (HaveInitAndConfig())
-                return purchasesConfig.EditorSubscriptionsAlwaysActive || boughtProducts.Contains( subscriptionId );
-
-            return false;
-        }
-
-        public bool IsSubscriptionInTrialMode( string subscriptionId )
-        {
-            if (HaveInitAndConfig())
-                return purchasesConfig.EditorSubscriptionsAlwaysInTrialMode;
-
-            return false;
-        }
-
-        public DateTime GetSubscriptionExpirationDate( string subscriptionId )
-        {
-            if ( IsSubscriptionActive( subscriptionId ) )
-            {
-                return DateTime.UtcNow.AddDays( 1 );
-            }
-
-            return DateTime.MinValue;
-        }
-
-        public int GetSubscriptionTrialPeriod( string subscriptionId )
-        {
-            if (HaveInitAndConfig() )
-            {
-                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == subscriptionId );
-
-                if ( product != null )
-                {
-                    return product.SubscriptionTrialPeriod;
-                }
-            }
-
-            return 0;
-        }
-
-        public int GetSubscriptionPeriod( string subscriptionId )
-        {
-            if (HaveInitAndConfig() )
-            {
-                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == subscriptionId );
-
-                if ( product != null )
-                {
-                    return product.SubscriptionPeriod;
-                }
-            }
-
-            return 0;
-        }
-
-        public PriceConversionData GetPriceConversionData()
-        {
-            return priceConversionService.GetConversionData();
-        }
-
-        public void TryGetPriceConversionData( Action<PriceConversionResponse> response, string currency )
-        {
-            priceConversionService.TryGetPriceConversionData( response, currency );
-        }
-
-        public decimal GetPrice( string productId )
-        {
-            if (HaveInitAndConfig() )
-            {
-                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
-
-                if ( product != null )
-                {
-                    return (decimal)(product.PriceInCents / 100f);
-                }
-            }
-
-            return 0m;
-        }
-
-        public string GetCurrencyCode( string productId )
-        {
-            if (HaveInitAndConfig() )
-                return purchasesConfig.PriceConversionCurrency.IsNotEmpty() ? purchasesConfig.PriceConversionCurrency : "USD" ;
-
-            return string.Empty;
-        }
-
-        public enum TestPaymentResult
-        {
-            Success,
-            Fail,
-            Cancel
         }
     }
 }

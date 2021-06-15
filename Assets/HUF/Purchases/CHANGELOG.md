@@ -1,3 +1,14 @@
+## [2.9.8] - 2021-06-14
+### Fixed
+- Instantaneous initialization in test editor purchases
+
+
+## [2.9.7] - 2021-06-04
+### Fixed
+- Instantaneous OnPurchaseSuccess callback in test editor purchases
+- Changed default price to 1 in test editor purchases
+
+
 ## [2.9.6] - 2021-05-13
 ### Fixed
 - Purchasing consumables getting stuck when Apple sandbox have problems
