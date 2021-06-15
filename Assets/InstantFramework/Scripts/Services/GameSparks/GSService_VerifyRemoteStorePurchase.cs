@@ -98,6 +98,7 @@ namespace TurboLabz.InstantFramework
             }
 
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            updateBundleSignal.Dispatch();
         }
     }
 

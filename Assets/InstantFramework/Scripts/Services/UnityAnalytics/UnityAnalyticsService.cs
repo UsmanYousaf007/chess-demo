@@ -233,5 +233,13 @@ namespace TurboLabz.InstantFramework
             GameAnalytics.NewDesignEvent($"{evt}:{context}", val);
             Print($"{evt}:{context}:{val}");
         }
+
+        public void BusinessEvent(string currency, int amount, string itemType, string itemId, string cartType)
+        {
+#if BUILD_STORE
+            GameAnalytics.NewBusinessEvent(currency, amount, itemType, itemId, cartType);
+#endif
+            Print($"{currency}:{amount}:{itemType}:{itemId}:{cartType}");
+        }
     }
 }

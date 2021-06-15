@@ -205,5 +205,10 @@ namespace TurboLabz.InstantFramework
         {
             Print($"{evt}:{context}:{val}");
         }
+
+        public void BusinessEvent(string currency, int amount, string itemType, string itemId, string cartType)
+        {
+            Print($"{currency}:{amount}:{itemType}:{itemId}:{cartType}");
+        }
     }
 }

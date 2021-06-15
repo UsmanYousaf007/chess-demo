@@ -343,7 +343,7 @@ public class BuildChess : MonoBehaviour
 #if UNITY_CLOUD_BUILD
         SetGameEnvironment();
 #endif
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_Release");
@@ -367,7 +367,7 @@ public class BuildChess : MonoBehaviour
 #if UNITY_CLOUD_BUILD
         SetGameEnvironment();
 #endif
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
@@ -392,7 +392,7 @@ public class BuildChess : MonoBehaviour
 #if UNITY_CLOUD_BUILD
         SetGameEnvironment();
 #endif
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
@@ -414,7 +414,7 @@ public class BuildChess : MonoBehaviour
         SetGameEnvironment();
 #endif
 
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
@@ -435,7 +435,7 @@ public class BuildChess : MonoBehaviour
 #if UNITY_CLOUD_BUILD
         SetGameEnvironment();
 #endif
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_STORE");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_ReleaseStore");
@@ -445,10 +445,16 @@ public class BuildChess : MonoBehaviour
 
         LogUtil.Log("End Build iOS for Store", "yellow");
 
-#if SUBSCIPTION_TEST
-        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#if BUILD_TEST
+        LogUtil.Log("BUILD_TEST are ON please disable it for store builds");
 #else
-        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+        LogUtil.Log("BUILD_TEST are OFF for store builds");
+#endif
+
+#if BUILD_STORE
+        LogUtil.Log("BUILD_STORE is ON for store builds");
+#else
+        LogUtil.Log("BUILD_STORE is OFF should be ON for store builds");
 #endif
 
     }
@@ -466,7 +472,7 @@ public class BuildChess : MonoBehaviour
 #if UNITY_CLOUD_BUILD
         SetGameEnvironment();
 #endif
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_STORE");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
         EditorUserBuildSettings.buildAppBundle = true;
 
@@ -475,10 +481,16 @@ public class BuildChess : MonoBehaviour
 #endif
         LogUtil.Log("End Build Android for Store");
 
-#if SUBSCIPTION_TEST
-        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#if BUILD_TEST
+        LogUtil.Log("BUILD_TEST are ON please disable it for store builds");
 #else
-        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+        LogUtil.Log("BUILD_TEST are OFF for store builds");
+#endif
+
+#if BUILD_STORE
+        LogUtil.Log("BUILD_STORE is ON for store builds");
+#else
+        LogUtil.Log("BUILD_STORE is OFF should be ON for store builds");
 #endif
     }
 
