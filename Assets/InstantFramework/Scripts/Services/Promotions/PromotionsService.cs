@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Collections;
 using UnityEngine;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
         [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -125,7 +127,7 @@ namespace TurboLabz.InstantFramework
             }
 
             isDynamicBundleShownOnLaunch = promotionToDispatch.key.Equals("DynamicBundle");
-
+            loadPromotionSingal.Dispatch();
             //navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
             // showFadeBlockerSignal.Dispatch();
             routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
