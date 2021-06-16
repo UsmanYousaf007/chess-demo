@@ -127,16 +127,20 @@ namespace TurboLabz.InstantFramework
             }
 
             isDynamicBundleShownOnLaunch = promotionToDispatch.key.Equals("DynamicBundle");
-            loadPromotionSingal.Dispatch();
-            //navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
-            // showFadeBlockerSignal.Dispatch();
             routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
 
-            if (promotionToDispatch.isOnSale)
+            foreach (var item in sequence)
             {
-                preferencesModel.activePromotionSales.Add(promotionToDispatch.key);
-                activePromotionSaleSingal.Dispatch(promotionToDispatch.key);
+                var promotion = promotionsMapping[item];
+
+                if (promotion.isOnSale && !preferencesModel.activePromotionSales.Contains(promotion.key))
+                {
+                    preferencesModel.activePromotionSales.Add(promotion.key);
+                    activePromotionSaleSingal.Dispatch(promotion.key);
+                }
             }
+
+            loadPromotionSingal.Dispatch();
         }
 
         private void OnPromotionCycleOver()
