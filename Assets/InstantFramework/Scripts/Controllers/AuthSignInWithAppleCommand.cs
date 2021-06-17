@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public ResetSubscirptionStatusSignal resetSubscirptionStatusSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         public override void Execute()
         {
@@ -96,6 +97,7 @@ namespace TurboLabz.InstantFramework
                 refreshCommunitySignal.Dispatch(true);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
                 updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+                loadPromotionSingal.Dispatch();
 
                 //in case if siwa user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())

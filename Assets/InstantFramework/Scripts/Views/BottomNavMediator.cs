@@ -89,7 +89,7 @@ namespace TurboLabz.InstantFramework
             view.Show(value);
         }
 
-        [ListensTo(typeof(ActivePromotionSaleSingal))]
+        //[ListensTo(typeof(ActivePromotionSaleSingal))]
         public void OnShowSale(string key)
         {
             view.ShowSale(true);

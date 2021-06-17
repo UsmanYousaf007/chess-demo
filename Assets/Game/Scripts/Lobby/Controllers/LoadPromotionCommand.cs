@@ -42,11 +42,6 @@ namespace TurboLabz.InstantGame
                 return;
             }
 
-            if (!preferencesModel.isLobbyLoadedFirstTime)
-            {
-                return;
-            }
-
             if (ShowCoinsBanner())
             {
                 return;

@@ -21,7 +21,6 @@ namespace TurboLabz.InstantGame
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
         [Inject] public LoadGameSignal loadCPUGameDataSignal { get; set; }
         [Inject] public ResetActiveMatchSignal resetActiveMatchSignal { get; set; }
-        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateMenuViewSignal updateMenuViewSignal { get; set; }
@@ -116,12 +115,6 @@ namespace TurboLabz.InstantGame
             DispatchRemoveAdsSignal();
 
             loadCareerCardSignal.Dispatch();
-
-            if (preferencesModel.isLobbyLoadedFirstTime)
-            {
-                loadPromotionSingal.Dispatch();
-            }
-
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG);
 
             if (SplashLoader.launchCode == 1)

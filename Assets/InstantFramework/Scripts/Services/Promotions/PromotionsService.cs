@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using TurboLabz.TLUtils;
 using System.Collections;
 using UnityEngine;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -31,6 +32,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
         [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
@@ -125,16 +127,20 @@ namespace TurboLabz.InstantFramework
             }
 
             isDynamicBundleShownOnLaunch = promotionToDispatch.key.Equals("DynamicBundle");
-
-            //navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
-            // showFadeBlockerSignal.Dispatch();
             routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
 
-            if (promotionToDispatch.isOnSale)
+            foreach (var item in sequence)
             {
-                preferencesModel.activePromotionSales.Add(promotionToDispatch.key);
-                activePromotionSaleSingal.Dispatch(promotionToDispatch.key);
+                var promotion = promotionsMapping[item];
+
+                if (promotion.isOnSale && !preferencesModel.activePromotionSales.Contains(promotion.key))
+                {
+                    preferencesModel.activePromotionSales.Add(promotion.key);
+                    activePromotionSaleSingal.Dispatch(promotion.key);
+                }
             }
+
+            loadPromotionSingal.Dispatch();
         }
 
         private void OnPromotionCycleOver()

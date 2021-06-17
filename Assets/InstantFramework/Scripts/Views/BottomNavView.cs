@@ -87,17 +87,23 @@ namespace TurboLabz.InstantFramework
             shopButton.onClick.AddListener(ShopButtonClicked);
 
             UpdateButtons();
-            ShowSale(false);
+            //ShowSale(false);
         }
 
         private void OnEnable()
         {
             UpdateAlerts();
+            SaleTagAnimation(true);
+        }
+
+        private void OnDisable()
+        {
+            SaleTagAnimation(false);
         }
 
         public void UpdateAlerts()
         {
-            shopAlert.SetActive(!preferencesModel.shopTabVisited);
+            //shopAlert.SetActive(!preferencesModel.shopTabVisited);
             inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
@@ -181,14 +187,19 @@ namespace TurboLabz.InstantFramework
             gameObject.SetActive(value);
         }
 
-        public void ShowSale(bool show)
+        private void SaleTagAnimation(bool play)
         {
-            if(show)
+            if (freeTagAnimationSequence != null)
             {
+                freeTagAnimationSequence.Kill();
+                freeTagAnimationSequence = null;
+            }
+
+            if (play) { 
                 freeTagAnimationSequence = DOTween.Sequence();
                 freeTagAnimationSequence.AppendInterval(7f);
-                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.4f,0.2f));
-                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0,0,20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.4f, 0.2f));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.04f, RotateMode.Fast));
                 freeTagAnimationSequence.AppendInterval(0.04f);
                 freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
                 freeTagAnimationSequence.AppendInterval(0.04f);
@@ -208,11 +219,10 @@ namespace TurboLabz.InstantFramework
                 freeTagAnimationSequence.SetLoops(-1);
                 freeTagAnimationSequence.PlayForward();
             }
-            else
-            {
-                freeTagAnimationSequence.Kill();
-                freeTagAnimationSequence = null;
-            }
+        }
+
+        public void ShowSale(bool show)
+        {
             saleRibbon.SetActive(show);
         }
     }
