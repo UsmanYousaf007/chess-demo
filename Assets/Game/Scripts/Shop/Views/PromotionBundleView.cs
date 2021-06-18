@@ -78,8 +78,8 @@ public class PromotionBundleView : View
         var costPerGem = storeItem.productPrice / storeItem.currency3Payout;
         var priceForGems = bundleStoreItem.currency3Cost * costPerGem;
         var discountOnGems = 1 - (bundleStoreItem.productPrice / priceForGems);
-        gemsPercentageVal.text = "<size=147%>+</size>";
-        gemsPercentageVal.text += $"{(int)(discountOnGems * 100)}%";
+        //gemsPercentageVal.text = "<size=147%>+</size>";
+        //gemsPercentageVal.text += $"{(int)(discountOnGems * 100)}%";
 
         //Overall discount
         var coinsStoreItem = storeSettingsModel.items["CoinPack1"];
@@ -87,8 +87,8 @@ public class PromotionBundleView : View
         var priceForCoinsInGems = bundleStoreItem.currency4Cost / coinsPerGem;
         var priceForCoins = priceForCoinsInGems * costPerGem;
         totalBundlePrice = priceForGems + priceForCoins;
-        var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
-        overallPercentageVal.text = $"{(int)(overallDiscount * 100)}";
+        //var overallDiscount = 1 - (bundleStoreItem.productPrice / totalBundlePrice);
+        //overallPercentageVal.text = $"{(int)(overallDiscount * 100)}";
     }
 
     public bool IsVisible()

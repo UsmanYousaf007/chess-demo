@@ -42,7 +42,7 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_dlg);
                 analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, analyticsContext);
-                analyticsService.Event("ux_saleonspotgem_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicBundleToDisplay));
+                analyticsService.Event("ux_saleonspotgem_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode));
                 timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
         }
@@ -100,7 +100,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled)
             {
-                var context = CollectionsUtil.GetContextFromString(playerModel.dynamicBundleToDisplay);
+                var context = CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode);
                 var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
                 analyticsService.Event("ux_saleonspotgem_tapbuynow", context);
                 analyticsService.ValueEvent("ux_saleonspotgem_timeprebuynow", context, timePreBuyNow);

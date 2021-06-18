@@ -70,7 +70,7 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(packs, dynamicSpotPurchaseBundle);
             adView = false;
             dynamicBundleContext = CollectionsUtil.GetContextFromString(dynamicSpotPurchaseBundle.dynamicBundleShortCode);
-            analyticsService.Event("ux_saleponspotcoin_shown", dynamicBundleContext);
+            analyticsService.Event("ux_saleonspotcoin_shown", dynamicBundleContext);
             timeAtDlgShown = backendService.serverClock.currentTimestamp;
         }
 

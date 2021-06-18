@@ -252,7 +252,7 @@ namespace TurboLabz.Multiplayer
         {
             if (view.isActiveAndEnabled)
             {
-                if (result == AdsResult.NOT_AVAILABLE || result == AdsResult.FAILED)
+                if (result == AdsResult.NOT_AVAILABLE)
                 {
                     if (adPlacement == AdPlacements.RV_rating_booster)
                     {
@@ -261,6 +261,13 @@ namespace TurboLabz.Multiplayer
                     else if (adPlacement == AdPlacements.Rewarded_analysis)
                     {
                         view.EnableAnalysisRVNotAvailableTooltip();
+                    }
+                }
+                else if (result == AdsResult.FAILED)
+                {
+                    if (adPlacement == AdPlacements.RV_rating_booster)
+                    {
+                        view.SetupRatingBoostButtonsSection(true);
                     }
                 }
             }
