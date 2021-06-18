@@ -118,7 +118,11 @@ public class WinResultAnimSequence : MonoBehaviour
     private void PlayStarsEffect()
     {
         if (isDraw)
+        {
+            _animator.enabled = false;
+            PlayPowerPlayEffect();
             return;
+        }
         _starsParticleEmitter.gameObject.SetActive(true);
         _starsParticleEmitter.PlayFx();
 
@@ -166,7 +170,7 @@ public class WinResultAnimSequence : MonoBehaviour
         }
         else
         {
-            Invoke("OnStarsCountAnimationComplete", 1f);
+            Invoke("OnStarsCountAnimationComplete", 0.5f);
         }
     }
 
