@@ -49,6 +49,8 @@ namespace TurboLabz.InstantFramework
             var dynamicSpotPurchaseBundleData = res.GetGSData(GSBackendKeys.PlayerDetails.DYNAMIC_GEM_SPOT_BUNDLE);
             GSParser.ParseDynamicSpotPurchaseBundle(playerModel.dynamicGemSpotBundle, dynamicSpotPurchaseBundleData);
 
+            playerModel.rvUnlockTimestamp = GSParser.GetSafeLong(res, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP);
+
             // Process goods
             GSData boughtItem = res.GetGSData("boughtItem");
             if (boughtItem != null)
