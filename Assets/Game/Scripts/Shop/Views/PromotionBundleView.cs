@@ -6,6 +6,7 @@ using TurboLabz.TLUtils;
 using UnityEngine;
 using UnityEngine.UI;
 using TurboLabz.TLUtils;
+using TMPro;
 
 [System.CLSCompliantAttribute(false)]
 public class PromotionBundleView : View
@@ -25,9 +26,10 @@ public class PromotionBundleView : View
     public Text purchaseText;
 
     [Header("Items")]
-    public Text gemsPercentageVal;
+    //public Text gemsPercentageVal;
     public ShopPayout currencyPayout;
     public ShopPayout currency2Payout;
+    public TMP_Text gemsPercentageVal;
 
     //Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -76,7 +78,8 @@ public class PromotionBundleView : View
         var costPerGem = storeItem.productPrice / storeItem.currency3Payout;
         var priceForGems = bundleStoreItem.currency3Cost * costPerGem;
         var discountOnGems = 1 - (bundleStoreItem.productPrice / priceForGems);
-        gemsPercentageVal.text = $"{(int)(discountOnGems * 100)}%";
+        gemsPercentageVal.text = "<size=147%>+</size>";
+        gemsPercentageVal.text += $"{(int)(discountOnGems * 100)}%";
 
         //Overall discount
         var coinsStoreItem = storeSettingsModel.items["CoinPack1"];

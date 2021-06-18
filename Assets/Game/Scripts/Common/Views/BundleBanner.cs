@@ -30,7 +30,7 @@ public class BundleBanner : MonoBehaviour
         var isStoreAvailable = !string.IsNullOrEmpty(bundleStoreItem.remoteProductPrice);
         var discount = CalculateDiscount(bundleStoreItem, gemStoreItem, coinsStoreItem);
 
-        discountText.text = $"{(int)(discount * 100)}%";
+        discountText.text = $"{(int)(discount * 100)}";
         priceText.text = bundleStoreItem.remoteProductPrice;
         gemsPayout.text = bundleStoreItem.currency3Cost.ToString("N0");
         coinsPayout.text = FormatUtil.AbbreviateNumber(bundleStoreItem.currency4Cost, false);

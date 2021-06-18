@@ -89,6 +89,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e8586913fb45045ca98ddfc6fb6a12cd, type: 3}
   - {fileID: 21300000, guid: 40fe7243e0b4b422bbad38502360b1b6, type: 3}
   - {fileID: 21300000, guid: cf003753d1ed940f98ba626b14a13890, type: 3}
+  - {fileID: 21300000, guid: 59700fe3de1374e849de3939096a83bb, type: 3}
+  - {fileID: 21300000, guid: 039747d4a1df04c939536fefd534f25a, type: 3}
   - {fileID: 21300000, guid: 4bb95205116674781844852072e0de53, type: 3}
   - {fileID: 21300000, guid: 4b64ca75253cf4c3db4e98676870bdec, type: 3}
   - {fileID: 21300000, guid: e2d1afb5d2881492586311023575f6b0, type: 3}
@@ -110,6 +112,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a9b9859905a444acfaa667fbb5ac9967, type: 3}
   - {fileID: 21300000, guid: d078a4a98b22f4a8a9e07cb75fcb3950, type: 3}
   - {fileID: 21300000, guid: 03eca9f93e48b4ffda118f0877346f67, type: 3}
+  - {fileID: 21300000, guid: e31c3ef9b69e648ebb399fca2b213c81, type: 3}
   - {fileID: 21300000, guid: b2bc2e1a00d8f41e6a08846888b98612, type: 3}
   - {fileID: 21300000, guid: 7c26e1bab02f2479ea32d26846af40cb, type: 3}
   - {fileID: 21300000, guid: d79557da96ef6413399a0d06e3a12bfa, type: 3}
@@ -119,6 +122,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e71dea7bc9da54054973cec03eb0daf1, type: 3}
   - {fileID: 21300000, guid: 8659fa9ba4498419b807b4f85cf98865, type: 3}
   - {fileID: 21300000, guid: 8d160bab024de4e23b261d97eb3998eb, type: 3}
+  - {fileID: 21300000, guid: 48fbc0fb83d64478b8b7ae42cd9238ab, type: 3}
   - {fileID: 21300000, guid: fd50860dcbc964408b81bff2a937ae62, type: 3}
   - {fileID: 21300000, guid: 5f1cbb0d758454ecd8e95db27a0b692b, type: 3}
   - {fileID: 21300000, guid: 8413775d8405c4a25ae17da312bdbbad, type: 3}
@@ -133,7 +137,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9033ba4fbdb3540f3aa613cbb22d3f0e, type: 3}
   - {fileID: 21300000, guid: d77b8c4f975234778a2ce0d9ce456e7d, type: 3}
   - {fileID: 21300000, guid: 26e6ff4f9f07d4973814982b8a206200, type: 3}
+  - {fileID: 21300000, guid: cd0c825f2bd2a46c183b49bc14536b54, type: 3}
   - {fileID: 21300000, guid: 8d7cb58f13a2943e2bcfb86aa07d9a19, type: 3}
+  - {fileID: 21300000, guid: 9ce2a6afb14394ed680c769e062434dd, type: 3}
   - {fileID: 21300000, guid: 0c6d65cf9a3c1403c949059f2cc996cb, type: 3}
   - {fileID: 21300000, guid: f973d2effca6f42678dd272b3e1c38f3, type: 3}
   m_PackedSpriteNamesToIndex:
@@ -158,6 +164,8 @@ SpriteAtlas:
   - Sale777Mask
   - RubyPopup
   - OffBadge
+  - RoyalSaleBndle
+  - RoyalSaleLogo
   - GoldBannerBtn
   - LimitedTimesTag
   - Sale777Logo
@@ -179,6 +187,7 @@ SpriteAtlas:
   - GoldBndlle
   - DiamondPopup
   - Sale777BundleBtn
+  - RoyalBannerBtn
   - DiamondPopupBtn
   - SaleTag2
   - DiamondBndle
@@ -188,6 +197,7 @@ SpriteAtlas:
   - GrandMask
   - DiamondLogo
   - RubyMask
+  - RoyalBndleBtn
   - RubyBndleBtn
   - HotRibbon
   - EliteBndle777
@@ -202,7 +212,9 @@ SpriteAtlas:
   - DiamondBndleBtn
   - GoldMask
   - EliteBorderMask
+  - RoyalSalePopup
   - GoldPopupPremium
+  - RoyalSaleBanner
   - Sale777Graphic
   - GoldGraphic
   m_Tag: PromotionUpdates
