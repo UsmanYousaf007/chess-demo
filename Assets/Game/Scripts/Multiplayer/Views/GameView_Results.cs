@@ -889,7 +889,6 @@ namespace TurboLabz.Multiplayer
         {
             resultsRVAnalysisNotAvailableTooltip.SetActive(true);
             Invoke("DisableAnalysisRVNotAvaillableTooltip", 5);
-
         }
 
         private void DisableAnalysisRVNotAvaillableTooltip()

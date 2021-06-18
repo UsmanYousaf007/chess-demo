@@ -107,7 +107,7 @@ namespace TurboLabz.InstantFramework
         {
             if (view.isActiveAndEnabled)
             {
-                if (result == AdsResult.NOT_AVAILABLE || result == AdsResult.FAILED)
+                if (result == AdsResult.NOT_AVAILABLE)
                 {
                     if (adPlacement == AdPlacements.Rewarded_analysis)
                     {
