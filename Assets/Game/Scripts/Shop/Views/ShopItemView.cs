@@ -78,6 +78,9 @@ namespace TurboLabz.InstantFramework
                 thumbsContainer = StoreThumbsContainer.Load();
             }
 
+            buyButton.onClick.AddListener(OnBuyButtonClicked);
+            thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
+
             ShowSaleItems(false);
         }
 
@@ -98,8 +101,6 @@ namespace TurboLabz.InstantFramework
                 title.text = isGems ? storeItem.displayName.Split(' ')[0] : isBundle ? storeItem.description : storeItem.displayName;
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
-                buyButton.onClick.AddListener(OnBuyButtonClicked);
-                thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
 
                 if (loadThumbnail)
                 {
@@ -242,6 +243,7 @@ namespace TurboLabz.InstantFramework
         {
             shortCode = newShortCode;
             isInitlialised = false;
+            storeItem = null;
             OnStoreAvailable(storeAvailable);
         }
     }
