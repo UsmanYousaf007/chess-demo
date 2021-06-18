@@ -268,9 +268,11 @@ namespace TurboLabz.InstantFramework
             {
                 var currentState = navigatorModel.currentState.GetType();
                 var previousState = navigatorModel.previousState.GetType();
-                var canShowBanner = currentState == typeof(NSMultiplayer) ||
-                                    currentState == typeof(NSCPU) ||
-                                   (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer));
+                var canShowBanner = adsSettingsModel.isBannerEnabled && IsPersonalisedAdDlgShown() &&
+                (currentState == typeof(NSMultiplayer) ||
+                 currentState == typeof(NSCPU) ||
+                (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer)) ||
+                (currentState == typeof(NSSpotPurchase) && (previousState == typeof(NSMultiplayer) || previousState == typeof(NSCPU) || previousState == typeof(NSCPUPowerplay))));
 
                 if (!canShowBanner)
                 {
