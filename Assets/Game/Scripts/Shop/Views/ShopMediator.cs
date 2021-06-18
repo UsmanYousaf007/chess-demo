@@ -96,7 +96,6 @@ namespace TurboLabz.InstantFramework
         public void OnResetSubcriptionStatus()
         {
             view.SetSubscriptionOwnedStatus();
-            view.SetBundle();
         }
 
         [ListensTo(typeof(ActivePromotionSaleSingal))]

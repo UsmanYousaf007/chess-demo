@@ -14,8 +14,6 @@ namespace TurboLabz.InstantFramework
         public Text specialPacksHeading;
         public Text gemPacksHeading;
         public string welcomePackShortCode;
-        public GameObject welcomePack;
-        public GameObject elitePack;
         public Button subscriptionStrip;
         public Text subscriptionStripText;
         public Button subscriptionButton;
@@ -107,13 +105,6 @@ namespace TurboLabz.InstantFramework
             isSubscriber = playerModel.HasSubscription();
             owned.SetActive(isSubscriber);
             subscriptionButton.gameObject.SetActive(!isSubscriber);
-        }
-
-        public void SetBundle()
-        {
-            var isWelcomeBundlePurchased = playerModel.OwnsVGood(welcomePackShortCode);
-            welcomePack.SetActive(!isWelcomeBundlePurchased);
-            elitePack.SetActive(isWelcomeBundlePurchased);
         }
 
         private void OnSubscirptionButtonClicked()
