@@ -168,7 +168,7 @@ namespace TurboLabz.InstantFramework
             iTween.ValueTo(gameObject,
                 iTween.Hash(
                     "from", from,
-                    "to", 0,
+                    "to", 1,
                     "time", 0.5f,
                     "onupdate", "MoveScrollRect",
                     "onupdatetarger", gameObject,
