@@ -30,11 +30,14 @@ namespace TurboLabz.InstantGame
         [Inject] public UploadFileSignal uploadFileSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showGenericProcessingSignal { get; set; }
 
         // View injection
         [Inject] public StatsView view { get; set; }
+
         //Model injection
         [Inject] public IPlayerModel playerModel { get; set; }
+
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
@@ -203,7 +206,7 @@ namespace TurboLabz.InstantGame
         {
             //view.CloseProfilePicDialog();
             OnClickCloseProfilePicDialog();
-            view.ShowProcessing(true, true);
+            showGenericProcessingSignal.Dispatch(true);
 
             if (photo != null)
             {
