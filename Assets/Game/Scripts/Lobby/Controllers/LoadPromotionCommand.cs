@@ -108,7 +108,7 @@ namespace TurboLabz.InstantGame
                     bool majorV = int.Parse(vServer[0]) > int.Parse(vClient[0]);
                     bool minorV = int.Parse(vServer[1]) > int.Parse(vClient[1]);
 
-                    return (majorV || minorV) && !isUpdateBannerShown;
+                    return (majorV || minorV) && !isUpdateBannerShown && appInfoModel.showGameUpdateBanner;
                 },
                 onClick = delegate
                 {
