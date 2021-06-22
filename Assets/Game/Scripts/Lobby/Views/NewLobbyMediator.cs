@@ -74,7 +74,14 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnRemoveLobbyPromotion(StoreItem item)
         {
-            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY)
+            if (navigatorModel.currentViewId == NavigatorViewId.LOBBY && item.kind.Equals(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG))
+            {
+                var context = item.displayName.Replace(' ', '_').ToLower();
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "promotion", $"banner_{context}_gems");
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "promotion", $"banner_{context}_coins");
+                view.LogBundleBannerPurchasedAnalytics();
+            }
+            else if (view.IsVisible())
             {
                 if (item.kind.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_TAG))
                 {
@@ -84,13 +91,6 @@ namespace TurboLabz.InstantFramework
                 {
                     view.LogBannerPurchasedAnalytics();
                 }
-
-                if (item.kind.Equals(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG))
-                {
-                    var context = item.displayName.Replace(' ', '_').ToLower();
-                    analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "promotion", $"banner_{context}_gems");
-                    analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "promotion", $"banner_{context}_coins");
-                }
             }
 
             view.RemovePromotion();
@@ -99,6 +99,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
         public void OnCoinsPurchase(PlayerInventoryVO inventoryVO)
         {
+            view.LogBannerPurchasedAnalytics();
             view.RemovePromotion();
         }
     }

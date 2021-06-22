@@ -149,6 +149,7 @@ namespace TurboLabz.InstantGame
                 },
                 onClick = delegate
                 {
+                    appInfoModel.outOfCoinsBannerClicked = true;
                     audioService.PlayStandardClick();
                     navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_COIN_PURCHASE);
                     updateSpotCoinsWatchAdDlgSignal.Dispatch(0, storeSettingsModel.items["CoinPack1"], AdPlacements.Rewarded_coins_banner);
@@ -158,6 +159,7 @@ namespace TurboLabz.InstantGame
 
             if (coinsBanner.condition())
             {
+                appInfoModel.outOfCoinsBannerClicked = false;
                 analyticsService.Event(AnalyticsEventId.banner_shown, AnalyticsContext.lobby_out_of_coins);
                 showPromotionSignal.Dispatch(coinsBanner);
                 return true;

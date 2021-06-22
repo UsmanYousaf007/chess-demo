@@ -32,6 +32,7 @@ namespace TurboLabz.InstantFramework
         public int nthWinsRateApp { get; set; }
         public int gamesPlayedCount { get; set; }
         public bool showGameUpdateBanner { get; set; }
+        public bool outOfCoinsBannerClicked { get; set; }
 
         public string privacyPolicyURL
         {
@@ -113,6 +114,7 @@ namespace TurboLabz.InstantFramework
             nthWinsRateApp = 10;
             gamesPlayedCount = 0;
             showGameUpdateBanner = false;
+            outOfCoinsBannerClicked = false;
         }
     }
 }

@@ -34,6 +34,7 @@ namespace TurboLabz.InstantFramework
         int nthWinsRateApp { get; set; }
         int gamesPlayedCount { get; set; }
         bool showGameUpdateBanner { get; set; }
+        bool outOfCoinsBannerClicked { get; set; }
     }
 
     public enum DisconnectStates
