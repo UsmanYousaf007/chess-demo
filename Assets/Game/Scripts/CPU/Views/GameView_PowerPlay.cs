@@ -278,5 +278,12 @@ namespace TurboLabz.CPU
             rewardedVideoBtn.interactable = false;
             DisableTimerTooltip();
         }
+
+        public void UpdatePowerModeRVTimer(long timer, bool rvEnabled)
+        {
+            canSeeRewardedVideo = rvEnabled;
+            coolDownTimeUTC = timer;
+            SetupState(isPowerModeOn, canSeeRewardedVideo);
+        }
     }
 }

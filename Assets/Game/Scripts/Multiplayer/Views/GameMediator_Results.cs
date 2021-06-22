@@ -284,5 +284,14 @@ namespace TurboLabz.Multiplayer
         {
             view.UpdateAnalysedMoveScore(challengeId, moveAnalysis);
         }
+
+        [ListensTo(typeof(UpdateRVTimerSignal))]
+        public void OnUpdateRVTimer(long timer, bool rvEnabled)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateRVTimer(timer, rvEnabled);
+            }
+        }
     }
 }

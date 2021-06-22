@@ -195,5 +195,14 @@ namespace TurboLabz.InstantFramework
                 schedulerService.UnSubscribe(view.SchedulerCallBack);
             }
         }
+
+        [ListensTo(typeof(UpdateRVTimerSignal))]
+        public void OnUpdateRVTimer(long timer, bool rvEnabled)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdatePowerModeRVTimer(timer, rvEnabled);
+            }
+        }
     }
 }

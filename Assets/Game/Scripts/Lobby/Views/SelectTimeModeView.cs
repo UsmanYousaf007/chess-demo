@@ -309,5 +309,12 @@ namespace TurboLabz.InstantFramework
             isTimerRunning = false;
 
         }
+
+        public void UpdatePowerModeRVTimer(long timer, bool rvEnabled)
+        {
+            canSeeRewardedVideo = rvEnabled;
+            coolDownTimeUTC = timer;
+            SetupState(isPowerModeOn, canSeeRewardedVideo);
+        }
     }
 }
