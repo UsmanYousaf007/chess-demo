@@ -136,6 +136,11 @@ namespace TurboLabz.InstantFramework
 
                     dailyRewardClaimFailedSignal.Dispatch();
                     break;
+
+                case "gemsInsufficient":
+                    playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+                    updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                    break;
             }
         }
 
