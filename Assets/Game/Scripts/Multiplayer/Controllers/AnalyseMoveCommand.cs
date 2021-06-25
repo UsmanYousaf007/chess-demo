@@ -100,6 +100,15 @@ namespace TurboLabz.Multiplayer
                     {
                         var lastMove = matchInfo.movesAnalysisList.Last();
 
+                        //strength equals -1 in case chess AI crashed
+                        //copying last move analysis data in current move
+                        if (strength < 0)
+                        {
+                            moveAnalysis.advantageScore = lastMove.advantageScore;
+                            moveAnalysis.playerScore = lastMove.playerScore;
+                            moveAnalysis.bestScore = lastMove.bestScore;
+                        }
+
                         lastMove.playerAdvantage = (parameters.isPlayerTurn ?
                              (moveAnalysis.bestScore - lastMove.advantageScore) :
                              (lastMove.advantageScore - moveAnalysis.bestScore)) / 100.0f;

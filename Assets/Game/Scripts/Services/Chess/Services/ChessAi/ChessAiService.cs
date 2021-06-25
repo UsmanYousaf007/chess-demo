@@ -157,17 +157,11 @@ namespace TurboLabz.Chess
             }
             catch (Exception ex)
             {
-                if (ChessAiPlugin.results.aiSearchResultScoresStr == null)
+                if (aiMoveInputVO.analyse)
                 {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, $"ChessAiService.ExecuteAiMove().aiSearchResultScoresStr is null, isHint:{aiMoveInputVO.isHint} isAnalysis:{aiMoveInputVO.analyse}");
-                }
-                else if (ChessAiPlugin.results.aiSearchResultMovesStr == null)
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().aiSearchResultMovesStr is null");
-                }
-                else
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.ExecuteAiMove().something is null");
+                    lastDequeuedMethod.promise.Dispatch(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to, $"{MoveQuality.NORMAL}|-1|0|0|0");
+                    lastDequeuedMethod.promise = null;
+                    lastDequeuedMethod = null;
                 }
             }
             

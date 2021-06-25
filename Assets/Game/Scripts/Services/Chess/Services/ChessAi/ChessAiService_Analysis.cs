@@ -93,26 +93,7 @@ namespace TurboLabz.Chess
             }
             catch (System.Exception ex)
             {
-                if (aiMoveInputVO.lastPlayerMove == null)
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().aiMoveInputVO.lastPlayerMove is null");
-                }
-                else if (aiSearchResultMovesList == null)
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().aiSearchResultMovesList is null");
-                }
-                else if (scores == null)
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().scores is null");
-                }
-                else if (chessService == null)
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().chessService is null");
-                }
-                else
-                {
-                    GameAnalytics.NewErrorEvent(GAErrorSeverity.Debug, "ChessAiService.GetMoveAnalysis().something is null");
-                }
+                lastDequeuedMethod.promise.Dispatch(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to, $"{MoveQuality.NORMAL}|-1|0|0|0");
             }
             finally
             {
