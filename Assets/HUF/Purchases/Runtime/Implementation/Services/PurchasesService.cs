@@ -234,7 +234,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                     {
                         HLog.LogError( logPrefix,
                             $"Purchase was already consumed on the server: {response.responseError}" );
-                        storeController.ConfirmPendingPurchase( response.product );
+                        //storeController.ConfirmPendingPurchase( response.product );
                     }
                     else
                     {
