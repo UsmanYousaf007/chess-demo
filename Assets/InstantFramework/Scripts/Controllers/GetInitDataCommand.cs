@@ -92,6 +92,7 @@ namespace TurboLabz.InstantFramework
             //appData.playerSkillLevel = playerModel.skillLevel;
             appData.inProgress = cPUGameModel.inProgress;
             appData.hbiUserId = HAnalyticsHBI.UserId;
+            appData.timeZone = Mathf.CeilToInt((float)TimeZoneInfo.Local.BaseUtcOffset.TotalHours);
 
             return JsonUtility.ToJson(appData);
         }
@@ -106,5 +107,6 @@ namespace TurboLabz.InstantFramework
         //public string playerSkillLevel;
         public bool inProgress;
         public string hbiUserId;
+        public int timeZone;
     }
 }
