@@ -263,5 +263,12 @@ namespace TurboLabz.InstantFramework
             rewardedVideoBtn.interactable = false;
             DisableTimerTooltip();
         }
+
+        public void UpdateRVTimer(long timer, bool rvEnabled)
+        {
+            canSeeRewardedVideo = rvEnabled;
+            coolDownTimeUTC = timer;
+            SetupState(isPowerModeOn, canSeeRewardedVideo);
+        }
     }
 }

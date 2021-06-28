@@ -131,5 +131,14 @@ namespace TurboLabz.CPU
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU_POWER_PLAY);
         }
+
+        [ListensTo(typeof(UpdateRVTimerSignal))]
+        public void OnUpdateRVTimer(long timer, bool rvEnabled)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdatePowerModeRVTimer(timer, rvEnabled);
+            }
+        }
     }
 }

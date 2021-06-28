@@ -224,6 +224,8 @@ namespace TurboLabz.InstantFramework
     public class PowerPlayRewardClaimedSignal : Signal { }
     public class GetGameStartTimeFailedSignal : Signal { }
     public class BuyDynamicBundleClickedSignal : Signal { }
+    public class UpdateRVTimerSignal : Signal<long, bool> { }
+    public class DailyRewardClaimFailedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }

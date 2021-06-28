@@ -107,13 +107,9 @@ namespace TurboLabz.InstantFramework
             var errorData = response.Errors;
             var errorString = errorData.GetString("error");
 
-            if (errorString.Equals("coinsInsufficient"))
+            if (errorString.Equals("coinsInsufficient") || errorString.Equals("gemsInsufficient"))
             {
                 playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
-                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-            }
-            else if (errorString.Equals("gemsInsufficient"))
-            {
                 playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
             }

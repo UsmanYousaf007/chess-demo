@@ -82,6 +82,21 @@ namespace TurboLabz.InstantFramework
 
         public void LogBannerPurchasedAnalytics()
         {
+            if (currentPromotion.key != null &&
+                currentPromotion.key.Equals(LobbyPromotionKeys.COINS_BANNER) &&
+               !appInfoModel.outOfCoinsBannerClicked)
+            {
+                return;
+            }
+
+            if (LobbyPromotionKeys.Contains(currentPromotion.key) && !currentPromotion.condition())
+            {
+                analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
+            }
+        }
+
+        public void LogBundleBannerPurchasedAnalytics()
+        {
             analyticsService.Event(AnalyticsEventId.banner_purchased, currentPromotion.analyticsContext);
         }
 

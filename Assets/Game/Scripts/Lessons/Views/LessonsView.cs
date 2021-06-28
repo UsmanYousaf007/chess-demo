@@ -154,6 +154,7 @@ namespace TurboLabz.InstantGame
             foreach (var lesson in lessonTiles)
             {
                 lesson.SetupUnlockButton();
+                lesson.CheckLockStatus();
             }
         }
 

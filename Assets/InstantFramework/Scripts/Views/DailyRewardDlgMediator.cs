@@ -136,7 +136,17 @@ namespace TurboLabz.InstantFramework
             loadCareerCardSignal.Dispatch();
         }
 
-        public void SetNextDayNotificationReminder()
+        [ListensTo(typeof(DailyRewardClaimFailedSignal))]
+        public void OnClaimRewardFailed()
+        {
+            SetNextDayNotificationReminder();
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+            _dailyRewardVO.onCloseSignal?.Dispatch();
+            updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            loadCareerCardSignal.Dispatch();
+        }
+
+        private void SetNextDayNotificationReminder()
         {
             notificationsModel.UnregisterNotifications("league");
 
@@ -146,8 +156,6 @@ namespace TurboLabz.InstantFramework
             notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
             notification.sender = "league";
             notificationsModel.RegisterNotification(notification);
-
-            LogUtil.Log(DateTime.Today.ToString());
 
             var reminder = new Notification();
             reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);

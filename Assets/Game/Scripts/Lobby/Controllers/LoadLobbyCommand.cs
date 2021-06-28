@@ -38,6 +38,7 @@ namespace TurboLabz.InstantGame
         [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
         [Inject] public UpdateSpotCoinsWatchAdDlgSignal updateSpotCoinsWatchAdDlgSignal { get; set; }
         [Inject] public ShowCareerProgressionSignal showCareerProgressionSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Services
         [Inject] public IFacebookService facebookService { get; set; }
@@ -114,6 +115,8 @@ namespace TurboLabz.InstantGame
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();
 
+            metaDataModel.appInfo.showGameUpdateBanner = false;
+            loadPromotionSingal.Dispatch();
             loadCareerCardSignal.Dispatch();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG);
 

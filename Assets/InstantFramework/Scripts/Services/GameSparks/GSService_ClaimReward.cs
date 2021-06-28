@@ -84,10 +84,63 @@ namespace TurboLabz.InstantFramework
             var errorData = response.Errors;
             var errorString = errorData.GetString("error");
 
-            if (errorString.Equals("invalidCoinPurchaseReward"))
+            switch(errorString)
             {
-                playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
-                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                case "invalidCoinPurchaseReward":
+                    playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
+                    updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                    navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+                    break;
+
+                case "invalidChestReward":
+                    playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
+                    playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+                    playerModel.chestUnlockTimestamp = GSParser.GetSafeLong(errorData, GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP);
+                    updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                    lobbySequenceEndedSignal.Dispatch();
+                    break;
+
+                case "invalidRVReward":
+                    playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+                    playerModel.rvUnlockTimestamp = GSParser.GetSafeLong(errorData, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP);
+                    updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+
+                    var rewardType = GSParser.GetSafeString(errorData, GSBackendKeys.ClaimReward.CLAIM_REWARD_TYPE);
+                    var rvEnabled =
+                        playerModel.gems < adsSettingsModel.minGemsRequiredforRV &&
+                        playerModel.rvUnlockTimestamp > 0 &&
+                        !(adsSettingsModel.removeRVOnPurchase && playerModel.HasPurchased());
+                    
+                    if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_RV_RATING_BOOSTER))
+                    {
+                        playerModel.eloScore = GSParser.GetSafeInt(errorData, GSBackendKeys.PlayerDetails.ELO_SCORE);
+                        rvEnabled = rvEnabled && adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.RV_rating_booster.ToString());
+                    }
+                    else if (rewardType.Equals(GSBackendKeys.ClaimReward.TYPE_RV_ANALYSIS))
+                    {
+                        rvEnabled = rvEnabled && adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.Rewarded_analysis.ToString());
+                    }
+                    
+                    updateRVTimer.Dispatch(playerModel.rvUnlockTimestamp, rvEnabled);
+                    break;
+
+                case "invalidDailyReward":
+                    playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
+                    playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+
+                    if (inboxModel.items.ContainsKey("RewardDailyLeague")) {
+                        var inboxItem = inboxModel.items["RewardDailyLeague"];
+                        inboxItem.startTime = GSParser.GetSafeLong(errorData, "msgStartTime");
+                        inboxItem.timeStamp = inboxItem.startTime;
+                    }
+
+                    dailyRewardClaimFailedSignal.Dispatch();
+                    break;
+
+                case "gemsInsufficient":
+                    playerModel.gems = GSParser.GetSafeInt(errorData, "gems");
+                    updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                    break;
             }
         }
 

@@ -63,6 +63,14 @@ public class LessonTile : MonoBehaviour
         price.text = vo.storeItem.currency3Cost.ToString();
     }
 
+    public void CheckLockStatus()
+    {
+        vo.isLocked = vo.playerModel.inventory.ContainsKey(vo.videoId);
+        locked.SetActive(vo.isLocked);
+        play.SetActive(!vo.isLocked);
+        unlockBtn.gameObject.SetActive(vo.isLocked);
+    }
+
     private void PlayAnimation()
     {
         unlockedAnimation.gameObject.SetActive(true);

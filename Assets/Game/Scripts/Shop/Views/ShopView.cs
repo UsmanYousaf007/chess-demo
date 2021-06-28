@@ -64,16 +64,16 @@ namespace TurboLabz.InstantFramework
             subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
             showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
 
-            if(HCrossPromo.service != null)
-            {
-                showCrossPromoButton.gameObject.SetActive (HCrossPromo.service.hasContent);
-            }
-
             ShowSaleItems(false);
         }
 
         public void Show()
         {
+            if (HCrossPromo.service != null)
+            {
+                showCrossPromoButton.transform.parent.gameObject.SetActive(HCrossPromo.service.hasContent);
+            }
+
             showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
             scrollRect.verticalNormalizedPosition = 1;

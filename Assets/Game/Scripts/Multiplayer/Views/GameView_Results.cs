@@ -966,6 +966,15 @@ namespace TurboLabz.Multiplayer
             resultsRVAnalysisTimerTooltip.SetActive(false);
         }
 
+        public void UpdateRVTimer(long coolDownTimer, bool rvEnabled)
+        {
+            coolDownTimeUTC = coolDownTimer;
+            isRatingBoosterRVEnabled = isRatingBoosterRVEnabled && rvEnabled;
+            isAnalysisRVEnabled = isAnalysisRVEnabled && rvEnabled;
+            SetupResultsLayout();
+            SetupAnalysisRV(isAnalysisRVEnabled);
+        }
+
         #region Animations
 
         private void PlayEloBoostedAnimation(int ratingBoosted)

@@ -137,5 +137,14 @@ namespace TurboLabz.InstantFramework
             }
 
         }
+
+        [ListensTo(typeof(UpdateRVTimerSignal))]
+        public void OnUpdateRVTimer(long timer, bool rvEnabled)
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.UpdateRVTimer(timer, rvEnabled);
+            }
+        }
     }
 }

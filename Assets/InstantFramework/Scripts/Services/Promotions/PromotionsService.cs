@@ -140,6 +140,7 @@ namespace TurboLabz.InstantFramework
                 }
             }
 
+            appInfoModel.showGameUpdateBanner = true;
             loadPromotionSingal.Dispatch();
         }
 
