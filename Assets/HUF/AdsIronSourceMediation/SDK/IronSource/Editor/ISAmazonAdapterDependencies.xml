@@ -1,21 +1,21 @@
 <dependencies>
-  <unityversion>4.3.6.6</unityversion>
+  <unityversion>4.3.6.9</unityversion>
     <androidPackages>
     <androidPackage spec="com.ironsource.adapters:amazonadapter:4.3.3">
       <repositories>
-        <repository>https://dl.bintray.com/ironsource-mobile/android-adapters/</repository>
+        <repository>https://android-sdk.is.com/</repository>
       </repositories>
     </androidPackage>
   </androidPackages>
     <androidPackages>
       <androidPackage spec="com.ironsource.adapters:amazonsdk:6.0.0@jar">
         <repositories>
-          <repository>https://dl.bintray.com/ironsource-mobile/android-adapters/</repository>
+          <repository>https://android-sdk.is.com/</repository>
         </repositories>
       </androidPackage>
     </androidPackages>
   <iosPods>
-    <iosPod name="IronSourceAmazonAdapter" version="4.3.5.6">
+    <iosPod name="IronSourceAmazonAdapter" version="4.3.5.9">
       <sources>
         <source>https://github.com/CocoaPods/Specs</source>
       </sources>
