@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         public ScrollRect scrollRectChampionship;
         public ScrollRect scrollRectAllStars;
 
+        public Text championshipTypeText;
         public Text playerTitleLabel;
         public Text countdownTimerText;
         public Image playerTitleImg;
@@ -112,7 +113,9 @@ namespace TurboLabz.InstantFramework
         public void Show(JoinedTournamentData joinedTournament)
         {
             _joinedTournament = joinedTournament;
+            championshipTypeText.text = _joinedTournament.type.ToUpper();
             ClearBars(allStarPlayerBars, allStarBarsPool);
+
             if (_joinedTournament != null)
             {
                 endTimeUTCSeconds = _joinedTournament.endTimeUTCSeconds;

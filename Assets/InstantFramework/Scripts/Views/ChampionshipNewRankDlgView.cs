@@ -27,6 +27,7 @@ namespace TurboLabz.InstantFramework
         [SerializeField] private GameObject newRankTxtGraphic;
         [SerializeField] private GameObject yourRankTxtGraphic;
         [SerializeField] private TextMeshProUGUI timerText;
+        [SerializeField] private Text championshipTypeText;
 
         private WaitForSecondsRealtime waitForOneRealSecond;
         private long endTimeUTCSeconds;
@@ -103,6 +104,7 @@ namespace TurboLabz.InstantFramework
         public override void UpdateView(string playerId, JoinedTournamentData joinedTournament)
         {
             _joinedTournament = joinedTournament;
+            championshipTypeText.text = _joinedTournament.type.ToUpper();
             base.UpdateView(playerId, joinedTournament);
             dataPopulated = true;
         }

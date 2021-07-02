@@ -570,7 +570,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY, "Your daily league reward is waiting for you."},
                 { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE, "Collect your Subscription Rewards!"},
                 { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_BODY, "Your daily subscription reward is waiting for you."},
-               
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY, "The championship is about to end."},
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_BODY, "Your championship results are here!"},
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY, "A new championship is underway."},
+
                 #endregion
     };
         }

@@ -155,6 +155,7 @@ namespace TurboLabz.InstantFramework
             notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
             notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
             notification.sender = "league";
+            notification.showInGame = false;
             notificationsModel.RegisterNotification(notification);
 
             var reminder = new Notification();
@@ -162,6 +163,7 @@ namespace TurboLabz.InstantFramework
             reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
             reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
             reminder.sender = "league";
+            notification.showInGame = false;
             notificationsModel.RegisterNotification(reminder);
         }
     }

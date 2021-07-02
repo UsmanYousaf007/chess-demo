@@ -33,9 +33,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ResetCareerprogressionViewSignal resetCareerprogressionViewSignalshowAdSignal { get; set; }
 
-        // Listeners
-        [Inject] public UpdateTournamentLeaderboardSignal updateTournamentLeaderboardSignal { get; set; }
-
         private int oldRank = -1;
 
         public override void OnRegister()

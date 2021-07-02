@@ -557,7 +557,7 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-        #region
+        #region Notifications
 
         public const string NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_TITLE = "notificationUpcomingTournamentReminderTitle";
         public const string NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE = "notifcationUpcomingTournamentStartedTitle";
@@ -569,6 +569,9 @@ namespace TurboLabz.InstantFramework
         public const string NOTIFICATION_SUBSCRIPTION_REWARD_TITLE = "notificationSubscriptionRewardTitle";
         public const string NOTIFICATION_DAILY_REWARD_BODY = "notificationDailyRewardBody";
         public const string NOTIFICATION_SUBSCRIPTION_REWARD_BODY = "notificationSubscriptionRewardBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY = "notificationChampionshipEndSoonBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_END_BODY = "notificationChampionshipEndBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY = "notificationChampionshipBeginBody";
 
         #endregion
     }
