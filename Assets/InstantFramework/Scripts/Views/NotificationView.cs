@@ -321,56 +321,56 @@ namespace TurboLabz.InstantGame
                 notifidationObj.gameObject.transform.localScale = Vector3.one;
             //}
 
-            #region Tournaments and Inbox Notifications
+            //#region Tournaments and Inbox Notifications
 
-            if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
-            {
-                var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
+            //if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
+            //{
+            //    var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
 
-                if (tournamentAssets != null)
-                {
-                    notification.avatarBg.sprite = tournamentAssets.tileSprite;
-                    notification.avatarIcon.sprite = tournamentAssets.stickerSprite;
-                    notification.leagueBorder.gameObject.SetActive(false);
-                    notification.fullButton.gameObject.SetActive(true);
-                    notification.fullButton.onClick.AddListener(LoadInbox);
-                }
-                else
-                {
-                    var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
-                    tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
+            //    if (tournamentAssets != null)
+            //    {
+            //        notification.avatarBg.sprite = tournamentAssets.tileSprite;
+            //        notification.avatarIcon.sprite = tournamentAssets.stickerSprite;
+            //        notification.leagueBorder.gameObject.SetActive(false);
+            //        notification.fullButton.gameObject.SetActive(true);
+            //        notification.fullButton.onClick.AddListener(LoadInbox);
+            //    }
+            //    else
+            //    {
+            //        var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
+            //        tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
 
-                    if (tournamentAssets != null)
-                    {
-                        notification.bgOverlay.gameObject.SetActive(false);
-                        notification.playerObj.SetActive(false);
-                        notification.background.sprite = tournamentAssets.notificationSprite;
-                        notification.icon.sprite = tournamentAssets.stickerSprite;
-                        notification.title.color = Colors.WHITE;
-                        notification.body.color = Colors.WHITE;
-                        notification.fullButton.gameObject.SetActive(true);
-                        notification.icon.gameObject.SetActive(true);
-                        notification.fullButton.onClick.AddListener(LoadArena);
-                    }
-                    else if(notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
-                    {
-                        if (notificationVO.senderPlayerId.Equals("league"))
-                        {
-                            notification.avatarIcon.sprite = notification.leagueAvatar;
-                        }
-                        else if (notificationVO.senderPlayerId.Equals("subscription"))
-                        {
-                            notification.avatarIcon.sprite = notification.subsriptionAvatar;
-                        }
+            //        if (tournamentAssets != null)
+            //        {
+            //            notification.bgOverlay.gameObject.SetActive(false);
+            //            notification.playerObj.SetActive(false);
+            //            notification.background.sprite = tournamentAssets.notificationSprite;
+            //            notification.icon.sprite = tournamentAssets.stickerSprite;
+            //            notification.title.color = Colors.WHITE;
+            //            notification.body.color = Colors.WHITE;
+            //            notification.fullButton.gameObject.SetActive(true);
+            //            notification.icon.gameObject.SetActive(true);
+            //            notification.fullButton.onClick.AddListener(LoadArena);
+            //        }
+            //        else if(notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
+            //        {
+            //            if (notificationVO.senderPlayerId.Equals("league"))
+            //            {
+            //                notification.avatarIcon.sprite = notification.leagueAvatar;
+            //            }
+            //            else if (notificationVO.senderPlayerId.Equals("subscription"))
+            //            {
+            //                notification.avatarIcon.sprite = notification.subsriptionAvatar;
+            //            }
 
-                        notification.leagueBorder.gameObject.SetActive(false);
-                        notification.fullButton.gameObject.SetActive(true);
-                        notification.fullButton.onClick.AddListener(LoadInbox);
-                    }
-                }
-            }
+            //            notification.leagueBorder.gameObject.SetActive(false);
+            //            notification.fullButton.gameObject.SetActive(true);
+            //            notification.fullButton.onClick.AddListener(LoadInbox);
+            //        }
+            //    }
+            //}
 
-            #endregion
+            //#endregion
 
             NotificationContainer notificationContainer = new NotificationContainer();
             notificationContainer.obj = notifidationObj;
@@ -428,36 +428,36 @@ namespace TurboLabz.InstantGame
                 FindMatchAction.Accept(findMatchSignal, notificationVO.senderPlayerId, notificationVO.matchGroup,
                                         notificationVO.avatarId, notificationVO.avaterBgColorId, notificationVO.actionCode, FindMatchAction.NotificationStatus.OutGame);
             }
-            else
-            {
-                #region Tournaments and Inbox Notifications
+            //else
+            //{
+            //    #region Tournaments and Inbox Notifications
 
-                if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
-                {
-                    var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
+            //    if (!string.IsNullOrEmpty(notificationVO.senderPlayerId) && !notificationVO.senderPlayerId.Equals("undefined"))
+            //    {
+            //        var tournamentAssets = tournamentsModel.GetAllSprites(notificationVO.senderPlayerId);
 
-                    if (tournamentAssets != null)
-                    {
-                       // loadRewardsSignal.Dispatch();
-                    }
-                    else
-                    {
-                        var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
-                        tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
+            //        if (tournamentAssets != null)
+            //        {
+            //           // loadRewardsSignal.Dispatch();
+            //        }
+            //        else
+            //        {
+            //            var tournamentType = notificationVO.senderPlayerId.Split('_')[0];
+            //            tournamentAssets = tournamentsModel.GetAllSprites(tournamentType);
 
-                        if (tournamentAssets != null)
-                        {
-                            loadArenaSignal.Dispatch();
-                        }
-                        else if (notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
-                        {
-                            //loadRewardsSignal.Dispatch();
-                        }
-                    }
-                }
+            //            if (tournamentAssets != null)
+            //            {
+            //                loadArenaSignal.Dispatch();
+            //            }
+            //            else if (notificationVO.senderPlayerId.Equals("league") || notificationVO.senderPlayerId.Equals("subscription"))
+            //            {
+            //                //loadRewardsSignal.Dispatch();
+            //            }
+            //        }
+            //    }
 
-                #endregion
-            }
+            //    #endregion
+            //}
         }
 
         private void OnCloseButtonClicked()

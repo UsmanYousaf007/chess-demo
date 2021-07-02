@@ -466,9 +466,43 @@ namespace TurboLabz.InstantFramework
                 //}
 
                 metaDataModel.ShowChampionshipNewRankDialog = false;
+                RegisterChampionshipNotifications(joinedTournament);
             }
 
             updateTournamentsViewSignal.Dispatch();
+        }
+
+        private void RegisterChampionshipNotifications(JoinedTournamentData joinedTournament)
+        {
+            if (notificationsModel.IsNotificationRegistered("championship"))
+            {
+                return;
+            }
+
+            var notification1 = new Notification();
+            notification1.title = joinedTournament.name;
+            notification1.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY);
+            notification1.timestamp = (joinedTournament.endTimeUTCSeconds - 3600) * 1000;
+            notification1.sender = "championship";
+            notification1.showInGame = false;
+
+            var notification2 = new Notification();
+            notification2.title = joinedTournament.name;
+            notification2.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_BODY);
+            notification2.timestamp = joinedTournament.endTimeUTCSeconds * 1000;
+            notification2.sender = "championship";
+            notification2.showInGame = false;
+
+            var notification3 = new Notification();
+            notification3.title = joinedTournament.name;
+            notification3.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY);
+            notification3.timestamp = (joinedTournament.endTimeUTCSeconds + 3600) * 1000;
+            notification3.sender = "championship";
+            notification3.showInGame = false;
+
+            notificationsModel.RegisterNotification(notification1);
+            notificationsModel.RegisterNotification(notification2);
+            notificationsModel.RegisterNotification(notification3);
         }
     }
 }
