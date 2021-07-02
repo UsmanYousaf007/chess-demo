@@ -125,48 +125,6 @@ namespace TurboLabz.InstantFramework
             {
                 routineRunner.StartCoroutine(WaitBeforeGameStart(challengeId));
             }
-
-            /*matchInfoModel.activeChallengeId = challengeId;
-
-            // Create and fill the opponent profile
-            ProfileVO pvo = GetOpponentProfile();
-
-            // Set the opponent info in the game view
-            updateOpponentProfileSignal.Dispatch(pvo);
-
-            // Set the finding match view to a found match state
-            matchFoundSignal.Dispatch(pvo);
-
-            // add friend
-            if (matchInfoModel.activeMatch.isBotMatch == false)
-            {
-                newFriendSignal.Dispatch(pvo.playerId, false);
-            }
-
-            // For quick match games, the flow continues from the get game start time signal
-            // where both clients start at a synch time stamp
-
-            getGameStartTimeSignal.Dispatch();
-
-            //Analytics
-            preferencesModel.gameStartCount++;
-            hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", matchInfoModel.activeMatch.isLongPlay ? "long_match" : "quick_match", challengeId);
-            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(matchInfoModel.activeMatch.isBotMatch ? AnalyticsContext.success_bot : AnalyticsContext.success));
-
-            // Grab the opponent profile pic if any
-            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
-            {
-                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-                if (opponentPublicProfile.facebookUserId != null)
-                {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
-                }
-            }
-            else
-            {
-                Release();
-            }*/
         }
 
         private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
@@ -260,7 +218,6 @@ namespace TurboLabz.InstantFramework
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
             pvo.playerName = publicProfile.name;
-            pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
             pvo.playerId = publicProfile.playerId;
             pvo.avatarColorId = publicProfile.avatarBgColorId;
@@ -270,6 +227,38 @@ namespace TurboLabz.InstantFramework
             pvo.isPremium = publicProfile.isSubscriber;
             pvo.leagueBorder = publicProfile.leagueBorder;
             pvo.trophies2 = publicProfile.trophies2;
+
+            if (playerModel.eloScore - publicProfile.eloScore < 0) // Opponent has a higher elo
+            {
+                if (publicProfile.eloScore - playerModel.eloScore > settingsModel.opponentHigherEloCap)
+                {
+                    if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
+                    {
+                        //playerModel.fakeEloScores.Remove(pvo.playerId);
+                        CollectionsUtil.fakeEloScores.Remove(publicProfile.playerId);
+                    }
+                    //playerModel.fakeEloScores.Add(pvo.playerId, playerModel.eloScore + 100);
+                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, playerModel.eloScore + settingsModel.opponentHigherEloCap);
+                    publicProfile.eloScore = playerModel.eloScore + settingsModel.opponentHigherEloCap;
+                }
+            }
+            else if (playerModel.eloScore - publicProfile.eloScore > 0) // Opponent has a lower elo
+            {
+                if (publicProfile.eloScore < (settingsModel.opponentLowerEloCapMin * playerModel.eloScore) / 100)
+                {
+                    int random = Random.Range(settingsModel.opponentLowerEloCapMin, settingsModel.opponentLowerEloCapMax);
+                    if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
+                    {
+                        //playerModel.fakeEloScores.Remove(pvo.playerId);
+                        CollectionsUtil.fakeEloScores.Remove(publicProfile.playerId);
+                    }
+                    //playerModel.fakeEloScores.Add(pvo.playerId, (playerModel.eloScore * random) / 100);
+                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, (playerModel.eloScore * random) / 100);
+                    publicProfile.eloScore = (playerModel.eloScore * random) / 100;
+                }
+            }
+
+            pvo.eloScore = publicProfile.eloScore;
 
             if (pvo.playerPic == null)
             {

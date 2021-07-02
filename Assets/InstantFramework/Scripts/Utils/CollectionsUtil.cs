@@ -24,6 +24,8 @@ namespace TurboLabz.TLUtils
         private static Dictionary<string, AdPlacements> stringToAdPlacementMap;
         private static Dictionary<AdPlacements, string> adPlacementToRewardTypeMap;
         private static Dictionary<AdPlacements, AnalyticsContext> adPlacementToAdContextMap;
+        public static Dictionary<string, int> fakeEloScores = new Dictionary<string, int>();
+
 
         public static void Shuffle<T>(T[] collection)
         {

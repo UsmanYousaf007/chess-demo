@@ -36,6 +36,10 @@ namespace TurboLabz.InstantFramework
         int matchmakingRandomRange { get; set; }
         long allStarLeaderboardLastFetchTime { get; set; }
 
+        int opponentHigherEloCap { get; set; }
+        int opponentLowerEloCapMin { get; set; }
+        int opponentLowerEloCapMax { get; set; }
+
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);
 

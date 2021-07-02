@@ -43,6 +43,10 @@ namespace TurboLabz.InstantFramework
 
         public int sessionDurationForGDPRinMinutes { get; set; }
 
+        public int opponentHigherEloCap { get; set; }
+        public int opponentLowerEloCapMin { get; set; }
+        public int opponentLowerEloCapMax { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -84,7 +88,11 @@ namespace TurboLabz.InstantFramework
             powerModeFreeHints = 0;
             maintenanceWarningTimeStamp = 0;
             sessionDurationForGDPRinMinutes = 0;
-        }
+
+            opponentHigherEloCap = 0;
+            opponentLowerEloCapMin = 0;
+            opponentLowerEloCapMax = 0;
+    }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)
         {

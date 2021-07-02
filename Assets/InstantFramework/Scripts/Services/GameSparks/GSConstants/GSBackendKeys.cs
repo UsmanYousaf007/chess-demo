@@ -62,6 +62,8 @@ namespace TurboLabz.InstantFramework
         public const string BET_INCREMENT_BY_GAMES_PLAYED = "defaultBetIncrementByGamesPlayed";
         public const string POWER_MODE_FREE_HINTS = "powerModeFreeHints";
         public const string MATCH_COINS_MULTIPLYER = "matchCoinsMultiplyer";
+        public const string OPPONENT_HIGHER_ELO_CAP = "opponentHigherEloCap";
+        public const string OPPONENT_LOWER_ELO_CAP = "opponentLowerEloCap";
 
         public const string HUUUGE_SERVER_VERIFICATION_ENABLED = "huuugeServerVerificationEnabled";
         //free hint Settings
@@ -103,6 +105,7 @@ namespace TurboLabz.InstantFramework
         public const string FRIEND = "friend";
         public const string OPPONENT_ID = "opponentId";
         public const string OPPONENT_ELO = "opponentElo";
+        public const string OPPONENT_ELO_CHANGE = "opponentEloChange";
         public const string CHAT = "chat";
         public const string DEFAULT_ITEMS_ADDED = "isDefaultItemsAdded";
         public const string REFUND_GEMS_ADDED = "refundGemsAdded";
