@@ -217,7 +217,7 @@ namespace TurboLabz.TLUtils
 
         public static int GetDaysDifference(DateTime current, DateTime source)
         {
-            int days = (source - current).Days;
+            int days = (current - source).Days;
             return days;
         }
 
