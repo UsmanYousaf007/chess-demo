@@ -122,5 +122,22 @@ namespace TurboLabz.InstantFramework
             actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
+
+        static public bool IsRandomMatch()
+        {
+            if (actionData.action == ActionCode.Random1.ToString() ||
+                actionData.action == ActionCode.Random3.ToString() ||
+                actionData.action == ActionCode.Random.ToString() ||
+                actionData.action == ActionCode.Random10.ToString() ||
+                actionData.action == ActionCode.Random30.ToString() ||
+                actionData.action == ActionCode.RandomLong.ToString())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+         }
     }
 }

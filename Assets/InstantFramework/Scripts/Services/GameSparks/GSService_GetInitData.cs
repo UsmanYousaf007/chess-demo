@@ -388,8 +388,12 @@ namespace TurboLabz.InstantFramework
             settingsModel.opponentHigherEloCap = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.OPPONENT_HIGHER_ELO_CAP);
 
             GSData opponentLowerEloCapData = gsSettingsData.GetGSData(GSBackendKeys.OPPONENT_LOWER_ELO_CAP);
-            settingsModel.opponentLowerEloCapMin = GSParser.GetSafeInt(opponentLowerEloCapData, "min");
-            settingsModel.opponentLowerEloCapMax = GSParser.GetSafeInt(opponentLowerEloCapData, "max");
+
+            if (opponentLowerEloCapData != null)
+            {
+                settingsModel.opponentLowerEloCapMin = GSParser.GetSafeInt(opponentLowerEloCapData, "min");
+                settingsModel.opponentLowerEloCapMax = GSParser.GetSafeInt(opponentLowerEloCapData, "max");
+            }
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {
