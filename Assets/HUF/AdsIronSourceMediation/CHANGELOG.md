@@ -2,121 +2,93 @@
 
 ## Internal SDK
 
-- IronSource Unity Mediation v7.1.6.1
-- IronSource SDK (Android) v7.1.6
-- IronSource SDK (iOS) v7.1.6.1
+- IronSource Unity Mediation v7.1.5.1
+- IronSource SDK (Android) v7.1.5.1
+- IronSource SDK (iOS) v7.1.5
 
 
-- AdColony Unity Adapter v4.3.13
+- AdColony Unity Adapter v4.3.12
 - AdColony Native Adapter (Android) v4.3.8
 - AdColony SDK (Android) v4.5.0
-- AdColony Native Adapter (iOS) v4.3.10
-- AdColony SDK (iOS) v4.6.1
+- AdColony Native Adapter (iOS) v4.3.9
+- AdColony SDK (iOS) v4.6.0
 
 
-- AdMob Unity Adapter v4.3.28
-- AdMob Native Adapter (Android) v4.3.20
+- AdMob Unity Adapter v4.3.27
+- AdMob Native Adapter (Android) v4.3.19
 - AdMob SDK (Android) v20.0.0
-- AdMob Native Adapter (iOS) v4.3.23
+- AdMob Native Adapter (iOS) v4.3.22
 - AdMob SDK (iOS) v8.3.0
 
 
-- Amazon Unity Adapter v4.3.6.9
+- Amazon Unity Adapter v4.3.6.6
 - Amazon Native Adapter (Android) v4.3.3
 - Amazon SDK (Android) v6.0.0
 - Amazon Native Adapter (iOS) v4.3.5.4
 - Amazon SDK (iOS) v3.1.0
 
 
-- AppLovin Unity Adapter v4.3.29
-- AppLovin Native Adapter (Android) v 4.3.25
-- AppLovin SDK (Android) v10.3.0
-- AppLovin Native Adapter (iOS) v4.3.25
-- AppLovin SDK (iOS) v10.3.0
+- AppLovin Unity Adapter v4.3.27
+- AppLovin Native Adapter (Android) v 4.3.24
+- AppLovin SDK (Android) v10.1.2
+- AppLovin Native Adapter (iOS) v4.3.24
+- AppLovin SDK (iOS) v10.1.1
 
 
-- Chartboost Unity Adapter v4.3.10
-- Chartboost Native Adapter (Android) v4.3.6
-- Chartboost SDK (Android) v8.2.1
-- Chartboost Native Adapter (iOS) v4.3.7
-- Chartboost SDK (iOS) v8.4.2
+- Chartboost Unity Adapter v4.3.9.4
+- Chartboost Native Adapter (Android) v4.3.5
+- Chartboost SDK (Android) v8.2.0
+- Chartboost Native Adapter (iOS) v4.3.6.2
+- Chartboost SDK (iOS) v8.4.1
 
 
-- Facebook Unity Adapter v4.3.37.2
-- Facebook Native Adapter (Android) v4.3.27
-- Facebook SDK (Android) v6.5.0
-- Facebook Native Adapter (iOS) v4.3.26
-- Facebook SDK (iOS) v6.5.0
+- Facebook Unity Adapter v4.3.35.1
+- Facebook Native Adapter (Android) v4.3.25
+- Facebook SDK (Android) v6.3.0
+- Facebook Native Adapter (iOS) v4.3.24
+- Facebook SDK (iOS) v6.3.1
 
 
-- Fyber Unity Adapter v4.3.19.3
+- Fyber Unity Adapter v4.3.18.1
 - Fyber Native Adapter (Android) v4.3.13
 - Fyber SDK (Android) v7.8.2
-- Fyber Native Adapter (iOS) v4.3.16
-- Fyber SDK (iOS) v7.8.5
+- Fyber Native Adapter (iOS) v4.3.15
+- Fyber SDK (iOS) v7.8.1
 
 
-- HyperMX Ads Unity Adapter v4.1.15.7
+- HyperMX Ads Unity Adapter v4.1.15.4
 - HyperMX Ads Native Adapter (Android) v4.1.8
 - HyperMX Ads SDK (Android) v5.1.2
 - HyperMX Ads Native Adapter (iOS) v4.1.9.2
 - HyperMX Ads SDK (iOS) v5.4.5
 
 
-- InMobi Ads Unity Adapter v4.3.1
-- InMobi Ads Native Adapter (Android) v4.3.10
-- InMobi Ads SDK (Android) v9.1.9
-- InMobi Ads Native Adapter (iOS) v4.3.10
-- InMobi Ads SDK (iOS) v9.1.7
+- InMobi Ads Unity Adapter v4.3.12.5
+- InMobi Ads Native Adapter (Android) v4.3.9
+- InMobi Ads SDK (Android) v9.1.6
+- InMobi Ads Native Adapter (iOS) v4.3.9.3
+- InMobi Ads SDK (iOS) v9.1.5
 
 
-- Tapjoy Ads Unity Adapter v4.1.20.4
+- Tapjoy Ads Unity Adapter v4.1.20.1
 - Tapjoy Ads Native Adapter (Android) v4.1.16
 - Tapjoy Ads SDK (Android) v12.8.0
 - Tapjoy Ads Native Adapter (iOS) v4.1.16
 - Tapjoy Ads SDK (iOS) v12.8.0
 
 
-- Unity Ads Unity Adapter v4.3.13.1
+- Unity Ads Unity Adapter v4.3.12
 - Unity Ads Native Adapter (Android) v4.3.10
-- Unity Ads SDK (Android) v3.7.2
-- Unity Ads Native Adapter (iOS) v4.3.11
-- Unity Ads SDK (iOS) v3.7.2
+- Unity Ads SDK (Android) v3.6.0
+- Unity Ads Native Adapter (iOS) v4.3.9
+- Unity Ads SDK (iOS) v3.7.1
 
 
-- Vungle Ads Unity Adapter v4.3.13.2
+- Vungle Ads Unity Adapter v4.3.12
 - Vungle Ads Native Adapter (Android) v4.3.8
-- Vungle Ads SDK (Android) v6.9.1
-- Vungle Ads Native Adapter (iOS) v4.3.11
-- Vungle Ads SDK (iOS) v6.9.2
-
-
-## [2.9.1] - 2021-06-24
-### Added
-- Minimum Xcode version requirement
-
-
-## [2.9.0] - 2021-06-21
-### Updated
-- IronSource v7.1.6.1
-- AdColony v4.3.13.3
-- AdMob v4.3.28.2
-- Amazon v4.3.6.9
-- AppLovin v4.3.29
-- Chartboost v4.3.10
-- Facebook v4.3.37.2
-- Fyber v4.3.19.3
-- HyperMX v4.1.15.7
-- InMobi v4.3.13
-- Tapjoy v4.1.20.4
-- Unity Ads v4.3.13.1
-- Vungle v4.3.13.2
-
-
-## [2.8.4] - 2021-06-14
-### Fixed
-- Not checking if the used placement is capped
-
+- Vungle Ads SDK (Android) v6.9.2
+- Vungle Ads Native Adapter (iOS) v4.3.10
+- Vungle Ads SDK (iOS) v6.9.1
 
 ## [2.8.3] - 2020-05-11
 ### Removed

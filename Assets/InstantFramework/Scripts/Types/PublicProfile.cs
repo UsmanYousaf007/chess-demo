@@ -66,15 +66,6 @@ namespace TurboLabz.InstantFramework
             }
             set
             {
-                /*if (CollectionsUtil.fakeEloScores.ContainsKey(playerId))
-                {
-                    CollectionsUtil.fakeEloScores.TryGetValue(playerId, out int fakeElo);
-                    _eloScore = fakeElo;
-                }
-                else {
-                    _eloScore = value;
-                }*/
-
                 _eloScore = value;
             }
         }

@@ -228,34 +228,21 @@ namespace TurboLabz.InstantFramework
             pvo.leagueBorder = publicProfile.leagueBorder;
             pvo.trophies2 = publicProfile.trophies2;
 
-            if (playerModel.eloScore - publicProfile.eloScore < 0) // Opponent has a higher elo
+            if (FindMatchAction.IsRandomMatch())
             {
-                if (publicProfile.eloScore - playerModel.eloScore > settingsModel.opponentHigherEloCap)
+                int random = Random.Range(settingsModel.opponentLowerEloCapMin, settingsModel.opponentLowerEloCapMax);
+                int minVal = (playerModel.eloScore * random) / 100;
+                int maxVal = playerModel.eloScore + settingsModel.opponentHigherEloCap;
+                int clampedVal = Mathf.Clamp(publicProfile.eloScore, minVal, maxVal);
+                if (clampedVal != publicProfile.eloScore)
                 {
                     if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
                     {
-                        //playerModel.fakeEloScores.Remove(pvo.playerId);
                         CollectionsUtil.fakeEloScores.Remove(publicProfile.playerId);
                     }
-                    //playerModel.fakeEloScores.Add(pvo.playerId, playerModel.eloScore + 100);
-                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, playerModel.eloScore + settingsModel.opponentHigherEloCap);
-                    publicProfile.eloScore = playerModel.eloScore + settingsModel.opponentHigherEloCap;
+                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, clampedVal);
                 }
-            }
-            else if (playerModel.eloScore - publicProfile.eloScore > 0) // Opponent has a lower elo
-            {
-                if (publicProfile.eloScore < (settingsModel.opponentLowerEloCapMin * playerModel.eloScore) / 100)
-                {
-                    int random = Random.Range(settingsModel.opponentLowerEloCapMin, settingsModel.opponentLowerEloCapMax);
-                    if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
-                    {
-                        //playerModel.fakeEloScores.Remove(pvo.playerId);
-                        CollectionsUtil.fakeEloScores.Remove(publicProfile.playerId);
-                    }
-                    //playerModel.fakeEloScores.Add(pvo.playerId, (playerModel.eloScore * random) / 100);
-                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, (playerModel.eloScore * random) / 100);
-                    publicProfile.eloScore = (playerModel.eloScore * random) / 100;
-                }
+                publicProfile.eloScore = clampedVal;
             }
 
             pvo.eloScore = publicProfile.eloScore;
@@ -333,12 +320,7 @@ namespace TurboLabz.InstantFramework
             }
 
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString()  ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString()  ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()   ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            if (FindMatchAction.IsRandomMatch())
             {
                 matchAnalyticsVO.friendType = "random";
             }

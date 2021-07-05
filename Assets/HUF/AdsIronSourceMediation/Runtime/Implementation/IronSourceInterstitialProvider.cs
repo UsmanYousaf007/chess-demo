@@ -64,9 +64,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         public bool IsReady( string placementId )
         {
             var data = config.GetPlacementData( placementId );
-
-            return data != null && IsCorrectPlacementType( data.PlacementType ) && IsInterstitialReady() &&
-                   !IronSource.Agent.isInterstitialPlacementCapped( placementId );
+            return data != null && IsCorrectPlacementType( data.PlacementType ) && IsInterstitialReady();
         }
 
         bool IsInterstitialReady()

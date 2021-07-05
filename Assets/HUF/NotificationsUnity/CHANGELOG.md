@@ -1,8 +1,3 @@
-## [2.3.2] - 2021-03-11
-### Added
-- Additional information about Mobile Notifications settings
-
-
 ## [2.3.1] - 2021-03-11
 ### Added
 - Editor notification helper window

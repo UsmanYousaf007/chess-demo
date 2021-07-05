@@ -396,17 +396,12 @@ namespace TurboLabz.InstantFramework
                         savedFriend.gamesDrawn = updatedFriend.gamesDrawn;
                         savedFriend.lastMatchTimestamp = updatedFriend.lastMatchTimestamp;
                         savedFriend.flagMask = updatedFriend.flagMask;
+                        savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
 
                         if (CollectionsUtil.fakeEloScores.ContainsKey(friendId))
                         {
                             int eloChange = updatedStatsData.GetInt("friendEloChange").Value;
-                            CollectionsUtil.fakeEloScores.TryGetValue(friendId, out int fakeElo);
-                            CollectionsUtil.fakeEloScores[friendId] = fakeElo + eloChange;
-                            //savedFriend.publicProfile.eloScore = fakeElo + eloChange;
-                        }
-                        else
-                        {
-                            savedFriend.publicProfile.eloScore = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO).Value;
+                            CollectionsUtil.fakeEloScores[friendId] += eloChange;
                         }
 
                         EloVO vo;
@@ -418,21 +413,17 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
-                    EloVO vo;
-                    vo.opponentId = updatedStatsData.GetString(GSBackendKeys.OPPONENT_ID);
+                    string opponentId = updatedStatsData.GetString(GSBackendKeys.OPPONENT_ID);
 
-                    if (CollectionsUtil.fakeEloScores.ContainsKey(vo.opponentId))
+                    if (CollectionsUtil.fakeEloScores.ContainsKey(opponentId))
                     {
                         int eloChange = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO_CHANGE).Value;
-                        CollectionsUtil.fakeEloScores.TryGetValue(vo.opponentId, out int fakeElo);
-                        vo.opponentEloScore = fakeElo + eloChange;
-                        CollectionsUtil.fakeEloScores[vo.opponentId] = vo.opponentEloScore;
-                    }
-                    else
-                    {
-                        vo.opponentEloScore = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO).Value;
+                        CollectionsUtil.fakeEloScores[opponentId] = CollectionsUtil.fakeEloScores[opponentId] + eloChange;
                     }
 
+                    EloVO vo;
+                    vo.opponentId = opponentId;
+                    vo.opponentEloScore = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO).Value;
                     vo.playerEloScore = playerModel.eloScore;
                     updateEloScoresSignal.Dispatch(vo);
                 }
