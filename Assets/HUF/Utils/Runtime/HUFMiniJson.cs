@@ -5,12 +5,15 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
 using UnityEngine;
 
 namespace HUF.Utils.Runtime
 {
-    public static class HUFJson
+    public static partial class HUFJson
     {
+        static HLogPrefix logPrefix = new HLogPrefix( nameof(HUFJson) );
+
         public static string SerializeStringDictionary( Dictionary<string, string> dictionary )
         {
             var toJson = new DictArrayHelper( dictionary.Count );
@@ -18,21 +21,22 @@ namespace HUF.Utils.Runtime
 
             foreach ( var item in dictionary )
             {
-                toJson.items[index] = new DictHelper {key = item.Key, value = item.Value};
+                toJson.items[index] = new DictHelper { key = item.Key, value = item.Value };
                 index++;
             }
 
             return JsonUtility.ToJson( toJson );
         }
 
-        public static string SerializeStringDictionary<T>( Dictionary<string, T> dictionary, Func<T, string> serializer )
+        public static string SerializeStringDictionary<T>( Dictionary<string, T> dictionary,
+            Func<T, string> serializer )
         {
             var toJson = new DictArrayHelper( dictionary.Count );
             var index = 0;
 
             foreach ( var item in dictionary )
             {
-                toJson.items[index] = new DictHelper {key = item.Key, value = serializer( item.Value )};
+                toJson.items[index] = new DictHelper { key = item.Key, value = serializer( item.Value ) };
                 index++;
             }
 
@@ -53,7 +57,7 @@ namespace HUF.Utils.Runtime
             return dictionary;
         }
 
-        public static Dictionary<string, T> DeserializeStringDictionary<T>( string json, Func<string,T> parser )
+        public static Dictionary<string, T> DeserializeStringDictionary<T>( string json, Func<string, T> parser )
         {
             DictArrayHelper fromJson = JsonUtility.FromJson<DictArrayHelper>( json );
             int length = fromJson.items.Length;
@@ -84,7 +88,6 @@ namespace HUF.Utils.Runtime
 
             if ( outcome is ISerializationCallbackReceiver receiver )
                 receiver.OnAfterDeserialize();
-
             return outcome;
         }
 
@@ -92,7 +95,6 @@ namespace HUF.Utils.Runtime
         {
             if ( obj is ISerializationCallbackReceiver receiver )
                 receiver.OnBeforeSerialize();
-
             return HUFJson.Serializer.Serialize( obj );
         }
 
@@ -132,13 +134,15 @@ namespace HUF.Utils.Runtime
             }
         }
 
-        private sealed class Parser : IDisposable
+        private partial class Parser : IDisposable
         {
             private const string WORD_BREAK = "{}[],:\"";
             private StringReader json;
+            string jsonString;
 
             private Parser( string jsonString )
             {
+                this.jsonString = jsonString;
                 this.json = new StringReader( jsonString );
             }
 

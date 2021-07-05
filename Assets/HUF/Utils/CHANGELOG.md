@@ -1,9 +1,3 @@
-## [3.14.0] - 2021-06-11
-### Added
-- Applying selected JSON array element to a config
-- Breaking up JSON array to parts in HUFMiniJson
-
-
 ## [3.13.3] - 2021-06-08
 ### Fixed
 - iOS Debug flag adding on Unity 2019+

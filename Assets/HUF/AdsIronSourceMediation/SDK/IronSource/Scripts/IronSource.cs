@@ -7,14 +7,14 @@ public class IronSource : IronSourceIAgent
 {
 	private IronSourceIAgent _platformAgent ;
 	private static IronSource _instance;
-	private const string UNITY_PLUGIN_VERSION = "7.1.5.1-r";
+	private const string UNITY_PLUGIN_VERSION = "7.1.6.1-r";
 	private static bool isUnsupportedPlatform;
 
 	private IronSource ()
 	{
 		if (!isUnsupportedPlatform)
 		{
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE
 			_platformAgent = new UnsupportedPlatformAgent();
 #elif (UNITY_IPHONE || UNITY_IOS)
 			_platformAgent = new iOSAgent();
