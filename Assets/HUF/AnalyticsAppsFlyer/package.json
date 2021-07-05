@@ -1,12 +1,12 @@
 {
   "name": "com.huuuge.huf.analytics.appsflyer",
   "displayName": "Analytics AppsFlyer",
-  "version": "2.7.3",
+  "version": "2.7.0",
   "unity": "2018.4",
   "description": "Analytics AppsFlyer module is used to send analytics events to AppsFlyer service. In current module there are included below features from AppsFlyer plugin:\n\n- Tracking Rich Events\n- Tracking Revenue\n- Getting Conversion Data\n\nAll basic rules are already set in Android and iOS builds. However there might be needed more rules, e.g. for Tracking Depp Linking. For more info please read AppsFlyer plugin documentation and integration AppsFlyer with Unity guide.\nMonetization event is already formatted to special AppsFlyer format, value of purchase is send as value in dollars.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils@^3.14.1",
+      "com.huuuge.huf.utils@^3.8.0",
       "com.huuuge.huf.analytics@^2.1.0",
       "com.huuuge.plugins.externaldependencymanager@^1.2.165",
       "com.huuuge.hufext.packagemanager@^1.5.4"
@@ -15,13 +15,13 @@
       "com.huuuge.huf.analytics.hbi@^2.2.5",
       "com.huuuge.huf.policyguard@^1.4.0"
     ],
-    "date": "30.06.2021 16:12",
-    "commit": "bf9a615",
-    "build": "73",
+    "date": "01.06.2021 11:10",
+    "commit": "eb3c1e5",
+    "build": "67",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/AnalyticsAppsFlyer",
-    "rollout": "41"
+    "rollout": "39"
   },
   "doc_section": "Analytics"
 }

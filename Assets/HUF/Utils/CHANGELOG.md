@@ -1,8 +1,3 @@
-## [3.14.1] - 2021-06-24
-### Added
-- New string extensions
-
-
 ## [3.14.0] - 2021-06-11
 ### Added
 - Applying selected JSON array element to a config

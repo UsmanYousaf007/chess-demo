@@ -1,8 +1,3 @@
-## [1.7.1] - 2021-06-14
-### Fixed
-- Not checking in optional dependencies if other packages need to be updated
-
-
 ## [1.7.0] - 2021-05-06
 ### Added
 - Button to remove GPR Scoped dependencies
