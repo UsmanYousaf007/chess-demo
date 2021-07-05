@@ -4,21 +4,6 @@
   - Android AppsFlyer SDK v6.3.0
   - iOS AppsFlyer SDK v6.3.0
 
-## [2.7.3] - 2021-06-30
-### Fixed
-- Reporting prices with correct formatting in all cases
-
-
-## [2.7.2] - 2021-06-24
-### Added
-- Automated fixing of AppsFlyerAppController.mm for IDFA
-
-
-## [2.7.1] - 2021-06-18
-### Fixed
-- Missing IDFA in installs on iOS 14.0 - 14.4
-
-
 ## [2.7.0] - 2021-05-31
 ### Updated
 - AppsFlyer Unity Plugin - 6.3.0

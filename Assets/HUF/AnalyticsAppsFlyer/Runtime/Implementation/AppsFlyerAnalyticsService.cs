@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using AppsFlyerSDK;
 using HUF.Analytics.Runtime.API;
@@ -21,10 +20,6 @@ using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.PlayerPrefs;
 using UnityEngine;
-#if UNITY_IOS
-using UnityEngine.iOS;
-
-#endif
 
 namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
 {
@@ -32,7 +27,6 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
     {
         const string AF_CURRENCY_VALUE = "USD";
         const float DELAY_BETWEEN_SENDING_EVENTS = 0.3f; //prevents crashes when multiple events are sent
-        const int MINIMUM_DISTINCT_CHARACTERS_FOR_A_VALID_IDFA = 4;
 
         static readonly HLogPrefix logPrefix =
             new HLogPrefix( HAnalyticsAppsFlyer.logPrefix, nameof(AppsFlyerAnalyticsService) );
@@ -97,10 +91,7 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
             if ( !didSetCustomerUserID && !SystemInfo.deviceUniqueIdentifier.IsNullOrEmpty() )
                 AppsFlyer.setCustomerUserId( SystemInfo.deviceUniqueIdentifier );
 #if UNITY_IOS && !UNITY_EDITOR
-            //IDFA can look like this in some cases: 00000000-0000-0000-0000-000000000000, so we added the second condition
-            if ( Device.advertisingIdentifier.IsNullOrEmpty() || Device.advertisingIdentifier.Distinct().Count() <
-                MINIMUM_DISTINCT_CHARACTERS_FOR_A_VALID_IDFA )
-                AppsFlyeriOS.waitForATTUserAuthorizationWithTimeoutInterval( 120 );
+            AppsFlyeriOS.waitForATTUserAuthorizationWithTimeoutInterval(120);
 #endif
             AppsFlyer.setIsDebug( Debug.isDebugBuild );
             var callbacksClassName = AppsFlyerTrackerCallbacks.Instance.GetType().Name;
@@ -141,7 +132,7 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
         static void Initialize( AppsFlyerAnalyticsConfig config, MonoBehaviour callbacks )
         {
 #if UNITY_IOS
-            AppsFlyer.initSDK( config.DevKey, config.ITunesAppId, callbacks );
+            AppsFlyer.initSDK( config.DevKey, config.ITunesAppId, callbacks);
 #elif UNITY_ANDROID
             AppsFlyer.initSDK( config.DevKey, null, callbacks );
 #else
@@ -157,9 +148,7 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
         static Dictionary<string, string> GetMonetizationParameters( AnalyticsEvent analyticsEvent, int cents )
         {
             var parameters = GetParameters( analyticsEvent );
-
-            parameters[AFInAppEvents.REVENUE] =
-                GetDollarsValue( cents ).ToString( "0.00", CultureInfo.InvariantCulture );
+            parameters[AFInAppEvents.REVENUE] = GetDollarsValue( cents ).ToString( "0.00" );
             parameters[AFInAppEvents.CURRENCY] = AF_CURRENCY_VALUE;
             return parameters;
         }

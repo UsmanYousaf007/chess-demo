@@ -49,7 +49,8 @@
 
 - (void)didFinishLaunching:(NSNotification*)notification {
     if (@available(iOS 14, *)) {
-          [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status){ }];
+          [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status){
+          }];
     }
 
     NSLog(@"got didFinishLaunching = %@",notification.userInfo);
