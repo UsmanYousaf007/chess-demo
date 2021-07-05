@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Attributes;
 using HUF.Utils.Runtime.Extensions;
@@ -8,6 +9,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor.Build;
 using HUF.Utils.Runtime.Configs.Implementation;
+
 #endif
 
 namespace HUF.Utils.Runtime.Configs.API
@@ -33,7 +35,7 @@ namespace HUF.Utils.Runtime.Configs.API
             }
         }
 
-        public void ApplyJson( string json )
+        public void ApplyJson( string json, int elementIndexInJsonArray = 0 )
         {
             if ( string.IsNullOrEmpty( json ) )
             {
@@ -42,6 +44,21 @@ namespace HUF.Utils.Runtime.Configs.API
 
             try
             {
+                char c = json[0];
+                int id = 0;
+                while ( char.IsWhiteSpace( c ) && id < json.Length - 1) 
+                {
+                    id++;
+                    c = json[id];
+                }
+                if ( c == '[')
+                {
+                    var arrayParts = HUFJson.BreakUpJsonArrayToParts( json );
+
+                    if ( elementIndexInJsonArray < arrayParts.Count )
+                        json = arrayParts[elementIndexInJsonArray];
+                }
+
                 JsonUtility.FromJsonOverwrite( RemoveObjectReferences( json ), this );
                 HLog.Log( logPrefix, $"Json applied to config: {configId}." );
                 ValidateConfig();
