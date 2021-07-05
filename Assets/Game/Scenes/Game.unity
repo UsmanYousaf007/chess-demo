@@ -964,7 +964,7 @@ MonoBehaviour:
   - {fileID: 1944805387}
   - {fileID: 1944805386}
   analyzingDlg: {fileID: 302536080}
-  analyzingDlgCanvasGroup: {fileID: 302536081}
+  analyzingDlgCanvasGroup: {fileID: 0}
   analyzingProgress: {fileID: 1944805389}
   declinedDialog: {fileID: 795188927}
   declinedHeading: {fileID: 618441803}
@@ -15490,12 +15490,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1944805384}
   m_PrefabAsset: {fileID: 0}
---- !u!225 &302536081 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 1031287160888930255, guid: 69e67cb3f34e04c709f934a6b98e7995,
-    type: 3}
-  m_PrefabInstance: {fileID: 1944805384}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &307835361
 GameObject:
   m_ObjectHideFlags: 0
@@ -25655,12 +25649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!225 &454425729 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 1357268459878013699, guid: 91a22b3c6348040ba9fe46b345aca015,
-    type: 3}
-  m_PrefabInstance: {fileID: 454425674}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &457782168
 GameObject:
   m_ObjectHideFlags: 0
@@ -43268,6 +43256,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4595836667921356955, guid: 9ff30a64e721c44729a52730a82fe262,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ff30a64e721c44729a52730a82fe262, type: 3}
 --- !u!224 &786886230 stripped
@@ -48956,7 +48949,7 @@ MonoBehaviour:
   promoBlackKnightButton: {fileID: 1490284476}
   playbackOverlay: {fileID: 1655328009}
   resultsDialog: {fileID: 454425693}
-  resultsDialogCanvasGroup: {fileID: 454425729}
+  resultsDialogCanvasGroup: {fileID: 0}
   resultsGameImage: {fileID: 454425709}
   winSprite: {fileID: 21300000, guid: 31e8aa41dbe5f48ee9bdeb76adea8cc6, type: 3}
   defeatSprite: {fileID: 21300000, guid: a7802788117ed417d8e1ad2964446ffd, type: 3}
@@ -54254,6 +54247,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1542369593}
     m_Modifications:
+    - target: {fileID: 2760451827230617415, guid: b9d4393480583472ab9a573c1d598e84,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     - target: {fileID: 4067395797804303428, guid: b9d4393480583472ab9a573c1d598e84,
         type: 3}
       propertyPath: m_Name
@@ -74317,6 +74315,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PromotionBundleDlg Ruby
       objectReference: {fileID: 0}
+    - target: {fileID: 2199985772014102956, guid: 0893f4ff4eb594b96b749672776191e7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0893f4ff4eb594b96b749672776191e7, type: 3}
 --- !u!224 &1329020803 stripped
@@ -92744,6 +92747,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1542369593}
     m_Modifications:
+    - target: {fileID: 2760451827230617415, guid: 66cc67a505d02409ca1deada7dfd307f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     - target: {fileID: 4067395797804303428, guid: 66cc67a505d02409ca1deada7dfd307f,
         type: 3}
       propertyPath: m_Name
@@ -96009,6 +96017,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1542369593}
     m_Modifications:
+    - target: {fileID: 2760451827230617415, guid: 3e33d5d94e6aa479f9df354b29c84ba8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     - target: {fileID: 4067395797804303428, guid: 3e33d5d94e6aa479f9df354b29c84ba8,
         type: 3}
       propertyPath: m_Name
@@ -118784,6 +118797,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1542369593}
     m_Modifications:
+    - target: {fileID: 866956340898314830, guid: ec7c022d526a54c99bfca2d53974575b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -98.00012
+      objectReference: {fileID: 0}
     - target: {fileID: 1312058843104432461, guid: ec7c022d526a54c99bfca2d53974575b,
         type: 3}
       propertyPath: m_Name
@@ -125492,7 +125510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!225 &1024005139909254273 stripped
 CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 1357268459878013699, guid: 91a22b3c6348040ba9fe46b345aca015,
+  m_CorrespondingSourceObject: {fileID: 6370521630442055901, guid: 91a22b3c6348040ba9fe46b345aca015,
     type: 3}
   m_PrefabInstance: {fileID: 1024005139909254269}
   m_PrefabAsset: {fileID: 0}

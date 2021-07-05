@@ -34,7 +34,10 @@ namespace TurboLabz.InstantFramework
 
             Image uiDlgContainerImage = uiDlgContainer.GetComponent<Image>();
             UIBlurBackground.Setup(uiDlgContainerImage);
-            dlg.AddComponent<CanvasGroup>();
+            if (dlg.GetComponent<CanvasGroup>() == null)
+            {
+                dlg.AddComponent<CanvasGroup>();
+            }
             dlg.transform.SetParent(uiDlgContainer.transform);
         }
 
