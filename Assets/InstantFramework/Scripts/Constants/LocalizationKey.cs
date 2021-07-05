@@ -532,7 +532,7 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT = "tournamentChestContentDialogueOkayButtonText";
 
         public const string TOURNAMENT_REWARD_DLG_TROPHIES_ADDED = "tournamentRewardDlgTrophiesAdded";
-
+        public const string TOURNAMANT_FINAL_STANDINGS = "tournamentFinalStandings";
         #endregion
 
         #region TournamentItem

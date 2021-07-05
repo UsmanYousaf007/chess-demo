@@ -140,7 +140,7 @@ public class PromotionRemoveAdsDlgView : View
 
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 }
 

@@ -88,7 +88,7 @@ public class PromotionChessCourseBundleDlgView : View
 
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 
     public void SetupPurchaseButton(bool isAvailable)

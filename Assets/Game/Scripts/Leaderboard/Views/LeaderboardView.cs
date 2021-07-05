@@ -113,7 +113,7 @@ namespace TurboLabz.InstantFramework
         public void Show(JoinedTournamentData joinedTournament)
         {
             _joinedTournament = joinedTournament;
-            championshipTypeText.text = _joinedTournament.type.ToUpper();
+            championshipTypeText.text = _joinedTournament.DisplayName.ToUpper();
             ClearBars(allStarPlayerBars, allStarBarsPool);
 
             if (_joinedTournament != null)

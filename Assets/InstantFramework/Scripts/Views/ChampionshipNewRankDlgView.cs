@@ -104,7 +104,7 @@ namespace TurboLabz.InstantFramework
         public override void UpdateView(string playerId, JoinedTournamentData joinedTournament)
         {
             _joinedTournament = joinedTournament;
-            championshipTypeText.text = _joinedTournament.type.ToUpper();
+            championshipTypeText.text = _joinedTournament.DisplayName.ToUpper();
             base.UpdateView(playerId, joinedTournament);
             dataPopulated = true;
         }

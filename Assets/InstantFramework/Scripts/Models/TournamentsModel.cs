@@ -537,6 +537,8 @@ namespace TurboLabz.InstantFramework
         public long endTimeUTCSeconds;
         public bool locked = false;
         public bool ended = false;
+
+        public string DisplayName => name.Remove(name.ToLower().IndexOf("championship"));
     }
 
     [Serializable]

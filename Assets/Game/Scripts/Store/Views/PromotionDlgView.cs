@@ -93,7 +93,7 @@ public class PromotionDlgView : View
 
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 
     private void OnRestorePurchaseClicked()
