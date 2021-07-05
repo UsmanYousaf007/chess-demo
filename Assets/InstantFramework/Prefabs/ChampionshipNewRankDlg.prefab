@@ -1286,7 +1286,6 @@ GameObject:
   - component: {fileID: 7424157872803466213}
   - component: {fileID: 7424157872803466212}
   - component: {fileID: 8393420207190421725}
-  - component: {fileID: 7085119400922742586}
   m_Layer: 5
   m_Name: ChampionshipNewRankDlg
   m_TagString: Untagged
@@ -1391,18 +1390,6 @@ MonoBehaviour:
   yourRankTxtGraphic: {fileID: 4969488221341646932}
   timerText: {fileID: 2098991813059440778}
   championshipTypeText: {fileID: 6992247859506590866}
---- !u!225 &7085119400922742586
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7424157872803466219}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &7424157872938945414
 GameObject:
   m_ObjectHideFlags: 0
