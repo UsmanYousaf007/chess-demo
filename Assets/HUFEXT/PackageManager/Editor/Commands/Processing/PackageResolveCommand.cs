@@ -54,7 +54,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                 {
                     foreach ( var excludedPackage in package.huf.exclude )
                     {
-                        if ( excludedPackage != packageToInstall.name || packageToInstall.name == COM_HUUUGE_PLUGINS_EXTERNAL_DEPENDENCY_MANAGER )
+                        if ( excludedPackage != packageToInstall.name ||
+                             packageToInstall.name == COM_HUUUGE_PLUGINS_EXTERNAL_DEPENDENCY_MANAGER )
                         {
                             continue;
                         }
@@ -154,15 +155,27 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
 
         void ResolveDependencies( Models.PackageManifest owner, Action<bool> didResolveSucceededCallback )
         {
-            int dependenciesLeftCount = owner.huf.dependencies.Count;
+            var currentDependencies = owner.huf.dependencies.Select( dependency => new Models.Dependency( dependency ) )
+                .ToList();
+            var localPackages = Core.Packages.Local;
+
+            foreach ( var entry in owner.huf.optionalDependencies )
+            {
+                var dependency = new Models.Dependency( entry );
+                var localPackage = localPackages.FirstOrDefault( ( p ) => p.name == dependency.name );
+                if ( localPackage != null && dependency.IsVersionHigherTo( localPackage.version ) )
+                {
+                    currentDependencies.Add( dependency );
+                }
+            }
+
+            int dependenciesLeftCount = currentDependencies.Count;
 
             if ( dependenciesLeftCount == 0 )
                 didResolveSucceededCallback?.Invoke( true );
 
-            foreach ( var entry in owner.huf.dependencies )
+            foreach ( var dependency in currentDependencies )
             {
-                var dependency = new Models.Dependency( entry );
-
                 if ( !dependency.IsHufPackage )
                 {
                     Utils.Common.Log( $"External dependency {dependency} found." );
