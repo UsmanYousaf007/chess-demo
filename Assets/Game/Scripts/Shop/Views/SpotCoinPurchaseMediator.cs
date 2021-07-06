@@ -13,7 +13,6 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
-        [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -31,8 +30,6 @@ namespace TurboLabz.InstantFramework
         private long betValue;
         private AdPlacements adPlacement;
         private bool adView = false;
-        private long timeAtDlgShown;
-        private AnalyticsContext dynamicBundleContext;
 
         public override void OnRegister()
         {
@@ -69,9 +66,6 @@ namespace TurboLabz.InstantFramework
             this.betValue = betValue;
             view.UpdateView(packs, dynamicSpotPurchaseBundle);
             adView = false;
-            dynamicBundleContext = CollectionsUtil.GetContextFromString(dynamicSpotPurchaseBundle.dynamicBundleShortCode);
-            analyticsService.Event("ux_saleonspotcoin_shown", dynamicBundleContext);
-            timeAtDlgShown = backendService.serverClock.currentTimestamp;
         }
 
         [ListensTo(typeof(UpdateSpotCoinsWatchAdDlgSignal))]
@@ -200,17 +194,6 @@ namespace TurboLabz.InstantFramework
             if (res == BackendResult.SUCCESS)
             {
                 view.audioService.Play(view.audioService.sounds.SFX_REWARD_UNLOCKED);
-            }
-        }
-
-        [ListensTo(typeof(BuyDynamicBundleClickedSignal))]
-        public void OnBuyDynamicBundleClicked()
-        {
-            if (view.isActiveAndEnabled)
-            {
-                var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
-                analyticsService.Event("ux_saleonspotcoin_tapbuynow", dynamicBundleContext);
-                analyticsService.ValueEvent("ux_saleonspotcoin_timeprebuynow", dynamicBundleContext, timePreBuyNow);
             }
         }
     }
