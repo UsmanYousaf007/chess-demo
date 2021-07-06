@@ -294,7 +294,7 @@ namespace TurboLabz.InstantFramework
             return PurchaseProcessingResult.Complete;
         }
 
-        public void OnVerifiedPurchase(BackendResult result, string transactionID)
+        public void OnVerifiedPurchase(BackendResult result, string transactionID, string productId)
         {
             if (pendingVerification.ContainsKey(transactionID))
             {

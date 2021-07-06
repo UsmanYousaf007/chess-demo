@@ -27,19 +27,19 @@ public class InAppPurchaseService : IStoreService
     [Inject] public ShowGenericProcessingSignal showIAPProcessingSignal { get; set; }
     [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
     [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal { get; set; }
-
     #endregion
 
     //Models
     [Inject] public IMetaDataModel metaDataModel { get; set; }
     [Inject] public IPlayerModel playerModel { get; set; }
     [Inject] public ISettingsModel settingsModel { get; set; }
+
     IPromise<bool> promise = null;
     IPromise<BackendResult> storePromise = null;
 
     private Dictionary<string, ProductInfo> _products = new Dictionary<string, ProductInfo>();
-    private Dictionary<string, IProductInfo> _pendingVerification = new Dictionary<string, IProductInfo>();
     PurchasesConfig purchasesConfig;
+
     #region Callbacks
     public void OnInitialized()
     {
@@ -53,16 +53,6 @@ public class InAppPurchaseService : IStoreService
                 if (HPurchases.IsProductAvailable(productId) && productInfo.Type == IAPProductType.Subscription && product.receipt != null)
                     
                 {
-                    //HPurchases.GetSubscriptionStatus(productId);
-                    //LogUtil.Log("Subscription Info: user have active subscription");
-                    //LogUtil.Log("Subscription Info: next billing date is: " + HPurchases.GetSubscriptionExpirationDate(productId));
-                    //LogUtil.Log("Subscription Info: is subscribed? " + HPurchases.IsSubscriptionActive(productId));
-                    //LogUtil.Log("Subscription Info: is in free trial peroid? " + HPurchases.IsSubscriptionInTrialMode(productId));
-                    ////LogUtil.Log("Subscription Info: is expired? " + info.isExpired().ToString());
-                    ////LogUtil.Log("Subscription Info: is cancelled? " + info.isCancelled());
-                    ////LogUtil.Log("Subscription Info: is auto renewing? " + info.isAutoRenewing());
-                    ////LogUtil.Log("Subscription Info: remaining time " + info.getRemainingTime());
-
                     playerModel.renewDate = HPurchases.GetSubscriptionExpirationDate(productId).ToShortDateString();
 
                     var expiryTimeStamp = TimeUtil.ToUnixTimestamp(HPurchases.GetSubscriptionExpirationDate(productId));
@@ -73,12 +63,13 @@ public class InAppPurchaseService : IStoreService
                         updatePlayerDataSignal.Dispatch();
                     }
 
-                    //                if (info.isCancelled() == Result.True)
-                    //                {
-                    //                    var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(product.definition.id)];
-                    //                    hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
-                    //                        new KeyValuePair<string, object>("store_iap_id", product.transactionID));
-                    //                }
+                    // Waiting for HUF to release isCancelled API for subscription info object
+                    //if (info.isCancelled() == Result.True)
+                    //{
+                    //    var item = metaDataModel.store.items[FindRemoteStoreItemShortCode(product.definition.id)];
+                    //    hAnalyticsService.LogEvent("cancelled", "subscription", $"subscription_{item.displayName.Replace(" ", "_")}",
+                    //        new KeyValuePair<string, object>("store_iap_id", product.transactionID));
+                    //}
 #if BUILD_TEST
                     if (playerModel.subscriptionExipryTimeStamp > 0)
                     {
@@ -109,15 +100,10 @@ public class InAppPurchaseService : IStoreService
     public void OnPurchaseSuccess(IProductInfo product, TransactionType transactionType, PriceConversionData priceConversion, PurchaseReceiptData receiptData)
     {
         // For informational purposes, we list the receipt(s)
-        Debug.Log("OnPurchaseSuccess");
-        Debug.Log("Receipt is valid. Contents:");
-        Debug.Log(receiptData.receipt.TransactionID);
-        Debug.Log(product.ProductId);
-
-        if (!_pendingVerification.ContainsKey(receiptData.receipt.TransactionID))
-        {
-            _pendingVerification.Add(receiptData.receipt.TransactionID, product);
-        }
+        LogUtil.Log("OnPurchaseSuccess");
+        LogUtil.Log("Receipt is valid. Contents:");
+        LogUtil.Log(receiptData.receipt.TransactionID);
+        LogUtil.Log(product.ProductId);
 
         var storeItem = metaDataModel.store.items[FindRemoteStoreItemShortCode(product.ProductId)];
 
@@ -146,13 +132,11 @@ public class InAppPurchaseService : IStoreService
 
     }
 
-    public void OnVerifiedPurchase(BackendResult result, string transactionID)
+    public void OnVerifiedPurchase(BackendResult result, string transactionId, string productId)
     {
-        if (_pendingVerification.ContainsKey(transactionID))
-        {
             if (result == BackendResult.SUCCESS)
             {
-                remoteStorePurchaseCompletedSignal.Dispatch(_pendingVerification[transactionID].ProductId);
+                remoteStorePurchaseCompletedSignal.Dispatch(productId);
 
                 if (storePromise != null)
                 {
@@ -161,7 +145,7 @@ public class InAppPurchaseService : IStoreService
                 }
                 else
                 {
-                    LogAutoRenewEvent("completed", _pendingVerification[transactionID].ProductId);
+                    LogAutoRenewEvent("completed", productId);
                 }
             }
             else
@@ -182,7 +166,7 @@ public class InAppPurchaseService : IStoreService
 
                 updateConfirmDlgSignal.Dispatch(vo);
 
-                metaDataModel.store.failedPurchaseTransactionId = transactionID;
+                metaDataModel.store.failedPurchaseTransactionId = transactionId;
 
                 if (storePromise != null)
                 {
@@ -191,11 +175,9 @@ public class InAppPurchaseService : IStoreService
                 }
                 else
                 {
-                    LogAutoRenewEvent("failed", _pendingVerification[transactionID].ProductId);
+                    LogAutoRenewEvent("failed", productId);
                 }
             }
-            _pendingVerification.Remove(transactionID);
-        }
 
         showIAPProcessingSignal.Dispatch(false);
     }
