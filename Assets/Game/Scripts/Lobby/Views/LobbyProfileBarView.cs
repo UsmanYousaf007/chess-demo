@@ -143,6 +143,7 @@ namespace TurboLabz.InstantFramework
             if (joinedTournament != null)
             {
                 endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
+                tooltipText.text = $"Win coins to play the {joinedTournament.name.ToLower()}!";
             }
             else
             {
