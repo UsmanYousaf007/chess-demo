@@ -15,7 +15,6 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -27,7 +26,6 @@ namespace TurboLabz.InstantFramework
         {
             view.Init();
             view.closeDlgSignal.AddListener(OnCloseDlgSignal);
-            view.showMoreSignal.AddListener(OnShowMoreSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -54,17 +52,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnCloseDlgSignal()
         {
-            OnShowMoreSignal(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-        }
-
-        private void OnShowMoreSignal(bool showMore)
-        {
-            if (analyticsContext.Equals("hint") ||
-                analyticsContext.Equals("cpu_in_game_power_mode"))
-            {
-                toggleBannerSignal.Dispatch(!showMore);
-            }
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
