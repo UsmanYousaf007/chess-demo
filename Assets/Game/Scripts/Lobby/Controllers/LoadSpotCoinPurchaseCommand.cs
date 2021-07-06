@@ -34,7 +34,6 @@ namespace TurboLabz.InstantFramework
                 if (coinPacks != null)
                 {
                     coinPacks.Sort((x, y) => x.currency4Payout.CompareTo(y.currency4Payout));
-                    coinPacks.Reverse();
 
                     var availablePacks = new List<string>();
 
@@ -47,8 +46,8 @@ namespace TurboLabz.InstantFramework
                     }
 
                     var dynamicContent = new DynamicSpotPurchaseBundle();
-                    dynamicContent.leftPackShortCode = availablePacks[availablePacks.Count - 1];
-                    dynamicContent.rightPackShortCode = availablePacks[availablePacks.Count - 2];
+                    dynamicContent.leftPackShortCode = availablePacks[0];
+                    dynamicContent.rightPackShortCode = availablePacks[1];
                     dynamicContent.dynamicBundleShortCode = playerModel.dynamicBundleToDisplay;
 
                     var bundles = storeSettingsModel.lists.ContainsKey(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG) ?
