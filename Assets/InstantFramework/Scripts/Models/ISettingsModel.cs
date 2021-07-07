@@ -30,7 +30,6 @@ namespace TurboLabz.InstantFramework
         int maxLongMatchCountPremium { get; set; }
         int maxFriendsCountPremium { get; set; }
         int hintsAllowedPerGame { get; set; }
-        int dailyFirstNotificationHour { get; set; }
         int dailyNotificationDeadlineHour { get; set; }
         string defaultSubscriptionKey { get; set; }
 
