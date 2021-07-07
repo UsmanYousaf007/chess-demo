@@ -280,7 +280,6 @@ namespace TurboLabz.InstantFramework
 
         public void RegisterDailyRewardNotification()
         {
-            RegisterDailyRewardNotification(TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyFirstNotificationHour).ToUniversalTime()));
             RegisterDailyRewardNotification(TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime()));
         }
 
