@@ -64,7 +64,8 @@ namespace TurboLabz.InstantFramework
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
                 extraSavings.SetActive(!(string.IsNullOrEmpty(storeItem.description) || string.IsNullOrWhiteSpace(storeItem.description)));
-                extraSavingText.text = storeItem.description;
+                //extraSavingText.text = storeItem.description;
+                extraSavingText.text = "<size=27%>" + storeItem.description + "</size>" + "% Extra";
                 price.text = storeItem.currency3Payout.ToString();
                 haveEnoughGems = playerModel.gems >= storeItem.currency3Payout;
                 SetupLoading(false);

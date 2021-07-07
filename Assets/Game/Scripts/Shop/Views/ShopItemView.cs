@@ -134,7 +134,7 @@ namespace TurboLabz.InstantFramework
                 if (isGems)
                 {
                     offBadage.SetActive(!(string.IsNullOrEmpty(storeItem.description) || string.IsNullOrWhiteSpace(storeItem.description)));
-                    offBadgeText.text = "<size=25%>" + storeItem.description + "</size>" + "% Extra";
+                    offBadgeText.text = "<size=27%>" + storeItem.description + "</size>" + "% Extra";
                 }
 
                 isInitlialised = true;
