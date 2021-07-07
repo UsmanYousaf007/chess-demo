@@ -35,6 +35,8 @@ namespace TurboLabz.InstantFramework
         int gamesPlayedCount { get; set; }
         bool showGameUpdateBanner { get; set; }
         bool outOfCoinsBannerClicked { get; set; }
+        OperatingSystemCode operatingSystemCode { get; set; }
+
     }
 
     public enum DisconnectStates
@@ -57,5 +59,13 @@ namespace TurboLabz.InstantFramework
         INTERAL_AD,
         FORCED_ON_WIN,
         NONE
+    }
+
+
+    public enum OperatingSystemCode
+    {
+        SYSINFO_OS_CODE_UNKNOWN = 0,
+        SYSINFO_OS_CODE_IOS = 1,
+        SYSINFO_OS_CODE_ANDROID = 2
     }
 }

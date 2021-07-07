@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         public int gamesPlayedCount { get; set; }
         public bool showGameUpdateBanner { get; set; }
         public bool outOfCoinsBannerClicked { get; set; }
+        public OperatingSystemCode operatingSystemCode { get; set; }
 
         public string privacyPolicyURL
         {
@@ -93,8 +94,28 @@ namespace TurboLabz.InstantFramework
             gameMode = GameMode.NONE;
             isNotificationActive = false;
             isResumeGS = false;
+            operatingSystemCode = GetOperatingSystemCode();
 
             modelsResetSignal.AddListener(Reset);
+        }
+
+        private OperatingSystemCode GetOperatingSystemCode()
+        {
+            const string SYSINFO_OS_CODE_IOS_STR = "iPhone";
+            const string SYSINFO_OS_CODE_ANDROID_STR = "Android";
+
+            // iOS
+            if (SystemInfo.operatingSystem.Contains(SYSINFO_OS_CODE_IOS_STR))
+            {
+                return OperatingSystemCode.SYSINFO_OS_CODE_IOS;
+            }
+            // Android
+            if (SystemInfo.operatingSystem.Contains(SYSINFO_OS_CODE_ANDROID_STR))
+            {
+                return OperatingSystemCode.SYSINFO_OS_CODE_ANDROID;
+            }
+
+            return OperatingSystemCode.SYSINFO_OS_CODE_UNKNOWN;
         }
 
         private void Reset()

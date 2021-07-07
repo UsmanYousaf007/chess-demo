@@ -82,7 +82,6 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-
         string BuildAppData()
         {
             AppData appData;
@@ -93,6 +92,8 @@ namespace TurboLabz.InstantFramework
             appData.inProgress = cPUGameModel.inProgress;
             appData.hbiUserId = HAnalyticsHBI.UserId;
             appData.timeZone = Mathf.CeilToInt((float)TimeZoneInfo.Local.BaseUtcOffset.TotalHours);
+            appData.operatingSystem = SystemInfo.operatingSystem;
+            appData.operatingSystemCode = (int)appInfoModel.operatingSystemCode;
 
             return JsonUtility.ToJson(appData);
         }
@@ -108,5 +109,7 @@ namespace TurboLabz.InstantFramework
         public bool inProgress;
         public string hbiUserId;
         public int timeZone;
+        public string operatingSystem;
+        public int operatingSystemCode;
     }
 }
