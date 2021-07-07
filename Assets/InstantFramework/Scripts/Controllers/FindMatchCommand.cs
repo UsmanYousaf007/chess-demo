@@ -230,18 +230,24 @@ namespace TurboLabz.InstantFramework
 
             if (FindMatchAction.IsRandomMatch())
             {
+                int eloCapMin = (playerModel.eloScore * settingsModel.opponentLowerEloCapMin) / 100;
                 int random = Random.Range(settingsModel.opponentLowerEloCapMin, settingsModel.opponentLowerEloCapMax);
-                int minVal = (playerModel.eloScore * random) / 100;
+                int minVal = publicProfile.eloScore < eloCapMin ? (playerModel.eloScore * random) / 100 : eloCapMin;
                 int maxVal = playerModel.eloScore + settingsModel.opponentHigherEloCap;
                 int clampedVal = Mathf.Clamp(publicProfile.eloScore, minVal, maxVal);
+
                 if (clampedVal != publicProfile.eloScore)
                 {
                     if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
                     {
-                        CollectionsUtil.fakeEloScores.Remove(publicProfile.playerId);
+                        CollectionsUtil.fakeEloScores[publicProfile.playerId] = clampedVal;
                     }
-                    CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, clampedVal);
+                    else
+                    {
+                        CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, clampedVal);
+                    }
                 }
+
                 publicProfile.eloScore = clampedVal;
             }
 
