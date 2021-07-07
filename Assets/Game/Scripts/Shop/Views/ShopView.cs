@@ -69,10 +69,10 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            if (HCrossPromo.service != null)
-            {
-                showCrossPromoButton.transform.parent.gameObject.SetActive(HCrossPromo.service.hasContent);
-            }
+            //if (HCrossPromo.service != null)
+            //{
+            showCrossPromoButton.transform.parent.gameObject.SetActive(false);//HCrossPromo.service.hasContent
+            //}
 
             showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
