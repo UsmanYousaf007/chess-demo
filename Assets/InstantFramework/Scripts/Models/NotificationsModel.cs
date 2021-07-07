@@ -257,13 +257,7 @@ namespace TurboLabz.InstantFramework
             {
                 //daily league reward inbox item found
                 //registering 8pm remineder notification in case its not already registered
-
-                var reminder = new Notification();
-                reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
-                reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
-                reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
-                reminder.sender = "league";
-                RegisterNotification(reminder);
+                RegisterDailyRewardNotification();
             }
         }
 
@@ -282,6 +276,24 @@ namespace TurboLabz.InstantFramework
                     HNotifications.Local.ScheduleNotification(notificationData);
                 }
             }
+        }
+
+        public void RegisterDailyRewardNotification()
+        {
+            RegisterDailyRewardNotification(TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyFirstNotificationHour).ToUniversalTime()));
+            RegisterDailyRewardNotification(TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime()));
+        }
+
+        private void RegisterDailyRewardNotification(long timestamp)
+        {
+            var notification = new Notification();
+            notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+            notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+            notification.timestamp = timestamp;
+            notification.sender = "league";
+            notification.showInGame = false;
+
+            RegisterNotification(notification);
         }
     }
 

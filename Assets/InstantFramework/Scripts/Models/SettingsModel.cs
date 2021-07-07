@@ -24,6 +24,7 @@ namespace TurboLabz.InstantFramework
         public int maxLongMatchCountPremium { get; set; }
         public int maxFriendsCountPremium { get; set; }
         public int hintsAllowedPerGame { get; set; }
+        public int dailyFirstNotificationHour { get; set; }
         public int dailyNotificationDeadlineHour { get; set; }
         public string defaultSubscriptionKey { get; set; }
         public int matchmakingRandomRange { get; set; }
@@ -75,6 +76,7 @@ namespace TurboLabz.InstantFramework
             maxLongMatchCountPremium = 0;
             maxFriendsCountPremium = 0;
             hintsAllowedPerGame = 0;
+            dailyFirstNotificationHour = 0;
             dailyNotificationDeadlineHour = 0;
             defaultSubscriptionKey = "Subscription";
             matchmakingRandomRange = 0;

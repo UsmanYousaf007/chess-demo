@@ -13,7 +13,6 @@ namespace TurboLabz.InstantFramework
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
-        [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -24,8 +23,6 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
-
-        private long timeAtDlgShown;
 
         public override void OnRegister()
         {
@@ -41,8 +38,6 @@ namespace TurboLabz.InstantFramework
                 shopVistedSignal.Dispatch();
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.shop);
-                analyticsService.Event("ux_saleshop_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicBundleToDisplay));
-                timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
         }
 
@@ -82,8 +77,6 @@ namespace TurboLabz.InstantFramework
                 analyticsService.Event(AnalyticsEventId.shop_purchase, AnalyticsParameter.context, context);
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "shop", $"{context}_gems");
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "shop", $"{context}_coins");
-                analyticsService.Event("ux_saleshop_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicBundleToDisplay));
-                timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
             else if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG))
             {
@@ -123,18 +116,6 @@ namespace TurboLabz.InstantFramework
             if (view.isActiveAndEnabled)
             {
                 view.ShowGems();
-            }
-        }
-
-        [ListensTo(typeof(BuyDynamicBundleClickedSignal))]
-        public void OnBuyDynamicBundleClicked()
-        {
-            if (view.isActiveAndEnabled)
-            {
-                var context = CollectionsUtil.GetContextFromString(playerModel.dynamicBundleToDisplay);
-                var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
-                analyticsService.Event("ux_saleshop_tapbuynow", context);
-                analyticsService.ValueEvent("ux_saleshop_timeprebuynow", context, timePreBuyNow);
             }
         }
     }

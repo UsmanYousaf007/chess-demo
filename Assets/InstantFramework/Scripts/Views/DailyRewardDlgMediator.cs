@@ -149,22 +149,7 @@ namespace TurboLabz.InstantFramework
         private void SetNextDayNotificationReminder()
         {
             notificationsModel.UnregisterNotifications("league");
-
-            var notification = new Notification();
-            notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
-            notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
-            notification.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1));
-            notification.sender = "league";
-            notification.showInGame = false;
-            notificationsModel.RegisterNotification(notification);
-
-            var reminder = new Notification();
-            reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
-            reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
-            reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
-            reminder.sender = "league";
-            notification.showInGame = false;
-            notificationsModel.RegisterNotification(reminder);
+            notificationsModel.RegisterDailyRewardNotification();
         }
     }
 }

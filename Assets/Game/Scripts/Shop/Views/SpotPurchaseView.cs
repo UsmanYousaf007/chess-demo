@@ -27,7 +27,6 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal closeDlgSignal = new Signal();
-        public Signal<bool> showMoreSignal = new Signal<bool>();
 
         public void Init()
         {
@@ -58,7 +57,6 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             SetupLayout(showMore);
-            showMoreSignal.Dispatch(showMore);
         }
 
         private void SetupLayout(bool showMore)
