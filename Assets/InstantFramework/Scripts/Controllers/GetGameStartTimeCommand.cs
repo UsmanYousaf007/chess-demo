@@ -14,6 +14,7 @@ using System.Collections;
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IChessAiService chessAiService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -63,6 +65,7 @@ namespace TurboLabz.InstantFramework
         private IEnumerator OnGetGameStartTimeCR(float waitDuration)
         {
             yield return new WaitForSecondsRealtime(waitDuration);
+            chessAiService.AiMoveRequestInit();
             startGameSignal.Dispatch();
         }
     }

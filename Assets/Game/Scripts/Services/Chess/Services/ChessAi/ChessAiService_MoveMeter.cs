@@ -40,8 +40,6 @@ namespace TurboLabz.Chess
             }
 
             lastDequeuedMethod.promise.Dispatch(from, to, percentage.ToString());
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
         }
 
         private float CalculateMoveStrength(int moveFoundIndex)
@@ -126,8 +124,6 @@ namespace TurboLabz.Chess
             pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
 
             lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
         }
 
         private void GetHint()
@@ -138,8 +134,6 @@ namespace TurboLabz.Chess
             var piece = chessService.GetPieceAtLocation(from);
             var pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
             lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
         }
     }
 }

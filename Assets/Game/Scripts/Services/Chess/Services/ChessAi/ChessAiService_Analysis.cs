@@ -95,11 +95,6 @@ namespace TurboLabz.Chess
             {
                 lastDequeuedMethod.promise.Dispatch(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to, $"{MoveQuality.NORMAL}|-1|0|0|0");
             }
-            finally
-            {
-                lastDequeuedMethod.promise = null;
-                lastDequeuedMethod = null;
-            }
         }
     }
 }

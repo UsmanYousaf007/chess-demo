@@ -31,7 +31,6 @@ namespace TurboLabz.Chess
         public void AiMoveRequestInit()
         {
             serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
-            lastDequeuedMethod = null;
             taskIsReadyToExecute = true;
 
             if (queueExecutor != null)

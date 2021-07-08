@@ -165,8 +165,6 @@ namespace TurboLabz.Chess
             if (lastDequeuedMethod != null && lastDequeuedMethod.promise != null)
             {
                 lastDequeuedMethod.promise.Dispatch(from, to, promo);
-                lastDequeuedMethod.promise = null;
-                lastDequeuedMethod = null;
             }
         }
 
