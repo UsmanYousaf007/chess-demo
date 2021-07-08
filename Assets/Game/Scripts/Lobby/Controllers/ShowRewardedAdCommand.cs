@@ -42,14 +42,6 @@ namespace TurboLabz.InstantFramework
 
             Retain();
 
-            if (!adsService.IsRewardedVideoAvailable(adPlacement))
-            {
-                showGenericProcessingSignal.Dispatch(true);
-                if (waitForVideoToLoadCoroutine != null) routineRunner.StopCoroutine(waitForVideoToLoadCoroutine);
-                waitForVideoToLoadCoroutine = routineRunner.StartCoroutine(WaitForVideoToLoad());
-                return;
-            }
-
             switch (adPlacement)
             {
                 case AdPlacements.Rewarded_cpu_in_game_power_mode:
@@ -57,6 +49,14 @@ namespace TurboLabz.InstantFramework
                 case AdPlacements.Rewarded_cpu_resume_power_mode:
                     adPlacement = AdPlacements.Rewarded_powerplay;
                     break;
+            }
+
+            if (!adsService.IsRewardedVideoAvailable(adPlacement))
+            {
+                showGenericProcessingSignal.Dispatch(true);
+                if (waitForVideoToLoadCoroutine != null) routineRunner.StopCoroutine(waitForVideoToLoadCoroutine);
+                waitForVideoToLoadCoroutine = routineRunner.StartCoroutine(WaitForVideoToLoad());
+                return;
             }
 
             adsService.ShowRewardedVideo(adPlacement).Then(OnVideoShown);
