@@ -12,9 +12,11 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -22,10 +24,13 @@ namespace TurboLabz.InstantFramework
 
         public static string analyticsContext = string.Empty;
 
+        private long timeAtDlgShown;
+
         public override void OnRegister()
         {
             view.Init();
             view.closeDlgSignal.AddListener(OnCloseDlgSignal);
+            view.showMoreSignal.AddListener(OnShowMoreSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -37,6 +42,8 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_dlg);
                 analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, analyticsContext);
+                analyticsService.Event("ux_saleonspotgem_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode));
+                timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
         }
 
@@ -52,7 +59,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnCloseDlgSignal()
         {
+            OnShowMoreSignal(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnShowMoreSignal(bool showMore)
+        {
+            if (analyticsContext.Equals("hint") ||
+                analyticsContext.Equals("cpu_in_game_power_mode"))
+            {
+                toggleBannerSignal.Dispatch(!showMore);
+            }
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
@@ -75,6 +92,18 @@ namespace TurboLabz.InstantFramework
                 //end analytics
 
                 OnCloseDlgSignal();
+            }
+        }
+
+        [ListensTo(typeof(BuyDynamicBundleClickedSignal))]
+        public void OnBuyDynamicBundleClicked()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                var context = CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode);
+                var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
+                analyticsService.Event("ux_saleonspotgem_tapbuynow", context);
+                analyticsService.ValueEvent("ux_saleonspotgem_timeprebuynow", context, timePreBuyNow);
             }
         }
     }
