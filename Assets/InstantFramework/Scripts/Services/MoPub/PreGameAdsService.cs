@@ -82,11 +82,6 @@ namespace TurboLabz.InstantFramework
             {
                 retVal = false;
             }
-            else if (!adsService.IsInterstitialAvailable(placementId))
-            {
-                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-                retVal = false;
-            }
             else if (!preferencesModel.isRateAppDialogueFirstTimeShown)
             {
                 retVal = false;
@@ -105,6 +100,12 @@ namespace TurboLabz.InstantFramework
                     minutesBetweenLastAdShown >= adsSettingsModel.intervalsBetweenPregameAds)))
             {
                 retVal = true;
+            }
+
+            if (retVal && !adsService.IsInterstitialAvailable(placementId))
+            {
+                analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
+                retVal = false;
             }
 
             return retVal;
