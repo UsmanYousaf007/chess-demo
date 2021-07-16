@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
 using DanielLochner.Assets.SimpleScrollSnap;
+using strange.extensions.signal.impl;
 
 namespace TurboLabz.InstantFramework
 {
@@ -37,6 +38,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        public Signal rebuildLayoutSignal = new Signal();
+
         public void Init()
         {
             carousel.ForceInitialize();
@@ -49,6 +52,7 @@ namespace TurboLabz.InstantFramework
         {
             gameObject.SetActive(true);
             StartCoroutine(CarouselInit());
+            rebuildLayoutSignal.Dispatch();
         }
 
         public void Hide()

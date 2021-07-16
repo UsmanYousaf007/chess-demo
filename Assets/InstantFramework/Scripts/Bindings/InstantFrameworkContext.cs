@@ -249,7 +249,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<BuyDynamicBundleClickedSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRVTimerSignal>().ToSingleton();
             injectionBinder.Bind<DailyRewardClaimFailedSignal>().ToSingleton();
-
+            injectionBinder.Bind<RebuildLayoutSignal>().ToSingleton();
+            
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
             mediationBinder.Bind<SplashView>().To<SplashMediator>();

@@ -184,7 +184,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-
+        [ListensTo(typeof(RebuildLayoutSignal))]
+        public void RebuildLayout()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.RebuildLayout();
+            }
+        }
 
     }
 }
