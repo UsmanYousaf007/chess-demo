@@ -41,6 +41,9 @@ namespace TurboLabz.InstantFramework
         public IServerClock serverClock;
         public Signal<string, bool> continueButtonClickedSignal = new Signal<string, bool>();
         public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
+
+        [Inject] public ITournamentsModel tournamentsModel { get; set; }
+
         public override void Init()
         {
             scrollRectChampionship = scrollView;
@@ -107,6 +110,7 @@ namespace TurboLabz.InstantFramework
             championshipTypeText.text = _joinedTournament.DisplayName.ToUpper();
             base.UpdateView(playerId, joinedTournament);
             dataPopulated = true;
+            base.UpdateLeagueTitle(playerModel, tournamentsModel);
         }
 
         public void UpdateView(string _challengeId, bool _playerWins, float _duration)
