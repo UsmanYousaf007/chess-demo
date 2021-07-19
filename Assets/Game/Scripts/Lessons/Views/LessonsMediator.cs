@@ -151,7 +151,7 @@ namespace TurboLabz.InstantGame
         {
             if (view.isActiveAndEnabled)
             {
-                view.UpdateLessons();
+                view.UpdateLessons(inventory.allLessonsUnlocked);
                 view.lessonsBanner.gameObject.SetActive(!inventory.allLessonsUnlocked);
             }
         }

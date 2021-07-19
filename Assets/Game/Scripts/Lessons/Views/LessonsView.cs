@@ -149,12 +149,12 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateLessons()
+        public void UpdateLessons(bool ownAllLessons)
         {
             foreach (var lesson in lessonTiles)
             {
                 lesson.SetupUnlockButton();
-                lesson.CheckLockStatus();
+                lesson.CheckLockStatus(ownAllLessons);
             }
         }
 
