@@ -248,6 +248,9 @@ namespace TurboLabz.InstantFramework
                 HandleTournamentEndMatch(tournamentGSData);
             }
 
+            GSData inboxGSData = message.ScriptData.GetGSData("inbox");
+            PopulateInboxModel(inboxGSData);
+
             OnGameChallengeWonMessage(message);
         }
 

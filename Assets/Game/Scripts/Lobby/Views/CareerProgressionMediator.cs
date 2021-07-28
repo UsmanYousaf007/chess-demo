@@ -25,22 +25,8 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public FindMatchSignal findMatchSignal { get; set; }
-        [Inject] public VirtualGoodsTransactionSignal virtualGoodsTransactionSignal { get; set; }
-        //[Inject] public UpdateTimeSelectDlgSignal updateTimeSelectDlgSignal { get; set; }
-        [Inject] public LoadSpotCoinPurchaseSignal loadSpotCoinPurchaseSignal { get; set; }
-        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateTrophyBarSignal updateTrophyBarSignal { get; set; }
-
-        //Listerners
-        [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
-
-        // Models
-        [Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public ITournamentsModel tournamentsModel { get; set; }
-
-        //Services
-        [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public ShowLobbyRewardsSignal showLobbyRewardsSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -81,7 +67,7 @@ namespace TurboLabz.InstantFramework
         private void OnLoadLobbySignal()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOBBY);
-            loadRewardsSignal.Dispatch();
+            showLobbyRewardsSignal.Dispatch();
             updateTrophyBarSignal.Dispatch();
         }
     }

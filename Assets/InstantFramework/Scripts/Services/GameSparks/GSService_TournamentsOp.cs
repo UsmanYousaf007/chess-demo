@@ -118,19 +118,7 @@ namespace TurboLabz.InstantFramework
             if (response.ScriptData.ContainsKey("inbox"))
             {
                 GSData inboxData = response.ScriptData.GetGSData("inbox");
-                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
-                FillInbox(dict, inboxData);
-
-                List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
-
-                //if (navigatorModel.currentViewId != NavigatorViewId.TOURNAMENT_OVER_DLG)
-                //{
-                //    DispatchInboxNotifications(newMsgs);
-                //}
-
-                inboxModel.lastFetchedTime = DateTime.UtcNow;
-                inboxModel.items = dict;
-                inboxAddMessagesSignal.Dispatch();
+                PopulateInboxModel(inboxData);
             }
 
             if (response.ScriptData.ContainsKey("inboxCount"))

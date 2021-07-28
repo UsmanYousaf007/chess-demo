@@ -33,6 +33,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
+        [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -199,6 +200,7 @@ namespace TurboLabz.InstantFramework
 
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
+            promotionCycleOverSignal.Dispatch();
 
             Release();
         }
