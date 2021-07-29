@@ -54,6 +54,7 @@ namespace TurboLabz.InstantFramework
             waitForOneRealSecond = new WaitForSecondsRealtime(1f);
 
             UIDlgManager.Setup(gameObject);
+            target = 1.0f;
         }
 
         public void Show(JoinedTournamentData joinedTournament, bool newRank = false)
