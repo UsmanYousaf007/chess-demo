@@ -51,11 +51,6 @@ namespace HUFEXT.PackageManager.Editor.Utils
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 32 )]
         byte[] sessionId;
 
-        byte[] GenerateId()
-        {
-            return Encoding.ASCII.GetBytes( Guid.NewGuid().ToString( "N" ) );
-        }
-
         public void Initialize( string projectName, string skuName, byte[] hufDeveloperIdHash )
         {
             magic = 0xdeadbeef;
@@ -73,16 +68,40 @@ namespace HUFEXT.PackageManager.Editor.Utils
             Encoding.ASCII.GetBytes( shortSku, 0, shortSku.Length, sku, 0 );
             var dateStr = DateTime.Now.Date.ToString( "yyyyMMdd" );
             Encoding.ASCII.GetBytes( dateStr, 0, 8, date, 0 );
-            uploadTimestamp = ( ulong ) DateTime.Now.ToBinary();
+            uploadTimestamp = (ulong)DateTime.Now.ToBinary();
+        }
+
+        byte[] GenerateId()
+        {
+            return Encoding.ASCII.GetBytes( Guid.NewGuid().ToString( "N" ) );
         }
     }
 
     public static class Reporter
     {
+        public static void Send( Dictionary<string, string> report )
+        {
+            var header = new Header();
+            var devIdHash = HashChecksum( Encoding.ASCII.GetBytes( report[Models.Keys.BuildEventKey.DEV_ID] ) );
+            header.Initialize( "huf", "report", PackBytes( devIdHash, devIdHash ) );
+            CreateDictAndParsedReport( report ).Deconstruct( out var dictList, out var reportMap );
+            var dictListBytes = PackDictList( dictList );
+
+            var timestamp = DateTime.ParseExact( report[Models.Keys.BuildEventKey.BUILD_TIME],
+                    "MM/dd/yyyy HH:mm:ss",
+                    CultureInfo.InvariantCulture )
+                .ToBinary();
+            var reportBytes = PackReport( reportMap, timestamp );
+            var dictAndReportBytes = PackBytes( dictListBytes, reportBytes );
+            var headerBytes = GetBytes( header, HashChecksum( dictAndReportBytes ) );
+            Task.Run( () => Upload( PackBytes( headerBytes, dictAndReportBytes ) ) );
+        }
+
         static byte[] GetBytes( Header header, byte[] md5Checksum )
         {
             var size = Marshal.SizeOf( header );
             byte[] arr;
+
             using ( var ms = new MemoryStream( 125 ) )
             {
                 var magic = BitConverter.GetBytes( header.Magic );
@@ -101,6 +120,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 ms.Write( header.SessionId, 0, header.SessionId.Length );
                 arr = ms.GetBuffer();
             }
+
             return arr;
         }
 
@@ -113,13 +133,13 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 return ms.ToArray();
             }
         }
-        
+
         static byte[] PackReport( Dictionary<long, long> report, long timestamp )
         {
             using ( var ms = new MemoryStream() )
             {
                 var reportEvent = new Tuple<int, long, Dictionary<long, long>>( 1, timestamp, report );
-                var pack = new Tuple<Tuple<int, long, Dictionary<long, long>>>(reportEvent);
+                var pack = new Tuple<Tuple<int, long, Dictionary<long, long>>>( reportEvent );
                 var serializer = MessagePackSerializer.Get<Tuple<Tuple<int, long, Dictionary<long, long>>>>();
                 serializer.Pack( ms, pack );
                 return ms.ToArray();
@@ -135,19 +155,21 @@ namespace HUFEXT.PackageManager.Editor.Utils
             }
         }
 
-        static Tuple<List<string>, Dictionary<long, long>> CreateDictAndParsedReport( Dictionary<string, string> report )
+        static Tuple<List<string>, Dictionary<long, long>> CreateDictAndParsedReport(
+            Dictionary<string, string> report )
         {
             var dictMap = new Dictionary<string, int>();
             var newReport = new Dictionary<long, long>();
             var dictList = new List<string>();
+
             foreach ( var pair in report )
             {
-                if( !dictMap.ContainsKey( pair.Key ) )
+                if ( !dictMap.ContainsKey( pair.Key ) )
                 {
                     dictMap.Add( pair.Key, dictMap.Count );
                 }
 
-                var newKey = ( long ) dictMap[pair.Key];
+                var newKey = (long)dictMap[pair.Key];
                 newKey <<= 1;
                 newKey |= 1;
 
@@ -156,18 +178,18 @@ namespace HUFEXT.PackageManager.Editor.Utils
                     dictMap.Add( pair.Value, dictMap.Count );
                 }
 
-                var newVal = ( long ) dictMap[pair.Value];
-
+                var newVal = (long)dictMap[pair.Value];
                 newReport.Add( newKey, newVal );
             }
 
             var sortedDictEnumerable = dictMap.OrderBy( x => x.Value );
+
             foreach ( var pair in sortedDictEnumerable )
             {
                 dictList.Add( pair.Key );
             }
-            
-            return new Tuple<List<string>, Dictionary<long,long>>( dictList , newReport );
+
+            return new Tuple<List<string>, Dictionary<long, long>>( dictList, newReport );
         }
 
         static byte[] PackBytes( byte[] firstBytes, byte[] secondBytes )
@@ -191,30 +213,12 @@ namespace HUFEXT.PackageManager.Editor.Utils
             var dataStream = request.GetRequestStream();
             dataStream.Write( dataBytes, 0, dataBytes.Length );
             dataStream.Close();
-            
             var response = request.GetResponse();
 #if HPM_DEV_MODE
             Debug.Log(
                 $"Report: {response.ResponseUri} with result: {( ( HttpWebResponse ) response ).StatusDescription}" );
 #endif
             response.Close();
-        }
-
-        public static void Send( Dictionary<string, string> report )
-        {
-            var header = new Header();
-            var devIdHash = HashChecksum( Encoding.ASCII.GetBytes( report[Models.Keys.BuildEventKey.DEV_ID] ) );
-            header.Initialize( "huf", "report", PackBytes( devIdHash, devIdHash ) );
-            CreateDictAndParsedReport( report ).Deconstruct( out var dictList, out var reportMap );
-            var dictListBytes = PackDictList( dictList );
-            var timestamp = DateTime.ParseExact( report[Models.Keys.BuildEventKey.BUILD_TIME],
-                                        "MM/dd/yyyy HH:mm:ss",
-                                        CultureInfo.InvariantCulture )
-                                    .ToBinary();
-            var reportBytes = PackReport( reportMap, timestamp );
-            var dictAndReportBytes = PackBytes( dictListBytes, reportBytes );
-            var headerBytes = GetBytes( header, HashChecksum( dictAndReportBytes ) );
-            Task.Run( () => Upload( PackBytes( headerBytes, dictAndReportBytes ) ) );
         }
     }
 }

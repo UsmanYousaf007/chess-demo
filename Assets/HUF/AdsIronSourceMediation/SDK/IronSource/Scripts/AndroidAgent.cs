@@ -41,16 +41,6 @@ public class AndroidAgent : IronSourceIAgent
 		}
 	}
 
-	public void setAge (int age)
-	{
-		getBridge ().Call ("setAge", age);
-	}
-
-	public void setGender (string gender)
-	{
-		getBridge ().Call ("setGender", gender);
-	}
-
 	public void setMediationSegment (string segment)
 	{
 		getBridge ().Call ("setMediationSegment", segment);
@@ -86,9 +76,20 @@ public class AndroidAgent : IronSourceIAgent
         getBridge().Call("setMetaData", key, value);
     }
 
-    //******************* SDK Init *******************//
+	public void setMetaData(string key, params string[] values)
+	{
+		getBridge().Call("setMetaData", key, values);
+	}
 
-    public void setUserId(string userId) {
+	public int? getConversionValue()
+    {
+		Debug.Log("Unsupported Platform");
+		return null;
+	}
+
+	//******************* SDK Init *******************//
+
+	public void setUserId(string userId) {
 		getBridge ().Call ("setUserId", userId);
 	}
 
@@ -286,7 +287,27 @@ public class AndroidAgent : IronSourceIAgent
 		getBridge().Call("setConsent",consent);
 	}
 
-#endregion
+	//******************* ConsentView API *******************//
+
+	public void loadConsentViewWithType(string consentViewType)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
+	public void showConsentViewWithType(string consentViewType)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
+	//******************* ILRD API *******************//
+
+	public void setAdRevenueData(string dataSource, Dictionary<string, string> impressionData)
+	{
+		string json = IronSourceJSON.Json.Serialize(impressionData);
+		getBridge().Call("setAdRevenueData", dataSource, json);
+	}
+
+	#endregion
 }
 
 #endif

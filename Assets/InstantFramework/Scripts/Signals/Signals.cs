@@ -8,10 +8,11 @@ using UnityEngine;
 using strange.extensions.signal.impl;
 using System.Collections.Generic;
 using strange.extensions.promise.api;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
-    public class ReconnectionCompleteSignal : Signal {}
+    public class ReconnectionCompleteSignal : Signal { }
     public class StartSignal : Signal { }
     public class AppEventSignal : Signal<AppEvent> { }
     public class GameAppEventSignal : Signal<AppEvent> { }
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
     public class AuthSignInWithAppleResultSignal : Signal<AuthSignInWIthAppleResultVO> { }
     public class SignOutSocialAccountSignal : Signal { }
     public class UpdateProfileSignal : Signal<ProfileVO> { }
+    public class UpdateTrophiesSignal : Signal<int> { }
     public class UpdateOpponentProfileSignal : Signal<ProfileVO> { }
     public class UpdateChatOpponentPicSignal : Signal<Sprite> { }
     public class RemoteStorePurchaseCompletedSignal : Signal<string> { }
@@ -64,7 +66,7 @@ namespace TurboLabz.InstantFramework
     public class SplashWifiIsHealthySignal : Signal { }
     public class ShowSplashContentSignal : Signal<bool> { }
     public class ResetCapturedPiecesSignal : Signal { }
-    public class UpdateSearchResultsSignal : Signal<bool> {}
+    public class UpdateSearchResultsSignal : Signal<bool> { }
     public class SetErrorAndHaltSignal : Signal<BackendResult, string> { }
     public class HaltSignal : Signal<BackendResult> { }
     public class UpdatePlayerRewardsPointsSignal : Signal<float, float> { }
@@ -97,7 +99,7 @@ namespace TurboLabz.InstantFramework
     public class LoadFriendsSignal : Signal { }
     public class ShareAppSignal : Signal { }
     public class ShowAdSignal : Signal<ResultAdsVO, bool> { }
-    public class ShowRewardedAdSignal : Signal<ResultAdsVO> { }
+    public class ShowRewardedAdSignal : Signal<AdPlacements> { }
     public class ToggleBannerSignal : Signal<bool> { }
     public class PauseNotificationsSignal : Signal<bool> { }
     public class RequestToggleBannerSignal : Signal { }
@@ -124,7 +126,7 @@ namespace TurboLabz.InstantFramework
     public class RestorePurchasesSignal : Signal { }
     public class NewFriendAddedSignal : Signal<string> { }
     public class NotificationRecievedSignal : Signal<NotificationVO> { }
-    public class PreShowNotificationSignal : Signal{ }
+    public class PreShowNotificationSignal : Signal { }
     public class ShowViewBoardResultsPanelSignal : Signal<bool> { }
     public class PostShowNotificationSignal : Signal { }
     public class ResumeMatchSignal : Signal<NavigatorViewId> { }
@@ -168,14 +170,14 @@ namespace TurboLabz.InstantFramework
     public class LoadArenaSignal : Signal { }
     public class UpdateShopBundlePurchasedViewSignal : Signal<StoreItem> { }
     public class VirtualGoodsTransactionSignal : Signal<VirtualGoodsTransactionVO> { }
-    public class VirtualGoodBoughtSignal : Signal<string> { }
+    public class VirtualGoodBoughtSignal : Signal<VirtualGoodsTransactionVO> { }
     public class ShowInventoryRewardedVideoSignal : Signal<InventoryVideoVO> { }
     public class InventoryVideoResultSignal : Signal<InventoryVideoResult, string> { }
     public class VirtualGoodsTransactionResultSignal : Signal<BackendResult> { }
     public class UpdateBottomNavSignal : Signal<BottomNavView.ButtonId> { }
-    public class InboxAddMessagesSignal : Signal<Dictionary<string, InboxMessage>> { }
+    public class InboxAddMessagesSignal : Signal { }
     public class InboxRemoveMessagesSignal : Signal<string> { }
-    public class LoadInboxSignal : Signal { }
+    public class LoadRewardsSignal : Signal { }
     public class UpdateInboxMessageCountViewSignal : Signal<long> { }
     public class UpdateRewardDlgViewSignal : Signal<RewardDlgVO> { }
     public class LoadRewardDlgViewSignal : Signal<string, Signal> { }
@@ -193,6 +195,37 @@ namespace TurboLabz.InstantFramework
     public class ResetSubscirptionStatusSignal : Signal { }
     public class ActivePromotionSaleSingal : Signal<string> { }
     public class ShowFadeBlockerSignal : Signal { }
+    public class PromotionCycleOverSignal : Signal { }
+    public class LoginAsGuestSignal : Signal { }
+    public class LoadSpotCoinPurchaseSignal : Signal<long> { }
+    public class UpdateSpotCoinsPurchaseDlgSignal : Signal<long, List<string>, DynamicSpotPurchaseBundle> { }
+    public class UpdateSpotCoinsWatchAdDlgSignal : Signal<long, StoreItem, AdPlacements> { }
+    public class UpdateRewardDlgV2ViewSignal : Signal<RewardDlgV2VO> { }
+    public class RewardedVideoResultSignal : Signal<AdsResult, AdPlacements> { }
+    public class RewardedVideoAvailableSignal : Signal<AdPlacements> { }
+    public class UpdateLeaguePromotionDlgViewSignal : Signal<RewardDlgVO> { }
+    public class LoadCareerCardSignal : Signal { }
+    public class RateAppDlgClosedSignal : Signal { }
+    public class LobbyChestRewardClaimedSignal : Signal<int> { }
+    public class InboxEmptySignal : Signal { }
+    public class UpdatePurchaseSuccessDlgSignal : Signal<StoreItem> { }
+    public class RankPromotedDlgClosedSignal : Signal { }
+    public class OutOfGemsSignal : Signal { }
+    public class LobbySequenceEndedSignal : Signal { }
+    public class SpotCoinsPurchaseDlgClosedSignal : Signal { }
+    public class HideNotificationViewSignal : Signal { }
+    public class GDPRDlgClosedSignal : Signal { }
+    public class ShopVistedSignal : Signal { }
+    public class GetFullAnalysisSignal : Signal { }
+    public class FullAnalysisBoughtSignal : Signal { }
+    public class UpdateGetGameAnalysisDlgSignal : Signal<BuyGameAnalysisVO> { }
+    public class LoadTimeSelectDlgSignal : Signal<long> { }
+    public class ShowGenericProcessingSignal : Signal<bool> { }
+    public class PowerPlayRewardClaimedSignal : Signal { }
+    public class GetGameStartTimeFailedSignal : Signal { }
+    public class BuyDynamicBundleClickedSignal : Signal { }
+    public class UpdateRVTimerSignal : Signal<long, bool> { }
+    public class DailyRewardClaimFailedSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -206,6 +239,8 @@ namespace TurboLabz.InstantFramework
     public class UpdateTournamentLeaderboardViewSignal : Signal { }
     public class ToggleLeaderboardViewNavButtons : Signal<bool> { }
     public class UpdateTournamentsViewSignal : Signal { }
+    public class ResetTournamentsViewSignal : Signal { }
+    public class UpdateChampionshipResultDlgSignal : Signal<RewardDlgVO> { }
     public class UpdateLiveTournamentRewardsSuccessSignal : Signal<string> { }
     public class UpdateChestInfoDlgViewSignal : Signal<TournamentReward> { }
     public class UnlockCurrentJoinedTournamentSignal : Signal { }
@@ -215,7 +250,7 @@ namespace TurboLabz.InstantFramework
     public class LoadSkinRefsSignal : Signal<string> { }
     public class RefreshSkinLinksSignal : Signal { }
     public class ShowMaintenanceViewSignal : Signal<int> { }
-    public class RatingBoostAnimSignal : Signal<int> { }
+    public class RatingBoostedSignal : Signal<int, int> { }
 
     // LeagueProfileStrip
     public class LeagueProfileStripSetOnClickSignal : Signal<Signal> { }
@@ -229,4 +264,21 @@ namespace TurboLabz.InstantFramework
 
     //App Updates
     public class AppUpdateSignal : Signal<bool> { }
+
+    public class UpdateCareerCardSignal : Signal<CareerCardVO> { }
+    public class ShowCareerProgressionSignal : Signal { }
+    public class LoadLeaderboardSignal : Signal { }
+    public class UpdateTrophyBarSignal : Signal { }
+    public class ResetCareerprogressionViewSignal : Signal { }
+
+    // All star leaderboard
+    public class GetAllStarLeaderboardSignal : Signal { }
+    public class UpdateAllStarLeaderboardSignal : Signal { }
+    public class UpdateTimeSelectDlgSignal : Signal<SelectTimeDlgVO> { }
+
+    public class StartLobbyChampionshipTimerSignal : Signal { }
+
+    public class GetInitDataOnCompleteSignal : Signal { }
+    public class UpdateNewRankChampionshipDlgViewSignal : Signal<string, bool, float> { }
+    public class UpdatePromotionBundleSignal : Signal { }
 }

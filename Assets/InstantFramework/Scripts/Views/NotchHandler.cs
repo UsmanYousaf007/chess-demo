@@ -26,6 +26,7 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform profileLinksPanel;
     public RectTransform profileCenterContent;
     public RectTransform profileBottomNav;
+    public RectTransform profileTopNav;
     public RectTransform profilePartition;
     public RectTransform profileOnline;
 
@@ -96,12 +97,9 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform shopScrollViewport;
 
     [Header("Inventory")]
-    public RectTransform inventoryHeading;
-    public RectTransform inventorySpecialItemsScrollView;
-    public RectTransform inventoryThemesScrollView;
     public RectTransform inventoryTitleBar;
     public RectTransform inventoryThemesScrollViewport;
-    public RectTransform inventorySpecialItemsScrollViewport;
+    public RectTransform inventoryShawdow;
 
     [Header("Inbox")]
     public RectTransform inboxItemsContainer;
@@ -122,6 +120,25 @@ public class NotchHandler : MonoBehaviour {
     public RectTransform tournamentsLeaderboardFooter;
     public RectTransform tounamentsLeaderboardScrollViewport;
     public RectTransform tournamentsLeaderboardNotEnteredBar;
+
+    [Header("New Lobby")]
+    public RectTransform newLobbyContent;
+
+    [Header("Championship and All Star Leaderboard")]
+    public RectTransform leaderboardViewTopBar;
+    public RectTransform leaderboardViewBottomBar;
+    public RectTransform championshipLeaderboardHeader;
+    public RectTransform championshipLeaderboardViewPort;
+    public RectTransform allStarLeaderboardHeader;
+    public RectTransform allStarLeaderboardViewPort;
+
+    [Header("Multiplayer Analysis")]
+    public RectTransform multiplayerAnalysisPanel;
+    public RectTransform multiplayerPlayerPanel;
+    public Transform multiplayerBoard;
+    public RectTransform multiplayerOpponentsPanel;
+    public RectTransform multiplayerDrawOffer;
+    public RectTransform multiplayerOpponentTrophiesPanel;
 
     public static bool HasNotch()
     {
@@ -152,7 +169,7 @@ public class NotchHandler : MonoBehaviour {
         // TOP NAVS
         foreach (RectTransform tfm in topNavs)
         {
-            SetY(tfm, -165f);
+            SetY(tfm, -120f);
         }
 
         foreach (RectTransform tfm in secondTierTopNavs)
@@ -162,7 +179,7 @@ public class NotchHandler : MonoBehaviour {
 
         foreach (RectTransform tfm in botNavs)
         {
-            SetY(tfm, 192f);
+            SetY(tfm, 152f);
         }
 
         //SetY(mainBottomNav, 167f);
@@ -185,17 +202,18 @@ public class NotchHandler : MonoBehaviour {
         SetY(profileFacebookButton, -281f);
         //SetY(profileLinksPanel, -786f);
         SetY(profileAppVersion, 344f);
-        SetY(profileCenterContent, -56f);
+        SetY(profileCenterContent, -18f);
         SetY(profileBottomNav, 156f);
+        SetY(profileTopNav, -160f);
         SetY(profilePartition, 69f);
-        SetY(profileOnline, 0f);
+        //SetY(profileOnline, -218f);
 
         // FRIENDS
         //SetY(friendsScrollView, -31f - 100f);
-        SetTop(friendsViewPort, -336f);
-        SetBottom(friendsViewPort, 260f);
-        SetY(friendsScrollViewTopShadow, -10);
-        SetY(friendsSecondTierTopNav, -163);
+        SetTop(friendsViewPort, -290f);
+        SetBottom(friendsViewPort, 220f);
+        SetY(friendsScrollViewTopShadow, -297);
+        SetY(friendsSecondTierTopNav, -123);
 
         // CPU GAME
         SetY(cpuTopBar, -148f);
@@ -243,34 +261,30 @@ public class NotchHandler : MonoBehaviour {
         SetY(manageSubscriptionBottomNav, 60);
 
         // Blocked Friends
-        blockedFriendsScrollViewPort.offsetMin = new Vector2(blockedFriendsScrollViewPort.offsetMin.x, 295);
-        blockedFriendsScrollViewPort.offsetMax = new Vector2(blockedFriendsScrollViewPort.offsetMax.x, -324);
-        SetY(blockedFriendsSecondTierTopNav, -165);
+        SetTop(blockedFriendsScrollViewPort, -270f);
+        SetBottom(blockedFriendsScrollViewPort, 200f);
+        SetY(blockedFriendsSecondTierTopNav, -123);
    
         //Lesson Views
         SetY(topicsViewBottomNav, 89f);
-        SetTop(topicsScrollView, -223f);
+        SetTop(topicsScrollView, -190f);
         SetBottom(topicsScrollView, 213f);
         SetY(lessonsViewBottomNav, 89f);
-        SetTop(lessonsScrollView, -208f);
+        SetTop(lessonsScrollView, -165f);
         SetBottom(lessonsScrollView, 213f);
         SetY(lessonVideoPlayerTopBar, -113f);
         SetY(lessonVideoPlayerBottomNav, 91f);
 
         //Shop
-        SetTop(shopScrollViewport, -220f);
-        SetBottom(shopScrollViewport, 260f);
+        SetTop(shopScrollViewport, -178f);
+        SetBottom(shopScrollViewport, 220f);
         shopScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
         //Inventory
-        SetY(inventoryHeading, -258f);
-        SetTop(inventorySpecialItemsScrollViewport, -400f);
-        SetBottom(inventorySpecialItemsScrollViewport, 260f);
-        SetTop(inventoryThemesScrollViewport, -400f);
-        SetBottom(inventoryThemesScrollViewport, 260f);
-
-        SetY(inventoryTitleBar, -318f);
-        inventorySpecialItemsScrollView.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+        SetTop(inventoryThemesScrollViewport, -252f);
+        SetBottom(inventoryThemesScrollViewport, 220f);
+        SetY(inventoryTitleBar, -173f);
+        SetY(inventoryShawdow, -262f);
 
         //Inbox
         SetTop(inboxItemsContainer, -213f);
@@ -297,6 +311,28 @@ public class NotchHandler : MonoBehaviour {
         SetBottom(tounamentsLeaderboardScrollViewport, 429f);
 
         SetY(tournamentsLeaderboardNotEnteredBar, 538f);
+
+        //New Lobby Content
+        SetTop(newLobbyContent, -185f);
+        SetBottom(newLobbyContent, 215f);
+
+        //Championship and All Star Leaderboard
+        SetY(leaderboardViewTopBar, -82f);
+        SetY(leaderboardViewBottomBar, 153f);
+        SetY(championshipLeaderboardHeader, -160f);
+        SetTop(championshipLeaderboardViewPort, -638f);
+        SetBottom(championshipLeaderboardViewPort, 185);
+        SetY(allStarLeaderboardHeader, -160f);
+        SetTop(allStarLeaderboardViewPort, -638f);
+        SetBottom(allStarLeaderboardViewPort, 185);
+
+        //Multiplayer Analysis
+        SetY(multiplayerAnalysisPanel, -378f);
+        SetY(multiplayerPlayerPanel, -376f);
+        SetY(multiplayerOpponentsPanel, 528f);
+        SetY(multiplayerBoard, 73.7f);
+        SetY(multiplayerDrawOffer, -1015f);
+        SetY(multiplayerOpponentTrophiesPanel, 40f);
     }
 
     void SetY(RectTransform tfm, float y)
@@ -338,5 +374,12 @@ public class NotchHandler : MonoBehaviour {
     void SetHeight(RectTransform tfm, float height)
     {
         tfm.sizeDelta = new Vector2(tfm.sizeDelta.x, height);
+    }
+
+    void SetY(Transform tfm, float y)
+    {
+        var localPosition = tfm.localPosition;
+        localPosition.y = y;
+        tfm.localPosition = localPosition;
     }
 }

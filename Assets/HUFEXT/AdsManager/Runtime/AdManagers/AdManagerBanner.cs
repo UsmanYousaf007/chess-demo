@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -27,12 +28,12 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             StartFetching();
         }
 
-        public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
+        public override void ShowAd( Action<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             isFetchingBanner = true;
             HLog.Log( logPrefix, $"ShowAd {adPlacementData.PlacementId}" );
             base.ShowAd( resultCallback, alternativeAdPlacement );
-            adsService.Mediation.ShowBanner( adPlacementData.PlacementId );
+            adsService.Mediation.ShowBanner( shownPlacementId );
         }
 
         protected override void StartFetching()
@@ -51,7 +52,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         void HandleShown( AdCallback callbackData )
         {
-            if ( callbackData.PlacementId != adPlacementData.PlacementId )
+            if ( callbackData.PlacementId != shownPlacementId )
                 return;
 
             if ( callbackData.Result != AdResult.Completed )
@@ -117,7 +118,9 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         {
             HLog.Log( logPrefix, $"ShowBannerPersistent {tryShowBannerPersistent}" );
             tryShowBannerPersistent = true;
-            ShowAd( null, placementId );
+
+            if ( IsReady() )
+                ShowAd( null, placementId );
         }
 
         protected override void SubscribeToEvents()

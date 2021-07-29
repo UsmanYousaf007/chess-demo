@@ -40,7 +40,12 @@ namespace TurboLabz.InstantFramework
         public static bool GetSafeBool(GSData item, string key, bool defaultVal = false)
         {
             if (key == null) return defaultVal;
-            return item.ContainsKey(key) ? item.GetBoolean(key).Value : defaultVal;
+            if (item.ContainsKey(key) && item.GetBoolean(key) != null)
+            {
+                return item.GetBoolean(key).Value;
+            }
+
+            return defaultVal;
         }
 
         public static GSData GetVGoodProperties(GSData itemData, string propertyKey)
@@ -126,6 +131,7 @@ namespace TurboLabz.InstantFramework
             item.currency1Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY1COST);
             item.currency2Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY2COST);
             item.currency3Cost = GetSafeInt(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY3COST);
+            item.currency4Cost = GetSafeLong(itemData, GSBackendKeys.SHOP_ITEM_CURRENCY4COST);
             item.maxQuantity = GetSafeInt(itemData,GSBackendKeys.SHOP_ITEM_MAX_QUANTITY);
 
 #if UNITY_IOS
@@ -158,10 +164,12 @@ namespace TurboLabz.InstantFramework
                 item.currency1Payout = item.currency1Cost;
                 item.currency2Payout = item.currency2Cost;
                 item.currency3Payout = item.currency3Cost;
+                item.currency4Payout = item.currency4Cost;
 
                 item.currency1Cost = 0;
                 item.currency2Cost = 0;
                 item.currency3Cost = 0;
+                item.currency4Cost = 0;
             }
 
             IList<GSData> bundleData = itemData.GetGSDataList(GSBackendKeys.SHOP_ITEM_STORE_BUNDLED_GOODS);
@@ -315,10 +323,15 @@ namespace TurboLabz.InstantFramework
 			publicProfile.name = publicProfileData.GetString(GSBackendKeys.PublicProfile.NAME);
 			publicProfile.countryId = publicProfileData.GetString(GSBackendKeys.PublicProfile.COUNTRY_ID);
 			publicProfile.eloScore = publicProfileData.GetInt(GSBackendKeys.PublicProfile.ELO_SCORE).Value;
-            publicProfile.isOnline = publicProfileData.GetBoolean(GSBackendKeys.PublicProfile.IS_ONLINE).Value;
+            if (publicProfileData.ContainsKey(GSBackendKeys.PublicProfile.IS_ONLINE))
+            {
+                publicProfile.isOnline = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_ONLINE);
+            }
             publicProfile.isSubscriber = GetSafeBool(publicProfileData, GSBackendKeys.PublicProfile.IS_SUBSCRIBER);
             publicProfile.league = GetSafeInt(publicProfileData, GSBackendKeys.PublicProfile.LEAGUE);
-           // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
+            publicProfile.trophies2 = GetSafeInt(publicProfileData, GSBackendKeys.PlayerDetails.TROPHIES2);
+
+            // publicProfile.name = FormatUtil.SplitFirstLastNameInitial(publicProfile.name);
 
             publicProfile.totalGamesWon = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_WON).Value;
             publicProfile.totalGamesLost = publicProfileData.GetInt(GSBackendKeys.PublicProfile.TOTAL_GAMES_LOST).Value;
@@ -407,6 +420,22 @@ namespace TurboLabz.InstantFramework
                 var count = obj.Value;
                 league.dailyReward.Add(obj.Key, Int32.Parse(count.ToString()));
             }
+
+            var trophiesData = data.GetGSData("trophies");
+            league.winTrophies = GetSafeInt(trophiesData, "win");
+            league.lossTrophies = GetSafeInt(trophiesData, "loss");
+        }
+
+        public static void ParseDynamicSpotPurchaseBundle(DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle, GSData data)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            dynamicSpotPurchaseBundle.dynamicBundleShortCode = data.GetString("bundle");
+            dynamicSpotPurchaseBundle.leftPackShortCode = data.GetString("pack1");
+            dynamicSpotPurchaseBundle.rightPackShortCode = data.GetString("pack2");
         }
 
         public static void LogLeague(League league)

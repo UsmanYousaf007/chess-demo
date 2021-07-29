@@ -70,7 +70,7 @@ namespace TurboLabz.CPU
                 }
             }
             chessboardModel.usedHelp = true;
-            startCPUGameSignal.Dispatch();
+            startCPUGameSignal.Dispatch(false);
         }
     }
 }

@@ -4,6 +4,8 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TurboLabz.InstantFramework
 {
@@ -30,9 +32,17 @@ namespace TurboLabz.InstantFramework
         public bool showInGameCPU { get; set; }
         public bool showInGame30Min { get; set; }
         public bool showInGameClassic { get; set; }
+        public bool isBannerEnabled { get; set; }
+        public bool removeInterAdsOnPurchase { get; set; }
+        public bool removeRVOnPurchase { get; set; }
+
+        /*Timed ads settings*/
+        public int minGemsRequiredforRV { get; set; }
+        public List<string> adPlacements { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
+        [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
 
         [PostConstruct]
         public void PostConstruct()
@@ -51,6 +61,12 @@ namespace TurboLabz.InstantFramework
             minutesForVictoryInternalAd = 0;
             autoSubscriptionDlgThreshold = 0;
             daysPerAutoSubscriptionDlgThreshold = 0;
+            isBannerEnabled = true;
+        }
+
+        public bool CanShowAdWithAdPlacement(string adPlacement)
+        {
+            return adsSettingsModel.adPlacements.FirstOrDefault(s => s == adPlacement) != null;
         }
     }
 }

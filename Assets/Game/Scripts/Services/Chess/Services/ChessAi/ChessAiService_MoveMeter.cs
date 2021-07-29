@@ -35,43 +35,46 @@ namespace TurboLabz.Chess
                 }
                 else
                 {
-                    int playerMoveClassificationIndex = 0;
-                    for (int i = 0; i < DELTA_CLASSIFICATIONS.Length; i++)
-                    {
-                        if (scores[0] - scores[moveFoundIndex] >= DELTA_CLASSIFICATIONS[i])
-                        {
-                            playerMoveClassificationIndex = i;
-                            break;
-                        }
-                    }
-
-                    var classifiedScoresList = new List<int>();
-                    foreach (var score in scores)
-                    {
-                        if (scores[0] - score >= DELTA_CLASSIFICATIONS[playerMoveClassificationIndex] &&
-                            playerMoveClassificationIndex > 0 &&
-                            scores[0] - score < DELTA_CLASSIFICATIONS[playerMoveClassificationIndex - 1])
-                        {
-                            classifiedScoresList.Add(score);
-                        }
-                    }
-
-                    var playerClassifiedScoreListIndex = classifiedScoresList.FindIndex(s => s == scores[moveFoundIndex]);
-
-                    LogUtil.Log(string.Format("playerMoveClassificationIndex: {0} classifiedScoresList.Count: {1} playerClassifiedScoreListIndex: {2}",
-                        playerMoveClassificationIndex, classifiedScoresList.Count, playerClassifiedScoreListIndex));
-
-                    percentage = DELTA_PERCENTILES[playerMoveClassificationIndex] +
-                        (((float)(classifiedScoresList.Count - playerClassifiedScoreListIndex) /
-                        (float)(classifiedScoresList.Count)) *
-                        PERCENTILE_DELTA);
-                    percentage = percentage < MIN_PERCENTAGE ? MIN_PERCENTAGE : percentage;
+                    percentage = CalculateMoveStrength(moveFoundIndex);
                 }
             }
 
             lastDequeuedMethod.promise.Dispatch(from, to, percentage.ToString());
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
+        }
+
+        private float CalculateMoveStrength(int moveFoundIndex)
+        {
+            float percentage = 0.0f;
+            int playerMoveClassificationIndex = 0;
+            for (int i = 0; i < DELTA_CLASSIFICATIONS.Length; i++)
+            {
+                if (scores[0] - scores[moveFoundIndex] >= DELTA_CLASSIFICATIONS[i])
+                {
+                    playerMoveClassificationIndex = i;
+                    break;
+                }
+            }
+
+            var classifiedScoresList = new List<int>();
+            foreach (var score in scores)
+            {
+                if (scores[0] - score >= DELTA_CLASSIFICATIONS[playerMoveClassificationIndex] &&
+                    playerMoveClassificationIndex > 0 &&
+                    scores[0] - score < DELTA_CLASSIFICATIONS[playerMoveClassificationIndex - 1])
+                {
+                    classifiedScoresList.Add(score);
+                }
+            }
+
+            var playerClassifiedScoreListIndex = classifiedScoresList.FindIndex(s => s == scores[moveFoundIndex]);
+
+            percentage = DELTA_PERCENTILES[playerMoveClassificationIndex] +
+                (((float)(classifiedScoresList.Count - playerClassifiedScoreListIndex) /
+                (float)(classifiedScoresList.Count)) *
+                PERCENTILE_DELTA);
+            percentage = percentage < MIN_PERCENTAGE ? MIN_PERCENTAGE : percentage;
+
+            return percentage;
         }
 
         private int GetMoveIndex(string moveString)
@@ -121,8 +124,6 @@ namespace TurboLabz.Chess
             pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
 
             lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
         }
 
         private void GetHint()
@@ -133,8 +134,6 @@ namespace TurboLabz.Chess
             var piece = chessService.GetPieceAtLocation(from);
             var pieceName = string.Format("{0}{1}", piece.color == ChessColor.BLACK ? 'b' : 'W', piece.name.ToLower());
             lastDequeuedMethod.promise.Dispatch(from, to, pieceName);
-            lastDequeuedMethod.promise = null;
-            lastDequeuedMethod = null;
         }
     }
 }

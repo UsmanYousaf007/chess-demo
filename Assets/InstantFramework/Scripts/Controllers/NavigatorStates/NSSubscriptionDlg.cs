@@ -11,7 +11,7 @@
         {
             NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.THEME_SELECTION, NavigatorViewId.MULTIPLAYER,
                 NavigatorViewId.CPU, NavigatorViewId.SETTINGS, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SHOP,
-                NavigatorViewId.LESSONS_VIEW, NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LESSON_VIDEO);
+                NavigatorViewId.LESSONS_VIEW, NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LESSON_VIDEO, NavigatorViewId.SPOT_COIN_PURCHASE_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -58,6 +58,11 @@
                 else if (viewId == NavigatorViewId.SHOP)
                 {
                     return new NSShop();
+                }
+                else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SUBSCRIPTION_DLG);
+                    return new NSSpotCoinPurchaseDlg();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

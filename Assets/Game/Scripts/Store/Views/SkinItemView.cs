@@ -19,20 +19,16 @@ public class SkinItemView : View
     [Inject] public IAudioService audioService { get; set; }
 
     public Signal<string> setSkinSignal = new Signal<string>();
-    public Signal<VirtualGoodsTransactionVO> unlockItemSignal = new Signal<VirtualGoodsTransactionVO>();
-    public Signal<VirtualGoodsTransactionVO> notEnoughCurrencyToUnlockSignal = new Signal<VirtualGoodsTransactionVO>();
+    public Signal<string> unlockItemSignal = new Signal<string>();
+    public Signal notEnoughCurrencyToUnlockSignal = new Signal();
     public string Key { get { return key; } }
+    public int Price { get { return item.currency3Cost; } }
 
     public Image thumbnail;
     public Image icon;
     public Text displayName;
     public Button unlockBtn;
-    public Text unlockText;
-    public Image notEnoughUnlockItems;
-    public Text requiredGems;
-    public string unlockItemKey;
-    public Sprite enoughGems;
-    public Sprite notEnoughGems;
+    public Text price;
     public Image tick;
     public Button button;
     public Text owned;
@@ -40,11 +36,9 @@ public class SkinItemView : View
 
     private string key;
     private StoreItem item;
-    private StoreItem unlockItem;
     private static StoreIconsContainer iconsContainer;
     private static StoreThumbsContainer thumbsContainer;
     private bool isUnlocked;
-    private bool haveEnoughItemsToUnlock;
     private bool haveEnoughGemsToUnlock;
 
     private void OnEnable()
@@ -69,7 +63,6 @@ public class SkinItemView : View
 
         button.onClick.AddListener(OnButtonClicked);
         unlockBtn.onClick.AddListener(OnUnlockClicked);
-        unlockText.text = localizationServicec.Get(LocalizationKey.INVENTORY_ITEM_UNLOCK);
         owned.text = localizationServicec.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
         UpdateView();
     }
@@ -103,15 +96,11 @@ public class SkinItemView : View
 
     public void SetOwnedState()
     {
-        unlockItem = storeSettingsModel.items[unlockItemKey];
         unlockBtn.gameObject.SetActive(!isUnlocked);
         owned.gameObject.SetActive(isUnlocked);
         tick.gameObject.SetActive(playerModel.activeSkinId == key);
-        haveEnoughItemsToUnlock = playerModel.GetInventoryItemCount(unlockItemKey) > 0;
-        haveEnoughGemsToUnlock = playerModel.gems >= unlockItem.currency3Cost;
-        requiredGems.text = unlockItem.currency3Cost.ToString();
-        notEnoughUnlockItems.gameObject.SetActive(false);
-        notEnoughUnlockItems.sprite = haveEnoughGemsToUnlock ? enoughGems : notEnoughGems;
+        haveEnoughGemsToUnlock = playerModel.gems >= item.currency3Cost;
+        price.text = item.currency3Cost.ToString();
     }
 
     public void PlayAnimation()
@@ -125,25 +114,13 @@ public class SkinItemView : View
     {
         audioService.PlayStandardClick();
 
-        var vo = new VirtualGoodsTransactionVO();
-        vo.buyItemShortCode = key;
-        vo.buyQuantity = 1;
-        vo.consumeItemShortCode = unlockItemKey;
-        vo.consumeQuantity = 1;
-
-        if (haveEnoughItemsToUnlock)
+        if (haveEnoughGemsToUnlock)
         {
-            unlockItemSignal.Dispatch(vo);
+            unlockItemSignal.Dispatch(key);
         }
-        //else if (haveEnoughGemsToUnlock)
-        //{
-        //    vo.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-        //    vo.consumeQuantity = unlockItem.currency3Cost;
-        //    unlockItemSignal.Dispatch(vo);
-        //}
         else
         {
-            notEnoughCurrencyToUnlockSignal.Dispatch(vo);
+            notEnoughCurrencyToUnlockSignal.Dispatch();
         }
     }
 

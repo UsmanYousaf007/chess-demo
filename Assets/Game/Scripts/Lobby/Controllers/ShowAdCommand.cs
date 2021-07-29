@@ -43,6 +43,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IRateAppService rateAppService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -180,8 +181,8 @@ namespace TurboLabz.InstantGame
                             {
                                 if (playerModel.adContext == AnalyticsContext.interstitial_endgame)
                                 {
+                                    routineRunner.StartCoroutine(LoadLobbyWithDelay());
                                     promise.Then(InterstitialAdCompleteHandler);
-                                    promise.Then(LoadLobby);
                                     promise.Then(ClaimReward);
                                     promise.Then(ShowPromotionOnVictory);
                                 }
@@ -274,29 +275,30 @@ namespace TurboLabz.InstantGame
         string challengeId = "";
         private void ClaimReward(AdsResult result)
         {
-            if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
-            {
-                adsRewardData = playerModel.GetAdsRewardsData();
+            //if ((result == AdsResult.FINISHED || result == AdsResult.BYPASS) && claimRewardType != GSBackendKeys.ClaimReward.NONE)
+            //{
+            //    adsRewardData = playerModel.GetAdsRewardsData();
 
-                GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
-                                                            .AddString("challengeId", resultAdsVO.challengeId);
+            //    GSRequestData jsonData = new GSRequestData().AddString("rewardType", claimRewardType)
+            //                                                .AddString("challengeId", resultAdsVO.challengeId);
 
-                backendService.ClaimReward(jsonData).Then(OnClaimReward);
-            }
-            else if (result == AdsResult.SKIPPED)
-            {
-                if (!preferencesModel.isSkipVideoDlgShown)
-                {
-                    preferencesModel.isSkipVideoDlgShown = true;
-                    showAdSkippedDlgSignal.Dispatch();
-                }
+            //    backendService.ClaimReward(jsonData).Then(OnClaimReward);
+            //}
+            //else if (result == AdsResult.SKIPPED)
+            //{
+            //    if (!preferencesModel.isSkipVideoDlgShown)
+            //    {
+            //        preferencesModel.isSkipVideoDlgShown = true;
+            //        showAdSkippedDlgSignal.Dispatch();
+            //    }
 
-                Release();
-            }
-            else
-            {
-                Release();
-            }
+            //    Release();
+            //}
+            //else
+            //{
+            //    Release();
+            //}
+            Release();
         }
 
         private void OnClaimReward(BackendResult result)
@@ -337,6 +339,12 @@ namespace TurboLabz.InstantGame
             {
                 showPromotionDlgSignal.Dispatch(null, InternalAdType.FORCED_ON_WIN);
             }
+        }
+
+        IEnumerator LoadLobbyWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            LoadLobby();
         }
 
         private void LoadLobby(AdsResult result = AdsResult.FINISHED)
@@ -402,7 +410,7 @@ namespace TurboLabz.InstantGame
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Random1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random3.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random.ToString()
               || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Random30.ToString())
             {
-                FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString(), resultAdsVO.tournamentId);
+                //FindMatchAction.Random(findMatchSignal, resultAdsVO.actionCode.ToString(), resultAdsVO.tournamentId);
             }
             else if (resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge1.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge3.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge.ToString() ||
                 resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge10.ToString() || resultAdsVO.actionCode == FindMatchAction.ActionCode.Challenge30.ToString())
@@ -414,9 +422,9 @@ namespace TurboLabz.InstantGame
                 tapLongMatchSignal.Dispatch(resultAdsVO.friendId, resultAdsVO.isRanked);
             }
             
-            else
+            else if (resultAdsVO.actionCode == "CPU")
             {
-                startCPUGameSignal.Dispatch();
+                startCPUGameSignal.Dispatch(false);
             }
 
             Release();
@@ -438,7 +446,23 @@ namespace TurboLabz.InstantGame
                                     (actionCode == FindMatchAction.ActionCode.Challenge1.ToString() ||
                                     actionCode == FindMatchAction.ActionCode.Random1.ToString());
 
-            if (isOneMinuteGame && adsSettingsModel.showPregameInOneMinute == false)
+            if (adsSettingsModel.removeInterAdsOnPurchase && playerModel.HasPurchased())
+            {
+                retVal = false;
+            }
+            else if (!adsService.IsPersonalisedAdDlgShown())
+            {
+                retVal = false;
+            }
+            else if (!preferencesModel.isRateAppDialogueFirstTimeShown && resultAdsVO.adsType == AdType.Interstitial)
+            {
+                retVal = false;
+            }
+            else if (resultAdsVO.adsType == AdType.Interstitial && !IsPregameAd() && rateAppService.CanShowRateDialogue())
+            {
+                retVal = false;
+            }
+            else if (isOneMinuteGame && adsSettingsModel.showPregameInOneMinute == false)
             {
                 retVal = false;
             }

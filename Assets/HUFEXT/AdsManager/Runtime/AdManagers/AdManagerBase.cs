@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.Implementation;
@@ -25,7 +26,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         protected int currentFetchTimes;
         protected string shownPlacementId;
         
-        protected UnityAction<AdManagerCallback> showResponseCallbacks;
+        protected Action<AdManagerCallback> showResponseCallbacks;
 
         List<string> alternativePlacements = new List<string>();
         Coroutine delayFetchCoroutine;
@@ -42,7 +43,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             StartFetching();
         }
 
-        public event UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        public event Action<AdsManagerFetchCallbackData> OnAdFetch;
 
         protected enum AdStatus
         {
@@ -92,7 +93,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             return adStatus == AdStatus.ReadyToShow;
         }
 
-        public virtual void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
+        public virtual void ShowAd( Action<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             adStatus = AdStatus.Showing;
             showResponseCallbacks = resultCallback;
@@ -150,11 +151,11 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
         protected void HandleEnded( AdCallback callbackData )
         {
-            if ( callbackData.PlacementId != adPlacementData.PlacementId )
+            if ( callbackData.PlacementId != shownPlacementId && callbackData.PlacementId != adPlacementData.PlacementId)
                 return;
 
             HLog.Log( logPrefix,
-                $"HandleEnded {adPlacementData.PlacementId} Result: {callbackData.Result.ToString()}" );
+                $"HandleEnded {shownPlacementId} Result: {callbackData.Result.ToString()}" );
             AdEnded( callbackData.Result );
         }
 

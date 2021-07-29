@@ -5,6 +5,7 @@ using TurboLabz.InstantGame;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.CLSCompliant(false)]
 public class FriendBarSimple : MonoBehaviour
 {
     public Text profileNameLabel;

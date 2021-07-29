@@ -1,0 +1,38 @@
+{
+  "name": "com.huuuge.huf.policyguard",
+  "displayName": "Policy Guard",
+  "version": "1.4.0",
+  "unity": "2018.4",
+  "description": "This is a package that will handle GDPR, ATT and Personalized Ads flow",
+  "huf": {
+    "dependencies": [
+      "com.huuuge.huf.utils@^3.6.1",
+      "com.huuuge.huf.analytics@^2.4.0",
+      "com.huuuge.huf.ads@^2.6.0",
+      "com.huuuge.huf.genericdialog@^1.4.2"
+    ],
+    "exclude": [
+      "com.huuuge.hufext.genericgdpr"
+    ],
+    "optionalDependencies": [
+      "com.huuuge.huf.translationsystem@^1.1.1",
+      "com.huuuge.hufext.countrycode@^2.2.4",
+      "com.huuuge.huf.gameserver"
+    ],
+    "samples": [
+      {
+        "displayName": "Sample age pop-up",
+        "description": "A sample custom age pop-up with saving key to player prefs",
+        "path": "Samples~/AgePopup"
+      }
+    ],
+    "doc_section": "Getting Started",
+    "date": "01.06.2021 11:10",
+    "commit": "fd5db10",
+    "build": "29",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/HUF/PolicyGuard",
+    "rollout": "39"
+  }
+}

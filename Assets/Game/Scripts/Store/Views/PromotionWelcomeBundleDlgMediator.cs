@@ -69,12 +69,6 @@ public class PromotionWelcomeBundleDlgMediator : Mediator
         purchaseStoreItemSignal.Dispatch(view.key, true);
     }
 
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
-    }
-
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
@@ -85,24 +79,8 @@ public class PromotionWelcomeBundleDlgMediator : Mediator
             //Analytics
             var context = item.displayName.Replace(' ', '_').ToLower();
             analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, AnalyticsContext.welcome);
-
-            if (item.bundledItems != null)
-            {
-                foreach (var bItem in item.bundledItems)
-                {
-                    analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(bItem.Key).ToString(), bItem.Value, "promotion_popup", context);
-
-                    if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE].ContainsKey(bItem.Key))
-                    {
-                        preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_BUNDLE][bItem.Key] += bItem.Value;
-                    }
-                }
-            }
-
-            if (item.currency3Payout > 0)
-            {
-                analyticsService.ResourceEvent(GAResourceFlowType.Source, "gems", item.currency3Payout, "promotion_popup", context);
-            }
+            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, item.currency3Cost, "promotion", $"{context}_gems");
+            analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "promotion", $"{context}_coins");
         }
     }
 }

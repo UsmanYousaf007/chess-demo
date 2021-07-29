@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PolicyGuardConfigPreset
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: e8e4ca4f5e004bc7ad5fa8a881cdd297,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: configId
+    value: PolicyGuardConfig
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: autoInit
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: useAutomatedFlow
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showATTPreOptInPopup
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: delayClosingATTPreOptInPopup
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showNativeATT
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showAdsPrivacyConsentInGDPRPopup
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showAdsConsent
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: referenceToATTPreOptInPopup
+    value: 
+    objectReference: {fileID: 11400000, guid: 36ae89697c2974416abc3db3d4fe9b48, type: 2}
+  - target: {fileID: 0}
+    propertyPath: referenceToGDPRWithAdsPopup
+    value: 
+    objectReference: {fileID: 11400000, guid: 34f855e56a1b54ee196ab6c4b6c33b4e, type: 2}
+  - target: {fileID: 0}
+    propertyPath: referenceToGDPRPopup
+    value: 
+    objectReference: {fileID: 11400000, guid: 7cf89946926214fec9c99414a6884a7c, type: 2}
+  - target: {fileID: 0}
+    propertyPath: referenceToPersonalizedAdsPopup
+    value: 
+    objectReference: {fileID: 11400000, guid: 032ee6fffeb52493a95ab5c3f4ecf49d, type: 2}
+  - target: {fileID: 0}
+    propertyPath: overrideATTPreOptInPopup
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: overrideGDPRWithAdsPopup
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: overrideGDPRPopup
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: overridePersonalizedAdsPopup
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: anonymizationBlocker
+    value: 
+    objectReference: {fileID: 5882451049156358287, guid: 3d43dcfff866e46b0ae20b48a31328af,
+      type: 3}
+  - target: {fileID: 0}
+    propertyPath: enableCountryCheck
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showForCountries
+    value: AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PT,RO,SK,SI,ES,SE,GB,GF,GP,MQ,ME,YT,RE,MF,GI,AX,PM,GL,BL,SX,AW,CW,WF,PF,NC,TF,AI,BM,IO,VG,KY,FK,MS,PN,SH,GS,TC,AD,LI,MC,SM,VA,JE,GG,GI,CH,PL
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: androidPopupsFlow.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: iOSPopupsFlow.Array.size
+    value: 0
+    objectReference: {fileID: 0}

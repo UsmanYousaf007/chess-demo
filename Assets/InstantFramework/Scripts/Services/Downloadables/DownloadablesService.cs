@@ -7,6 +7,7 @@ using System;
 using strange.extensions.promise.api;
 using UnityEngine;
 using UnityEngine.U2D;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -17,6 +18,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public DownloadableContentEventSignal dlcSignal { get; set; }
         private string shortCode;
         private Action<BackendResult, AssetBundle> onDownloadContentCompleteCB;
+
+        //backup downloadable item
+        private DownloadableItem _dlItem;
 
         public void GetDownloadableContent( string shortCode, Action<BackendResult, AssetBundle> callbackFn,
                                             ContentType? contentType)
@@ -43,19 +47,29 @@ namespace TurboLabz.InstantFramework
             this.shortCode = shortCode;
             onDownloadContentCompleteCB = callbackFn;
 
-            if (downloadablesModel.IsUpdateAvailable(shortCode))
-            {
+
+            //backup the downloadable item in case it gets lost while the process is running to get the asset bundle
+            _dlItem = new DownloadableItem();
+            _dlItem.size = dlItem.size;
+            _dlItem.downloadShortCode = dlItem.downloadShortCode;
+            _dlItem.shortCode = dlItem.shortCode;
+            _dlItem.lastModified = dlItem.lastModified;
+            _dlItem.url = dlItem.url;
+            _dlItem.bundle = dlItem.bundle;
+
+            //if (downloadablesModel.IsUpdateAvailable(shortCode))
+            //{
                 new GetDownloadableContentRequest(dlcSignal, contentType).Send(backendService.GetDownloadableContentUrl,
                                                     dlItem.downloadShortCode,dlItem.shortCode, dlItem.lastModified)
                                                     .Then(OnDownloadContentComplete);
-            }
+            //}
 
-            else
-            {
-                new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.downloadShortCode,
-                                                    dlItem.shortCode, dlItem.lastModified)
-                                                    .Then(OnDownloadContentComplete);
-            }
+            //else
+            //{
+            //    new GetDownloadableContentRequest(dlcSignal, contentType).Send(null, dlItem.downloadShortCode,
+            //                                        dlItem.shortCode, dlItem.lastModified)
+            //                                        .Then(OnDownloadContentComplete);
+            //}
         }
 
         public void OnDownloadContentComplete(BackendResult result, AssetBundle bundle)
@@ -64,12 +78,23 @@ namespace TurboLabz.InstantFramework
 
             if (result == BackendResult.SUCCESS)
             {
-                downloadablesModel.downloadableItems[shortCode].bundle = bundle;
-                downloadablesModel.MarkUpdated(shortCode);
+                try
+                {
+                    if (downloadablesModel.downloadableItems[shortCode] == null)
+                    {
+                        downloadablesModel.downloadableItems[shortCode] = _dlItem;
+                    }
+                    downloadablesModel.downloadableItems[shortCode].bundle = bundle;
+                    downloadablesModel.MarkUpdated(shortCode);
+                }
+                catch (Exception e)
+                {
+                    LogUtil.Log("Downloadable item not found " + e, "red");
+                }
 
                 TLUtils.LogUtil.Log("DownloadablesService::OnDownloadContentComplete() ==> bundle:" + bundle.name, "cyan");
             }
-
+            
             onDownloadContentCompleteCB?.Invoke(result, bundle);
         }
     }

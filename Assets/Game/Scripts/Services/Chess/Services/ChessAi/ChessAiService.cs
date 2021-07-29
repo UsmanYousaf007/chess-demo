@@ -20,6 +20,7 @@ using strange.extensions.promise.impl;
 using TurboLabz.TLUtils;
 using System.Collections.Generic;
 using System;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.Chess
 {
@@ -34,23 +35,13 @@ namespace TurboLabz.Chess
             public AiMoveInputVO vo;
         }
 
-        public bool Busy
-        {
-            get
-            {
-                return aiMovePromise != null;
-            }
-        }
-
-        private IPromise<FileRank, FileRank, string> aiMovePromise;
-        private IPromise<FileRank, FileRank, string> aiMoveStrengthPromise;
         private AiMoveInputVO aiMoveInputVO;
         private ChessAiPlugin plugin = new ChessAiPlugin();
         private bool resultsReady;
 
-        public void NewGame()
+        public void NewGame(string multiPV = ChessAiConfig.SF_MULTIPV)
         {
-            plugin.NewGame();
+            plugin.NewGame(multiPV);
             ChessAiPlugin.resultsReadySignal.RemoveAllListeners();
             ChessAiPlugin.resultsReadySignal.AddListener(ResultsReady);
         }
@@ -77,23 +68,11 @@ namespace TurboLabz.Chess
 
         private void _GetAiMoveStrength(AiMoveInputVO vo)
         {
-            NewGame();
+            NewGame(ChessAiConfig.SF_ANALYSIS_MULTIPV);
             SetPosition(vo.fen);
             aiMoveInputVO = vo;
             routineRunner.StartCoroutine(GetAiResult());
         }
-
-        //private IEnumerator ProcessQueue(MoveRequest request)
-        //{
-        //	while (Busy)
-        //	{
-        //		yield return null;
-        //	}
-        //
-        //	aiMoveInputVO = request.vo;
-        //	aiMovePromise = request.promise;
-        //	routineRunner.StartCoroutine(GetAiResult());
-        //}
 
         private IEnumerator GetAiResult()
         {
@@ -102,7 +81,9 @@ namespace TurboLabz.Chess
             string searchDepth;
 
             // Execute the move
-            searchDepth = (aiMoveInputVO.isStrength || aiMoveInputVO.isHint) ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+            searchDepth = (aiMoveInputVO.isStrength || aiMoveInputVO.isHint) ? ChessAiConfig.SF_MAX_SEARCH_DEPTH.ToString() :
+                aiMoveInputVO.analyse ? ChessAiConfig.SF_ANALYSIS_SEARCH_DEPTH.ToString() : GetSearchDepth().ToString();
+
             AiLog("searchDepth = " + searchDepth);
             
             plugin.GoDepth(searchDepth);
@@ -120,7 +101,6 @@ namespace TurboLabz.Chess
 
             ExecuteAiMove();
             taskIsReadyToExecute = true;
-            ExecuteQueue();
         }
 
         public void Shutdown()
@@ -141,34 +121,46 @@ namespace TurboLabz.Chess
 
         private void ExecuteAiMove()
         {
-
-            // Read the scores returned
-            aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
-            aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
-            scores = new List<int>();
-
-            foreach (string score in aiSearchResultScoresList)
+            try
             {
-                scores.Add(int.Parse(score));
+                // Read the scores returned
+                aiSearchResultScoresList = new List<string>(ChessAiPlugin.results.aiSearchResultScoresStr.Split(','));
+                aiSearchResultScoresList.RemoveAt(0); // Gets rid of the label
+                scores = new List<int>();
+
+                foreach (string score in aiSearchResultScoresList)
+                {
+                    scores.Add(int.Parse(score));
+                }
+
+                // Read the moves returned
+                aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
+                aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
+
+                if (aiMoveInputVO.isStrength)
+                {
+                    GetMoveStrength();
+                }
+                else if (aiMoveInputVO.isHint)
+                {
+                    //GetBestMove();
+                    GetHint();
+                }
+                else if (aiMoveInputVO.analyse)
+                {
+                    GetMoveAnalysis();
+                }
+                else
+                {
+                    SelectMove();
+                }
             }
-
-            // Read the moves returned
-            aiSearchResultMovesList = new List<string>(ChessAiPlugin.results.aiSearchResultMovesStr.Split(','));
-            aiSearchResultMovesList.RemoveAt(0); // Gets rid of the label
-
-            if (aiMoveInputVO.isStrength)
+            catch (Exception ex)
             {
-                GetMoveStrength();
-            }
-            else if (aiMoveInputVO.isHint)
-            {
-                //GetBestMove();
-                GetHint();
-            }
-            else
-            {
-                SelectMove();
-                aiMovePromise = null;
+                if (aiMoveInputVO.analyse)
+                {
+                    lastDequeuedMethod.promise.Dispatch(aiMoveInputVO.lastPlayerMove.from, aiMoveInputVO.lastPlayerMove.to, $"{MoveQuality.NORMAL}|-1|0|0|0");
+                }
             }
             
         }

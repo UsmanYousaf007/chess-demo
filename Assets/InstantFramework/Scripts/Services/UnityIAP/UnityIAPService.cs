@@ -27,7 +27,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateConfirmDlgSignal updateConfirmDlgSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-        [Inject] public ShowProcessingSignal showIAPProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showIAPProcessingSignal { get; set; }
 
         //Models
         [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -117,7 +117,7 @@ namespace TurboLabz.InstantFramework
                             new KeyValuePair<string, object>("store_iap_id", product.transactionID));
                     }
 
-#if SUBSCRIPTION_TEST
+#if BUILD_TEST
                     if (playerModel.subscriptionExipryTimeStamp > 0)
                     {
                         playerModel.subscriptionExipryTimeStamp = 1;
@@ -206,7 +206,7 @@ namespace TurboLabz.InstantFramework
                 storeController.InitiatePurchase(product);
             }
 
-            showIAPProcessingSignal.Dispatch(true, true);
+            showIAPProcessingSignal.Dispatch(true);
 
             return storePromise; //purchaseState == purchaseProcessState.PURCHASE_STATE_PENDING;
         }
@@ -288,13 +288,13 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                showIAPProcessingSignal.Dispatch(false, false);
+                showIAPProcessingSignal.Dispatch(false);
             }
 
             return PurchaseProcessingResult.Complete;
         }
 
-        public void OnVerifiedPurchase(BackendResult result, string transactionID)
+        public void OnVerifiedPurchase(BackendResult result, string transactionID, string productId)
         {
             if (pendingVerification.ContainsKey(transactionID))
             {
@@ -348,7 +348,7 @@ namespace TurboLabz.InstantFramework
                 pendingVerification.Remove(transactionID);
             }
 
-            showIAPProcessingSignal.Dispatch(false, false);
+            showIAPProcessingSignal.Dispatch(false);
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
@@ -373,7 +373,7 @@ namespace TurboLabz.InstantFramework
 
             //updateConfirmDlgSignal.Dispatch(vo);
 
-            showIAPProcessingSignal.Dispatch(false, false);
+            showIAPProcessingSignal.Dispatch(false);
 
             // Do nothing when user cancels
             if (reason == PurchaseFailureReason.UserCancelled)
@@ -518,7 +518,7 @@ namespace TurboLabz.InstantFramework
             if (name.Equals("completed"))
             {
                 analyticsService.Event(AnalyticsEventId.subscription_renewed, item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly);
-                GameAnalyticsSDK.GameAnalytics.NewBusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
+                analyticsService.BusinessEvent("USD", item.currency1Cost, "subscription", item.displayName, "default");
             }
         }
 

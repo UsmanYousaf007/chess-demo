@@ -8,11 +8,18 @@ namespace TurboLabz.InstantFramework
     public class SpotPurchaseView : View
     {
         public Text title;
-        public Text subTitle;
         public Button close;
-        public GameObject uiBlocker;
-        public GameObject processing;
-        public Text finePrint;
+        public Button showMoreButton;
+        public Button showLessButton;
+        public GameObject moreOffers;
+        public RectTransform[] layouts;
+        public Transform bgGlow;
+        public Transform bgGlowPivot;
+        public GameObject extraBadge;
+        public ShopItemView leftGemsPack;
+        public ShopItemView rightGemsPacks;
+        public GameObject lessOffers;
+        public PromotionBundleView[] bundles;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
@@ -20,18 +27,20 @@ namespace TurboLabz.InstantFramework
 
         //Dispatch Signals
         public Signal closeDlgSignal = new Signal();
+        public Signal<bool> showMoreSignal = new Signal<bool>();
 
         public void Init()
         {
             title.text = localizationService.Get(LocalizationKey.SPOT_PURHCASE_TITLE);
-            subTitle.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_SUB_TITLE);
-            finePrint.text = localizationService.Get(LocalizationKey.SPOT_PURCHASE_FINE_PRINT);
             close.onClick.AddListener(OnCloseButtonClicked);
+            showMoreButton.onClick.AddListener(() => ButtonClicked(true));
+            showLessButton.onClick.AddListener(() => ButtonClicked(false));
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            SetupLayout(false);
         }
 
         public void Hide()
@@ -45,10 +54,42 @@ namespace TurboLabz.InstantFramework
             closeDlgSignal.Dispatch();
         }
 
-        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
+        private void ButtonClicked(bool showMore)
         {
-            uiBlocker.SetActive(showUiBlocked);
-            processing.SetActive(showProcessing);
+            audioService.PlayStandardClick();
+            SetupLayout(showMore);
+            showMoreSignal.Dispatch(showMore);
+        }
+
+        private void SetupLayout(bool showMore)
+        {
+            showMoreButton.gameObject.SetActive(!showMore);
+            showLessButton.gameObject.SetActive(showMore);
+            moreOffers.SetActive(showMore);
+            extraBadge.SetActive(!showMore);
+            lessOffers.SetActive(!showMore);
+            RebuildLayouts();
+        }
+
+        private void RebuildLayouts()
+        {
+            foreach (var layout in layouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
+
+            bgGlow.position = bgGlowPivot.position;
+        }
+
+        public void SetupDynamicContent(DynamicSpotPurchaseBundle dynamicSpotPurchaseBundle)
+        {
+            foreach (var bundle in bundles)
+            {
+                bundle.gameObject.SetActive(bundle.key.Equals(dynamicSpotPurchaseBundle.dynamicBundleShortCode));
+            }
+
+            leftGemsPack.OverrideItem(dynamicSpotPurchaseBundle.leftPackShortCode);
+            rightGemsPacks.OverrideItem(dynamicSpotPurchaseBundle.rightPackShortCode);
         }
     }
 }

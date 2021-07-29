@@ -9,6 +9,7 @@ using strange.extensions.signal.impl;
 using GameAnalyticsSDK;
 using TurboLabz.TLUtils;
 using TurboLabz.InstantGame;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,7 +26,6 @@ namespace TurboLabz.InstantFramework
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
         [Inject] public LoadRewardDlgViewSignal loadRewardDlgViewSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
 
@@ -33,6 +33,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -59,6 +61,7 @@ namespace TurboLabz.InstantFramework
 
         public override void OnRegister()
         {
+            view.serverClock = backendService.serverClock;
             view.Init();
 
             // Button click handlers
@@ -71,6 +74,7 @@ namespace TurboLabz.InstantFramework
             view.infoBar.gameModeButtonClickedSignal.AddListener(OnGameModeButtonClicked);
             view.loadPictureSignal.AddListener(OnLoadPicture);
             view.backSignal.AddListener(OnBackPressed);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
 
             onRewardDlgClosedSignal.AddListener(OnRewardClosed);
 
@@ -240,11 +244,11 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(UpdatePlayerInventorySignal))]
-        public void OnInventoryUpdated(PlayerInventoryVO inventory)
-        {
-            view.UpdateTickets();
-        }
+        //[ListensTo(typeof(UpdatePlayerInventorySignal))]
+        //public void OnInventoryUpdated(PlayerInventoryVO inventory)
+        //{
+        //    view.UpdateTickets();
+        //}
 
         [ListensTo(typeof(OnTournamentEndRewardViewClickedSignal))]
         public void OnTournamentRewardViewClicked(string messageId)
@@ -340,7 +344,6 @@ namespace TurboLabz.InstantFramework
 
         private void OnRewardClosed()
         {
-            loadInboxSignal.Dispatch();
             UnlockTournament();
 
             if (goBackToArena)
@@ -443,7 +446,7 @@ namespace TurboLabz.InstantFramework
             string tournamentId = _joinedTournament != null ? _joinedTournament.id : _openTournament.shortCode;
             if (adsSettingsModel.showPregameTournament == false || timeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
             {
-                FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
+                //FindMatchAction.Random(findMatchSignal, actionCode, tournamentId);
             }
             else
             {
@@ -452,7 +455,7 @@ namespace TurboLabz.InstantFramework
                 vo.adsType = AdType.Interstitial;
                 vo.actionCode = actionCode;
                 vo.tournamentId = tournamentId;
-                vo.placementId = AdPlacements.Interstitial_tournament_pre;
+                //vo.placementId = AdPlacements.Interstitial_tournament_pre;
                 showAdSignal.Dispatch(vo, false);
             }
         }
@@ -570,6 +573,18 @@ namespace TurboLabz.InstantFramework
             }
 
             return 0;
+        }
+
+        private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(callback);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(callback);
+            }
         }
     }
 }

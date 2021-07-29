@@ -37,14 +37,6 @@ namespace HUF.Analytics.Runtime.Implementation
             PauseManager.Instance.OnApplicationFocusChange += HandleApplicationFocusChange;
         }
 
-        void HandleApplicationFocusChange( bool hasFocus )
-        {
-            if ( hasFocus )
-                return;
-
-            SaveEvents( false );
-        }
-
         public void AddEvent( AnalyticsEvent analyticsEvent )
         {
             listOfEvents.Add( analyticsEvent );
@@ -62,6 +54,19 @@ namespace HUF.Analytics.Runtime.Implementation
 
             isSendingCachedEvents = true;
             CoroutineManager.StartCoroutine( SendEventsCoroutine( delay ) );
+        }
+        
+        static string GetIndexedServiceKey( string serviceName, int index )
+        {
+            return $"{SAVE_KEY}{serviceName}_{index}";
+        }
+        
+        void HandleApplicationFocusChange( bool hasFocus )
+        {
+            if ( hasFocus )
+                return;
+
+            SaveEvents( false );
         }
 
         IEnumerator SendEventsCoroutine( float delay )
@@ -91,7 +96,7 @@ namespace HUF.Analytics.Runtime.Implementation
                     {
                         var eventData = (Dictionary<string, object>)HUFJson.Deserialize( singleEvent );
 
-                        HAnalytics.LogMonetizationEvent(
+                        HAnalytics.LogSuccessfulPurchaseEvent(
                             AnalyticsMonetizationEvent.Create( eventData,
                                 int.Parse( eventData[AnalyticsMonetizationEvent.CENTS_KEY].ToString() ) ),
                             serviceName );
@@ -134,11 +139,6 @@ namespace HUF.Analytics.Runtime.Implementation
 
             listOfEvents.Clear();
             savedPagesCount++;
-        }
-
-        static string GetIndexedServiceKey( string serviceName, int index )
-        {
-            return $"{SAVE_KEY}{serviceName}_{index}";
         }
     }
 }

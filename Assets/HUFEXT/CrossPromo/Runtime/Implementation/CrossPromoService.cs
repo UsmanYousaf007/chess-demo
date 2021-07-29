@@ -21,7 +21,7 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         bool isInitialized;
         bool isPanelOpen = false;
         public bool hasContent;
-
+        
         public static string NotInstalledStateButtonText = "get";
         public static string InstalledStateButtonText = "play now";
         public static string InstalledStateTileLabelText = "installed";
@@ -29,18 +29,16 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
 
         public CrossPromoService()
         {
-            //PauseManager.Instance.OnAppPause += HandleFocusLost;
-            
-            if (HInitFirebase.IsInitialized)
+            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
+            HRemoteConfigs.OnFetchFail += HandleConfigsFetchFail;
+
+            if ( HRemoteConfigs.IsInitialized() )
             {
-                HandleFirebaseInitComplete();
+                HRemoteConfigs.Fetch();
             }
             else
             {
-                HInitFirebase.OnInitializationSuccess += HandleFirebaseInitComplete;
                 HRemoteConfigs.OnInitComplete += HandleRemoteConfigsInitialized;
-                HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
-                HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
             }
         }
 
@@ -54,10 +52,10 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         }*/
 
         public bool IsPanelOpen() => isPanelOpen;
-        
+
         public void ClosePanel()
         {
-            crossPromoView.gameObject.SetActive(false);
+            crossPromoView.gameObject.SetActive( false );
             isPanelOpen = false;
             Screen.orientation = defaultAppOrientation;
         }
@@ -65,30 +63,30 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         public void OpenPanel()
         {
             isPanelOpen = true;
-            CoroutineManager.StartCoroutine(InternalOpenPanel());
+            CoroutineManager.StartCoroutine( InternalOpenPanel() );
         }
 
-        public void SetNotInstalledStateButtonText(string text)
+        public void SetNotInstalledStateButtonText( string text )
         {
             NotInstalledStateButtonText = text;
             topPanelContainer.UpdateTexts();
             contentPanelContainer.UpdateTexts();
         }
 
-        public void SetInstalledStateButtonText(string text)
+        public void SetInstalledStateButtonText( string text )
         {
             InstalledStateButtonText = text;
             topPanelContainer.UpdateTexts();
             contentPanelContainer.UpdateTexts();
         }
 
-        public void SetInstalledStateTileLabelText(string text)
+        public void SetInstalledStateTileLabelText( string text )
         {
             InstalledStateTileLabelText = text;
             contentPanelContainer.UpdateTexts();
         }
-        
-        public void SetCloseButtonText(string text)
+
+        public void SetCloseButtonText( string text )
         {
             CloseButtonText = text;
             bottomPanelContainer.UpdateTexts();
@@ -98,117 +96,130 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
         {
             var localConfig = HConfigs.GetConfig<CrossPromoLocalConfig>();
 
-            if (!localConfig.UseDefaultAppOrientation)
+            if ( !localConfig.UseDefaultAppOrientation )
                 defaultAppOrientation = Screen.orientation;
             Screen.orientation = ScreenOrientation.Portrait;
-            yield return new WaitUntil(() => Screen.orientation == ScreenOrientation.Portrait);
-            crossPromoView.gameObject.SetActive(true);
+            yield return new WaitUntil( () => Screen.orientation == ScreenOrientation.Portrait );
+
+            crossPromoView.gameObject.SetActive( true );
             yield return null;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(crossPromoView.GetComponent<RectTransform>());
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate( crossPromoView.GetComponent<RectTransform>() );
         }
 
-        void HandleFirebaseInitComplete()
+        void HandleInitComplete()
         {
-            if (!IsConfigValid())
+            if ( !IsConfigValid() )
             {
-                Debug.LogError("Failed to find at least one of the required configs!");
+                Debug.LogError( "Failed to find at least one of the required configs!" );
                 return;
             }
-            
+
             var localConfig = HConfigs.GetConfig<CrossPromoLocalConfig>();
             var remoteConfig = HConfigs.GetConfig<CrossPromoRemoteConfig>();
-            
-            if (localConfig.UseDefaultAppOrientation)
-                defaultAppOrientation = localConfig.DefaultAppOrientation;
-            
-            var canvas = CreateCanvas();
-            crossPromoView = Object
-                .Instantiate(localConfig.CrossPromoRootPrefab, canvas.transform)
-                .GetComponent<CrossPromoView>();
 
-            if (localConfig.CustomBottomPanelContainer == null)
+            if ( crossPromoView == null )
             {
-                crossPromoView.BottomPanelContainer = Object.Instantiate(crossPromoView.BottomPanelContainerDefaultPrefab, crossPromoView.transform);
-            }
-            else
-            {
-                crossPromoView.BottomPanelContainer = Object.Instantiate(localConfig.CustomBottomPanelContainer, crossPromoView.transform);
-            }
-            
-            
-            topPanelContainer = crossPromoView.TopPanelContainer;
-            contentPanelContainer = crossPromoView.ContentPanelContainer;
-            bottomPanelContainer = crossPromoView.BottomPanelContainer;
+                if ( localConfig.UseDefaultAppOrientation )
+                    defaultAppOrientation = localConfig.DefaultAppOrientation;
+                var canvas = CreateCanvas();
 
-            HRemoteConfigs.ApplyConfig(ref remoteConfig);
+                crossPromoView = Object
+                    .Instantiate( localConfig.CrossPromoRootPrefab, canvas.transform )
+                    .GetComponent<CrossPromoView>();
+
+                if ( localConfig.CustomBottomPanelContainer == null )
+                {
+                    crossPromoView.BottomPanelContainer =
+                        Object.Instantiate( crossPromoView.BottomPanelContainerDefaultPrefab, crossPromoView.transform );
+                }
+                else
+                {
+                    crossPromoView.BottomPanelContainer = Object.Instantiate( localConfig.CustomBottomPanelContainer,
+                        crossPromoView.transform );
+                }
+
+                topPanelContainer = crossPromoView.TopPanelContainer;
+                contentPanelContainer = crossPromoView.ContentPanelContainer;
+                bottomPanelContainer = crossPromoView.BottomPanelContainer;
+                ClosePanel();
+            }
+
+            HRemoteConfigs.ApplyConfig( ref remoteConfig );
             isInitialized = true;
-            UpdateContainerPanels(remoteConfig);
-            ClosePanel();
+            UpdateContainerPanels( remoteConfig );
             hasContent = remoteConfig.CrossPromoPanelGameModels.Count > 0 && remoteConfig.TopPanelCrossPromoGameModels.Count > 0;
         }
 
-        public void FetchRemoteConfigs()
-        {
-            HandleRemoteConfigsInitialized();
-            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
-            HRemoteConfigs.OnFetchFail += HandleConfigFetchFinished;
-        }
-
-        void HandleRemoteConfigsInitialized()
+        void HandleRemoteConfigsInitialized( RemoteConfigService service )
         {
             HRemoteConfigs.Fetch();
         }
 
-        void HandleConfigFetchFinished()
+        void HandleConfigsFetchFail( RemoteConfigService? service )
+        {
+            ApplyConfig();
+        }
+
+        void HandleConfigFetchFinished( RemoteConfigService service )
+        {
+            ApplyConfig();
+            HandleInitComplete();
+        }
+
+        void ApplyConfig()
         {
             var config = HConfigs.GetConfig<CrossPromoRemoteConfig>();
-            HRemoteConfigs.ApplyConfig(ref config);
-            UpdateContainerPanels(config);
+            HRemoteConfigs.ApplyConfig( ref config );
+            UpdateContainerPanels( config );
         }
 
-        void UpdateContainerPanels(CrossPromoRemoteConfig config)
+        void UpdateContainerPanels( CrossPromoRemoteConfig config )
         {
-            if (isInitialized)
+            if ( isInitialized )
             {
-                UpdateContentContainerPanel(config);
-                UpdateTopContainerPanel(config);
-                UpdateBottomContainerPanel(config);
+                UpdateContentContainerPanel( config );
+                UpdateTopContainerPanel( config );
+                UpdateBottomContainerPanel( config );
             }
         }
 
-        void UpdateTopContainerPanel(CrossPromoRemoteConfig config)
+        void UpdateTopContainerPanel( CrossPromoRemoteConfig config )
         {
             var topBanners = config.TopPanelCrossPromoGameModels;
-            topPanelContainer.RemoveObsoleteBanners(topBanners);
+            topPanelContainer.RemoveObsoleteBanners( topBanners );
             topPanelContainer.UpdateOrder();
-            foreach (var topBannerModel in topBanners)
+
+            foreach ( var topBannerModel in topBanners )
             {
-                topPanelContainer.AddNewBanner(topBannerModel);
+                topPanelContainer.AddNewBanner( topBannerModel );
             }
-            topPanelContainer.UpdateBulletPointsColor(config.BulletPointImageColor);
+
+            topPanelContainer.UpdateBulletPointsColor( config.BulletPointImageColor );
         }
 
-        void UpdateContentContainerPanel(CrossPromoRemoteConfig config)
+        void UpdateContentContainerPanel( CrossPromoRemoteConfig config )
         {
             var newTilesList = config.CrossPromoPanelGameModels;
-            contentPanelContainer.RemoveObsoleteTiles(newTilesList);
+            contentPanelContainer.RemoveObsoleteTiles( newTilesList );
             contentPanelContainer.UpdateOrder();
-            foreach (var tile in newTilesList)
+
+            foreach ( var tile in newTilesList )
             {
-                contentPanelContainer.AddOrUpdateGame(tile);
+                contentPanelContainer.AddOrUpdateGame( tile );
             }
         }
 
-        void UpdateBottomContainerPanel(CrossPromoRemoteConfig config)
+        void UpdateBottomContainerPanel( CrossPromoRemoteConfig config )
         {
-            bottomPanelContainer.SetLogoImageSprite(config.BottomPanelLogoSpritePath);
-            bottomPanelContainer.SetButtonColor(config.NotInstalledStateButtonColor);
+            bottomPanelContainer.SetLogoImageSprite( config.BottomPanelLogoSpritePath );
+            bottomPanelContainer.SetButtonColor( config.NotInstalledStateButtonColor );
         }
 
         GameObject CreateCanvas()
         {
             var config = HConfigs.GetConfig<CrossPromoLocalConfig>();
-            var crossPromoCanvas = new GameObject("CrossPromoCanvas");
+            var crossPromoCanvas = new GameObject( "CrossPromoCanvas" );
             var canvasComponent = crossPromoCanvas.AddComponent<Canvas>();
             canvasComponent.overrideSorting = true;
             canvasComponent.sortingOrder = config.CrossPromoCanvasSortingOrder;
@@ -227,5 +238,13 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation
             return HConfigs.HasConfig<CrossPromoLocalConfig>()
                    && HConfigs.HasConfig<CrossPromoRemoteConfig>();
         }
+
+        public void FetchRemoteConfigs()
+        {
+            HandleRemoteConfigsInitialized(RemoteConfigService.Firebase);
+            HRemoteConfigs.OnFetchComplete += HandleConfigFetchFinished;
+            HRemoteConfigs.OnFetchFail += HandleConfigsFetchFail;
+        }
+
     }
 }

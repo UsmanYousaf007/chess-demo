@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7fb867432348628bf30b45b0e8d8af, type: 3}
+  m_Name: PreTrackingPopupConfig
+  m_EditorClassIdentifier: 
+  configId: PreTrackingPopup
+  showSecondaryButton: 0
+  showTertiaryButton: 0
+  prefab: {fileID: 7627073330717264850, guid: 4f61a7e91d0aa4d09b64a4fb3a50eb58, type: 3}
+  showSchema: {fileID: 11400000, guid: 742b2cd503097c4479f2b3303b4bd1cd, type: 2}
+  headerTranslation: App Tracking Transparency
+  contentTranslation: Hey! It's great to have you.<br>Your exciting chess career journey
+    in Chess Stars is ahead of you. See you in the Leaderboards. Have Fun!
+  primaryButtonTranslation: Continue
+  secondaryButtonTranslation: 
+  tertiaryButtonTranslation: 
+  linkColor: {r: 1, g: 1, b: 1, a: 1}

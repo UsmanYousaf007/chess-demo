@@ -40,6 +40,7 @@ namespace TurboLabz.Multiplayer
         public Transform chessboard;
         public Transform playerProfileUiAnchor;
         public Transform opponentProfileUiAnchor;
+        public Transform analysisPanelEndPivot;
 
         public GameObject playerFromIndicator;
         public GameObject playerToIndicator;
@@ -139,6 +140,13 @@ namespace TurboLabz.Multiplayer
 
             float bottomBarH = ((RectTransform)bottomBarContent.transform).sizeDelta.y;
             ((RectTransform)bottomBarContent.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, bottomBarH);
+
+            if (!NotchHandler.HasNotch())
+            {
+                h = Mathf.Abs(playerInfoPanel.transform.localPosition.y - analysisPanelEndPivot.localPosition.y);
+                ((RectTransform)analysisPanel.transform).sizeDelta = new Vector2(strechMax.width * scaleWidth, h);
+                analysisPanel.transform.position = playerProfileScreenPoint;
+            }
         }
 
         public void UpdateChessboard(ChessSquare[,] chessSquares)
@@ -290,6 +298,7 @@ namespace TurboLabz.Multiplayer
             ShowOpponentToIndicator(moveVO.toSquare);
             opponentAnimationInProgress = false;
             opponentMoveRenderComplete.Dispatch();
+            ShowSpecialHintBubble(moveVO.opponentScore);
         }
 
         private void HandleCastling(MoveVO moveVO)
@@ -555,6 +564,7 @@ namespace TurboLabz.Multiplayer
             isLongPlay = vo.isLongPlay;
             isRankedGame = vo.isRanked;
             gameTimeMode = vo.gameTimeMode;
+            challengeId = vo.challengeId;
             //isTenMinGame = vo.isTenMinGame;
             //isOneMinGame = vo.isOneMinGame;
             //isThirtyMinGame = vo.isThirtyMinGame;
@@ -596,6 +606,9 @@ namespace TurboLabz.Multiplayer
 
             ToggleTopPanel(true);
             SetMatchType();
+
+            powerModeImage.gameObject.SetActive(vo.powerMode);
+            powerModeImage.sprite = vo.powerMode ? powerPlayOnSprite : powerPlayOffSprite;
         }
 
         private void UpdateInfoPostMove(MoveVO vo, bool isResume = false)
@@ -604,13 +617,13 @@ namespace TurboLabz.Multiplayer
             UpdateKingCheckIndicator(vo, isResume);
 
             // Update the centipawn scores
-            UpdateScores(vo);
+            UpdateScores(vo, isResume);
 
             // Update the notation
             //UpdateNotation(vo);
         }
 
-        private void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
+        public void UpdateKingCheckIndicator(MoveVO vo, bool isResume)
         {
             kingCheckIndicator.SetActive(false);
 

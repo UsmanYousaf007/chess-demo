@@ -10,6 +10,8 @@
 /// @description
 /// [add_description_here]
 
+using UnityEngine;
+
 namespace TurboLabz.InstantFramework
 {
     public static class Settings
@@ -31,8 +33,15 @@ namespace TurboLabz.InstantFramework
             public static string ADS_TEST_GROUP_DEFAULT = "ads_A";
             public static string ADS_TEST_GROUP = "ads_A";
 
-            public static string PROMOTION_TEST_GROUP_DEFAULT = "C";
-            public static string PROMOTION_TEST_GROUP = "C";
+            public static string COINS_TEST_GROUP_DEFAULT = "coins_A";
+            public static string COINS_TEST_GROUP = "coins_A";
         }
+
+        // Tween settings for new user flow
+        public const float MIN_ALPHA = 0;
+        public const float MAX_ALPHA = 1;
+        public const float TWEEN_DURATION = 0.4f;
+        public static Vector3 MIN_SCALE = new Vector3(0.3f, 0.3f, 1);
+        public static Vector3 MAX_SCALE = Vector3.one;
     }
 }

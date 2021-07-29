@@ -1,10 +1,17 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using JetBrains.Annotations;
 
 namespace HUF.Utils.Runtime.Extensions
 {
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// Serializes an object to byte array.
+        /// </summary>
+        /// <param name="obj">A serializable object.</param>
+        /// <returns>Byte array.</returns>
+        [PublicAPI]
         public static byte[] SerializeToByteArray(this object obj)
         {
             if (obj == null)
@@ -19,6 +26,13 @@ namespace HUF.Utils.Runtime.Extensions
             }
         }
 
+        /// <summary>
+        /// Deserializes byte array to an object of a type.
+        /// </summary>
+        /// <param name="byteArray">Byte array with binary data.</param>
+        /// <typeparam name="T">A type of object.</typeparam>
+        /// <returns>An object of a given type.</returns>
+        [PublicAPI]
         public static T Deserialize<T>(this byte[] byteArray) where T : class
         {
             if (byteArray == null)

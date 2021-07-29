@@ -46,6 +46,7 @@ namespace TurboLabz.Multiplayer
             OnRegisterInfo();
             OnRegisterChallengeSent();
             OnRegisterSpecialHint();
+            OnRegisterGameEnd();
         }
 
         public override void OnRemove()
@@ -96,6 +97,7 @@ namespace TurboLabz.Multiplayer
             {
                 view.ShowViewBoardResultsPanel(isShow);
                 view.uiBlocker.SetActive(false);
+                //view.BlurBg.enabled = false;
             }
         }
 

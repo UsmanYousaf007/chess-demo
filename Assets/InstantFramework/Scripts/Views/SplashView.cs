@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
 using TurboLabz.TLUtils;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
@@ -20,11 +21,12 @@ namespace TurboLabz.InstantFramework
 
         public Text wifiWarning;
         public Text userMessage;
-        public GameObject connectingDots;
+        public CanvasGroup connectingDots;
 
         public void Init()
         {
             wifiWarning.gameObject.SetActive(false);
+            connectingDots.alpha = Settings.MIN_ALPHA;
         }
 
         public void Show()
@@ -35,6 +37,14 @@ namespace TurboLabz.InstantFramework
 
         public void Hide()
         {
+            StartCoroutine(HideWithDelay());
+        }
+
+        IEnumerator HideWithDelay()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
             gameObject.SetActive(false);
 
             GameObject originalSplash = GameObject.FindGameObjectWithTag("OriginalSplash");
@@ -59,8 +69,9 @@ namespace TurboLabz.InstantFramework
 
         public void ShowContent(bool show)
         {
-            connectingDots.SetActive(show);
+            connectingDots.gameObject.SetActive(show);
             userMessage.gameObject.SetActive(show);
+            connectingDots.DOFade(Settings.MAX_ALPHA, Settings.TWEEN_DURATION);
         }
     }
 }

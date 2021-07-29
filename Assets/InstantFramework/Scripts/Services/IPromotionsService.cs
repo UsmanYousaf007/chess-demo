@@ -15,5 +15,6 @@ namespace TurboLabz.InstantFramework
         void LoadRemoveAdsPromotion();
         void LoadSubscriptionPromotion();
         bool IsSaleActive(string key);
+        bool isDynamicBundleShownOnLaunch { get; }
     }
 }

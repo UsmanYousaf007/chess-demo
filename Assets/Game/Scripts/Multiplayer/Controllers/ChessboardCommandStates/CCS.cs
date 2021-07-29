@@ -89,10 +89,12 @@ namespace TurboLabz.Multiplayer
             setupVO.isPlayerWhite = isPlayerWhite;
             setupVO.isLongPlay = cmd.activeMatchInfo.isLongPlay;
             setupVO.isRanked = cmd.activeMatchInfo.isRanked;
+            setupVO.powerMode = cmd.activeMatchInfo.powerMode;
             //setupVO.isTenMinGame = cmd.activeMatchInfo.isTenMinGame;
             //setupVO.isOneMinGame = cmd.activeMatchInfo.isOneMinGame;
             //setupVO.isThirtyMinGame = cmd.activeMatchInfo.isThirtyMinGame;
             setupVO.gameTimeMode = cmd.activeMatchInfo.gameTimeMode;
+            setupVO.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.setupChessboardSignal.Dispatch(setupVO);
 
             // Place the pieces
@@ -125,6 +127,10 @@ namespace TurboLabz.Multiplayer
 
             if (activeChessboard.gameEndReason == GameEndReason.NONE)
             {
+                /////CHEEECK FREE HINT HERE TOO////////////////////////
+
+
+
                 // Initialize the game powerups
                 cmd.updateHintCountSignal.Dispatch(cmd.playerModel.PowerUpHintCount);
                 cmd.turnSwapSignal.Dispatch(isPlayerTurn);
@@ -138,6 +144,8 @@ namespace TurboLabz.Multiplayer
                 specialHintVO.isAvailable = cmd.matchInfoModel.activeMatch.playerPowerupUsedCount < cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
                 specialHintVO.hintsAllowedPerGame = cmd.metaDataModel.settingsModel.hintsAllowedPerGame;
                 specialHintVO.hintCount = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT);
+                specialHintVO.powerModeHints = cmd.matchInfoModel.activeMatch.freeHints;
+                specialHintVO.advantageThreshold = cmd.metaDataModel.settingsModel.advantageThreshold;
                 cmd.setupSpecialHintSignal.Dispatch(specialHintVO);
             }
                 
@@ -156,6 +164,18 @@ namespace TurboLabz.Multiplayer
 
         protected void RenderOpponentMove(ChessboardCommand cmd)
         {
+            //Check for free hint
+            int advantage = cmd.chessService.GetScore(cmd.activeChessboard.opponentColor);
+            bool isFreeHintAvailable = advantage >= cmd.metaDataModel.settingsModel.advantageThreshold
+                                        && (!cmd.playerModel.inventory.ContainsKey(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT)
+                                        || (cmd.playerModel.inventory[GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT] < cmd.metaDataModel.settingsModel.purchasedHintsThreshold))
+                                        && !cmd.activeMatchInfo.powerMode
+                                        && cmd.preferencesModel.freeHint.Equals(FreePowerUpStatus.NOT_CONSUMED)
+                                        && !cmd.activeMatchInfo.isLongPlay;
+
+            if (isFreeHintAvailable)
+                cmd.preferencesModel.freeHint |= FreePowerUpStatus.AVAILABLE;
+
             // Update the view with the opponent move
             cmd.activeChessboard.opponentMoveRenderComplete = false;
             MoveVO moveVO = GetMoveVO(cmd.activeChessboard, false);
@@ -163,6 +183,7 @@ namespace TurboLabz.Multiplayer
             cmd.hidePlayerFromIndicatorSignal.Dispatch();
             cmd.hidePlayerToIndicatorSignal.Dispatch();
             cmd.onboardingTooltipSignal.Dispatch(moveVO);
+            cmd.freeHintAvailableSignal.Dispatch(isFreeHintAvailable);
         }
 
         protected void RenderPlayerMove(ChessboardCommand cmd)
@@ -182,11 +203,26 @@ namespace TurboLabz.Multiplayer
         protected void HandleOpponentBackendMoved(ChessboardCommand cmd)
         {
             Chessboard chessboard = cmd.activeChessboard;
+            string promo = GetPromoFromMove(chessboard.opponentMoveFlag);
+
+            ChessMove move = new ChessMove();
+            move.from = chessboard.opponentFromSquare.fileRank;
+            move.to = chessboard.opponentToSquare.fileRank;
+            move.piece = chessboard.opponentFromSquare.piece;
+            move.promo = promo;
+
+            if (!cmd.activeMatchInfo.isLongPlay)
+            {
+                AnalyseMoveParameters parameters = new AnalyseMoveParameters();
+                parameters.challengeId = cmd.matchInfoModel.activeChallengeId;
+                parameters.chessMove = move;
+                cmd.analyseMoveSignal.Dispatch(parameters);
+            }
 
             ChessMoveResult moveResult = cmd.chessService.MakeMove(
                 chessboard.opponentFromSquare.fileRank,
                 chessboard.opponentToSquare.fileRank,
-                GetPromoFromMove(chessboard.opponentMoveFlag),
+                promo,
                 false, 
                 chessboard.squares);
 

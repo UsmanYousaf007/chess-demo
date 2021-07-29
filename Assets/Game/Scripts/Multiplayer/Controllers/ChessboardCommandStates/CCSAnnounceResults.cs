@@ -17,8 +17,6 @@ namespace TurboLabz.Multiplayer
             Chessboard chessboard = cmd.activeChessboard;
             bool playerWins = (cmd.matchInfoModel.activeMatch.winnerId == cmd.playerModel.id) ? true : false;
 
-            cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
-
             ResultsVO vo = new ResultsVO();
             vo.reason = chessboard.gameEndReason;
             vo.playerWins = playerWins;
@@ -34,9 +32,41 @@ namespace TurboLabz.Multiplayer
             vo.tournamentMatch = cmd.matchInfoModel.activeMatch.isTournamentMatch;
             vo.tournamentMatchScore = cmd.matchInfoModel.activeMatch.tournamentMatchScore;
             vo.winTimeBonus = cmd.matchInfoModel.activeMatch.tournamentMatchWinTimeBonus;
+            vo.betValue = cmd.activeMatchInfo.betValue;
+            vo.coinsMultiplyer = cmd.metaDataModel.settingsModel.GetSafeCoinsMultiplyer(Settings.ABTest.COINS_TEST_GROUP);
+            vo.powerMode = cmd.activeMatchInfo.powerMode;
+            vo.rewardDoubleStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_REWARD_DOUBLER];
+            vo.earnedStars = cmd.playerModel.leaguePromoted ? cmd.leaguesModel.GetLeagueInfo(cmd.playerModel.league - 1).winTrophies : cmd.leaguesModel.GetCurrentLeagueInfo().winTrophies;
+            vo.movesCount = cmd.activeChessboard.moveList.Count;
+            vo.fullGameAnalysisStoreItem = cmd.metaDataModel.store.items[GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS];
+            vo.freeGameAnalysisAvailable = cmd.playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.FULL_GAME_ANALYSIS) < cmd.metaDataModel.rewardsSettings.freeFullGameAnalysis;
+
+            //End dlg RVs
+            var isRVenabled =
+                cmd.playerModel.gems < cmd.adsSettingsModel.minGemsRequiredforRV &&
+                cmd.playerModel.rvUnlockTimestamp > 0 &&
+                !(cmd.adsSettingsModel.removeRVOnPurchase && cmd.playerModel.HasPurchased());
+
+            vo.isRatingBoosterRVEnabled = isRVenabled && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.RV_rating_booster.ToString());
+            vo.isAnalysisRVEnabled = !vo.freeGameAnalysisAvailable && isRVenabled && cmd.adsSettingsModel.CanShowAdWithAdPlacement(AdPlacements.Rewarded_analysis.ToString());
+            vo.coolDownTimeUTC = cmd.playerModel.rvUnlockTimestamp;
 
             cmd.updateResultsDialogSignal.Dispatch(vo);
+
+            if (vo.isRanked && (playerWins || vo.reason == GameEndReason.DRAW_BY_DRAW_OFFERED || vo.reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITHOUT_MOVE ||
+            vo.reason == GameEndReason.DRAW_BY_FIFTY_MOVE_RULE_WITH_MOVE || vo.reason == GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL ||
+            vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE || vo.reason == GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE ||
+            vo.reason == GameEndReason.STALEMATE))
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_REWARDS_DLG);
+            }
+            else
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG);
+            }
+
             cmd.matchInfoModel.lastCompletedMatch = cmd.matchInfoModel.activeMatch;
+            cmd.matchInfoModel.lastCompletedMatch.challengeId = cmd.matchInfoModel.activeChallengeId;
             cmd.matchInfoModel.lastCompletedMatch.gameEndReason = chessboard.gameEndReason.ToString();
 
             var matchAnalyticsVO = new MatchAnalyticsVO();
@@ -92,6 +122,20 @@ namespace TurboLabz.Multiplayer
             cmd.specialHintAvailableSignal.Dispatch(false);
             cmd.disableUndoBtnSignal.Dispatch(false);
             cmd.matchAnalyticsSignal.Dispatch(matchAnalyticsVO);
+
+            if (vo.betValue > 0)
+            {
+                var winnerCoins = vo.betValue * vo.coinsMultiplyer;
+                var isDraw = matchAnalyticsVO.context == AnalyticsContext.draw || matchAnalyticsVO.context == AnalyticsContext.draw_agreement;
+                var earnedCoins = vo.playerWins ? winnerCoins : isDraw ? vo.betValue : 0;
+
+                if (earnedCoins > 0)
+                {
+                    cmd.playerModel.coins += (long)earnedCoins;
+                    cmd.updatePlayerInventorySignal.Dispatch(cmd.playerModel.GetPlayerInventory());
+                    cmd.analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)earnedCoins, "championship_coins", earnedCoins == vo.betValue ? "bet_reversed" : "game_won");
+                }
+            }
         }
 
         private AnalyticsContext GetGameEndContext(GameEndReason reason, bool playerWins, bool isBot)
@@ -116,6 +160,7 @@ namespace TurboLabz.Multiplayer
                 case GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITHOUT_MOVE:
                 case GameEndReason.DRAW_BY_THREEFOLD_REPEAT_RULE_WITH_MOVE:
+                case GameEndReason.STALEMATE:
                     context = AnalyticsContext.draw;
                     break;
 

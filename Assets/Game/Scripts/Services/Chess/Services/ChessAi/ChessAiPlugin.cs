@@ -65,7 +65,7 @@ namespace TurboLabz.Chess
 
         private static bool isInitialized;
 
-        public void NewGame()
+        public void NewGame(string multiPV = ChessAiConfig.SF_MULTIPV)
         {
             if (!isInitialized)
             {
@@ -86,7 +86,7 @@ namespace TurboLabz.Chess
             tl_cmd("ucinewgame");
             SetContempt(ChessAiConfig.SF_CONTEMPT);
             SetPonder(ChessAiConfig.SF_PONDER);
-            SetMultiPV(ChessAiConfig.SF_MULTIPV);
+            SetMultiPV(multiPV);
             SetSkillLevel(ChessAiConfig.SF_SKILL_LEVEL);
             SetThreads(SystemInfo.processorCount.ToString());
         }

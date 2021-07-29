@@ -1,26 +1,22 @@
 {
   "name": "com.huuuge.huf.notifications.firebase",
   "displayName": "Notifications Remote Firebase",
-  "version": "2.3.0",
+  "version": "3.1.0",
   "unity": "2018.4",
   "description": "Firebase Notifications module offers support for integrating Android and iOS push notifications under your project. Notifications can be modified and send by Firebase project dashboard\nFirebase Notifications doesn't support local notifications. If you wan't to send local notifications you can install as an additional module our Unity Notifications implementation.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.firebase.wrapper@^2.1.0",
-      "com.huuuge.huf.utils@^2.2.2",
-      "com.huuuge.huf.notifications@^2.0.0"
+      "com.huuuge.huf.firebase.wrapper@^3.2.0",
+      "com.huuuge.huf.utils@^3.12.1",
+      "com.huuuge.huf.notifications@^3.0.0"
     ],
-    "exclude": [
-      "com.huuuge.plugins.externaldependencymanager",
-      "com.google.firebase.messaging"
-    ],
-    "date": "21.09.2020 13:49",
-    "commit": "608c9ad",
-    "build": "23",
+    "date": "10.05.2021 16:57",
+    "commit": "0e1f565",
+    "build": "35",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/NotificationsFirebase",
-    "rollout": "21"
+    "rollout": "38"
   },
   "doc_section": "Notifications"
 }

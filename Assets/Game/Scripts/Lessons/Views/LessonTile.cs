@@ -14,11 +14,7 @@ public class LessonTile : MonoBehaviour
     public Image progress;
     public GameObject play;
     public Button unlockBtn;
-    public Text unlockText;
-    public Image notEnoughUnlockItems;
-    public Text requiredGems;
-    public Sprite enoughGems;
-    public Sprite notEnoughGems;
+    public Text price;
     public ParticleSystem unlockedAnimation;
 
     [HideInInspector] public VideoLessonVO vo;
@@ -58,16 +54,21 @@ public class LessonTile : MonoBehaviour
 
     public void SetupUnlockButton()
     {
-        if (vo.unlockItem == null)
+        if (vo.storeItem == null)
         {
             return;
         }
 
-        haveEnoughItemsToUnlock = vo.playerModel.GetInventoryItemCount(vo.unlockItem.key) > 0;
-        haveEnoughGemsToUnlock = vo.playerModel.gems >= vo.unlockItem.currency3Cost;
-        requiredGems.text = vo.unlockItem.currency3Cost.ToString();
-        notEnoughUnlockItems.gameObject.SetActive(false);
-        notEnoughUnlockItems.sprite = haveEnoughGemsToUnlock ? enoughGems : notEnoughGems;
+        haveEnoughGemsToUnlock = vo.playerModel.gems >= vo.storeItem.currency3Cost;
+        price.text = vo.storeItem.currency3Cost.ToString();
+    }
+
+    public void CheckLockStatus(bool ownAllLessons)
+    {
+        vo.isLocked = !vo.playerModel.inventory.ContainsKey(vo.videoId) && !ownAllLessons;
+        locked.SetActive(vo.isLocked);
+        play.SetActive(!vo.isLocked);
+        unlockBtn.gameObject.SetActive(vo.isLocked);
     }
 
     private void PlayAnimation()

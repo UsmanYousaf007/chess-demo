@@ -3,6 +3,7 @@ using System;
 using AppleAuth;
 using AppleAuth.Enums;
 using AppleAuth.Interfaces;
+using AppleAuth.Native;
 using HUF.Auth.Runtime.API;
 using HUF.AuthSIWA.Runtime.API;
 using HUF.Utils;
@@ -40,27 +41,34 @@ namespace HUF.AuthSIWA.Runtime.Implementation
         public bool IsSignedIn => userInfo.userDetectionStatus != UserDetectionStatus.Unsupported;
         public string UserId => IsSignedIn ? userInfo.userId : string.Empty;
         public string IdToken => IsSignedIn ? userInfo.idToken : string.Empty;
-        public bool IsInitialized => wrapperSiwa != null;
+        public bool IsInitialized => isInitialized;
         public string DisplayName => IsSignedIn ? userInfo.displayName : string.Empty;
         public string Email => IsSignedIn ? userInfo.email : string.Empty;
         public string AuthorizationCode => IsSignedIn ? userInfo.authorizationCode : string.Empty;
 
-        public WrapperSIWA ServiceComponent => wrapperSiwa;
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, bool> OnSignIn;
-        public event UnityAction<string> OnSignOutComplete;
+#pragma warning disable CS0067
+        public event Action<string> OnInitialized;
+        public event Action OnInitializationFailure;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
+#pragma warning restore CS0067
 
-        WrapperSIWA wrapperSiwa;
-        UserInfo userInfo = new UserInfo {userDetectionStatus = UserDetectionStatus.Unsupported};
+        IAppleAuthManager appleAuthManager;
+        UserInfo userInfo = new UserInfo { userDetectionStatus = UserDetectionStatus.Unsupported };
+        bool isInitialized = false;
 
         public void Init()
         {
             if ( IsInitialized )
                 return;
 
-            var go = UnityEngine.Object.Instantiate( new GameObject() );
-            wrapperSiwa = go.AddComponent<WrapperSIWA>();
+            isInitialized = true;
+
+            if ( AppleAuthManager.IsCurrentPlatformSupported )
+            {
+                appleAuthManager = new AppleAuthManager( new PayloadDeserializer() );
+                IntervalManager.Instance.EveryFrame += () => { appleAuthManager?.Update(); };
+            }
 
             if ( HPlayerPrefs.HasKey( AUTH_SIWA_USER_INFO_KEY ) )
             {
@@ -72,36 +80,9 @@ namespace HUF.AuthSIWA.Runtime.Implementation
 
             if ( IsSupported && IsSignedIn )
             {
-                wrapperSiwa.AuthManager.GetCredentialState(userInfo.userId, 
-                    CredentialStateSuccessCallback, CredentialStateErrorCallback);
-            }
-        }
-
-        private void CredentialStateErrorCallback(IAppleError error)
-        {
-            HLog.LogWarning( logPrefix,
-                $"SignIn failed, reason: {error.LocalizedFailureReason}, code: {error.Code}" );
-            OnSignIn.Dispatch( Name, false );
-        }
-
-        private void CredentialStateSuccessCallback(CredentialState credentialState)
-        {
-            HLog.Log( logPrefix, $"OnCredentialState credientialState: {credentialState.ToString()}" );
-
-            switch ( credentialState )
-            {
-                case CredentialState.Revoked:
-                case CredentialState.NotFound:
-                    userInfo = new UserInfo {userDetectionStatus = UserDetectionStatus.Unsupported};
-                    HPlayerPrefs.DeleteKey( AUTH_SIWA_USER_INFO_KEY );
-                    OnSignOutComplete.Dispatch( Name );
-                    break;
-                case CredentialState.Authorized:
-                    OnSignIn.Dispatch( Name, true );
-                    break;
-                case CredentialState.Transferred:
-                    wrapperSiwa.AuthManager.QuickLogin(new AppleAuthQuickLoginArgs(), TransferedSuccessCallback, LoginErrorCallback);
-                    break;
+                appleAuthManager.GetCredentialState( userInfo.userId,
+                    CredentialStateSuccessCallback,
+                    CredentialStateErrorCallback );
             }
         }
 
@@ -125,61 +106,93 @@ namespace HUF.AuthSIWA.Runtime.Implementation
                 return false;
             }
 
-            var loginArgs = new AppleAuthLoginArgs(LoginOptions.IncludeEmail | LoginOptions.IncludeFullName);
-            wrapperSiwa.AuthManager.LoginWithAppleId(loginArgs, LoginSuccessCallback, LoginErrorCallback);
+            var loginArgs = new AppleAuthLoginArgs( LoginOptions.IncludeEmail | LoginOptions.IncludeFullName );
+            appleAuthManager.LoginWithAppleId( loginArgs, LoginSuccessCallback, LoginErrorCallback );
             return true;
-        }
-
-        private void LoginErrorCallback(IAppleError error)
-        {
-            HLog.Log( logPrefix, error.LocalizedFailureReason);
-            OnSignIn.Dispatch( Name, false );
-        }
-
-        private void TransferedSuccessCallback(ICredential credential)
-        {
-            var appleIdCredential = credential as IAppleIDCredential;
-            if (appleIdCredential != null)
-            {
-                var newInfo = UserInfo.BuildFromIAppleIDCredential(appleIdCredential);
-                userInfo.authorizationCode = newInfo.authorizationCode;
-                userInfo.idToken = newInfo.idToken;
-                userInfo.userId = newInfo.userId;
-                HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
-                HLog.Log( logPrefix, "Authentication succeed." );
-                OnSignIn.Dispatch( Name, true );
-            }
-            else
-            {
-                HLog.LogError( logPrefix, "appleIdCredential is null." );
-                OnSignIn.Dispatch( Name, false );
-            }
-        }
-
-        private void LoginSuccessCallback(ICredential credential)
-        {
-            HLog.Log(logPrefix, credential.User);
-            var appleIdCredential = credential as IAppleIDCredential;
-            if (appleIdCredential != null)
-            {
-                var json = JsonUtility.ToJson(appleIdCredential);
-                HLog.Log(logPrefix, json);
-                userInfo = UserInfo.BuildFromIAppleIDCredential(appleIdCredential);
-                HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
-                HLog.Log( logPrefix, "Authentication succeed." );
-                OnSignIn.Dispatch( Name, true );
-            }
-            else
-            {
-                HLog.LogError( logPrefix, "appleIdCredential is null." );
-                OnSignIn.Dispatch( Name, false );
-            }
         }
 
         public bool SignOut()
         {
             HLog.LogWarning( logPrefix, "SignOut failed, just don't do it, user can handle it in iOS settings" );
             return false;
+        }
+
+        void CredentialStateErrorCallback( IAppleError error )
+        {
+            HLog.LogWarning( logPrefix,
+                $"SignIn failed, reason: {error.LocalizedFailureReason}, code: {error.Code}" );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.ConnectionFailure );
+        }
+
+        void CredentialStateSuccessCallback( CredentialState credentialState )
+        {
+            HLog.Log( logPrefix, $"OnCredentialState credientialState: {credentialState.ToString()}" );
+
+            switch ( credentialState )
+            {
+                case CredentialState.Revoked:
+                case CredentialState.NotFound:
+                    userInfo = new UserInfo { userDetectionStatus = UserDetectionStatus.Unsupported };
+                    HPlayerPrefs.DeleteKey( AUTH_SIWA_USER_INFO_KEY );
+                    OnSignOutComplete.Dispatch( Name );
+                    break;
+                case CredentialState.Authorized:
+                    OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
+                    break;
+                case CredentialState.Transferred:
+                    appleAuthManager.QuickLogin( new AppleAuthQuickLoginArgs(),
+                        TransferedSuccessCallback,
+                        LoginErrorCallback );
+                    break;
+            }
+        }
+
+        private void LoginErrorCallback( IAppleError error )
+        {
+            HLog.Log( logPrefix, error.LocalizedFailureReason );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.ConnectionFailure );
+        }
+
+        private void TransferedSuccessCallback( ICredential credential )
+        {
+            var appleIdCredential = credential as IAppleIDCredential;
+
+            if ( appleIdCredential != null )
+            {
+                var newInfo = UserInfo.BuildFromIAppleIDCredential( appleIdCredential );
+                userInfo.authorizationCode = newInfo.authorizationCode;
+                userInfo.idToken = newInfo.idToken;
+                userInfo.userId = newInfo.userId;
+                HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
+                HLog.Log( logPrefix, "Authentication succeed." );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
+            }
+            else
+            {
+                HLog.LogError( logPrefix, "appleIdCredential is null." );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
+            }
+        }
+
+        void LoginSuccessCallback( ICredential credential )
+        {
+            HLog.Log( logPrefix, credential.User );
+            var appleIdCredential = credential as IAppleIDCredential;
+
+            if ( appleIdCredential != null )
+            {
+                var json = JsonUtility.ToJson( appleIdCredential );
+                HLog.Log( logPrefix, json );
+                userInfo = UserInfo.BuildFromIAppleIDCredential( appleIdCredential );
+                HPlayerPrefs.SetString( AUTH_SIWA_USER_INFO_KEY, JsonUtility.ToJson( userInfo ) );
+                HLog.Log( logPrefix, "Authentication succeed." );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.Success );
+            }
+            else
+            {
+                HLog.LogError( logPrefix, "appleIdCredential is null." );
+                OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
+            }
         }
     }
 }

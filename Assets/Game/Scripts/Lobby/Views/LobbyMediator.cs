@@ -111,7 +111,7 @@ namespace TurboLabz.InstantFramework
             view.UpdateView(vo);
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
+        //[ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
@@ -129,7 +129,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        [ListensTo(typeof(NavigatorHideViewSignal))]
+        //[ListensTo(typeof(NavigatorHideViewSignal))]
         public void OnHideView(NavigatorViewId viewId)
         {
             if (viewId == NavigatorViewId.LOBBY)
@@ -281,8 +281,6 @@ namespace TurboLabz.InstantFramework
             view.UpdateBarsSkin();
         }
 
-
-
         private void OnFacebookButtonClicked()
         {
             authFacebookSignal.Dispatch();
@@ -337,7 +335,7 @@ namespace TurboLabz.InstantFramework
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             var friend = playerModel.GetFriend(playerId);
 
@@ -400,13 +398,13 @@ namespace TurboLabz.InstantFramework
                 showAdSignal.Dispatch(vo, false);
                 return;
             }
-            startCPUGameSignal.Dispatch();
+            startCPUGameSignal.Dispatch(false);
         }
 
         private void OnQuickMatchBtnClicked(string actionCode)
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             if (!playerModel.isPremium)
             {
@@ -420,13 +418,13 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            FindMatchAction.Random(findMatchSignal, actionCode);
+            //FindMatchAction.Random(findMatchSignal, actionCode);
         }
 
         private void OnClassicMatchBtnClicked()
         {
             //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
+            view.ShowProcessing(true, true);
 
             if (!playerModel.HasSubscription())
             {
@@ -440,7 +438,7 @@ namespace TurboLabz.InstantFramework
             }
 
             //analyticsService.Event("classic_" + AnalyticsEventId.match_find_random, AnalyticsContext.start_attempt);
-            FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
+            //FindMatchAction.Random(findMatchSignal, FindMatchAction.ActionCode.Random30.ToString());
         }
 
         private void OnLessonsBtnClicked()
@@ -472,12 +470,6 @@ namespace TurboLabz.InstantFramework
             view.RemovePromotion(item.key);
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
-        }
-
         [ListensTo(typeof(StoreAvailableSignal))]
         public void OnStoreAvailable(bool isAvailable)
         {
@@ -502,15 +494,15 @@ namespace TurboLabz.InstantFramework
             hAnalyticsService.LogEvent("upgrade_subscription_clicked", "menu", "lobby");
         }
 
-        [ListensTo(typeof(UpdateOfferDrawSignal))]
-        public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
-        {
-            if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
-            {
-                view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
-                return;
-            }
-        }
+        //[ListensTo(typeof(UpdateOfferDrawSignal))]
+        //public void OfferDrawStatusUpdate(OfferDrawVO offerDrawVO)
+        //{
+        //    if (offerDrawVO.challengeId != view.matchInfoModel.activeChallengeId)
+        //    {
+        //        view.UpdateFriendBarDrawOfferStatus(offerDrawVO.status, offerDrawVO.offeredBy, offerDrawVO.opponentId);
+        //        return;
+        //    }
+        //}
 
         //[ListensTo(typeof(RatingBoostAnimSignal))]
         public void OnRatingBoostAnimation(int ratingBoost)

@@ -21,6 +21,8 @@ namespace TurboLabz.InstantFramework
         [Inject] public InboxRemoveMessagesSignal inboxRemoveMessagesSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public InboxFetchingMessagesSignal inboxFetchingMessagesSignal { get; set; }
+        [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
+        [Inject] public UpdateTrophiesSignal updateTrophiesSignal { get; set; }
 
         public IPromise<BackendResult> InBoxOpGet()
         {
@@ -100,16 +102,6 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            GSData inBoxMessagesData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.GET);
-            if (inBoxMessagesData != null)
-            {
-                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
-                FillInbox(dict, inBoxMessagesData);
-                inboxAddMessagesSignal.Dispatch(dict);
-                inboxModel.lastFetchedTime = DateTime.UtcNow;
-                inboxModel.items = dict;
-            }
-
             GSData inBoxCollectData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.COLLECT);
             if (inBoxCollectData != null)
             {
@@ -130,6 +122,15 @@ namespace TurboLabz.InstantFramework
                         {
                             playerModel.gems += qtyInt;
                         }
+                        else if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.COINS))
+                        {
+                            playerModel.coins += qtyInt;
+                        }
+                        else if (itemShortCode.Equals(GSBackendKeys.PlayerDetails.TROPHIES2))
+                        {
+                            playerModel.trophies2 += qtyInt;
+                            updateTrophiesSignal.Dispatch(playerModel.trophies2);
+                        }
                         else if (playerModel.inventory.ContainsKey(itemShortCode))
                         {
                             playerModel.inventory[itemShortCode] += qtyInt;
@@ -140,21 +141,27 @@ namespace TurboLabz.InstantFramework
                         }
 
                         //Analytics
+                        var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
                         var item = inboxModel.items[messageId];
                         var itemType = CollectionsUtil.GetContextFromState(item.type);
-                        itemType = !item.isDaily ? $"{item.tournamentType.ToLower()}_{itemType}" : itemType;
-                        var itemId = "subscription_daily_ticket";
-                        itemId = !string.IsNullOrEmpty(item.league) ? item.league.ToLower() : itemId;
-                        itemId = !string.IsNullOrEmpty(item.tournamentType) ? $"rank{item.rankCount}" : itemId;
-
-                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source,
-                            CollectionsUtil.GetContextFromString(itemShortCode).ToString(),
-                            qtyInt, itemType, itemId);
-
-                        if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(itemShortCode))
+                        var itemId = string.Empty;
+                        
+                        switch (item.type)
                         {
-                            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][itemShortCode] += qtyInt;
+                            case "RewardTournamentEnd":
+                                itemId = $"rank{item.rankCount}_{leagueName}";
+                                break;
+
+                            case "RewardDailyLeague":
+                                itemId = itemShortCode.Equals(GSBackendKeys.PlayerDetails.GEMS) ? $"{leagueName}_gems" : GSBackendKeys.PlayerDetails.COINS;
+                                break;
+
+                            case "RewardLeaguePromotion":
+                                itemId = item.league.ToLower().Replace(" ", "_").Replace(".", string.Empty);
+                                break;
                         }
+
+                        analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(itemShortCode).ToString(), qtyInt, itemType, itemId);
                         //Analyttics end
                     }
                 }
@@ -178,6 +185,20 @@ namespace TurboLabz.InstantFramework
                 }
 
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            }
+
+            GSData inBoxMessagesData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.GET);
+            if (inBoxMessagesData != null)
+            {
+                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
+                FillInbox(dict, inBoxMessagesData);
+                inboxModel.lastFetchedTime = DateTime.UtcNow;
+                inboxModel.items = dict;
+                inboxAddMessagesSignal.Dispatch();
+            }
+            else
+            {
+                inboxEmptySignal.Dispatch();
             }
 
             if (response.ScriptData.ContainsKey("count"))

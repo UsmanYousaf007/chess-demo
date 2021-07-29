@@ -11,7 +11,7 @@ namespace HUF.Analytics.Runtime.API
     public static class HAnalytics
     {
         public static readonly HLogPrefix prefix = new HLogPrefix( nameof(HAnalytics) );
-        const string ANALYTICS_CONSENT_SENSITIVE_DATA = "HUFAnalyticsConsentSensitiveData";
+        const string ANALYTICS_CONSENT_SENSITIVE_DATA = "HUFAnalyticsConsentSensitiveDataV2";
 
         static AnalyticsModel analyticsModel;
         static AnalyticsModel AnalyticsModel => analyticsModel ?? ( analyticsModel = new AnalyticsModel() );
@@ -128,27 +128,34 @@ namespace HUF.Analytics.Runtime.API
         /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
         /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="analyticsParameters">Parameters of event to be sent.</param>
         /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
         public static void LogEvent( Dictionary<string, object> analyticsParameters, params string[] serviceNames )
         {
             AnalyticsModel.LogEvent( analyticsParameters, serviceNames );
         }
-
+        
         /// <summary>
         /// Sends the monetization event to the analytics services. <para/>
         /// If no <paramref name="serviceNames"/> are provided - sends event to all registered services [DEFAULT]. <para/>
         /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
         /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="monetizationEvent">Event to be sent.</param>
         /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
-        public static void LogMonetizationEvent( AnalyticsMonetizationEvent monetizationEvent,
+        public static void LogSuccessfulPurchaseEvent( AnalyticsMonetizationEvent monetizationEvent,
             params string[] serviceNames )
         {
             AnalyticsModel.LogMonetizationEvent( monetizationEvent, serviceNames );
+        }
+        
+        [Obsolete("Use `LogSuccessfulPurchaseEvent` instead")]
+        public static void LogMonetizationEvent( AnalyticsMonetizationEvent monetizationEvent,
+            params string[] serviceNames )
+        {
+            LogSuccessfulPurchaseEvent( monetizationEvent, serviceNames );
         }
 
         /// <summary>
@@ -160,13 +167,20 @@ namespace HUF.Analytics.Runtime.API
         /// If any <paramref name="serviceNames"/> are provided - sends event only to these services. <para/>
         /// Supported service names can be found as constants in <see cref="AnalyticsServiceName"/>. <para/>
         /// </summary>
-        /// <param name="analyticsEvent">Event to be sent.</param>
+        /// <param name="analyticsParameters">Parameters of event to be sent.</param>
         /// <param name="serviceNames">Set of target service names.</param>
         [PublicAPI]
-        public static void LogMonetizationEvent( Dictionary<string, object> analyticsParameters,
+        public static void LogSuccessfulPurchaseEvent( Dictionary<string, object> analyticsParameters,
             params string[] serviceNames )
         {
             AnalyticsModel.LogMonetizationEvent( analyticsParameters, serviceNames );
+        }
+        
+        [Obsolete("Use `LogSuccessfulPurchaseEvent` instead")]
+        public static void LogMonetizationEvent( Dictionary<string, object> analyticsParameters,
+            params string[] serviceNames )
+        {
+            LogSuccessfulPurchaseEvent( analyticsParameters, serviceNames );
         }
 
         /// <summary>
@@ -187,8 +201,7 @@ namespace HUF.Analytics.Runtime.API
             AnalyticsModel.CollectSensitiveData( consentStatus );
             HLog.Log( prefix, $"CollectSensitiveData({consentStatus}), value changed." );
         }
-
-        [PublicAPI]
+        
         [Obsolete( "Use `CollectSensitiveData` instead." )]
         public static void SetConsent( bool consentStatus )
         {

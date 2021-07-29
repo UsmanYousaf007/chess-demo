@@ -49,8 +49,10 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
 
         public bool Show( string placementId )
         {
+#if !HUFEXT_ADS_MANAGER
             if ( !fetchedPlacements.Contains( placementId ) )
                 return false;
+#endif
 
             lastShownPlacement = placementId;
             AddDebugScreenButton( Implementation.AdResult.Failed );

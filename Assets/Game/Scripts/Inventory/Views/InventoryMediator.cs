@@ -106,17 +106,5 @@ namespace TurboLabz.InstantFramework
                 }
             }
         }
-
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessing(bool blocker, bool processing)
-        {
-            view.ShowProcessing(blocker);
-        }
-
-        [ListensTo(typeof(ShowThemesInventoryTabSignal))]
-        public void OnShowThemesInventoryTab()
-        {
-            view.OnClickThemes();
-        }
     }
 }

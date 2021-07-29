@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
@@ -16,7 +17,7 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         const float FETCHING_INTERVAL = 0.5f;
         const float FETCHING_LIMIT = 5f;
 
-        static HLogPrefix logPrefix =
+        new static HLogPrefix logPrefix =
             new HLogPrefix( HAdsIronSourceMediation.logPrefix, nameof(IronSourceRewardedProvider) );
 
         readonly List<AdPlacementData> fetchingPlacementsIds;
@@ -31,9 +32,9 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
             fetchingPlacementsIds = new List<AdPlacementData>();
         }
 
-        public event UnityAction<IAdCallbackData> OnRewardedEnded;
-        public event UnityAction<IAdCallbackData> OnRewardedFetched;
-        public event UnityAction<IAdCallbackData> OnRewardedClicked;
+        public event Action<IAdCallbackData> OnRewardedEnded;
+        public event Action<IAdCallbackData> OnRewardedFetched;
+        public event Action<IAdCallbackData> OnRewardedClicked;
 
         public bool Show()
         {
@@ -70,7 +71,9 @@ namespace HUF.AdsIronSourceMediation.Runtime.Implementation
         public bool IsReady( string placementId )
         {
             var data = config.GetPlacementData( placementId );
-            return data != null && IsCorrectPlacementType( data.PlacementType ) && IsRewardedReady();
+
+            return data != null && IsCorrectPlacementType( data.PlacementType ) && IsRewardedReady() &&
+                   !IronSource.Agent.isRewardedVideoPlacementCapped( placementId );
         }
 
         bool IsRewardedReady()

@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using System;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
@@ -30,6 +31,15 @@ namespace TurboLabz.InstantFramework
         bool showInGameCPU { get; set; }
         bool showInGame30Min { get; set; }
         bool showInGameClassic { get; set; }
+        bool isBannerEnabled { get; set; }
+        bool removeInterAdsOnPurchase { get; set; }
+        bool removeRVOnPurchase { get; set; }
+
+        /*Timed ads settings*/
+        int minGemsRequiredforRV { get; set; }
+        List<string> adPlacements { get; set; }
+
+        bool CanShowAdWithAdPlacement(string adPlacement);
     }
 }
 

@@ -33,7 +33,9 @@ namespace HUF.Utils.Editor.BuildSupport
 
         static readonly string[] rspFiles =
         {
+#if !UNITY_2021_1_OR_NEWER
             "mcs.rsp",
+#endif
             "csc.rsp"
         };
 
@@ -171,9 +173,10 @@ namespace HUF.Utils.Editor.BuildSupport
 
             public override string ToString()
             {
+                string universalPath = path.Replace( '\\', '/' );
                 int fillCount = paddingBase - define.Length;
                 string padding = new string( ' ', fillCount > 0 ? fillCount : 0 );
-                return $"{PATTERN_DEFINE_ENTRY}{define}{padding}{string.Format( FORMATTER_COMMENT, $"from: {path}" )}";
+                return $"{PATTERN_DEFINE_ENTRY}{define}{padding}{string.Format( FORMATTER_COMMENT, $"from: {universalPath}" )}";
             }
         }
 

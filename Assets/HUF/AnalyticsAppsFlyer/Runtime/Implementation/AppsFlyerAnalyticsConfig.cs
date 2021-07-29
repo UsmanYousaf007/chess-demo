@@ -13,13 +13,13 @@ namespace HUF.AnalyticsAppsFlyer.Runtime.Implementation
     [CreateAssetMenu( fileName = nameof(AppsFlyerAnalyticsConfig), menuName = "HUF/Analytics/AppsFlyerConfig" )]
     public class AppsFlyerAnalyticsConfig : AndroidManifestKeysConfig
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(AppsFlyerAnalyticsConfig) );
+        new static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(AppsFlyerAnalyticsConfig) );
 
         [SerializeField] string devKey = default;
 
         [Header( "Android Settings" )]
         [SerializeField]
-        bool buildForAmazon;
+        bool buildForAmazon = false;
 
         [Header( "iOS Settings" )]
         [SerializeField]

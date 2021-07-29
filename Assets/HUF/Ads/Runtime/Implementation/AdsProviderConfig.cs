@@ -13,10 +13,12 @@ namespace HUF.Ads.Runtime.Implementation
         [SerializeField] List<AdPlacementData> adPlacementData;
         #pragma warning restore 0649
         [SerializeField] bool useEditorMockProvider = true;
+        [SerializeField] bool useMockProviderInDebugBuilds = false;
         
         public string AppId => appId.Value;
         public List<AdPlacementData> AdPlacementData => adPlacementData;
-        public bool UseEditorMockProvider => useEditorMockProvider;
+        public bool UseMockProvider => ( Application.isEditor && useEditorMockProvider ) ||
+                                       ( Debug.isDebugBuild && !Application.isEditor && useMockProviderInDebugBuilds );
         
 #if UNITY_EDITOR
         public ApplicationIdentifier EditorApplicationIdentifier => appId;

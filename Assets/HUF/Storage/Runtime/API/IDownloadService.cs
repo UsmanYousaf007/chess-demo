@@ -1,20 +1,20 @@
 using System;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Structs;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace HUF.Storage.Runtime.API
+namespace HUF.Storage.Runtime.API.Services
 {
-    public interface IDownloadService : IDisposable
+    public interface IDownloadService
     {
-        void GetFileBytes(string filePath, UnityAction<ObjectResultContainer<byte[]>> completeHandler,
-            bool forceDownload = false);
-        void GetTexture(string filePath, UnityAction<ObjectResultContainer<Texture2D>> completeHandler,
-            bool forceDownload = false);
-        void GetAudioClip(string filePath, UnityAction<ObjectResultContainer<AudioClip>> completeHandler,
-            bool forceDownload = false);
-        void GetAssetBundle(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> completeHandler,
-            bool forceDownload = false);
-        void GetUpdateInfo(string filePath, UnityAction<MetadataResultContainer> completeHandler);
+        event Action<StorageService> OnInit;
+
+        bool IsInitialized { get; }
+        void GetFileBytes( string filePath, Action<ObjectResultContainer<byte[]>> completeHandler );
+        void GetTexture( string filePath, Action<ObjectResultContainer<Texture2D>> completeHandler );
+        void GetAudioClip( string filePath, Action<ObjectResultContainer<AudioClip>> completeHandler );
+        void GetAssetBundle( string filePath, Action<ObjectResultContainer<AssetBundle>> completeHandler );
+        void GetUpdateInfo( string filePath, Action<MetadataResultContainer> completeHandler );
+
+        string GetRemotePath( string filePath );
     }
 }

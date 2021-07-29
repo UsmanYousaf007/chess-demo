@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.Implementation.ActionHandlers
 {
@@ -13,12 +13,18 @@ namespace HUF.Storage.Runtime.Implementation.ActionHandlers
     {
         const string ASSET_BUNDLE_LOADING_ERROR = "Asset bundle loading error. Asset bundle not existing or corrupted";
 
-        public AssetBundleLocalHandler(string filePath, UnityAction<ObjectResultContainer<AssetBundle>> completeHandler) 
-            : base(filePath, completeHandler)
+        public AssetBundleLocalHandler(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler)
+            : base(fileId, completeHandler)
         {
         }
 
-        public override void ReadLocalFile()
+        public AssetBundleLocalHandler(string fileId, Action<ObjectResultContainer<AssetBundle>> completeHandler, string filePath)
+            : base(fileId, completeHandler)
+        {
+            FilePath = filePath;
+        }
+
+        public override void DownloadFile()
         {
             var assetBundle = TryGetAssetBundle(Path.GetFileName(FilePath));
             if (assetBundle == null)

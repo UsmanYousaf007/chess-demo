@@ -1,26 +1,23 @@
 {
   "name": "com.huuuge.huf.remoteconfig.firebase",
   "displayName": "Remote Config Firebase",
-  "version": "3.1.1",
+  "version": "3.5.0",
   "unity": "2018.4",
   "description": "Remote Configs module extends AbstractConfigs functionality to update their values from Firebase Remote Configs service. Values aren't updated automatically and you can get them by using Fetch and Apply combination - more information available in the documentation.\nCache expiration is configurable for this module. By default it is set to 3600 seconds, which means you are able to fetch only 1 time per 3600 seconds. Every fetch during that time will result in failure. It can be changed even to 0 seconds to stop blocking the fetching, however there is a limit to a maximum of 5 fetches per hour. If that limit is exceeded given device will be blocked for an hour.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.firebase.wrapper@^2.1.0",
+      "com.huuuge.huf.firebase.wrapper@^3.2.0",
       "com.huuuge.huf.utils@^2.2.2",
-      "com.huuuge.huf.remoteconfig@^2.0.0"
+      "com.huuuge.huf.remoteconfig@^3.0.0",
+      "com.huuuge.plugins.externaldependencymanager@^1.2.165"
     ],
-    "exclude": [
-      "com.huuuge.plugins.externaldependencymanager",
-      "com.google.firebase.remote-config"
-    ],
-    "date": "21.09.2020 13:50",
-    "commit": "7883dff",
-    "build": "27",
+    "date": "10.05.2021 16:58",
+    "commit": "a284585",
+    "build": "42",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/RemoteConfigsFirebase",
-    "rollout": "21"
+    "rollout": "38"
   },
   "doc_section": "Remote Configs"
 }

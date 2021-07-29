@@ -1,15 +1,17 @@
+using System;
 using System.Text;
 using Firebase.Storage;
+#if HUF_AUTH_FIREBASE
 using HUF.Auth.Runtime.API;
-using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+#endif
+using HUF.Storage.Runtime.API.Services;
+using HUF.Storage.Runtime.Implementation;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.StorageFirebase.Runtime.API;
 using HUF.StorageFirebase.Runtime.Implementation.ActionHandlers;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace HUF.StorageFirebase.Runtime.Implementation
 {
@@ -26,8 +28,9 @@ namespace HUF.StorageFirebase.Runtime.Implementation
 
         public void UploadFile( string pathToFile,
             object objectToUpload,
-            UnityAction<StorageResultContainer> completeHandler )
+            Action<StorageResultContainer> completeHandler )
         {
+#if HUF_AUTH_FIREBASE
             if ( !HAuth.IsSignedIn( AuthServiceName.FIREBASE ) )
             {
                 completeHandler.Dispatch( new StorageResultContainer( pathToFile,
@@ -56,6 +59,9 @@ namespace HUF.StorageFirebase.Runtime.Implementation
             var fileReference = storageReference.GetReferenceFromUrl( storageFileUrl );
             var storageUploadHandler = new StorageUploadHandler( completeHandler );
             storageUploadHandler.UploadFile( fileReference, objectToUpload );
+#else
+            HLog.LogError( logPrefix, "Firebase Auth package is needed to upload files!" );
+#endif
         }
 
         public void Dispose()

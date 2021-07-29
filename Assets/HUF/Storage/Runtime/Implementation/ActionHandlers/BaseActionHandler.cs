@@ -1,46 +1,55 @@
+using System;
 using HUF.Storage.Runtime.API;
-using HUF.Storage.Runtime.API.Structs;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime.Extensions;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.Implementation.ActionHandlers
 {
     public abstract class BaseActionHandler<T> where T : class
     {
-        protected UnityAction<ObjectResultContainer<T>> completeHandler;
-        protected string FilePath { get; }
+        protected Action<ObjectResultContainer<T>> completeHandler;
+        protected string FileId { get; }
+        protected string FilePath;
 
-        public abstract void ReadLocalFile();
+        public abstract void DownloadFile();
 
-        protected BaseActionHandler(string filePath, UnityAction<ObjectResultContainer<T>> completeHandler)
+        protected BaseActionHandler(string fileId, Action<ObjectResultContainer<T>> completeHandler)
         {
-            FilePath = filePath;
+            FileId = fileId;
             this.completeHandler = completeHandler;
         }
 
-        protected void SendHandlerFail(string error)
+        protected virtual void SendHandlerFail(string error)
         {
-            completeHandler.Dispatch(
-                new ObjectResultContainer<T>(new StorageResultContainer(FilePath, error)));
-            completeHandler = null;
+            SendResult(new StorageResultContainer(FileId, error));
         }
 
-        protected void SendHandlerSuccess(T result)
+        protected virtual void SendHandlerSuccess(T result)
         {
-            completeHandler.Dispatch(
-                new ObjectResultContainer<T>(new StorageResultContainer(FilePath), result));
-            completeHandler = null;
+            SendResult(new StorageResultContainer(FileId), result);
         }
         
         protected void SendHandlerSuccess(T result, byte[] byteDataToSave)
         {
-            if (byteDataToSave != null && !StorageUtils.TrySaveObject(byteDataToSave, FilePath))
+            var file = FileId;
+
+            if ( !FilePath.IsNullOrEmpty() )
             {
-                SendHandlerFail($"{StorageErrorMessages.ERROR_DURING_SAVING}. ({FilePath})");
+                file = FilePath;
+            }
+
+            if (byteDataToSave != null && !StorageUtils.TrySaveObject(byteDataToSave, file))
+            {
+                SendHandlerFail($"{StorageErrorMessages.ERROR_DURING_SAVING}. ({FileId})");
                 return;
             }
-            completeHandler.Dispatch(
-                new ObjectResultContainer<T>(new StorageResultContainer(FilePath), result));
+            SendResult(new StorageResultContainer(FileId), result);
+            completeHandler = null;
+        }
+
+        void SendResult(StorageResultContainer resultContainer, T result = null)
+        {
+            completeHandler.Dispatch( new ObjectResultContainer<T>(resultContainer, result));
             completeHandler = null;
         }
     }

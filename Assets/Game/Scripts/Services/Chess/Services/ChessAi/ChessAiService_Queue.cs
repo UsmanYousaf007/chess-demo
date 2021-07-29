@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using strange.extensions.promise.api;
 using strange.extensions.promise.impl;
-using TurboLabz.TLUtils;
 using System.Collections;
+using Priority_Queue;
+using UnityEngine;
 
 namespace TurboLabz.Chess
 {
@@ -23,44 +23,49 @@ namespace TurboLabz.Chess
             }
         }
 
-        private Queue<AiMoveRequest> serviceRequestsQueue;
+        private SimplePriorityQueue<AiMoveRequest> serviceRequestsQueue; 
         private AiMoveRequest lastDequeuedMethod;
         private bool taskIsReadyToExecute = true;
+        private Coroutine queueExecutor;
 
-        private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO)
+        public void AiMoveRequestInit()
+        {
+            serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
+            taskIsReadyToExecute = true;
+
+            if (queueExecutor != null)
+            {
+                routineRunner.StopCoroutine(queueExecutor);
+            }
+
+            routineRunner.StartCoroutine(QueueExecutor());
+        }
+
+        private IPromise<FileRank, FileRank, string> AddToQueue(Action<AiMoveInputVO> function, AiMoveInputVO inputVO, float priority = 0)
         {
             if (serviceRequestsQueue == null)
             {
-                serviceRequestsQueue = new Queue<AiMoveRequest>();
+                serviceRequestsQueue = new SimplePriorityQueue<AiMoveRequest>();
             }
 
             var promise = new Promise<FileRank, FileRank, string>();
             var methodToAdd = new AiMoveRequest(function, inputVO, promise);
-            serviceRequestsQueue.Enqueue(methodToAdd);
-            ExecuteQueue();
-
+            serviceRequestsQueue.Enqueue(methodToAdd, priority);
             return promise;
         }
 
-        private void ExecuteQueue()
+        private IEnumerator QueueExecutor()
         {
-            if (serviceRequestsQueue.Count <= 0)
+            while (true)
             {
-                return;
-            }
+                yield return null;
 
-            routineRunner.StartCoroutine(ProcessQueue());
-        }
-
-        private IEnumerator ProcessQueue()
-        {
-            yield return null;
-
-            if (taskIsReadyToExecute)
-            {
-                taskIsReadyToExecute = false;
-                lastDequeuedMethod = serviceRequestsQueue.Dequeue();
-                lastDequeuedMethod.function(lastDequeuedMethod.inputVO);
+                if (taskIsReadyToExecute && serviceRequestsQueue.Count > 0)
+                {
+                    taskIsReadyToExecute = false;
+                    lastDequeuedMethod = serviceRequestsQueue.Dequeue();
+                    lastDequeuedMethod.function(lastDequeuedMethod.inputVO);
+                }
             }
         }
     }

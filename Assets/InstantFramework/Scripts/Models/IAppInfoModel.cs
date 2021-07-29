@@ -22,6 +22,7 @@ namespace TurboLabz.InstantFramework
         string contactSupportURL { get; set; }
         string privacyPolicyURL { get; }
         string termsOfUseURL { get; }
+        string adPartnersURL { get; }
         string chatOnDiscordURL { get; }
         InternalAdType internalAdType { get; set; }
         string faqURL { get; }
@@ -30,6 +31,11 @@ namespace TurboLabz.InstantFramework
         bool isVideoLoading { get; set; }
         bool isMandatoryUpdate { get; set; }
         string storeURL { get; set; }
+        int nthWinsRateApp { get; set; }
+        int gamesPlayedCount { get; set; }
+        bool showGameUpdateBanner { get; set; }
+        bool outOfCoinsBannerClicked { get; set; }
+        OperatingSystemCode operatingSystemCode { get; set; }
 
     }
 
@@ -53,5 +59,13 @@ namespace TurboLabz.InstantFramework
         INTERAL_AD,
         FORCED_ON_WIN,
         NONE
+    }
+
+
+    public enum OperatingSystemCode
+    {
+        SYSINFO_OS_CODE_UNKNOWN = 0,
+        SYSINFO_OS_CODE_IOS = 1,
+        SYSINFO_OS_CODE_ANDROID = 2
     }
 }

@@ -25,6 +25,7 @@ namespace TurboLabz.Multiplayer
         // Dispatch Signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public SyncReconnectDataSignal syncReconnectDataSignal { get; set; }
+        [Inject] public AiTurnRequestedSignal aiTurnRequestedSignal { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -102,6 +103,10 @@ namespace TurboLabz.Multiplayer
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_10M;
             }
+            else if (matchInfoModel.activeMatch.gameTimeMode == GameTimeMode.ThirtyMin)
+            {
+                vo.aiMoveDelay = AiMoveDelay.ONLINE_30M;
+            }
             else
             {
                 vo.aiMoveDelay = AiMoveDelay.ONLINE_5M;
@@ -161,6 +166,12 @@ namespace TurboLabz.Multiplayer
                 float[] delayRange = AiMoveTimes.M_10[index];
                 delay = Random.Range(delayRange[0], delayRange[1]);
             }
+            else if (vo.aiMoveDelay == AiMoveDelay.ONLINE_30M)
+            {
+                int index = Mathf.Min(vo.aiMoveNumber, AiMoveTimes.M_30.Length - 1);
+                float[] delayRange = AiMoveTimes.M_30[index];
+                delay = Random.Range(delayRange[0], delayRange[1]);
+            }
 
             float timeElapsed = Time.time - startTime;
             delay -= timeElapsed;
@@ -176,7 +187,9 @@ namespace TurboLabz.Multiplayer
             }
             else
             {
-                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken); 
+                backendService.AiTurn(from, to, promo, (long)delay).Then(OnTurnTaken);
+                aiTurnRequestedSignal.Dispatch(delay);
+
             }
         }
 

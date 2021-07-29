@@ -16,11 +16,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public RestorePurchasesSignal restorePurchasesSignal { get; set; }
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public SavePlayerInventorySignal savePlayerInventorySignal { get; set; }
+        [Inject] public UpdatePlayerDataSignal updatePlayerDataSignal  { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public override void OnRegister()
         {
@@ -64,6 +66,7 @@ namespace TurboLabz.InstantFramework
 
         void OnBackButtonClicked()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
@@ -95,12 +98,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnApplySettings()
         {
-            if (view.HasSettingsChanged())
-            {
-                savePlayerInventorySignal.Dispatch("");
-            }
-
-            //OnCloseDailogue();
+            
         }
     }
 }

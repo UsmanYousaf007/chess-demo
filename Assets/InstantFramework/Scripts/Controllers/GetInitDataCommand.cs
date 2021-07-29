@@ -47,6 +47,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public UpdateTournamentsViewSignal updateTournamentsViewSignal { get; set; }
         [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
         [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
+        [Inject] public GetInitDataOnCompleteSignal getInitDataOnCompleteSignal { get; set; }
 
         public override void Execute()
         {
@@ -70,10 +71,7 @@ namespace TurboLabz.InstantFramework
                 toggleLeaderboardViewNavButtons.Dispatch(true);
                 updateTournamentLeaderboardView.Dispatch();
 
-                if (playerModel.subscriptionExipryTimeStamp == 0)
-                {
-                    getInitDataCompleteSignal.Dispatch();
-                }
+                getInitDataOnCompleteSignal.Dispatch();
             }
             else if (result != BackendResult.CANCELED)
             {
@@ -84,16 +82,18 @@ namespace TurboLabz.InstantFramework
             Release();
         }
 
-
         string BuildAppData()
         {
             AppData appData;
             appData.lastSavedChatId = chatModel.lastSavedChatIdOnLaunch;
             appData.clientVersion = appInfoModel.clientVersion;
             appData.isResume = isResume;
-            appData.playerSkillLevel = playerModel.skillLevel;
+            //appData.playerSkillLevel = playerModel.skillLevel;
             appData.inProgress = cPUGameModel.inProgress;
             appData.hbiUserId = HAnalyticsHBI.UserId;
+            appData.timeZone = Mathf.CeilToInt((float)TimeZoneInfo.Local.BaseUtcOffset.TotalHours);
+            appData.operatingSystem = SystemInfo.operatingSystem;
+            appData.operatingSystemCode = (int)appInfoModel.operatingSystemCode;
 
             return JsonUtility.ToJson(appData);
         }
@@ -105,8 +105,11 @@ namespace TurboLabz.InstantFramework
         public string lastSavedChatId;
         public string clientVersion;
         public bool isResume;
-        public string playerSkillLevel;
+        //public string playerSkillLevel;
         public bool inProgress;
         public string hbiUserId;
+        public int timeZone;
+        public string operatingSystem;
+        public int operatingSystemCode;
     }
 }

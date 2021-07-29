@@ -1,4 +1,4 @@
-namespace HUF.Storage.Runtime.API.Structs
+namespace HUF.Storage.Runtime.Implementation.Structs
 {
     public class ObjectResultContainer<T> where T : class
     {

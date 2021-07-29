@@ -16,10 +16,12 @@ namespace TurboLabz.Chess
 {
     public interface IChessAiService
     {
-        void NewGame();
+        void NewGame(string multiPV = ChessAiConfig.SF_MULTIPV);
         void Shutdown();
         IPromise<FileRank, FileRank, string> GetAiMove(AiMoveInputVO vo);
         IPromise<FileRank, FileRank, string> GetAiMoveStrength(AiMoveInputVO vo);
         bool IsReactionaryCaptureAvailable();
+        IPromise<FileRank, FileRank, string> AnalyseMove(AiMoveInputVO vo);
+        void AiMoveRequestInit();
     }
 }

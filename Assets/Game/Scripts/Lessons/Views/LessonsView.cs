@@ -17,12 +17,6 @@ namespace TurboLabz.InstantGame
 {
     public class LessonsView : View
     {
-        public Image topicIcon;
-        public Image progressBar;
-        public Text completedLabel;
-        public Text totalLabel;
-        public Text topicName;
-        public GameObject completedObject;
         public Text backButtonLabel;
         public Button backButton;
         public Transform lessonTileContainer;
@@ -76,7 +70,7 @@ namespace TurboLabz.InstantGame
 
         public void UpdateView(LessonsViewVO vo)
         {
-            SetupTopic(vo.topicVO);
+            //SetupTopic(vo.topicVO);
             lessonsBanner.gameObject.SetActive(vo.showBanner);
 
             int i = 0;
@@ -97,14 +91,14 @@ namespace TurboLabz.InstantGame
                 lessonTile.button.onClick.RemoveAllListeners();
                 lessonTile.button.onClick.AddListener(() =>
                 {
-                    if (lessonVO.isLocked)
-                    {
-                        unlockVideoSingal.Dispatch(lessonTile);
-                    }
-                    else
-                    {
+                    //if (lessonVO.isLocked)
+                    //{
+                    //    unlockVideoSingal.Dispatch(lessonTile);
+                    //}
+                    //else
+                    //{
                         playVideoSingal.Dispatch(lessonTile);
-                    }
+                    //}
                 });
                 lessonTile.unlockBtn.onClick.RemoveAllListeners();
                 lessonTile.unlockBtn.onClick.AddListener(() => unlockVideoSingal.Dispatch(lessonTile));
@@ -119,11 +113,10 @@ namespace TurboLabz.InstantGame
                 }
             }
 
-            if (vo.showBanner)
-            {
-                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
-            }
-
+            //if (vo.showBanner)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.key);
+            //}
             LayoutRebuilder.ForceRebuildLayoutImmediate(lessonTileContainer.GetComponent<RectTransform>());
         }
 
@@ -142,25 +135,6 @@ namespace TurboLabz.InstantGame
             lessonTiles.Clear();
         }
 
-        private void SetupTopic(TopicVO vo)
-        {
-            scrollView.verticalNormalizedPosition = lastTopicId.Equals(vo.name) ? scrollView.verticalNormalizedPosition : 1;
-            topicIcon.sprite = vo.icon;
-            topicIcon.SetNativeSize();
-            topicName.text = vo.name;
-            totalLabel.text = $"{vo.total} Lessons";
-
-            var completedPercentage = (float)vo.completed / vo.total;
-            var isCompleted = completedPercentage == 1;
-            var fillAmount = .09f + (vo.completed * ((.91f - .09f) / vo.total));
-            completedObject.SetActive(isCompleted);
-            completedLabel.gameObject.SetActive(!isCompleted);
-            progressBar.fillAmount = fillAmount;
-            completedLabel.text = $"{(int)(completedPercentage * 100)}%";
-            progressBar.color = isCompleted ? Colors.GLASS_GREEN : Colors.YELLOW;
-            lastTopicId = vo.name;
-        }
-
         private void OnBackButtonClicked()
         {
             audioService.PlayStandardClick();
@@ -175,15 +149,16 @@ namespace TurboLabz.InstantGame
             }
         }
 
-        public void UpdateLessons()
+        public void UpdateLessons(bool ownAllLessons)
         {
             foreach (var lesson in lessonTiles)
             {
                 lesson.SetupUnlockButton();
+                lesson.CheckLockStatus(ownAllLessons);
             }
         }
 
-        public void UnlockLesson(string lessonId, VirtualGoodsTransactionVO transactionVO)
+        public void UnlockLesson(string lessonId)
         {
             var lesson = (from lessonTile in lessonTiles
                           where lessonTile.vo.videoId.Equals(lessonId)
@@ -194,8 +169,7 @@ namespace TurboLabz.InstantGame
                 lesson.Unlock();
                 analyticsService.Event($"lesson_{lesson.vo.overallIndex}", AnalyticsContext.unlocked);
                 audioService.Play(audioService.sounds.SFX_REWARD_UNLOCKED);
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "lesson_unlocked", $"lesson_{lesson.vo.overallIndex}");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, lesson.vo.storeItem.currency3Cost, "lesson_unlocked", lesson.vo.overallIndex.ToString());
             }
         }
 

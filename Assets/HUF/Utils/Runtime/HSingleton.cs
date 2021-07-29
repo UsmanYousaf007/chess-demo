@@ -4,7 +4,7 @@ namespace HUF.Utils.Runtime
 {
     public class HSingleton<T> : MonoBehaviour where T : Component
     {
-        static T instance;
+        protected static T instance;
 
         protected static bool isQuitting;
 
@@ -17,30 +17,30 @@ namespace HUF.Utils.Runtime
         {
             get
             {
-                if (instance != null)
+                if ( instance != null )
                     return instance;
 
                 var t = FindObjectsOfType<T>();
 
-                if (t.Length == 1)
+                if ( t.Length == 1 )
                 {
                     instance = t[0];
                     return instance;
                 }
 
-                if (t.Length > 1)
+                if ( t.Length > 1 )
                 {
-                    Debug.LogError("More than 1 instance of singleton class!");
+                    Debug.LogError( "More than 1 instance of singleton class!" );
                     return t[0];
                 }
 
-                switch (t.Length)
+                switch ( t.Length )
                 {
                     case 0 when isQuitting:
                         return null;
                     case 0:
                     {
-                        var go = new GameObject(typeof(T).ToString());
+                        var go = new GameObject( typeof(T).ToString() );
                         instance = go.AddComponent<T>();
                         go.AddComponent<DontDestroyOnLoad>();
                         return instance;

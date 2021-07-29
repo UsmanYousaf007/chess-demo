@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using ArabicSupport;
+using TurboLabz.TLUtils;
 
 namespace TurboLabz.InstantFramework
 {
@@ -9,7 +10,7 @@ namespace TurboLabz.InstantFramework
     {
         public string playerId;
         public string countryId;
-        public int eloScore;
+        int _eloScore;
         public Sprite profilePicture;
         public string facebookUserId;
         public bool isOnline;
@@ -26,6 +27,7 @@ namespace TurboLabz.InstantFramework
         public string uploadedPicId;
         public int league;
         public Sprite leagueBorder;
+        public int trophies2;
 
         public string name
         {
@@ -45,6 +47,26 @@ namespace TurboLabz.InstantFramework
             {
                 DateTime activeTimeStamp = DateTime.UtcNow.AddDays(-1);
                 return lastSeenDateTime.CompareTo(activeTimeStamp) >= 0;
+            }
+        }
+
+        public int eloScore
+        {
+            get
+            {
+                if (CollectionsUtil.fakeEloScores.ContainsKey(playerId))
+                {
+                    CollectionsUtil.fakeEloScores.TryGetValue(playerId, out int fakeElo);
+                    return fakeElo;
+                }
+                else
+                {
+                    return _eloScore;
+                }
+            }
+            set
+            {
+                _eloScore = value;
             }
         }
 

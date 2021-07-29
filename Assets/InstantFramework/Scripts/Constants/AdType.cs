@@ -24,21 +24,21 @@ namespace TurboLabz.InstantFramework
 
     public enum AdPlacements
     {
-        Rewarded_rating_booster,
-        Rewarded_hints,
-        Rewarded_keys,
-        Rewarded_tickets,
-        Rewarded_rating_booster_popup,
-        Rewarded_keys_popup,
-        Rewarded_tickets_popup,
-        Rewarded_hints_popup,
+        Rewarded_daily_reward,
+        Rewarded_lobby_chest,
+        Rewarded_coins_purchase,
+        Rewarded_coins_popup,
+        Rewarded_coins_banner,
+        Rewarded_powerplay,
+        Rewarded_analysis,
+        Rewarded_cpu_pregame_power_mode,
+        Rewarded_cpu_in_game_power_mode,
+        Rewarded_cpu_resume_power_mode,
+        RV_rating_booster,
         Interstitial_pregame,
         Interstitial_endgame,
         interstitial_in_game_cpu,
         interstitial_in_game_30_min,
-        Interstitial_tournament_pre,
-        Interstitial_tournament_end_co,
-        Interstitial_in_game_classic,
         Banner,
         Unknown
     }

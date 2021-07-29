@@ -120,13 +120,13 @@ namespace TurboLabz.InstantFramework
 
             if (joinedTournamentData.ended == false)
             {
-                prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
-                grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
+                //prizeImage.sprite = chestIconsContainer.GetChest(joinedTournamentData.grandPrize.chestType);
+                //grandPrizeTrophiesCountText.text = joinedTournamentData.grandPrize.trophies.ToString();
 
-                prizeImage.gameObject.SetActive(true);
-                grandPrizeTrophiesCountText.gameObject.SetActive(true);
+                //prizeImage.gameObject.SetActive(true);
+                //grandPrizeTrophiesCountText.gameObject.SetActive(true);
 
-                EnableResultsGroup(false);
+                //EnableResultsGroup(false);
             }
             else
             {

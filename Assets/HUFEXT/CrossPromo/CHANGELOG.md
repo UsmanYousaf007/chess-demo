@@ -1,3 +1,43 @@
+## [2.1.4] - 2021-06-01
+### Fixed
+- Creating multiple instances of CrossPromoView
+
+
+## [2.1.3] - 2021-04-23
+### Fixed
+- Continue button from bottom panel not working
+
+
+## [2.1.2] - 2021-03-23
+### Fixed
+- Race condition between CrossPromo and Storage
+
+
+## [2.1.1] - 2021-03-11
+### Fixed
+- Often download of the same sprite
+
+
+## [2.1.0] - 2020-11-03
+### Changed
+- Support multiple remote configs services
+
+
+## [2.0.6] - 2020-12-30
+### Fixed
+- Multiple warnings
+
+
+## [2.0.5] - 2020-11-13
+### Fixed
+- Crashes when downloading the same sprite more than once
+
+
+## [2.0.4] - 2020-10-23
+### Added
+- Documentation
+
+
 ## [2.0.3] - 2020-09-17
 ### Added
 - Hufdefine file
@@ -29,4 +69,4 @@ Cross promo will from now not update when an app is getting back from the backgr
 - Added package manifest and changelog.
 
 ### Changed
-- Changed structure of package.
+- Changed structure of package

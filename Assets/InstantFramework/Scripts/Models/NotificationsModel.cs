@@ -29,6 +29,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISettingsModel settingsModel { get; set; }
 
         private List<Notification> registeredNotifications;
+        private List<Coroutine> inGameScheduledNotifications;
 
         [PostConstruct]
         public void PostConstruct()
@@ -44,6 +45,7 @@ namespace TurboLabz.InstantFramework
         private void Reset()
         {
             registeredNotifications = new List<Notification>();
+            inGameScheduledNotifications = new List<Coroutine>();
         }
 
         private void OnAppEventSignal(AppEvent appEvent)
@@ -55,8 +57,13 @@ namespace TurboLabz.InstantFramework
                     break;
 
                 case AppEvent.PAUSED:
+#if UNITY_EDITOR
+                case AppEvent.QUIT:
+#endif
+                    StopInGameScheduledNotifications();
                     SaveToDisk();
                     break;
+
             }
         }
 
@@ -118,13 +125,27 @@ namespace TurboLabz.InstantFramework
             }
 
             var delayInSeconds = (int)(notification.timestamp - backendService.serverClock.currentTimestamp) / 1000;
-            routineRunner.StartCoroutine(ScheduleInGameNotification(notification, delayInSeconds));
+            var scheduledNotification = routineRunner.StartCoroutine(ScheduleInGameNotification(notification, delayInSeconds));
+            inGameScheduledNotifications.Add(scheduledNotification);
         }
 
         private IEnumerator ScheduleInGameNotification(Notification notification, int delayInSeconds)
         {
             yield return new WaitForSeconds(delayInSeconds);
             DisplayInGameNotification(notification);
+        }
+
+        private void StopInGameScheduledNotifications()
+        {
+            if (inGameScheduledNotifications == null)
+            {
+                return;
+            }
+
+            foreach (var notification in inGameScheduledNotifications)
+            {
+                routineRunner.StopCoroutine(notification);
+            }
         }
 
         private void DisplayInGameNotification(Notification notification)
@@ -236,13 +257,7 @@ namespace TurboLabz.InstantFramework
             {
                 //daily league reward inbox item found
                 //registering 8pm remineder notification in case its not already registered
-
-                var reminder = new Notification();
-                reminder.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
-                reminder.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
-                reminder.timestamp = TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime());
-                reminder.sender = "league";
-                RegisterNotification(reminder);
+                RegisterDailyRewardNotification();
             }
         }
 
@@ -261,6 +276,23 @@ namespace TurboLabz.InstantFramework
                     HNotifications.Local.ScheduleNotification(notificationData);
                 }
             }
+        }
+
+        public void RegisterDailyRewardNotification()
+        {
+            RegisterDailyRewardNotification(TimeUtil.ToUnixTimestamp(DateTime.Today.AddDays(1).AddHours(settingsModel.dailyNotificationDeadlineHour).ToUniversalTime()));
+        }
+
+        private void RegisterDailyRewardNotification(long timestamp)
+        {
+            var notification = new Notification();
+            notification.title = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_TITLE);
+            notification.body = localizationService.Get(LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY);
+            notification.timestamp = timestamp;
+            notification.sender = "league";
+            notification.showInGame = false;
+
+            RegisterNotification(notification);
         }
     }
 

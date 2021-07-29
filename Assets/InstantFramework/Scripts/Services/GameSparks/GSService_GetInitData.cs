@@ -8,25 +8,28 @@ using System.Collections.Generic;
 using GameSparks.Api.Responses;
 using GameSparks.Core;
 using strange.extensions.promise.api;
-
 using TurboLabz.TLUtils;
 using System;
 using GameSparks.Api.Requests;
-using UnityEngine;
-using TurboLabz.InstantGame;
+using System.Collections;
 
 namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        bool isStoreAvailable;
+        bool isInitComplete;
         public IPromise<BackendResult> GetInitData(int appVersion, string appData)
         {
+            isStoreAvailable = false;
+            isInitComplete = false;
             // Fetch init data from server
             return new GSGetInitDataRequest(GetRequestContext()).Send(appVersion, appData, OnGetInitDataSuccess);
         }
 
         void OnGetInitDataSuccess(object r, Action<object> a)
         {
+            routineRunner = new NormalRoutineRunner();
             LogEventResponse response = (LogEventResponse)r;
             appInfoModel.androidURL = response.ScriptData.GetString(GSBackendKeys.APP_ANDROID_URL);
             appInfoModel.iosURL = response.ScriptData.GetString(GSBackendKeys.APP_IOS_URL);
@@ -46,23 +49,40 @@ namespace TurboLabz.InstantFramework
             // Check app version match with back end. Bail if there is mismatch.
             if (appInfoModel.appBackendVersionValid == false)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
 
             // Check if game maintenance mode is On
             if (settingsModel.maintenanceFlag == true)
             {
+                getInitDataCompleteSignal.Dispatch();
                 return;
             }
-
+            
             appInfoModel.rateAppThreshold = response.ScriptData.GetInt(GSBackendKeys.APP_RATE_APP_THRESHOLD).Value;
             appInfoModel.onlineCount = Int32.Parse(response.ScriptData.GetString(GSBackendKeys.APP_ONLINE_COUNT));
+            appInfoModel.nthWinsRateApp = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.NTH_WINS_APP_RATE_APP);
+            appInfoModel.gamesPlayedCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.GAMES_PLAYED_TODAY);
+
+            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
+            FillLessonsModel(lessonsData);
 
             GSData storeSettingsData = response.ScriptData.GetGSData(GSBackendKeys.SHOP_SETTINGS);
             FillStoreSettingsModel(storeSettingsData);
+            storeAvailableSignal.Dispatch(false);
+            //Debug.Log("ItemsPrices::FillStoreSettingsModel call completed: " + DateTime.Now);
+
+            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
+            if (promise != null)
+            {
+
+                promise.Then(OnStoreInit);
+            }
 
             GSData adsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.ADS_SETTINGS);
             GSData adsABTestSettingsData = response.ScriptData.GetGSData(GSBackendKeys.AB_TEST_ADS_SETTINGS);
+
             if (Settings.ABTest.ADS_TEST_GROUP != Settings.ABTest.ADS_TEST_GROUP_DEFAULT && adsABTestSettingsData != null)
             {
                 FillAdsSettingsModel(adsABTestSettingsData);
@@ -78,14 +98,20 @@ namespace TurboLabz.InstantFramework
             GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
             FillPlayerDetails(playerDetailsData);
 
+            if (playerModel.HasSubscription())
+            {
+                settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
+                settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
+
+                LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
+            }
+
+
             GSData chatData = response.ScriptData.GetGSData(GSBackendKeys.CHAT);
             FillChatModel(chatData);
 
             GSData rewardsSettingsData = response.ScriptData.GetGSData(GSBackendKeys.Rewards.REWARDS_SETTINGS);
             FillRewardsSettingsModel(rewardsSettingsData);
-
-            GSData lessonsData = response.ScriptData.GetGSData(GSBackendKeys.LESSONS_MAPPING);
-            FillLessonsModel(lessonsData);
 
             GSData joinedTournamentsData = response.ScriptData.GetGSData(GSBackendKeys.JOINED_TOURNAMENTS);
             FillJoinedTournaments(joinedTournamentsData);
@@ -108,14 +134,31 @@ namespace TurboLabz.InstantFramework
             GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
             PopulateInboxModel(inBoxMessagesData);
 
+            settingsModel.bettingIncrements = response.ScriptData.GetLongList(GSBackendKeys.BETTING_INCREMENTS);
+            settingsModel.defaultBetIncrementByGamesPlayed = response.ScriptData.GetFloatList(GSBackendKeys.BET_INCREMENT_BY_GAMES_PLAYED);
+
+            GSData freeHintSettingsData = response.ScriptData.GetGSData(GSBackendKeys.FREE_HINT_THRESHOLDS);
+            ParseFreeHintSettings(freeHintSettingsData);
+
+            GSData matchCoinsMultiplyerData = response.ScriptData.GetGSData(GSBackendKeys.MATCH_COINS_MULTIPLYER);
+            FillMatchCoinsMultiplayerData(matchCoinsMultiplyerData);
 
             if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
             {
                 SendDefaultItemsOwnedAnalytics();
             }
 
-            storeAvailableSignal.Dispatch(false);
+            if (response.ScriptData.ContainsKey(GSBackendKeys.REFUND_GEMS_ADDED))
+            {
+                var refundedGems = response.ScriptData.GetInt(GSBackendKeys.REFUND_GEMS_ADDED);
+                if (refundedGems > 0)
+                {
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, (int)refundedGems, "refund", "old_inventory_items");
+                }
+            }
+
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            updateBundleSignal.Dispatch();
 
             ParseActiveChallenges(response.ScriptData);
 
@@ -129,16 +172,31 @@ namespace TurboLabz.InstantFramework
                 // The matchInfoModel.activeChallengeId is retained for the session and maintained by the client so it 
                 // need not be set from the server. Do not set activeChallengeId here.
             }
-
-            IPromise<bool> promise = storeService.Init(storeSettingsModel.getRemoteProductIds());
-            if (promise != null)
-            {
-                promise.Then(OnStoreInit);
-            }
+            isInitComplete = true;
+            CheckCompletion();
+            //routineRunner.StartCoroutine(OnInitDataComplete());
         }
+
+
+
+
+        //private IEnumerator OnInitDataComplete()
+        //{
+        //    while (!isStoreAvailable)
+        //    {
+        //        yield return null;
+        //    }
+
+        //    setDefaultSkinSignal.Dispatch();
+        //    getInitDataCompleteSignal.Dispatch();
+        //    yield break;
+        //}
+
 
         private void OnStoreInit(bool success)
         {
+            //Debug.Log("ItemsPrices::OnStoreInit call time: " + DateTime.Now);
+            isStoreAvailable = success;
             if (success)
             {
                 metaDataModel.store.remoteStoreAvailable = true;
@@ -153,22 +211,18 @@ namespace TurboLabz.InstantFramework
                         storeItem.productPrice = storeService.GetItemPrice(storeItem.remoteProductId);
                     }
                 }
-
+                
                 storeAvailableSignal.Dispatch(true);
             }
 
-            if (playerModel.HasSubscription())
+            CheckCompletion();
+        }
+
+        private void CheckCompletion()
+        {
+            if (isInitComplete && isStoreAvailable)
             {
-                settingsModel.maxLongMatchCount = settingsModel.maxLongMatchCountPremium;
-                settingsModel.maxFriendsCount = settingsModel.maxFriendsCountPremium;
-
-                LogUtil.Log("======= max match count " + settingsModel.maxLongMatchCount + " friends count " + settingsModel.maxFriendsCount);
-            }
-
-            setDefaultSkinSignal.Dispatch();
-
-            if (playerModel.subscriptionExipryTimeStamp > 0)
-            {
+                setDefaultSkinSignal.Dispatch();
                 getInitDataCompleteSignal.Dispatch();
             }
         }
@@ -195,7 +249,9 @@ namespace TurboLabz.InstantFramework
             playerModel.lastWatchedVideo = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.LAST_WATCHED_VIDEO);
             playerModel.uploadedPicId = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.UPLOADED_PIC_ID);
             playerModel.trophies = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+            playerModel.trophies2 = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
             playerModel.league = playerDetailsData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
+            playerModel.dynamicBundleToDisplay = playerDetailsData.GetString(GSBackendKeys.PlayerDetails.DYNAMIC_BUNDLE_SHORT_CODE);
 
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP))
             {
@@ -210,6 +266,18 @@ namespace TurboLabz.InstantFramework
             if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.GEMS))
             {
                 playerModel.gems = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.GEMS).Value;
+            }
+
+            playerModel.coins = GSParser.GetSafeLong(playerDetailsData, GSBackendKeys.PlayerDetails.COINS);
+
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP))
+            {
+                playerModel.chestUnlockTimestamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.CHEST_UNLOCK_TIMESTAMP).Value;
+            }
+
+            if (playerDetailsData.ContainsKey(GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP))
+            {
+                playerModel.rvUnlockTimestamp = playerDetailsData.GetLong(GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP).Value;
             }
 
             // Split name to first and last initial
@@ -236,6 +304,9 @@ namespace TurboLabz.InstantFramework
 
             GSParser.LogPlayerInfo(playerModel);
             GSParser.LogFriends("friends", playerModel.friends);
+
+            GSData dynamicSpotPurchaseBundleData = playerDetailsData.GetGSData(GSBackendKeys.PlayerDetails.DYNAMIC_GEM_SPOT_BUNDLE);
+            GSParser.ParseDynamicSpotPurchaseBundle(playerModel.dynamicGemSpotBundle, dynamicSpotPurchaseBundleData);
         }
 
         private void PopulateInboxModel(GSData inBoxMessagesData)
@@ -244,9 +315,13 @@ namespace TurboLabz.InstantFramework
             {
                 Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
                 FillInbox(dict, inBoxMessagesData);
-                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
+                inboxAddMessagesSignal.Dispatch(); 
+            }
+            else
+            {
+                inboxEmptySignal.Dispatch();
             }
         }
 
@@ -273,6 +348,11 @@ namespace TurboLabz.InstantFramework
             adsSettingsModel.secondsBetweenIngameAds = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_BETWEEN_INGAME_AD) * 60;
             adsSettingsModel.secondsLeftDisableTournamentPregame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_LEFT_DISABLE_TOURNAMENT_ADS) * 60;
             adsSettingsModel.secondsElapsedDisable30MinInGame = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MINUTES_ELAPSED_DISABLE_30MIN_INGAME_ADS) * 60;
+            adsSettingsModel.isBannerEnabled = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.ENABLE_BANNER_ADS, true);
+            adsSettingsModel.minGemsRequiredforRV = GSParser.GetSafeInt(adsSettingsData, GSBackendKeys.MIN_GEMS_REQUIRED_FOR_RV);
+            adsSettingsModel.adPlacements = adsSettingsData.GetStringList(GSBackendKeys.AD_PLACEMENTS);
+            adsSettingsModel.removeInterAdsOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_INTER_ADS);
+            adsSettingsModel.removeRVOnPurchase = GSParser.GetSafeBool(adsSettingsData, GSBackendKeys.REMOVE_RV);
         }
 
         private void FillRewardsSettingsModel(GSData rewardsSettingsData)
@@ -280,6 +360,8 @@ namespace TurboLabz.InstantFramework
             rewardsSettingsModel.facebookConnectReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FACEBOOK_CONNECT_REWARD);
             rewardsSettingsModel.failSafeCoinReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FAIL_SAFE_COIN_REWARD);
             rewardsSettingsModel.ratingBoostReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.RATING_BOOST);
+            rewardsSettingsModel.personalisedAdsGemReward = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.PERSONALISED_ADS_GEM);
+            rewardsSettingsModel.freeFullGameAnalysis = GSParser.GetSafeInt(rewardsSettingsData, GSBackendKeys.Rewards.FREE_FULL_GAME_ANALYSIS);
         }
 
         private void FillGameSettingsModel(GSData gsSettingsData)
@@ -299,6 +381,19 @@ namespace TurboLabz.InstantFramework
             settingsModel.dailyNotificationDeadlineHour = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.DAILY_NOTIFICATION_DEADLINE_HOUR);
             settingsModel.defaultSubscriptionKey = GSParser.GetSafeString(gsSettingsData, GSBackendKeys.DEFAULT_SUBSCRIPTION_KEY, "Subscription");
             settingsModel.matchmakingRandomRange = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.MATCHMAKING_RANDOM_RANGE);
+            settingsModel.powerModeFreeHints = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.POWER_MODE_FREE_HINTS);
+            settingsModel.maintenanceWarningTimeStamp = GSParser.GetSafeLong(gsSettingsData, GSBackendKeys.MAINTENANCE_WARNING_TIMESTAMP);
+            settingsModel.sessionDurationForGDPRinMinutes = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.SESSION_DURATION_FOR_GDPR, 15);
+
+            settingsModel.opponentHigherEloCap = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.OPPONENT_HIGHER_ELO_CAP);
+
+            GSData opponentLowerEloCapData = gsSettingsData.GetGSData(GSBackendKeys.OPPONENT_LOWER_ELO_CAP);
+
+            if (opponentLowerEloCapData != null)
+            {
+                settingsModel.opponentLowerEloCapMin = GSParser.GetSafeInt(opponentLowerEloCapData, "min");
+                settingsModel.opponentLowerEloCapMax = GSParser.GetSafeInt(opponentLowerEloCapData, "max");
+            }
 
             if (gsSettingsData.ContainsKey(GSBackendKeys.PREMIUM))
             {
@@ -315,6 +410,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.minimumClientVersion = storeData.GetString(GSBackendKeys.MINIMUM_CLIENT_VERSION);
             settingsModel.updateReleaseBannerMessage = storeData.GetString(GSBackendKeys.UPDATE_RELEASE_BANNER_MESSAGE);
             settingsModel.manageSubscriptionURL = storeData.GetString(GSBackendKeys.MANAGE_SUBSCRIPTION_URL);
+            settingsModel.isHuuugeServerValidationEnabled = GSParser.GetSafeBool(storeData, GSBackendKeys.HUUUGE_SERVER_VERIFICATION_ENABLED);
             LogUtil.Log("======= manage subscription url " + settingsModel.manageSubscriptionURL);
         }
 
@@ -329,7 +425,8 @@ namespace TurboLabz.InstantFramework
                 { GSBackendKeys.ShopItem.SPECIALPACK_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG },
                 { GSBackendKeys.ShopItem.SPECIALITEM_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIALITEM_SHOP_TAG },
                 { GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_ITEMS, GSBackendKeys.ShopItem.SPECIAL_BUNDLE_SHOP_TAG },
-                { GSBackendKeys.ShopItem.SPECIALITEM_POINTS_ITEMS, GSBackendKeys.ShopItem.SPECIALITEM_POINTS_TAG}
+                { GSBackendKeys.ShopItem.SPECIALITEM_POINTS_ITEMS, GSBackendKeys.ShopItem.SPECIALITEM_POINTS_TAG},
+                { GSBackendKeys.ShopItem.COINS_SHOP_ITEMS, GSBackendKeys.ShopItem.COINS_SHOP_TAG}
             };
 
             int len = shopItemKeys.Length >> 1;
@@ -509,6 +606,8 @@ namespace TurboLabz.InstantFramework
             joinedTournament.name = GSParser.GetSafeString(tournamentGSData, GSBackendKeys.Tournament.NAME);
             joinedTournament.rank = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.RANK);
             joinedTournament.ended = GSParser.GetSafeBool(tournamentGSData, GSBackendKeys.Tournament.CONCLUDED);
+            joinedTournament.matchesPlayedCount = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+            joinedTournament.score = GSParser.GetSafeInt(tournamentGSData, GSBackendKeys.Tournament.SCORE);
 
             var grandPrizeGSData = tournamentGSData.GetGSData(GSBackendKeys.Tournament.GRAND_PRIZE);
             if (grandPrizeGSData != null)
@@ -518,12 +617,13 @@ namespace TurboLabz.InstantFramework
                 joinedTournament.grandPrize = grandPrize;
             }
 
-            var rewards = tournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            var rewards = tournamentGSData.GetGSData(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                for (int i = 0; i < rewards.Count; i++)
+                var rewardsListForLeague = rewards.GetGSDataList(playerModel.league.ToString());
+                for (int i = 0; i < rewardsListForLeague.Count; i++)
                 {
-                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    TournamentReward reward = ParseTournamentReward(rewardsListForLeague[i]);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (joinedTournament.rewardsDict.ContainsKey(j))
@@ -548,21 +648,22 @@ namespace TurboLabz.InstantFramework
             {
                 List<TournamentEntry> tournamentEntries = ParseTournamentEntries(entries);
 
-                // Sort entries on score here
-                //tournamentEntries.Sort((x, y) =>
-                //    y.score.CompareTo(x.score));
+                // Sort entries on score here, and Update rank
+                SortTournamentEntries(tournamentEntries);
 
                 joinedTournament.entries = tournamentEntries;
 
-                var playerId = playerModel.id;
+                string playerId = playerModel.id;
 
+                // Rank and other entry updates
                 for (int i = 0; i < tournamentEntries.Count; i++)
                 {
                     tournamentEntries[i].rank = i + 1;
-                    if (tournamentEntries[i].publicProfile.playerId == playerId)
+
+                    if (playerId == tournamentEntries[i].publicProfile.playerId)
                     {
                         joinedTournament.rank = tournamentEntries[i].rank;
-                        joinedTournament.matchesPlayedCount = tournamentEntries[i].matchesPlayedCount;
+                        joinedTournament.score = tournamentEntries[i].score;
                     }
 
                     if (tournamentEntries[i].publicProfile.leagueBorder == null)
@@ -583,19 +684,61 @@ namespace TurboLabz.InstantFramework
             return joinedTournament;
         }
 
+        private void SortTournamentEntries(List<TournamentEntry> entries)
+        {
+            TournamentEntry playerEntry = null;
+
+            // Remove player entry
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].publicProfile.playerId == playerModel.id)
+                {
+                    playerEntry = entries[i];
+                    entries.RemoveAt(i);
+
+                    break;
+                }
+            }
+
+            // Sort entries on score here
+            entries.Sort((x, y) =>
+                y.score.CompareTo(x.score));
+
+            // Add back player entry
+            bool inserted = false;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].score <= playerEntry.score)
+                {
+                    entries.Insert(i, playerEntry);
+                    inserted = true;
+                    break;
+                }
+            }
+
+            if (!inserted)
+            {
+                entries.Add(playerEntry);
+            }
+        }
+
         private List<TournamentEntry> ParseTournamentEntries(List<GSData> entriesGSData)
         {
             List<TournamentEntry> tournamentEntries = new List<TournamentEntry>();
             for (int i = 0; i < entriesGSData.Count; i++)
             {
+                GSData entryGSData = entriesGSData[i];
+
                 TournamentEntry tournamentEntry = new TournamentEntry();
-                tournamentEntry.rank = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.RANK);
-                tournamentEntry.score = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.SCORE);
-                tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entriesGSData[i], GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+                tournamentEntry.rank = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.RANK);
+                tournamentEntry.score = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.SCORE);
+                tournamentEntry.matchesPlayedCount = GSParser.GetSafeInt(entryGSData, GSBackendKeys.Tournament.MATCHES_PLAYED_COUNT);
+
+                tournamentEntry.score += tournamentEntry.randomScoreFactor;
 
                 tournamentEntry.publicProfile = new PublicProfile();
-                GSData publicProfileData = entriesGSData[i].GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
-                string entryId = GSParser.GetSafeString(entriesGSData[i], GSBackendKeys.PlayerDetails.PLAYER_ID);
+                GSData publicProfileData = entryGSData.GetGSData(GSBackendKeys.Friend.PUBLIC_PROFILE);
+                string entryId = GSParser.GetSafeString(entryGSData, GSBackendKeys.PlayerDetails.PLAYER_ID);
                 GSParser.PopulatePublicProfile(tournamentEntry.publicProfile, publicProfileData, entryId);
 
                 tournamentEntries.Add(tournamentEntry);
@@ -667,12 +810,13 @@ namespace TurboLabz.InstantFramework
                 liveTournament.grandPrize = grandPrize;
             }
 
-            var rewards = liveTournamentGSData.GetGSDataList(GSBackendKeys.Tournament.REWARDS);
+            var rewards = liveTournamentGSData.GetGSData(GSBackendKeys.Tournament.REWARDS);
             if (rewards != null)
             {
-                for (int i = 0; i < rewards.Count; i++)
+                var rewardsListForLeague = rewards.GetGSDataList(playerModel.league.ToString());
+                for (int i = 0; i < rewardsListForLeague.Count; i++)
                 {
-                    TournamentReward reward = ParseTournamentReward(rewards[i]);
+                    TournamentReward reward = ParseTournamentReward(rewardsListForLeague[i]);
                     for (int j = reward.minRank; j <= reward.maxRank; j++)
                     {
                         if (liveTournament.rewardsDict.ContainsKey(j))
@@ -729,6 +873,14 @@ namespace TurboLabz.InstantFramework
             return null;
         }
 
+
+        private void ParseFreeHintSettings(GSData freeHintData)
+        {
+            settingsModel.advantageThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.ADV_THRESHOLDS);
+            settingsModel.purchasedHintsThreshold = GSParser.GetSafeInt(freeHintData, GSBackendKeys.HINTS_PURCHASED_THRESHOLDS);
+        }
+
+
         private void FillInbox(IDictionary<string, InboxMessage> targetList, GSData targetData)
         {
             targetList.Clear();
@@ -771,7 +923,12 @@ namespace TurboLabz.InstantFramework
         {
             if (promotionsData != null)
             {
-                foreach (var entry in promotionsData.BaseData)
+#if UNITY_IOS
+                var promotionsPlatformData = promotionsData.GetGSData(GSBackendKeys.STORE_IOS);  
+#elif UNITY_ANDROID
+                var promotionsPlatformData = promotionsData.GetGSData(GSBackendKeys.STORE_ANDROID);
+#endif
+                foreach (var entry in promotionsPlatformData.BaseData)
                 {
                     var sequence = entry.Value as List<object>;
                     var sequenceString = new List<string>();
@@ -809,26 +966,61 @@ namespace TurboLabz.InstantFramework
             }
         }
 
+        private void FillMatchCoinsMultiplayerData(GSData matchCoinsMultiplyerData)
+        {
+            if (matchCoinsMultiplyerData == null)
+            {
+                return;
+            }
+
+            if (settingsModel.matchCoinsMultiplayer == null)
+            {
+                settingsModel.matchCoinsMultiplayer = new Dictionary<string, float>();
+            }
+
+            UpdateMatchCoinsMultiplyerDictionary("coins_A", matchCoinsMultiplyerData, 2.0f);
+            UpdateMatchCoinsMultiplyerDictionary("coins_B", matchCoinsMultiplyerData, 1.5f);
+        }
+
+        private void UpdateMatchCoinsMultiplyerDictionary(string key, GSData matchCoinsMultiplyerData, float defaultValue = 2.0f)
+        {
+            var value = GSParser.GetSafeFloat(matchCoinsMultiplyerData, key, defaultValue);
+
+            if (settingsModel.matchCoinsMultiplayer.ContainsKey(key))
+            {
+                settingsModel.matchCoinsMultiplayer[key] = value;
+            }
+            else
+            {
+                settingsModel.matchCoinsMultiplayer.Add(key, value);
+            }
+        }
+
         private void SendDefaultItemsOwnedAnalytics()
         {
-            if (storeSettingsModel.items.ContainsKey(GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1))
+            string[] defaultItems = { GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1, GSBackendKeys.ShopItem.DEFAULT_ITEMS_V2 };
+
+            foreach (var defaultItem in defaultItems)
             {
-                var storeItem = storeSettingsModel.items[GSBackendKeys.ShopItem.DEFAULT_ITEMS_V1];
-
-                if(storeItem.bundledItems != null)
+                if (storeSettingsModel.items.ContainsKey(defaultItem))
                 {
-                    foreach (var item in storeItem.bundledItems)
+                    var storeItem = storeSettingsModel.items[defaultItem];
+
+                    if (storeItem.bundledItems != null)
                     {
-                        var context = CollectionsUtil.GetContextFromString(item.Key);
-
-                        if (context != AnalyticsContext.unknown)
+                        foreach (var item in storeItem.bundledItems)
                         {
-                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
+                            var context = CollectionsUtil.GetContextFromString(item.Key);
 
-                            if (preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE].ContainsKey(item.Key))
+                            if (context != AnalyticsContext.unknown)
                             {
-                                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][item.Key] += item.Value;
+                                analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, context.ToString(), item.Value, "new_player", "default");
                             }
+                        }
+
+                        if (storeItem.currency3Cost > 0)
+                        {
+                            analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, "gems", storeItem.currency3Cost, "new_player", "default");
                         }
                     }
                 }
@@ -836,7 +1028,7 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #region REQUEST
+#region REQUEST
 
     public class GSGetInitDataRequest : GSFrameworkRequest
     {
@@ -863,5 +1055,5 @@ namespace TurboLabz.InstantFramework
         }
     }
 
-    #endregion
+#endregion
 }

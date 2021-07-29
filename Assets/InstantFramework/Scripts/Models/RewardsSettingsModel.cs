@@ -17,6 +17,8 @@ namespace TurboLabz.InstantFramework
         public int failSafeCoinReward { get; set; }
         public int powerUpCoinsValue { get; set; }
         public int ratingBoostReward { get; set; }
+        public int personalisedAdsGemReward { get; set; }
+        public int freeFullGameAnalysis { get; set; }
 
         public float coefficientWinVideo { get; set; }
         public float coefficientWinIntersitial { get; set; }
@@ -47,6 +49,8 @@ namespace TurboLabz.InstantFramework
             coefficientLoseIntersitial = 0.2f;
             powerUpCoinsValue = 1;
             ratingBoostReward = 0;
+            personalisedAdsGemReward = 0;
+            freeFullGameAnalysis = 0;
         }
 
         public int getRewardCoins(AdType adType, int powerUpUsage, bool playerWins)

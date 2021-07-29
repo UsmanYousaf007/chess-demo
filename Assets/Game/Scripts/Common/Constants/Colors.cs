@@ -35,10 +35,16 @@ namespace TurboLabz.InstantGame
         public static readonly Color GOLD = new Color(235f / 255f, 168f / 255f, 61f / 255f, 1f);
         public static readonly Color SILVER = new Color(183f / 255f, 183f / 255f, 183f / 255f, 1f);
         public static readonly Color BRONZE = new Color(151f / 255f, 97f / 255f, 65f / 255f, 1f);
+        public static readonly Color RED_LIGHT = new Color(212f / 255f, 68f / 255f, 68f / 255f, 1f);
+        public static readonly Color GREEN_LIGHT = new Color(126f / 255f, 212f / 255f, 68f / 255f, 1f);
+        public static readonly Color BLUE = new Color(49f / 255f, 173f / 255f, 235f / 255f, 0.87f);
+
 
         public static readonly Color DISABLED_WHITE = new Color(1f, 1f, 1f, 50f/255f);
         public static readonly Color TRANSPARENT = new Color(1f, 1f, 1f, 0f);
         public static readonly Color PLAYER_MESSAGE = new Color(215f/255f, 247f/255f, 191f/255f);
+        public static readonly Color DISABLED_BUTTON = new Color(200f / 255f, 200f / 255f, 200f / 255f, 128f / 255f);
+
         public const float DISABLED_TEXT_ALPHA = 128f/255f;
         public const float ENABLED_TEXT_ALPHA = 222f/255f;
         public const float FULL_ALPHA = 1f;
@@ -46,6 +52,9 @@ namespace TurboLabz.InstantGame
         public const float UI_BLOCKER_INVISIBLE_ALPHA = 1f / 255f;
         public const float UI_BLOCKER_LIGHT_ALPHA = 50f / 255f;
         public const float UI_BLOCKER_DARK_ALPHA = 150f / 255f;
+
+        public const float BLUR_BG_BRIGHTNESS_NORMAL = 90f / 255f;
+        public const float BLUR_BG_BRIGHTNESS_DARK = 50f / 255f;
 
         public static Color ColorAlpha(Color c, float a) 
 		{

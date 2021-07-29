@@ -50,19 +50,15 @@ namespace TurboLabz.InstantFramework
 
         private void onFacebookAuthSuccess(object r, Action<object> a)
         {
-            AuthenticationResponse response = (AuthenticationResponse)r;
-            playerModel.id = response.UserId;
-
-            GSData playerDetailsData = response.ScriptData.GetGSData(GSBackendKeys.PLAYER_DETAILS);
-            FillPlayerDetails(playerDetailsData);
-
-            clearInboxSignal.Dispatch();
-            inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
-            GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
-            PopulateInboxModel(inBoxMessagesData);
+            onSocialLoginSuccess(r, a);
         }
 
         private void onSignInWithAppleAuthSuccess(object r, Action<object> a)
+        {
+            onSocialLoginSuccess(r, a);
+        }
+
+        private void onSocialLoginSuccess(object r, Action<object> a)
         {
             AuthenticationResponse response = (AuthenticationResponse)r;
             playerModel.id = response.UserId;
@@ -74,6 +70,20 @@ namespace TurboLabz.InstantFramework
             inboxModel.inboxMessageCount = GSParser.GetSafeInt(response.ScriptData, GSBackendKeys.INBOX_COUNT);
             GSData inBoxMessagesData = response.ScriptData.GetGSData("inbox");
             PopulateInboxModel(inBoxMessagesData);
+
+            if (GSParser.GetSafeBool(response.ScriptData, GSBackendKeys.DEFAULT_ITEMS_ADDED))
+            {
+                SendDefaultItemsOwnedAnalytics();
+            }
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.REFUND_GEMS_ADDED))
+            {
+                var refundedGems = response.ScriptData.GetInt(GSBackendKeys.REFUND_GEMS_ADDED);
+                if (refundedGems > 0)
+                {
+                    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, (int)refundedGems, "refund", "old_inventory_items");
+                }
+            }
         }
 
         private void onEmailAuthSuccess(object r, Action<object> a)

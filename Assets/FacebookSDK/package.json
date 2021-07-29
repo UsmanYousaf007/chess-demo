@@ -1,0 +1,20 @@
+{
+  "name": "com.huuuge.plugins.facebook",
+  "displayName": "Facebook SDK",
+  "version": "9.0.1",
+  "unity": "2018.4",
+  "description": "The Unity engine and ecosystem gives developers a world class technology platform from which they can build games that work seamlessly across multiple platforms quickly and effectively.\n\nThe Facebook SDK for Unity complements Unity Technologies' cross-platform support, providing a pure-Unity write-once, run-everywhere experience across the key gaming platforms of WebGL, Unity Web Player, Android and iOS. By maintaing a single codebase, you'll be able to deploy socially integrated gaming experiences to your players, regardless of platform.\n\nThe Facebook SDK for Unity provides a comprehensive collection of Facebook's social features, giving players of your Unity game the ability to share content with their friends and allowing you to create a personal, social gaming experience. In addition to providing a base set of features that are invoked consistently across platforms, the SDK also offers support for Facebook features that are unique to a particular platform (e.g. payments on the Web or App Invites on mobile). This will allow you to keep your code clean, using a simple, consistent model for everything your game can do on Facebook.",
+  "huf": {
+    "dependencies": [
+      "com.huuuge.plugins.externaldependencymanager@^1.2.165",
+      "com.huuuge.huf.utils@^2.7.9"
+    ],
+    "date": "10.05.2021 16:49",
+    "commit": "dc4f933",
+    "build": "21",
+    "scope": "public",
+    "channel": "stable",
+    "path": "Assets/FacebookSDK",
+    "rollout": "38"
+  }
+}

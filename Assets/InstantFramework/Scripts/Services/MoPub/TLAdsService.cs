@@ -6,7 +6,13 @@ using HUF.Ads.Runtime.Implementation;
 using HUFEXT.AdsManager.Runtime.API;
 using HUFEXT.AdsManager.Runtime.AdManagers;
 using TurboLabz.TLUtils;
+using UnityEngine;
 
+#if UNITY_IOS
+using HUF.PolicyGuard.Runtime.API;
+using HUF.Utils.Runtime.PlayerPrefs;
+using HUF.PolicyGuard.Runtime.Implementations;
+#endif
 
 namespace TurboLabz.InstantFramework
 {
@@ -25,6 +31,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public INavigatorModel navigatorModel { get; set; }
+
+        //Dispatch Signals
+        [Inject] public RewardedVideoAvailableSignal rewardedVideoAvailableSignal { get; set; }
 
         private IPromise<AdsResult> adEndedPromise;
         private long videoStartTime = 0;
@@ -51,21 +60,20 @@ namespace TurboLabz.InstantFramework
 
             switch (placementId)
             {
-                case AdPlacements.Rewarded_hints:
-                case AdPlacements.Rewarded_keys:
-                case AdPlacements.Rewarded_rating_booster:
-                case AdPlacements.Rewarded_tickets:
-                case AdPlacements.Rewarded_keys_popup:
-                case AdPlacements.Rewarded_rating_booster_popup:
-                case AdPlacements.Rewarded_tickets_popup:
-                case AdPlacements.Rewarded_hints_popup:
+                case AdPlacements.Rewarded_daily_reward:
+                case AdPlacements.Rewarded_lobby_chest:
+                case AdPlacements.Rewarded_coins_purchase:
+                case AdPlacements.Rewarded_coins_banner:
+                case AdPlacements.Rewarded_coins_popup:
+                case AdPlacements.Rewarded_powerplay:
+                case AdPlacements.Rewarded_analysis:      
+                case AdPlacements.RV_rating_booster:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.rewarded);
+                    rewardedVideoAvailableSignal.Dispatch(placementId);
                     break;
 
                 case AdPlacements.Interstitial_endgame:
                 case AdPlacements.Interstitial_pregame:
-                case AdPlacements.Interstitial_tournament_end_co:
-                case AdPlacements.Interstitial_tournament_pre:
                 case AdPlacements.interstitial_in_game_30_min:
                 case AdPlacements.interstitial_in_game_cpu:
                     analyticsService.Event(AnalyticsEventId.ad_available, AnalyticsContext.interstitial);
@@ -85,6 +93,7 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.ad_shown, playerModel.adContext);
             hAnalyticsService.LogEvent(AnalyticsEventId.video_started.ToString(), "monetization", "interstitial", HAds.Interstitial.GetAdProviderName(),
                 new KeyValuePair<string, object>("funnel_instance_id", string.Concat(playerModel.id, videoStartTime)));
+            PauseGame(true);
             return adEndedPromise;
         }
 
@@ -195,7 +204,7 @@ namespace TurboLabz.InstantFramework
                 new KeyValuePair<string, object>("duration", (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(videoStartTime)).TotalSeconds),
                 new KeyValuePair<string, object>("end_type", data.Result.ToString()));
 
-            if(!preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
+            if (!preferencesModel.isInstallDayOver && preferencesModel.videoFinishedCount <= 10)
             {
                 appsFlyerService.TrackRichEvent("install_day_video_finished_" + preferencesModel.videoFinishedCount, videoEventData);
 
@@ -226,6 +235,7 @@ namespace TurboLabz.InstantFramework
 
         void OnInterstitailEnded(AdManagerCallback data)
         {
+            PauseGame(false);
             AdsResult adResultInstantFramework = AdsResult.FINISHED;
             switch (data.Result)
             {
@@ -258,13 +268,16 @@ namespace TurboLabz.InstantFramework
             {
                 var currentState = navigatorModel.currentState.GetType();
                 var previousState = navigatorModel.previousState.GetType();
-                var canShowBanner = currentState == typeof(NSMultiplayer) ||
-                                    currentState == typeof(NSCPU) ||
-                                   (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer));
+                var canShowBanner = adsSettingsModel.isBannerEnabled && IsPersonalisedAdDlgShown() &&
+                (currentState == typeof(NSMultiplayer) ||
+                 currentState == typeof(NSCPU) ||
+                 currentState == typeof(NSCPUPowerplay) ||
+                (currentState == typeof(NSChat) && previousState == typeof(NSMultiplayer)) ||
+                (currentState == typeof(NSSpotPurchase) && (previousState == typeof(NSMultiplayer) || previousState == typeof(NSCPU) || previousState == typeof(NSCPUPowerplay))));
 
                 if (!canShowBanner)
                 {
-                    GameAnalyticsSDK.GameAnalytics.NewErrorEvent(GameAnalyticsSDK.GAErrorSeverity.Debug, $"OnBannerShown.currentState.{currentState}");
+                    //GameAnalyticsSDK.GameAnalytics.NewErrorEvent(GameAnalyticsSDK.GAErrorSeverity.Debug, $"OnBannerShown.currentState.{currentState}");
                     HideBanner();
                 }
 
@@ -300,5 +313,28 @@ namespace TurboLabz.InstantFramework
         {
             analyticsService.Event(AnalyticsEventId.ad_failed, AnalyticsContext.banner);
         }
+
+        public bool GetAdsConsent()
+        {
+            var hasConsent = HAds.HasConsent();
+            return hasConsent.HasValue && hasConsent.Value;
+        }
+
+        public bool IsPersonalisedAdDlgShown()
+        {
+#if UNITY_ANDROID
+            return HAds.HasConsent() != null;
+#elif UNITY_IOS
+            return HAds.HasConsent() != null || HPlayerPrefs.GetBool(PolicyGuardService.ATT_POSTPONED_KEY, false) || HPolicyGuard.WasATTPopupDisplayed();
+#endif
+        }
+
+        private void PauseGame(bool pause)
+        {
+#if UNITY_IOS
+            Time.timeScale = pause ? 0 : 1;
+#endif
+        }
+
     }
 }

@@ -1,16 +1,16 @@
 <dependencies>
- <unityversion>4.3.6.1</unityversion>
+ <unityversion>4.3.10</unityversion>
     <androidPackages>
-    <androidPackage spec="com.ironsource.adapters:chartboostadapter:4.3.4">
+    <androidPackage spec="com.ironsource.adapters:chartboostadapter:4.3.6">
       <repositories>
-        <repository>https://dl.bintray.com/ironsource-mobile/android-adapters/</repository>
+        <repository>https://android-sdk.is.com/</repository>
       </repositories>
     </androidPackage>
   </androidPackages>
 <androidPackages>
-    <androidPackage spec="com.chartboost:chartboost-sdk:8.1.0">
+    <androidPackage spec="com.chartboost:chartboost-sdk:8.2.1">
       <repositories>
-        <repository>https://chartboostmobile.bintray.com/Chartboost/</repository>
+        <repository>https://maven.google.com/</repository>
       </repositories>
     </androidPackage>
   </androidPackages>
@@ -22,7 +22,7 @@
     </androidPackage>
   </androidPackages>
   <iosPods>
-    <iosPod name="IronSourceChartboostAdapter" version="4.3.3.1">
+    <iosPod name="IronSourceChartboostAdapter" version="4.3.7.0">
       <sources>
         <source>https://github.com/CocoaPods/Specs</source>
       </sources>

@@ -5,39 +5,6 @@
 -keep class com.hardartcore.** { *; }
 #end of Assets/AppUpdate/hardartcore/In-App Updates/Plugins/Android/proguard-rules.txt
 
-#start of Assets/Firebase/Plugins/Android/proguardTemplate.txt
-#firebase
--keep class com.google.firebase.** { *; }
--keep class com.google.firebase.auth.** { *; }
--keep class com.crashlytics.** { *; }
--keep class com.firebase.** { *; }
--keep class org.apache.** { *; }
--keepnames class com.fasterxml.jackson.** { *; }
--keepnames class javax.servlet.** { *; }
--keepnames class org.ietf.jgss.** { *; }
--dontwarn org.apache.**
--dontwarn org.w3c.dom.**
--dontnote com.google.**
--dontnote com.facebook.**
--dontnote com.twitter.**
--dontnote com.squareup.okhttp.**
--dontnote okhttp3.internal.**
--dontwarn com.google.gson.Gson$6
--keepattributes Signature
--keepattributes *Annotation*
--dontnote retrofit2.Platform
--dontwarn retrofit2.**
--dontwarn okhttp3.**
--dontwarn okio.**
--keepattributes Exceptions
--keep class com.google.android.gms.** { *; }
--dontwarn com.google.gson.Gson$6
--dontwarn com.facebook.**
--dontwarn com.twitter.**
--keepnames class com.facebook.login.LoginManager
--keepnames class com.twitter.sdk.android.core.identity.TwitterAuthClient
-#end of Assets/Firebase/Plugins/Android/proguardTemplate.txt
-
 #start of Assets/HUF/AdsIronSourceMediation/Plugins/Android/proguardTemplate.txt
 # Vungle
 -keep class com.vungle.warren.** { *; }
@@ -157,16 +124,25 @@
 -keep class com.integralads.avid.library.* {*;}
 
 
-# Mintegral
--keepattributes Signature
--keepattributes *Annotation*
--keep class com.mintegral.** {*; }
--keep interface com.mintegral.** {*; }
--keep class android.support.v4.** { *; }
--dontwarn com.mintegral.**
--keep class **.R$* { public static final int mintegral*; }
--keep class com.alphab.** {*; }
--keep interface com.alphab.** {*; }
+-keepclassmembers class com.ironsource.sdk.controller.IronSourceWebView$JSInterface {
+    public *;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *;
+}
+-keep class com.ironsource.unity.androidbridge.** { *;
+}
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 #end of Assets/HUF/AdsIronSourceMediation/Plugins/Android/proguardTemplate.txt
 
 #start of Assets/HUF/AnalyticsAppsFlyer/Plugins/Android/proguardTemplate.txt
@@ -218,6 +194,11 @@
 -dontwarn com.google.gson.Gson$6
 #end of Assets/HUF/AuthFirebase/Plugins/Android/proguardTemplate.txt
 
+#start of Assets/HUF/CrashreportFirebase/Plugins/Android/ProguardTemplate.txt
+-keep class com.firebase.** { *; }
+-keep class com.crashlytics.** { *; }
+#end of Assets/HUF/CrashreportFirebase/Plugins/Android/ProguardTemplate.txt
+
 #start of Assets/HUF/InitFirebase/proguardTemplate.txt
 #firebase
 -keep class com.google.firebase.** { *; }
@@ -266,8 +247,8 @@
 -keep class com.firebase.** { *; }
 #end of Assets/HUF/RemoteConfigsFirebase/Plugins/Android/ProguardTemplate.txt
 
-#start of Assets/HUF/StorageFirebase/proguard.txt
+#start of Assets/HUF/StorageFirebase/proguardTemplate.txt
 -keep class com.firebase.** { *; }
-#end of Assets/HUF/StorageFirebase/proguard.txt
+#end of Assets/HUF/StorageFirebase/proguardTemplate.txt
 
 ### HUF generated end ###################################

@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -24,10 +25,10 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
             adsService.Mediation.FetchInterstitial( adPlacementData.PlacementId );
         }
 
-        public override void ShowAd( UnityAction<AdManagerCallback> resultCallback, string alternativeAdPlacement )
+        public override void ShowAd( Action<AdManagerCallback> resultCallback, string alternativeAdPlacement )
         {
             base.ShowAd( resultCallback, alternativeAdPlacement );
-            adsService.Mediation.ShowInterstitial( adPlacementData.PlacementId );
+            adsService.Mediation.ShowInterstitial( shownPlacementId );
         }
 
         protected override void SendAdEvent( AdResult result, string placementId )

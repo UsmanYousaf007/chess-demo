@@ -1,6 +1,39 @@
+## [1.6.1] - 2021-03-08
+### Added
+- New event to communicate that the service is initialized.
+- The `IsAdReady` function added.
+
+### Fixed
+- Fixed `ShowBannerPersistent` function to be able to be set before any ad is loaded.
+
+
+## [1.6.0] - 2021-01-14
+### Changed
+- UnityActions to Actions in Ads packages
+
+
+##[1.5.4] - 2020-12-30
+## Fixed
+- BaseAdMediation warning
+
+
+##[1.5.3] - 2020-12-10
+## Fixed
+- Send correct placement id when trying to show all ad types.
+
+
+##[1.5.2] - 2020-12-09
+## Fixed
+- Send correct placement id when trying to show rewarded ad.
+
+
+##[1.5.1] - 2020-12-09
+## Fixed
+- Editor ads when using AppLovin MAX
+
 
 ##[1.5.0] - 2020-09-18
-##Changed
+## Changed
 - Handling change in banner show event
 
 

@@ -8,10 +8,12 @@ namespace HUF.Utils.Runtime.Logging
     {
         [SerializeField] bool canLogOnProd = false;
         [SerializeField] bool isFilteringLogs = default;
-        [SerializeField] string regexFilter;
+        [SerializeField] string regexFilter = default;
         [SerializeField] bool ignoreCaseInRegex = default;
         [SerializeField] bool iOSNativeLogs = false;
         [SerializeField] bool showTimeInNativeLogs = false;
+        [SerializeField] bool disableHLogsOnDebugBuilds = false;
+        [SerializeField] bool invertFilter = false;
 
         public bool IsFilteringLogs => isFilteringLogs;
         public bool CanLogOnProd => canLogOnProd;
@@ -19,7 +21,8 @@ namespace HUF.Utils.Runtime.Logging
         public bool IgnoreCaseInRegex => ignoreCaseInRegex;
         public bool IOSNativeLogs => iOSNativeLogs;
         public bool ShowTimeInNativeLogs => showTimeInNativeLogs;
-        
+        public bool DisableHLogsOnDebugBuilds => disableHLogsOnDebugBuilds;
+        public bool InvertFilter => invertFilter;
 
 #if UNITY_EDITOR
         protected override void OnValidate()

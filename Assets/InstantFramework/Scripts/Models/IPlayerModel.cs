@@ -37,7 +37,13 @@ namespace TurboLabz.InstantFramework
         string uploadedPicId { get; set; }
         long gems { get; set; }
         int trophies { get; set; }
+        int trophies2 { get; set; }
+        int trophiesPrev { get; set; }
         int league { get; set; }
+        long coins { get; set; }
+        bool leaguePromoted { get; set; }
+        string dynamicBundleToDisplay { get; set; }
+        DynamicSpotPurchaseBundle dynamicGemSpotBundle { get; set; }
 
         // Ads Info
         int adLifetimeImpressions { get; set; }
@@ -80,6 +86,8 @@ namespace TurboLabz.InstantFramework
         int rewardQuantity { get; set; }
         float rewardCurrentPoints { get; set; }
         float rewardPointsRequired { get; set; }
+        long chestUnlockTimestamp { get; set; }
+        long rvUnlockTimestamp { get; set; }
 
         void UpdateGoodsInventory(string key, int quantity);
         AdsRewardVO GetAdsRewardsData();
@@ -94,5 +102,7 @@ namespace TurboLabz.InstantFramework
         int GetInventoryItemCount(string key);
         bool OwnsAllLessons();
         bool OwnsAllThemes();
+
+        bool HasPurchased();
     }
 }

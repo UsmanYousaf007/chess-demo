@@ -1,9 +1,46 @@
 ## Internal SDK
 Sign in with Apple Github Plugin v1.3.0
 
+
+## [2.4.3] - 2021-06-04
+### Fixed
+- Creating empty GameObject and named WrapperSIWA object
+
+
+## [2.4.2] - 2021-05-21
+### Fixed
+- `.entitlements` file conflicting with custom build postprocesses creating their own `.entitlements` file
+
+
+## [2.4.1] - 2021-04-19
+### Fixed
+- `.entitlements` file conflicting with Firebase Notifications `.entitlements` file
+
+
+## [2.4.0] - 2021-01-13
+### Changed
+- UnityActions to Actions in Auth Packages
+
+
+## [2.3.1] - 2020-12-31
+### Fixed
+- Tests no longer use obsolete event
+
+
+## [2.3.0] - 2020-10-22
+### Added
+- OnSignInResult event
+
+
+## [2.2.2] - 2020-10-15
+### Fixed
+- UserName convertion to string in UserInfo
+
+
 ## [2.2.1] - 2020-08-13
 ### Fixed
 - convertion from bytes[] to string in UserInfo
+
 
 ## [2.2.0] - 2020-08-13
 ### Changed
@@ -13,17 +50,21 @@ Sign in with Apple Github Plugin v1.3.0
 - support for detecting Transfered state
 - authorization code
 
+
 ## [2.1.0] - 2020-07-02
 ### Added
 - Dummy service.
+
 
 ## [2.0.2] - 2020-05-25
 ### Fixed
 - Id token should not be empty after successful login.
 
+
 ## [2.0.1] - 2020-04-08
 ### Changed
 - Exposed identity token via HAuthSIWA API.
+
 
 ## [2.0.0] - 2020-04-02
 ### Added
@@ -33,9 +74,11 @@ Sign in with Apple Github Plugin v1.3.0
 ### Changed
 - Replaced two sign in events with one.
 
+
 ## [1.0.1] - 2020-02-25
 ### Fixed
 - Fixed crash on init when there is no user config.
+
 
 ## [1.0.0] - 2020-02-12
 ### Added

@@ -1,10 +1,9 @@
 ﻿using System;
 using HUF.Storage.Runtime.API.Models;
-using HUF.Storage.Runtime.API.Structs;
-using HUF.Storage.Runtime.Implementation.Models;
+using HUF.Storage.Runtime.API.Services;
+using HUF.Storage.Runtime.Implementation.Structs;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.API
 {
@@ -12,137 +11,161 @@ namespace HUF.Storage.Runtime.API
     {
         public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HStorage) );
 
-        static StorageModel storageModel;
-        static StorageModel StorageModel => storageModel ?? (storageModel = new StorageModel());
-
-        static HStorageTexture texture;
-        static HStorageAudioClip audioClip;
-        static HStorageAssetBundle assetBundle;
-        static HStorageBytes bytes;
-
+        
+#pragma warning disable 0067
         /// <summary>
-        /// Provides methods to get Texture2D from Storage.
+        /// Occurs when a storage service is initialized with storage enum
         /// </summary>
         [PublicAPI]
-        public static HStorageTexture Texture => texture ?? (texture = new HStorageTexture(StorageModel));
+        public static event Action<StorageService> OnInit;
+#pragma warning restore 0067
+
+        static Implementation.StorageService storageService;
 
         /// <summary>
-        /// Provides methods to get AudioClip from Storage.
+        /// Provides access to the storage texture API.
         /// </summary>
         [PublicAPI]
-        public static HStorageAudioClip AudioClip => audioClip ?? (audioClip = new HStorageAudioClip(StorageModel));
+        public static HStorageTexture Texture => StorageService.Texture;
 
         /// <summary>
-        /// Provides methods to get Asset Bundles from Storage.
+        /// Provides access to the storage audio clip API.
         /// </summary>
         [PublicAPI]
-        public static HStorageAssetBundle AssetBundle =>
-            assetBundle ?? (assetBundle = new HStorageAssetBundle(StorageModel));
+        public static HStorageAudioClip AudioClip => StorageService.AudioClip;
 
         /// <summary>
-        /// Provides methods to get byte[] from Storage.
+        /// Provides access to the storage asset bundles API.
         /// </summary>
         [PublicAPI]
-        public static HStorageBytes Bytes => bytes ?? (bytes = new HStorageBytes(StorageModel));
+        public static HStorageAssetBundle AssetBundle => StorageService.AssetBundle;
 
         /// <summary>
-        /// Registers download service.
+        /// Provides access to the storage bytes API.
         /// </summary>
-        /// <param name="downloadService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
         [PublicAPI]
-        public static bool TryRegisterDownloadService(IDownloadService downloadService)
+        public static HStorageBytes Bytes => StorageService.Bytes;
+
+        static Implementation.StorageService StorageService => storageService ?? ( storageService = new Implementation.StorageService() );
+
+        /// <summary>
+        /// Gives information if the file at the specific path has an update available.
+        /// Complete handler value <see cref="MetadataResultContainer"/> IsUpdateAvailable is set to true if the file was not downloaded yet, or update is available.
+        /// </summary>
+        /// <param name="filePath">A path to the file</param>
+        /// <param name="completeHandler">A handler of action completed</param>
+        [PublicAPI]
+        public static void IsUpdateAvailable( string filePath, Action<MetadataResultContainer> completeHandler )
         {
-            return LogServiceRegistration(
-                StorageModel.TryRegisterService( new StorageDownloadModel( downloadService ) ),
-                downloadService.GetType()
-            );
+            StorageService.IsUpdateAvailable( filePath, completeHandler );
         }
 
         /// <summary>
-        /// Gives information if file at specific path has update available. Complete handler value
-        /// <see cref="MetadataResultContainer"/> IsUpdateAvailable is set to true if file was not downloaded yet,
-        /// or update is available. Otherwise false.
+        /// Gives information if the file at the specified path has an update available. The handler value
+        /// <see cref="MetadataResultContainer"/> IsUpdateAvailable is set to true the file was not downloaded yet,
+        /// or an update is available. Otherwise false.
         /// </summary>
-        /// <param name="filePath">Path to file</param>
-        /// <param name="completeHandler">Handler of action completed</param>
+        /// <param name="filePath">A path to the file</param>
+        /// <param name="completeHandler">A metadata result handler</param>
+        /// <param name="serviceType">The service to check</param>
         [PublicAPI]
-        public static void IsUpdateAvailable(string filePath, UnityAction<MetadataResultContainer> completeHandler)
+        public static void IsUpdateAvailable( string filePath,
+            Action<MetadataResultContainer> completeHandler,
+            StorageService serviceType )
         {
-            StorageModel.DownloadService?.GetUpdateInfo(filePath, completeHandler);
+            StorageService.IsUpdateAvailable( filePath, completeHandler, serviceType );
         }
 
         /// <summary>
-        /// Tries to register upload service.
+        /// Starts a file upload. The callback will be called after the upload process is completed.
         /// </summary>
-        /// <param name="uploadService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
+        /// <param name="objectToUpload">An object to upload</param>
+        /// <param name="filePath">A path that the object will be saved to</param>
+        /// <param name="uploadResultHandler">An upload result handler</param>
         [PublicAPI]
-        public static bool TryRegisterUploadService(IUploadService uploadService)
+        public static void UploadFile( object objectToUpload,
+            string filePath,
+            Action<StorageResultContainer> uploadResultHandler )
         {
-            return LogServiceRegistration(
-                StorageModel.TryRegisterService( new StorageUploadModel( uploadService ) ),
-                uploadService.GetType()
-            );
+            StorageService.UploadFile( objectToUpload, filePath, uploadResultHandler );
         }
 
         /// <summary>
-        /// Starts uploading file. Complete handler is method that will handle upload process after its completion.
+        /// Starts a file upload. The callback will be called after the upload process is completed.
         /// </summary>
-        /// <param name="objectToUpload">Object to upload</param>
-        /// <param name="filePath">Path that object will be saved to</param>
-        /// <param name="uploadTaskResult">Upload result handler</param>
+        /// <param name="objectToUpload">An object to upload</param>
+        /// <param name="filePath">A path that object will be saved to</param>
+        /// <param name="uploadResultHandler">A upload result handler</param>
+        /// <param name="serviceType">The service to use</param>
         [PublicAPI]
-        public static void UploadFile(object objectToUpload, string filePath,
-            UnityAction<StorageResultContainer> uploadTaskResult)
+        public static void UploadFile( object objectToUpload,
+            string filePath,
+            Action<StorageResultContainer> uploadResultHandler,
+            StorageService serviceType )
         {
-            StorageModel.UploadService?.UploadFile(filePath, objectToUpload, uploadTaskResult);
+            StorageService.UploadFile( objectToUpload, filePath, uploadResultHandler, serviceType );
         }
 
         /// <summary>
-        /// Tries to register removal service.
+        /// Removes the file at the given path. The callback will be called after the removal process is completed.
         /// </summary>
-        /// <param name="removeService">Service to be registered</param>
-        /// <returns>True, if service was registered; false otherwise</returns>
+        /// <param name="filePath">A path to the file that will be removed</param>
+        /// <param name="removeResultHandler">A remove result handler</param>
         [PublicAPI]
-        public static bool TryRegisterRemoveService(IRemoveService removeService)
+        public static void RemoveFile( string filePath, Action<StorageResultContainer> removeResultHandler )
         {
-            return LogServiceRegistration(
-                StorageModel.TryRegisterService( new StorageRemoveModel( removeService ) ),
-                removeService.GetType()
-            );
-
+            StorageService.RemoveFile( filePath, removeResultHandler );
         }
 
         /// <summary>
-        /// Removes file at given path. Handler will be called after removal process is completed.
+        /// Removes a file at the given path. The callback will be called after the removal process is completed.
         /// </summary>
-        /// <param name="filePath">Path to file that will be removed</param>
-        /// <param name="handleRemoveCompleted">Handler of removal process</param>
+        /// <param name="filePath">A path to the file that will be removed</param>
+        /// <param name="removeResultHandler">A remove result handler</param>
+        /// <param name="serviceType">The service to use</param>
         [PublicAPI]
-        public static void RemoveFile(string filePath, UnityAction<StorageResultContainer> handleRemoveCompleted)
+        public static void RemoveFile( string filePath,
+            Action<StorageResultContainer> removeResultHandler,
+            StorageService serviceType )
         {
-            StorageModel.RemoveService?.RemoveFile(filePath, handleRemoveCompleted);
+            StorageService.RemoveFile( filePath, removeResultHandler, serviceType );
         }
 
         /// <summary>
-        /// Disposes Storage service.
+        /// Use to check if the storage service is initialized.
         /// </summary>
-        [PublicAPI]
-        public static void DisposeServices()
+        /// <param name="serviceType">The service to use</param>
+        /// <returns>The service initialization status</returns>
+        public static bool IsServiceInitialized( StorageService serviceType )
         {
-            storageModel?.Dispose();
-            storageModel = null;
+            return storageService.IsServiceInitialized( serviceType );
         }
 
-        static bool LogServiceRegistration( bool result, Type type )
+        /// <summary>
+        /// Use to check if there is any storage service is initialized.
+        /// </summary>
+        /// <returns>The service initialization status</returns>
+        public static bool IsAnyServiceInitialized()
         {
-            if ( result )
-                HLog.Log( logPrefix, $"Service {type} registered" );
-            else
-                HLog.LogError( logPrefix, $"Unable to register service {type}" );
+            return storageService.MainService != null;
+        }
 
-            return result;
+        /// <summary>
+        /// Register the storage service for future use. The service is automatically initialized after the registration.
+        /// </summary>
+        /// <param name="downloadService"> A download service</param>
+        /// <param name="uploadService">A download service - can be null</param>
+        /// <param name="removeService">A download service - can be null</param>
+        /// <param name="serviceType">A service id</param>
+        /// <param name="isMain">Should be used as the default service if there will be a request without the service id</param>
+        [PublicAPI]
+        public static void RegisterService( IDownloadService downloadService,
+            IUploadService uploadService,
+            IRemoveService removeService,
+            StorageService serviceType,
+            bool isMain )
+        {
+            StorageService.RegisterService( downloadService, uploadService, removeService, serviceType, isMain );
         }
     }
 }

@@ -132,7 +132,13 @@ namespace TurboLabz.InstantFramework
                     {
                         matchInfoModel.matches[challengeId].isTournamentMatch = true;
                     }
+
+                    matchInfoModel.matches[challengeId].betValue = GSParser.GetSafeLong(playerData, GSBackendKeys.ChallengeData.BET_VALUE);
+                    matchInfoModel.matches[challengeId].powerMode = GSParser.GetSafeBool(playerData, GSBackendKeys.ChallengeData.POWER_MODE);
+                    matchInfoModel.matches[challengeId].freeHints = GSParser.GetSafeInt(playerData, GSBackendKeys.ChallengeData.FREE_HINTS);
                 }
+
+                preferencesModel.freeHint = FreePowerUpStatus.NOT_CONSUMED;
             }
 
             UpdateMatch(challengeId, matchData);
@@ -360,9 +366,20 @@ namespace TurboLabz.InstantFramework
             // Handle end game stats
             if (updatedStatsData != null)
             {
+                playerModel.trophiesPrev = playerModel.trophies;
                 playerModel.eloScore = updatedStatsData.GetInt(GSBackendKeys.ELO_SCORE).Value;
                 playerModel.totalGamesWon = updatedStatsData.GetInt(GSBackendKeys.GAMES_WON).Value;
                 playerModel.totalGamesLost = updatedStatsData.GetInt(GSBackendKeys.GAMES_LOST).Value;
+                playerModel.trophies = GSParser.GetSafeInt(updatedStatsData, GSBackendKeys.PlayerDetails.TROPHIES);
+
+                var playerLeague = playerModel.league;
+                playerModel.league = GSParser.GetSafeInt(updatedStatsData, GSBackendKeys.PlayerDetails.LEAGUE, playerModel.league);
+                playerModel.leaguePromoted = playerLeague != playerModel.league;
+
+                if (playerModel.leaguePromoted)
+                {
+                    InBoxOpGet();
+                }
 
                 if (updatedStatsData.ContainsKey(GSBackendKeys.FRIEND))
                 {
@@ -381,6 +398,12 @@ namespace TurboLabz.InstantFramework
                         savedFriend.flagMask = updatedFriend.flagMask;
                         savedFriend.publicProfile.eloScore = updatedFriend.publicProfile.eloScore;
 
+                        if (CollectionsUtil.fakeEloScores.ContainsKey(friendId))
+                        {
+                            int eloChange = updatedStatsData.GetInt("friendEloChange").Value;
+                            CollectionsUtil.fakeEloScores[friendId] += eloChange;
+                        }
+
                         EloVO vo;
                         vo.opponentId = friendId;
                         vo.opponentEloScore = savedFriend.publicProfile.eloScore;
@@ -390,8 +413,16 @@ namespace TurboLabz.InstantFramework
                 }
                 else
                 {
+                    string opponentId = updatedStatsData.GetString(GSBackendKeys.OPPONENT_ID);
+
+                    if (CollectionsUtil.fakeEloScores.ContainsKey(opponentId))
+                    {
+                        int eloChange = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO_CHANGE).Value;
+                        CollectionsUtil.fakeEloScores[opponentId] = CollectionsUtil.fakeEloScores[opponentId] + eloChange;
+                    }
+
                     EloVO vo;
-                    vo.opponentId = updatedStatsData.GetString(GSBackendKeys.OPPONENT_ID);
+                    vo.opponentId = opponentId;
                     vo.opponentEloScore = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO).Value;
                     vo.playerEloScore = playerModel.eloScore;
                     updateEloScoresSignal.Dispatch(vo);
@@ -406,6 +437,7 @@ namespace TurboLabz.InstantFramework
             JoinedTournamentData joinedTournament = null;
 
             var tournament = tournamentsModel.GetJoinedTournament(tournamentId);
+            //int previousRank = tournament.rank;
 
             if (tournamentDetailsGSData != null && tournamentDetailsGSData.BaseData.Count > 0)
             {
@@ -419,8 +451,6 @@ namespace TurboLabz.InstantFramework
                 // Tournament has ended
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = tournament;
-
-                loadInboxSignal.Dispatch();
             }
             else
             {
@@ -428,6 +458,7 @@ namespace TurboLabz.InstantFramework
                 {
                     tournamentsModel.SetJoinedTournament(joinedTournament);
                 }
+                // TODO: Remove this else statement. This is a bug as of version 6.5.21 (championship)
                 else
                 {
                     joinedTournament.locked = true;
@@ -438,14 +469,54 @@ namespace TurboLabz.InstantFramework
                 if (tournamentsModel.HasTournamentEnded(joinedTournament))
                 {
                     backendService.InBoxOpGet();
-                    //loadInboxSignal.Dispatch();
                 }
 
                 updateTournamentLeaderboardSuccessSignal.Dispatch(tournamentId);
                 tournamentsModel.currentMatchTournament = joinedTournament;
+
+                //if (joinedTournament.matchesPlayedCount == 1 || joinedTournament.rank < previousRank)
+                //{
+                //    metaDataModel.ShowChampionshipNewRankDialog = true;
+                //}
+
+                metaDataModel.ShowChampionshipNewRankDialog = false;
+                RegisterChampionshipNotifications(joinedTournament);
             }
 
             updateTournamentsViewSignal.Dispatch();
+        }
+
+        private void RegisterChampionshipNotifications(JoinedTournamentData joinedTournament)
+        {
+            if (notificationsModel.IsNotificationRegistered("championship"))
+            {
+                return;
+            }
+
+            var notification1 = new Notification();
+            notification1.title = joinedTournament.name;
+            notification1.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY);
+            notification1.timestamp = (joinedTournament.endTimeUTCSeconds - 3600) * 1000;
+            notification1.sender = "championship";
+            notification1.showInGame = false;
+
+            var notification2 = new Notification();
+            notification2.title = joinedTournament.name;
+            notification2.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_BODY);
+            notification2.timestamp = joinedTournament.endTimeUTCSeconds * 1000;
+            notification2.sender = "championship";
+            notification2.showInGame = false;
+
+            var notification3 = new Notification();
+            notification3.title = joinedTournament.name;
+            notification3.body = localizationService.Get(LocalizationKey.NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY);
+            notification3.timestamp = (joinedTournament.endTimeUTCSeconds + 3600) * 1000;
+            notification3.sender = "championship";
+            notification3.showInGame = false;
+
+            notificationsModel.RegisterNotification(notification1);
+            notificationsModel.RegisterNotification(notification2);
+            notificationsModel.RegisterNotification(notification3);
         }
     }
 }

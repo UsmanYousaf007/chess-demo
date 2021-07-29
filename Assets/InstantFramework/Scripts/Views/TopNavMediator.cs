@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
-        [Inject] public LoadInboxSignal loadInboxSignal { get; set; }
+        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
         //Services
@@ -38,6 +38,7 @@ namespace TurboLabz.InstantFramework
             view.addGemsButtonClickedSignal.AddListener(OnAddGemsButtonClicked);
             view.inboxButtonClickedSignal.AddListener(OnInboxButtonClicked);
             view.addCollectilesButtonClickedSignal.AddListener(OnAddCollectiblesButtonClicked);
+            view.addCoinsButtonClickedSignal.AddListener(OnAddCoinsButtonClicked);
         }
 
         public override void OnRemove()
@@ -66,6 +67,14 @@ namespace TurboLabz.InstantFramework
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
         }
 
+        private void OnAddCoinsButtonClicked()
+        {
+            //TODO add implementation here
+            //preferencesModel.shopTabVisited = true;
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SHOP);
+            //updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Shop);
+        }
+
         private void OnAddCollectiblesButtonClicked()
         {
             preferencesModel.inventoryTabVisited = true;
@@ -77,7 +86,7 @@ namespace TurboLabz.InstantFramework
 
         private void OnInboxButtonClicked()
         {
-            loadInboxSignal.Dispatch();
+            loadRewardsSignal.Dispatch();
         }
 
         [ListensTo(typeof(UpdatePlayerInventorySignal))]
@@ -85,12 +94,18 @@ namespace TurboLabz.InstantFramework
         {
             view.UpdateGemsCount(inventory.gemsCount);
             view.UpdateCollectiblesCount();
+            view.UpdateCoinsCount(inventory.coinCount);
         }
 
         [ListensTo(typeof(UpdateInboxMessageCountViewSignal))]
         public void OnMessagesUpdated(long messagesCount)
         {
             view.UpdateMessagesCount(messagesCount);
+        }
+        
+        public void OnGemsAddedAnimation()
+        {
+            view.GemsAddedAnimation();
         }
     }
 }

@@ -11,8 +11,8 @@ public class DrawLine : MonoBehaviour
     void Start()
     {
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startWidth = 20.0f;
-        lineRenderer.endWidth = 20.0f;
+        //lineRenderer.startWidth = 33.0f;
+        //lineRenderer.endWidth = 33.0f;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 0.8f;
@@ -25,8 +25,10 @@ public class DrawLine : MonoBehaviour
         lineRenderer.colorGradient = gradient;
     }
 
-    public void Draw(Vector3 pointA, Vector3 pointB)
+    public void Draw(Vector3 pointA, Vector3 pointB, float width = 20.0f)
     {
+        lineRenderer.startWidth = width;
+        lineRenderer.endWidth = width;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, pointA);
         lineRenderer.SetPosition(1, pointB);

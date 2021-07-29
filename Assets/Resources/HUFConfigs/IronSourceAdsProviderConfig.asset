@@ -19,37 +19,17 @@ MonoBehaviour:
     androidAppId: d9f8ee29
     iOSAppId: d9f927b1
   adPlacementData:
-  - placementId: Rewarded_rating_booster
+  - placementId: Rewarded_daily_reward
     appId:
       androidAppId: 
       iOSAppId: 
     placementType: 2
-  - placementId: Rewarded_hints
+  - placementId: Rewarded_lobby_chest
     appId:
       androidAppId: 
       iOSAppId: 
     placementType: 2
-  - placementId: Rewarded_keys
-    appId:
-      androidAppId: 
-      iOSAppId: 
-    placementType: 2
-  - placementId: Rewarded_tickets
-    appId:
-      androidAppId: 
-      iOSAppId: 
-    placementType: 2
-  - placementId: Rewarded_rating_booster_popup
-    appId:
-      androidAppId: 
-      iOSAppId: 
-    placementType: 2
-  - placementId: Rewarded_keys_popup
-    appId:
-      androidAppId: 
-      iOSAppId: 
-    placementType: 2
-  - placementId: Rewarded_tickets_popup
+  - placementId: Rewarded_coins_purchase
     appId:
       androidAppId: 
       iOSAppId: 
@@ -79,26 +59,32 @@ MonoBehaviour:
       androidAppId: 
       iOSAppId: 
     placementType: 0
-  - placementId: Interstitial_tournament_pre
+  - placementId: Rewarded_coins_banner
     appId:
       androidAppId: 
       iOSAppId: 
-    placementType: 1
-  - placementId: Interstitial_tournament_end_co
+    placementType: 2
+  - placementId: Rewarded_coins_popup
     appId:
       androidAppId: 
       iOSAppId: 
-    placementType: 1
-  - placementId: Interstitial_in_game_classic
+    placementType: 2
+  - placementId: Rewarded_powerplay
     appId:
       androidAppId: 
       iOSAppId: 
-    placementType: 1
-  - placementId: Rewarded_hints_popup
+    placementType: 2
+  - placementId: RV_rating_booster
+    appId:
+      androidAppId: 
+      iOSAppId: 
+    placementType: 2
+  - placementId: Rewarded_analysis
     appId:
       androidAppId: 
       iOSAppId: 
     placementType: 2
   useEditorMockProvider: 1
+  useMockProviderInDebugBuilds: 0
   androidAdMobKey: ca-app-pub-1220882738324941~5282706915
   iOSAdMobKey: ca-app-pub-1220882738324941~2273400192

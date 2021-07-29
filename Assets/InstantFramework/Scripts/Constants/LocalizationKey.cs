@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public const string DECLINE_TEXT = "declineText";
         public const string START_TEXT = "startText";
         public const string LIVE_TEXT = "liveText";
+        public const string WIN_TEXT = "winText";
+        public const string LOSS_TEXT = "lossText";
 
         #endregion
 
@@ -106,6 +108,7 @@ namespace TurboLabz.InstantFramework
         public const string GM_EXIT_BUTTON_LOBBY = "gsmExitButtonLobby";
         public const string GM_EXIT_BUTTON_COLLECT_REWARD = "gsmExitButtonCollectReward";
         public const string GM_SPECIAL_HINT_NOT_AVAILABLE = "gmSpecialHintNotAvailable";
+        public const string GM_BUY_GAME_ANALYSIS_TITLE_TEXT = "gmBuyGameAnalysisTitleText";
 
         #endregion
 
@@ -193,7 +196,7 @@ namespace TurboLabz.InstantFramework
         public const string MULTIPLAYER_FOUND = "multiplayerFound";
         public const string QUICK_MATCH_FAILED = "quickMatchFailed";
         public const string QUICK_MATCH_FAILED_REASON = "quickMatchFailedReason";
-
+        public const string MULTIPLAYER_PLACING_BET = "multiplayerPlacingBet";
         public const string QUICK_MATCH_EXPIRED = "quickMatchExpired";
         public const string QUICK_MATCH_EXPIRED_REASON = "quickMatchExpiredReason";
 
@@ -297,6 +300,9 @@ namespace TurboLabz.InstantFramework
         public const string INVENTORY_GET_MORE = "inventoryGetMore";
         public const string INVENTORY_YOU_OWN = "inventoryYouOwn";
 
+        public const string LEADERBOARD_WORLD = "leaderboardWorld";
+        public const string LEADERBOARD_CHAMPIONSHIP = "leaderboardChampionship";
+
         public const string SPOT_PURHCASE_TITLE = "spotPurchaseTitle";
         public const string SPOT_PURCHASE_SUB_TITLE = "spotPurchaseSubTitle";
         public const string SPOT_PURCHASE_FINE_PRINT = "spotPurchaseFinePrint";
@@ -371,6 +377,7 @@ namespace TurboLabz.InstantFramework
         public const string NAV_FRIENDS = "navFriends";
         public const string NAV_INVENTORY = "navInventory";
         public const string NAV_ARENA = "navArena";
+        public const string NAV_LESSON = "navLesson";
 
         #endregion
 
@@ -525,6 +532,14 @@ namespace TurboLabz.InstantFramework
         public const string TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT = "tournamentChestContentDialogueOkayButtonText";
 
         public const string TOURNAMENT_REWARD_DLG_TROPHIES_ADDED = "tournamentRewardDlgTrophiesAdded";
+        public const string TOURNAMANT_FINAL_STANDINGS = "tournamentFinalStandings";
+        #endregion
+
+        #region TournamentItem
+
+        public const string LEADERBOARD_RANK = "leaderboardRank";
+        public const string LEADERBOARD_WINNINGS = "leaderboardWinnings";
+        public const string LEADERBOARD_REWARDS = "leaderboardRewards";
 
         #endregion
 
@@ -542,7 +557,7 @@ namespace TurboLabz.InstantFramework
 
         #endregion
 
-        #region
+        #region Notifications
 
         public const string NOTIFICATION_UPCOMING_TOURNAMENT_REMINDER_TITLE = "notificationUpcomingTournamentReminderTitle";
         public const string NOTIFICATION_UPCOMING_TOURNAMENT_STARTED_TITLE = "notifcationUpcomingTournamentStartedTitle";
@@ -554,6 +569,9 @@ namespace TurboLabz.InstantFramework
         public const string NOTIFICATION_SUBSCRIPTION_REWARD_TITLE = "notificationSubscriptionRewardTitle";
         public const string NOTIFICATION_DAILY_REWARD_BODY = "notificationDailyRewardBody";
         public const string NOTIFICATION_SUBSCRIPTION_REWARD_BODY = "notificationSubscriptionRewardBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY = "notificationChampionshipEndSoonBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_END_BODY = "notificationChampionshipEndBody";
+        public const string NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY = "notificationChampionshipBeginBody";
 
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿#if (!UNITY_IPHONE && !UNITY_IOS && !UNITY_ANDROID) || (UNITY_EDITOR)
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,16 +19,6 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 	//******************* Base API *******************//
 
 	public void onApplicationPause (bool pause)
-	{
-		Debug.Log ("Unsupported Platform");
-	}
-	
-	public void setAge (int age)
-	{
-		Debug.Log ("Unsupported Platform");
-	}
-	
-	public void setGender (string gender)
 	{
 		Debug.Log ("Unsupported Platform");
 	}
@@ -71,9 +60,20 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
         Debug.Log("Unsupported Platform");
     }
 
-    //******************* SDK Init *******************//
+	public void setMetaData(string key, params string[] values)
+	{
+		Debug.Log("Unsupported Platform");
+	}
 
-    public void setUserId (string userId)
+	public int? getConversionValue()
+    {
+		Debug.Log("Unsupported Platform");
+		return null;
+	}
+
+	//******************* SDK Init *******************//
+
+	public void setUserId (string userId)
 	{
 		Debug.Log ("Unsupported Platform");
 	}
@@ -264,8 +264,24 @@ public class UnsupportedPlatformAgent : IronSourceIAgent
 		Debug.Log ("Unsupported Platform");
 	}
 
-		
+	//******************* ConsentView API *******************//
+
+	public void loadConsentViewWithType(string consentViewType)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
+	public void showConsentViewWithType(string consentViewType)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
+	//******************* ILRD API *******************//
+
+	public void setAdRevenueData(string dataSource, Dictionary<string, string> impressionData)
+	{
+		Debug.Log("Unsupported Platform");
+	}
+
 	#endregion
 }
-
-#endif

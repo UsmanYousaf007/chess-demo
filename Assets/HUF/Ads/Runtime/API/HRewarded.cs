@@ -12,20 +12,20 @@ namespace HUF.Ads.Runtime.API
         /// A reward should be given only when the result of <see cref="IAdCallbackData"/> is <see cref="AdResult.Completed"/>.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnEnded;
+        public event Action<IAdCallbackData> OnEnded;
 
         /// <summary>
         /// Raised when user clicks a rewarded ad.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnClicked;
+        public event Action<IAdCallbackData> OnClicked;
 
         /// <summary>
         /// Raised when a rewarded ad has been loaded, with <see cref="AdResult"/>.
         /// It is triggered as a response to <see cref="Fetch"/> method.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnFetched;
+        public event Action<IAdCallbackData> OnFetched;
 
         readonly IAdsService service;
 

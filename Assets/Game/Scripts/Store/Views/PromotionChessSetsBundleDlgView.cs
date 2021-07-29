@@ -13,8 +13,6 @@ public class PromotionChessSetsBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
 
     //Models 
@@ -68,15 +66,9 @@ public class PromotionChessSetsBundleDlgView : View
         purchaseSignal.Dispatch();
     }
 
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
-    }
-
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 
     public void SetupPurchaseButton(bool isAvailable)

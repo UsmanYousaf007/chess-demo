@@ -24,17 +24,18 @@ namespace TurboLabz.CPU
         [Header("Step System")]
         public Button stepBackwardButton;
         public Button stepForwardButton;
+        public Sprite powerplayAciveStepSprite;
+        public Sprite powerPlayInActiveStepSprite;
+        public GameObject stepTooltip;
 
         private bool backwardButtonPreviousState;
         private bool forwardButtonPreviousState;
-
 
         public void InitStep()
         {
             //hintButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_HINT_BUTTON);
             stepBackwardButton.onClick.AddListener(StepBackwardButtonClicked);
             stepForwardButton.onClick.AddListener(StepForwardButtonClicked);
-            
         }
 
         public void OnParentShowStep()
@@ -45,18 +46,36 @@ namespace TurboLabz.CPU
 
         public void StepBackwardButtonClicked()
         {
-            //HideHint();
-            //HideHindsight();
-            cancelHintSingal.Dispatch();
-            stepBackwardClickedSignal.Dispatch();
+            if (isPowerModeOn)
+            {
+                //HideHint();
+                //HideHindsight();
+                cancelHintSingal.Dispatch();
+                stepBackwardClickedSignal.Dispatch();
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
+            }
+            else
+            {
+                audioService.PlayStandardClick();
+                showPowerplayDlgButonSignal.Dispatch();
+            }
         }
 
         public void StepForwardButtonClicked()
         {
-            //HideHint();
-            //HideHindsight();
-            cancelHintSingal.Dispatch();
-            stepForwardClickedSignal.Dispatch();
+            if (isPowerModeOn)
+            {
+                //HideHint();
+                //HideHindsight();
+                cancelHintSingal.Dispatch();
+                stepForwardClickedSignal.Dispatch();
+                audioService.Play(audioService.sounds.SFX_PLACE_PIECE);
+            }
+            else
+            {
+                audioService.PlayStandardClick();
+                showPowerplayDlgButonSignal.Dispatch();
+            }
         }
 
         public void ToggleStepBackward(bool enable, bool stash = false)
@@ -88,6 +107,13 @@ namespace TurboLabz.CPU
 
             ToggleStepBackward(false, true);
             ToggleStepForward(false, true);
+        }
+
+        public void SetupStepButtons()
+        {
+            var sprieToShow = isPowerModeOn ? powerplayAciveStepSprite : powerPlayInActiveStepSprite;
+            stepBackwardButton.image.sprite = sprieToShow;
+            stepForwardButton.image.sprite = sprieToShow;
         }
     }
 }

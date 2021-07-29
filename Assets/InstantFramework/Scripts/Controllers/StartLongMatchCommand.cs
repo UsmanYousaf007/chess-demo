@@ -7,6 +7,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
 using System;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,6 +24,9 @@ namespace TurboLabz.InstantFramework
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
         [Inject] public IPlayerModel playerModel { get; set; }
+
+        // Services
+        [Inject] public IChessAiService chessAiService { get; set; }
 
         public override void Execute()
         {
@@ -45,10 +49,12 @@ namespace TurboLabz.InstantFramework
             pvo.isActive = publicProfile.isActive;
             pvo.isPremium = publicProfile.isSubscriber;
             pvo.leagueBorder = publicProfile.leagueBorder;
+            pvo.trophies2 = publicProfile.trophies2;
 
             updateOpponentProfileSignal.Dispatch(pvo);
 
             friendBarBusySignal.Dispatch(opponentId, false, CreateLongMatchAbortReason.Unassigned);
+            chessAiService.AiMoveRequestInit();
             startGameSignal.Dispatch();
         }
     }

@@ -10,14 +10,13 @@
 /// @description
 /// [add_description_here]
 
-using TurboLabz.InstantFramework;
-using TurboLabz.Chess;
-using TurboLabz.TLUtils;
-using TurboLabz.InstantGame;
-using GameSparks.Core;
+using System.Collections.Generic;
 using GameAnalyticsSDK;
+using GameSparks.Core;
+using TurboLabz.Chess;
+using TurboLabz.InstantFramework;
 
-namespace TurboLabz.Multiplayer 
+namespace TurboLabz.Multiplayer
 {
     public partial class GameMediator
     {
@@ -34,7 +33,13 @@ namespace TurboLabz.Multiplayer
         [Inject] public UpdateTournamentLeaderboardViewSignal updateTournamentLeaderboardView { get; set; }
         [Inject] public ToggleLeaderboardViewNavButtons toggleLeaderboardViewNavButtons { get; set; }
         [Inject] public LoadSpotInventorySignal loadSpotInventorySignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public RenderMoveAnalysisSignal renderMoveAnalysisSignal { get; set; }
+        [Inject] public GetFullAnalysisSignal getFullAnalysisSignal { get; set; }
+        [Inject] public UpdateGetGameAnalysisDlgSignal updateGetGameAnalysisDlg { get; set; }
+        [Inject] public ShowRewardedAdSignal showRewardedAdSignal { get; set; }
+
+        //Services
+        [Inject] public ISchedulerService schedulerService { get; set; }
 
         // Models
         [Inject] public ITournamentsModel tournamentsModel { get; set; }
@@ -44,22 +49,29 @@ namespace TurboLabz.Multiplayer
         //Listeners
         [Inject] public VirtualGoodsTransactionResultSignal virtualGoodsTransactionResultSignal { get; set; }
 
-        private string challengeId;
-        private VirtualGoodsTransactionVO ratingBoosterTransactionVO;
-        private VirtualGoodsTransactionVO ticketTransactionVO;
-        private string spotInventoryPurchaseType;
+        private VirtualGoodsTransactionVO rewardDoubleTransactionVO;
 
         public void OnRegisterResults()
         {
             view.InitResults();
+            view.InitAnalysis();
+            view.serverClock = backendService.serverClock;
             view.backToLobbySignal.AddListener(OnBackToLobby);
             view.refreshLobbySignal.AddListener(OnRefreshLobby);
             view.resultsDialogClosedSignal.AddListener(OnResultsDialogClosedSignal);
             view.resultsDialogOpenedSignal.AddListener(OnResultsDialogOpenedSignal);
             view.boostRatingSignal.AddListener(OnBoostRating);
             view.notEnoughGemsSignal.AddListener(OnNotEnoughItemsToBoost);
-            view.playTournamentMatchSignal.AddListener(OnPlayTournamentMatchButtonClicked);
             view.backToArenaSignal.AddListener(OnBackToArenaButtonClicked);
+            view.doubleRewardSignal.AddListener(OnDoubleReward);
+            view.fullAnalysisButtonClickedSignal.AddListener(OnFullAnallysisButtonClicked);
+            view.onAnalysiedMoveSelectedSignal.AddListener(OnAnalysiedMoveSelected);
+            view.showGetFullAnalysisDlg.AddListener(OnShowGetGameAnalysisDlg);
+            view.ratingBoosterRewardSignal.AddListener(OnPlayRewardedVideoClicked);
+            view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
+            view.showGameAnalysisSignal.AddListener(OnShowGameAnalysisSignal);
+            view.showAnalyzingSignal.AddListener(OnShowAnalyzing);
+            view.rvAnalysisWatchVideoSignal.AddListener(OnRVAnalysisWatchVideoSignal);
         }
 
         public void OnRemoveResults()
@@ -67,41 +79,10 @@ namespace TurboLabz.Multiplayer
             view.CleanupResults();
         }
 
-        [ListensTo(typeof(NavigatorShowViewSignal))]
-        public void OnShowResultsView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
-            {
-                if (view.challengeSentDialog.activeSelf)
-                {
-                    view.HideChallengeSent();
-                }
-                view.FlashClocks(false);
-                view.ShowResultsDialog();
-                view.OnParentHideAdBanner();
-            }
-        }
-
-        [ListensTo(typeof(NavigatorHideViewSignal))]
-        public void OnHideResultsView(NavigatorViewId viewId)
-        {
-            if (viewId == NavigatorViewId.MULTIPLAYER_RESULTS_DLG)
-            {
-                view.HideResultsDialog();
-            }
-        }
-
-        [ListensTo(typeof(UpdateResultDialogSignal))]
-        public void OnUpdateResults(ResultsVO vo)
-        {
-            view.UpdateDialogueType(vo.tournamentMatch);
-            view.UpdateResultsDialog(vo);
-        }
-
         private void OnBackToLobby()
         {
             cancelHintSignal.Dispatch();
-            loadLobbySignal.Dispatch();
+            //loadLobbySignal.Dispatch();
         }
 
         private void OnResultsDialogClosedSignal()
@@ -120,25 +101,35 @@ namespace TurboLabz.Multiplayer
             refreshCommunitySignal.Dispatch(false);
         }
 
-        private void OnBoostRating(string challengeId, VirtualGoodsTransactionVO vo)
+        private void OnBoostRating(string challengeId)
         {
-            ratingBoosterTransactionVO = vo;
-            this.challengeId = challengeId;
-            virtualGoodsTransactionResultSignal.AddOnce(OnTransactionResult);
+            var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
+                                              .AddString("challengeId", challengeId);
+            backendService.ClaimReward(jsonData).Then(OnClaimRewardStatus);
+        }
+
+        private void OnClaimRewardStatus(BackendResult result)
+        {
+            if (result != BackendResult.SUCCESS)
+            {
+                view.SetupRatingBoostButtonsSection(true);
+            }
+        }
+
+        private void OnDoubleReward(VirtualGoodsTransactionVO vo)
+        {
+            rewardDoubleTransactionVO = vo;
+            virtualGoodsTransactionResultSignal.AddOnce(OnRewardDoubled);
             virtualGoodsTransactionSignal.Dispatch(vo);
         }
 
-        private void OnTransactionResult(BackendResult result)
+        private void OnRewardDoubled(BackendResult result)
         {
             if (result == BackendResult.SUCCESS)
             {
-                var jsonData = new GSRequestData().AddString("rewardType", GSBackendKeys.ClaimReward.TYPE_BOOST_RATING)
-                                                  .AddString("challengeId", challengeId);
-
-                backendService.ClaimReward(jsonData);
-
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(ratingBoosterTransactionVO.consumeItemShortCode).ToString(), ratingBoosterTransactionVO.consumeQuantity, "booster_used", "rating_booster");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ratingBoosterTransactionVO.consumeItemShortCode] += ratingBoosterTransactionVO.consumeQuantity;
+                view.OnRewardDoubled();
+                analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.coin_doubler);
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, rewardDoubleTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.coin_doubler.ToString());
             }
         }
 
@@ -151,148 +142,30 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        [ListensTo(typeof(RatingBoostAnimSignal))]
-        public void OnRatingBoostAnimation(int ratingBoost)
+        [ListensTo(typeof(RatingBoostedSignal))]
+        public void OnRatingBoosted(int ratingBoost, int consumedGems)
         {
             if (view.IsVisible())
             {
-                view.PlayEloBoostedAnimation(ratingBoost);
+                if (consumedGems > 0)
+                {
+                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.rating_booster);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, consumedGems, "booster_used", AnalyticsContext.rating_booster.ToString());
+                }
+
+                else
+                {
+                    analyticsService.Event(AnalyticsEventId.rv_used, AnalyticsContext.rating_booster);
+                }
+
+                view.OnRewardClaimed();
+                view.OnRatingBoosted(ratingBoost);               
             }
         }
 
-        private void OnNotEnoughItemsToBoost(VirtualGoodsTransactionVO vo)
+        private void OnNotEnoughItemsToBoost()
         {
-            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-            ratingBoosterTransactionVO = vo;
-            var spotInventoryParams = new LoadSpotInventoryParams();
-            spotInventoryParams.itemShortCode = vo.consumeItemShortCode;
-            spotInventoryParams.itemToUnclockShortCode = vo.consumeItemShortCode;
-            loadSpotInventorySignal.Dispatch(spotInventoryParams);
-        }
-
-        private void OnPlayTournamentMatchButtonClicked()
-        {
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == true)
-            {
-                OnBackToArenaButtonClicked();
-                return;
-            }
-
-            ticketTransactionVO = new VirtualGoodsTransactionVO();
-            ticketTransactionVO.consumeItemShortCode = view.tournamentMatchResultDialog.ticketsShortCode;
-            ticketTransactionVO.consumeQuantity = 1;
-
-            if (view.haveEnoughItems)
-            {
-                virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
-            }
-            //else if (view.haveEnoughGems)
-            //{
-            //    transactionVO = new VirtualGoodsTransactionVO();
-            //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-            //    transactionVO.consumeQuantity = view.ticketStoreItem.currency3Cost;
-            //    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-            //    virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            //}
-            else
-            {
-                //SpotPurchaseMediator.customContext = "tournament_end_card";
-                //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
-
-                SpotInventoryMediator.customContext = "tournament_end_card";
-                var spotInventoryParams = new LoadSpotInventoryParams();
-                spotInventoryParams.itemShortCode = ticketTransactionVO.consumeItemShortCode;
-                spotInventoryParams.itemToUnclockShortCode = ticketTransactionVO.consumeItemShortCode;
-                loadSpotInventorySignal.Dispatch(spotInventoryParams);
-                spotInventoryPurchaseType = string.Empty;
-            }            
-        }
-
-        private void OnItemConsumed(BackendResult result)
-        {
-            if (result != BackendResult.SUCCESS)
-            {
-                return;
-            }
-
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            if (joinedTournament != null && tournamentsModel.HasTournamentEnded(joinedTournament) == false)
-            {
-                var currency = CollectionsUtil.GetContextFromString(ticketTransactionVO.consumeItemShortCode).ToString();
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, currency, ticketTransactionVO.consumeQuantity, "tournament", "end_card");
-                preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][ticketTransactionVO.consumeItemShortCode] += ticketTransactionVO.consumeQuantity;
-                currency = string.IsNullOrEmpty(spotInventoryPurchaseType) ? currency : spotInventoryPurchaseType;
-
-                StartMatch(currency);
-            }
-            else
-            {
-                OnBackToArenaButtonClicked();
-            }
-        }
-
-        private void StartMatch(string currency)
-        {
-            var joinedTournament = tournamentsModel.currentMatchTournament;
-            string tournamentType = joinedTournament.type;
-            string actionCode;
-            string context;
-
-            switch (tournamentType)
-            {
-                case TournamentConstants.TournamentType.MIN_1:
-                    actionCode = FindMatchAction.ActionCode.Random1.ToString();
-                    context = "1_min_bullet";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_3:
-                    actionCode = FindMatchAction.ActionCode.Random3.ToString();
-                    context = "3_min_bullet";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_5:
-                    actionCode = FindMatchAction.ActionCode.Random.ToString();
-                    context = "5_min_blitz";
-                    break;
-
-                case TournamentConstants.TournamentType.MIN_10:
-                    actionCode = FindMatchAction.ActionCode.Random10.ToString();
-                    context = "10_min_rapid";
-                    break;
-
-                default:
-                    actionCode = FindMatchAction.ActionCode.Random.ToString();
-                    context = "5_min_blitz";
-                    break;
-            }
-
-            tournamentsModel.currentMatchTournamentType = tournamentType;
-            tournamentsModel.currentMatchTournament = joinedTournament;
-            joinedTournament.locked = true;
-
-            // Analytics
-            analyticsService.Event(AnalyticsEventId.tournament_start_location, AnalyticsContext.end_game_card);
-            analyticsService.Event($"{AnalyticsEventId.start_tournament}_{currency}", AnalyticsParameter.context, context);
-
-            // Show tournament pre-game ad here.
-            var currentTournament = tournamentsModel.currentMatchTournament;
-            long tournamentTimeLeftSeconds = tournamentsModel.CalculateTournamentTimeLeftSeconds(currentTournament);
-            if (adsSettingsModel.showPregameTournament == false || tournamentTimeLeftSeconds < adsSettingsModel.secondsLeftDisableTournamentPregame)
-            {
-                FindMatchAction.Random(findMatchSignal, actionCode, joinedTournament.id);
-            }
-            else
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_tournament_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.actionCode = actionCode;
-                vo.tournamentId = joinedTournament.id;
-                vo.placementId = AdPlacements.Interstitial_tournament_pre;
-                showAdSignal.Dispatch(vo, false);
-            }
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 
         private void OnBackToArenaButtonClicked()
@@ -311,28 +184,113 @@ namespace TurboLabz.Multiplayer
             {
                 view.SetupBoostPrice();
                 view.SetupSpecialHintButton();
+                view.SetupRewardDoublerPrice();
+                view.SetupFullAnalysisPrice();
             }
         }
 
-        [ListensTo(typeof(SpotInventoryPurchaseCompletedSignal))]
-        public void OnSpotInventoryPurchaseCompleted(string key, string purchaseType)
+        private void OnFullAnallysisButtonClicked()
+        {
+            getFullAnalysisSignal.Dispatch();
+        }
+
+        private void OnAnalysiedMoveSelected(List<MoveAnalysis> list)
+        {
+            renderMoveAnalysisSignal.Dispatch(list);
+        }
+
+        private void OnShowGameAnalysisSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS);
+        }
+
+        [ListensTo(typeof(FullAnalysisBoughtSignal))]
+        public void OnFullAnalysisBought()
+        {
+            if (view.IsVisible())
+            {
+                view.ShowAnalysis();
+                analyticsService.Event(AnalyticsEventId.consumable_used, AnalyticsContext.game_analysis);
+            }
+        }
+
+        private void OnShowGetGameAnalysisDlg(BuyGameAnalysisVO vo)
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG);
+            updateGetGameAnalysisDlg.Dispatch(vo);
+        }
+
+        private void OnPlayRewardedVideoClicked()
+        {
+            showRewardedAdSignal.Dispatch(AdPlacements.RV_rating_booster);
+        }
+
+        private void OnRVAnalysisWatchVideoSignal()
+        {
+            showRewardedAdSignal.Dispatch(AdPlacements.Rewarded_analysis);
+        }
+
+        private void OnShowAnalyzing()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GAME_ANALYZING_DLG);
+        }
+
+        private void OnSchedulerSubscriptionToggle(bool subscribe)
+        {
+            if (subscribe)
+            {
+                schedulerService.Subscribe(view.SchedulerCallBack);
+            }
+            else
+            {
+                schedulerService.UnSubscribe(view.SchedulerCallBack);
+            }
+        }
+
+        [ListensTo(typeof(RewardedVideoResultSignal))]
+        public void OnRewardedVideoResult(AdsResult result, AdPlacements adPlacement)
         {
             if (view.isActiveAndEnabled)
             {
-                if (key.Equals(view.resultsBoostRatingShortCode))
+                if (result == AdsResult.NOT_AVAILABLE)
                 {
-                    view.BoostRating(ratingBoosterTransactionVO);
+                    if (adPlacement == AdPlacements.RV_rating_booster)
+                    {
+                        view.EnableVideoAvailabilityTooltip();
+                    }
+                    else if (adPlacement == AdPlacements.Rewarded_analysis)
+                    {
+                        view.EnableAnalysisRVNotAvailableTooltip();
+                    }
                 }
-                else if (key.Equals(view.tournamentMatchResultDialog.ticketsShortCode))
+                else if (result == AdsResult.FAILED)
                 {
-                    spotInventoryPurchaseType = purchaseType;
-                    virtualGoodsTransactionResultSignal.AddOnce(OnItemConsumed);
-                    virtualGoodsTransactionSignal.Dispatch(ticketTransactionVO);
+                    if (adPlacement == AdPlacements.RV_rating_booster)
+                    {
+                        view.SetupRatingBoostButtonsSection(true);
+                    }
                 }
-                else if (key.Equals(view.specialHintShortCode))
-                {
-                    view.ProcessHint(hintTransactionVO);
-                }
+            }
+        }
+
+        [ListensTo(typeof(MoveAnalysiedSignal))]
+        public void OnMoveAnalysiedSignal(string challengeId, MoveAnalysis moveAnalysis, MatchAnalysis matchAnalysis)
+        {
+            view.MoveAnalysied(challengeId, moveAnalysis, matchAnalysis);
+        }
+
+        [ListensTo(typeof(UpdateAnalysedMoveAdvantageSignal))]
+        public void OnUpdateAnalysedMoveAdvantageSignal(string challengeId, MoveAnalysis moveAnalysis)
+        {
+            view.UpdateAnalysedMoveScore(challengeId, moveAnalysis);
+        }
+
+        [ListensTo(typeof(UpdateRVTimerSignal))]
+        public void OnUpdateRVTimer(long timer, bool rvEnabled)
+        {
+            if (view.IsVisible())
+            {
+                view.UpdateRVTimer(timer, rvEnabled);
             }
         }
     }

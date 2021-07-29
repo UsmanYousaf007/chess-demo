@@ -4,7 +4,7 @@
     {
         internal const string PACKAGE_MANAGER_PATH = "Assets/HUFEXT/PackageManager/";
         internal const int AUTO_FETCH_DELAY = 1 * 60 * 60;
-        
+
         internal const string CACHE_DIRECTORY = "Assets/HUF/.cache";
         internal const string FILE_PACKAGE_LOCK = "Assets/HUF/package-lock.huf";
 
@@ -12,13 +12,13 @@
         internal const string HELPSHIFT_URL_KEY = "https://contactus.huuugegames.com/?tag=huf&userid=";
 
         internal const string CACHE_AUTH_TOKEN_KEY = "HUF.PackageManager.Token";
-        
+
         // Key used for store registered in cache items list.
         internal const string CACHE_DATA_KEY = "HUF.PackageManager.Cache.Data";
-        
+
         // Key used for store current settings of Package Manager view like sorting options, settings flags etc.
         internal const string CACHE_PACKAGE_MANAGER_STATE_KEY = "HUF.PackageManager.Cache.State";
-        
+
         // Key used for store current list of packages (local and remote).
         internal const string CACHE_PACKAGE_REGISTRY_KEY = "HUF.PackageManager.Cache.PackageRegistry";
         internal const string CACHE_PACKAGE_LOCAL_REGISTRY_KEY = "HUF.PackageManager.Cache.LocalPackageRegistry";
@@ -27,10 +27,10 @@
         internal const string CACHE_PACKAGE_INSTALL_IN_PROGRESS = "HUF.PackageManager.Cache.InstallInProgress";
         internal const string CACHE_PACKAGES_UPDATE_IN_PROGRESS = "HUF.PackageManager.Cache.UpdateInProgress";
         internal const string CACHE_PACKAGES_CURRENT_CHANNEL = "HUF.PackageManager.Cache.Channel";
-        
+
         // Key used for indicate that package import was completed (cleared when import begin and set when is completed).
         internal const string CACHE_LAST_IMPORTED_PACKAGE_NAME_KEY = "HUF.PackageManager.Cache.LastImportedPackage";
-        
+
         // Key used for indicate when last packages fetch was performed.
         // Is set when Package Registry is merging packages.
         internal const string CACHE_LAST_FETCH_TIME_KEY = "HUF.PackageManager.Cache.LastFetchTime";
@@ -55,7 +55,7 @@
             internal const string UNITY_PACKAGE_EXTENSION = ".unitypackage";
             internal const string UNITY_PACKAGES_MANIFEST_FILE = "Packages/manifest.json";
         }
-        
+
         internal static class Views
         {
             internal static class Policy
@@ -67,7 +67,8 @@
                 internal const string BUTTON = "Proceed";
                 internal const string VALIDATE = "Validating...";
                 internal const string ERROR_TITLE = "Error...";
-                internal const string ERROR_DESC = "You must accept our license and enter valid credentials.";
+                internal const string VALIDATION_ERROR_DESC = "You must accept our license and enter valid credentials.";
+                internal const string CONNECTION_ERROR_DESC = "Could not connect to the server.";
                 internal const string ERROR_BUTTON = "OK";
             }
 
@@ -81,17 +82,17 @@
             {
                 internal const string TITLE = "Huuuge Unity Framework - Edit package version";
             }
-            
+
             internal static class CustomRegistryEditor
             {
                 internal const string TITLE = "Huuuge Unity Framework - Add custom scoped registry";
             }
         }
-        
+
         internal static class Resources
         {
-            private const string ICON_PREFIX = PACKAGE_MANAGER_PATH + "Editor/Resources/Icons/";
             internal const string HUF_LOGO = PACKAGE_MANAGER_PATH + "Editor/Resources/Common/huf_logo.png";
+            const string ICON_PREFIX = PACKAGE_MANAGER_PATH + "Editor/Resources/Icons/";
 
             internal static class Icons
             {
@@ -115,7 +116,7 @@
             public const string STABLE_CHANNEL = "stable";
             public const string PREVIEW_CHANNEL = "preview";
             public const string EXPERIMENTAL_CHANNEL = "experimental";
-        
+
             public static class Tag
             {
                 public const string SCOPE = "{scope}";
@@ -123,34 +124,43 @@
                 public const string PACKAGE = "{package}";
                 public const string VERSION = "{version}";
             }
-        
+
             public static class API
             {
-                const string URL = "https://huf-packages.wt-prod.com";
                 public const string GLOBAL_CONFIG = URL + "/v1/config";
                 public const string SCOPES = URL + "/v1/scopes";
                 public const string CONFIGS = URL + "/v1/scopes/{scope}/channels/{channel}/packages/configs";
-                public const string PACKAGE_CONFIG = URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/config";
-                public const string PACKAGE_VERSIONS = URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions";
-                public const string PACKAGE_MANIFEST = URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/manifest";
-                public const string PACKAGE_LINK = URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/download-link";
+
+                public const string PACKAGE_CONFIG =
+                    URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/config";
+
+                public const string PACKAGE_VERSIONS =
+                    URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions";
+
+                public const string PACKAGE_MANIFEST =
+                    URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/manifest";
+
+                public const string PACKAGE_LINK = URL +
+                                                   "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/download-link";
+
                 public const string LATEST_PACKAGES = URL + "/v1/scopes/channels/{channel}/packages/latest-versions";
+                const string URL = "https://huf-packages.wt-prod.com";
             }
         }
-        
+
         internal static class BuildEventKey
         {
-            private const  string PREFIX        = "huf_";
-            internal const string DEV_ID        = PREFIX + "developer_id";
-            internal const string PACKAGE_NAME  = PREFIX + "package_name";
-            internal const string VERSION       = PREFIX + "version";
-            internal const string BUILD_TIME    = PREFIX + "build_time";
+            internal const string DEV_ID = PREFIX + "developer_id";
+            internal const string PACKAGE_NAME = PREFIX + "package_name";
+            internal const string VERSION = PREFIX + "version";
+            internal const string BUILD_TIME = PREFIX + "build_time";
             internal const string UNITY_VERSION = PREFIX + "unity";
-            internal const string OS            = PREFIX + "operating_system";
-            internal const string PLATFORM      = PREFIX + "platform";
-            internal const string API_VERSION   = PREFIX + "minimum_api_version";
-            internal const string HUF_PACKAGE   = PREFIX + "package_";
+            internal const string OS = PREFIX + "operating_system";
+            internal const string PLATFORM = PREFIX + "platform";
+            internal const string API_VERSION = PREFIX + "minimum_api_version";
+            internal const string HUF_PACKAGE = PREFIX + "package_";
             internal const string UNITY_PACKAGE = "unity_package_";
+            const string PREFIX = "huf_";
         }
 
         internal const string REPORT_URL = "https://hbi-ingest.net/pcfK6gOAtE2kWQOL";

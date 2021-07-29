@@ -25,11 +25,11 @@ namespace HUFEXT.PackageManager.Editor.Core
                 }
             }
         }
-        
+
         public static bool UpdateInProgress
         {
             get => Registry.IsSet( Models.Keys.CACHE_PACKAGES_UPDATE_IN_PROGRESS );
-            
+
             set
             {
                 if ( value )
@@ -48,12 +48,11 @@ namespace HUFEXT.PackageManager.Editor.Core
             get
             {
                 Registry.Load( Models.Keys.CACHE_PACKAGES_CURRENT_CHANNEL, out int channel );
-                return ( Models.PackageChannel ) channel;
+                return (Models.PackageChannel)channel;
             }
 
-            set => Registry.Save( Models.Keys.CACHE_PACKAGES_CURRENT_CHANNEL, ( int ) value );
+            set => Registry.Save( Models.Keys.CACHE_PACKAGES_CURRENT_CHANNEL, (int)value );
         }
-
         public static void RemoveLock()
         {
             Registry.Remove( Models.Keys.FILE_PACKAGE_LOCK );
@@ -63,59 +62,61 @@ namespace HUFEXT.PackageManager.Editor.Core
         public static List<Models.PackageManifest> Data
         {
             set => Registry.Save( Models.Keys.CACHE_PACKAGE_REGISTRY_KEY,
-                                  new Utils.Common.Wrapper<Models.PackageManifest> { Items = value },
-                                  CachePolicy.Prefs );
+                new Utils.Common.Wrapper<Models.PackageManifest> {Items = value},
+                CachePolicy.Prefs );
 
             get => Registry.Get<Utils.Common.Wrapper<Models.PackageManifest>>( Models.Keys.CACHE_PACKAGE_REGISTRY_KEY,
-                                                                               CachePolicy.Prefs ).Items;
+                CachePolicy.Prefs ).Items;
         }
 
         public static List<Models.PackageManifest> Local
         {
             set => Registry.Save( Models.Keys.CACHE_PACKAGE_LOCAL_REGISTRY_KEY,
-                                  new Utils.Common.Wrapper<Models.PackageManifest> { Items = value },
-                                  CachePolicy.Prefs );
+                new Utils.Common.Wrapper<Models.PackageManifest> {Items = value},
+                CachePolicy.Prefs );
 
-            get => Registry.Get<Utils.Common.Wrapper<Models.PackageManifest>>( Models.Keys.CACHE_PACKAGE_LOCAL_REGISTRY_KEY,
-                                                                               CachePolicy.Prefs ).Items;
+            get => Registry.Get<Utils.Common.Wrapper<Models.PackageManifest>>(
+                Models.Keys.CACHE_PACKAGE_LOCAL_REGISTRY_KEY,
+                CachePolicy.Prefs ).Items;
         }
-        
+
         public static List<Models.PackageManifest> Remote
         {
             set => Registry.Save( Models.Keys.CACHE_PACKAGE_REMOTE_REGISTRY_KEY,
-                                  new Utils.Common.Wrapper<Models.PackageManifest> { Items = value },
-                                  CachePolicy.Prefs );
+                new Utils.Common.Wrapper<Models.PackageManifest> {Items = value},
+                CachePolicy.Prefs );
 
             get => Registry
-                   .Get<Utils.Common.Wrapper<Models.PackageManifest>>( Models.Keys.CACHE_PACKAGE_REMOTE_REGISTRY_KEY,
-                                                                       CachePolicy.Prefs ).Items;
+                .Get<Utils.Common.Wrapper<Models.PackageManifest>>( Models.Keys.CACHE_PACKAGE_REMOTE_REGISTRY_KEY,
+                    CachePolicy.Prefs ).Items;
         }
-        
+
         public static List<Models.PackageManifest> Unity
         {
             set => Registry.Save( Models.Keys.CACHE_PACKAGE_UNITY_REGISTRY_KEY,
-                new Utils.Common.Wrapper<Models.PackageManifest> { Items = value },
+                new Utils.Common.Wrapper<Models.PackageManifest> {Items = value},
                 CachePolicy.Prefs );
 
-            get => Registry.Get<Utils.Common.Wrapper<Models.PackageManifest>>( Models.Keys.CACHE_PACKAGE_UNITY_REGISTRY_KEY,
+            get => Registry.Get<Utils.Common.Wrapper<Models.PackageManifest>>(
+                Models.Keys.CACHE_PACKAGE_UNITY_REGISTRY_KEY,
                 CachePolicy.Prefs ).Items;
         }
-        
+
         public static void ClearLocalData()
         {
             Registry.Remove( Models.Keys.CACHE_PACKAGE_LOCAL_REGISTRY_KEY );
         }
-        
+
         public static void ClearRemoteData()
         {
             Registry.Remove( Models.Keys.CACHE_PACKAGE_REMOTE_REGISTRY_KEY );
         }
-        
+
         public static void ClearUnityData()
         {
             Registry.Remove( Models.Keys.CACHE_PACKAGE_REMOTE_REGISTRY_KEY );
         }
-        
+
         public static void Clear()
         {
             Registry.Remove( Models.Keys.CACHE_PACKAGE_REGISTRY_KEY );

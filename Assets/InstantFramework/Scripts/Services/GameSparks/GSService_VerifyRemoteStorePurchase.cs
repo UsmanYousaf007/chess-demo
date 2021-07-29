@@ -21,7 +21,7 @@ namespace TurboLabz.InstantFramework
         long subscriptionExpiryTimeStamp;
         string subscriptionType;
 
-        public IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp, string subscriptionType)
+        public IPromise<BackendResult, string, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp, string subscriptionType)
         {
             subscriptionExpiryTimeStamp = expiryTimeStamp;
             this.subscriptionType = subscriptionType;
@@ -36,6 +36,20 @@ namespace TurboLabz.InstantFramework
             // Process gems
             int? gems = res.GetInt(GSBackendKeys.PlayerDetails.GEMS);
             playerModel.gems += gems != null ? gems.Value : 0;
+
+            // Process coins
+            long? coins = res.GetLong(GSBackendKeys.PlayerDetails.COINS);
+            playerModel.coins += coins != null ? coins.Value : 0;
+
+            // Parse dynamic bundle
+            var dynamicBundleShortCode = res.GetString(GSBackendKeys.PlayerDetails.DYNAMIC_BUNDLE_SHORT_CODE);
+            playerModel.dynamicBundleToDisplay = dynamicBundleShortCode;
+
+            // Parse gem spot bundle data
+            var dynamicSpotPurchaseBundleData = res.GetGSData(GSBackendKeys.PlayerDetails.DYNAMIC_GEM_SPOT_BUNDLE);
+            GSParser.ParseDynamicSpotPurchaseBundle(playerModel.dynamicGemSpotBundle, dynamicSpotPurchaseBundleData);
+
+            playerModel.rvUnlockTimestamp = GSParser.GetSafeLong(res, GSBackendKeys.PlayerDetails.RV_UNLOCK_TIMESTAMP);
 
             // Process goods
             GSData boughtItem = res.GetGSData("boughtItem");
@@ -56,6 +70,7 @@ namespace TurboLabz.InstantFramework
                 {
                     case GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG:
                     case GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG:
+                    case GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SALE_TAG:
                         playerModel.subscriptionExipryTimeStamp = subscriptionExpiryTimeStamp;
                         playerModel.renewDate = TimeUtil.ToDateTime(subscriptionExpiryTimeStamp).ToShortDateString();
                         playerModel.subscriptionType = subscriptionType;
@@ -85,6 +100,7 @@ namespace TurboLabz.InstantFramework
             }
 
             updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            updateBundleSignal.Dispatch();
         }
     }
 
@@ -97,10 +113,11 @@ namespace TurboLabz.InstantFramework
         protected BackendResult errorCode;
         protected Action<LogEventResponse> onSuccess;
         protected string transactionIdRecord;
+        protected string productIdRecord;
 
-        readonly IPromise<BackendResult, string> promise = new Promise<BackendResult, string>();
+        readonly IPromise<BackendResult, string, string> promise = new Promise<BackendResult, string, string>();
 
-        public IPromise<BackendResult, string> Send()
+        public IPromise<BackendResult, string, string> Send()
         {
             request.SetEventKey(key).Send(OnSuccess, OnFailure);
             return promise;
@@ -109,18 +126,19 @@ namespace TurboLabz.InstantFramework
         void OnSuccess(LogEventResponse response)
         {
             onSuccess(response); 
-            promise.Dispatch(BackendResult.SUCCESS, transactionIdRecord);
+            promise.Dispatch(BackendResult.SUCCESS, transactionIdRecord, productIdRecord);
         }
 
         void OnFailure(LogEventResponse response)
         {
-            promise.Dispatch(errorCode, transactionIdRecord);
+            promise.Dispatch(errorCode, transactionIdRecord, productIdRecord);
         }
 
         public GSVerifyRemoteStorePurchaseRequest(string remoteProductId, string transactionId, string purchaseReceipt, long expiryTimeStamp, string subscriptionType,
                                                     Action<LogEventResponse> onSuccess)
         {
             transactionIdRecord = transactionId;
+            productIdRecord = remoteProductId;
             key = "VerifyRemoteStorePurchase";
             errorCode = BackendResult.VERIFY_REMOTE_STORE_PURCHASE_FAILED;
 

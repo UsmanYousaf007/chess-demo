@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HBIAnalyticsConfig
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 4ac02d95b671470e95f21d57aa3bdb78,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: configId
+    value: HBIAnalyticsConfig
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: autoInit
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: prodServerUrl
+    value: https://playersdb-api-huf.hbi.huuuge.net/
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: devServerUrl
+    value: https://playersdb-api-huf.hbi-dev.huuuge.net/
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: productionKey
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: developmentKey
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: forceProdEnvironment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: connectionTimeOut
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: errorRetryCount
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: errorRetryWait
+    value: 2.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: routingTable.playerAttributes
+    value: project/{project_name}/user_id/{user_id}
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: projectName
+    value: huf
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: sku
+    value: rollercoaster
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: authorizationUsername
+    value: huf
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: playerRevenueLevelsInDollars.Array.size
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: playerRevenueLevelsInDollars.Array.data[0]
+    value: 1.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: playerRevenueLevelsInDollars.Array.data[1]
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: revenueLevelRangeInDollars
+    value: 0.1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maximumRevenueLevel
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: refreshPlayerAttributesDistance
+    value: 600
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: amazon
+    value: 0
+    objectReference: {fileID: 0}

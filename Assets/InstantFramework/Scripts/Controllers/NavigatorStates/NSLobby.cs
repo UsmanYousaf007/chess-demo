@@ -97,6 +97,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLessonTopics();
             }
+            else if (evt == NavigatorEvent.SHOW_LESSONS_VIEW)
+            {
+                return new NSLessonsView();
+            }
             else if (evt == NavigatorEvent.SHOW_ARENA)
             {
                 return new NSArenaView();
@@ -141,7 +145,7 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSPromotionChessSetsBundleDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG)
+            else if (evt == NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG)
             {
                 return new NSPromotionEliteBundleDlg();
             }
@@ -152,6 +156,66 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG)
             {
                 return new NSSubscriptionSaleDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
+            {
+                return new NSRewardDlgView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LOGIN_DLG)
+            {
+                return new NSLoginDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEADERBOARD_VIEW)
+            {
+                return new NSLeaderboardView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PERKS_VIEW)
+            {
+                return new NSLeaguePerksView();
+            }
+            else if (evt == NavigatorEvent.SHOW_SELECT_TIME_MODE)
+            {
+                return new NSSelectTimeMode();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_RESULT_DLG)
+            {
+                return new NSChampionshipResultDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG)
+            {
+                return new NSChampionshipNewRankDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SPOT_COIN_PURCHASE)
+            {
+                return new NSSpotCoinPurchaseDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_DAILY_REWARD_DLG)
+            {
+                return new NSDailyRewardDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_SPOT_PURCHASE)
+            {
+                return new NSSpotPurchase();
+            }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG_V2)
+            {
+                return new NSRewardDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_LEAGUE_PROMOTION_DLG)
+            {
+                return new NSLeaguePromotionDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU_POWER_MODE)
+            {
+                return new NSCPUPowerMode();
+            }
+            else if (evt == NavigatorEvent.SHOW_GDPR_DLG)
+            {
+                return new NSGDPRDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CAREER_PROGRESSION_DLG)
+            {
+                return new NSCareerProgessionDlg();
             }
 
             return null;

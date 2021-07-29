@@ -160,7 +160,9 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, value);
             analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, value);
             AddDefaultParameters();
-            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.HBI);
+#if BUILD_STORE
+            HAnalytics.LogSuccessfulPurchaseEvent(analyticsEvent, AnalyticsServiceName.HBI);
+#endif
             analyticsEvent = null;
         }
 
@@ -312,7 +314,9 @@ namespace TurboLabz.InstantFramework
             analyticsEvent.Add(AnalyticsEvent.EventConsts.EVENT_NAME_KEY, name);
             analyticsEvent.Add(AnalyticsEvent.EventConsts.VALUE_KEY, cents);
             analyticsEvent.Add(AnalyticsMonetizationEvent.CENTS_KEY, cents);
-            HAnalytics.LogMonetizationEvent(analyticsEvent, AnalyticsServiceName.APPS_FLYER);
+#if BUILD_STORE
+            HAnalytics.LogSuccessfulPurchaseEvent(analyticsEvent, AnalyticsServiceName.APPS_FLYER);
+#endif
             analyticsEvent = null;
         }
 

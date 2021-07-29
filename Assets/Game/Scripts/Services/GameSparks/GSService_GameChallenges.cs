@@ -194,7 +194,7 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private void HandleActiveGameEnd(string challengeId)
+        private void HandleActiveGameEnd(string challengeId, bool isDraw = false)
         {
             Chessboard chessboard = chessboardModel.chessboards[challengeId];
 
@@ -226,6 +226,7 @@ namespace TurboLabz.InstantFramework
                     {
                         preferencesModel.isFirstRankedGameOfTheDayFinished = true;
                         analyticsService.Event(AnalyticsEventId.elo, AnalyticsParameter.elo, playerModel.eloScore);
+                        analyticsService.Event(AnalyticsEventId.internal_matchmaking_elo, AnalyticsParameter.internal_matchmaking_elo, Mathf.Clamp(playerModel.eloScore, 500, 1400));
                     }
                 }
 
@@ -240,6 +241,11 @@ namespace TurboLabz.InstantFramework
             if (GameEndHasMove(chessboard))
             {
                 chessboardEventSignal.Dispatch(ChessboardEvent.OPPONENT_MOVE_COMPLETE);
+            }
+
+            if (isDraw && chessboard.gameEndReason == GameEndReason.TIMER_EXPIRED)
+            {
+                chessboard.gameEndReason = GameEndReason.DRAW_BY_INSUFFICIENT_MATERIAL;
             }
 
             chessboardEventSignal.Dispatch(ChessboardEvent.GAME_ENDED);

@@ -68,6 +68,9 @@ namespace TurboLabz.Multiplayer
         [Inject] public SetupSpecialHintSignal setupSpecialHintSignal { get; set; }
         [Inject] public SpecialHintAvailableSignal specialHintAvailableSignal { get; set; }
         [Inject] public ShowAdSignal showAdSignal { get; set; }
+        [Inject] public FreeHintAvailableSignal freeHintAvailableSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public AnalyseMoveSignal analyseMoveSignal { get; set; }
 
         // Models
         [Inject] public IChessboardModel chessboardModel { get; set; }
@@ -76,6 +79,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IMetaDataModel metaDataModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IAdsSettingsModel adsSettingsModel { get; set; }
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
 
         // Services
         [Inject] public IChessService chessService { get; set; }
@@ -84,6 +88,7 @@ namespace TurboLabz.Multiplayer
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAppInfoModel appInfoModel { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public IAdsService adsService { get; set; }
 
         public Chessboard activeChessboard;
         public MatchInfo activeMatchInfo;

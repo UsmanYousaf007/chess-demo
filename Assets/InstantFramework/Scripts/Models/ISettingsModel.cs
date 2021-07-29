@@ -34,8 +34,28 @@ namespace TurboLabz.InstantFramework
         string defaultSubscriptionKey { get; set; }
 
         int matchmakingRandomRange { get; set; }
+        long allStarLeaderboardLastFetchTime { get; set; }
+
+        int opponentHigherEloCap { get; set; }
+        int opponentLowerEloCapMin { get; set; }
+        int opponentLowerEloCapMax { get; set; }
 
         Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
         int GetInventorySpecialItemsRewardedVideoCost(string key);
+
+        List<long> bettingIncrements { get; set; }
+        List<float> defaultBetIncrementByGamesPlayed { get; set; }
+        Dictionary<string, float> matchCoinsMultiplayer { get; set; }
+
+        int advantageThreshold { get; set; }
+        int purchasedHintsThreshold { get; set; }
+        int powerModeFreeHints { get; set; }
+
+        bool isHuuugeServerValidationEnabled { get; set; }
+        long maintenanceWarningTimeStamp { get; set; }
+
+        float GetSafeCoinsMultiplyer(string key);
+
+        int sessionDurationForGDPRinMinutes { get; set; }
     }
 }

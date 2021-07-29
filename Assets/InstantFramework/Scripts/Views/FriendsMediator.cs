@@ -43,17 +43,18 @@ namespace TurboLabz.InstantFramework
         [Inject] public FindMatchSignal findMatchSignal { get; set; }
         [Inject] public LoadChatSignal loadChatSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
-        [Inject] public ShowAdSignal showAdSignal { get; set; }
         [Inject] public ManageBlockedFriendsSignal manageBlockedFriendsSignal { get; set; }
         [Inject] public AuthSignInWithAppleSignal authSignInWithAppleSignal { get; set; }
         [Inject] public UpdateFriendBarSignal updateFriendBarSignal { get; set; }
         [Inject] public AddUnreadMessagesToBarSignal addUnreadMessagesSignal { get; set; }
+        [Inject] public HideNotificationViewSignal hideNotificationViewSignal { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IFacebookService facebookService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public IPreGameAdsService preGameAdsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -82,6 +83,7 @@ namespace TurboLabz.InstantFramework
             view.manageBlockedFriendsButtonClickedSignal.AddListener(OnManageBlockedFriends);
             view.signInWithAppleClicked.AddListener(OnSignInWithAppleButtonClicked);
             view.localRefreshFriends.AddListener(OnLocalRefreshFriends);
+            view.hideNotificationSignal.AddListener(OnHideNotification);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -327,42 +329,17 @@ namespace TurboLabz.InstantFramework
 
         private void OnPlayButtonClicked(string playerId, bool isRanked)
         {
-            if (!playerModel.HasSubscription())
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.isRanked = isRanked;
-                vo.friendId = playerId;
-                vo.actionCode = "ChallengeClassic";
-                vo.placementId = AdPlacements.Interstitial_pregame;
-                showAdSignal.Dispatch(vo, false);
-                return;
-            }
-            tapLongMatchSignal.Dispatch(playerId, isRanked);
+            preGameAdsService.ShowPreGameAd().Then(() => tapLongMatchSignal.Dispatch(playerId, isRanked));
+        }
+
+        private void OnHideNotification()
+        {
+            hideNotificationViewSignal.Dispatch();
         }
 
         private void OnQuickMatchFriendButtonClicked(string playerId, bool isRanked, string actionCode)
         {
-            //-- Show UI blocker and spinner here. We are disabling it in the FindMatchCommand's HandleFindMatchErrors method.
-            OnShowProcessingUI(true, true);
-
-            var friend = playerModel.GetFriend(playerId);
-
-            if (!playerModel.HasSubscription())
-            {
-                playerModel.adContext = AnalyticsContext.interstitial_pregame;
-                ResultAdsVO vo = new ResultAdsVO();
-                vo.adsType = AdType.Interstitial;
-                vo.actionCode = actionCode;
-                vo.friendId = playerId;
-                vo.isRanked = isRanked;
-                vo.placementId = AdPlacements.Interstitial_pregame;
-                showAdSignal.Dispatch(vo, false);
-                return;
-            }
-
-            FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode);
+            preGameAdsService.ShowPreGameAd(actionCode).Then(() => FindMatchAction.Challenge(findMatchSignal, isRanked, playerId, actionCode)); 
         }
 
         private void OnAcceptButtonClicked(string playerId)
@@ -393,12 +370,6 @@ namespace TurboLabz.InstantFramework
         private void OnRemoveCommunityFriend(string opponentId)
         {
             removeCommunityFriendSignal.Dispatch(opponentId);
-        }
-
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
         }
 
         void OnUpgradeToPremiumClicked()

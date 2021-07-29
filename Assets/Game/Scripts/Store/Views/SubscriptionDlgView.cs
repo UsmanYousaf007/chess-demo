@@ -23,8 +23,6 @@ public class SubscriptionDlgView : View
     public Button restorePurchaseButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
     public VerticalLayoutGroup offerBg;
 
@@ -52,11 +50,9 @@ public class SubscriptionDlgView : View
     [HideInInspector] public bool isOnSale;
     private bool isStoreAvailable;
     private bool isShown;
-    private Coroutine timer;
 
     Vector3 titleImgPos;
     Vector3 offersContainerPos;
-    private WaitForSecondsRealtime waitForOneRealSecond;
 
     //Models 
     [Inject] public IMetaDataModel metaDataModel { get; set; }
@@ -72,6 +68,7 @@ public class SubscriptionDlgView : View
     public Signal restorePurchasesSignal = new Signal();
     public Signal<string> purchaseSignal = new Signal<string>();
     public Signal showTermsSignal = new Signal();
+    public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
 
     private StoreIconsContainer iconsContainer;
 
@@ -84,7 +81,6 @@ public class SubscriptionDlgView : View
         privacyPolicyButton.onClick.AddListener(OnPrivacyPolicyClicked);
         iconsContainer = StoreIconsContainer.Load();
 
-        waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         title.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TITLE);
         restorePurchaseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_RESTORE_PURCHASE);
         termsOfUseText.text = localizationService.Get(LocalizationKey.SUBSCRIPTION_DLG_TERMS_OF_USE);
@@ -158,9 +154,9 @@ public class SubscriptionDlgView : View
 
         if (isOnSale)
         {
-            purchaseText.text = saleItem.remoteProductPrice;
+            purchaseText.text = $"{saleItem.remoteProductPrice} / Year";
             var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
-            limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice}</s>";
+            limitedTimeOnlyText.text = $"Limited Time Only! <s>{storeItem.remoteProductPrice} / Year</s>";
             ribbonText.text = $"{(int)(discount * 100)}%";
             limitedTimeOnlyText.enabled = true;
         }
@@ -212,19 +208,15 @@ public class SubscriptionDlgView : View
     {
         UpdateView();
         gameObject.SetActive(true);
-        timer = StartCoroutine(CountdownTimer());
+        schedulerSubscription.Dispatch(SchedulerCallback, true);
+        //timer = StartCoroutine(CountdownTimer());
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
-        StopCoroutine(timer);
-    }
-
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
+        schedulerSubscription.Dispatch(SchedulerCallback, false);
+        //StopCoroutine(timer);
     }
 
     private void OnCloseButtonClicked()
@@ -260,18 +252,18 @@ public class SubscriptionDlgView : View
 
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 
-    IEnumerator CountdownTimer()
+    void SchedulerCallback()
     {
-        while (gameObject.activeInHierarchy)
+        if (gameObject.activeInHierarchy)
         {
             endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
-            yield return waitForOneRealSecond;
+            //yield return waitForOneRealSecond;
         }
 
-        yield return null;
+        //yield return null;
     }
 }
 

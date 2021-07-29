@@ -24,17 +24,20 @@ namespace TurboLabz.InstantFramework
 
         public void Init()
         {
+            UIDlgManager.Setup(gameObject);
             shareTitleText.text = localizationService.Get(LocalizationKey.SHARE_GAME_SCREENSHOT);
             shareButtonText.text = localizationService.Get(LocalizationKey.SHARE);
         }
 
         public void Show()
         {
+            UIDlgManager.Show(gameObject);
             shareConfirmDlg.SetActive(true);
         }
 
         public void Hide()
         {
+            UIDlgManager.Hide(gameObject);
             shareConfirmDlg.SetActive(false);
         }
 

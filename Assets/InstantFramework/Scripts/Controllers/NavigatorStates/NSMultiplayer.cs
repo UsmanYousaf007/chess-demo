@@ -90,6 +90,10 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSLobby();
             }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
             {
                 return new NSMultiplayerResultsDlg();
@@ -165,6 +169,22 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
             {
                 return new NSSpotInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG)
+            {
+                return new NSBuyGameAanalysisView();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG)
+            {
+                return new NSChampionshipNewRankDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_REWARDS_DLG)
+            {
+                return new NSMultiplayerRewardsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
+            {
+                return new NSMultiplayerGameAnalysis();
             }
 
             return null;

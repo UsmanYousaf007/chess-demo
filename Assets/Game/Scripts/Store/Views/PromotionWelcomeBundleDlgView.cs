@@ -21,12 +21,11 @@ public class PromotionWelcomeBundleDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
 
     [Header("Items")]
     public ShopPayout currencyPayout;
+    public ShopPayout currency2Payout;
     public ShopPayout[] payouts;
 
     //Models 
@@ -45,6 +44,7 @@ public class PromotionWelcomeBundleDlgView : View
 
     public void InitOnce()
     {
+        UIDlgManager.Setup(gameObject);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
         iconsContainer = StoreIconsContainer.Load();
@@ -60,35 +60,41 @@ public class PromotionWelcomeBundleDlgView : View
         title.text = storeItem.displayName;
         purchaseText.text = storeItem.remoteProductPrice;
 
-        if (storeItem.bundledItems != null)
+        //if (storeItem.bundledItems != null)
+        //{
+        if (storeItem.currency3Cost > 0)
         {
-            if (storeItem.currency3Cost > 0)
-            {
-                //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
-                currencyPayout.count.text = "Gems "+storeItem.currency3Cost.ToString();
-            }
-
-            var i = 0;
-            foreach (var item in storeItem.bundledItems)
-            {
-                if (i < payouts.Length)
-                {
-                    //payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
-                    payouts[i].count.text = $"{storeSettingsModel.items[item.Key].displayName} x{item.Value}";
-                    i++;
-                }
-            }
+            //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+            currencyPayout.count.text = storeItem.currency3Cost.ToString();
         }
+
+        if (storeItem.currency4Cost > 0)
+        {
+            //currencyPayout.icon.sprite = iconsContainer.GetSprite("Gem");
+            currency2Payout.count.text = storeItem.currency4Cost.ToString();
+        }
+
+        //var i = 0;
+        //foreach (var item in storeItem.bundledItems)
+        //{
+        //    if (i < payouts.Length)
+        //    {
+        //        //payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
+        //        payouts[i].count.text = $"{storeSettingsModel.items[item.Key].displayName} x{item.Value}";
+        //        i++;
+        //    }
+        //}
+        //}
     }
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        UIDlgManager.Show(gameObject);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        UIDlgManager.Hide(gameObject);
     }
 
     private void OnCloseButtonClicked()
@@ -97,15 +103,9 @@ public class PromotionWelcomeBundleDlgView : View
         closeDailogueSignal.Dispatch();
     }
 
-    public void ShowProcessing(bool show, bool showProcessingUi)
-    {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
-    }
-
     public bool IsVisible()
     {
-        return gameObject.activeSelf;
+        return isActiveAndEnabled;
     }
 
     public void SetupPurchaseButton(bool isAvailable)

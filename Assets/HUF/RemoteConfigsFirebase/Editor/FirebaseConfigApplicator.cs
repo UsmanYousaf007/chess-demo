@@ -68,7 +68,7 @@ namespace HUF.RemoteConfigsFirebase.Editor {
 
         static void HandleRemoteConfigsInit()
         {
-            if ( HRemoteConfigs.IsInitialized )
+            if ( HRemoteConfigs.IsInitialized(RemoteConfigService.Firebase) )
             {
                 NotifyStep( Step.Fetch );
                 HRemoteConfigs.OnFetchComplete += HandleFetchSuccess;
@@ -82,14 +82,20 @@ namespace HUF.RemoteConfigsFirebase.Editor {
             EditorUtility.ClearProgressBar();
         }
 
-        static void HandleFetchFailure()
+        static void HandleFetchFailure(RemoteConfigService? serviceType)
         {
+            if (serviceType != RemoteConfigService.Firebase)
+                return;
+
             HLog.LogError( logPrefix, "Fetching failed" );
             EditorUtility.ClearProgressBar();
         }
 
-        static void HandleFetchSuccess()
+        static void HandleFetchSuccess(RemoteConfigService serviceType)
         {
+            if (serviceType == RemoteConfigService.Firebase)
+                return;
+
             NotifyStep( Step.Apply );
             OverrideLocalConfigs();
             EditorUtility.ClearProgressBar();

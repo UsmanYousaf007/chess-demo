@@ -1,3 +1,4 @@
+using System;
 using HUF.Auth.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -13,16 +14,18 @@ namespace HUF.Auth.Runtime.Implementation
         public string UserId => string.Empty;
         public string UserName => string.Empty;
         public bool IsInitialized => true;
+        
+#pragma warning disable 0067
+        public event Action<string> OnInitialized;
+        public event Action OnInitializationFailure;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
+#pragma warning restore 0067
 
         public DummyAuthService( string nameSuffix )
         {
             Name = nameSuffix;
         }
-
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction OnInitializationFailure;
-        public event UnityAction<string, bool> OnSignIn;
-        public event UnityAction<string> OnSignOutComplete;
 
         public void Init()
         {
@@ -33,7 +36,7 @@ namespace HUF.Auth.Runtime.Implementation
         public bool SignIn()
         {
             HLog.Log( logPrefix, $"SignIn {Name}" );
-            OnSignIn.Dispatch( Name, false );
+            OnSignInResult.Dispatch( Name, AuthSignInResult.UnspecifiedFailure );
             return true;
         }
 

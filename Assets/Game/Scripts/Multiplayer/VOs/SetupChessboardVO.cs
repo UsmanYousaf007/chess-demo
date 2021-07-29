@@ -8,10 +8,12 @@ namespace TurboLabz.Multiplayer
         public bool isPlayerWhite;
         public bool isLongPlay;
         public bool isRanked;
+        public bool powerMode;
         //public bool isTenMinGame;
         //public bool isOneMinGame;
         //public bool isThirtyMinGame;
         public GameTimeMode gameTimeMode;
+        public string challengeId;
     }
 }
 

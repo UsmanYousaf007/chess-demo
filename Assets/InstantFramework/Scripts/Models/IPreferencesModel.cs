@@ -9,6 +9,15 @@ using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
+    [Flags]
+    public enum FreePowerUpStatus
+    {
+        CONSUMED = 0,
+        BOUGHT = 1,
+        NOT_CONSUMED = 2,
+        AVAILABLE = 4
+    }
+
     public interface IPreferencesModel
     {
         bool isAudioOn { get; set; }
@@ -30,10 +39,6 @@ namespace TurboLabz.InstantFramework
         float timeSpent30mMatch { get; set; }
         float timeSpentLongMatch { get; set; }
         float timeSpentCpuMatch { get; set; }
-        float timeSpent1mTournament { get; set; }
-        float timeSpent3mTournament { get; set; }
-        float timeSpent5mTournament { get; set; }
-        float timeSpent10mTournament { get; set; }
         DateTime lastLaunchTime { get; set; }
         int globalAdsCount { get; set; }
         int rewardedAdsCount { get; set; }
@@ -61,10 +66,12 @@ namespace TurboLabz.InstantFramework
         int cpuPowerUpsUsedCount { get; set; }
         bool inventoryTabVisited { get; set; }
         bool shopTabVisited { get; set; }
-        bool themesTabVisited { get; set; }
+        bool allStarTabVisited { get; set; }
         int currentPromotionIndex { get; set; }
         bool inGameRemoveAdsPromotionShown { get; set; }
-
+        int gamesPlayedPerDay { get; set; }
+        bool FTUE { get; set; }
+        int purchasesCount { get; set; }
         void ResetDailyPrefers();
 
         //for appsflyer events for HUUUGE
@@ -81,5 +88,12 @@ namespace TurboLabz.InstantFramework
 
         Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         List<string> activePromotionSales { get; set; }
+        bool isRateAppDialogueFirstTimeShown { get; set; }
+        bool isRateAppDialogueShown { get; set; }
+        FreePowerUpStatus freeHint { get; set; }
+        FreePowerUpStatus freeDailyRatingBooster { get; set; }
+
+        bool isLeaderboardTooltipShown { get; set; }
+
     }
 }

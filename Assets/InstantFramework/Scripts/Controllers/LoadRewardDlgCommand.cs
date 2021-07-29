@@ -27,7 +27,10 @@ namespace TurboLabz.InstantGame
         // Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
         [Inject] public UpdateRewardDlgViewSignal updateRewardDlgViewSignal { get; set; }
+        [Inject] public UpdateChampionshipResultDlgSignal updateChampionshipResultDlgViewSignal { get; set; }
+        [Inject] public UpdateLeaguePromotionDlgViewSignal updateLeaguePromotionDlgViewSignal { get; set; }
 
         public override void Execute()
         {
@@ -42,14 +45,37 @@ namespace TurboLabz.InstantGame
             if (msg.type == "RewardTournamentEnd")
             {
                 vo = BuildVORewardRewardTournamentEnd(inboxMessageId);
+
+                vo.msgId = inboxMessageId;
+                vo.tournamentId = msg.tournamentId;
+                vo.onCloseSignal = onCloseSignal;
+                //getJoinedTournamentLeaderboardSignal.Dispatch(msg.tournamentId, false);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHAMPIONSHIP_RESULT_DLG);
+                updateChampionshipResultDlgViewSignal.Dispatch(vo);
+
+                return;
             }
             else if (msg.type == "RewardLeaguePromotion")
             {
                 vo = BuildVORewardRewardLeaguePromotion(inboxMessageId);
+
+                vo.msgId = inboxMessageId;
+                vo.onCloseSignal = onCloseSignal;
+                updateLeaguePromotionDlgViewSignal.Dispatch(vo);
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LEAGUE_PROMOTION_DLG);
+
+                return;
             }
             else if (msg.type == "RewardDailyLeague")
             {
                 vo = BuildVORewardRewardDailyLeague(inboxMessageId);
+
+                vo.msgId = inboxMessageId;
+                vo.onCloseSignal = onCloseSignal;
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_DAILY_REWARD_DLG);
+                updateRewardDlgViewSignal.Dispatch(vo);
+
+                return;
             }
             else if (msg.type == "RewardDailySubscription")
             {

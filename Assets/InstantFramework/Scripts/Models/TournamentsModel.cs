@@ -22,6 +22,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public IBackendService backendService { get; set; }
         [Inject] public IAnalyticsService analyticsService { get; set; }
 
+        //Models
+        [Inject] public ILeaguesModel leaguesModel { get; set; }
+
         public DateTime lastFetchedTime { get; set; }
 
         public List<JoinedTournamentData> joinedTournaments { get; set; }
@@ -472,30 +475,32 @@ namespace TurboLabz.InstantFramework
 
         private string GetRankContext(int rank)
         {
-            if (rank > 25)
+            if (rank > 50)
             {
-                return "less_than_25";
+                return "51_to_100";
             }
-            else if(rank <= 25 && rank >= 10)
+            else if (rank <= 50 && rank >= 11)
             {
-                return "25_to_10";
+                return "11_to_50";
             }
-            else if (rank <= 9 && rank >= 2)
+            else if (rank <= 10 && rank >= 4)
             {
-                return "9_to_2";
+                return "4_to_10";
             }
 
-            return "1";
+            return rank.ToString();
         }
 
         private void LogTournamentEndAnalytics(JoinedTournamentData data)
         {
-            analyticsService.Event($"{AnalyticsEventId.finish_rank}_{data.type.ToLower()}", AnalyticsParameter.context, GetRankContext(data.rank));
+            //var earnedTrophies = data.rewardsDict[data.rank].trophies;
+            //var leagueName = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+            //analyticsService.Event($"{AnalyticsEventId.championship_finish_rank}_{leagueName}",AnalyticsParameter.context, GetRankContext(data.rank));
 
-            if (data.matchesPlayedCount > 1)
-            {
-                analyticsService.Event($"{AnalyticsEventId.engaged_finish_rank}_{data.type.ToLower()}", AnalyticsParameter.context, GetRankContext(data.rank));
-            }
+            //if (earnedTrophies > 0)
+            //{
+            //    analyticsService.ResourceEvent(GameAnalyticsSDK.GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.TROPHIES, earnedTrophies, "championship_reward", $"rank{data.rank}_{leagueName}");
+            //}
         }
 
         public void LogConcludedJoinedTournaments()
@@ -524,6 +529,7 @@ namespace TurboLabz.InstantFramework
         public long currentStartTimeInSeconds;
         public List<TournamentEntry> entries = new List<TournamentEntry>();
         public int matchesPlayedCount = 0;
+        public int score = 0;
 
         public long lastFetchedTimeUTCSeconds;
         public Dictionary<int, TournamentReward> rewardsDict = new Dictionary<int, TournamentReward>();
@@ -531,6 +537,8 @@ namespace TurboLabz.InstantFramework
         public long endTimeUTCSeconds;
         public bool locked = false;
         public bool ended = false;
+
+        public string DisplayName => name.Remove(name.ToLower().IndexOf("championship"));
     }
 
     [Serializable]

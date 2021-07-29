@@ -145,6 +145,7 @@ namespace TurboLabz.InstantFramework
                 {
                     settingsModel.maintenanceWarningMessege = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_MESSEGE);
                     settingsModel.maintenanceWarningBgColor = response.ScriptData.GetString(GSBackendKeys.MAINTENANCE_WARNING_BG_COLOR);
+                    settingsModel.maintenanceWarningTimeStamp = GSParser.GetSafeLong(response.ScriptData, GSBackendKeys.MAINTENANCE_WARNING_TIMESTAMP);
 
                     showMaintenanceViewSignal.Dispatch(2);
                   

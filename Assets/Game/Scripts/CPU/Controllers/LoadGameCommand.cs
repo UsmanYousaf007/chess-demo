@@ -76,6 +76,8 @@ namespace TurboLabz.CPU
 				chessboardModel.playerColor = reader.Read<ChessColor>(SaveKeys.PLAYER_COLOR);
 				chessboardModel.opponentColor = reader.Read<ChessColor>(SaveKeys.OPPONENT_COLOR);
 				chessboardModel.usedHelp = reader.Read<bool>(SaveKeys.USED_HELP);
+				chessboardModel.powerMode = reader.Read<bool>(SaveKeys.POWER_MODE);
+				chessboardModel.freeHints = reader.Read<int>(SaveKeys.FREE_HINTS);
 
 				List<string> moveList = reader.ReadList<string>(SaveKeys.MOVE_LIST);
 				chessboardModel.moveList = new List<ChessMove>();

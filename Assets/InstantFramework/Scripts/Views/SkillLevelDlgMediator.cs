@@ -26,11 +26,6 @@ namespace TurboLabz.InstantFramework
                 view.Show();
                 showSplashContentSignal.Dispatch(false);
                 analyticsService.ScreenVisit(AnalyticsScreen.skill_level_dlg);
-
-                if (SplashLoader.FTUE)
-                {
-                    analyticsService.DesignEvent(AnalyticsEventId.ftue_skill_level_dlg);
-                }
             }
         }
 

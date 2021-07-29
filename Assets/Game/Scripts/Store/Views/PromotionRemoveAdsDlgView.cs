@@ -18,8 +18,6 @@ public class PromotionRemoveAdsDlgView : View
     public Button closeButton;
     public Text purchaseText;
     public Button purchaseButton;
-    public GameObject uiBlocker;
-    public GameObject processingUi;
     public GameObject loading;
 
     public GameObject saleObj;
@@ -33,7 +31,6 @@ public class PromotionRemoveAdsDlgView : View
 
     private bool isStoreAvailable;
     private bool isShown;
-    private Coroutine timer;
 
     // Models 
     [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -45,9 +42,11 @@ public class PromotionRemoveAdsDlgView : View
     // Signals
     public Signal closeDailogueSignal = new Signal();
     public Signal<string> purchaseSignal = new Signal<string>();
+    public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
 
     public void InitOnce()
     {
+        UIDlgManager.Setup(gameObject);
         waitForOneRealSecond = new WaitForSecondsRealtime(1f);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
         purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
@@ -82,14 +81,18 @@ public class PromotionRemoveAdsDlgView : View
     public void Show()
     {
         UpdateView();
-        gameObject.SetActive(true);
-        timer = StartCoroutine(CountdownTimer());
+        UIDlgManager.Show(gameObject).Then(OnShowComplete);
+    }
+
+    public void OnShowComplete()
+    {
+        schedulerSubscription.Dispatch(SchedulerCallback, true);
     }
 
     public void Hide()
     {
-        StopCoroutine(timer);
-        gameObject.SetActive(false);
+        schedulerSubscription.Dispatch(SchedulerCallback, false);
+        UIDlgManager.Hide(gameObject);
     }
 
     private void SetupPopup()
@@ -124,26 +127,20 @@ public class PromotionRemoveAdsDlgView : View
         purchaseSignal.Dispatch(isOnSale ? saleShortCode : shortCode);
     }
 
-    public bool IsVisible()
+    private void SchedulerCallback()
     {
-        return gameObject.activeSelf;
-    }
-
-    IEnumerator CountdownTimer()
-    {
-        while (gameObject.activeInHierarchy)
+        if (gameObject.activeInHierarchy)
         {
             endsInTime.text = TimeUtil.FormatTournamentClock(DateTime.Today.AddDays(1) - DateTime.Now);
-            yield return waitForOneRealSecond;
+            //yield return waitForOneRealSecond;
         }
 
-        yield return null;
+        //yield return null;
     }
 
-    public void ShowProcessing(bool show, bool showProcessingUi)
+    public bool IsVisible()
     {
-        processingUi.SetActive(showProcessingUi);
-        uiBlocker.SetActive(show);
+        return isActiveAndEnabled;
     }
 }
 

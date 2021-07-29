@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HUFEXT.PackageManager.Editor.Models;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,15 +9,16 @@ namespace HUFEXT.PackageManager.Editor.Views
     [InitializeOnLoad]
     public class PackageUpdateWindow : EditorWindow
     {
-        private readonly Vector2[] scroll = new Vector2[2];
-        
-        private bool[] itemShouldBeUpdated;
-        private List<Models.PackageManifest> packagesToUpdate;
-        private bool forceUpdateDetected = false;
-        
+        readonly Vector2[] scroll = new Vector2[2];
+
+        bool[] itemShouldBeUpdated;
+        List<Models.PackageManifest> packagesToUpdate;
+        bool forceUpdateDetected = false;
+
         public static void Init()
         {
-            var window = CreateInstance( typeof( PackageUpdateWindow ) ) as PackageUpdateWindow;
+            var window = CreateInstance( typeof(PackageUpdateWindow) ) as PackageUpdateWindow;
+
             if ( window != null )
             {
                 if ( window.Initialize() )
@@ -32,32 +34,32 @@ namespace HUFEXT.PackageManager.Editor.Views
         bool Initialize()
         {
             packagesToUpdate = Core.Packages.Data
-                                   .Where( ( p ) => p.huf.status == Models.PackageStatus.UpdateAvailable ||
-                                                    p.huf.status == Models.PackageStatus.ForceUpdate ||
-                                                    p.huf.status == Models.PackageStatus.Migration )
-                                   .ToList();
+                .Where( ( p ) => p.IsHufPackage && ( p.huf.status == Models.PackageStatus.UpdateAvailable ||
+                                                     p.huf.status == Models.PackageStatus.ForceUpdate ||
+                                                     p.huf.status == Models.PackageStatus.Migration ) )
+                .ToList();
 
             if ( packagesToUpdate.Count == 0 )
             {
                 return false;
             }
-            
+
             itemShouldBeUpdated = new bool[packagesToUpdate.Count];
             return true;
         }
-        
-        private void OnDisable()
+
+        void OnDisable()
         {
             if ( forceUpdateDetected )
             {
-                EditorUtility.DisplayDialog( "Update required!", 
-                                             "Some packages need to be updated immediately. Please click continue to install new versions of packages.", 
-                                             "OK" );
+                EditorUtility.DisplayDialog( "Update required!",
+                    "Some packages need to be updated immediately. Please click continue to install new versions of packages.",
+                    "OK" );
                 //Init();
             }
         }
-        
-        private void OnGUI()
+
+        void OnGUI()
         {
             Utils.HGUI.BannerWithLogo( position.width );
 
@@ -67,46 +69,54 @@ namespace HUFEXT.PackageManager.Editor.Views
                 PackagesToUpdatePanel();
                 GUILayout.FlexibleSpace();
 
-                using( new EditorGUILayout.HorizontalScope() )
+                using ( new EditorGUILayout.HorizontalScope() )
                 {
                     GUILayout.FlexibleSpace();
+
                     if ( GUILayout.Button( "Continue", GUILayout.Width( 150f ), GUILayout.Height( 30f ) ) )
                     {
+                        List<Models.PackageManifest> chosenPackages = new List<PackageManifest>();
+
                         for ( int i = 0; i < packagesToUpdate.Count; ++i )
                         {
                             if ( itemShouldBeUpdated[i] )
                             {
-                                Core.Command.BindAndExecute( new Commands.Processing.PackageResolveCommand( packagesToUpdate[i], true ),
-                                                             new Commands.Processing.PackageLockCommand() );
+                                chosenPackages.Add( packagesToUpdate[i] );
                             }
                         }
-                        
+
+                        Core.Command.BindAndExecute(
+                            new Commands.Processing.PackageResolveCommand( chosenPackages, true ),
+                            new Commands.Processing.PackageLockCommand(),
+                            new Commands.Processing.ProcessPackageLockCommand() );
                         Close();
                     }
+
                     GUILayout.FlexibleSpace();
                 }
+
                 GUILayout.FlexibleSpace();
             }
         }
 
         void PackagesToUpdatePanel()
         {
-            using( new GUILayout.HorizontalScope() )
+            using ( new GUILayout.HorizontalScope() )
             {
                 EditorGUILayout.LabelField( Models.Keys.Views.Update.SELECT, EditorStyles.boldLabel );
-            
                 GUILayout.FlexibleSpace();
-                
+
                 if ( GUILayout.Button( "All" ) )
                 {
-                    for(int i = 0; i < packagesToUpdate.Count; ++i)
+                    for ( int i = 0; i < packagesToUpdate.Count; ++i )
                     {
                         itemShouldBeUpdated[i] = true;
                     }
                 }
+
                 if ( GUILayout.Button( "None" ) )
                 {
-                    for(int i = 0; i < packagesToUpdate.Count; ++i)
+                    for ( int i = 0; i < packagesToUpdate.Count; ++i )
                     {
                         itemShouldBeUpdated[i] = packagesToUpdate[i].huf.status == Models.PackageStatus.ForceUpdate;
                     }
@@ -115,39 +125,55 @@ namespace HUFEXT.PackageManager.Editor.Views
 
             EditorGUILayout.Space();
 
-            using( var v = new EditorGUILayout.VerticalScope() )
+            using ( var v = new EditorGUILayout.VerticalScope() )
             {
                 Utils.HGUI.HorizontalSeparator();
                 EditorGUI.DrawRect( v.rect, new Color( 0f, 0f, 0f, 0.3f ) );
-                using ( var scope = new GUILayout.ScrollViewScope( scroll[0], GUILayout.Height( position.height - 165f ) ) )
+
+                using ( var scope =
+                    new GUILayout.ScrollViewScope( scroll[0], GUILayout.Height( position.height - 165f ) ) )
                 {
                     scroll[0] = scope.scrollPosition;
+
                     for ( int i = 0; i < packagesToUpdate.Count; ++i )
                     {
                         DrawItem( i );
                     }
                 }
+
                 Utils.HGUI.HorizontalSeparator();
             }
         }
 
-        private void DrawItem( int i )
+        void DrawItem( int i )
         {
             var myStyle = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
             var rect = EditorGUILayout.BeginVertical( myStyle, GUILayout.Height( 30f ) );
+
             {
                 GUILayout.FlexibleSpace();
-                using( new GUILayout.HorizontalScope() )
+
+                using ( new GUILayout.HorizontalScope() )
                 {
-                    var isMigration = packagesToUpdate[i].huf.status == Models.PackageStatus.Migration;
-                    var isForceUpdate = packagesToUpdate[i].huf.status == Models.PackageStatus.ForceUpdate;
-                    using( new EditorGUI.DisabledScope( isForceUpdate ) )
+                    var package = packagesToUpdate[i];
+                    var isMigration = package.huf.status == Models.PackageStatus.Migration;
+                    var isForceUpdate = package.huf.status == Models.PackageStatus.ForceUpdate;
+
+                    var remotePackageSupportsCurrentUnityVersion =
+                        package.LatestPackageVersion().SupportsCurrentUnityVersion;
+
+                    using ( new EditorGUI.DisabledScope(
+                        isForceUpdate || !remotePackageSupportsCurrentUnityVersion ) )
                     {
-                        if ( isForceUpdate && !itemShouldBeUpdated[i] )
+                        if ( !remotePackageSupportsCurrentUnityVersion )
+                        {
+                            itemShouldBeUpdated[i] = false;
+                        }
+                        else if ( isForceUpdate && !itemShouldBeUpdated[i] )
                         {
                             itemShouldBeUpdated[i] = true;
                         }
-                        
+
                         if ( itemShouldBeUpdated[i] )
                         {
                             EditorGUI.DrawRect( rect, new Color( .5f, .5f, .5f, 0.1f ) );
@@ -159,38 +185,48 @@ namespace HUFEXT.PackageManager.Editor.Views
                             itemShouldBeUpdated[i] = !itemShouldBeUpdated[i];
                         }
 
-                        GUILayout.Label( GetIconForStatus( packagesToUpdate[i].huf.status ), 
-                                         GUILayout.Width( 16f ) );
-                        if ( isMigration )
+                        GUILayout.Label( GetIconForStatus( package.huf.status ),
+                            GUILayout.Width( 16f ) );
+
+                        if ( !remotePackageSupportsCurrentUnityVersion )
                         {
-                            GUILayout.Label( packagesToUpdate[i].displayName );
-                            GUILayout.Label( "Migrate to " + packagesToUpdate[i].huf.config.latestVersion, 
-                                             EditorStyles.centeredGreyMiniLabel );
+                            GUILayout.Label( package.displayName );
+
+                            GUILayout.Label( $"Package only supports Unity: {package.unity}",
+                                EditorStyles.whiteMiniLabel );
+                        }
+                        else if ( isMigration )
+                        {
+                            GUILayout.Label( package.displayName );
+
+                            GUILayout.Label( $"Migrate to {package.huf.config.latestVersion}",
+                                EditorStyles.whiteMiniLabel );
                         }
                         else
                         {
-                            GUILayout.Label( packagesToUpdate[i].displayName + " " + packagesToUpdate[i].version);
-                            GUILayout.Label( "Update to " + packagesToUpdate[i].huf.config.latestVersion, 
-                                             EditorStyles.centeredGreyMiniLabel );
+                            GUILayout.Label( $"{package.displayName} {package.version}" );
+
+                            GUILayout.Label( $"Update to {package.huf.config.latestVersion}",
+                                EditorStyles.centeredGreyMiniLabel );
                         }
-                        
-                        if ( packagesToUpdate[i].huf.status == Models.PackageStatus.ForceUpdate )
+
+                        if ( package.huf.status == Models.PackageStatus.ForceUpdate )
                         {
                             GUILayout.Label( "- Update required.", EditorStyles.centeredGreyMiniLabel );
                         }
-                                
-                        GUILayout.FlexibleSpace();
 
+                        GUILayout.FlexibleSpace();
                         itemShouldBeUpdated[i] = GUILayout.Toggle( itemShouldBeUpdated[i], "" );
                     }
                 }
+
                 GUILayout.FlexibleSpace();
             }
             EditorGUILayout.EndVertical();
             Utils.HGUI.HorizontalSeparator();
         }
-        
-        private Texture2D GetIconForStatus( Models.PackageStatus status )
+
+        Texture2D GetIconForStatus( Models.PackageStatus status )
         {
             switch ( status )
             {

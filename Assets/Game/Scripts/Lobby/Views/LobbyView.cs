@@ -390,7 +390,7 @@ namespace TurboLabz.InstantFramework
                 playComputerMatchPlay.SetActive(true);
             }
 
-            onlinePlayersCountLabel.text = "Active Players " + FormatUtil.AbbreviateNumber(vo.onlineCount);
+            onlinePlayersCountLabel.text = "Active Players " + FormatUtil.AbbreviateNumber(vo.onlineCount, false);
 
         }
 
@@ -531,9 +531,6 @@ namespace TurboLabz.InstantFramework
                 liveTournamentGO.SetActive(true);
                 liveTournamentGOText.text = "JOINED";
                 tournamentSectionEmptySpace.SetActive(true);
-                chestIcon.sprite = chestIconsContainer.GetChest(tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).chestType);
-                trophiesCount.text = tournamentsModel.GetTournamentGrandPrize(joinedTournament.id).trophies.ToString();
-                tournamentBG.color = tournamentAssetsContainer.GetSolidColor(joinedTournament.type);
 
                 endTimeUTCSeconds = joinedTournament.endTimeUTCSeconds;
 
@@ -1324,13 +1321,13 @@ namespace TurboLabz.InstantFramework
         void ConfirmRankedGameBtnClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState);
+            CreateGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/);
         }
 
         void ConfirmFriendlyGameBtnClicked(string actionCode)
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
-            CreateQuickMatchGame(actionBar.friendInfo.playerId, startGameConfirmationDlg.toggleRankButtonState, actionCode);
+            CreateQuickMatchGame(actionBar.friendInfo.playerId, false/*startGameConfirmationDlg.toggleRankButtonState*/, actionCode);
         }
 
         void ToolTipBtnClicked()
@@ -1340,6 +1337,7 @@ namespace TurboLabz.InstantFramework
 
         void ConfirmNewGameDlgNo()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
@@ -1482,7 +1480,7 @@ namespace TurboLabz.InstantFramework
             }
 
             notificationTagNumber.text = notificationCounter.ToString();
-            updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
+            //updatePlayerNotificationCountSignal.Dispatch(notificationCounter);
 
             // Sort holders
             activeMatches.Sort((x, y) => -1 * x.lastActionTime.CompareTo(y.lastActionTime));
@@ -1546,7 +1544,7 @@ namespace TurboLabz.InstantFramework
             {
                 FriendsSubOp friendsSubOp = new FriendsSubOp(removeRecentCompletedIds, FriendsSubOp.SubOpType.REMOVE_RECENT);
 
-                removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
+                //removeRecentlyPlayedSignal.Dispatch("", friendsSubOp);
             }
         }
 

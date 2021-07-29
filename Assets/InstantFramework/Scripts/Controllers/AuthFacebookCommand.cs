@@ -27,11 +27,12 @@ namespace TurboLabz.InstantFramework
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
         [Inject] public ToggleFacebookButton toggleFacebookButton { get; set; }
         [Inject] public SetSkinSignal setSkinSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showProcessingSignal { get; set; }
         [Inject] public UpdatePurchasedStoreItemSignal updatePurchasedStoreItemSignal { get; set; }
         [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public ResetSubscirptionStatusSignal resetSubscirptionStatusSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -135,7 +136,7 @@ namespace TurboLabz.InstantFramework
         {
             Retain();
             toggleFacebookButton.Dispatch(false);
-            showProcessingSignal.Dispatch(true, false);
+            showProcessingSignal.Dispatch(true);
         }
 
         private void CommandEnd(bool isSuccessful)
@@ -151,6 +152,7 @@ namespace TurboLabz.InstantFramework
                 refreshCommunitySignal.Dispatch(true);
                 updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
                 updateInboxMessageCountViewSignal.Dispatch(inboxModel.inboxMessageCount);
+                loadPromotionSingal.Dispatch();
 
                 //in case if fb logged in user has subscription, dispatch this signal in order to unlock all subscription features
                 if (playerModel.HasSubscription())
@@ -171,10 +173,12 @@ namespace TurboLabz.InstantFramework
             vo.name = playerModel.name;
             vo.playerId = playerModel.id;
             vo.rating = playerModel.eloScore;
+            vo.trophies2 = playerModel.trophies2;
+            vo.countryId = playerModel.countryId;
 
             authFacebookResultSignal.Dispatch(vo);
             toggleFacebookButton.Dispatch(true);
-            showProcessingSignal.Dispatch(false, false);
+            showProcessingSignal.Dispatch(false);
 
             Release();
         }

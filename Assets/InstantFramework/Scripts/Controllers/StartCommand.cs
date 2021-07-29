@@ -9,7 +9,6 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using GameSparks.Core;
 using TurboLabz.CPU;
-using HUFEXT.GenericGDPR.Runtime.API;
 using HUF.Analytics.Runtime.API;
 
 namespace TurboLabz.InstantFramework
@@ -35,6 +34,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IVideoPlaybackService videoPlaybackService { get; set; }
+        [Inject] public IRewardsService rewardsService { get; set; }
 
         // Models
         [Inject] public IPlayerModel playerModel { get; set; }
@@ -62,7 +62,6 @@ namespace TurboLabz.InstantFramework
             loadCPUGameDataSignal.Dispatch();
             adsService.Init();
             videoPlaybackService.Init();
-            downloadablesModel.Init();
         }
 
 		void StartGameSparksAvailable(bool isAvailable)
@@ -84,9 +83,6 @@ namespace TurboLabz.InstantFramework
 				{
 					backendService.AuthGuest().Then(OnAuthGuest);
 				}
-
-                adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
-                HAnalytics.CollectSensitiveData(HGenericGDPR.IsPolicyAccepted);
             }
 		}
 
@@ -94,16 +90,17 @@ namespace TurboLabz.InstantFramework
 		{
 			if (result == BackendResult.SUCCESS)
 			{
-                if (playerModel.newUser)
-                {
-                    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
-                    RemoveListeners();
-                    CommandEnd();
-                }
-                else
-                {
-                    GotoReception();
-                }
+                GotoReception();
+                //if (playerModel.newUser)
+                //{
+                //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SKILL_LEVEL_DLG);
+                //    RemoveListeners();
+                //    CommandEnd();
+                //}
+                //else
+                //{
+                //    GotoReception();
+                //}
             }
             else if (result != BackendResult.CANCELED)
 			{

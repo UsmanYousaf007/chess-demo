@@ -2,8 +2,6 @@ using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using HUFEXT.CrossPromo.Runtime.Implementation;
 using JetBrains.Annotations;
-using strange.extensions.promise.api;
-using strange.extensions.promise.impl;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,51 +9,45 @@ namespace HUFEXT.CrossPromo.Runtime.API
 {
     public static class HCrossPromo
     {
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HCrossPromo) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HCrossPromo) );
 
         public static CrossPromoService service;
         static bool isInitialized;
-        static IPromise promise = null;
 
         /// <summary>
-        /// Use this event to get information about panel being close
-        /// at any point.
+        /// Raised when the panel closes.
         /// </summary>
         [PublicAPI]
         public static event UnityAction OnCrossPromoPanelClosed;
 
         /// <summary>
-        /// Use this method to check if the cross promo panel is open.
+        /// Returns an information whether or not the panel is visible. 
         /// </summary>
-        /// <returns>Panel visibility status</returns>
         [PublicAPI]
         public static bool IsPanelOpen() => isInitialized && service.IsPanelOpen();
         
         /// <summary>
-        /// Use this method to close panel explicitly
+        /// Shows the panel.
+        /// </summary>
+        [PublicAPI]
+        public static void OpenPanel()
+        {
+            service.OpenPanel();
+        }
+        
+        /// <summary>
+        /// Closes the panel.
         /// </summary>
         [PublicAPI]
         public static void ClosePanel()
         {
-            promise.Dispatch();
-            promise = null;
             service.ClosePanel();
             OnCrossPromoPanelClosed?.Invoke();
         }
 
-        /// <summary>
-        /// Use this method to show panel
-        /// </summary>
-        [PublicAPI]
-        public static IPromise OpenPanel()
-        {
-            promise = new Promise();
-            service.OpenPanel();
-            return promise;
-        }
 
         /// <summary>
-        /// Use this method in order to initialize module manually
+        /// Initializes the module.
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -72,8 +64,7 @@ namespace HUFEXT.CrossPromo.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to set text for all buttons that appear when
-        /// promoted game is not installed.
+        /// Sets the text of all buttons that appear when the promoted game is not installed.
         /// </summary>
         [PublicAPI]
         public static void SetNotInstalledStateButtonText(string text)
@@ -82,8 +73,7 @@ namespace HUFEXT.CrossPromo.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to set text for all buttons that appear
-        /// when promoted game is installed.
+        /// Sets the text of all buttons that appear when the promoted game is installed.
         /// </summary>
         [PublicAPI]
         public static void SetInstalledStateButtonText(string text)
@@ -92,8 +82,7 @@ namespace HUFEXT.CrossPromo.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to set text for all tile labels that appear
-        /// whenever promoted game is installed.
+        /// Sets the text of all tile labels that appear when the promoted game is installed.
         /// </summary>
         [PublicAPI]
         public static void SetInstalledStateTileLabelText(string text)
@@ -102,7 +91,7 @@ namespace HUFEXT.CrossPromo.Runtime.API
         }
 
         /// <summary>
-        /// Use this method to set text displayed on bottom section close button.
+        /// Sets the text displayed on the close button in the bottom section.
         /// </summary>
         [PublicAPI]
         public static void SetCloseButtonText(string text)

@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.LOBBY, NavigatorViewId.RATE_APP_DLG, NavigatorViewId.SPOT_COIN_PURCHASE_DLG);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -21,6 +21,11 @@
                 {
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_CHESS_SETS_BUNDLE_DLG);
                     return new NSRateAppDlg();
+                }
+                else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.PROMOTION_CHESS_SETS_BUNDLE_DLG);
+                    return new NSSpotCoinPurchaseDlg();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

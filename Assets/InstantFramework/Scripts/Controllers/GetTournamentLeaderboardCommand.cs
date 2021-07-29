@@ -13,7 +13,7 @@ namespace TurboLabz.InstantFramework
     {
         // parameter
         [Inject] public string tournamentId { get; set; }
-        [Inject] public bool update { get; set; }
+        [Inject] public bool update { get; set; } // Not used anymore.
 
         // dispatch signals
         [Inject] public UpdateTournamentLeaderboardSignal getLeaderboardSuccessSignal { get; set; }
@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
             if (joinedTournament != null)
             {
                 var lastFetchedTimeDelta = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - joinedTournament.lastFetchedTimeUTCSeconds;
-                if (lastFetchedTimeDelta >= GSSettings.TOURNAMENTS_FETCH_GAP_TIME)
+                if (lastFetchedTimeDelta >= GSSettings.LEADERBOARDS_FETCH_GAP_TIME)
                 {
                     backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
                 }
@@ -45,7 +45,7 @@ namespace TurboLabz.InstantFramework
             }
             else
             {
-                OnGetComplete(BackendResult.TOURNAMENTS_OP_FAILED);
+                backendService.TournamentsOpGetLeaderboard(tournamentId, update).Then(OnGetComplete);
             }
 
         }

@@ -9,7 +9,7 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOPICS_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.TOPICS_VIEW, NavigatorViewId.LOBBY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
@@ -17,6 +17,10 @@
                 {
                     cmd.loadTopicsViewSignal.Dispatch();
                     return null;
+                }
+                else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)

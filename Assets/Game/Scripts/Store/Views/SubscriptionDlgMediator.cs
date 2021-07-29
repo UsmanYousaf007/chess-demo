@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 using TurboLabz.InstantFramework;
 using TurboLabz.InstantGame;
@@ -15,6 +16,7 @@ public class SubscriptionDlgMediator : Mediator
     [Inject] public IBackendService backendService { get; set; }
     [Inject] public IAutoSubscriptionDailogueService autoSubscriptionDailogueService { get; set; }
     [Inject] public IPromotionsService promotionsService { get; set; }
+    [Inject] public ISchedulerService schedulerService { get; set; }
 
     // Dispatch Signals
     [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
@@ -40,6 +42,7 @@ public class SubscriptionDlgMediator : Mediator
         view.restorePurchasesSignal.AddListener(OnRestorePurchases);
         view.purchaseSignal.AddListener(OnPurchase);
         view.showTermsSignal.AddListener(OnTermsClicked);
+        view.schedulerSubscription.AddListener(OnSchedulerSubscriptionToggle);
     }
 
     [ListensTo(typeof(StoreAvailableSignal))]
@@ -73,9 +76,9 @@ public class SubscriptionDlgMediator : Mediator
             analyticsService.Event(AnalyticsEventId.subscription_dlg_shown, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("subscription_popup_displayed", "subscription", "subscription_popup", cameFromScreen, analyticsFunnelId);
 
-            if (SplashLoader.FTUE)
+            if (appInfoModel.isAutoSubscriptionDlgShown)
             {
-                analyticsService.DesignEvent(AnalyticsEventId.ftue_intstall_popup);
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_shown, view.isOnSale ? AnalyticsContext.annual_mega_sale : AnalyticsContext.subscription);
             }
         }
     }
@@ -118,12 +121,6 @@ public class SubscriptionDlgMediator : Mediator
         hAnalyticsService.LogEvent("start_trial_clicked", "subscription", "subscription_popup", analyticsFunnelId);
     }
 
-    [ListensTo(typeof(ShowProcessingSignal))]
-    public void OnShowProcessingUI(bool show, bool showProcessingUi)
-    {
-        view.ShowProcessing(show, showProcessingUi);
-    }
-
     [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
     public void OnSubscriptionPurchased(StoreItem item)
     {
@@ -131,6 +128,14 @@ public class SubscriptionDlgMediator : Mediator
         {
             analyticsService.Event(AnalyticsEventId.subscription_dlg_purchased, AnalyticsParameter.context, cameFromScreen);
             hAnalyticsService.LogEvent("close_popup_clicked", "subscription", "subscription_popup", "subscribe_button", analyticsFunnelId);
+
+            if (appInfoModel.isAutoSubscriptionDlgShown)
+            {
+                var context = item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly_sub :
+                    item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_ANNUAL_SHOP_TAG) ? AnalyticsContext.annual_sub : AnalyticsContext.annual_mega_sale;
+                analyticsService.Event(AnalyticsEventId.promotion_dlg_purchased, context);
+            }
+
             OnCloseDailogue();
         }
     }
@@ -152,5 +157,17 @@ public class SubscriptionDlgMediator : Mediator
     public void OnSetContext(string context)
     {
         this.context = context;
+    }
+
+    private void OnSchedulerSubscriptionToggle(Action callback, bool subscribe)
+    {
+        if (subscribe)
+        {
+            schedulerService.Subscribe(callback);
+        }
+        else
+        {
+            schedulerService.UnSubscribe(callback);
+        }
     }
 }

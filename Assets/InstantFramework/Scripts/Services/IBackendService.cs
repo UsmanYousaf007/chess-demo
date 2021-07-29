@@ -34,7 +34,7 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> AuthSignInWithApple(string authorizationCode, bool existingPlayer);
         IPromise<BackendResult> AuthGuest();
         IPromise<BackendResult> BuyVirtualGoods(int currencyType, int quantity, string shortCode);
-        IPromise<BackendResult, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt, long expiryTimeStamp, string subscriptionType);
+        IPromise<BackendResult, string, string> VerifyRemoteStorePurchase(string remoteProductId, string transactionID, string purchaseReceipt, long expiryTimeStamp, string subscriptionType);
         IPromise<BackendResult> ConsumeVirtualGood(GSRequestData jsonData);
         IPromise<BackendResult> ClaimReward(GSRequestData jsonData);
         IPromise<BackendResult> UpdateActiveInventory(string activeChessSkinsId, string json = null);
@@ -85,5 +85,6 @@ namespace TurboLabz.InstantFramework
         IPromise<BackendResult> InBoxOpCollect(string messageId);
         IPromise<BackendResult> GetDownloadableContentUrl(string shortCode, Action<object> onSuccessExternal);
 
+        IPromise<BackendResult> GetAllStarLeaderboard();
     }
 }

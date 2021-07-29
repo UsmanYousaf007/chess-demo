@@ -48,6 +48,8 @@ namespace TurboLabz.CPU
 
         public void InitMenu()
         {
+            UIDlgManager.Setup(gameMenu);
+
             menuButton.onClick.AddListener(OnMenuButtonClicked);
             resignButton.onClick.AddListener(OnResignButtonClicked);
             continueButton.onClick.AddListener(OnContinueButtonClicked);
@@ -78,17 +80,13 @@ namespace TurboLabz.CPU
 
         public void ShowMenu()
         {
-            EnableModalBlocker();
-            gameMenu.SetActive(true);
-
+            UIDlgManager.Show(gameMenu);
             DisableMenuButton();
         }
 
         public void HideMenu()
         {
-            DisableModalBlocker();
-            gameMenu.SetActive(false);
-
+            UIDlgManager.Hide(gameMenu);
             EnableMenuButton();
         }
 
@@ -149,6 +147,8 @@ namespace TurboLabz.CPU
 
         void OnMenuButtonClicked()
         {
+            audioService.PlayStandardClick();
+
             if (menuOpensResultsDlg)
             {
                 showResultsDlgSignal.Dispatch();
@@ -171,6 +171,7 @@ namespace TurboLabz.CPU
 
         void OnBackClicked()
         {
+            audioService.PlayStandardClick();
             if (menuOpensResultsDlg)
             {
                 showResultsDlgSignal.Dispatch();

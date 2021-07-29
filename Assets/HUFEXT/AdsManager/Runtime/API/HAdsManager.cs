@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
 using HUF.Utils.Runtime.Configs.API;
@@ -27,7 +28,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <summary>
         /// Occurs when any ad is Fetched.
         /// </summary>
-        [PublicAPI] public static UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        [PublicAPI] public static Action<AdsManagerFetchCallbackData> OnAdFetch;
+
+        /// <summary>
+        /// Occurs when the service is initialized.
+        /// </summary>
+        [PublicAPI] public static Action OnInitialized;
 
         static AdsManagerConfig Config
         {
@@ -40,7 +46,33 @@ namespace HUFEXT.AdsManager.Runtime.API
         }
 
         /// <summary>
-        /// Initializes HUF Ads manager.
+        /// Initializes HUF ads manager.
+        /// </summary>
+        /// <param name="callback">A callback invoked after the initialization is finished regardless of the outcome.</param>
+        [PublicAPI]
+        public static void Init( Action callback )
+        {
+            Init();
+
+            if ( callback == null )
+                return;
+
+            void HandleInitComplete()
+            {
+                adsService.OnInitialized -= HandleInitComplete;
+                callback();
+            }
+
+            if ( adsService.IsInitialized )
+                callback();
+            else
+            {
+                adsService.OnInitialized += HandleInitComplete;
+            }
+        }
+
+        /// <summary>
+        /// Initializes HUF ads manager.
         /// </summary>
         [PublicAPI]
         public static void Init()
@@ -56,10 +88,20 @@ namespace HUFEXT.AdsManager.Runtime.API
                 adsService = new HUFAdsService( new BaseAdMediation(), false );
                 mediationsList.Insert( 0, adsService );
                 adsService.OnAdFetch += HandleAdFetch;
-                HLog.Log( logPrefix, $"Service initialized" );
+
+                if ( adsService.IsInitialized )
+                    HandleInitialized();
+                else
+                    adsService.OnInitialized += HandleInitialized;
             }
             else
                 HLog.LogError( logPrefix, $"AdsManagerConfig does not exist" );
+        }
+
+        static void HandleInitialized()
+        {
+            OnInitialized.Dispatch();
+            HLog.Log( logPrefix, "Service initialized" );
         }
 
         /// <summary>
@@ -100,7 +142,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Shown ads status</param>
         [PublicAPI]
-        public static void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowAd( string placementId, Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null || placementId.IsNullOrEmpty() )
             {
@@ -118,6 +160,29 @@ namespace HUFEXT.AdsManager.Runtime.API
             }
 
             resultCallback.Dispatch( new AdManagerCallback( "HUF", placementId, AdResult.Failed ) );
+        }
+
+        /// <summary>
+        /// Checks if an ad is fetched and ready to show.
+        /// </summary>
+        /// <param name="placementId">Ad placement ID</param>
+        [PublicAPI]
+        public static bool IsAdReady( string placementId )
+        {
+            if ( adsService == null || placementId.IsNullOrEmpty() )
+            {
+                return false;
+            }
+
+            foreach ( var mediation in mediationsList )
+            {
+                if ( mediation.CanShowAd( placementId ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -171,6 +236,12 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void HideBanner()
         {
+            if ( adsService == null )
+            {
+                HLog.LogWarning( logPrefix, "AdsManagerIsNotInitialized" );
+                return;
+            }
+
             HideBanner( adsService.DefaultBannerPlacement );
         }
 
@@ -181,7 +252,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="resultCallback">Did the banner show correctly</param>
         /// <param name="position">New position</param>
         [PublicAPI]
-        public static void ShowBanner( UnityAction<AdManagerCallback> resultCallback,
+        public static void ShowBanner( Action<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
             if ( adsService == null )
@@ -203,7 +274,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         [PublicAPI]
         public static void ShowBanner(
             string placementId,
-            UnityAction<AdManagerCallback> resultCallback,
+            Action<AdManagerCallback> resultCallback,
             BannerPosition position = BannerPosition.BottomCenter )
         {
             SetNewBannerPosition( position );
@@ -216,7 +287,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Did the banner show correctly</param>
         [PublicAPI]
-        public static void ShowBanner( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowBanner( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -247,7 +318,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowInterstitial( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowInterstitial( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -257,7 +328,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// </summary>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowInterstitial( UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowInterstitial( Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null )
             {
@@ -274,7 +345,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// <param name="placementId">Ad placement ID</param>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowRewarded( string placementId, UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowRewarded( string placementId, Action<AdManagerCallback> resultCallback )
         {
             ShowAd( placementId, resultCallback );
         }
@@ -284,7 +355,7 @@ namespace HUFEXT.AdsManager.Runtime.API
         /// </summary>
         /// <param name="resultCallback">Show status</param>
         [PublicAPI]
-        public static void ShowRewarded( UnityAction<AdManagerCallback> resultCallback )
+        public static void ShowRewarded( Action<AdManagerCallback> resultCallback )
         {
             if ( adsService == null )
             {

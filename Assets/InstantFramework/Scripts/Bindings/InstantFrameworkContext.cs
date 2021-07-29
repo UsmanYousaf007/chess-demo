@@ -67,7 +67,7 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<SaveLastWatchedVideoSignal>().To<SaveLastWatchedVideoCommand>();
 
             commandBinder.Bind<LoadArenaSignal>().To<LoadArenaCommand>();
-            commandBinder.Bind<LoadInboxSignal>().To<LoadInboxCommand>();
+            commandBinder.Bind<LoadRewardsSignal>().To<LoadRewardsCommand>();
 
 
             // Bind signals to models data loader commands
@@ -113,6 +113,8 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<ShowInventoryRewardedVideoSignal>().To<ShowInventoryRewardedVideoCommand>();
             commandBinder.Bind<GetProfilePictureSignal>().To<GetProfilePictureCommand>();
             commandBinder.Bind<LoadSpotInventorySignal>().To<LoadSpotInventoryCommand>();
+            commandBinder.Bind<LoadSpotCoinPurchaseSignal>().To<LoadSpotCoinPurchaseCommand>();
+            commandBinder.Bind<GetFullAnalysisSignal>().To<GetFullGameAnalysisCommand>();
 
             commandBinder.Bind<GetAllTournamentsSignal>().To<GetAllTournamentsCommand>();
             commandBinder.Bind<GetTournamentLeaderboardSignal>().To<GetTournamentLeaderboardCommand>();
@@ -133,6 +135,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<FindRandomLongMatchCompleteSignal>().ToSingleton();
             injectionBinder.Bind<MatchFoundSignal>().ToSingleton();
             injectionBinder.Bind<UpdateProfileSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTrophiesSignal>().ToSingleton();
             injectionBinder.Bind<UpdateOpponentProfileSignal>().ToSingleton();
             injectionBinder.Bind<UpdateChatOpponentPicSignal>().ToSingleton();
             injectionBinder.Bind<SetUpdateURLSignal>().ToSingleton();
@@ -200,6 +203,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateTournamentLeaderboardViewSignal>().ToSingleton();
             injectionBinder.Bind<ToggleLeaderboardViewNavButtons>().ToSingleton();
             injectionBinder.Bind<UpdateTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<ResetTournamentsViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateChampionshipResultDlgSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLiveTournamentRewardsSuccessSignal>().ToSingleton();
             injectionBinder.Bind<UpdateInboxMessageCountViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateRewardDlgViewSignal>().ToSingleton();
@@ -220,6 +225,30 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ResetSubscirptionStatusSignal>().ToSingleton();
             injectionBinder.Bind<ActivePromotionSaleSingal>().ToSingleton();
             injectionBinder.Bind<ShowFadeBlockerSignal>().ToSingleton();
+            injectionBinder.Bind<PromotionCycleOverSignal>().ToSingleton();
+            injectionBinder.Bind<LoginAsGuestSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSpotCoinsPurchaseDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateSpotCoinsWatchAdDlgSignal>().ToSingleton();
+            injectionBinder.Bind<RewardedVideoResultSignal>().ToSingleton();
+            injectionBinder.Bind<RewardedVideoAvailableSignal>().ToSingleton();
+            injectionBinder.Bind<RateAppDlgClosedSignal>().ToSingleton();
+            injectionBinder.Bind<LobbyChestRewardClaimedSignal>().ToSingleton();
+            injectionBinder.Bind<InboxEmptySignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePurchaseSuccessDlgSignal>().ToSingleton();
+            injectionBinder.Bind<RankPromotedDlgClosedSignal>().ToSingleton();
+            injectionBinder.Bind<OutOfGemsSignal>().ToSingleton();
+            injectionBinder.Bind<LobbySequenceEndedSignal>().ToSingleton();
+            injectionBinder.Bind<SpotCoinsPurchaseDlgClosedSignal>().ToSingleton();
+            injectionBinder.Bind<HideNotificationViewSignal>().ToSingleton();
+            injectionBinder.Bind<GetInitDataOnCompleteSignal>().ToSingleton();
+            injectionBinder.Bind<ShopVistedSignal>().ToSingleton();
+            injectionBinder.Bind<FullAnalysisBoughtSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateGetGameAnalysisDlgSignal>().ToSingleton();
+            injectionBinder.Bind<ShowGenericProcessingSignal>().ToSingleton();
+            injectionBinder.Bind<PowerPlayRewardClaimedSignal>().ToSingleton();
+            injectionBinder.Bind<BuyDynamicBundleClickedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRVTimerSignal>().ToSingleton();
+            injectionBinder.Bind<DailyRewardClaimFailedSignal>().ToSingleton();
 
             // Bind views to mediators
             mediationBinder.Bind<ChestInfoDialogView>().To<ChestContentDialogMediator>();
@@ -243,6 +272,9 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<ProfilePicView>().To<ProfilePicMediator>();
             mediationBinder.Bind<SocialConnectionView>().To<SocialConnectionMediator>();
             mediationBinder.Bind<SocialConnectionDlgView>().To<SocialConnectionDlgMediator>();
+            mediationBinder.Bind<LoginDlgView>().To<LoginDlgMediator>();
+            mediationBinder.Bind<GDPRDlgView>().To<GDPRDlgMediator>();
+            mediationBinder.Bind<BuyGameAnalysisView>().To<BuyGameAnalysisMediator>();
 
             // Bind services
             injectionBinder.Bind<ILocalizationService>().To<LocalizationService>().ToSingleton();
@@ -252,6 +284,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAndroidNativeService>().To<AndroidNativeService>().ToSingleton();
             injectionBinder.Bind<IAdsService>().To<TLAdsService>().ToSingleton();
             injectionBinder.Bind<IHAnalyticsService>().To<HAnalyticsService>().ToSingleton();
+            injectionBinder.Bind<IBlurBackgroundService>().To<BlurBackgroundService>().ToSingleton();
 
 
 #if !UNITY_EDITOR && UNITY_ANDROID
@@ -260,7 +293,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceIOS>().ToSingleton();
 #else
             injectionBinder.Bind<IAppUpdateService>().To<AppUpdateServiceEditor>().ToSingleton();
-            
+
 #endif
 
 
@@ -270,7 +303,8 @@ namespace TurboLabz.InstantFramework
 #else
             injectionBinder.Bind<IAnalyticsService>().To<UnityAnalyticsService>().ToSingleton();
 #endif
-            injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
+            //injectionBinder.Bind<IStoreService>().To<UnityIAPService>().ToSingleton();
+            injectionBinder.Bind<IStoreService>().To<InAppPurchaseService>().ToSingleton();
             injectionBinder.Bind<IBackendService>().To<GSService>().ToSingleton();
             injectionBinder.Bind<IAWSService>().To<AWSService>().ToSingleton();
             injectionBinder.Bind<IFacebookService>().To<FBService>().ToSingleton();
@@ -286,6 +320,8 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IDownloadablesService>().To<DownloadablesService>().ToSingleton();
             injectionBinder.Bind<ISchedulerService>().To<SchedulerService>().ToSingleton();
             injectionBinder.Bind<IPromotionsService>().To<PromotionsService>().ToSingleton();
+            injectionBinder.Bind<IRewardsService>().To<RewardsService>().ToSingleton();
+            injectionBinder.Bind<IPreGameAdsService>().To<PreGameAdsService>().ToSingleton();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             injectionBinder.Bind<IAudioService>().To<UnityAudioAndroid>().ToSingleton();
@@ -320,6 +356,17 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<UpdateLeagueProfileStripSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLeagueProfileSignal>().ToSingleton();
             injectionBinder.Bind<ProfilePictureLoadedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateCareerCardSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateAllStarLeaderboardSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTimeSelectDlgSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateRewardDlgV2ViewSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLeaguePromotionDlgViewSignal>().ToSingleton();
+            injectionBinder.Bind<StartLobbyChampionshipTimerSignal>().ToSingleton();
+            injectionBinder.Bind<GDPRDlgClosedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateNewRankChampionshipDlgViewSignal>().ToSingleton(); 
+            injectionBinder.Bind<ShowCareerProgressionSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateTrophyBarSignal>().ToSingleton();
+            injectionBinder.Bind<ResetCareerprogressionViewSignal>().ToSingleton();  
 
             // Bind models
             injectionBinder.Bind<INavigatorModel>().To<NavigatorModel>().ToSingleton(); // Lifecycle handled
@@ -339,6 +386,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<IDownloadablesModel>().To<DownloadablesModel>().ToSingleton();
             injectionBinder.Bind<ILeaguesModel>().To<LeaguesModel>().ToSingleton();
             injectionBinder.Bind<INotificationsModel>().To<NotificationsModel>().ToSingleton();
+            injectionBinder.Bind<ILeaderboardModel>().To<LeaderboardModel>().ToSingleton();
 
             MapGameBindings();
             MapCPUGameBindings();
@@ -367,6 +415,10 @@ namespace TurboLabz.InstantFramework
             commandBinder.Bind<LoadTopicsViewSignal>().To<LoadTopicsViewCommand>();
             commandBinder.Bind<LoadLessonsViewSignal>().To<LoadLessonsViewCommand>();
             commandBinder.Bind<LoadRewardDlgViewSignal>().To<LoadRewardDlgCommand>();
+            commandBinder.Bind<LoadLeaderboardSignal>().To<LoadLeaderboardCommand>();
+            commandBinder.Bind<GetAllStarLeaderboardSignal>().To<GetAllStarLeaderboardCommand>();
+            commandBinder.Bind<LoadCareerCardSignal>().To<LoadCareerCardCommand>();
+            commandBinder.Bind<LoadTimeSelectDlgSignal>().To<LoadSelectTimeDlgCommand>();
 
             // Bind views to mediators
             mediationBinder.Bind<LobbyView>().To<LobbyMediator>();
@@ -401,9 +453,32 @@ namespace TurboLabz.InstantFramework
             mediationBinder.Bind<SpotInventoryView>().To<SpotInventoryMediator>();
             mediationBinder.Bind<PromotionChessCourseBundleDlgView>().To<PromotionChessCourseBundleDlgMediator>();
             mediationBinder.Bind<PromotionChessSetsBundleDlgView>().To<PromotionChessSetsBundleDlgMediator>();
-            mediationBinder.Bind<PromotionEliteBundleDlgView>().To<PromotionEliteBundleDlgMediator>();
+            mediationBinder.Bind<PromotionBundleDlgView>().To<PromotionBundleDlgMediator>();
+            mediationBinder.Bind<PromotionBundleView>().To<PromotionBundleMediator>();
             mediationBinder.Bind<PromotionRemoveAdsDlgView>().To<PromotionRemoveAdsDlgMediator>();
             mediationBinder.Bind<PromotionWelcomeBundleDlgView>().To<PromotionWelcomeBundleDlgMediator>();
+            mediationBinder.Bind<CPUCardView>().To<CPUCardMediator>();
+            mediationBinder.Bind<LessonCardView>().To<LessonCardMediator>();
+            mediationBinder.Bind<CareerCardView>().To<CareerCardMediator>();
+            mediationBinder.Bind<NewLobbyView>().To<NewLobbyMediator>();
+            mediationBinder.Bind<LobbyProfileBarView>().To<LobbyProfileBarMediator>();
+            mediationBinder.Bind<LobbyTickerView>().To<LobbyTickerMediator>();
+            mediationBinder.Bind<LeaderboardView>().To<LeaderboardMediator>();
+            mediationBinder.Bind<SelectTimeModeView>().To<SelectTimeModeMediator>();
+            mediationBinder.Bind<ChampionshipResultDlgView>().To<ChampionshipResultDlgMediator>();
+            mediationBinder.Bind<ChampionshipNewRankDlgView>().To<ChampionshipNewRankDlgMediator>();
+            mediationBinder.Bind<ShopCoinItemView>().To<ShopCoinItemMediator>();
+            mediationBinder.Bind<SpotCoinPurchaseView>().To<SpotCoinPurchaseMediator>();
+            mediationBinder.Bind<DailyRewardDlgView>().To<DailyRewardDlgMediator>();
+            mediationBinder.Bind<RewardDlgV2View>().To<RewardDlgV2Mediator>();
+            mediationBinder.Bind<LeaguePromotionDlgView>().To<LeaguePromotionDlgMediator>();
+            mediationBinder.Bind<CPUPowerModeView>().To<CPUPowerModeMediator>();
+            mediationBinder.Bind<RewardParticle>().To<RewardParticleMediator>();
+            mediationBinder.Bind<RewardAnimSequence>().To<RewardAnimSequenceMediator>();
+            mediationBinder.Bind<PurchaseSuccessDlgView>().To<PurchaseSuccessDlgMediator>();
+            mediationBinder.Bind<RewardParticleEmitter>().To<RewardParticleEmitterMediator>();
+            mediationBinder.Bind<CareerProgressionView>().To<CareerProgressionMediator>();
+            mediationBinder.Bind<GenericProcessingView>().To<GenericProcessingMediator>();
 
             // Skinning view/mediators
             mediationBinder.Bind<SkinLink>().To<SkinLinkMediator>();
@@ -432,12 +507,14 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<ShowStrengthTrainingDailogueSignal>().ToSingleton();
             injectionBinder.Bind<RemoveLobbyPromotionSignal>().ToSingleton();
             injectionBinder.Bind<UpdateConfirmDlgSignal>().ToSingleton();
-            injectionBinder.Bind<ShowProcessingSignal>().ToSingleton();
             injectionBinder.Bind<UpdateTopiscViewSignal>().ToSingleton();
             injectionBinder.Bind<UpdateLessonsViewSignal>().ToSingleton();
-            injectionBinder.Bind<RatingBoostAnimSignal>().ToSingleton();
+            injectionBinder.Bind<RatingBoostedSignal>().ToSingleton();
             injectionBinder.Bind<ShowBottomNavSignal>().ToSingleton();
             injectionBinder.Bind<ShowThemesInventoryTabSignal>().ToSingleton();
+            injectionBinder.Bind<UpdateLessonCardSignal>().ToSingleton();
+            injectionBinder.Bind<GetGameStartTimeFailedSignal>().ToSingleton();
+            injectionBinder.Bind<UpdatePromotionBundleSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

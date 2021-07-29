@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HUF.AnalyticsHBI.Runtime.API;
 using HUF.Utils.Editor.BuildSupport;
 using HUF.Utils.Runtime.Logging;
 
@@ -16,6 +17,8 @@ namespace HUF.AnalyticsHBI.Editor
             "HUF/AnalyticsHBI/Plugins",
             "HUF/AnalyticsHBI/Runtime/Implementation"
         };
-        public override HLogPrefix LogPrefix { get; } = new HLogPrefix(nameof(HBIDummyPreprocessBuild));
+
+        public override HLogPrefix LogPrefix { get; } =
+            new HLogPrefix( HAnalyticsHBI.logPrefix, nameof(HBIDummyPreprocessBuild) );
     }
 }

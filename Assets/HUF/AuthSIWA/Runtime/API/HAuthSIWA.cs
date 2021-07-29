@@ -20,7 +20,7 @@ namespace HUF.AuthSIWA.Runtime.API
         public static AuthSIWAService Service => service;
 
         /// <summary>
-        /// Returns if AuthSIWAService is supported on device
+        /// Returns if AuthSIWAService is supported on a device.
         /// </summary>
         [PublicAPI]
         public static bool IsSupported =>
@@ -31,7 +31,7 @@ namespace HUF.AuthSIWA.Runtime.API
 #endif
 
         /// <summary>
-        /// Returns UserName of currently signed-in user or empty string if user is not signed-in
+        /// Returns UserName of a currently signed-in user or an empty string if the user is not signed-in.
         /// </summary>
         [PublicAPI]
         public static string DisplayName
@@ -51,7 +51,7 @@ namespace HUF.AuthSIWA.Runtime.API
         }
 
         /// <summary>
-        /// Returns Email of currently signed-in user or empty string if user is not signed-in
+        /// Returns an Email of the currently signed-in user or an empty string if the user is not signed-in.
         /// </summary>
         [PublicAPI]
         public static string Email
@@ -70,7 +70,7 @@ namespace HUF.AuthSIWA.Runtime.API
         }
 
         /// <summary>
-        /// Returns identity token of currently signed-in user or empty string if user is not signed-in
+        /// Returns an identity token of the currently signed-in user or an empty string if the user is not signed-in.
         /// </summary>
         [PublicAPI]
         public static string IdToken

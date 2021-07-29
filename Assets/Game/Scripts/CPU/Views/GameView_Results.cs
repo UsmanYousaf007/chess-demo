@@ -23,6 +23,7 @@ using TurboLabz.Chess;
 using TurboLabz.InstantGame;
 using strange.extensions.promise.api;
 using HUFEXT.CrossPromo.Runtime.API;
+using TMPro;
 
 namespace TurboLabz.CPU
 {
@@ -32,41 +33,67 @@ namespace TurboLabz.CPU
         public Button playbackOverlay;
 
         public GameObject resultsDialog;
+        public CanvasGroup resultsDialogCanvasGroup;
+
         public Image resultsGameImage;
         public Sprite winSprite;
         public Sprite defeatSprite;
         public Sprite drawSprite;
-        public Text resultsGameResultLabel;
+
+        public Image resultsGameResultLabel;
+        public Sprite winText;
+        public Sprite defeatText;
+        public Sprite drawText;
+
         public Text resultsGameResultReasonLabel;
         public Text resultsFriendlyLabel;
-
         public Text resultsRatingValueLabel;
         public Text resultsRatingChangeLabel;
+        public GameObject resultsRatingContainer;
 
         public Button resultsBoostRatingButton;
-        public Text resultsBoostRatingButtonLabel;
-        public Image resultsBoostRatingAdTVImage;
-        public GameObject resultsBoostRatingTooltip;
-        public Text resultsBoostRatingTooltipText;
-
-        public Button resultsCollectRewardButton;
-        public Text resultsCollectRewardButtonLabel;
-        public Image resultsAdTVImage;
+        public Text resultsBoostRatingAddedCount;
+        public GameObject resultsBoostRatingToolTip;
+        public Text resultsBoostRatingToolTipText;
+        public Text resultsBoostRatingGemsCost;
+        public Image resultsBoostRatingIcon;
+        public Image resultsBoostRatingGemIcon;
+        public GameObject resultBoostSheen;
 
         public Button resultsViewBoardButton;
         public Text resultsViewBoardButtonLabel;
-
-        public Button resultsSkipRewardButton;
-        public Text resultsSkipRewardButtonLabel;
-
-        public Button showCrossPromoButton;
-
-        public RectTransform rewardBar;
-        public Text earnRewardsText;
-        public GameObject earnRewardsSection;
-        public Image dailogueBg;
-
         public ViewBoardResults viewBoardResultPanel;
+
+        public Text resultsRewardLabel;
+        public Text resultsBetReversedLabel;
+        public Text resultsEarnedCoinsLabel;
+        public Text resultsEarnedStarsLabel;
+        public GameObject resultsRewardsCoins;
+        public GameObject resultsRewardsStars;
+
+        public Button resultsDoubleRewardButton;
+        public Text resultsDoubleRewardGemsCost;
+        public Text resultsDoubleRewardText;
+        public Image resultsDoubleRewardGemIcon;
+
+        public Button resultsContinueButton;
+
+        public Image resultsPowerplayImage;
+        public Sprite powerPlayOnSprite;
+        public Sprite powerPlayOffSprite;
+
+        public Button fullAnalysisBtn;
+        public TMP_Text fullAnalysisGemsCount;
+        public TMP_Text bunders;
+        public TMP_Text mistakes;
+        public TMP_Text perfect;
+
+        public GameObject resultsFullAnalysisdPanel;
+        public GameObject resultsFullAnalysisDisabledPanel;
+
+        public RectTransform[] resultsLayouts;
+
+        public GameObject rewardedVideoPanel;
 
         public Signal resultsStatsButtonClickedSignal = new Signal();
         public Signal showAdButtonClickedSignal = new Signal();
@@ -74,20 +101,16 @@ namespace TurboLabz.CPU
         public Signal resultsDialogOpenedSignal = new Signal();
         public Signal backToLobbySignal = new Signal();
 
-        private const float RESULTS_DELAY_TIME = 1f;
-        private const float RESULTS_SHORT_DELAY_TIME = 0.3f;
+        private const float RESULTS_DELAY_TIME = 2f;
+        private const float RESULTS_SHORT_DELAY_TIME = 1f;
         private const float RESULTS_DIALOG_DURATION = 0.5f;
         private float resultsDialogHalfHeight;
-        private float declinedDialogHalfHeight;
-        private float rewardBarOriginalWidth;
 
         private bool playerWins;
         private bool isDraw;
-        private string adRewardType;
-        private string collectRewardType;
         private float animDelay;
-        public bool menuOpensResultsDlg;
-        private int resultRewardCoins;
+
+        [HideInInspector] public bool menuOpensResultsDlg;
 
         [Inject] public IAdsService adsService { get; set; }
         [Inject] public IRewardsSettingsModel rewardsSettingsModel { get; set; }
@@ -99,6 +122,7 @@ namespace TurboLabz.CPU
         {
             playbackOverlay.onClick.AddListener(OnPlaybackOverlayClicked);
             playbackOverlay.gameObject.SetActive(false);
+            UIDlgManager.Setup(resultsDialog);
         }
 
         public void OnParentShowResults()
@@ -114,85 +138,46 @@ namespace TurboLabz.CPU
 
         public void InitResults()
         {
-            InitResultsCPU();
-
-            // Button listeners
-            resultsCollectRewardButton.onClick.AddListener(OnResultsCollectRewardButtonClicked);
             resultsBoostRatingButton.onClick.AddListener(OnResultsBoostRatingButtonClicked);
             resultsViewBoardButton.onClick.AddListener(OnResultsClosed);
-            resultsSkipRewardButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
-            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
-
-            // Text Labels
-            resultsCollectRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON);
+            resultsContinueButton.onClick.AddListener(OnResultsSkipRewardButtonClicked);
+            fullAnalysisBtn.onClick.AddListener(OnFullAnalysisButtonClicked);
             resultsFriendlyLabel.text = localizationService.Get(LocalizationKey.FRIENDLY_GAME_CAPTION);
-            resultsSkipRewardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_SKIP_REWARD_BUTTON);
-            earnRewardsText.text = localizationService.Get(LocalizationKey.RESULTS_EARNED);
+            resultsBoostRatingToolTipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
             resultsViewBoardButtonLabel.text = localizationService.Get(LocalizationKey.RESULTS_CLOSE_BUTTON);
-            resultsBoostRatingTooltipText.text = localizationService.Get(LocalizationKey.RESULTS_BOOST_FRIENDLY);
 
-            resultsDialogHalfHeight = resultsDialog.GetComponent<RectTransform>().rect.height / 2f;
-            rewardBarOriginalWidth = rewardBar.sizeDelta.x;
+            InitResultsCPU();
             SetupRatingBoostButton();
         }
 
         public void CleanupResults()
         {
-            resultsCollectRewardButton.onClick.RemoveAllListeners();
             resultsViewBoardButton.onClick.RemoveAllListeners();
-            resultsSkipRewardButton.onClick.RemoveAllListeners();
+            resultsContinueButton.onClick.RemoveAllListeners();
+            resultsDoubleRewardButton.onClick.RemoveAllListeners();
         }
 
-        private void EnableRewarededVideoButton(bool enable)
+        public void SetGameAnalysisPanel()
         {
-            if (enable)
-            {
-                resultsCollectRewardButton.interactable = true;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.ENABLED_TEXT_ALPHA);
-                Color c = resultsAdTVImage.color;
-                c.a = Colors.FULL_ALPHA;
-                resultsAdTVImage.color = c;
-
-                resultsBoostRatingButton.interactable = true;
-                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, 150f/255f);
-                c = resultsBoostRatingAdTVImage.color;
-                c.a = Colors.FULL_ALPHA;
-                resultsBoostRatingAdTVImage.color = c;
-            }
-            else
-            {
-                resultsCollectRewardButton.interactable = false;
-                resultsCollectRewardButtonLabel.color = Colors.ColorAlpha(Colors.WHITE, Colors.DISABLED_TEXT_ALPHA);
-                Color c = resultsAdTVImage.color;
-                c.a = Colors.DISABLED_TEXT_ALPHA;
-                resultsAdTVImage.color = c;
-
-                resultsBoostRatingButton.interactable = false;
-                resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK, 80f / 255f);
-                c = resultsBoostRatingAdTVImage.color;
-                c.a = Colors.DISABLED_TEXT_ALPHA;
-                resultsBoostRatingAdTVImage.color = c;
-            }
+            resultsFullAnalysisdPanel.gameObject.SetActive(false);
+            resultsFullAnalysisDisabledPanel.gameObject.SetActive(true);
         }
 
-        void DoPulse(bool val)
-        {
-            if (val)
-            {
-                iTween.PunchScale(resultsBoostRatingButton.gameObject, iTween.Hash("amount", new Vector3(0.15f, 0.15f, 0f), "time", 1f, "loopType", "loop", "delay", 1));
-            }
-            else
-            {
-                iTween.Stop(resultsBoostRatingButton.gameObject);
-            }
-        }            
 
         public void ShowResultsDialog()
         {
             ShowResultsDialogCPU();
+            SetGameAnalysisPanel();
 
-            EnableModalBlocker();
-            resultsDialog.SetActive(true);
+            if (menuOpensResultsDlg)
+            {
+                UIDlgManager.Show(resultsDialog).Then(() => BuildLayout());
+            }
+            else
+            {
+                Invoke("AnimateResultsDialog", animDelay);
+            }
+
             DisableMenuButton();
             HidePossibleMoves();
 
@@ -203,11 +188,14 @@ namespace TurboLabz.CPU
 
             HideSafeMoveBorder();
             ShowViewBoardResultsPanel(false);
-            if (HCrossPromo.service != null)
-            {
-                showCrossPromoButton.gameObject.SetActive(HCrossPromo.service.hasContent);
-            }
+
+            preferencesModel.isRateAppDialogueShown = false;
             appInfoModel.gameMode = GameMode.NONE;
+        }
+
+        private void OnResultDialogShown()
+        {
+            BuildLayout();
         }
 
         public void ShowViewBoardResultsPanel(bool show)
@@ -217,7 +205,7 @@ namespace TurboLabz.CPU
 
         public void HideResultsDialog()
         {
-            resultsDialog.SetActive(false);
+            UIDlgManager.Hide(resultsDialog);
         }
 
         private void UpdateResultRatingSection(bool isRanked, int currentEloScore, int eloScoreDelta)
@@ -244,12 +232,12 @@ namespace TurboLabz.CPU
             if (eloScoreDelta > 0)
             {
                 resultsRatingChangeLabel.text = "(+" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.GREEN_DIM;
+                resultsRatingChangeLabel.color = Colors.GREEN_LIGHT;
             }
             else if (eloScoreDelta < 0)
             {
                 resultsRatingChangeLabel.text = "(" + eloScoreDelta + ")";
-                resultsRatingChangeLabel.color = Colors.RED_DIM;
+                resultsRatingChangeLabel.color = Colors.RED_LIGHT;
             }
         }
 
@@ -280,7 +268,7 @@ namespace TurboLabz.CPU
                     if (!playerWins)
                     {
                         resultsGameResultReasonLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_PLAYER);
-                        animDelay = RESULTS_SHORT_DELAY_TIME;
+                        //animDelay = RESULTS_SHORT_DELAY_TIME;
                         viewBoardResultPanel.reason.text = string.Format("{0} resigned", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
                         //EnableRewarededVideoButton(preferencesModel.resignCount <= adsSettingsModel.resignCap);
                         //enablePulse = preferencesModel.resignCount <= adsSettingsModel.resignCap;
@@ -350,36 +338,27 @@ namespace TurboLabz.CPU
 
         private void UpdateGameResultHeadingSection()
         {
-
             if (isDraw)
             {
                 resultsGameImage.sprite = drawSprite;
-                resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_DRAW);
-                resultsGameResultLabel.color = Colors.YELLOW_DIM;
+                resultsGameResultLabel.sprite = drawText;
                 viewBoardResultPanel.result.text = "Drawn";
-                resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
+            }
+            else if (playerWins)
+            {
+                resultsGameImage.sprite = winSprite;
+                resultsGameResultLabel.sprite = winText;
+                viewBoardResultPanel.result.text = string.Format("{0} won", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
             }
             else
             {
-                if (playerWins)
-                {
-                    resultsGameImage.sprite = winSprite;
-                    resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_WIN);
-                    resultsGameResultLabel.color = Colors.GREEN_DIM;
-                    viewBoardResultPanel.result.text = string.Format("{0} won", playerInfoPanel.GetComponentInChildren<ProfileView>().profileName.text);
-                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_BOOST_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
-                }
-                else
-                {
-                    resultsGameImage.sprite = defeatSprite;
-                    resultsGameResultLabel.text = localizationService.Get(LocalizationKey.GM_RESULT_DIALOG_HEADING_LOSE);
-                    resultsGameResultLabel.color = Colors.RED_DIM;
-                    viewBoardResultPanel.result.text = "Computer won";
-                    resultsBoostRatingButtonLabel.text = $"{localizationService.Get(LocalizationKey.RESULTS_RECOVER_RATING_BUTTON)} +{rewardsSettingsModel.ratingBoostReward}";
-                }
+                resultsGameImage.sprite = defeatSprite;
+                resultsGameResultLabel.sprite = defeatText;
+                viewBoardResultPanel.result.text = "Computer won";
             }
 
             resultsGameImage.SetNativeSize();
+            resultsGameResultLabel.SetNativeSize();
         }
 
         public void UpdateResultsDialog(GameEndReason gameEndReason, bool isPlayerWins, int powerupUsage, bool removeAds)
@@ -391,13 +370,14 @@ namespace TurboLabz.CPU
             animDelay = RESULTS_DELAY_TIME;
             playerWins = isPlayerWins;
 
-
             UpdateGameEndReasonSection(gameEndReason);
             UpdateResultRatingSection(false, 1, 0);
             UpdateGameResultHeadingSection();
+            SetupResultsLayout(false);
+            BuildLayout();
 
-            resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
-            Invoke("AnimateResultsDialog", animDelay);
+            //resultsDialog.transform.localPosition = new Vector3(0f, Screen.height + resultsDialogHalfHeight, 0f);
+            //Invoke("AnimateResultsDialog", animDelay);
 
             // TODO: move this call to the clock partial class
             if (gameEndReason == GameEndReason.TIMER_EXPIRED)
@@ -411,29 +391,6 @@ namespace TurboLabz.CPU
                     ExpirePlayerTimer();
                 }
             }
-
-            //resultsAdTVImage.gameObject.SetActive(!removeAds);
-            //resultsCollectRewardButton.gameObject.SetActive(!removeAds);
-            //resultsCollectRewardButtonLabel.gameObject.SetActive(!removeAds);
-
-            //if (removeAds)
-            //{
-            //    resultsDialog.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1050.0f);
-            //}
-
-            int rewardCoins = rewardsSettingsModel.getRewardCoins(AdType.Interstitial, powerupUsage, playerWins);
-
-            // Reward
-            adRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN_AD : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN_AD;
-            collectRewardType = playerWins ? GSBackendKeys.ClaimReward.TYPE_MATCH_WIN : GSBackendKeys.ClaimReward.TYPE_MATCH_RUNNERUP_WIN;
-            resultRewardCoins = rewardCoins;
-
-            //dailogueBg.enabled = false;
-            //earnRewardsSection.SetActive(!playerModel.HasSubscription());
-            //dailogueBg.enabled = true;
-
-            var barFillPercentage = playerModel.rewardCurrentPoints / playerModel.rewardPointsRequired;
-            rewardBar.sizeDelta = new Vector2(rewardBarOriginalWidth * barFillPercentage, rewardBar.sizeDelta.y);
         }
 
         public bool IsResultsDialogVisible()
@@ -451,7 +408,8 @@ namespace TurboLabz.CPU
 
         private void AnimateResultsDialog()
         {
-            resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            //resultsDialog.transform.DOLocalMove(Vector3.zero, RESULTS_DIALOG_DURATION).SetEase(Ease.OutBack);
+            UIDlgManager.Show(resultsDialog).Then(()=> BuildLayout());
 
             if (isDraw || !playerWins)
             {
@@ -468,30 +426,10 @@ namespace TurboLabz.CPU
             return resultsDialog.activeSelf;
         }
 
-        private void OnResultsCollectRewardButtonClicked()
-        {
-            audioService.PlayStandardClick();
-            ResultAdsVO vo = new ResultAdsVO();
-            vo.adsType = AdType.RewardedVideo;
-            vo.rewardType = adRewardType;
-            vo.challengeId = "";
-            vo.playerWins = playerWins;
-            playerModel.adContext = AnalyticsContext.rewarded;
-            showRewardedAdSignal.Dispatch(vo);
-        }
-
         private void OnResultsBoostRatingButtonClicked()
         {
             audioService.PlayStandardClick();
-            resultsBoostRatingTooltip?.SetActive(true);
-            //ResultAdsVO vo = new ResultAdsVO();
-            //vo.adsType = AdType.RewardedVideo;
-            //vo.rewardType = GSBackendKeys.ClaimReward.TYPE_BOOST_RATING;
-            //vo.challengeId = "";
-            //vo.playerWins = playerWins;
-            //playerModel.adContext = AnalyticsContext.rewarded;
-            //analyticsService.Event(AnalyticsEventId.ad_user_requested, playerModel.adContext);
-            //showRewardedAdSignal.Dispatch(vo);
+            resultsBoostRatingToolTip.SetActive(true);
         }
 
         public void OnResultsSkipRewardButtonClicked()
@@ -506,6 +444,11 @@ namespace TurboLabz.CPU
             playerModel.adContext = AnalyticsContext.interstitial_endgame;
             
             showAdSignal.Dispatch(vo, false);
+        }
+
+        private void OnFullAnalysisButtonClicked()
+        {
+            //add code here
         }
 
         private void OnResultsClosed()
@@ -529,31 +472,55 @@ namespace TurboLabz.CPU
         {
             //toggleBannerSignal.Dispatch(false);
             hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
-
-            IPromise promise = HCrossPromo.OpenPanel();
-
-            if (promise != null)
-            {
-                appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
-                promise.Then(ToggleBannerSignalFunc);
-            }
+            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
         }
 
         private void ToggleBannerSignalFunc()
         {
             appInfoModel.internalAdType = InternalAdType.NONE;
+            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
             //toggleBannerSignal.Dispatch(true);
         }
 
         private void SetupRatingBoostButton()
         {
-            var c = resultsBoostRatingAdTVImage.color;
-            resultsBoostRatingTooltip?.SetActive(false);
-            resultsBoostRatingButtonLabel.color = Colors.ColorAlpha(Colors.BLACK_DIM, Colors.DISABLED_TEXT_ALPHA);
-            c = resultsBoostRatingAdTVImage.color;
-            c.a = Colors.DISABLED_TEXT_ALPHA;
-            resultsBoostRatingAdTVImage.color = c;
-            resultsBoostRatingButton.GetComponent<Image>().color = c;
+            /*
+            var color = Colors.WHITE_100;
+            resultsBoostRatingToolTip.gameObject.SetActive(false);
+            resultsBoostRatingButton.interactable = true;
+            resultsBoostRatingButton.image.color = color;
+            resultsBoostRatingGemIcon.color = color;
+            resultsBoostRatingGemsCost.color = color;
+            resultsBoostRatingIcon.color = color;
+            resultBoostSheen.SetActive(false);
+            */
+        }
+
+        private void SetupResultsLayout(bool isRankedGame)
+        {
+            rewardedVideoPanel.SetActive(false);
+            resultsBoostRatingButton.transform.parent.gameObject.SetActive(false);
+            resultsBetReversedLabel.gameObject.SetActive(isDraw && isRankedGame);
+            resultsRewardLabel.gameObject.SetActive(playerWins && isRankedGame);
+            resultsRewardsCoins.gameObject.SetActive(isDraw || playerWins && isRankedGame);
+            resultsRewardsStars.gameObject.SetActive(playerWins && isRankedGame);
+            resultsDoubleRewardButton.gameObject.SetActive(playerWins && isRankedGame);
+
+            //resultsContinueButton.gameObject.SetActive(playerWins && isRankedGame);
+            //resultsContinueButton.gameObject.SetActive(!playerWins || isDraw || !isRankedGame);
+
+            resultsRatingContainer.gameObject.SetActive(isRankedGame);
+            resultsPowerplayImage.gameObject.SetActive(false);
+        }
+
+        private void BuildLayout()
+        {
+            foreach (var layout in resultsLayouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -28,12 +29,14 @@ namespace HUFEXT.AdsManager.Runtime.Service
         List<string> rewardedAdsQueue = new List<string>();
 
         IAdMediation mediation;
-        bool isAlternativeMediation;
+        bool isAlternativeMediation = false;
+        bool isInitialized = false;
 
         internal AdsManagerConfig ManagerConfig => adsManagerConfig;
         internal IAdMediation Mediation => mediation;
 
-        public event UnityAction<AdsManagerFetchCallbackData> OnAdFetch;
+        public event Action<AdsManagerFetchCallbackData> OnAdFetch;
+        public event Action OnInitialized;
 
         public HUFAdsService( IAdMediation inMediation, bool inIsAlternativeMediation = true )
         {
@@ -51,6 +54,132 @@ namespace HUFEXT.AdsManager.Runtime.Service
                 mediation.OnInitialize += HandleAdsServiceInitialized;
             else
                 HandleAdsServiceInitialized();
+        }
+
+        public bool IsInitialized => isInitialized;
+
+        public string GetMainPlacementId( string placementId )
+        {
+            if ( placementId == null )
+            {
+                HLog.LogError( logPrefix, "Tried to get mainPlacementId using null placementId" );
+                return string.Empty;
+            }
+
+            if ( ads.ContainsKey( placementId ) )
+                return placementId;
+
+            foreach ( var ad in ads )
+            {
+                if ( ad.Value.ContainsPlacement( placementId ) )
+                {
+                    return ad.Key;
+                }
+            }
+
+            return placementId;
+        }
+
+        public bool CanShowAd( string placementId )
+        {
+            if ( placementId == null )
+                return false;
+
+            string mainPlacement = GetMainPlacementId( placementId );
+            return ads.ContainsKey( mainPlacement ) && ads[mainPlacement].IsReady();
+        }
+
+        public void ShowAd( string placementId, Action<AdManagerCallback> resultCallback )
+        {
+            HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
+
+            if ( !CanShowAd( placementId ) )
+            {
+                resultCallback.Dispatch( new AdManagerCallback( mediation.MediationId,
+                    placementId,
+                    AdResult.Failed ) );
+                return;
+            }
+
+            HLog.Log( logPrefix, $"Show ad {placementId}" );
+            string mainPlacement = GetMainPlacementId( placementId );
+            ads[mainPlacement].ShowAd( resultCallback, placementId );
+        }
+
+        public void SetBannerPosition( BannerPosition position )
+        {
+            Mediation.SetBannerPosition( position );
+        }
+
+        public void HideBanner( string placementId )
+        {
+            string mainPlacement = GetMainPlacementId( placementId );
+
+            if ( ads.ContainsKey( mainPlacement ) == false )
+                return;
+
+            var bannerAd = (AdManagerBanner)ads[mainPlacement];
+
+            if ( bannerAd == null )
+            {
+                HLog.LogError( logPrefix, $" Try show banner ad {placementId} with is not a banner ad" );
+                return;
+            }
+
+            bannerAd.HideBanner();
+        }
+
+        public void ShowBannerPersistent( string placementId, BannerPosition position )
+        {
+            if ( placementId == null )
+                return;
+
+            SetBannerPosition( position );
+            HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
+            string mainPlacement = GetMainPlacementId( placementId );
+
+            if ( !ads.ContainsKey( mainPlacement ) )
+            {
+                return;
+            }
+
+            HLog.Log( logPrefix, $"Show Banner Persistent {placementId}" );
+            var bannerAd = (AdManagerBanner)ads[mainPlacement];
+
+            if ( bannerAd == null )
+            {
+                HLog.LogError( logPrefix, $"Try show banner ad {placementId} with is not a banner ad" );
+                return;
+            }
+
+            bannerAd.ShowBannerPersistent( placementId );
+        }
+
+        public void RemoveFromRewardedAdQueue( string placementId )
+        {
+            rewardedAdsQueue.Remove( placementId );
+
+            if ( rewardedAdsQueue.Count > 0 )
+            {
+                if ( !ads[rewardedAdsQueue[0]].IsReady() )
+                {
+                    ( (AdManagerRewardedQueue)ads[rewardedAdsQueue[0]] ).TryFetch();
+                }
+                else
+                {
+                    RemoveFromRewardedAdQueue( rewardedAdsQueue[0] );
+                }
+            }
+        }
+
+        public bool CanFetchRewardedAd( string placementId )
+        {
+            if ( rewardedAdsQueue.Count == 0 || !rewardedAdsQueue.Contains( placementId ) )
+            {
+                rewardedAdsQueue.Add( placementId );
+            }
+
+            return rewardedAdsQueue[0] == placementId;
         }
 
         bool IsMediationUsingOnlyAdPlacements()
@@ -74,10 +203,10 @@ namespace HUFEXT.AdsManager.Runtime.Service
             bannerPlacement = null;
             interstitialPlacement = null;
             rewardedPlacement = null;
-            rewardedAdsQueue = new List<string>();
+            rewardedAdsQueue.Clear();
         }
 
-        void AdsConfigOnOnChanged( AbstractConfig arg0 )
+        void AdsConfigOnOnChanged( AbstractConfig config )
         {
             HandleAdsServiceInitialized();
         }
@@ -151,132 +280,14 @@ namespace HUFEXT.AdsManager.Runtime.Service
                 if ( !IsMediationUsingOnlyAdPlacements() )
                     createdAds.Add( adPlacements[i].AppId, ad );
             }
+
+            isInitialized = true;
+            OnInitialized.Dispatch();
         }
 
         void HandleAdFetch( AdsManagerFetchCallbackData adData )
         {
             OnAdFetch.Dispatch( adData );
-        }
-
-        public string GetMainPlacementId( string placementId )
-        {
-            if ( placementId == null )
-            {
-                HLog.LogError( logPrefix, "Tried to get mainPlacementId using null placementId" );
-                return string.Empty;
-            }
-
-            if ( ads.ContainsKey( placementId ) )
-                return placementId;
-
-            foreach ( var ad in ads )
-            {
-                if ( ad.Value.ContainsPlacement( placementId ) )
-                {
-                    return ad.Key;
-                }
-            }
-
-            return placementId;
-        }
-
-        public bool CanShowAd( string placementId, bool checkAlternative = false )
-        {
-            if ( placementId == null )
-                return false;
-
-            string mainPlacement = GetMainPlacementId( placementId );
-            return ads.ContainsKey( mainPlacement ) && ads[mainPlacement].IsReady();
-        }
-
-        public void ShowAd( string placementId, UnityAction<AdManagerCallback> resultCallback )
-        {
-            HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
-
-            if ( !CanShowAd( placementId ) )
-            {
-                resultCallback.Dispatch( new AdManagerCallback( mediation.MediationId,
-                    placementId,
-                    AdResult.Failed ) );
-                return;
-            }
-
-            HLog.Log( logPrefix, $"Show ad {placementId}" );
-            string mainPlacement = GetMainPlacementId( placementId );
-            ads[mainPlacement].ShowAd( resultCallback, placementId );
-        }
-
-        public void SetBannerPosition( BannerPosition position )
-        {
-            Mediation.SetBannerPosition( position );
-        }
-
-        public void HideBanner( string placementId )
-        {
-            string mainPlacement = GetMainPlacementId( placementId );
-
-            if ( ads.ContainsKey( mainPlacement ) == false )
-                return;
-
-            var bannerAd = (AdManagerBanner)ads[mainPlacement];
-
-            if ( bannerAd == null )
-            {
-                HLog.LogError( logPrefix, $" Try show banner ad {placementId} with is not a banner ad" );
-                return;
-            }
-
-            bannerAd.HideBanner();
-        }
-
-        public void ShowBannerPersistent( string placementId, BannerPosition position )
-        {
-            SetBannerPosition( position );
-            HLog.Log( logPrefix, $"Try show ad {placementId} {CanShowAd( placementId )}" );
-
-            if ( !CanShowAd( placementId ) )
-            {
-                return;
-            }
-
-            HLog.Log( logPrefix, $"Show Banner Persistent {placementId}" );
-            string mainPlacement = GetMainPlacementId( placementId );
-            var bannerAd = (AdManagerBanner)ads[mainPlacement];
-
-            if ( bannerAd == null )
-            {
-                HLog.LogError( logPrefix, $"Try show banner ad {placementId} with is not a banner ad" );
-                return;
-            }
-
-            bannerAd.ShowBannerPersistent( placementId );
-        }
-
-        public void RemoveFromRewardedAdQueue( string placementId )
-        {
-            rewardedAdsQueue.Remove( placementId );
-
-            if ( rewardedAdsQueue.Count > 0 )
-            {
-                if ( !ads[rewardedAdsQueue[0]].IsReady() )
-                {
-                    ( (AdManagerRewardedQueue)ads[rewardedAdsQueue[0]] ).TryFetch();
-                }
-                else
-                {
-                    RemoveFromRewardedAdQueue( rewardedAdsQueue[0] );
-                }
-            }
-        }
-
-        public bool CanFetchRewardedAd( string placementId )
-        {
-            if ( rewardedAdsQueue.Count == 0 || !rewardedAdsQueue.Contains( placementId ) )
-            {
-                rewardedAdsQueue.Add( placementId );
-            }
-
-            return rewardedAdsQueue[0] == placementId;
         }
     }
 }

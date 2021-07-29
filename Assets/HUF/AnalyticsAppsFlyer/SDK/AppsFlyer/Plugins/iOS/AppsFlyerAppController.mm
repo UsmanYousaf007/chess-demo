@@ -5,20 +5,24 @@
 //  Created by Jonathan Wesfield on 30/07/2019.
 //
 
+#import <AppTrackingTransparency/ATTrackingManager.h>
 #import <Foundation/Foundation.h>
 #import "UnityAppController.h"
 #import "AppDelegateListener.h"
-#if __has_include(<AppsFlyerLib/AppsFlyerTracker.h>)
-#import <AppsFlyerLib/AppsFlyerTracker.h>
+#import "AppsFlyeriOSWrapper.h"
+#if __has_include(<AppsFlyerLib/AppsFlyerLib.h>)
+#import <AppsFlyerLib/AppsFlyerLib.h>
 #else
-#import "AppsFlyerTracker.h"
+#import "AppsFlyerLib.h"
 #endif
+#import <objc/message.h>
 
 /**
  Note if you would like to use method swizzeling see AppsFlyer+AppController.m
  If you are using swizzeling then comment out the method that is being swizzeled in AppsFlyerAppController.mm
  Only use swizzeling if there are conflicts with other plugins that needs to be resolved.
 */
+
 
 @interface AppsFlyerAppController : UnityAppController <AppDelegateListener>
 {
@@ -32,13 +36,30 @@
 {
     self = [super init];
     if (self) {
-        UnityRegisterAppDelegateListener(self);
+        
+        id swizzleFlag = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppsFlyerShouldSwizzle"];
+        BOOL shouldSwizzle = swizzleFlag ? [swizzleFlag boolValue] : NO;
+        
+        if(!shouldSwizzle){
+            UnityRegisterAppDelegateListener(self);
+        }
     }
     return self;
 }
 
 - (void)didFinishLaunching:(NSNotification*)notification {
+    if (@available(iOS 14, *)) {
+          [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status){ }];
+    }
+
     NSLog(@"got didFinishLaunching = %@",notification.userInfo);
+
+
+    if (_AppsFlyerdelegate == nil) {
+        _AppsFlyerdelegate = [[AppsFlyeriOSWarpper alloc] init];
+    }
+    [[AppsFlyerLib shared] setDelegate:_AppsFlyerdelegate];
+
     if (notification.userInfo[@"url"]) {
         [self onOpenURL:notification];
     }
@@ -46,8 +67,8 @@
 
 -(void)didBecomeActive:(NSNotification*)notification {
     NSLog(@"got didBecomeActive(out) = %@", notification.userInfo);
-    if (didEnteredBackGround == YES) {
-        [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    if (didEnteredBackGround == YES && AppsFlyeriOSWarpper.didCallStart == YES) {
+        [[AppsFlyerLib shared] start];
         didEnteredBackGround = NO;
     }
 }
@@ -58,15 +79,14 @@
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
-    [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-    [[AppsFlyerTracker sharedTracker] continueUserActivity:userActivity restorationHandler:restorationHandler];
+    [[AppsFlyerAttribution shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
     return YES;
 }
 
--(BOOL) application:(UIApplication *)application openUrl:(NSURL *)url options:(NSDictionary *)options {
+-(BOOL) application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary *)options {
     NSLog(@"got openUrl: %@",url);
-    [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
-    return YES;
+    [[AppsFlyerAttribution shared] handleOpenUrl:url options:options];
+    return NO;
 }
 
 - (void)onOpenURL:(NSNotification*)notification {
@@ -79,19 +99,33 @@
     }
     
     if (url != nil) {
-        [[AppsFlyerTracker sharedTracker] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:nil];
+        [[AppsFlyerAttribution shared] handleOpenUrl:url sourceApplication:sourceApplication annotation:nil];
     }
     
 }
 
 - (void)didReceiveRemoteNotification:(NSNotification*)notification {
     NSLog(@"got didReceiveRemoteNotification = %@", notification.userInfo);
-    [[AppsFlyerTracker sharedTracker] handlePushNotification:notification.userInfo];
+    [[AppsFlyerLib shared] handlePushNotification:notification.userInfo];
 }
 
++(void)load
+{
+[AppsFlyerAppController plugin];
+}
+// Singleton accessor.
++ (AppsFlyerAppController *)plugin
+{
+static AppsFlyerAppController *sharedInstance = nil;
+static dispatch_once_t onceToken;
+dispatch_once(&onceToken, ^{
+sharedInstance = [[AppsFlyerAppController alloc] init];
+});
+return sharedInstance;
+}
 @end
 
-IMPL_APP_CONTROLLER_SUBCLASS(AppsFlyerAppController)
+//IMPL_APP_CONTROLLER_SUBCLASS(AppsFlyerAppController)
 
 
 /**

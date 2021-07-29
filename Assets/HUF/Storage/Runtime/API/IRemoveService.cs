@@ -1,11 +1,10 @@
 using System;
-using HUF.Storage.Runtime.API.Structs;
-using UnityEngine.Events;
+using HUF.Storage.Runtime.Implementation.Structs;
 
-namespace HUF.Storage.Runtime.API
+namespace HUF.Storage.Runtime.API.Services
 {
     public interface IRemoveService : IDisposable
     {
-        void RemoveFile(string pathToFile, UnityAction<StorageResultContainer> completeHandler);
+        void RemoveFile(string pathToFile, Action<StorageResultContainer> completeHandler);
     }
 }

@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
-namespace HUF.Utils.BuildSupport.Editor.iOS
+namespace HUF.Utils.Editor.BuildSupport.iOS
 {
     [UsedImplicitly]
     public class DisablingBitcodeiOS

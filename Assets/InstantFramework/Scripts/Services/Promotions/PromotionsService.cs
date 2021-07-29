@@ -6,6 +6,9 @@
 using System;
 using System.Collections.Generic;
 using TurboLabz.TLUtils;
+using System.Collections;
+using UnityEngine;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -13,6 +16,7 @@ namespace TurboLabz.InstantFramework
     {
         public List<List<string>> promotionsSequence { get; set; }
         public bool promotionShown { get; set; }
+        public bool isDynamicBundleShownOnLaunch { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -27,10 +31,13 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ActivePromotionSaleSingal activePromotionSaleSingal { get; set; }
         [Inject] public ShowFadeBlockerSignal showFadeBlockerSignal { get; set; }
+        [Inject] public PromotionCycleOverSignal promotionCycleOverSignal { get; set; }
+        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
 
+        private NormalRoutineRunner routineRunner = new NormalRoutineRunner();
         private Dictionary<string, PromoionDlgVO> promotionsMapping;
 
         [PostConstruct]
@@ -69,36 +76,44 @@ namespace TurboLabz.InstantFramework
                 activePromotionSaleSingal.Dispatch(sale);
             }
 
-            if (Settings.ABTest.PROMOTION_TEST_GROUP == "E")
-            {
-                promotionShown = false;
-                return;
-            }
-
-            var promotionTestGroup = GetPromotionTestGroup();
-            var showMultiplePromotionsPerSession = promotionTestGroup == "A" || promotionTestGroup == "B";
-
-            if (showMultiplePromotionsPerSession || !promotionShown)
+            if (!promotionShown)
             {
                 SelectAndDispatchPromotion();
+            }
+            else
+            {
+                OnPromotionCycleOver();
             }
         }
 
         private void SelectAndDispatchPromotion()
         {
+            var wholeSequenceCheckedCount = 0;
             var sequence = GetSequence();
             SetupPromotions();
 
-            while (preferencesModel.currentPromotionIndex < sequence.Count
-               && !promotionsMapping[sequence[preferencesModel.currentPromotionIndex]].condition())
+            //reset promotion index for old users in case they have seen all the promotions for the day
+            preferencesModel.currentPromotionIndex = preferencesModel.currentPromotionIndex >= sequence.Count ? 0 : preferencesModel.currentPromotionIndex;
+
+            //check for an active promotions in the sequence
+            while (!promotionsMapping[sequence[preferencesModel.currentPromotionIndex]].condition())
             {
                 preferencesModel.currentPromotionIndex++;
-            }
 
-            if (preferencesModel.currentPromotionIndex >= sequence.Count)
-            {
-                promotionShown = false;
-                return;
+                //check from start again in case last promotion checked
+                if (preferencesModel.currentPromotionIndex >= sequence.Count)
+                {
+                    preferencesModel.currentPromotionIndex = 0;
+                    wholeSequenceCheckedCount++;
+
+                    //this is to stop the infinite loop,
+                    //it will loop through the sequence twice and breaks it non of the promotions are avaialble
+                    if (wholeSequenceCheckedCount > 1)
+                    {
+                        OnPromotionCycleOver();
+                        return;
+                    }
+                }
             }
 
             promotionShown = true;
@@ -111,24 +126,33 @@ namespace TurboLabz.InstantFramework
                 subscriptionDlgClosedSignal.AddOnce(() => appInfoModel.isAutoSubscriptionDlgShown = false);
             }
 
-            navigatorEventSignal.Dispatch(promotionToDispatch.navigatorEvent);
-            showFadeBlockerSignal.Dispatch();
+            isDynamicBundleShownOnLaunch = promotionToDispatch.key.Equals("DynamicBundle");
+            routineRunner.StartCoroutine(DispatchPromotionCR(promotionToDispatch.navigatorEvent));
 
-            if (promotionToDispatch.isOnSale)
+            foreach (var item in sequence)
             {
-                preferencesModel.activePromotionSales.Add(promotionToDispatch.key);
-                activePromotionSaleSingal.Dispatch(promotionToDispatch.key);
+                var promotion = promotionsMapping[item];
+
+                if (promotion.isOnSale && !preferencesModel.activePromotionSales.Contains(promotion.key))
+                {
+                    preferencesModel.activePromotionSales.Add(promotion.key);
+                    activePromotionSaleSingal.Dispatch(promotion.key);
+                }
             }
+
+            appInfoModel.showGameUpdateBanner = true;
+            loadPromotionSingal.Dispatch();
+        }
+
+        private void OnPromotionCycleOver()
+        {
+            promotionCycleOverSignal.Dispatch();
         }
 
         private List<string> GetSequence()
         {
-            var promotionTestGroup = GetPromotionTestGroup();
-            var daysCycle = promotionTestGroup == "A" || promotionTestGroup == "B" ? 2 : 5;
             var daysSincePlaying = (int)(TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - TimeUtil.ToDateTime(playerModel.creationDate).ToLocalTime()).TotalDays;
-            var sequenceIndex = daysSincePlaying % daysCycle;
-            //swap 0 and 1 in case test groups are B or D
-            sequenceIndex = (promotionTestGroup == "B" || promotionTestGroup == "D") && sequenceIndex <= 1 ? 1 - sequenceIndex : sequenceIndex;
+            var sequenceIndex = daysSincePlaying % promotionsSequence.Count;
             return promotionsSequence[sequenceIndex];
         }
 
@@ -147,9 +171,14 @@ namespace TurboLabz.InstantFramework
             }
         }
 
-        private string GetPromotionTestGroup()
+        private IEnumerator DispatchPromotionCR(NavigatorEvent eventId)
         {
-            return Settings.ABTest.PROMOTION_TEST_GROUP.ToUpper();
+            // Wait 2 frames so Lobby is ready before showing promo
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            navigatorEventSignal.Dispatch(eventId);
+            showFadeBlockerSignal.Dispatch();
         }
 
         private void SetupPromotions()
@@ -158,27 +187,6 @@ namespace TurboLabz.InstantFramework
             {
                 return;
             }
-
-            var removeAdsFull = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG,
-                condition = delegate { return !playerModel.HasRemoveAds(); }
-            };
-
-            var lessons = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.ALL_LESSONS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_COURSE_DLG,
-                condition = delegate { return !playerModel.OwnsAllLessons(); }
-            };
-
-            var themes = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.ALL_THEMES_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_SETS_BUNDLE_DLG,
-                condition = delegate { return !playerModel.OwnsAllThemes(); }
-            };
 
             var subscription = new PromoionDlgVO
             {
@@ -195,42 +203,67 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true
             };
 
-            var removeAdsSale = new PromoionDlgVO
+            var dynamicBundle = new PromoionDlgVO
             {
-                key = GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG,
-                condition = delegate { return !playerModel.HasRemoveAds(); },
-                isOnSale = true
+                key = "DynamicBundle",
+                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG,
+                condition = delegate { return true; }
             };
 
-            var welcomeBundle = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_WELCOME_BUNDLE_DLG,
-                condition = delegate { return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
-            };
+            //var removeAdsFull = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.REMOVE_ADS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_DLG,
+            //    condition = delegate { return !playerModel.HasRemoveAds(); }
+            //};
 
-            var eliteBundle = new PromoionDlgVO
-            {
-                key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
-                navigatorEvent = NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG,
-                condition = delegate
-                {
-                    return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME) 
-                    && (!playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE) || DateTime.Now.DayOfWeek == DayOfWeek.Sunday);
+            //var lessons = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.ALL_LESSONS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_COURSE_DLG,
+            //    condition = delegate { return !playerModel.OwnsAllLessons(); }
+            //};
 
-                }
-            };
+            //var themes = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.ALL_THEMES_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_CHESS_SETS_BUNDLE_DLG,
+            //    condition = delegate { return !playerModel.OwnsAllThemes(); }
+            //};
+
+            //var removeAdsSale = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SALE_REMOVE_ADS_PACK,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_REMOVE_ADS_SALE_DLG,
+            //    condition = delegate { return !playerModel.HasRemoveAds(); },
+            //    isOnSale = true
+            //};
+
+            //var welcomeBundle = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_WELCOME_BUNDLE_DLG,
+            //    condition = delegate { return !playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
+            //};
+
+            //var eliteBundle = new PromoionDlgVO
+            //{
+            //    key = GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE,
+            //    navigatorEvent = NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG,
+            //    condition = delegate { return playerModel.OwnsVGood(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_WELCOME); }
+            //};
 
             promotionsMapping = new Dictionary<string, PromoionDlgVO>();
-            promotionsMapping.Add(removeAdsFull.key, removeAdsFull);
-            promotionsMapping.Add(removeAdsSale.key, removeAdsSale);
             promotionsMapping.Add(subscription.key, subscription);
             promotionsMapping.Add(subscriptionSale.key, subscriptionSale);
-            promotionsMapping.Add(welcomeBundle.key, welcomeBundle);
-            promotionsMapping.Add(eliteBundle.key, eliteBundle);
-            promotionsMapping.Add(lessons.key, lessons);
-            promotionsMapping.Add(themes.key, themes);
+            promotionsMapping.Add(dynamicBundle.key, dynamicBundle);
+
+            //promotionsMapping.Add(removeAdsFull.key, removeAdsFull);
+            //promotionsMapping.Add(removeAdsSale.key, removeAdsSale);
+            //promotionsMapping.Add(welcomeBundle.key, welcomeBundle);
+            //promotionsMapping.Add(eliteBundle.key, eliteBundle);
+            //promotionsMapping.Add(lessons.key, lessons);
+            //promotionsMapping.Add(themes.key, themes);
         }
     }
 }

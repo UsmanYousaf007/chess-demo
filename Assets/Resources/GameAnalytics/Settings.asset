@@ -53,8 +53,122 @@ MonoBehaviour:
   SelectedOrganization: 
   SelectedStudio: 0100000001000000
   SelectedGame: 0200000001000000
-  NewVersion: 6.3.3
-  Changes: '6.3.3
+  NewVersion: 6.5.6
+  Changes: '6.5.6
+
+    - fixed crash bug for ios
+
+
+    6.5.5
+
+    - reverted back to v6.5.2 as crashes happen for ios which have not been narrowed
+    down to what is causing this yet
+
+
+    6.5.4
+
+    - fixed typo error
+
+
+    6.5.3
+
+    - added support for max in impression events
+
+    - fixed dupplicate symbol on ios
+
+
+    6.5.2
+
+    - fixed crashes for android devices without google play API (android)
+
+
+    6.5.1
+
+    - added support for OAID (android)
+
+    - added missing export function for UWP lib (uwp)
+
+
+    6.5.0
+
+    - added app tracking transparency request function (ios)
+
+
+    6.4.1
+
+    - added idfa consent status field to events (ios)
+
+
+    6.4.0
+
+    - added support for unity package manager
+
+
+    6.3.14
+
+    - fixed playmaker scripts
+
+
+    6.3.13
+
+    - fixed compiler errors for 2017.1
+
+    - updated client ts validator
+
+
+    6.3.12
+
+    - changed AppTrackingTransparency dependency to be optional for iOS
+
+
+    6.3.11
+
+    - fixed dependencies for iOS (min. XCode 12 required)
+
+
+    6.3.10
+
+    - fix to mopub impression events, require min. mopub v5.14.0
+
+    - REMEMBER to update to this version of the SDK if you use MoPub impression events
+    and you have min. v5.14.0 of MoPub SDK inatalled or else the SDK will not send
+    MoPub impression event for you any more
+
+
+    6.3.9
+
+    - fixed ironsource impression event compile error
+
+
+    6.3.8
+
+    - removed memory info from automatic crash reports
+
+    - updated sqlite lib
+
+
+    6.3.7
+
+    - corrected ad event annotation
+
+
+    6.3.6
+
+    - updated validator for impression events (android, ios)
+
+
+    6.3.5
+
+    - fixed user log in function in editor for unity 2017
+
+
+    6.3.4
+
+    - fixed null exception happening some times on desktop platforms (mac, linux,
+    windows)
+
+
+    6.3.3
 
     - updated impression events
 
@@ -77,39 +191,28 @@ MonoBehaviour:
   UseIMEI: 0
   InternetConnectivity: 0
   CustomDimensions01:
-  - ads_A
-  - ads_B
-  CustomDimensions02:
-  - A
-  - B
-  - C
-  - D
-  - E
+  - payers
+  - non_payers
+  CustomDimensions02: []
   CustomDimensions03: []
   ResourceItemTypes:
-  - inventory
   - spot_purchase
-  - theme_unlocked
-  - booster_used
-  - daily_league_reward
-  - 1min_tournament_reward
-  - 5min_tournament_reward
-  - 10min_tournament_reward
-  - daily_subscription_reward
-  - tournament
-  - spot_inventory
-  - end_card
-  - new_player
-  - lesson_unlocked
-  - shop
   - refund
-  - promotion_popup
+  - booster_used
+  - theme_unlocked
+  - lesson_unlocked
+  - rv_popup
+  - shop
+  - promotion
+  - league_progression_rewards
+  - championship_reward
+  - daily_league_reward
+  - championship_coins
+  - new_player
   ResourceCurrencies:
   - gems
-  - ratingBooster
-  - hint
-  - key
-  - ticket
+  - coins
+  - trophies
   LastCreatedGamePlatform: -1
   Platforms: 0b00000008000000
   CurrentInspectorState: 1
@@ -143,4 +246,4 @@ MonoBehaviour:
   CustomDimensions02FoldOut: 1
   CustomDimensions03FoldOut: 1
   ResourceItemTypesFoldOut: 1
-  ResourceCurrenciesFoldOut: 0
+  ResourceCurrenciesFoldOut: 1

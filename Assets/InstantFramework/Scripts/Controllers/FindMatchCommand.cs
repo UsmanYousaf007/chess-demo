@@ -7,6 +7,7 @@ using TurboLabz.InstantGame;
 using strange.extensions.command.impl;
 using System.Collections;
 using TurboLabz.TLUtils;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -28,7 +29,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public NewFriendSignal newFriendSignal { get; set; }
         [Inject] public MatchAnalyticsSignal matchAnalyticsSignal { get; set; }
         [Inject] public UpdateOfferDrawSignal updateOfferDrawSignal { get; set; }
-        [Inject] public ShowProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showProcessingSignal { get; set; }
+        [Inject] public UpdatePlayerInventorySignal updatePlayerInventorySignal { get; set; }
+        [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
 
         // Listen to signal
         [Inject] public FindMatchCompleteSignal findMatchCompleteSignal { get; set; }
@@ -122,48 +125,6 @@ namespace TurboLabz.InstantFramework
             {
                 routineRunner.StartCoroutine(WaitBeforeGameStart(challengeId));
             }
-
-            /*matchInfoModel.activeChallengeId = challengeId;
-
-            // Create and fill the opponent profile
-            ProfileVO pvo = GetOpponentProfile();
-
-            // Set the opponent info in the game view
-            updateOpponentProfileSignal.Dispatch(pvo);
-
-            // Set the finding match view to a found match state
-            matchFoundSignal.Dispatch(pvo);
-
-            // add friend
-            if (matchInfoModel.activeMatch.isBotMatch == false)
-            {
-                newFriendSignal.Dispatch(pvo.playerId, false);
-            }
-
-            // For quick match games, the flow continues from the get game start time signal
-            // where both clients start at a synch time stamp
-
-            getGameStartTimeSignal.Dispatch();
-
-            //Analytics
-            preferencesModel.gameStartCount++;
-            hAnalyticsService.LogMultiplayerGameEvent(AnalyticsEventId.game_started.ToString(), "gameplay", matchInfoModel.activeMatch.isLongPlay ? "long_match" : "quick_match", challengeId);
-            appsFlyerService.TrackLimitedEvent(AnalyticsEventId.game_started, preferencesModel.gameStartCount);
-            matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(matchInfoModel.activeMatch.isBotMatch ? AnalyticsContext.success_bot : AnalyticsContext.success));
-
-            // Grab the opponent profile pic if any
-            if (matchInfoModel.activeMatch.opponentPublicProfile.facebookUserId != null)
-            {
-                PublicProfile opponentPublicProfile = matchInfoModel.activeMatch.opponentPublicProfile;
-                if (opponentPublicProfile.facebookUserId != null)
-                {
-                    facebookService.GetSocialPic(opponentPublicProfile.facebookUserId, opponentPublicProfile.playerId).Then(OnGetOpponentProfilePicture);
-                }
-            }
-            else
-            {
-                Release();
-            }*/
         }
 
         private void OnGetOpponentProfilePicture(FacebookResult result, Sprite sprite, string facebookUserId)
@@ -198,6 +159,12 @@ namespace TurboLabz.InstantFramework
         private void StartGame(string challengeId)
         {
             // Create and fill the opponent profile
+
+            if (matchInfoModel.activeMatch == null)
+            {
+                return;
+            }
+
             ProfileVO pvo = GetOpponentProfile();
 
             // Set the opponent info in the game view
@@ -251,7 +218,6 @@ namespace TurboLabz.InstantFramework
             ProfileVO pvo = new ProfileVO();
             pvo.playerPic = publicProfile.profilePicture;
             pvo.playerName = publicProfile.name;
-            pvo.eloScore = publicProfile.eloScore;
             pvo.countryId = publicProfile.countryId;
             pvo.playerId = publicProfile.playerId;
             pvo.avatarColorId = publicProfile.avatarBgColorId;
@@ -260,6 +226,32 @@ namespace TurboLabz.InstantFramework
             pvo.isActive = publicProfile.isActive;
             pvo.isPremium = publicProfile.isSubscriber;
             pvo.leagueBorder = publicProfile.leagueBorder;
+            pvo.trophies2 = publicProfile.trophies2;
+
+            if (FindMatchAction.IsRandomMatch())
+            {
+                int eloCapMin = (playerModel.eloScore * settingsModel.opponentLowerEloCapMin) / 100;
+                int random = Random.Range(settingsModel.opponentLowerEloCapMin, settingsModel.opponentLowerEloCapMax);
+                int minVal = publicProfile.eloScore < eloCapMin ? (playerModel.eloScore * random) / 100 : eloCapMin;
+                int maxVal = playerModel.eloScore + settingsModel.opponentHigherEloCap;
+                int clampedVal = Mathf.Clamp(publicProfile.eloScore, minVal, maxVal);
+
+                if (clampedVal != publicProfile.eloScore)
+                {
+                    if (CollectionsUtil.fakeEloScores.ContainsKey(publicProfile.playerId))
+                    {
+                        CollectionsUtil.fakeEloScores[publicProfile.playerId] = clampedVal;
+                    }
+                    else
+                    {
+                        CollectionsUtil.fakeEloScores.Add(publicProfile.playerId, clampedVal);
+                    }
+                }
+
+                publicProfile.eloScore = clampedVal;
+            }
+
+            pvo.eloScore = publicProfile.eloScore;
 
             if (pvo.playerPic == null)
             {
@@ -274,7 +266,7 @@ namespace TurboLabz.InstantFramework
         private void HandleFindMatchErrors(BackendResult result)
         {
             //-- Hide UI blocker and spinner here
-            showProcessingSignal.Dispatch(false, false);
+            showProcessingSignal.Dispatch(false);
 
             if (result == BackendResult.CANCELED)
             {
@@ -282,8 +274,16 @@ namespace TurboLabz.InstantFramework
             }
             else if (result != BackendResult.SUCCESS)
             {
+                loadLobbySignal.Dispatch();
                 backendErrorSignal.Dispatch(result);
                 Release();
+            }
+            else
+            {
+                var betValue = FindMatchAction.actionData.betValue;
+                playerModel.coins -= betValue;
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
             }
         }
 
@@ -326,12 +326,7 @@ namespace TurboLabz.InstantFramework
             }
 
 
-            if (FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random1.ToString()  ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random3.ToString()  ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random.ToString()   ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random10.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.Random30.ToString() ||
-                FindMatchAction.actionData.action == FindMatchAction.ActionCode.RandomLong.ToString())
+            if (FindMatchAction.IsRandomMatch())
             {
                 matchAnalyticsVO.friendType = "random";
             }

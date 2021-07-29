@@ -1,52 +1,76 @@
-using HUF.Storage.Runtime.API.Structs;
-using HUF.Utils.Runtime.Extensions;
+using System;
+using HUF.Storage.Runtime.API.Services;
+using HUF.Storage.Runtime.Implementation.Structs;
 using JetBrains.Annotations;
-using UnityEngine.Events;
 
 namespace HUF.Storage.Runtime.API.Models
 {
     public class HStorageBytes : IObjectStorage<byte[]>
     {
-        readonly StorageModel storage;
+        readonly Implementation.StorageService storageService;
 
-        public HStorageBytes(StorageModel storageModel)
+        public HStorageBytes(Implementation.StorageService storageServiceService)
         {
-            storage = storageModel;
+            storageService = storageServiceService;
         }
 
         /// <summary>
-        /// Gets bytes either from remote or local storage. Complete handler is method that will handle download process after
-        /// its completed. If success Container will have path to file and byte[]. If failure Container will have path to file
-        /// and failure reason. 
+        /// Gets the bytes either from a remote or a local storage. The handler is raised after the process is completed.
+        /// If it succeeds, the container has a path to the file and the bytes.
+        /// If it fails, the container has a path to the file and a failure reason.
         /// </summary>
-        /// <param name="filePath">Path to file (database part added automatically)</param>
-        /// <param name="resultHandler">Download completion handler</param>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
         [PublicAPI]
-        public void Get(string filePath, UnityAction<ObjectResultContainer<byte[]>> resultHandler)
+        public void Get(string filePath, Action<ObjectResultContainer<byte[]>> resultHandler)
         {
             GetBytes(filePath, resultHandler, false);
         }
 
         /// <summary>
-        /// Downloads bytes from remote storage. Complete handler is method that will handle download process after
-        /// its completed. If success Container will have path to file and byte[]. If failure Container will have path to file
-        /// and failure reason. 
+        /// Gets the bytes either from a remote or a local storage. The handler is raised after the process is completed.
+        /// If it succeeds, the container has a path to the file and the bytes.
+        /// If it fails, the container has a path to the file and a failure reason.
         /// </summary>
-        /// <param name="filePath">Path to file (database part added automatically)</param>
-        /// <param name="resultHandler">Download completion handler</param>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
+        /// <param name="serviceType">A storage service to use.</param>
         [PublicAPI]
-        public void Download(string filePath, UnityAction<ObjectResultContainer<byte[]>> resultHandler)
+        public void Get(string filePath, Action<ObjectResultContainer<byte[]>> resultHandler, StorageService serviceType)
+        {
+            GetBytes(filePath, resultHandler, false);
+        }
+
+        /// <summary>
+        /// Downloads the bytes from a remote storage service. The handler is raised after the download process is completed.
+        /// If a download is successful, the container has a path to the file and the bytes.
+        /// If the download fails, the container has the path to the file and a failure reason.
+        /// </summary>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
+        [PublicAPI]
+        public void Download(string filePath, Action<ObjectResultContainer<byte[]>> resultHandler)
         {
             GetBytes(filePath, resultHandler, true);
         }
 
-        void GetBytes(string filePath, UnityAction<ObjectResultContainer<byte[]>> resultHandler, bool forceDownload)
+        /// <summary>
+        /// Downloads the bytes from a remote storage service. The handler is raised after the download process is completed.
+        /// If a download is successful, the container has a path to the file and the bytes.
+        /// If the download fails, the container has the path to the file and a failure reason.
+        /// </summary>
+        /// <param name="filePath">A path to the file.</param>
+        /// <param name="resultHandler">A download completion handler.</param>
+        /// <param name="serviceType">A storage service to use.</param>
+        [PublicAPI]
+        public void Download(string filePath, Action<ObjectResultContainer<byte[]>> resultHandler, StorageService serviceType)
         {
-            if (storage?.DownloadService == null)
-                resultHandler.Dispatch(new ObjectResultContainer<byte[]>(
-                    new StorageResultContainer(filePath, StorageErrorMessages.STORAGE_NOT_INITIALIZED)));
-            else
-                storage?.DownloadService?.GetFileBytes(filePath, resultHandler, forceDownload);
+            GetBytes(filePath, resultHandler, true);
+        }
+
+        void GetBytes(string filePath, Action<ObjectResultContainer<byte[]>> resultHandler, bool forceDownload, StorageService? serviceType = null)
+        {
+            storageService.GetFileBytes(filePath, resultHandler, forceDownload, serviceType);
         }
     }
 }

@@ -11,9 +11,6 @@ namespace TurboLabz.InstantGame
 {
     public class LoadLessonsViewCommand : Command
     {
-        //Parameters
-        [Inject] public TopicVO topicVO { get; set; }
-
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateLessonsViewSignal updateTopiscViewSignal { get; set; }
@@ -25,39 +22,36 @@ namespace TurboLabz.InstantGame
 
         public override void Execute()
         {
+            var iconsContainer = StoreIconsContainer.Load();
             var lessonsList = new List<VideoLessonVO>();
-            var lessons = lessonsModel.GetLessonsByTopicId(topicVO.name);
-            var unlockItem = metaDataModel.store.items.ContainsKey(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY) ? metaDataModel.store.items[GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY] : null;
+            var lessons = lessonsModel.lessonsMapping;
             int i = 0;
 
             foreach (var lesson in lessons)
             {
-                if (metaDataModel.store.items.ContainsKey(lesson))
+                if (metaDataModel.store.items.ContainsKey(lesson.Key))
                 {
                     i++;
                     var lessonVO = new VideoLessonVO();
-                    lessonVO.name = metaDataModel.store.items[lesson].displayName;
+                    lessonVO.storeItem = metaDataModel.store.items[lesson.Key];
+                    lessonVO.name = lessonVO.storeItem.displayName;
                     lessonVO.indexInTopic = i;
-                    lessonVO.videoId = lesson;
-                    lessonVO.icon = topicVO.icon;
-                    lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
-                    lessonVO.progress = (float)playerModel.GetVideoProgress(lesson)/100f;
-                    lessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(lesson);
-                    lessonVO.section = topicVO.section;
-                    lessonVO.unlockItem = unlockItem;
+                    lessonVO.videoId = lesson.Key;
+                    lessonVO.icon = iconsContainer.GetSprite(GSBackendKeys.GetLessonKey(lesson.Value));
+                    lessonVO.isLocked = !(playerModel.HasSubscription() || playerModel.OwnsVGood(lesson.Key) || playerModel.OwnsVGood(GSBackendKeys.ShopItem.ALL_LESSONS_PACK));
+                    lessonVO.progress = (float)playerModel.GetVideoProgress(lesson.Key)/100f;
+                    lessonVO.overallIndex = lessonsModel.lessonsMapping.IndexOf(lesson.Key);
+                    lessonVO.section = lessonsModel.topicsMapping[lessonsModel.lessonsMapping[lesson.Key]]; ;
                     lessonVO.playerModel = playerModel;
                     lessonsList.Add(lessonVO);
                 }
             }
 
             var vo = new LessonsViewVO();
-            vo.topicVO = topicVO;
-            vo.topicVO.completed = lessonsModel.GetCompletedLessonsCount(topicVO.name);
             vo.lessons = lessonsList;
             vo.showBanner = !playerModel.OwnsAllLessons();
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LESSONS_VIEW);
             updateTopiscViewSignal.Dispatch(vo);
-            lessonsModel.lastViewedTopic = topicVO;
         }
     }
 }

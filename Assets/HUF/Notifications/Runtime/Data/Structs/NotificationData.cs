@@ -23,6 +23,11 @@ namespace HUF.Notifications.Runtime.Data.Structs
         /// Title of notification.
         /// </summary>
         [PublicAPI] public string title = default;
+        
+        /// <summary>
+        /// Subtitle of notification on iOS.
+        /// </summary>
+        [PublicAPI] public string subtitle = default;
 
         /// <summary>
         /// Text message of notification.

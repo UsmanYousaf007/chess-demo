@@ -65,7 +65,7 @@ namespace TurboLabz.InstantFramework
             {
                 return new NSPromotionChessSetsBundleDlg();
             }
-            else if (evt == NavigatorEvent.SHOW_PROMOTION_ELITE_BUNDLE_DLG)
+            else if (evt == NavigatorEvent.SHOW_PROMOTION_BUNDLE_DLG)
             {
                 return new NSPromotionEliteBundleDlg();
             }
@@ -76,6 +76,18 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SUBSCRIPTION_SALE_DLG)
             {
                 return new NSSubscriptionSaleDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG)
+            {
+                return new NSRewardDlgView();
+            }
+            else if (evt == NavigatorEvent.SHOW_LOGIN_DLG)
+            {
+                return new NSLoginDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_REWARD_DLG_V2)
+            {
+                return new NSRewardDlg();
             }
 
             return null;

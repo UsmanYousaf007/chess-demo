@@ -30,11 +30,14 @@ namespace TurboLabz.InstantGame
         [Inject] public UploadFileSignal uploadFileSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public ContactSupportSignal contactSupportSignal { get; set; }
+        [Inject] public ShowGenericProcessingSignal showGenericProcessingSignal { get; set; }
 
         // View injection
         [Inject] public StatsView view { get; set; }
+
         //Model injection
         [Inject] public IPlayerModel playerModel { get; set; }
+
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
@@ -42,6 +45,7 @@ namespace TurboLabz.InstantGame
         [Inject] public IPicsModel picsModel { get; set; }
         [Inject] public IDownloadablesService downloadablesService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public override void OnRegister()
         {
@@ -92,6 +96,7 @@ namespace TurboLabz.InstantGame
 
         public void OnClickCloseProfilePicDialog()
         {
+            audioService.PlayStandardClick();
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
         }
 
@@ -123,11 +128,13 @@ namespace TurboLabz.InstantGame
 
         void OnBackButtonClicked()
         {
+            audioService.PlayStandardClick();
             loadLobbySignal.Dispatch();
         }
 
         public void OnShareScreenClicked()
         {
+            audioService.PlayStandardClick();
             screenCaptureService.CaptureScreenShot(view.logo);
             OpenShareDialog();
         }
@@ -148,14 +155,9 @@ namespace TurboLabz.InstantGame
             OnShowShareDialogSignal();
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessingUI(bool show, bool showProcessingUi)
-        {
-            view.ShowProcessing(show, showProcessingUi);
-        }
-
         void OnTakePhotoBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.take_new);
             if (photoPickerService.HasCameraPermission())
             {
@@ -171,6 +173,7 @@ namespace TurboLabz.InstantGame
 
         void OnChoosePhotoBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.choose_existing);
             if (photoPickerService.HasGalleryPermission())
             {
@@ -186,6 +189,7 @@ namespace TurboLabz.InstantGame
 
         void OnUploadProfilPicBtnClicked()
         {
+            audioService.PlayStandardClick();
             analyticsService.Event(AnalyticsEventId.upload_picture, AnalyticsContext.dlg_shown);
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CHANGE_PHOTO_DLG);
             //view.OpenProfilePicDialog();
@@ -202,7 +206,7 @@ namespace TurboLabz.InstantGame
         {
             //view.CloseProfilePicDialog();
             OnClickCloseProfilePicDialog();
-            view.ShowProcessing(true, true);
+            showGenericProcessingSignal.Dispatch(true);
 
             if (photo != null)
             {

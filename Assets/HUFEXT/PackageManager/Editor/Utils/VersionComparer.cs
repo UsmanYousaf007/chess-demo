@@ -9,15 +9,16 @@ namespace HUFEXT.PackageManager.Editor.Utils
     {
         static readonly Dictionary<string, int> tags = new Dictionary<string, int>()
         {
-            { "develop", 11 },
-            { "preview", 10 },
-            { "experimental", 9 },
-            { "unknown", 0 }
+            {"develop", 11},
+            {"preview", 10},
+            {"experimental", 9},
+            {"unknown", 0}
         };
 
         public static bool Compare( string v1, string op, string v2, bool ignoreTags = false )
         {
             var result = Compare( v1, v2, ignoreTags );
+
             switch ( op )
             {
                 case "=": return result == 0;
@@ -32,10 +33,10 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 }
             }
         }
-        
-        public static int Compare( string v1, string v2, bool ignoreTags = false )
+
+        public static int Compare( string v1, string v2, bool ignoreTags = false, bool comparingUnityVersions = false )
         {
-            if( string.IsNullOrEmpty(v1) || string.IsNullOrEmpty(v2) )
+            if ( string.IsNullOrEmpty( v1 ) || string.IsNullOrEmpty( v2 ) )
             {
                 Common.Log( $"Incorrect input parameters {v1} or {v2}." );
                 return 0;
@@ -47,18 +48,41 @@ namespace HUFEXT.PackageManager.Editor.Utils
             var v2HasTag = v2version.Length > 1 && v2version[1] != "develop";
             var v1arr = Array.ConvertAll( v1version[0].Split( '.' ), int.Parse );
             var v2arr = Array.ConvertAll( v2version[0].Split( '.' ), int.Parse );
-            
-            if ( v1arr.Length != v2arr.Length )
+
+            if ( v1arr.Length != v2arr.Length && !comparingUnityVersions )
             {
                 Common.Log( $"Incorrect version length {v1arr.Length} != {v2arr.Length}." );
                 return v1arr.Length > v2arr.Length ? -1 : 1;
             }
 
+            int maxVersionArrayLength = Mathf.Max( v1arr.Length, v2arr.Length );
             var result = 0;
-            for ( var i = 0; i < v1arr.Length; ++i )
+
+            for ( var i = 0; i < maxVersionArrayLength; ++i )
             {
-                if ( v1arr[i] > v2arr[i] ) { result = 1; break; }
-                if ( v1arr[i] < v2arr[i] ) { result = -1; break; }
+                if ( i >= v2arr.Length )
+                {
+                    result = comparingUnityVersions ? 0 : -1;
+                    break;
+                }
+
+                if ( i >= v1arr.Length)
+                {
+                    result = comparingUnityVersions ? 0 : 1;
+                    break;
+                }
+
+                if ( v1arr[i] > v2arr[i] )
+                {
+                    result = 1;
+                    break;
+                }
+
+                if ( v1arr[i] < v2arr[i] )
+                {
+                    result = -1;
+                    break;
+                }
             }
 
             if ( ignoreTags || ( !v1HasTag && !v2HasTag ) )
@@ -70,12 +94,12 @@ namespace HUFEXT.PackageManager.Editor.Utils
             {
                 return -1;
             }
-            
+
             if ( !v1HasTag )
             {
                 return 1;
             }
-            
+
             tags.TryGetValue( v1version[1], out var v1tag );
             tags.TryGetValue( v2version[1], out var v2tag );
 
@@ -88,7 +112,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
         }
 
 #if HUF_TESTS
-        [MenuItem("HUF/Debug/Version comparing test")]
+        [MenuItem( "HUF/Debug/Version comparing test" )]
         public static void TestComparision()
         {
             List<string> versions = new List<string>()
@@ -108,8 +132,8 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 "2.0.0-experimental",
                 "2.0.0-rc.1",
             };
+            Debug.Log( "Compare:" );
 
-            Debug.Log("Compare:" );
             foreach ( var v1 in versions )
             {
                 foreach ( var v2 in versions )
@@ -117,12 +141,12 @@ namespace HUFEXT.PackageManager.Editor.Utils
                     Debug.Log( $"Test: {v1} : {v2} => {Compare( v1, v2 )}" );
                 }
             }
-            
+
             foreach ( var v1 in versions )
             {
                 foreach ( var v2 in versions )
                 {
-                    Debug.Log($"Test: {v1} : {v2} => {Compare( v1, v2, true )}" );
+                    Debug.Log( $"Test: {v1} : {v2} => {Compare( v1, v2, true )}" );
                 }
             }
         }

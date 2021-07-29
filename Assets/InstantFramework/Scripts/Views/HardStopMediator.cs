@@ -36,7 +36,7 @@ namespace TurboLabz.InstantFramework
         [ListensTo(typeof(SetErrorAndHaltSignal))]
         public void OnSetErrorAndHalt(BackendResult error, string message)
         {
-            view.SetErrorAndHalt(error, message);
+            //view.SetErrorAndHalt(error, message);
         }
 
 

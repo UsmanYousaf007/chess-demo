@@ -128,7 +128,7 @@ namespace TurboLabz.InstantFramework
 
             okBtn.onClick.AddListener(OnAlertDialogOkButtonClicked);
             alertDialog.SetActive(false);
-
+            UIDlgManager.Setup(gameObject);
         }
 
         public void UpdateProfileDialog(ProfileDialogVO vo)
@@ -258,13 +258,13 @@ namespace TurboLabz.InstantFramework
 
         public void Show()
         {
-            gameObject.SetActive(true);
+            UIDlgManager.Show(gameObject);
         }
 
         public void Hide()
         {
             confirmDialog.SetActive(false);
-            gameObject.SetActive(false);
+            UIDlgManager.Hide(gameObject);
         }
 
         private void OnConfirmNo()

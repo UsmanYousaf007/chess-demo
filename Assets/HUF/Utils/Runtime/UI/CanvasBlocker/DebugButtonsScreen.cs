@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using HUF.Utils.Runtime.Extensions;
+using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.SafeArea;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -13,6 +15,7 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
     {
         const int MARGIN = 10;
         const int MAXIMUM_NUMBER_OF_BUTTONS = 12;
+        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(DebugButtonsScreen) );
         readonly Color backgroundColor = new Color( 0, 0, 0, 0.7f );
 
         List<GUIButtonData> guiButtonDatas = new List<GUIButtonData>();
@@ -21,18 +24,41 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         static float ButtonHeight => ScreenSize.Height / MAXIMUM_NUMBER_OF_BUTTONS;
         CanvasBlocker canvasBlocker;
 
-        public void AddGUIButton( string buttonText, Action onPressAction )
+        /// <summary>
+        /// Adds a GUI button.
+        /// <para>Buttons are deleted when DebugButtonsScreen is hidden or a button is clicked.</para>
+        /// </summary>
+        /// <param name="buttonText">A text of the button</param>
+        /// <param name="onClickAction">An action called after clicking the button.</param>
+        [PublicAPI]
+        public void AddGUIButton( string buttonText, Action onClickAction )
         {
-            guiButtonDatas.Add( new GUIButtonData( buttonText, onPressAction ) );
+            guiButtonDatas.Add( new GUIButtonData( buttonText, onClickAction ) );
         }
 
+        /// <summary>
+        /// Shows DebugButtonsScreen.
+        /// <para>It will hide after the button is clicked.</para>
+        /// </summary>
+        /// <param name="inScreenName">A name of the screen, which will be shown on the top of it.</param>
+        [PublicAPI]
         public void Show( string inScreenName )
         {
+            if ( guiButtonDatas.Count == 0 )
+            {
+                HLog.LogWarning( logPrefix, "Cannot be shown without any buttons!" );
+                return;
+            }
+
             screenName = inScreenName;
             gameObject.SetActive( true );
             canvasBlocker.ShowFullScreen( backgroundColor );
         }
 
+        /// <summary>
+        /// Hides DebugButtonsScreen and deletes buttons.
+        /// </summary>
+        [PublicAPI]
         public void Hide()
         {
             gameObject.SetActive( false );
@@ -68,7 +94,7 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         {
             if ( GUI.Button( GetButtonRect( position ), guiButtonData.buttonText ) )
             {
-                guiButtonData.pressAction.Dispatch();
+                guiButtonData.clickAction.Dispatch();
                 Hide();
             }
 
@@ -78,12 +104,12 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         readonly struct GUIButtonData
         {
             public readonly string buttonText;
-            public readonly Action pressAction;
+            public readonly Action clickAction;
 
-            public GUIButtonData( string buttonText, Action pressAction )
+            public GUIButtonData( string buttonText, Action clickAction )
             {
                 this.buttonText = buttonText;
-                this.pressAction = pressAction;
+                this.clickAction = clickAction;
             }
         }
     }

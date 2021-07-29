@@ -10,6 +10,7 @@
 /// @description
 /// [add_description_here]
 using TurboLabz.TLUtils;
+using System;
 
 namespace TurboLabz.InstantFramework
 {
@@ -24,16 +25,23 @@ namespace TurboLabz.InstantFramework
         {
             if (evt == NavigatorEvent.ESCAPE)
             {
-                if (cmd.matchInfoModel.lastCompletedMatch.gameEndReason.Equals(Chess.GameEndReason.DECLINED.ToString()))
+                try
                 {
-                    cmd.exitLongMatchSignal.Dispatch();
-                    cmd.cancelHintSingal.Dispatch();
-                    return null;
+                    if (cmd.matchInfoModel.lastCompletedMatch.gameEndReason.Equals(Chess.GameEndReason.DECLINED.ToString()))
+                    {
+                        cmd.exitLongMatchSignal.Dispatch();
+                        cmd.cancelHintSingal.Dispatch();
+                        return null;
+                    }
+                    else
+                    {
+                        cmd.showViewBoardResultsPanelSignal.Dispatch(true);
+                        return new NSMultiplayer();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    cmd.showViewBoardResultsPanelSignal.Dispatch(true);
-                    return new NSMultiplayer();
+                    LogUtil.Log("Last completed match is null " + e, "red");
                 }
             }
             else if (evt == NavigatorEvent.SHOW_LOBBY)
@@ -55,6 +63,26 @@ namespace TurboLabz.InstantFramework
             else if (evt == NavigatorEvent.SHOW_SPOT_INVENTORY)
             {
                 return new NSSpotInventory();
+            }
+            else if (evt == NavigatorEvent.SHOW_CHAMPIONSHIP_NEW_RANK_DLG)
+            {
+                return new NSChampionshipNewRankDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_GAME_BUY_ANALYSIS_DLG)
+            {
+                return new NSBuyGameAanalysisView();
+            }
+            else if (evt == NavigatorEvent.SHOW_GAME_ANALYZING_DLG)
+            {
+                return new NSGameAnalyzingDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_FRIENDS)
+            {
+                return new NSFriends();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_GAME_ANALYSIS)
+            {
+                return new NSMultiplayerGameAnalysis();
             }
 
             return null;

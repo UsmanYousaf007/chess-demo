@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
@@ -20,7 +21,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
                 {
                     return AdsProviderConfig.PackageName;
                 }
-                return HAds.Banner.GetAdProviderName();
+                return HAds.Banner.GetAdMediatorName();
             }
         }
 
@@ -32,17 +33,17 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         AdsProviderConfig adsConfig;
         BannerPosition bannerPosition = BannerPosition.BottomCenter;
 
-        public event UnityAction OnInitialize;
-        public event UnityAction<AdCallback> OnBannerFetched;
-        public event UnityAction<AdCallback> OnBannerShown;
-        public event UnityAction<AdCallback> OnBannerClicked;
-        public event UnityAction<AdCallback> OnBannerHidden;
-        public event UnityAction<AdCallback> OnInterstitialEnded;
-        public event UnityAction<AdCallback> OnInterstitialFetched;
-        public event UnityAction<AdCallback> OnInterstitialClicked;
-        public event UnityAction<AdCallback> OnRewardedEnded;
-        public event UnityAction<AdCallback> OnRewardedFetched;
-        public event UnityAction<AdCallback> OnRewardedClicked;
+        public event Action OnInitialize;
+        public event Action<AdCallback> OnBannerFetched;
+        public event Action<AdCallback> OnBannerShown;
+        public event Action<AdCallback> OnBannerClicked;
+        public event Action<AdCallback> OnBannerHidden;
+        public event Action<AdCallback> OnInterstitialEnded;
+        public event Action<AdCallback> OnInterstitialFetched;
+        public event Action<AdCallback> OnInterstitialClicked;
+        public event Action<AdCallback> OnRewardedEnded;
+        public event Action<AdCallback> OnRewardedFetched;
+        public event Action<AdCallback> OnRewardedClicked;
 
         
         public AdsMediator AdsMediation
@@ -111,18 +112,17 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
 
                     adsConfig = adsProviderConfigs[0];
 
-                    if ( adsProviderConfigs.Count > 1 )
-                    {
-                        var adMediationName = HAds.Interstitial.GetAdProviderName().ToLower();
+                    if ( adsProviderConfigs.Count <= 1 )
+                        return adsConfig;
 
-                        foreach ( var adConfig in adsProviderConfigs )
-                        {
-                            if ( adConfig.name.ToLower().Contains( adMediationName ) )
-                            {
-                                adsConfig = adConfig;
-                                break;
-                            }
-                        }
+                    for ( var index = 0; index < adsProviderConfigs.Count; index++ )
+                    {
+                        if ( adsProviderConfigs[index].ConfigId.Contains( "HADS" ) ||
+                             adsProviderConfigs[index].ConfigId.Contains( "Huuuge" ) )
+                            continue;
+
+                        adsConfig = adsProviderConfigs[index];
+                        break;
                     }
                 }
 
@@ -186,7 +186,7 @@ namespace HUFEXT.AdsManager.Runtime.AdManagers
         {
             if ( !HAds.Rewarded.TryShow( placementId ) )
             {
-                OnInterstitialEnded.Dispatch( new AdCallback( placementId, MediationId, AdResult.Failed ) );
+                OnRewardedEnded.Dispatch( new AdCallback( placementId, MediationId, AdResult.Failed ) );
             }
         }
 

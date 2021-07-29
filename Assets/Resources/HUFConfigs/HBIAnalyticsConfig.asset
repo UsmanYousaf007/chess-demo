@@ -14,6 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configId: HBIAnalyticsConfig
   autoInit: 0
+  prodServerUrl: 
+  devServerUrl: 
+  productionKey: 
+  developmentKey: 
+  forceProdEnvironment: 0
+  connectionTimeOut: 15
+  errorRetryCount: 5
+  errorRetryWait: 2.5
+  routingTable:
+    playerAttributes: 
   projectName: chs
   sku: chess
+  authorizationUsername: 
+  playerRevenueLevelsInDollars: []
+  revenueLevelRangeInDollars: 0.1
+  maximumRevenueLevel: 0
+  refreshPlayerAttributesDistance: 300
   amazon: 0

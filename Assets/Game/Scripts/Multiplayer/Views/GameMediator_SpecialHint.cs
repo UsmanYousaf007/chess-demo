@@ -32,13 +32,21 @@ namespace TurboLabz.Multiplayer
         {
             if (result == BackendResult.SUCCESS)
             {
-                view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount);
-                getHintSignal.Dispatch(true);
+                var isPremium = hintTransactionVO.consumeItemShortCode.Equals("premium");
+                if (preferencesModel.freeHint.HasFlag(FreePowerUpStatus.NOT_CONSUMED | FreePowerUpStatus.AVAILABLE))
+                    preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
 
-                if (!hintTransactionVO.consumeItemShortCode.Equals("premium"))
+                // Ensure that match is still active (that game has not ended when consume hint success returns)
+                if (matchInfoModel.activeMatch != null)
                 {
-                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(hintTransactionVO.consumeItemShortCode).ToString(), hintTransactionVO.consumeQuantity, "booster_used", "hint");
-                    preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][hintTransactionVO.consumeItemShortCode] += hintTransactionVO.consumeQuantity;
+                    view.UpdateSpecialHintButton(matchInfoModel.activeMatch.playerPowerupUsedCount, !isPremium, matchInfoModel.activeMatch.freeHints);
+                    getHintSignal.Dispatch(true);
+                }
+
+                if (!isPremium)
+                {
+                    analyticsService.Event(AnalyticsEventId.gems_used, AnalyticsContext.hint);
+                    analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.GEMS, hintTransactionVO.consumeQuantity, "booster_used", AnalyticsContext.hint.ToString());
                 }
             }
             else
@@ -87,6 +95,15 @@ namespace TurboLabz.Multiplayer
         public void OnCancelSpecialHint()
         {
             view.CancelSpecialHint();
+        }
+
+        [ListensTo(typeof(FreeHintAvailableSignal))]
+        public void OnFreeHintAvailable(bool isFreeHintAvailable)
+        {
+            if (view.IsVisible())
+            {
+                view.SetupSpecialHintButton();
+            }
         }
 
         private void OnNotEnoughSpeciallHints(VirtualGoodsTransactionVO vo)

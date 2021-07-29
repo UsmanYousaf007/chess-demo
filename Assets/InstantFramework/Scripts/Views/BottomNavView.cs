@@ -14,14 +14,13 @@ using UnityEngine.UI;
 
 using strange.extensions.mediation.impl;
 using UnityEngine;
-using System.Collections;
-using TurboLabz.TLUtils;
 using strange.extensions.signal.impl;
-using TurboLabz.InstantGame;
 using DG.Tweening;
+
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class BottomNavView : View
     {
         public enum ButtonId
@@ -30,41 +29,34 @@ namespace TurboLabz.InstantFramework
             Shop,
             Friends,
             Inventory,
-            Arena
+            Arena,
+            Lesson
         }
 
         public ButtonId buttonId;
-
-        public Image selectedImage;
 
         public Text homeLabel;
         public Text friendsLabel;
         public Text inventoryLabel;
         public Text shopLabel;
-        public Text arenaLabel;
 
         public GameObject homeSelected;
         public GameObject friendsSelected;
         public GameObject inventorySelected;
         public GameObject shopSelected;
-        public GameObject arenaSelected;
 
         public Button homeButton;
         public Button friendsButton;
         public Button inventoryButton;
         public Button shopButton;
-        public Button arenaButton;
 
         public Image homeIcon;
         public Image friendsIcon;
         public Image inventoryIcon;
         public Image shopIcon;
-        public Image arenaIcon;
 
         public GameObject shopAlert;
         public GameObject inventoryAlert;
-
-        public RectTransform selectedRT;
 
         public GameObject saleRibbon;
 
@@ -72,7 +64,6 @@ namespace TurboLabz.InstantFramework
         public Signal friendsButtonClickedSignal = new Signal();
         public Signal inventoryButtonClickedSignal = new Signal();
         public Signal shopButtonClickedSignal = new Signal();
-        public Signal arenaButtonClickedSignal = new Signal();
 
         //Services
         [Inject] public IAudioService audioService { get; set; }
@@ -81,7 +72,7 @@ namespace TurboLabz.InstantFramework
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
 
-        bool onStart;
+        private Sequence freeTagAnimationSequence;
 
         public void Init()
         {
@@ -89,43 +80,30 @@ namespace TurboLabz.InstantFramework
             friendsLabel.text = localizationService.Get(LocalizationKey.NAV_FRIENDS);
             inventoryLabel.text = localizationService.Get(LocalizationKey.NAV_INVENTORY);
             shopLabel.text = localizationService.Get(LocalizationKey.NAV_SHOP);
-            arenaLabel.text = localizationService.Get(LocalizationKey.NAV_ARENA);
 
             homeButton.onClick.AddListener(HomeButtonClicked);
             friendsButton.onClick.AddListener(FriendsButtonClicked);
             inventoryButton.onClick.AddListener(InventoryButtonClicked);
             shopButton.onClick.AddListener(ShopButtonClicked);
-            arenaButton.onClick.AddListener(ArenaButtonClicked);
+
             UpdateButtons();
-            ShowSale(false);
-        }
-
-        IEnumerator WaitUntilEndOfFrame()
-        {
-            yield return new WaitForEndOfFrame();
-            selectedImage.rectTransform.sizeDelta = new Vector2(homeButton.GetComponent<RectTransform>().rect.width, homeButton.GetComponent<RectTransform>().rect.height);
-            onStart = true;
-            //UpdateButtons();
-        }
-
-        private void SetSelectedImageStartingPos()
-        {
-            selectedImage.enabled = true;
+            //ShowSale(false);
         }
 
         private void OnEnable()
         {
-            //if (!onStart)
-            //{
-            //    StartCoroutine(WaitUntilEndOfFrame());
-            //}
             UpdateAlerts();
-            //UpdateButtons();
+            SaleTagAnimation(true);
+        }
+
+        private void OnDisable()
+        {
+            SaleTagAnimation(false);
         }
 
         public void UpdateAlerts()
         {
-            shopAlert.SetActive(!preferencesModel.shopTabVisited);
+            //shopAlert.SetActive(!preferencesModel.shopTabVisited);
             inventoryAlert.SetActive(!preferencesModel.inventoryTabVisited);
         }
 
@@ -136,88 +114,45 @@ namespace TurboLabz.InstantFramework
 
         public void UpdateButtons()
         {
-            //if (!onStart)
-            //    return;
-
             homeButton.interactable = true;
             homeSelected.SetActive(false);
-            homeLabel.enabled = true;
-            homeLabel.color = Colors.WHITE_150;
-            homeIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
+            homeIcon.enabled = true;
 
             friendsButton.interactable = true;
             friendsSelected.SetActive(false);
-            friendsLabel.enabled = true;
-            friendsLabel.color = Colors.WHITE_150;
-            friendsIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
+            friendsIcon.enabled = true;
 
             inventoryButton.interactable = true;
             inventorySelected.SetActive(false);
-            inventoryLabel.enabled = true;
-            inventoryLabel.color = Colors.WHITE_150;
-            inventoryIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
+            inventoryIcon.enabled = true;
 
             shopButton.interactable = true;
             shopSelected.SetActive(false);
-            shopLabel.enabled = true;
-            shopLabel.color = Colors.WHITE_150;
-            shopIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
-
-            arenaButton.interactable = true;
-            arenaSelected.SetActive(false);
-            arenaLabel.enabled = true;
-            arenaLabel.color = Colors.WHITE_150;
-            arenaIcon.gameObject.transform.localScale = new Vector3(0.87f, 0.87f, 0.87f);
+            shopIcon.enabled = true;
 
             if (buttonId == ButtonId.Home)
             {
                 homeButton.interactable = false;
                 homeSelected.SetActive(true);
-                //homeLabel.enabled = false;
-                homeLabel.color = Colors.YELLOW;
-                homeIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                //iTween.MoveTo(selectedImage.gameObject,
-                //iTween.Hash("position", homeSelected.transform.position, "time", 0.4f, "oncomplete", "SetSelectedImageStartingPos", "oncompletetarget", this.gameObject));
+                homeIcon.enabled = false;
             }
             else if (buttonId == ButtonId.Friends)
             {
                 friendsButton.interactable = false;
                 friendsSelected.SetActive(true);
-                //friendsLabel.enabled = false;
-                friendsLabel.color = Colors.YELLOW;
-                friendsIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                //iTween.MoveTo(selectedImage.gameObject,
-                //iTween.Hash("position", friendsSelected.transform.position, "time", 0.4f));
+                friendsIcon.enabled = false;
             }
             else if (buttonId == ButtonId.Inventory)
             {
                 inventoryButton.interactable = false;
                 inventorySelected.SetActive(true);
-                //inventoryLabel.enabled = false;
-                inventoryLabel.color = Colors.YELLOW;
-                inventoryIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                //iTween.MoveTo(selectedImage.gameObject,
-                //iTween.Hash("position", inventorySelected.transform.position, "time", 0.4f));
+                inventoryIcon.enabled = false;
             }
             else if (buttonId == ButtonId.Shop)
             {
                 shopButton.interactable = false;
                 shopSelected.SetActive(true);
-                //shopLabel.enabled = false;
-                shopLabel.color = Colors.YELLOW;
-                shopIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                //iTween.MoveTo(selectedImage.gameObject,
-                //iTween.Hash("position", shopSelected.transform.position, "time", 0.4f));
-            }
-            else if (buttonId == ButtonId.Arena)
-            {
-                arenaButton.interactable = false;
-                arenaSelected.SetActive(true);
-                //arenaLabel.enabled = false;
-                arenaLabel.color = Colors.YELLOW;
-                arenaIcon.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                //iTween.MoveTo(selectedImage.gameObject,
-                //iTween.Hash("position", arenaSelected.transform.position, "time", 0.4f));
+                shopIcon.enabled = false;
             }
         }
 
@@ -231,12 +166,6 @@ namespace TurboLabz.InstantFramework
         {
             audioService.PlayStandardClick();
             friendsButtonClickedSignal.Dispatch();
-        }
-
-        void ArenaButtonClicked()
-        {
-            audioService.PlayStandardClick();
-            arenaButtonClickedSignal.Dispatch();
         }
 
         void InventoryButtonClicked()
@@ -256,6 +185,40 @@ namespace TurboLabz.InstantFramework
         public void Show(bool value)
         {
             gameObject.SetActive(value);
+        }
+
+        private void SaleTagAnimation(bool play)
+        {
+            if (freeTagAnimationSequence != null)
+            {
+                freeTagAnimationSequence.Kill();
+                freeTagAnimationSequence = null;
+            }
+
+            if (play) { 
+                freeTagAnimationSequence = DOTween.Sequence();
+                freeTagAnimationSequence.AppendInterval(7f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.4f, 0.2f));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, -20), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendInterval(0.04f);
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.04f, RotateMode.Fast));
+                freeTagAnimationSequence.AppendCallback(() => saleRibbon.transform.DOScale(1.0f, 0.5f));
+                freeTagAnimationSequence.AppendInterval(0.5f);
+                freeTagAnimationSequence.SetLoops(-1);
+                freeTagAnimationSequence.PlayForward();
+            }
         }
 
         public void ShowSale(bool show)

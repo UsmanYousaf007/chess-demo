@@ -2,17 +2,18 @@
 using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
+using HUFEXT.CrossPromo.Runtime.API;
+using System.Collections.Generic;
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class ShopView : View
     {
         public Text bundleHeading;
         public Text specialPacksHeading;
         public Text gemPacksHeading;
         public string welcomePackShortCode;
-        public GameObject welcomePack;
-        public GameObject elitePack;
         public Button subscriptionStrip;
         public Text subscriptionStripText;
         public Button subscriptionButton;
@@ -21,22 +22,25 @@ namespace TurboLabz.InstantFramework
         public Text ownedText;
         public GameObject loading;
         public RectTransform layout;
-        public GameObject uiBlocker;
-        public GameObject processing;
         public string subscriptionKey;
         public string subscriptionSaleKey;
         public Text subscriptionOriginalPrice;
         public Text subscriptionNewPrice;
         public Text subscriptionRibbonText;
         public GameObject subscriptionRibbon;
+        public ScrollRect scrollRect;
+
+        public Button showCrossPromoButton;
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
         [Inject] public IAudioService audioService { get; set; }
+        [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
 
         //Models
         [Inject] public IPlayerModel playerModel { get; set; }
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         //Dispatch Signals
         public Signal subscriptionButtonClickedSignal = new Signal();
@@ -44,6 +48,9 @@ namespace TurboLabz.InstantFramework
 
         private bool isSubscriber;
         private bool isOnSale;
+
+        public Dictionary<GameObject, string> promotionBundles;
+
 
         public void Init()
         {
@@ -55,13 +62,21 @@ namespace TurboLabz.InstantFramework
             ownedText.text = localizationService.Get(LocalizationKey.STORE_BUNDLE_FIELD_OWNED);
             subscriptionButton.onClick.AddListener(OnSubscirptionButtonClicked);
             subscriptionStrip.onClick.AddListener(OnSubscirptionButtonClicked);
+            showCrossPromoButton.onClick.AddListener(OnCrossPromoButtonClicked);
+
             ShowSaleItems(false);
         }
 
         public void Show()
         {
+            //if (HCrossPromo.service != null)
+            //{
+            showCrossPromoButton.transform.parent.gameObject.SetActive(false);//HCrossPromo.service.hasContent
+            //}
+
             showBottomNavSignal.Dispatch(true);
             gameObject.SetActive(true);
+            scrollRect.verticalNormalizedPosition = 1;
             LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
         }
 
@@ -72,7 +87,7 @@ namespace TurboLabz.InstantFramework
 
         public void OnStoreAvailable(bool available)
         {
-            SetBundle();
+            //SetBundle();
             SetSubscriptionOwnedStatus();
             subscriptionButtonText.gameObject.SetActive(available && !isOnSale);
             subscriptionOriginalPrice.gameObject.SetActive(available && isOnSale);
@@ -92,13 +107,6 @@ namespace TurboLabz.InstantFramework
             subscriptionButton.gameObject.SetActive(!isSubscriber);
         }
 
-        public void SetBundle()
-        {
-            var isWelcomeBundlePurchased = playerModel.OwnsVGood(welcomePackShortCode);
-            welcomePack.SetActive(!isWelcomeBundlePurchased);
-            elitePack.SetActive(isWelcomeBundlePurchased);
-        }
-
         private void OnSubscirptionButtonClicked()
         {
             audioService.PlayStandardClick();
@@ -109,12 +117,6 @@ namespace TurboLabz.InstantFramework
             }
 
             subscriptionButtonClickedSignal.Dispatch();
-        }
-
-        public void ShowProcessing(bool showUiBlocked, bool showProcessing)
-        {
-            uiBlocker.SetActive(showUiBlocked);
-            processing.SetActive(showProcessing);
         }
 
         private void ShowSaleItems(bool show)
@@ -136,7 +138,7 @@ namespace TurboLabz.InstantFramework
             }
 
             var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
-            subscriptionOriginalPrice.text = storeItem.remoteProductPrice;
+            subscriptionOriginalPrice.text = StrikeThrough(storeItem.remoteProductPrice);
             subscriptionNewPrice.text = saleItem.remoteProductPrice;
             subscriptionRibbonText.text = $"MEGA SALE! {(int)(discount * 100)}% OFF";
         }
@@ -148,6 +150,52 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true;
                 ShowSaleItems(true);
             }
+        }
+
+        public void ShowGems()
+        {
+            var from = scrollRect.verticalNormalizedPosition;
+
+            iTween.ValueTo(gameObject,
+                iTween.Hash(
+                    "from", from,
+                    "to", 1,
+                    "time", 0.5f,
+                    "onupdate", "MoveScrollRect",
+                    "onupdatetarger", gameObject,
+                    "easytype", iTween.EaseType.easeOutElastic
+                    ));
+        }
+
+        private void MoveScrollRect(float value)
+        {
+            scrollRect.verticalNormalizedPosition = value;
+        }
+
+        private void OnCrossPromoButtonClicked()
+        {
+            //toggleBannerSignal.Dispatch(false);
+            hAnalyticsService.LogEvent(AnalyticsEventId.cross_promo_clicked.ToString());
+            HCrossPromo.OnCrossPromoPanelClosed += ToggleBannerSignalFunc;
+            HCrossPromo.OpenPanel();
+            appInfoModel.internalAdType = InternalAdType.INTERAL_AD;
+        }
+
+        private void ToggleBannerSignalFunc()
+        {
+            appInfoModel.internalAdType = InternalAdType.NONE;
+            HCrossPromo.OnCrossPromoPanelClosed -= ToggleBannerSignalFunc;
+            //toggleBannerSignal.Dispatch(true);
+        }
+
+        public string StrikeThrough(string s)
+        {
+            string strikethrough = "";
+            foreach (char c in s)
+            {
+                strikethrough = strikethrough + c + '\u0336';
+            }
+            return strikethrough;
         }
     }
 }

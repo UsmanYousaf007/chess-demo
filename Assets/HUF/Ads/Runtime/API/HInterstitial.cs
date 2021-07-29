@@ -12,20 +12,20 @@ namespace HUF.Ads.Runtime.API
         /// Raised after an interstitial ad finishes or gets interrupted.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnEnded;
+        public event Action<IAdCallbackData> OnEnded;
 
         /// <summary>
         /// Raised when user clicks an interstitial ad.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnClicked;
+        public event Action<IAdCallbackData> OnClicked;
 
         /// <summary>
         /// Raised when an interstitial ad is ready to be displayed, with <see cref="AdResult"/>.
         /// It is triggered as a response to <see cref="Fetch"/> method.
         /// </summary>
         [PublicAPI]
-        public event UnityAction<IAdCallbackData> OnFetched;
+        public event Action<IAdCallbackData> OnFetched;
 
         readonly IAdsService service;
 

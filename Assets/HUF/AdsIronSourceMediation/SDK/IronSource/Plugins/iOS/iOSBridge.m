@@ -60,6 +60,8 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
         [IronSource setISDemandOnlyRewardedVideoDelegate:self];
         [IronSource setOfferwallDelegate:self];
         [IronSource setBannerDelegate:self];
+        [IronSource addImpressionDataDelegate:self];
+        [IronSource setConsentViewWithDelegate:self];
         
         _bannerView = nil;
         _bannerViewController = nil;
@@ -79,21 +81,6 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
 }
 
 #pragma mark Base API
-
-- (void)setAge:(NSInteger)age {
-    [IronSource setAge:age];
-}
-
-- (void)setGender:(NSString *)gender {
-    if([gender caseInsensitiveCompare:@"male"] == NSOrderedSame)
-        [IronSource setGender:IRONSOURCE_USER_MALE];
-    
-    else if([gender caseInsensitiveCompare:@"female"] == NSOrderedSame)
-        [IronSource setGender:IRONSOURCE_USER_FEMALE];
-    
-    else if([gender caseInsensitiveCompare:@"unknown"] == NSOrderedSame)
-        [IronSource setGender:IRONSOURCE_USER_UNKNOWN];
-}
 
 - (void)setMediationSegment:(NSString *)segment {
     [IronSource setMediationSegment:segment];
@@ -127,6 +114,10 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
 
 - (void)setMetaDataWithKey:(NSString *)key value:(NSString *)value {
     [IronSource setMetaDataWithKey:key value:value];
+}
+
+- (void)setMetaDataWithKey:(NSString *)key values:(NSMutableArray *)valuesArray {
+    [IronSource setMetaDataWithKey:key values:valuesArray];
 }
 
 #pragma mark Init SDK
@@ -467,19 +458,25 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
         UnitySendMessage(IRONSOURCE_EVENTS, "onGetOfferwallCreditsFailed", "");
 }
 
+#pragma mark ConsentView API
+
+-(void)loadConsentViewWithType:(NSString *)consentViewType {
+    [IronSource loadConsentViewWithType: consentViewType];
+}
+
+-(void)showConsentViewWithType:(NSString *)consentViewType {
+    @synchronized(self) {
+        UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        [IronSource showConsentViewWithViewController:viewController andType:consentViewType];
+    }
+}
+
 #pragma mark Banner API
 
 - (void)loadBanner:(NSString *)description width:(NSInteger)width height:(NSInteger)height position:(NSInteger)position placement:(NSString *)placement {
     @synchronized(self) {
         _position = position;
-        
-        ISBannerSize* size = nil;
-        if ([description isEqualToString:@"CUSTOM"]) {
-            size = [[ISBannerSize alloc] initWithWidth:width andHeight:height];
-        }
-        else {
-            size = [[ISBannerSize alloc] initWithDescription:description];
-        }
+        ISBannerSize* size = [self getBannerSize:description width:width height:height];
         
         _bannerViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         [IronSource loadBannerWithViewController:_bannerViewController size:size placement:placement];
@@ -520,6 +517,24 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
 
 - (BOOL)isBannerPlacementCapped:(NSString *)placementName {
     return [IronSource isBannerCappedForPlacement:placementName];
+}
+
+- (ISBannerSize *) getBannerSize:(NSString *)description width:(NSInteger)width height:(NSInteger)height {
+    if ([description isEqualToString:@"CUSTOM"]) {
+        return [[ISBannerSize alloc] initWithWidth:width andHeight:height];
+    }
+    if ([description isEqualToString:@"SMART"]) {
+        return ISBannerSize_SMART;
+    }
+    if ([description isEqualToString:@"RECTANGLE"]) {
+        return ISBannerSize_RECTANGLE;
+    }
+    if ([description isEqualToString:@"LARGE"]) {
+        return ISBannerSize_LARGE;
+    }
+    else {
+        return ISBannerSize_BANNER;
+    }
 }
 
 #pragma mark Banner Delegate
@@ -682,6 +697,64 @@ char *const IRONSOURCE_EVENTS = "IronSourceEvents";
     }
 }
 
+#pragma mark ImpressionData Delegate
+
+- (void)impressionDataDidSucceed:(ISImpressionData *)impressionData {
+    UnitySendMessage(IRONSOURCE_EVENTS, "onImpressionSuccess", [self getJsonFromObj:[impressionData all_data]].UTF8String);
+
+}
+
+#pragma mark ConsentView Delegate
+
+- (void)consentViewDidAccept:(NSString *)consentViewType {
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidAccept", MakeStringCopy(consentViewType));
+}
+
+- (void)consentViewDidDismiss:(NSString *)consentViewType {
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidDismiss", MakeStringCopy(consentViewType));
+}
+
+- (void)consentViewDidFailToLoadWithError:(NSError *)error consentViewType:(NSString *)consentViewType {
+    NSArray *params;
+    if (error)
+        params = @[consentViewType, [self parseErrorToEvent:error]];
+    else
+        params = @[consentViewType, @""];
+    
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidFailToLoadWithError", MakeStringCopy([self getJsonFromObj:params]));
+}
+
+- (void)consentViewDidLoadSuccess:(NSString *)consentViewType {
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidLoadSuccess", MakeStringCopy(consentViewType));
+}
+
+- (void)consentViewDidFailToShowWithError:(NSError *)error consentViewType:(NSString *)consentViewType {
+    NSArray *params;
+    if (error)
+        params = @[consentViewType, [self parseErrorToEvent:error]];
+    else
+        params = @[consentViewType, @""];
+    
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidFailToShowWithError", MakeStringCopy([self getJsonFromObj:params]));
+}
+
+- (void)consentViewDidShowSuccess:(NSString *)consentViewType {
+    UnitySendMessage(IRONSOURCE_EVENTS, "onConsentViewDidShowSuccess", MakeStringCopy(consentViewType));
+}
+
+#pragma mark ConversionValue API
+
+-(const char *) getConversionValue {
+    NSNumber *conversionValue = [IronSource getConversionValue];
+    char *res = MakeStringCopy([conversionValue stringValue]);
+    return res;
+}
+
+#pragma mark ILRD API
+- (void)setAdRevenueData:(NSString *)dataSource impressionData:(NSData *)impressionData {
+    [IronSource setAdRevenueDataWithDataSource:dataSource impressionData:impressionData];
+}
+
 #pragma mark - C Section
 
 #ifdef __cplusplus
@@ -692,13 +765,6 @@ extern "C" {
         [[iOSBridge start] setPluginDataWithType:GetStringParam(pluginType) pluginVersion:GetStringParam(pluginVersion) pluginFrameworkVersion:GetStringParam(pluginFrameworkVersion)];
     }
     
-    void CFSetAge(int age){
-        [[iOSBridge start] setAge:age];
-    }
-    
-    void CFSetGender(const char *gender){
-        [[iOSBridge start] setGender:GetStringParam(gender)];
-    }
     
     void CFSetMediationSegment(const char *segment){
         [[iOSBridge start] setMediationSegment:GetStringParam(segment)];
@@ -734,6 +800,20 @@ extern "C" {
     
     void CFSetMetaData (char *key, char *value) {
         [[iOSBridge start] setMetaDataWithKey:GetStringParam(key) value:GetStringParam(value)];
+    }
+    
+    void CFSetMetaDataWithValues (char *key,const char *values[]) {
+        NSMutableArray *valuesArray = [NSMutableArray new];
+        if(values != nil ) {
+            int i = 0;
+            
+            while (values[i] != nil) {
+                [valuesArray addObject: [NSString stringWithCString: values[i] encoding:NSASCIIStringEncoding]];
+                i++;
+            }
+            
+            [[iOSBridge start] setMetaDataWithKey:GetStringParam(key) values:valuesArray];
+        }
     }
     
 #pragma mark Init SDK
@@ -903,6 +983,31 @@ extern "C" {
     
     void CFSetSegment (char* jsonString) {
         [[iOSBridge start] setSegment:GetStringParam(jsonString)];
+    }
+    
+#pragma mark ConsentView API
+    
+    void CFLoadConsentViewWithType (char* consentViewType){
+        [[iOSBridge start] loadConsentViewWithType:GetStringParam(consentViewType)];
+    }
+    
+    void CFShowConsentViewWithType (char* consentViewType){
+        [[iOSBridge start] showConsentViewWithType:GetStringParam(consentViewType)];
+    }
+
+#pragma mark ConversionValue API
+    
+    const char *CFGetConversionValue(){
+        return [[iOSBridge start] getConversionValue];
+    }
+    
+#pragma mark ILRD API
+  void  CFSetAdRevenueData(char* datasource,char* impressiondata){
+        NSData *data=[GetStringParam(impressiondata)dataUsingEncoding:NSUTF8StringEncoding];
+        if (!data) {
+            return;
+        }
+      return [[iOSBridge start] setAdRevenueData:GetStringParam(datasource)impressionData:data];
     }
     
 #ifdef __cplusplus

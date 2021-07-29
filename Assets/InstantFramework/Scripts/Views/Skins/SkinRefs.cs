@@ -23,7 +23,7 @@ namespace TurboLabz.InstantFramework
     public class SkinRefs : View 
     {
         [Inject] public IDownloadablesModel downloadablesModel { get; set; }
-        private const string DEFAULT_SKIN_ID = "SkinSlate";
+        private const string DEFAULT_SKIN_ID = "SkinDark";
         public Signal refreshSkinLinksSignal = new Signal();
 
         private string currentSkinId;

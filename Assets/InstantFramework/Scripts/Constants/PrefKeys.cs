@@ -65,10 +65,17 @@ namespace TurboLabz.InstantGame
         public const string CPU_POWERUPS_USED = "cpuPowerupsUsed";
         public const string INVENTORY_TAB_VISITED = "inventoryTabVisited";
         public const string SHOP_TAB_VISITED = "shopTabVisited";
-        public const string THEMES_TAB_VISITED = "themesTabVisited";
+        public const string ALL_STAR_TAB_VISITED = "allStarTabVisited";
         public const string CURRENT_PROMOTION_INDEX = "currentPromotionIndex";
         public const string ACTIVE_PROMOTION_SALES = "activePromotionSales";
         public const string IN_GAME_REMOVE_ADS_PROMOTION = "inGameRemoveAdsPromotionShown";
+        public const string RATE_DLG_SHOWN_FIRST_TIME = "rateDialogueShownFirstTime";
+        public const string FREE_DAILY_HINT = "freeDailyHint";
+        public const string FREE_DAILY_RATING_BOOSTER = "freeDailyRatingBooster";
+        public const string GAMES_PLAYED_PER_DAY = "gamesPlayedPerDay";
+        public const string FTUE = "ftue";
+        public const string FREE_HINT = "freeHint";
+        public const string purchasesCount = "purchasesCount";
 
         //Pregame ads
         public const string SESSIONS_BBEFORE_PREGAME_AD_COUNT = "sessionsBeforePregameAdCount";
@@ -95,6 +102,12 @@ namespace TurboLabz.InstantGame
         public const string RESOURCE_VIDEOS = "resourceVideos";
         public const string RESOURCE_FREE = "resourceFree";
         public const string RESOURCE_BUNDLE = "resourceBundle";
+        public const string IS_LEADERBOARD_TOOLTIP_SHOWN = "isLeaderboardTooltipShown";
+
+        //Ad Timer
+        public const string PLAY_DAYS = "playDays";
+        public const string RV_COOLDOWN_TIME = "rvCoolDownTime";
+        public const string TIMER_TYPE = "timerType";
 
         public static readonly string[] DAILY_RESOURCE_MAMANGER = { RESOURCE_USED, RESOURCE_GEMS, RESOURCE_VIDEOS, RESOURCE_FREE, RESOURCE_BUNDLE };
     }

@@ -9,14 +9,18 @@
 
         public override NS HandleEvent(NavigatorEvent evt)
         {
-            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG,
-                NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW);
+            NavigatorViewId viewId = CameFrom(NavigatorViewId.INVENTORY, NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW, NavigatorViewId.SPOT_INVENTORY_DLG, NavigatorViewId.SHOP, NavigatorViewId.LOBBY,
+                NavigatorViewId.MULTIPLAYER, NavigatorViewId.CPU, NavigatorViewId.MULTIPLAYER_RESULTS_DLG, NavigatorViewId.LESSONS_VIEW, NavigatorViewId.SELECT_TIME_MODE, NavigatorViewId.SPOT_COIN_PURCHASE_DLG, NavigatorViewId.CPU_POWER_MODE, NavigatorViewId.CPU_POWER_PLAY);
 
             if (evt == NavigatorEvent.ESCAPE)
             {
                 if (viewId == NavigatorViewId.INVENTORY)
                 {
                     return new NSInventory();
+                }
+                else if (viewId == NavigatorViewId.LOBBY)
+                {
+                    return new NSLobby();
                 }
                 else if (viewId == NavigatorViewId.MULTIPLAYER)
                 {
@@ -37,6 +41,10 @@
                 {
                     return new NSLessonsView();
                 }
+                else if (viewId == NavigatorViewId.SHOP)
+                {
+                    return new NSShop();
+                }
                 else if (viewId == NavigatorViewId.TOURNAMENT_LEADERBOARD_VIEW)
                 {
                     return new NSTournamentLeaderboard();
@@ -46,10 +54,39 @@
                     cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
                     return new NSSpotInventory();
                 }
+                else if (viewId == NavigatorViewId.SELECT_TIME_MODE)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSSelectTimeMode();
+                }
+                else if (viewId == NavigatorViewId.SPOT_COIN_PURCHASE_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSSpotCoinPurchaseDlg();
+                }
+                else if (viewId == NavigatorViewId.CPU_POWER_MODE)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSCPUPowerMode();
+                }
+                else if (viewId == NavigatorViewId.CPU_POWER_PLAY)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSCPUPowerplay();
+                }
+                else if (viewId == NavigatorViewId.BUY_GAME_ANALYSIS_DLG)
+                {
+                    cmd.hideViewSignal.Dispatch(NavigatorViewId.SPOT_PURCHASE_DLG);
+                    return new NSBuyGameAanalysisView();
+                }
             }
             else if (evt == NavigatorEvent.SHOW_MULTIPLAYER)
             {
                 return new NSMultiplayer();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU)
+            {
+                return new NSCPU();
             }
             else if (evt == NavigatorEvent.SHOW_CHAT)
             {
@@ -66,6 +103,26 @@
             else if (evt == NavigatorEvent.SHOW_CONFIRM_DLG)
             {
                 return new NSConfirmDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerResultsDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_FIFTY_MOVE_DRAW_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerFiftyMoveDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_MULTIPLAYER_THREEFOLD_REPEAT_DRAW_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_MULTIPLAYER);
+                return new NSMultiplayerThreeFoldRepeatDrawDlg();
+            }
+            else if (evt == NavigatorEvent.SHOW_CPU_RESULTS_DLG)
+            {
+                cmd.navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_CPU);
+                return new NSCPUResultsDlg();
             }
 
             return null;

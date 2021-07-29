@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -7,9 +8,11 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class RewardedEditorAdsProvider : BaseEditorAdProvider, IRewardedAdProvider
     {
-        public event UnityAction<IAdCallbackData> OnRewardedEnded;
-        public event UnityAction<IAdCallbackData> OnRewardedFetched;
-        public event UnityAction<IAdCallbackData> OnRewardedClicked;
+#pragma warning disable CS0067
+        public event Action<IAdCallbackData> OnRewardedEnded;
+        public event Action<IAdCallbackData> OnRewardedFetched;
+        public event Action<IAdCallbackData> OnRewardedClicked;
+#pragma warning restore CS0067
 
         protected override HLogPrefix LogPrefix { get; } = new HLogPrefix( nameof(RewardedEditorAdsProvider) );
 

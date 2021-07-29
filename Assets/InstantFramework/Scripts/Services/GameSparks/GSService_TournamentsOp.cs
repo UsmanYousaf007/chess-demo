@@ -16,6 +16,7 @@ namespace TurboLabz.InstantFramework
 {
     public partial class GSService
     {
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpJoin(string tournamentShortCode, int score)
         {
             JsonObject jsonObj = new JsonObject();
@@ -25,16 +26,19 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("join", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetJoinedTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getJoinedTournaments", OnTournamentsOpSuccess);
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetLiveTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getLiveTournaments", OnTournamentsOpSuccess);
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetAllTournaments()
         {
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getAllTournaments", OnTournamentsOpSuccess);
@@ -49,6 +53,7 @@ namespace TurboLabz.InstantFramework
             return new GSTournamentsOpRequest(GetRequestContext()).Send("getTournamentLeaderboard", OnTournamentsOpSuccess, jsonObj.ToString());
         }
 
+        // Note: This is not used as of version 6.5.21 (championship)
         public IPromise<BackendResult> TournamentsOpGetLiveRewards(string tournamentShortCode)
         {
             JsonObject jsonObj = new JsonObject();
@@ -85,15 +90,28 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            if (response.ScriptData.ContainsKey("league"))
+            var playerModelUpdated = false;
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.LEAGUE))
             {
-                playerModel.league = response.ScriptData.GetInt("league").Value;
-                playerModelUpdatedSignal.Dispatch(playerModel);
+                playerModel.league = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.LEAGUE).Value;
+                playerModelUpdated = true;
             }
 
-            if (response.ScriptData.ContainsKey("trophies"))
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.TROPHIES))
             {
-                playerModel.trophies = response.ScriptData.GetInt("trophies").Value;
+                playerModel.trophies = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES).Value;
+                playerModelUpdated = true;
+            }
+
+            if (response.ScriptData.ContainsKey(GSBackendKeys.PlayerDetails.TROPHIES2))
+            {
+                playerModel.trophies2 = response.ScriptData.GetInt(GSBackendKeys.PlayerDetails.TROPHIES2).Value;
+                playerModelUpdated = true;
+            }
+
+            if (playerModelUpdated)
+            {
                 playerModelUpdatedSignal.Dispatch(playerModel);
             }
 
@@ -105,14 +123,14 @@ namespace TurboLabz.InstantFramework
 
                 List<InboxMessage> newMsgs = CheckForNewInboxMessages(dict);
 
-                if (navigatorModel.currentViewId != NavigatorViewId.TOURNAMENT_OVER_DLG)
-                {
-                    DispatchInboxNotifications(newMsgs);
-                }
+                //if (navigatorModel.currentViewId != NavigatorViewId.TOURNAMENT_OVER_DLG)
+                //{
+                //    DispatchInboxNotifications(newMsgs);
+                //}
 
-                inboxAddMessagesSignal.Dispatch(dict);
                 inboxModel.lastFetchedTime = DateTime.UtcNow;
                 inboxModel.items = dict;
+                inboxAddMessagesSignal.Dispatch();
             }
 
             if (response.ScriptData.ContainsKey("inboxCount"))
@@ -143,13 +161,22 @@ namespace TurboLabz.InstantFramework
                 GSData tournamentGSData = tournament.GetGSData(GSBackendKeys.Tournament.TOURNAMENT_KEY);
 
                 List <JoinedTournamentData> joinedTournamentsList = tournamentsModel.joinedTournaments;
+                bool tournamentExists = false;
                 for (int i = 0; i < joinedTournamentsList.Count; i++)
                 {
                     if (joinedTournamentsList[i].id == tournamentId)
                     {
                         joinedTournamentsList[i] = ParseJoinedTournament(tournamentGSData, joinedTournamentsList[i].id, joinedTournamentsList[i]);
                         joinedTournamentsList[i].lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                        tournamentExists = true;
                     }
+                }
+
+                if (!tournamentExists)
+                {
+                    JoinedTournamentData joinedTournament = ParseJoinedTournament(tournamentGSData, tournamentId);
+                    joinedTournament.lastFetchedTimeUTCSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                    tournamentsModel.joinedTournaments.Add(joinedTournament);
                 }
             }
 

@@ -1,14 +1,16 @@
 {
   "name": "com.huuuge.huf.ads.ironsource",
   "displayName": "Ads IronSource",
-  "version": "2.5.0",
+  "version": "2.9.1",
   "unity": "2018.4",
-  "description": "Minimal required: Android SDK 5.0 (API level 20), iOS 10, Xcode 11.3+.\nIronSource Mediation module offers full integration with Ads providers available under IronSource mediation. Ads API is separated into 3 parts:\n\n• Banners - offers option to show banners in chosen place (Top-Left, Top-Center, Top-Right, Centered, Bottom-Left, Bottom-Center, Bottom-Right). Banner is great option to show advertisement during stay in game menu or during gameplay. To implement banners in correct way please check Android and iOS guide how to show ad banners in your product\n• Interstitial - offers option to show interstitial ads which can be used between levels, after lose or when restart gameplay scene. To implement interstitials correctly in your application please check Android and iOS guide how to show ads in your product\n• Rewarded - offers option to show rewarded ads which can be shown after clicking on reward button or in other situation when player will get reward after watching ad. Remember in your application you have to exactly show which elements will trigger playable ads. To implement rewarded ads correctly in your application please check Android and iOS guide how to show ads in your product;\n\nCurrent version of module includes adapters for:\n• IronSource\n• AdColony\n• AdMob\n• Amazon\n• AppLovin\n• Chartboost\n• Facebook\n• HyperMX\n• InMobi\n• Tapjoy\n• Unity Ads\n• Vungle",
+  "description": "Minimal required: Android SDK 5.0 (API level 20), iOS 10, Xcode 12+.\nThe Facebook SDK is also required (no need to add the HUF one).\nIronSource Mediation module offers full integration with Ads providers available under IronSource mediation. Ads API is separated into 3 parts:\n\n• Banners - offers option to show banners in chosen place (Top-Left, Top-Center, Top-Right, Centered, Bottom-Left, Bottom-Center, Bottom-Right). Banner is great option to show advertisement during stay in game menu or during gameplay. To implement banners in correct way please check Android and iOS guide how to show ad banners in your product\n• Interstitial - offers option to show interstitial ads which can be used between levels, after lose or when restart gameplay scene. To implement interstitials correctly in your application please check Android and iOS guide how to show ads in your product\n• Rewarded - offers option to show rewarded ads which can be shown after clicking on reward button or in other situation when player will get reward after watching ad. Remember in your application you have to exactly show which elements will trigger playable ads. To implement rewarded ads correctly in your application please check Android and iOS guide how to show ads in your product;\n\nCurrent version of module includes adapters for:\n• IronSource\n• AdColony\n• AdMob\n• Amazon\n• AppLovin\n• Chartboost\n• Facebook\n• HyperMX\n• InMobi\n• Tapjoy\n• Unity Ads\n• Vungle",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.utils@^3.0.1",
-      "com.huuuge.huf.ads@^2.2.0",
-      "com.google.external-dependency-manager@^1.2.155"
+      "com.huuuge.huf.utils@^3.6.1",
+      "com.huuuge.huf.ads@^2.6.0",
+      "com.huuuge.plugins.externaldependencymanager@^1.2.165",
+      "com.huuuge.huf.analytics.hbi@^2.2.5",
+      "com.huuuge.huf.analytics@^2.5.0"
     ],
     "exclude": [
       "com.huuuge.huf.ads.applovinmax",
@@ -17,19 +19,15 @@
       "com.huuuge.huf.ads.huuugeads",
       "com.huuuge.huf.ads.admob",
       "com.huuuge.huf.ads.mopub",
-      "com.huuuge.huf.ads.unityads",
-      "com.huuuge.plugins.externaldependencymanager"
+      "com.huuuge.huf.ads.unityads"
     ],
-    "optionalDependencies": [
-      "com.huuuge.huf.analytics.hbi@^2.0.0"
-    ],
-    "date": "05.10.2020 13:16",
-    "commit": "5071b5f",
-    "build": "60",
+    "date": "24.06.2021 10:20",
+    "commit": "656cfb2",
+    "build": "104",
     "scope": "public",
     "channel": "stable",
     "path": "Assets/HUF/AdsIronSourceMediation",
-    "rollout": "22"
+    "rollout": "41"
   },
   "doc_section": "Ads"
 }

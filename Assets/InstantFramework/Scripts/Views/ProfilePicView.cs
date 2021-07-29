@@ -12,15 +12,10 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-
 using TurboLabz.InstantFramework;
-using TurboLabz.TLUtils;
-using System;
-using System.Collections;
-using DG.Tweening;
+
 
 namespace TurboLabz.InstantGame
 {
@@ -48,6 +43,7 @@ namespace TurboLabz.InstantGame
 
         //Services
         [Inject] public ILocalizationService localizationService { get; set; }
+        [Inject] public IAudioService audioService { get; set; }
 
         public void Init()
         {
@@ -188,6 +184,7 @@ namespace TurboLabz.InstantGame
 
         private void OnProfilePicButtonClicked()
         {
+            audioService.PlayStandardClick();
             profilePicButtonClickedSignal.Dispatch();
         }
 

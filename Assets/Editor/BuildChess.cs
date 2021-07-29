@@ -15,15 +15,15 @@ public class BuildChess : MonoBehaviour
     static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
 
     static string androidAPK = "chessstar";
-    static string bundleVersion = PlayerSettings.bundleVersion;
+    static string bundleVersion = GetBundleVersion(); // PlayerSettings.bundleVersion;
     static string[] gameScenes = new string[] { "Game" };
     static string[] gameScenFiles = new string[] {
             "Assets/InstantFramework/Scenes/Splash.unity",
             "Assets/Game/Scenes/Game.unity"
             };
 
-    static string bundleVersionCodeiOS = PlayerSettings.iOS.buildNumber;
-    static string bundleVersionCodeAndroid = PlayerSettings.Android.bundleVersionCode.ToString();
+    static string bundleVersionCodeiOS = GetIOSBundleCode(); //PlayerSettings.iOS.buildNumber;
+    static string bundleVersionCodeAndroid = GetAndroidBundleCode(); //PlayerSettings.Android.bundleVersionCode.ToString();
 
     static string GameAnalyticsInternalBuildName = "internal";
 
@@ -49,6 +49,42 @@ public class BuildChess : MonoBehaviour
             }
             i++;
         }
+    }
+
+    //This function set the backend envirnoment
+    private static void SetGameEnvironment()
+    {
+        int envNumber = 0;
+
+        string versionNumber = Environment.GetEnvironmentVariable("GS_BACKEND_ENV_NUM");
+
+        if (versionNumber != null){
+            envNumber = Int32.Parse(versionNumber);
+        }
+
+        LogUtil.Log("UNITY _____ envNumber : " + envNumber);
+
+        if (envNumber == (int)GameSparksConfig.Environment.LivePreview)
+        {
+            ChessTools.SetGamesparksEnvLivePreview(); 
+        }
+        else if (envNumber == (int)GameSparksConfig.Environment.Live)
+        {
+            ChessTools.SetGamesparksEnvLive();
+        }
+        else if (envNumber == (int)GameSparksConfig.Environment.URLBased)
+        {
+            ChessTools.SetGamesparksEnvURLBased();
+        }
+        else if (envNumber == (int)GameSparksConfig.Environment.Sami)
+        {
+            ChessTools.SetGamesparksEnvSami();
+        }
+        else
+        {
+            ChessTools.SetGamesparksEnvDevelopment();
+        }
+
     }
 
     private static void ProcessSkinLinks()
@@ -154,12 +190,14 @@ public class BuildChess : MonoBehaviour
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(GameAnalyticsInternalBuildName);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = false;
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.SubmitErrors = false;
             LogUtil.Log("GASettings Version : " + GameAnalyticsInternalBuildName);
         }
         else
         {
             GameAnalyticsSDK.GameAnalytics.SettingsGA.Build.Add(bundleVersion);
             GameAnalyticsSDK.GameAnalytics.SettingsGA.UsePlayerSettingsBuildNumber = true;
+            GameAnalyticsSDK.GameAnalytics.SettingsGA.SubmitErrors = true;
             LogUtil.Log("GASettings Version : " + bundleVersion);
         }
     }
@@ -219,15 +257,15 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.preserveFramebufferAlpha = false;
         //PlayerSettings.productGUID = "??"; // readonly
         PlayerSettings.productName = "Chess Stars";
-        PlayerSettings.protectGraphicsMemory = false;
+        //PlayerSettings.protectGraphicsMemory = false;
         // PlayerSettings.renderingPath = RenderingPath.Forward; obsolete (used with editor)
         PlayerSettings.resizableWindow = false;
         //PlayerSettings.resolutionDialogBanner = null; // depricated
         PlayerSettings.runInBackground = true;
-        PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
+        //PlayerSettings.scriptingRuntimeVersion = ScriptingRuntimeVersion.Latest;
         //PlayerSettings.showUnitySplashScreen = true; // obsolete
         PlayerSettings.SplashScreen.unityLogoStyle = PlayerSettings.SplashScreen.UnityLogoStyle.LightOnDark;
-        PlayerSettings.SplashScreen.show = false;
+        PlayerSettings.SplashScreen.show = true;
         // PlayerSettings.singlePassStereoRendering = false; // depricated
         //PlayerSettings.splashScreenStyle = SplashScreenStyle.Dark; // obsolete
         PlayerSettings.statusBarHidden = true;
@@ -244,7 +282,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.usePlayerLog = true;
 
         PlayerSettings.virtualRealitySplashScreen = null;
-        PlayerSettings.virtualRealitySupported = false;
+        //PlayerSettings.virtualRealitySupported = false;
         PlayerSettings.visibleInBackground = false;
 
         PlayerSettings.vulkanEnableSetSRGBWrite = false;
@@ -267,6 +305,9 @@ public class BuildChess : MonoBehaviour
     {
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeAndroid);
+
+        LogUtil.Log("AndroidSettings _____ bundleVersion : " + PlayerSettings.bundleVersion);
+        LogUtil.Log("AndroidSettings _____ bundleVersionCode : " + PlayerSettings.Android.bundleVersionCode);
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = gameScenFiles;
@@ -298,7 +339,11 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_Release");
@@ -318,7 +363,11 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(true);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;SUBSCRIPTION_TEST");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_TEST");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.Development, "_Development");
@@ -339,7 +388,11 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_Release");
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
@@ -356,9 +409,16 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(true);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;SUBSCRIPTION_TEST");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_TEST");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.Development, "_Development");
+#if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
+#endif
         LogUtil.Log("End Build Android Development");
     }
 
@@ -371,7 +431,11 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsiOS();
         GASettings(false);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, "CT_OC;BUILD_STORE");
         PlayerSettings.bundleVersion = bundleVersion;
         PlayerSettings.Android.bundleVersionCode = Int32.Parse(bundleVersionCodeiOS);
         BuildPlayerOptions buildPlayerOptions = iOSSettings(BuildOptions.CompressWithLz4HC, "_ReleaseStore");
@@ -381,10 +445,16 @@ public class BuildChess : MonoBehaviour
 
         LogUtil.Log("End Build iOS for Store", "yellow");
 
-#if SUBSCIPTION_TEST
-        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#if BUILD_TEST
+        LogUtil.Log("BUILD_TEST are ON please disable it for store builds");
 #else
-        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+        LogUtil.Log("BUILD_TEST are OFF for store builds");
+#endif
+
+#if BUILD_STORE
+        LogUtil.Log("BUILD_STORE is ON for store builds");
+#else
+        LogUtil.Log("BUILD_STORE is OFF should be ON for store builds");
 #endif
 
     }
@@ -398,18 +468,29 @@ public class BuildChess : MonoBehaviour
         BuildPlayerSettings();
         BuildPlayerSettingsAndroid();
         GASettings(false);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC");
+
+#if UNITY_CLOUD_BUILD
+        SetGameEnvironment();
+#endif
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, "CT_OC;BUILD_STORE");
         BuildPlayerOptions buildPlayerOptions = AndroidSettings(BuildOptions.None, "_ReleaseStore");
+        EditorUserBuildSettings.buildAppBundle = true;
 
 #if !UNITY_CLOUD_BUILD
         ProcessBuild(buildPlayerOptions);
 #endif
         LogUtil.Log("End Build Android for Store");
 
-#if SUBSCIPTION_TEST
-        LogUtil.Log("SUBSCIPTION_TEST are ON please disable it for store builds");
+#if BUILD_TEST
+        LogUtil.Log("BUILD_TEST are ON please disable it for store builds");
 #else
-        LogUtil.Log("SUBSCIPTION_TEST are OFF for store builds");
+        LogUtil.Log("BUILD_TEST are OFF for store builds");
+#endif
+
+#if BUILD_STORE
+        LogUtil.Log("BUILD_STORE is ON for store builds");
+#else
+        LogUtil.Log("BUILD_STORE is OFF should be ON for store builds");
 #endif
     }
 
@@ -441,6 +522,54 @@ public class BuildChess : MonoBehaviour
     public static void BuildAndroidloudDevelopment(string player)
     {
         BuildAndroidDevelopment();
+    }
+
+    public static string GetBundleVersion()
+    {
+      string bundleVersion = PlayerSettings.bundleVersion;
+
+#if UNITY_CLOUD_BUILD
+     string versionString = Environment.GetEnvironmentVariable("BUNDLE_VERSION");
+     if (versionString != null){
+            bundleVersion = versionString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetBundleVersion : " + bundleVersion);
+
+        return bundleVersion;
+    }
+
+    public static string GetAndroidBundleCode()
+    {
+        string bundleVersionCode = PlayerSettings.Android.bundleVersionCode.ToString();
+
+#if UNITY_CLOUD_BUILD
+     string bundleVersionCodeString = Environment.GetEnvironmentVariable("ANDROID_BUNDLE_CODE");
+     if (bundleVersionCodeString != null){
+            bundleVersionCode = bundleVersionCodeString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetAndroidBundleCode : " + bundleVersionCode);
+
+        return bundleVersionCode;
+    }
+
+    public static string GetIOSBundleCode()
+    {
+        string buildNumber = PlayerSettings.iOS.buildNumber;
+
+#if UNITY_CLOUD_BUILD
+     string buildNumberString = Environment.GetEnvironmentVariable("IOS_BUNDLE_CODE");
+     if (buildNumberString != null){
+            buildNumber = buildNumberString;
+        }
+#endif
+
+        LogUtil.Log("UNITY _____ GetIOSBundleCode : " + buildNumber);
+
+        return buildNumber;
     }
 
 }

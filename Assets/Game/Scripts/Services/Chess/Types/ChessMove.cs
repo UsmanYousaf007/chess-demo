@@ -42,6 +42,16 @@ namespace TurboLabz.Chess
             return sb.ToString();
         }
 
+        public string ToShortString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(GetAlgebraicLocation(from));
+            sb.Append(" ");
+            sb.Append(GetAlgebraicLocation(to));
+
+            return sb.ToString();
+        }
+
         public string GetAlgebraicLocation(FileRank fileRank)
         {
             return FILE_MAP[fileRank.file].ToString() + (fileRank.rank + 1).ToString();
@@ -50,6 +60,16 @@ namespace TurboLabz.Chess
         public string MoveToString(FileRank fileRank, FileRank to)
         {
             return GetAlgebraicLocation(fileRank) + GetAlgebraicLocation(to);
+        }
+
+        public ChessMove(bool loadDummy = false)
+        {
+            if (loadDummy)
+            {
+                from = new FileRank();
+                to = new FileRank();
+                piece = new ChessPiece();
+            }
         }
     }
 }

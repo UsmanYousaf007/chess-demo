@@ -12,20 +12,25 @@ namespace TurboLabz.InstantFramework
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
+        [Inject] public IBackendService backendService { get; set; }
 
         //Dispatch Signals
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
+        [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
 
-        private string cameFromScreen;
-        public static string customContext = string.Empty;
+        public static string analyticsContext = string.Empty;
+
+        private long timeAtDlgShown;
 
         public override void OnRegister()
         {
             view.Init();
             view.closeDlgSignal.AddListener(OnCloseDlgSignal);
+            view.showMoreSignal.AddListener(OnShowMoreSignal);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -33,13 +38,12 @@ namespace TurboLabz.InstantFramework
         {
             if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
             {
+                view.SetupDynamicContent(playerModel.dynamicGemSpotBundle);
                 view.Show();
-                cameFromScreen = navigatorModel.previousState.ToString();
-                cameFromScreen = !string.IsNullOrEmpty(customContext) ? customContext :
-                    CollectionsUtil.GetContextFromState(cameFromScreen.Remove(0, cameFromScreen.IndexOf("NS") + 2));
                 analyticsService.ScreenVisit(AnalyticsScreen.spot_purchase_dlg);
-                analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, $"{cameFromScreen}_gems");
-                //view.finePrint.enabled = cameFromScreen.Contains("tournament");
+                analyticsService.Event(AnalyticsEventId.shop_popup_view, AnalyticsParameter.context, analyticsContext);
+                analyticsService.Event("ux_saleonspotgem_shown", CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode));
+                timeAtDlgShown = backendService.serverClock.currentTimestamp;
             }
         }
 
@@ -49,31 +53,58 @@ namespace TurboLabz.InstantFramework
             if (viewId == NavigatorViewId.SPOT_PURCHASE_DLG)
             {
                 view.Hide();
-                customContext = string.Empty;
+                analyticsContext = string.Empty;
             }
         }
 
         private void OnCloseDlgSignal()
         {
+            OnShowMoreSignal(false);
             navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
+
+        private void OnShowMoreSignal(bool showMore)
+        {
+            if (analyticsContext.Equals("hint") ||
+                analyticsContext.Equals("cpu_in_game_power_mode"))
+            {
+                toggleBannerSignal.Dispatch(!showMore);
+            }
         }
 
         [ListensTo(typeof(UpdatePurchasedStoreItemSignal))]
         public void OnPurchaseSuccess(StoreItem item)
         {
-            if (view.isActiveAndEnabled && item.kind.Equals(GSBackendKeys.ShopItem.GEMPACK_SHOP_TAG))
+            if (view.isActiveAndEnabled)
             {
+                view.SetupDynamicContent(playerModel.dynamicGemSpotBundle);
+
+                //analytics
+                var context = item.displayName.Replace(' ', '_').ToLower();
+                var gemsPayout = item.kind.Equals(GSBackendKeys.ShopItem.SPECIALPACK_SHOP_TAG) ? item.currency3Cost : item.currency3Payout;
+                analyticsService.DesignEvent(AnalyticsEventId.shop_popup_purchase, "context", analyticsContext, context);
+                analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.GEMS, gemsPayout, "spot_purchase", $"{analyticsContext}_{context}");
+
+                if (item.currency4Cost > 0)
+                {
+                    analyticsService.ResourceEvent(GAResourceFlowType.Source, GSBackendKeys.PlayerDetails.COINS, (int)item.currency4Cost, "spot_purchase", $"{analyticsContext}_{context}");
+                }
+                //end analytics
+
                 OnCloseDlgSignal();
-                var context = $"{cameFromScreen}_{item.displayName.Replace(' ', '_').ToLower()}";
-                analyticsService.Event(AnalyticsEventId.shop_popup_purchase, AnalyticsParameter.context, context);
-                analyticsService.ResourceEvent(GAResourceFlowType.Source, "gems", item.currency3Payout, "spot_purchase", context);
             }
         }
 
-        [ListensTo(typeof(ShowProcessingSignal))]
-        public void OnShowProcessing(bool blocker, bool processing)
+        [ListensTo(typeof(BuyDynamicBundleClickedSignal))]
+        public void OnBuyDynamicBundleClicked()
         {
-            view.ShowProcessing(blocker, processing);
+            if (view.isActiveAndEnabled)
+            {
+                var context = CollectionsUtil.GetContextFromString(playerModel.dynamicGemSpotBundle.dynamicBundleShortCode);
+                var timePreBuyNow = (backendService.serverClock.currentTimestamp - timeAtDlgShown) / 1000.0f;
+                analyticsService.Event("ux_saleonspotgem_tapbuynow", context);
+                analyticsService.ValueEvent("ux_saleonspotgem_timeprebuynow", context, timePreBuyNow);
+            }
         }
     }
 }

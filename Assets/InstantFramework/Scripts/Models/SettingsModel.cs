@@ -27,8 +27,25 @@ namespace TurboLabz.InstantFramework
         public int dailyNotificationDeadlineHour { get; set; }
         public string defaultSubscriptionKey { get; set; }
         public int matchmakingRandomRange { get; set; }
+        public long allStarLeaderboardLastFetchTime { get; set; }
 
         public Dictionary<string, int> inventorySpecialItemsRewardedVideoCost { get; set; }
+        public List<long> bettingIncrements { get; set; }
+        public List<float> defaultBetIncrementByGamesPlayed { get; set; }
+        public Dictionary<string, float> matchCoinsMultiplayer { get; set; }
+
+        public int advantageThreshold { get; set; }
+        public int purchasedHintsThreshold { get; set; }
+        public int powerModeFreeHints { get; set; }
+
+        public bool isHuuugeServerValidationEnabled { get; set; }
+        public long maintenanceWarningTimeStamp { get; set; }
+
+        public int sessionDurationForGDPRinMinutes { get; set; }
+
+        public int opponentHigherEloCap { get; set; }
+        public int opponentLowerEloCapMin { get; set; }
+        public int opponentLowerEloCapMax { get; set; }
 
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
@@ -63,11 +80,28 @@ namespace TurboLabz.InstantFramework
             matchmakingRandomRange = 0;
 
             inventorySpecialItemsRewardedVideoCost = new Dictionary<string, int>();
-        }
+            bettingIncrements = new List<long>();
+            defaultBetIncrementByGamesPlayed = new List<float>();
+            matchCoinsMultiplayer = new Dictionary<string, float>();
+            advantageThreshold = 0;
+            purchasedHintsThreshold = 0;
+            powerModeFreeHints = 0;
+            maintenanceWarningTimeStamp = 0;
+            sessionDurationForGDPRinMinutes = 0;
+
+            opponentHigherEloCap = 0;
+            opponentLowerEloCapMin = 0;
+            opponentLowerEloCapMax = 0;
+    }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)
         {
             return inventorySpecialItemsRewardedVideoCost.ContainsKey(key) ? inventorySpecialItemsRewardedVideoCost[key] : 0;
+        }
+
+        public float GetSafeCoinsMultiplyer(string key)
+        {
+            return matchCoinsMultiplayer.ContainsKey(key) ? matchCoinsMultiplayer[key] : 2.0f;
         }
     }
 }

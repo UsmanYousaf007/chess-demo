@@ -161,7 +161,14 @@ namespace TurboLabz.TLUtils
             {
                 return "< 1h";
             }
+        }
 
+        public static string FormatSecondsToMinutes(long seconds)
+        {
+            var min = seconds / 60;
+            var sec = seconds % 60;
+
+            return string.Format("{0:00}:{1:00} min", min, sec);
         }
 
         public static string DateTimeToRelativeTime(DateTime dateTime)
@@ -204,8 +211,22 @@ namespace TurboLabz.TLUtils
             else
             {
                 int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
-                return years <= 1 ? "an year ago" : years + " years ago";
+                return years <= 1 ? "a year ago" : years + " years ago";
             }
         }
+
+        public static int GetDaysDifference(DateTime current, DateTime source)
+        {
+            int days = (current - source).Days;
+            return days;
+        }
+
+        public static int GetDaysDifference(long current, DateTime source)
+        {
+            DateTime currentlocalTime = ToDateTime(current).ToLocalTime();
+            int days = (source - currentlocalTime).Days;
+            return days;
+        }
+
     }
 }

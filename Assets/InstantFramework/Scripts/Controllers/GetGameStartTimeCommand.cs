@@ -14,6 +14,7 @@ using System.Collections;
 using UnityEngine;
 using strange.extensions.command.impl;
 using TurboLabz.TLUtils;
+using TurboLabz.Chess;
 
 namespace TurboLabz.InstantFramework 
 {
@@ -22,9 +23,11 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public BackendErrorSignal backendErrorSignal { get; set; }
         [Inject] public StartGameSignal startGameSignal { get; set; }
+        [Inject] public GetGameStartTimeFailedSignal getGameStarTimeFailedSignal { get; set; }
 
         // Services
         [Inject] public IBackendService backendService { get; set; }
+        [Inject] public IChessAiService chessAiService { get; set; }
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
@@ -53,6 +56,7 @@ namespace TurboLabz.InstantFramework
             else if (result != BackendResult.CANCELED)
             {
                 backendErrorSignal.Dispatch(result);
+                getGameStarTimeFailedSignal.Dispatch();
             }
 
             Release();
@@ -61,6 +65,7 @@ namespace TurboLabz.InstantFramework
         private IEnumerator OnGetGameStartTimeCR(float waitDuration)
         {
             yield return new WaitForSecondsRealtime(waitDuration);
+            chessAiService.AiMoveRequestInit();
             startGameSignal.Dispatch();
         }
     }

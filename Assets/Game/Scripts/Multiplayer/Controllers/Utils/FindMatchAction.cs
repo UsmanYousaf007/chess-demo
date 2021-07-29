@@ -46,6 +46,9 @@ namespace TurboLabz.InstantFramework
             public NotificationStatus notificationStatus;
             public string acceptActionCode;
             public string tournamentId;
+            public long betValue;
+            public bool powerMode;
+            public string testGroup;
         }
 
         public const string ACTION_RANDOM = "Random";
@@ -61,14 +64,17 @@ namespace TurboLabz.InstantFramework
             actionData.isRanked = true;
         }
 
-        static public void Random(FindMatchSignal signal, string actionCode, string tournamentId = "")
+        static public void Random(FindMatchSignal signal, MatchInfoVO matchInfoVO, string tournamentId = "")
         {
             Reset();
             isMatchRequestedWithFriend = false;
             isRandomLongMatch = false;
-            actionData.action = actionCode;
+            actionData.action = matchInfoVO.actionCode;
+            actionData.betValue = matchInfoVO.betValue;
+            actionData.powerMode = matchInfoVO.powerMode;
             actionData.notificationStatus = NotificationStatus.None;
             actionData.tournamentId = string.IsNullOrEmpty(tournamentId) ? "" : tournamentId;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -81,7 +87,10 @@ namespace TurboLabz.InstantFramework
             actionData.action = actionCode;
             actionData.isRanked = isRanked;
             actionData.opponentId = opponentId;
+            actionData.betValue = 0;
+            actionData.powerMode = false;
             actionData.notificationStatus = NotificationStatus.None;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
 
@@ -106,9 +115,29 @@ namespace TurboLabz.InstantFramework
             actionData.opponentId = opponentId;
             actionData.avatarId = avatarId;
             actionData.avatarBgColor = avatarBgColor;
+            actionData.betValue = 0;
+            actionData.powerMode = false;
             actionData.notificationStatus = notificationStatus;
             actionData.acceptActionCode = actionCode;
+            actionData.testGroup = Settings.ABTest.COINS_TEST_GROUP;
             signal.Dispatch(JsonUtility.ToJson(actionData));
         }
+
+        static public bool IsRandomMatch()
+        {
+            if (actionData.action == ActionCode.Random1.ToString() ||
+                actionData.action == ActionCode.Random3.ToString() ||
+                actionData.action == ActionCode.Random.ToString() ||
+                actionData.action == ActionCode.Random10.ToString() ||
+                actionData.action == ActionCode.Random30.ToString() ||
+                actionData.action == ActionCode.RandomLong.ToString())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+         }
     }
 }

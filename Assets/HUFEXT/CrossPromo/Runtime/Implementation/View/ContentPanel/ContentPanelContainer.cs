@@ -8,7 +8,6 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.ContentPanel
 {
     public class ContentPanelContainer : MonoBehaviour
     {
-        [SerializeField] RectTransform self = default;
         [SerializeField] ContentPanelScrollView content = default;
 
         readonly Dictionary<string, TileModel> tiles = new Dictionary<string, TileModel>();

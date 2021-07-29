@@ -1,6 +1,6 @@
 using HUF.Utils.Runtime.Extensions;
 
-namespace HUF.Storage.Runtime.API.Structs
+namespace HUF.Storage.Runtime.Implementation.Structs
 {
     public class StorageResultContainer
     {

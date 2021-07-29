@@ -11,6 +11,9 @@ namespace TurboLabz.InstantFramework
         public bool isSuccessful;
         public string name;
         public string playerId;
+        public int rating;
+        public int trophies2;
+        public string countryId;
     }
 }
 

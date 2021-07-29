@@ -24,14 +24,21 @@ namespace TurboLabz.Multiplayer
         public Text backToFriendsLabel;
         public Button backToFriendsButton;
 
+        public Button exitButton;
+
         public Button shareScreenButton;
         public Texture2D logo;
         private bool showAdOnBack;
+
+        public GameObject chatInputContainer;
+
+        public Signal analysisExitButtonClickedSignal = new Signal();
 
         public void InitBotBar()
         {
             backToFriendsLabel.text = localizationService.Get(LocalizationKey.IN_GAME_BACK);
             backToFriendsButton.onClick.AddListener(OnBackToFriendsClicked);
+            exitButton.onClick.AddListener(OnExitButtonClicked);
         }
 
         void OnParentShowBotBar()
@@ -39,12 +46,20 @@ namespace TurboLabz.Multiplayer
             backToFriendsButton.gameObject.SetActive(false);
             backToFriendsLabel.gameObject.SetActive(false);
             showAdOnBack = false;
+            exitButton.interactable = true;
         }
 
         void UpdateBotBar()
         {
             backToFriendsButton.gameObject.SetActive(isLongPlay);
             backToFriendsLabel.gameObject.SetActive(isLongPlay);
+        }
+
+        void SetGameAnalysisBottomBar(bool val)
+        {
+            chatInputContainer.SetActive(!val);
+            exitButton.gameObject.SetActive(val);
+            menuButton.gameObject.SetActive(!val);
         }
 
         void OnBackToFriendsClicked()
@@ -87,6 +102,15 @@ namespace TurboLabz.Multiplayer
         {
             yield return new WaitForSeconds(.25f);
             ShowShareDialogSignal.Dispatch();
+        }
+
+        void OnExitButtonClicked()
+        {
+            //resultsDialogOpenedSignal.Dispatch();
+            exitButton.interactable = false;
+            audioService.PlayStandardClick();
+            analysisExitButtonClickedSignal.Dispatch();
+            //ShowWeeklyChampionshipResults();
         }
     }
 }

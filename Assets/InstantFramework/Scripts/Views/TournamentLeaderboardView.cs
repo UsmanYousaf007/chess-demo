@@ -46,13 +46,14 @@ namespace TurboLabz.InstantFramework
         public GameObject liveGroup;
         public GameObject resultsGroup;
 
+        public IServerClock serverClock;
         // Player bar click signal
         public Signal<TournamentLeaderboardPlayerBar> playerBarClickedSignal = new Signal<TournamentLeaderboardPlayerBar>();
         public Signal backSignal = new Signal();
         public Signal<TournamentReward> playerBarChestClickSignal = new Signal<TournamentReward>();
         public StoreItem ticketStoreItem;
         public Signal<GetProfilePictureVO> loadPictureSignal = new Signal<GetProfilePictureVO>();
-
+        public Signal<Action, bool> schedulerSubscription = new Signal<Action, bool>();
         //private Dictionary<string, TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new Dictionary<string, TournamentLeaderboardPlayerBar>();
         private List<TournamentLeaderboardPlayerBar> tournamentLeaderboardPlayerBars = new List<TournamentLeaderboardPlayerBar>();
 
@@ -189,13 +190,17 @@ namespace TurboLabz.InstantFramework
         {
             showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
-            StartCoroutine(CountdownTimer());
+
+            schedulerSubscription.Dispatch(SchedulerCallback, true);
+            //StartCoroutine(CountdownTimer());
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-            StopCoroutine(CountdownTimer());
+
+            schedulerSubscription.Dispatch(SchedulerCallback, false);
+            //StopCoroutine(CountdownTimer());
         }
 
         public void UpdateView(JoinedTournamentData joinedTournament)
@@ -315,10 +320,10 @@ namespace TurboLabz.InstantFramework
             item.gemsBg.gameObject.SetActive(false);
             item.resultsContinueButtonLabel.text = localizationService.Get(LocalizationKey.TOURNAMENT_LEADERBOARD_FOOTER_COLLECT_REWARDS);
 
-            if (alreadyPlayed)
-            {
-                analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
-            }
+            //if (alreadyPlayed)
+            //{
+            //    analyticsService.Event(AnalyticsEventId.booster_shown, AnalyticsContext.ticket);
+            //}
         }
 
         private TournamentLeaderboardPlayerBar AddPlayerBar()
@@ -498,16 +503,24 @@ namespace TurboLabz.InstantFramework
             yield return null;
         }
 
-        IEnumerator CountdownTimer()
-        {
-            while (gameObject.activeInHierarchy)
-            {
-                yield return waitForOneRealSecond;
+        //IEnumerator CountdownTimer()
+        //{
+        //    while (gameObject.activeInHierarchy)
+        //    {
+        //        yield return waitForOneRealSecond;
 
+        //        header.UpdateTime();
+        //    }
+
+        //    yield return null;
+        //}
+
+        void SchedulerCallback()
+        {
+            if (gameObject.activeInHierarchy)
+            {
                 header.UpdateTime();
             }
-
-            yield return null;
         }
 
         public void UpdatePicture(string playerId, Sprite picture)

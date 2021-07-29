@@ -50,11 +50,12 @@ namespace TurboLabz.Multiplayer
             continueButton.onClick.AddListener(OnContinueButtonClicked);
             closeButton.onClick.AddListener(OnContinueButtonClicked);
             offerDrawButton.onClick.AddListener(OnOfferDrawButtonClicked);
-           
+
             exitTitleLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_EXIT_DLG_TITLE);
             resignButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_RESIGN_BUTTON);
             continueButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_CONTINUE_BUTTON);
             offerDrawButtonLabel.text = localizationService.Get(LocalizationKey.CPU_GAME_OFFER_DRAW_BUTTON);
+            UIDlgManager.Setup(gameMenu);
         }
 
         public void OnParentShowMenu()
@@ -72,18 +73,15 @@ namespace TurboLabz.Multiplayer
 
         public void ShowMenu()
         {
-            EnableModalBlocker();
-            gameMenu.SetActive(true);
-
             DisableMenuButton();
+            UIDlgManager.Show(gameMenu).Then(()=> EnableModalBlocker());
         }
 
         public void HideMenu()
         {
-            DisableModalBlocker();
-            gameMenu.SetActive(false);
-
             EnableMenuButton();
+            UIDlgManager.Hide(gameMenu);
+            DisableModalBlocker();
         }
 
         public void OnEscapeClicked()
@@ -133,10 +131,12 @@ namespace TurboLabz.Multiplayer
 
             if (matchInfoModel.activeChallengeId == null)
             {
+                animDelay = 0f;
                 resultsDialogOpenedSignal.Dispatch();
             }
             else if (matchInfoModel.activeMatch == null || matchInfoModel.activeMatch.endGameResult != EndGameResult.NONE)
             {
+                animDelay = 0f;
                 resultsDialogOpenedSignal.Dispatch();
             }
             else

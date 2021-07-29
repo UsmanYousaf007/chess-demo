@@ -1,3 +1,231 @@
+## [3.13.3] - 2021-06-08
+### Fixed
+- iOS Debug flag adding on Unity 2019+
+
+
+## [3.13.2] - 2021-06-08
+### Fixed
+- ExtractCorePrefix ArgumentOutOfRange exception
+
+
+## [3.13.1] - 2021-06-08
+### Fixed
+- ExtractCoreNamespace null reference exception
+
+
+## [3.13.0] - 2021-05-30
+### Changed
+- Usage of LogPrefix is obsolete and will be eventually removed
+- Log prefixes are generated automagically
+
+
+## [3.12.1] - 2021-05-06
+### Fixed
+- Checking if Notifications Firebase is installed when MessagingUnityPlayerActivity is used
+
+
+## [3.12.0] - 2021-04-29
+### Added
+- Providing function as message to HLog
+
+
+## [3.11.2] - 2021-04-27
+### Fixed
+- Warning in Unity 2021 caused by creating deprecated `mcs.rsp` file
+
+
+## [3.11.1] - 2021-04-26
+### Changed
+- Moved OnBackButtonPress from PauseManager to a new InteractionManager class
+
+
+## [3.11.0] - 2021-04-20
+### Added
+- Unity 2020.3+ Build fix button
+
+
+## [3.10.2] - 2021-04-16
+### Fixed
+- `FrameworksToAddToMainTarget` property in `iOSProjectBaseFrameworkManager` for Unity 2019.3+  changed to virtual
+
+
+## [3.10.1] - 2021-04-07
+### Changed
+- Made iOS fixer `projectPath` protected
+- Made Dictionary helper
+
+
+## [3.10.0] - 2021-03-18
+## Warning
+- `AbstractConfig` **class now implements virtual `Reset` method. If any custom inheritor defines it too, it must be changed into an override.**
+
+### Added
+- Button for applying only non-empty properties from a default preset (if any)
+
+### Removed
+- Unused, derelict property `CallbackOrder` of `AbstractConfig`.
+
+
+## [3.9.1] - 2021-03-19
+### Added
+- Possibility to add iOS frameworks to both main and framework target on Unity 2019.3+
+
+
+## [3.9.0] - 2021-03-11
+### Added
+- Expanded GameServerResponse class to eliminate repeating code patterns
+
+
+## [3.8.8] - 2021-03-09
+### Fixed
+- A warning
+
+
+## [3.8.7] - 2021-03-08
+### Fixed
+- Config preset error during build process when config is empty.
+- `AsyncRequestCoroutine` is waiting for all retries to end in the `GameServerUtils` class  
+
+
+## [3.8.6] - 2021-02-26
+### Fixed
+- Safe Area scaling
+
+
+## [3.8.5] - 2021-02-25
+### Fixed
+- Added missing reference to DisablingAlwaysEmbedSwiftStandardLibrariesiOS
+
+
+## [3.8.4] - 2021-02-17
+### Fixed
+- Swift library errors and warnings when uploading to App Store
+
+
+## [3.8.3] - 2021-02-17
+### Fixed
+- AAB build support string fixed
+
+
+## [3.8.2] - 2021-02-17
+### Fixed
+- HLog config not required
+
+
+## [3.8.1] - 2021-02-15
+### Fixed
+- Warning drawers are autofitted to their contents
+
+
+## [3.8.0] - 2021-02-04
+### Added
+- IntervalManager
+
+### Fixed
+- Logs formatting for TextMeshPro
+
+
+## [3.7.1] - 2021-02-03
+### Added
+- Build android ABB from command line.
+
+
+## [3.7.0] - 2021-02-03
+### Added
+- TryGetConfig method
+
+
+## [3.6.1] - 2021-01-29
+### Fixed
+- SafeArea not refreshing correctly
+
+
+## [3.6.0] - 2021-01-29
+### Added
+- Checking if the main AndroidManifest activity is correct
+
+
+## [3.5.2] - 2021-01-23
+### Added
+- Back button event in Pause Manager
+
+
+## [3.5.1] - 2021-01-22
+### Added
+- Option to invert log filter (to exclude certain logs)
+
+
+## [3.5.0] - 2021-01-21
+### Added
+- A way to stop most of HUF logs while debugging issues (only in debug builds) 
+
+
+## [3.4.3] - 2021-01-08
+### Fixed
+- Null reference when LogConfig is not present
+
+
+## [3.4.2] - 2021-01-08
+### Fixed
+- Logging on production
+
+
+## [3.4.1] - 2021-01-08
+### Fixed
+- CoroutineManager null reference error when quitting in the editor
+- ProjectBuilder compilation error on Windows
+
+
+## [3.4.0] - 2021-01-08
+### Changed
+- Moved some GameServer classes to Utils
+
+
+## [3.3.3] - 2021-01-07
+### Changed
+- ConfigsModel implements `IPreprocessBuildWithReport` instead of `AbstractConfig`
+
+
+## [3.3.2] - 2020-12-15
+### Fixed
+- Path separators in rsp file comments are now '/' on all platforms
+
+
+## [3.3.1] - 2020-11-19
+### Added
+- `ProjectBuilder` script to support local and CI game building
+
+
+## [3.3.0] - 2020-11-03
+### Added
+- HUFJson support for `ISerializationCallbackReceiver`
+- Made UTC start date public in `DateTimeUtils`
+- Made serialization of string-thing dictionaries possible
+
+
+## [3.2.0] - 2020-10-30
+### Added
+- UI None drawing graphic
+- MultiLanguageText class for translations purposes
+- Dictionary<string,string> serialization and deserialization
+
+
+## [3.1.0] - 2020-10-14
+### Added
+- Generating permissions in AndroidManifestAutofixer using new attribute
+
+### Fixed
+- Error about missing directory in HUFBuildAssetsResolver.CreateProjectPropertyFile method
+
+
+## [3.0.5] - 2020-10-03
+### Added
+- Documentation
+
+### Fixed
+- PauseManager OnAppPause and OnApplicationFocus in the editor
+
+
 ## [3.0.4] - 2020-09-24
 ### Added
 - Opening application settings on iOS

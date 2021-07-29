@@ -12,6 +12,7 @@ namespace TurboLabz.Multiplayer
     public partial class GameMediator
     {
         [Inject] public ShowShareScreenDialogSignal shareScreenDialogSignal { get; set; }
+
         [Inject] public IScreenCaptureService screenCaptureService { get; set; }
 
         public void OnRegisterBotBar()
@@ -20,6 +21,7 @@ namespace TurboLabz.Multiplayer
             view.backToLobbySignal.AddListener(OnExitBackToLobby);
             view.shareScreenButton.onClick.AddListener(OnShareScreenClicked);
             view.ShowShareDialogSignal.AddListener(OnShowShareDialogSignal);
+            view.analysisExitButtonClickedSignal.AddListener(OnAnalysisExitButtonSignal);
         }
 
         public void OnExitBackToLobby()
@@ -35,12 +37,12 @@ namespace TurboLabz.Multiplayer
 
         public void OnShowShareDialogSignal()
         {
-            view.chessboardBlocker.SetActive(true);
             shareScreenDialogSignal.Dispatch();
         }
 
-
+        private void OnAnalysisExitButtonSignal()
+        {
+            navigatorEventSignal.Dispatch(NavigatorEvent.ESCAPE);
+        }
     }
-
-
 }

@@ -20,10 +20,13 @@ namespace TurboLabz.InstantGame
 		// Models
 		[Inject] public IMetaDataModel metaDataModel { get; set; }
 		[Inject] public IPlayerModel playerModel { get; set; }
-        [Inject] public IAppsFlyerService appsFlyerService { get; set; }
+		[Inject] public IPreferencesModel preferencesModel { get; set; }
 
+		//Services
+		[Inject] public IAppsFlyerService appsFlyerService { get; set; }
+		[Inject] public IAnalyticsService analyticsService { get; set; }
 
-        public override void Execute()
+		public override void Execute()
 		{
 			StoreItem item = FindRemoteStoreItem(remoteProductId);
 			if (item == null) 
@@ -31,12 +34,18 @@ namespace TurboLabz.InstantGame
 				return;
 			}
 
-            //appsflyer
+			preferencesModel.purchasesCount++;
+
+			//appsflyer
 #if !UNITY_EDITOR
             appsFlyerService.TrackMonetizationEvent(AFInAppEvents.PURCHASE, item.currency1Cost);
-#endif
 
-            var afEvent = "succ_annual_subs";
+			if (preferencesModel.purchasesCount == 1)
+			{
+				appsFlyerService.TrackMonetizationEvent(AFInAppEvents.FTD, item.currency1Cost);
+			}
+
+			var afEvent = "succ_annual_subs";
             if (item.key.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG))
             {
                 if (item.currency1Cost == 0)
@@ -54,9 +63,27 @@ namespace TurboLabz.InstantGame
             }
 
             appsFlyerService.TrackRichEvent(afEvent);
-        }
+#endif
 
-        private StoreItem FindRemoteStoreItem(string remoteId)
+			switch (preferencesModel.purchasesCount)
+			{
+				case 1:
+					analyticsService.Event(AnalyticsEventId.first_payment);
+					break;
+
+				case 2:
+					analyticsService.Event(AnalyticsEventId.second_payment);
+					break;
+
+				case 3:
+					analyticsService.Event(AnalyticsEventId.third_payment);
+					break;
+			}
+
+            GameAnalyticsSDK.GameAnalytics.SetCustomDimension01("payers");
+		}
+
+		private StoreItem FindRemoteStoreItem(string remoteId)
 		{
 			foreach (KeyValuePair<string, StoreItem> item in metaDataModel.store.items) 
 			{

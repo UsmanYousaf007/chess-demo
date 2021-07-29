@@ -19,7 +19,7 @@ namespace TurboLabz.InstantFramework
 
         public string id { get; set; }
         public long creationDate { get; set; }
-        public string tag { get; set; } 
+        public string tag { get; set; }
         public string countryId { get; set; }
         public int totalGamesWon { get; set; }
         public int totalGamesLost { get; set; }
@@ -43,7 +43,14 @@ namespace TurboLabz.InstantFramework
         public string uploadedPicId { get; set; }
         public long gems { get; set; }
         public int trophies { get; set; }
+        public int trophies2 { get; set; }
+        public int trophiesPrev { get; set; }
         public int league { get; set; }
+        public long coins { get; set; }
+        public bool leaguePromoted { get; set; }
+        public long rvUnlockTimestamp { get; set; }
+        public string dynamicBundleToDisplay { get; set; }
+        public DynamicSpotPurchaseBundle dynamicGemSpotBundle { get; set; }
 
         public string name
         {
@@ -62,9 +69,11 @@ namespace TurboLabz.InstantFramework
         public int adLifetimeImpressions { get; set; }
         public long removeAdsTimeStamp { get; set; }
         public int removeAdsTimePeriod { get; set; }
+        public long chestUnlockTimestamp { get; set; }
+
 
         // Inventory
-        public string activeSkinId { get; set; } = null;    
+        public string activeSkinId { get; set; } = null;
         public IOrderedDictionary<string, int> inventory { get; set; }
 
         // Videos
@@ -73,7 +82,7 @@ namespace TurboLabz.InstantFramework
 
         // Friends
         public Dictionary<string, Friend> friends { get; set; }
-		public Dictionary<string, Friend> blocked { get; set; }
+        public Dictionary<string, Friend> blocked { get; set; }
         public Dictionary<string, Friend> community { get; set; }
         public Dictionary<string, Friend> search { get; set; }
         public bool busyRefreshingCommunity { get; set; }
@@ -119,7 +128,11 @@ namespace TurboLabz.InstantFramework
             subscriptionType = "";
             gems = 0;
             trophies = 0;
+            trophies2 = 0;
+            trophiesPrev = 0;
             league = 0;
+            coins = 0;
+            leaguePromoted = false;
 
             // Ads Info
             adLifetimeImpressions = 0;
@@ -128,6 +141,7 @@ namespace TurboLabz.InstantFramework
             playerFriendsCount = 0;
             isFBConnectRewardClaimed = false;
             cpuPowerupUsedCount = 0;
+            chestUnlockTimestamp = 0;
 
             // Inventory
             inventory = new OrderedDictionary<string, int>();
@@ -138,7 +152,7 @@ namespace TurboLabz.InstantFramework
 
             // Friends
             friends = new Dictionary<string, Friend>();
-			blocked = new Dictionary<string, Friend>();
+            blocked = new Dictionary<string, Friend>();
             community = new Dictionary<string, Friend>();
             search = new Dictionary<string, Friend>();
 
@@ -150,14 +164,17 @@ namespace TurboLabz.InstantFramework
             rewardShortCode = "";
             rewardQuantity = 0;
             adContext = AnalyticsContext.unknown;
+
+            dynamicBundleToDisplay = string.Empty;
+            dynamicGemSpotBundle = new DynamicSpotPurchaseBundle();
         }
 
-		public bool OwnsVGood(string key)
-		{
-			TLUtils.LogUtil.LogNullValidation(key, "key");
-		
+        public bool OwnsVGood(string key)
+        {
+            TLUtils.LogUtil.LogNullValidation(key, "key");
+
             return key != null && inventory.ContainsKey(key);
-		}
+        }
 
         public int PowerUpHintCount
         {
@@ -227,7 +244,7 @@ namespace TurboLabz.InstantFramework
         public PlayerInventoryVO GetPlayerInventory()
         {
             PlayerInventoryVO playerInventoryVO = new PlayerInventoryVO();
-            playerInventoryVO.coinCount = bucks;
+            playerInventoryVO.coinCount = coins;
             playerInventoryVO.hintCount = PowerUpHintCount;
             playerInventoryVO.safeMoveCount = PowerUpSafeMoveCount;
             playerInventoryVO.hindsightCount = PowerUpHindsightCount;
@@ -357,7 +374,7 @@ namespace TurboLabz.InstantFramework
 
             foreach (var lesson in lessons)
             {
-                if(OwnsVGood(lesson.key))
+                if (OwnsVGood(lesson.key))
                 {
                     count++;
                 }
@@ -390,6 +407,14 @@ namespace TurboLabz.InstantFramework
             }
 
             return count == themes.Count;
+        }
+
+        public bool HasPurchased()
+        {
+            var isAnyRemoteStoreItemPurchase = (from item in storeSettingsModel.items
+                                                where !string.IsNullOrEmpty(item.Value.remoteProductId) && OwnsVGood(item.Key)
+                                                select item).Any();
+            return isAnyRemoteStoreItemPurchase;
         }
     }
 }

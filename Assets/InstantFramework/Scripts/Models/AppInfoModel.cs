@@ -29,12 +29,25 @@ namespace TurboLabz.InstantFramework
         public bool isVideoLoading { get; set; }
         public bool isMandatoryUpdate { get; set; }
         public string storeURL { get; set; }
+        public int nthWinsRateApp { get; set; }
+        public int gamesPlayedCount { get; set; }
+        public bool showGameUpdateBanner { get; set; }
+        public bool outOfCoinsBannerClicked { get; set; }
+        public OperatingSystemCode operatingSystemCode { get; set; }
 
         public string privacyPolicyURL
         {
             get
             {
                 return "https://huuugegames.com/privacy-policy/";
+            }
+        }
+
+        public string adPartnersURL
+        {
+            get
+            {
+                return "\"https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list\"";
             }
         }
 
@@ -81,8 +94,28 @@ namespace TurboLabz.InstantFramework
             gameMode = GameMode.NONE;
             isNotificationActive = false;
             isResumeGS = false;
+            operatingSystemCode = GetOperatingSystemCode();
 
             modelsResetSignal.AddListener(Reset);
+        }
+
+        private OperatingSystemCode GetOperatingSystemCode()
+        {
+            const string SYSINFO_OS_CODE_IOS_STR = "iPhone";
+            const string SYSINFO_OS_CODE_ANDROID_STR = "Android";
+
+            // iOS
+            if (SystemInfo.operatingSystem.Contains(SYSINFO_OS_CODE_IOS_STR))
+            {
+                return OperatingSystemCode.SYSINFO_OS_CODE_IOS;
+            }
+            // Android
+            if (SystemInfo.operatingSystem.Contains(SYSINFO_OS_CODE_ANDROID_STR))
+            {
+                return OperatingSystemCode.SYSINFO_OS_CODE_ANDROID;
+            }
+
+            return OperatingSystemCode.SYSINFO_OS_CODE_UNKNOWN;
         }
 
         private void Reset()
@@ -99,7 +132,10 @@ namespace TurboLabz.InstantFramework
             isVideoLoading = false;
             isMandatoryUpdate = false;
             storeURL = "";
-
+            nthWinsRateApp = 10;
+            gamesPlayedCount = 0;
+            showGameUpdateBanner = false;
+            outOfCoinsBannerClicked = false;
         }
     }
 }

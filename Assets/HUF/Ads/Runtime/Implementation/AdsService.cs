@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation.EditorAds;
@@ -18,7 +19,7 @@ namespace HUF.Ads.Runtime.Implementation
         static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(AdsService));
 
         bool isServiceInitialized;
-        UnityAction OnAdsServiceInitialized;
+        Action OnAdsServiceInitialized;
 
         static AdsProviderConfig AdsProviderConfig =>
             HConfigs.GetConfigsByBaseClass<AdsProviderConfig>().FirstOrDefault();
@@ -28,7 +29,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => bannerAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     bannerAdProvider = new BannerEditorAdsProvider();
                     bannerAdProvider.Init();
@@ -50,7 +51,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => interstitialAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     interstitialAdProvider = new InterstitialEditorAdProvider();
                     interstitialAdProvider.Init();
@@ -72,7 +73,7 @@ namespace HUF.Ads.Runtime.Implementation
             get => rewardedAdProvider;
             set
             {
-                if (Application.isEditor && AdsProviderConfig.UseEditorMockProvider)
+                if (AdsProviderConfig.UseMockProvider)
                 {
                     rewardedAdProvider = new RewardedEditorAdsProvider();
                     rewardedAdProvider.Init();
@@ -225,7 +226,7 @@ namespace HUF.Ads.Runtime.Implementation
             OnAdsServiceInitialized.Dispatch();
         }
 
-        public void RegisterToInitializationEvent(UnityAction adsServiceInitializedEvent)
+        public void RegisterToInitializationEvent(Action adsServiceInitializedEvent)
         {
             OnAdsServiceInitialized += adsServiceInitializedEvent;
         }

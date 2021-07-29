@@ -38,7 +38,7 @@ namespace TurboLabz.InstantFramework
             var jsonData = new GSRequestData()
                 .AddNumber(ATT_NOTIFICATION_COUNT, playerModel.notificationCount)
                 .AddNumber(GSBackendKeys.PlayerDetails.SUBSCRIPTION_EXPIRY_TIMESTAMP, playerModel.subscriptionExipryTimeStamp)
-               .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType);
+                .AddString(GSBackendKeys.PlayerDetails.SUBSCRIPTION_TYPE, playerModel.subscriptionType);
 
             Debug.Log("GSService_UpdatePlayerData middle");
             new LogEventRequest()

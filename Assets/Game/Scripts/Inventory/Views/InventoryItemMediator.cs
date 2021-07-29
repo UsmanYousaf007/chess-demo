@@ -63,16 +63,25 @@ namespace TurboLabz.InstantFramework
                 analyticsService.ResourceEvent(GAResourceFlowType.Sink, "gems", item.currency3Cost, "inventory", itemId);
                 preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_GEMS][item.key] += 1;
 
-                if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
-                {
-                    analyticsService.Event(AnalyticsEventId.key_obtained_gem, AnalyticsContext.inventory);
-                }
+                //if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
+                //{
+                //    analyticsService.Event(AnalyticsEventId.key_obtained_gem, AnalyticsContext.inventory);
+                //}
+
+                //if (item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
+                //{
+                //    preferencesModel.freeHint = FreePowerUpStatus.BOUGHT;
+                //}
+                //else if(item.key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
+                //{
+                //    preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
+                //}
             }
         }
 
         private void OnNotEnoughCurrency()
         {
-            navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
+            //navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_SPOT_PURCHASE);
         }
 
         [ListensTo(typeof(InventoryVideoResultSignal))]
@@ -101,16 +110,26 @@ namespace TurboLabz.InstantFramework
                         break;
 
                     case InventoryVideoResult.ITEM_UNLOCKED:
+
+                        if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT))
+                        {
+                            //preferencesModel.freeHint = FreePowerUpStatus.BOUGHT;
+                        }
+                        else if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER))
+                        {
+                            preferencesModel.freeDailyRatingBooster = FreePowerUpStatus.BOUGHT;
+                        }
+
                         if (view.gameObject.activeInHierarchy)
                         {
                             analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "inventory", "rewarded_video");
                             preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_VIDEOS][key] += 1;
                             view.OnItemUnclocked();
 
-                            if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
-                            {
-                                analyticsService.Event(AnalyticsEventId.key_obtained_rv, AnalyticsContext.inventory);
-                            }
+                            //if (key.Equals(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY))
+                            //{
+                            //    analyticsService.Event(AnalyticsEventId.key_obtained_rv, AnalyticsContext.inventory);
+                            //}
                         }
                         else
                         {

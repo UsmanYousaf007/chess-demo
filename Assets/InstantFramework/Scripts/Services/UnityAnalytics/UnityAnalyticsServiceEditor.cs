@@ -72,6 +72,11 @@ namespace TurboLabz.InstantFramework
                 int rating = (int)val;
                 val = rating - (rating % 500);
             }
+            else if (param == AnalyticsParameter.internal_matchmaking_elo)
+            {
+                int rating = (int)val;
+                val = rating - (rating % 100);
+            }
             else if (param == AnalyticsParameter.bot_difficulty)
             {
                 val = Math.Round((float)val, 1);
@@ -147,6 +152,18 @@ namespace TurboLabz.InstantFramework
             Print(eventStr);
         }
 
+        public void DesignEvent(AnalyticsEventId evt, params string[] contexts)
+        {
+            var eventStr = evt.ToString();
+
+            foreach (var context in contexts)
+            {
+                eventStr += $":{context}";
+            }
+
+            Print(eventStr);
+        }
+
         public void HEvent(string evt, params string[] param)
         {
             var evtStr = evt;
@@ -177,6 +194,21 @@ namespace TurboLabz.InstantFramework
             paramDict.Add("itemId", itemId);
 
             Print(flowType.ToString(), paramDict);
+        }
+
+        public void ValueEvent(AnalyticsEventId evt, string context, float val)
+        {
+            Print($"{evt}:{context}:{val}");
+        }
+
+        public void ValueEvent(string evt, AnalyticsContext context, float val)
+        {
+            Print($"{evt}:{context}:{val}");
+        }
+
+        public void BusinessEvent(string currency, int amount, string itemType, string itemId, string cartType)
+        {
+            Print($"{currency}:{amount}:{itemType}:{itemId}:{cartType}");
         }
     }
 }

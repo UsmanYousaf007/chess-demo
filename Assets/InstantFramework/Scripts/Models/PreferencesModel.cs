@@ -41,10 +41,6 @@ namespace TurboLabz.InstantGame
         public float timeSpent30mMatch { get; set; }
         public float timeSpentLongMatch { get; set; }
         public float timeSpentCpuMatch { get; set; }
-        public float timeSpent1mTournament { get; set; }
-        public float timeSpent3mTournament { get; set; }
-        public float timeSpent5mTournament { get; set; }
-        public float timeSpent10mTournament { get; set; }
         public DateTime lastLaunchTime { get; set; }
         public int videoFinishedCount { get; set; }
         public int continousPlayCount { get; set; }
@@ -83,12 +79,21 @@ namespace TurboLabz.InstantGame
         public int cpuPowerUpsUsedCount { get; set; }
         public bool inventoryTabVisited { get; set; }
         public bool shopTabVisited { get; set; }
-        public bool themesTabVisited { get; set; }
+        public bool allStarTabVisited { get; set; }
         public Dictionary<string, Dictionary<string, int>> dailyResourceManager { get; set; }
         public int currentPromotionIndex { get; set; }
         public List<string> activePromotionSales { get; set; }
         public bool inGameRemoveAdsPromotionShown { get; set; }
+        public bool isRateAppDialogueFirstTimeShown { get; set; }
+        public bool isRateAppDialogueShown { get; set; }
+        public FreePowerUpStatus freeHint { get; set; }
+        public FreePowerUpStatus freeDailyRatingBooster { get; set; }
+        public int gamesPlayedPerDay { get; set; }
+        public bool isLeaderboardTooltipShown { get; set; }
+        public bool FTUE { get; set; }
+        public int purchasesCount { get; set; }
 
+        
         [PostConstruct]
         public void PostConstruct()
         {
@@ -141,10 +146,18 @@ namespace TurboLabz.InstantGame
             gameCountCPU = 0;
             isAllLessonsCompleted = false;
             cpuPowerUpsUsedCount = 0;
-            themesTabVisited = false;
+            allStarTabVisited = false;
             inventoryTabVisited = false;
             shopTabVisited = false;
             ResetDailyPrefers();
+            isRateAppDialogueFirstTimeShown = false;
+            isRateAppDialogueShown = false;
+            freeHint = FreePowerUpStatus.NOT_CONSUMED;
+            freeDailyRatingBooster = FreePowerUpStatus.NOT_CONSUMED;
+            isLeaderboardTooltipShown = false;
+            FTUE = true;
+            purchasesCount = 0;
+
         }
 
         private void LoadFromDisk()
@@ -197,6 +210,11 @@ namespace TurboLabz.InstantGame
                     isLobbyLoadedFirstTime = reader.Read<bool>(PrefKeys.IS_LOBBY_LOADED_FIRST_TIME);
                 }
 
+                if (reader.HasKey(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN))
+                {
+                    isLeaderboardTooltipShown = reader.Read<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN);
+                }
+
                 if (reader.HasKey(PrefKeys.COACH_USED_COUNT))
                 {
                     coachUsedCount = reader.Read<int>(PrefKeys.COACH_USED_COUNT);
@@ -240,26 +258,6 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.TIME_SPENT_10M_MATCH))
                 {
                     timeSpent10mMatch = reader.Read<float>(PrefKeys.TIME_SPENT_10M_MATCH);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_1M_TOURNAMENT))
-                {
-                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_3M_TOURNAMENT))
-                {
-                    timeSpent1mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_5M_TOURNAMENT))
-                {
-                    timeSpent5mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT);
-                }
-
-                if (reader.HasKey(PrefKeys.TIME_SPENT_10M_TOURNAMENT))
-                {
-                    timeSpent10mTournament = reader.Read<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT);
                 }
 
                 if (reader.HasKey(PrefKeys.TIME_SPENT_30M_MATCH))
@@ -452,9 +450,9 @@ namespace TurboLabz.InstantGame
                     shopTabVisited = reader.Read<bool>(PrefKeys.SHOP_TAB_VISITED);
                 }
 
-                if (reader.HasKey(PrefKeys.THEMES_TAB_VISITED))
+                if (reader.HasKey(PrefKeys.ALL_STAR_TAB_VISITED))
                 {
-                    themesTabVisited = reader.Read<bool>(PrefKeys.THEMES_TAB_VISITED);
+                    allStarTabVisited = reader.Read<bool>(PrefKeys.ALL_STAR_TAB_VISITED);
                 }
 
                 if (reader.HasKey(PrefKeys.CURRENT_PROMOTION_INDEX))
@@ -465,6 +463,36 @@ namespace TurboLabz.InstantGame
                 if (reader.HasKey(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION))
                 {
                     inGameRemoveAdsPromotionShown = reader.Read<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION);
+                }
+
+                if (reader.HasKey(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME))
+                {
+                    isRateAppDialogueFirstTimeShown = reader.Read<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME);
+                }
+
+                if (reader.HasKey(PrefKeys.FREE_HINT))
+                {
+                    freeHint = reader.Read<FreePowerUpStatus>(PrefKeys.FREE_HINT);
+                }
+
+                if (reader.HasKey(PrefKeys.FREE_DAILY_RATING_BOOSTER))
+                {
+                    freeDailyRatingBooster = reader.Read<FreePowerUpStatus>(PrefKeys.FREE_DAILY_RATING_BOOSTER);
+                }
+
+                if (reader.HasKey(PrefKeys.GAMES_PLAYED_PER_DAY))
+                {
+                    gamesPlayedPerDay = reader.Read<int>(PrefKeys.GAMES_PLAYED_PER_DAY);
+                }
+
+                if (reader.HasKey(PrefKeys.FTUE))
+                {
+                    FTUE = reader.Read<bool>(PrefKeys.FTUE);
+                }
+
+                if (reader.HasKey(PrefKeys.purchasesCount))
+                {
+                    purchasesCount = reader.Read<int>(PrefKeys.purchasesCount);
                 }
 
                 var transactionKeys = dailyResourceManager.Keys.ToList();
@@ -524,10 +552,6 @@ namespace TurboLabz.InstantGame
                 writer.Write<float>(PrefKeys.TIME_SPENT_3M_MATCH, timeSpent3mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_5M_MATCH, timeSpent5mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_10M_MATCH, timeSpent10mMatch);
-                writer.Write<float>(PrefKeys.TIME_SPENT_1M_TOURNAMENT, timeSpent1mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_3M_TOURNAMENT, timeSpent3mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_5M_TOURNAMENT, timeSpent5mTournament);
-                writer.Write<float>(PrefKeys.TIME_SPENT_10M_TOURNAMENT, timeSpent10mTournament);
                 writer.Write<float>(PrefKeys.TIME_SPENT_30M_MATCH, timeSpent30mMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_LONG_MATCH, timeSpentLongMatch);
                 writer.Write<float>(PrefKeys.TIME_SPENT_CPU_MATCH, timeSpentCpuMatch);
@@ -568,9 +592,16 @@ namespace TurboLabz.InstantGame
                 writer.Write<int>(PrefKeys.CPU_POWERUPS_USED, cpuPowerUpsUsedCount);
                 writer.Write<bool>(PrefKeys.INVENTORY_TAB_VISITED, inventoryTabVisited);
                 writer.Write<bool>(PrefKeys.SHOP_TAB_VISITED, shopTabVisited);
-                writer.Write<bool>(PrefKeys.THEMES_TAB_VISITED, themesTabVisited);
+                writer.Write<bool>(PrefKeys.ALL_STAR_TAB_VISITED, allStarTabVisited);
                 writer.Write<int>(PrefKeys.CURRENT_PROMOTION_INDEX, currentPromotionIndex);
                 writer.Write<bool>(PrefKeys.IN_GAME_REMOVE_ADS_PROMOTION, inGameRemoveAdsPromotionShown);
+                writer.Write<bool>(PrefKeys.RATE_DLG_SHOWN_FIRST_TIME, isRateAppDialogueFirstTimeShown);
+                writer.Write<FreePowerUpStatus>(PrefKeys.FREE_HINT, freeHint);
+                writer.Write<FreePowerUpStatus>(PrefKeys.FREE_DAILY_RATING_BOOSTER, freeDailyRatingBooster);
+                writer.Write<int>(PrefKeys.GAMES_PLAYED_PER_DAY, gamesPlayedPerDay);
+                writer.Write<bool>(PrefKeys.IS_LEADERBOARD_TOOLTIP_SHOWN, isLeaderboardTooltipShown);
+                writer.Write<bool>(PrefKeys.FTUE, FTUE);
+                writer.Write<int>(PrefKeys.purchasesCount, purchasesCount);
 
                 foreach (var transaction in dailyResourceManager)
                 {
@@ -609,9 +640,6 @@ namespace TurboLabz.InstantGame
             timeSpent5mMatch = 0;
             timeSpent10mMatch = 0;
             timeSpent30mMatch = 0;
-            timeSpent1mTournament = 0;
-            timeSpent5mTournament = 0;
-            timeSpent10mTournament = 0;
             globalAdsCount = 0;
             rewardedAdsCount = 0;
             interstitialAdsCount = 0;
@@ -620,8 +648,15 @@ namespace TurboLabz.InstantGame
             isFirstRankedGameOfTheDayFinished = false;
             currentPromotionIndex = 0;
             inGameRemoveAdsPromotionShown = false;
+            gamesPlayedPerDay = 0;
             dailyResourceManager = new Dictionary<string, Dictionary<string, int>>();
             activePromotionSales = new List<string>();
+
+            //if (freeHint != FreePowerUpStatus.BOUGHT)
+            //    freeHint = FreePowerUpStatus.NOT_CONSUMED;
+
+            if (freeDailyRatingBooster != FreePowerUpStatus.BOUGHT)
+                freeDailyRatingBooster = FreePowerUpStatus.NOT_CONSUMED;
 
             foreach (var key in PrefKeys.DAILY_RESOURCE_MAMANGER)
             {

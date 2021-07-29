@@ -13,6 +13,7 @@
 using UnityEngine;
 using TurboLabz.Chess;
 using TurboLabz.InstantFramework;
+using System.Collections.Generic;
 
 namespace TurboLabz.Multiplayer
 {
@@ -34,5 +35,20 @@ namespace TurboLabz.Multiplayer
         public bool tournamentMatch;
         public int tournamentMatchScore;
         public int winTimeBonus;
+
+        public long betValue;
+        public bool powerMode;
+        public int earnedStars;
+        public StoreItem rewardDoubleStoreItem;
+        public float coinsMultiplyer;
+
+        public int movesCount;
+        public StoreItem fullGameAnalysisStoreItem;
+        public bool freeGameAnalysisAvailable;
+
+        public bool isAnalysisRVEnabled;
+        public bool isRatingBoosterRVEnabled;
+        public float rewardedVideoCoolDownInterval;
+        public long coolDownTimeUTC;
     }
 }

@@ -6,10 +6,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-using HUFEXT.GenericGDPR.Runtime.API;
+using HUF.CrashreportFirebase.Runtime.API;
+
+#if UNITY_IOS
+using HUF.Ads.Runtime.API;
+using TurboLabz.InstantGame;
+#endif
 
 namespace TurboLabz.InstantFramework
 {
+    [System.CLSCompliant(false)]
     public class SettingsView : View
     {
         public string key;
@@ -37,6 +43,7 @@ namespace TurboLabz.InstantFramework
         public Button personalisedAdsOffBtn;
         public Text personalisedAdsOnText;
         public Text personalisedAdsOffText;
+        public Image personalisedAdsOffBall;
 
         public Text autoConvertPawntoQueenText;
         public Button autoConvertPawntoQueenOnBtn;
@@ -64,6 +71,8 @@ namespace TurboLabz.InstantFramework
 
         public Button chatOnDiscordBtn;
         public Text chatOnDiscordText;
+
+        public Button crashlyticsTestCrash;
 
         //Signals
         public Signal manageSubscriptionButtonClickedSignal = new Signal();
@@ -134,6 +143,13 @@ namespace TurboLabz.InstantFramework
 #if UNITY_ANDROID
             restorePurchaseBtn.gameObject.SetActive(false);
 #endif
+
+            //Crashlytics Test
+            crashlyticsTestCrash.gameObject.SetActive(Debug.isDebugBuild);
+            crashlyticsTestCrash.onClick.AddListener(() => {
+                HCrashreportFirebase.Log("TestError");
+                throw new System.Exception("test crash please ignore");
+            });
         }
 
         protected override void OnEnable()
@@ -143,7 +159,6 @@ namespace TurboLabz.InstantFramework
             RefreshPersonalisedAdsToggleButtons();
             RefreshAutoConvertPawntoQueenButtons();
             //settingsChanged = playerModel.autoPromotionToQueen;
-            settingsChanged = preferencesModel.autoPromotionToQueen;
         }
 
         public void SetSubscriptionPrice()
@@ -187,31 +202,25 @@ namespace TurboLabz.InstantFramework
         //Personalised Ads Button
         private void RefreshPersonalisedAdsToggleButtons()
         {
-            personalisedAdsOffBtn.gameObject.SetActive(!HGenericGDPR.IsPersonalizedAdsAccepted);
-            personalisedAdsOnBtn.gameObject.SetActive(HGenericGDPR.IsPersonalizedAdsAccepted);
+            var personalisedAdsStatus = adsService.GetAdsConsent();
+            personalisedAdsOffBtn.gameObject.SetActive(!personalisedAdsStatus);
+            personalisedAdsOnBtn.gameObject.SetActive(personalisedAdsStatus);
         }
 
         private void OnPersonalizedAdsOffButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = true;
+            adsService.CollectSensitiveData(true);
             RefreshPersonalisedAdsToggleButtons();
-            SetConsent();
             hAnalyticsService.LogEvent("turn_on", "settings", "", "personalised_ads");
         }
 
         private void OnPersonalizedAdsOnButtonClicked()
         {
             audioService.PlayStandardClick();
-            HGenericGDPR.IsPersonalizedAdsAccepted = false;
+            adsService.CollectSensitiveData(false);
             RefreshPersonalisedAdsToggleButtons();
-            SetConsent();
             hAnalyticsService.LogEvent("turn_off", "settings", "", "personalised_ads");
-        }
-
-        private void SetConsent()
-        {
-            adsService.CollectSensitiveData(HGenericGDPR.IsPersonalizedAdsAccepted);
         }
 
         void OnRestorePurchaseButtonClicked()
@@ -244,12 +253,20 @@ namespace TurboLabz.InstantFramework
         {
             showBottomNavSignal.Dispatch(false);
             gameObject.SetActive(true);
+
+#if UNITY_IOS
+            var canChangeAdsConsent = HAds.CanChangeAdsConsent();
+            var selectedColor = canChangeAdsConsent ? Colors.WHITE : Colors.DISABLED_WHITE;
+            personalisedAdsOffBtn.interactable = canChangeAdsConsent;
+            personalisedAdsOffText.color = selectedColor;
+            personalisedAdsOffBall.color = selectedColor;
+#endif
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-            //applySettingsSignal.Dispatch();
+            applySettingsSignal.Dispatch();
         }
 
         public void OnBackButtonClicked()
@@ -298,12 +315,6 @@ namespace TurboLabz.InstantFramework
 
             autoConvertPawntoQueenOffBtn.gameObject.SetActive(!preferencesModel.autoPromotionToQueen);
             autoConvertPawntoQueenOnBtn.gameObject.SetActive(preferencesModel.autoPromotionToQueen);
-
-        }
-
-        public bool HasSettingsChanged()
-        {
-            return settingsChanged != preferencesModel.autoPromotionToQueen;
         }
     }
 }

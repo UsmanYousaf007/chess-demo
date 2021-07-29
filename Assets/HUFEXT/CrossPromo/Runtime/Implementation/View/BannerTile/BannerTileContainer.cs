@@ -8,7 +8,6 @@ namespace HUFEXT.CrossPromo.Runtime.Implementation.View.BannerTile
     [RequireComponent(typeof(RectTransform))]
     public class BannerTileContainer : MonoBehaviour, ILayoutElement
     {
-        [SerializeField] RectTransform self = default;
         [SerializeField] BannerTileImage imageView = default;
         [SerializeField] ActionButton actionButtonView = default;
         

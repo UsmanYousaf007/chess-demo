@@ -21,6 +21,7 @@ using TurboLabz.TLUtils;
 using System;
 using System.Collections;
 using DG.Tweening;
+using TMPro;
 
 namespace TurboLabz.InstantGame
 {
@@ -50,6 +51,8 @@ namespace TurboLabz.InstantGame
         public RectTransform avatarContainerRef;
         public Button profilePicButton;
         public RectTransform playerScoreLeague;
+        public TMP_Text championshipTrophies;
+        public GameObject championshipTrophiesContainer;
 
         [Header("Social Connection Section")]
         public Button socialConnectionButton;
@@ -234,6 +237,12 @@ namespace TurboLabz.InstantGame
                 }
             }
 
+            if (championshipTrophiesContainer != null && championshipTrophies != null)
+            {
+                championshipTrophies.text = vo.trophies2.ToString();
+                championshipTrophiesContainer.SetActive(vo.trophies2 > 0);
+            }
+
             //SetProfilePic(vo);
 
             var showLoginButton = !(vo.isFacebookLoggedIn || vo.isAppleSignedIn);
@@ -243,6 +252,15 @@ namespace TurboLabz.InstantGame
             }
 
             ChangeSocialAccountButtonsState(showLoginButton, vo.isAppleSignInSupported && showLoginButton);
+        }
+
+        public void UpdateTrophies(int trophies)
+        {
+            if (championshipTrophiesContainer != null && championshipTrophies != null)
+            {
+                championshipTrophies.text = trophies.ToString();
+                championshipTrophiesContainer.SetActive(trophies > 0);
+            }
         }
 
         public void FacebookAuthResult(AuthFacebookResultVO vo)

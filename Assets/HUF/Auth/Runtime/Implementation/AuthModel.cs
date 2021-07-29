@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HUF.Auth.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
@@ -13,11 +14,10 @@ namespace HUF.Auth.Runtime.Implementation
 
         readonly Dictionary<string, IAuthService> services = new Dictionary<string, IAuthService>();
 
-        public AuthModel() { }
-
-        public event UnityAction<string> OnInitialized;
-        public event UnityAction<string, bool> OnSignIn;
-        public event UnityAction<string> OnSignOutComplete;
+        public event Action<string> OnInitialized;
+        public event Action<string, bool> OnSignIn;
+        public event Action<string, AuthSignInResult> OnSignInResult;
+        public event Action<string> OnSignOutComplete;
 
         public bool TryRegisterService( IAuthService service )
         {
@@ -29,10 +29,15 @@ namespace HUF.Auth.Runtime.Implementation
 
             services.Add( service.Name, service );
             service.OnInitialized += Initialized;
-            service.OnSignIn += SignIn;
+            service.OnSignInResult += HandleSignIn;
             service.OnSignOutComplete += SignOutCompete;
             service.Init();
             return true;
+        }
+
+        bool IsServiceRegistered( IAuthService service )
+        {
+            return IsServiceRegistered( service.Name );
         }
 
         public bool IsServiceRegistered( string serviceName )
@@ -40,10 +45,20 @@ namespace HUF.Auth.Runtime.Implementation
             return services.ContainsKey( serviceName );
         }
 
-        public bool IsInitialized( string serviceName )
+        void Initialized( string serviceName )
         {
-            var service = GetService( serviceName );
-            return service != null && service.IsInitialized;
+            OnInitialized.Dispatch( serviceName );
+        }
+
+        void HandleSignIn( string serviceName, AuthSignInResult result )
+        {
+            OnSignInResult.Dispatch( serviceName, result );
+            OnSignIn.Dispatch( serviceName, result == AuthSignInResult.Success );
+        }
+
+        void SignOutCompete( string serviceName )
+        {
+            OnSignOutComplete.Dispatch( serviceName );
         }
 
         public bool SignIn( string serviceName )
@@ -70,24 +85,10 @@ namespace HUF.Auth.Runtime.Implementation
             return service != null ? service.UserId : string.Empty;
         }
 
-        bool IsServiceRegistered( IAuthService service )
+        public bool IsInitialized( string serviceName )
         {
-            return IsServiceRegistered( service.Name );
-        }
-
-        void Initialized( string serviceName )
-        {
-            OnInitialized.Dispatch( serviceName );
-        }
-
-        void SignIn( string serviceName, bool success )
-        {
-            OnSignIn.Dispatch( serviceName, success );
-        }
-
-        void SignOutCompete( string serviceName )
-        {
-            OnSignOutComplete.Dispatch( serviceName );
+            var service = GetService( serviceName );
+            return service != null && service.IsInitialized;
         }
 
         IAuthService GetService( string serviceName )

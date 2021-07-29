@@ -9,125 +9,151 @@ using UnityEngine.Events;
 
 namespace HUF.RemoteConfigs.Runtime.API
 {
+    public enum RemoteConfigService
+    {
+        Firebase = 0,
+        HUF = 1,
+        RhinoRage = 2,
+        Other = 99
+    }
+
     public static class HRemoteConfigs
     {
         const string CACHE_KEY = "HRC_Cache{0}";
         const long UTC_OFFSET = 1589440000;
 
-        static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HRemoteConfigs) );
+        public static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(HRemoteConfigs) );
 
-        static IRemoteConfigsService remoteConfigsService;
+        static IRemoteConfigsService[] remoteConfigsService =
+            new IRemoteConfigsService[Enum.GetNames( typeof(RemoteConfigService) ).Length];
 
-        static bool isFetching;
+        static bool[] fetchHandled = new bool[Enum.GetNames( typeof(RemoteConfigService) ).Length];
+        static bool[] isFetching = new bool[Enum.GetNames( typeof(RemoteConfigService) ).Length];
 
-        static HRemoteConfigs()
-        {
-            OnInitComplete += () => HLog.Log( logPrefix, "RemoteConfig service initialized" );
-        }
+        static RemoteConfigService? mainService = null;
 
         /// <summary>
-        /// Returns last successful UTC cache refresh timestamp. Mind it is not secure time.
+        /// Raised when the service is fully initialized.
         /// </summary>
         [PublicAPI]
-        public static long? CacheTimestamp
-        {
-            get
-            {
-                bool? hasCache = HasAnyCache();
-                if ( !hasCache.HasValue )
-                    return null;
-
-                int timestamp = PlayerPrefs.GetInt( GetServiceCacheKey() );
-
-                return UTC_OFFSET + timestamp;
-            }
-        }
+        public static event Action<RemoteConfigService> OnInitComplete;
 
         /// <summary>
-        /// Is set to TRUE if service handled fetch(successfully or not) at least once
-        /// </summary>
-        [PublicAPI] public static bool IsFetchHandled { get; private set; }
-
-        /// <summary>
-        /// Is set to TRUE if service is fully initialized and FALSE otherwise
-        /// </summary>
-        [PublicAPI] public static bool IsInitialized =>
-            remoteConfigsService != null && remoteConfigsService.IsInitialized;
-
-        /// <summary>
-        /// Occurs when service service is fully initialized
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnInitComplete;
-
-        /// <summary>
-        /// Dispatched when fetch is completed successfully.
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnFetchComplete;
-
-        /// <summary>
-        /// Dispatched when fetch failed. Provides reason as string
-        /// </summary>
-        [PublicAPI] public static event UnityAction OnFetchFail;
-
-        /// <summary>
-        /// Returns true if service has cache present (RemoteConfigs successfully fetched at least once)
+        /// Raised when fetching is completed successfully.
         /// </summary>
         [PublicAPI]
-        public static bool? HasAnyCache()
+        public static event Action<RemoteConfigService> OnFetchComplete;
+
+        /// <summary>
+        /// Raised when fetching fails.
+        /// </summary>
+        [PublicAPI]
+        public static event Action<RemoteConfigService?> OnFetchFail;
+
+        /// <summary>
+        /// Returns last successful UTC cache refresh timestamp. Note that it is not a secure time.
+        /// </summary>
+        [PublicAPI]
+        public static long? CacheTimestamp( RemoteConfigService? serviceType = null )
         {
-            if ( !IsServiceAttached() )
+            if ( !CheckForService( ref serviceType ) || !HasAnyCache( serviceType ) )
                 return null;
 
-            return PlayerPrefs.HasKey( GetServiceCacheKey() );
+            int timestamp = PlayerPrefs.GetInt( GetServiceCacheKey( (RemoteConfigService)serviceType ) );
+            return UTC_OFFSET + timestamp;
         }
 
         /// <summary>
-        /// Registers config service. If there is already registered service the services are swapped.
+        /// Returns whether the service successfully handled fetching at least once.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsFetchHandled( RemoteConfigService? serviceType = null )
+        {
+            return CheckForService( ref serviceType, out int storageIndex ) &&
+                   remoteConfigsService[storageIndex].HasCachedData;
+        }
+
+        /// <summary>
+        /// Returns whether the service is fully initialized.
+        /// </summary>
+        [PublicAPI]
+        public static bool IsInitialized( RemoteConfigService? serviceType = null )
+        {
+            return CheckForService( ref serviceType, out int storageIndex ) &&
+                   remoteConfigsService[storageIndex].IsInitialized;
+        }
+
+        /// <summary>
+        /// Returns whether the service has cache present (RemoteConfigs was successfully fetched at least once).
+        /// </summary>
+        [PublicAPI]
+        public static bool HasAnyCache( RemoteConfigService? serviceType = null )
+        {
+            return CheckForService( ref serviceType ) &&
+                   PlayerPrefs.HasKey( GetServiceCacheKey( (RemoteConfigService)serviceType ) );
+        }
+
+        /// <summary>
+        /// Registers a config service. If an already registered service exists, it will be replaced by the new one.
         /// Could be used to add custom <see cref="IRemoteConfigsService"/> implementation.
         /// </summary>
         /// <param name="configsService">Service to init</param>
         [PublicAPI]
-        public static void RegisterService( IRemoteConfigsService configsService )
+        public static void RegisterService( IRemoteConfigsService configsService,
+            RemoteConfigService serviceType,
+            bool isMain )
         {
-            DisconnectCallbacks();
+            if ( isMain || mainService == null )
+                mainService = serviceType;
+            var serviceId = (int)serviceType;
 
-            remoteConfigsService = configsService;
+            if ( remoteConfigsService[serviceId] != null )
+            {
+                HLog.LogError( logPrefix, $"RemoteConfig service {serviceType} already initialized" );
+                return;
+            }
 
-            remoteConfigsService.OnFetchFailed += HandleFetchFailed;
-            remoteConfigsService.OnFetchComplete += HandleFetchComplete;
+            remoteConfigsService[serviceId] = configsService;
+            remoteConfigsService[serviceId].OnFetchFailed += HandleFetchFailed;
+            remoteConfigsService[serviceId].OnFetchComplete += HandleFetchComplete;
 
             if ( configsService.IsInitialized )
-                OnInitComplete.Dispatch();
-            else
-                remoteConfigsService.OnInitComplete += HandleInitComplete;
-        }
-
-        /// <summary>
-        /// Starts fetch process for remote configs.
-        /// </summary>
-        [PublicAPI]
-        public static void Fetch()
-        {
-            if ( IsServiceAttached() )
             {
-                if ( isFetching )
-                    return;
-
-                isFetching = true;
-                remoteConfigsService.Fetch();
+                OnInitComplete.Dispatch( serviceType );
+                HLog.Log( logPrefix, $"RemoteConfig service {serviceType} initialized" );
             }
             else
-                OnFetchFail.Dispatch();
+                remoteConfigsService[serviceId].OnInitialized += HandleInitComplete;
         }
 
         /// <summary>
-        /// Returns all values downloaded from remote as dictionary with configId.
+        /// Starts fetching process for remote configs.
+        /// </summary>
+        [PublicAPI]
+        public static void Fetch( RemoteConfigService? serviceType = null )
+        {
+            if ( CheckForService( ref serviceType, out int storageIndex ) )
+            {
+                if ( isFetching[storageIndex] )
+                    return;
+
+                isFetching[storageIndex] = true;
+                remoteConfigsService[storageIndex].Fetch();
+            }
+            else
+                OnFetchFail.Dispatch( serviceType );
+        }
+
+        /// <summary>
+        /// Returns all values downloaded from the remote as dictionary with configId.
         /// Returns values from remote if fetch was successful and empty dict in any other case.
         /// </summary>
         [PublicAPI]
-        public static Dictionary<string, string> GetDictionary()
+        public static Dictionary<string, string> GetDictionary( RemoteConfigService? serviceType )
         {
-            return IsServiceAttached() ? remoteConfigsService.GetConfigJSONs() : new Dictionary<string, string>();
+            return CheckForService( ref serviceType, out int storageIndex )
+                ? remoteConfigsService[storageIndex].GetConfigJSONs()
+                : new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -135,79 +161,81 @@ namespace HUF.RemoteConfigs.Runtime.API
         /// </summary>
         /// <param name="configId">Config Id <see cref="AbstractConfig.ConfigId"/></param>
         [PublicAPI]
-        public static string GetValue( string configId )
+        public static string GetValue( string configId, RemoteConfigService? serviceType = null )
         {
-            return IsServiceAttached() ? remoteConfigsService?.GetConfigJSON( configId ) : string.Empty;
+            return CheckForService( ref serviceType, out int storageIndex )
+                ? remoteConfigsService[storageIndex].GetConfigJSON( configId )
+                : string.Empty;
         }
 
         /// <summary>
-        /// Applies value from remote to specific config.
+        /// Applies values from remote to a specific config.
         /// </summary>
         /// <typeparam name="T">Config type to be applied</typeparam>
         [PublicAPI]
-        public static void ApplyConfig<T>( ref T config ) where T : AbstractConfig
+        public static void ApplyConfig<T>( ref T config, RemoteConfigService? serviceType = null )
+            where T : AbstractConfig
         {
-            if ( IsServiceAttached() )
-                remoteConfigsService?.ApplyConfig( ref config );
+            if ( CheckForService( ref serviceType, out int storageIndex ) )
+                remoteConfigsService[storageIndex].ApplyConfig( ref config );
+            else
+                HLog.LogWarning( logPrefix, $"ApplyConfig failed, because service {serviceType} is not initialized" );
         }
 
         /// <summary>
-        /// Applies value from remote for all configs.
+        /// Applies values from remote to all configs.
         /// </summary>
         [PublicAPI]
-        public static void ApplyAllConfigs()
+        public static void ApplyAllConfigs( RemoteConfigService? serviceType = null )
         {
-            if ( IsServiceAttached() )
-                remoteConfigsService?.ApplyAllConfigs();
+            if ( CheckForService( ref serviceType, out int storageIndex ) )
+                remoteConfigsService[storageIndex].ApplyAllConfigs();
+            else
+                HLog.LogWarning( logPrefix, $"ApplyConfig failed, because service {serviceType} is not initialized" );
         }
 
-        static void DisconnectCallbacks()
+        static void HandleInitComplete( RemoteConfigService service )
         {
-            if (remoteConfigsService == null)
+            OnInitComplete.Dispatch( service );
+        }
+
+        static void HandleFetchFailed( RemoteConfigService service )
+        {
+            OnFetchFail.Dispatch( service );
+            isFetching[(int)service] = false;
+        }
+
+        static void HandleFetchComplete( RemoteConfigService service )
+        {
+            OnFetchComplete.Dispatch( service );
+            fetchHandled[(int)service] = true;
+            isFetching[(int)service] = false;
+
+            if ( !remoteConfigsService[(int)service].SupportsCaching )
                 return;
 
-            remoteConfigsService.OnInitComplete -= HandleInitComplete;
-            remoteConfigsService.OnFetchFailed -= HandleFetchFailed;
-            remoteConfigsService.OnFetchComplete -= HandleFetchComplete;
+            PlayerPrefs.SetInt( GetServiceCacheKey( service ), (int)( DateTime.UtcNow.ToFileTimeUtc() - UTC_OFFSET ) );
         }
 
-        static void HandleInitComplete()
+        static string GetServiceCacheKey( RemoteConfigService service )
         {
-            OnInitComplete.Dispatch();
+            return string.Format( CACHE_KEY, remoteConfigsService[(int)service].UID );
         }
 
-        static void HandleFetchFailed()
+        static bool CheckForService( ref RemoteConfigService? serviceType, out int storageIndex )
         {
-            OnFetchFail.Dispatch();
-            IsFetchHandled = true;
-            isFetching = false;
+            if ( serviceType == null )
+                serviceType = mainService;
+            storageIndex = serviceType != null ? (int)serviceType : -1;
+            return storageIndex >= 0 && remoteConfigsService[storageIndex] != null;
         }
 
-        static void HandleFetchComplete()
+        static bool CheckForService( ref RemoteConfigService? serviceType )
         {
-            OnFetchComplete.Dispatch();
-            IsFetchHandled = true;
-            isFetching = false;
-
-            if ( !remoteConfigsService.SupportsCaching )
-                return;
-
-            PlayerPrefs.SetInt( GetServiceCacheKey(), (int)(DateTime.UtcNow.ToFileTimeUtc() - UTC_OFFSET ) );
-        }
-
-        static bool IsServiceAttached()
-        {
-            if ( remoteConfigsService != null )
-                return true;
-
-            HLog.LogError( logPrefix,
-                "No remote config service attached. Please attach remote service to use this feature" );
-            return false;
-        }
-
-        static string GetServiceCacheKey()
-        {
-            return string.Format( CACHE_KEY, remoteConfigsService.UID );
+            if ( serviceType == null )
+                serviceType = mainService;
+            var storageIndex = serviceType != null ? (int)serviceType : -1;
+            return storageIndex >= 0 && remoteConfigsService[storageIndex] != null;
         }
     }
 }

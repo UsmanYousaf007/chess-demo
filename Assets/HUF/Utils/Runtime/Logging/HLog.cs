@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 #if UNITY_IOS && !UNITY_EDITOR
@@ -18,9 +21,33 @@ namespace HUF.Utils.Runtime.Logging
 {
     public static class HLog
     {
-        static bool canLogOnProd = !Debug.isDebugBuild && Config != null && Config.CanLogOnProd;
+        const int DEBUG_FRAME_OFFSET = 3;
+        const int PRODUCTION_FRAME_OFFSET_IOS = 2;
+        const int PRODUCTION_FRAME_OFFSET = 1;
+
+        public static int stackFrame =
+#if UNITY_EDITOR
+            DEBUG_FRAME_OFFSET;
+#else
+    #if UNITY_IOS
+            HUFIsIOSBuildConfigDebug() ? DEBUG_FRAME_OFFSET : PRODUCTION_FRAME_OFFSET_IOS;
+    #else
+        #if DEVELOPMENT_BUILD
+            DEBUG_FRAME_OFFSET;
+        #else
+            PRODUCTION_FRAME_OFFSET;
+        #endif
+    #endif
+#endif
+
+        static bool canLogMessages = Config != null &&
+                                     ( Debug.isDebugBuild && !Config.DisableHLogsOnDebugBuilds ||
+                                       Config.CanLogOnProd );
+
         static bool canLogTime = Config != null && Config.ShowTimeInNativeLogs;
         static HLogConfig config;
+
+        static string TimeString => $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]";
 
         static HLogConfig Config
         {
@@ -60,53 +87,182 @@ namespace HUF.Utils.Runtime.Logging
 #endif
 
         /// <summary>
-        /// Logs message in console
+        /// Logs a message in the console.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogError(
+            string message )
+        {
+            Log( message, LogType.Error );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogError(
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Error );
+            Log( message, LogType.Error );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogError(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( message, LogType.Error );
         }
 
         /// <summary>
-        /// Logs message in console
+        /// Logs the value of message in the console.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogError(
+            Func<string> message )
+        {
+            Log( message, LogType.Error );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogWarning(
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Warning );
+            Log( message, LogType.Warning );
         }
 
         /// <summary>
-        /// Logs message that is not filtered out like HBI id but only on debug 
+        /// Logs a message in the console.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogWarning(
+            string message )
+        {
+            Log( message, LogType.Warning );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogWarning(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( message, LogType.Warning );
+        }
+
+        /// <summary>
+        /// Logs the value of message in the console.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogWarning(
+            Func<string> message )
+        {
+            Log( message, LogType.Warning );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogImportant(
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, Debug.isDebugBuild );
+            Log( message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
         }
 
         /// <summary>
-        /// Logs message that is not filtered out like Ads adapters status
+        /// Logs a message that is not filtered out like HBI ID but only on debug.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogImportant(
+            string message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogImportant(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
+        }
+
+        /// <summary>
+        /// Logs the value of message that is not filtered out like HBI ID but only on debug.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogImportant(
+            Func<string> message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                Debug.isDebugBuild && ( Config == null || !Config.DisableHLogsOnDebugBuilds ) );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void LogAlways(
             HLogPrefix prefixSource,
             string message )
         {
-            Log( prefixSource, message, LogType.Log, null, true );
+            Log( message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
         }
 
         /// <summary>
-        /// Logs message in console when build is set to DEBUG
+        /// Logs a message that is not filtered out like Ads adapters status.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogAlways(
+            string message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogAlways(
+            HLogPrefix prefixSource,
+            Func<string> message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
+        }
+
+        /// <summary>
+        /// Logs the value of message that is not filtered out like Ads adapters status.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void LogAlways(
+            Func<string> message )
+        {
+            Log( message,
+                LogType.Log,
+                null,
+                !Debug.isDebugBuild || Config != null && !Config.DisableHLogsOnDebugBuilds );
+        }
+
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         public static void Log(
             HLogPrefix prefixSource,
             string message,
@@ -114,60 +270,196 @@ namespace HUF.Utils.Runtime.Logging
             Object context = null,
             bool isNotFiltered = false )
         {
+            Log( message, type, context, isNotFiltered );
+        }
+
+        /// <summary>
+        /// Logs a message in the console when if the criteria from the config are met.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void Log(
+            string message,
+            LogType type = LogType.Log,
+            Object context = null,
+            bool isNotFiltered = false )
+        {
+            ( string prefix, string suffix ) = GetPrefixAndSuffix();
+
+            if ( IsMessageFilteredOut( prefix, type, isNotFiltered ) )
+                return;
+
+            LogMessage( prefix, $"{message}\nSource: {suffix}", type, context );
+        }
+
+        /// <summary>
+        /// Logs the value of message in the console when if the criteria from the config are met.
+        /// </summary>
+        [PublicAPI]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void Log(
+            Func<string> message,
+            LogType type = LogType.Log,
+            Object context = null,
+            bool isNotFiltered = false )
+        {
+            ( string prefix, string suffix ) = GetPrefixAndSuffix();
+
+            if ( IsMessageFilteredOut( prefix, type, isNotFiltered ) )
+                return;
+
+            LogMessage( prefix, $"{message()}\nSource: {suffix}", type, context );
+        }
+
+        [Obsolete]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
+        public static void Log(
+            HLogPrefix prefixSource,
+            Func<string> message,
+            LogType type = LogType.Log,
+            Object context = null,
+            bool isNotFiltered = false )
+        {
+            Log( message, type, context, isNotFiltered );
+        }
+
+        static bool IsMessageFilteredOut( string prefix, LogType type, bool isNotFiltered )
+        {
             if ( type == LogType.Log && !isNotFiltered )
             {
-                if ( ( Debug.isDebugBuild || !canLogOnProd ) && Config == null )
-                    return;
+                if ( !canLogMessages )
+                    return true;
 
-                if ( Config.IsFilteringLogs && !Regex.IsMatch( prefixSource.Prefix,
-                    Config.RegexFilter,
-                    Config.IgnoreCaseInRegex ? RegexOptions.IgnoreCase : RegexOptions.None ) )
-                    return;
+                if ( Config != null && Config.IsFilteringLogs )
+                {
+                    bool match = Regex.IsMatch( prefix,
+                        Config.RegexFilter,
+                        Config.IgnoreCaseInRegex ? RegexOptions.IgnoreCase : RegexOptions.None );
+
+                    //Equals to: ( !Config.InvertFilter && !match ) || ( Config.InvertFilter && match )
+                    if ( Config.InvertFilter == match )
+                        return true;
+                }
             }
 
+            return false;
+        }
+
+        static void LogMessage( string prefix,
+            string message,
+            LogType type = LogType.Log,
+            Object context = null )
+        {
             switch ( type )
             {
                 case LogType.Error:
-                    Debug.LogError( FormatMessage( prefixSource.Prefix, message, type ), context );
+                    Debug.LogError( FormatMessage( prefix, message, type ), context );
                     break;
                 case LogType.Warning:
-                    Debug.LogWarning( FormatMessage( prefixSource.Prefix, message, type ), context );
+                    Debug.LogWarning( FormatMessage( prefix, message, type ), context );
                     break;
                 default:
-                    Debug.Log( FormatMessage( prefixSource.Prefix, message, type ), context );
+                    Debug.Log( FormatMessage( prefix, message, type ), context );
                     break;
             }
 #if UNITY_IOS && !UNITY_EDITOR
             if (config != null && config.IOSNativeLogs)
-                HUFiOSSendNativeLog( FormatMessage( prefixSource.Prefix, message, type ) );
+                HUFiOSSendNativeLog( FormatMessage( prefix, message, type ) );
 #endif
         }
 
         /// <summary>
-        /// Generates log message formatted in HUF manner
+        /// Generates log message formatted in HUF manner.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl( MethodImplOptions.AggressiveInlining )]
         static string FormatMessage( string prefix, string message, LogType type )
         {
 #if UNITY_EDITOR
             switch ( type )
             {
                 case LogType.Error:
-                    return $"<color=\"#c70000\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#c70000><b>[{prefix}]</b></color> {message}";
                 case LogType.Warning:
-                    return $"<color=\"#c77700\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#c77700><b>[{prefix}]</b></color> {message}";
                 default:
-                    return $"<color=\"#6f8a91\"><b>[{prefix}]</b></color> {message}";
+                    return $"<color=#6f8a91><b>[{prefix}]</b></color> {message}";
             }
 #else
-            return $"{( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : "" )}" +
+            return ( canLogTime ? $"[{DateTime.UtcNow:T.ToString(\"HH:mm:ss\")}]" : String.Empty ) +
                    $"[{prefix}] {message}";
 #endif
         }
-        
-        
+
+        static (string, string) GetPrefixAndSuffix()
+        {
+            var caller = new StackFrame( stackFrame ).GetMethod();
+
+            if ( caller == null )
+            {
+#if HUF_TESTS
+                Debug.LogError( $"No stack method!\n{Environment.StackTrace}" );
+#endif
+                return ( "Unknown", new StackFrame( stackFrame ).ToString() );
+            }
+
+            var callerType = caller.DeclaringType;
+
+            if ( callerType != null )
+            {
+                var fullPath = callerType.ToString();
+
+                return ( $"{ExtractCoreNamespace( callerType.Namespace )}{ExtractCorePrefix( fullPath )}",
+                    $"{fullPath}:{caller.Name}" );
+            }
+
+            return ( caller.Name, caller.ToString() );
+        }
+
+        static string ExtractCoreNamespace( string fullNamespace )
+        {
+            if ( fullNamespace.IsNullOrEmpty() )
+                return string.Empty;
+
+            int trim = 0;
+
+            for ( int i = 0; i < fullNamespace.Length; i++ )
+            {
+                if ( fullNamespace[i] != '.' )
+                    continue;
+
+                if ( trim > 0 )
+                {
+                    return fullNamespace.Substring( 0, i );
+                }
+
+                trim = i;
+            }
+
+            return fullNamespace;
+        }
+
+        static string ExtractCorePrefix( string fullName )
+        {
+            int last = fullName.LastIndexOf( '+' );
+            int first = fullName.LastIndexOf( '.' );
+
+            if ( first < 0 )
+                return string.Empty;
+
+            if ( last < 0 )
+                last = fullName.Length;
+            int length = last - first;
+
+            if ( length <= 0 )
+                return string.Empty;
+
+            return fullName.Substring( first, length ).TrimEnd( ']' );
+        }
 
 #if UNITY_IOS && !UNITY_EDITOR
+        [DllImport ("__Internal")]
+        public static extern bool HUFIsIOSBuildConfigDebug();
+
         [DllImport("__Internal")]
         static extern void HUFiOSSendNativeLog(string message);
 #endif

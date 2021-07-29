@@ -6,10 +6,7 @@ namespace HUF.Utils.Runtime.SafeArea
 {
     public abstract class SafeAreaBase : MonoBehaviour
     {
-        Canvas canvas;
-        protected Rect safeArea;
-        float lastScaleFactor;
-        protected float scaleFactor = 1f;
+        const float MINIMUM_SCALE_FACTOR_THRESHOLD = 0.01f;
 
         [SerializeField] protected bool isUsingCanvasScaler;
         [SerializeField] protected bool autoRefresh;
@@ -18,11 +15,16 @@ namespace HUF.Utils.Runtime.SafeArea
         [SerializeField] protected bool modifyLeft;
         [SerializeField] protected bool modifyRight;
 
+        protected Rect safeArea;
+        protected float scaleFactor = 1f;
+        float lastScaleFactor = 1f;
+        Canvas canvas;
+
         protected void Awake()
         {
-            canvas = GetComponent<Canvas>();
-            
-            if (!autoRefresh)
+            canvas = GetComponentInParent<Canvas>();
+
+            if ( !autoRefresh )
                 Adjust();
         }
 
@@ -30,26 +32,29 @@ namespace HUF.Utils.Runtime.SafeArea
         {
             yield return null;
 
-            if (canvas == null)
-                yield break;
-            
-            if (Math.Abs(lastScaleFactor - canvas.scaleFactor) > 0.1)
-            {
-                lastScaleFactor = canvas.scaleFactor;
-                scaleFactor = 1f / lastScaleFactor;
-                ForceAdjust();
-            }
+            Adjust();
         }
-        
+
+        bool CheckScaleFactor()
+        {
+            if ( canvas == null || Math.Abs( lastScaleFactor - canvas.scaleFactor ) < MINIMUM_SCALE_FACTOR_THRESHOLD )
+                return false;
+
+            lastScaleFactor = canvas.scaleFactor;
+            scaleFactor = 1f / lastScaleFactor;
+            return true;
+        }
+
         void OnEnable()
         {
-            if (autoRefresh)
+            if ( autoRefresh )
             {
                 SafeAreaManager.OnSafeAreaChange += Adjust;
                 Adjust();
             }
-            if (isUsingCanvasScaler)
-                CoroutineManager.StartCoroutine(ReadScaleFactor());
+
+            if ( isUsingCanvasScaler )
+                CoroutineManager.StartCoroutine( ReadScaleFactor() );
         }
 
         void OnDisable()
@@ -59,7 +64,7 @@ namespace HUF.Utils.Runtime.SafeArea
 
         void Adjust()
         {
-            if (safeArea == SafeAreaManager.Instance.SafeArea)
+            if ( !CheckScaleFactor() && safeArea == SafeAreaManager.Instance.SafeArea )
                 return;
 
             safeArea = SafeAreaManager.Instance.SafeArea;
@@ -67,6 +72,5 @@ namespace HUF.Utils.Runtime.SafeArea
         }
 
         protected abstract void ForceAdjust();
-
     }
 }

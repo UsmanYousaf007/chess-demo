@@ -34,6 +34,25 @@ public class AudioList : MonoBehaviour
     public AudioClip SFX_SHOP_PURCHASE_ITEM;
     public AudioClip SFX_REWARD_UNLOCKED;
     public AudioClip SFX_CLOCK_WARNING;
+    public AudioClip SFX_MOVE_DIAL_SELECTED;
+
+    // Effects
+    public AudioClip SFX_EFFECT_SLAM;
+    public AudioClip SFX_EFFECT_CHEST_ACTIVATE;
+    public AudioClip SFX_EFFECT_CHEST_SPEW;
+    public AudioClip SFX_EFFECT_COIN_SPREAD;
+    public AudioClip SFX_EFFECT_COIN_TRAVEL;
+    public AudioClip SFX_EFFECT_COIN_FILL;
+    public AudioClip SFX_EFFECT_GEM_SPREAD;
+    public AudioClip SFX_EFFECT_GEM_TRAVEL;
+    public AudioClip SFX_EFFECT_GEM_FILL;
+    public AudioClip SFX_EFFECT_STAR_SPREAD;
+    public AudioClip SFX_EFFECT_STAR_TRAVEL;
+    public AudioClip SFX_EFFECT_STAR_FILL;
+    public AudioClip SFX_EFFECT_TROPHY_SPREAD;
+    public AudioClip SFX_EFFECT_TROPHY_TRAVEL;
+    public AudioClip SFX_EFFECT_TROPHY_FILL;
+    public AudioClip SFX_EFFECT_RING_SLAM;
 
     // Dispatch Signal
     public Signal playStandardClickSignal = new Signal();

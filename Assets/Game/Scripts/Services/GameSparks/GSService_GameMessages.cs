@@ -129,7 +129,7 @@ namespace TurboLabz.InstantFramework
             }
 
             ParseChallengeData(message.Challenge.ChallengeId, challengeData, true);
-            HandleActiveGameEnd(message.Challenge.ChallengeId);
+            HandleActiveGameEnd(message.Challenge.ChallengeId, true);
 
             challengeMessageProcessedSignal.Dispatch(message.Challenge.ChallengeId);
         }

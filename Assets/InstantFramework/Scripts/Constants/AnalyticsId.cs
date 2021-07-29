@@ -41,6 +41,7 @@ namespace TurboLabz.InstantFramework
         lessons_play,
         inventory,
         spot_purchase_dlg,
+        spot_coin_purchase_dlg,
         arena,
         tournament_leaderboard,
         inbox,
@@ -110,17 +111,25 @@ namespace TurboLabz.InstantFramework
 
         //elo distribution
         elo,
+        internal_matchmaking_elo,
 
         //match end distribution
         match_end,
 
-        //FTUE funnel
-        ftue_app_launch,
-        ftue_gdpr,
-        ftue_skill_level_dlg,
-        ftue_intstall_popup,
-        ftue_lobby,
-        ftue_gdpr_accept,
+        //Drop Offs
+        terms_and_conditions_shown,
+        terms_and_conditions_shown_2,
+        terms_and_conditions_accepted,
+        terms_and_conditions_accepted_2,
+        gdpr,
+        gdpr_player_interaction,
+        pre_permission,
+        pre_permission_interaction,
+        ATT_shown,
+        ATT_interaction,
+        drop_off_area_shown,
+        drop_off_area_interaction,
+        notification_permission_dialogue,
 
         //early inidicator
         install_game_count,
@@ -154,6 +163,13 @@ namespace TurboLabz.InstantFramework
         resource_via_videos,
         resource_via_free,
         resource_via_bundle,
+        coin_popup_purchase,
+        gems_used,
+        bet_increment_used,
+        bet_increment_default,
+        free_game_analysis_used,
+        rv_used,
+        consumable_used,
 
         //inbox
         inbox_visits,
@@ -166,18 +182,25 @@ namespace TurboLabz.InstantFramework
         start_tournament,
         tap_notification,
         tournament_start_location,
-        finish_rank,
+        championship_finish_rank,
         current_league,
         engaged_finish_rank,
         trophies_earned,
         tournament_first_game_start_location,
+        championship_coins_by_rank,
+        league_lifecycle,
 
         //navigation
         navigation_clicked,
 
         //promotions
         promotion_dlg_shown,
-        promotion_dlg_purchased
+        promotion_dlg_purchased,
+
+        //payment stats
+        first_payment,
+        second_payment,
+        third_payment
     }
 
     public enum AnalyticsContext
@@ -217,6 +240,17 @@ namespace TurboLabz.InstantFramework
         interstitial_in_game_cpu,
         interstitial_in_game_30_min,
         interstitial_in_game_classic,
+        rewarded_daily_doubler,
+        rewarded_lobby_chest,
+        rewarded_out_of_coins_lobby_banner_popup,
+        rewarded_out_of_coins_lobby_popup,
+        rewarded_coins_spot_state_1,
+        rewarded_power_mode,
+        rewarded_rating_booster,
+        rewarded_cpu_pregame_power_mode,
+        rewarded_cpu_in_game_power_mode,
+        rewarded_cpu_resume_power_mode,
+        rewarded_analysis,
 
         //Session
         num_facebook_friends,
@@ -284,7 +318,6 @@ namespace TurboLabz.InstantFramework
         lucky_gem_booster,
         hint,
         key,
-        rewarded_rating_booster,
         rewarded_hints,
         rewarded_keys,
         rewarded_gem_booster,
@@ -293,6 +326,7 @@ namespace TurboLabz.InstantFramework
         lobby_themes_pack,
         lobby_remove_ads,
         lobby_collect_rewards,
+        lobby_out_of_coins,
         unlock_all_themes,
         unlock_all_lessons,
         lobby_update_banner,
@@ -313,6 +347,15 @@ namespace TurboLabz.InstantFramework
         tournament_leaderboard,
         lessons,
         themes,
+        cpu_pre_game_power_mode,
+        cpu_in_game_power_mode,
+        power_mode,
+        coin_doubler,
+        lesson,
+        theme,
+        coins,
+        game_analysis,
+        cpu_resume_game_power_mode,
 
         //tournament
         main,
@@ -332,7 +375,20 @@ namespace TurboLabz.InstantFramework
         elite,
         lessons_pack,
         themes_pack,
-        annual_mega_sale
+        annual_mega_sale,
+        subscription,
+        annual_sub,
+        monthly_sub,
+        elite_bundle,
+        golden_bundle,
+        emerald_bundle,
+        ruby_bundle,
+        diamond_bundle,
+        grand_master_bundle,
+
+        //drop offs
+        out_of_coins_pop_up,
+        out_of_coins_pop_up_closed
     }
 
     public enum AnalyticsParameter
@@ -342,6 +398,7 @@ namespace TurboLabz.InstantFramework
         count,
         level_difficulty,
         elo,
+        internal_matchmaking_elo,
         bot_difficulty,
         duration,
         theme_name,
@@ -355,7 +412,8 @@ namespace TurboLabz.InstantFramework
         tickets,
         rating_boosters,
         hints,
-        keys
+        keys,
+        coins
     }
 }
 

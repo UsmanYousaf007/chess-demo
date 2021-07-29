@@ -2,7 +2,9 @@ Assets/HUF/AnalyticsHBI/CHANGELOG.md
 Assets/HUF/AnalyticsHBI/Documentation~/content/docs/AnalyticsHBI.md
 Assets/HUF/AnalyticsHBI/Documentation~/static/AnalyticsHBI/Config.png
 Assets/HUF/AnalyticsHBI/Editor/iOS/iOSProjectHBIFrameworkManager.cs
+Assets/HUF/AnalyticsHBI/Editor/iOS/HbiDomainWhitelist.cs
 Assets/HUF/AnalyticsHBI/Editor/HBIDummyPreprocessBuild.cs
+Assets/HUF/AnalyticsHBI/Editor/FixOsxLib.cs
 Assets/HUF/AnalyticsHBI/Editor/HBIAnalyticsConfigInstaller.cs
 Assets/HUF/AnalyticsHBI/Plugins/Android/proguardTemplate.txt
 Assets/HUF/AnalyticsHBI/Plugins/HBI/Managed/iOS/hbi-wrapper-managed.dll
@@ -12,8 +14,12 @@ Assets/HUF/AnalyticsHBI/Plugins/HBI/Native/iOS/libhbilib.a
 Assets/HUF/AnalyticsHBI/Plugins/HBI/Native/Android/hbilib.aar
 Assets/HUF/AnalyticsHBI/Plugins/HBI/Native/Win32/hbilib.dll
 Assets/HUF/AnalyticsHBI/Plugins/HBI/Native/Win32/hbi-wrapper-native.dll
-Assets/HUF/AnalyticsHBI/Runtime/Implementation/HBIAnalyticsConfig.cs
+Assets/HUF/AnalyticsHBI/Presets/HBIAnalyticsConfig.preset
+Assets/HUF/AnalyticsHBI/Runtime/Implementation/PlayerAttributesResponse.cs
+Assets/HUF/AnalyticsHBI/Runtime/Implementation/HDSPlayerAttributesService.cs
 Assets/HUF/AnalyticsHBI/Runtime/Implementation/HBIAnalyticsService.cs
+Assets/HUF/AnalyticsHBI/Runtime/Configs/PlayerAttributes.cs
+Assets/HUF/AnalyticsHBI/Runtime/Configs/HBIAnalyticsConfig.cs
 Assets/HUF/AnalyticsHBI/Runtime/API/HAnalyticsHBI.cs
 Assets/HUF/AnalyticsHBI/define.hufdefine
 Assets/HUF/AnalyticsHBI/dependencies.huf

@@ -22,7 +22,7 @@ namespace TurboLabz.InstantFramework
 
         public IPromise<BackendResult> FindMatch(string action)
         {
-            return new GSFindMatchRequest(GetRequestContext()).Send(action, OnFindMatchSuccess);
+            return new GSFindMatchRequest(GetRequestContext()).Send(action, OnFindMatchSuccess, OnFindMatchFailed);
         }
 
         private void OnFindMatchSuccess(object r, Action<object> a)
@@ -43,6 +43,19 @@ namespace TurboLabz.InstantFramework
 
             findMatchRequestCompleteSignal.Dispatch(opponentStatus);
         }
+
+        private void OnFindMatchFailed(object r)
+        {
+            var response = (LogEventResponse)r;
+            var errorData = response.Errors;
+            var errorString = errorData.GetString("error");
+
+            if (errorString.Equals("currency4Insufficient"))
+            {
+                playerModel.coins = GSParser.GetSafeInt(errorData, "coins");
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+            }
+        }
     }
 
     #region REQUEST
@@ -54,10 +67,11 @@ namespace TurboLabz.InstantFramework
 
         public GSFindMatchRequest(GSFrameworkRequestContext context) : base(context) { }
 
-        public IPromise<BackendResult> Send(string action, Action<object, Action<object>> onSuccess)
+        public IPromise<BackendResult> Send(string action, Action<object, Action<object>> onSuccess, Action<object> onFailure)
         {
             this.errorCode = BackendResult.MATCHMAKING_REQUEST_FAILED;
             this.onSuccess = onSuccess;
+            this.onFailure = onFailure;
 
             new LogEventRequest().SetEventKey(SHORT_CODE)
                 .SetEventAttribute(ATT_ACTION, action)

@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.API;
 using HUF.Ads.Runtime.Implementation;
 using HUFEXT.AdsManager.Runtime.AdManagers;
@@ -7,20 +8,20 @@ namespace HUFEXT.AdsManager.Runtime.AdMediation
 {
     public interface IAdMediation
     {
-        event UnityAction OnInitialize;
+        event Action OnInitialize;
         
-        event UnityAction<AdCallback> OnBannerFetched;
-        event UnityAction<AdCallback> OnBannerShown;
-        event UnityAction<AdCallback> OnBannerClicked;
-        event UnityAction<AdCallback> OnBannerHidden;
+        event Action<AdCallback> OnBannerFetched;
+        event Action<AdCallback> OnBannerShown;
+        event Action<AdCallback> OnBannerClicked;
+        event Action<AdCallback> OnBannerHidden;
         
-        event UnityAction<AdCallback> OnInterstitialEnded;
-        event UnityAction<AdCallback> OnInterstitialFetched;
-        event UnityAction<AdCallback> OnInterstitialClicked;
+        event Action<AdCallback> OnInterstitialEnded;
+        event Action<AdCallback> OnInterstitialFetched;
+        event Action<AdCallback> OnInterstitialClicked;
         
-        event UnityAction<AdCallback> OnRewardedEnded;
-        event UnityAction<AdCallback> OnRewardedFetched;
-        event UnityAction<AdCallback> OnRewardedClicked;
+        event Action<AdCallback> OnRewardedEnded;
+        event Action<AdCallback> OnRewardedFetched;
+        event Action<AdCallback> OnRewardedClicked;
         
         string MediationId { get; }
         bool IsInitialized { get; }

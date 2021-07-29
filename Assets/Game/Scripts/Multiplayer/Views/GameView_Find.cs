@@ -19,6 +19,7 @@ using TurboLabz.TLUtils;
 using System.Collections;
 using TurboLabz.InstantGame;
 using System;
+using TMPro;
 
 namespace TurboLabz.Multiplayer
 {
@@ -48,11 +49,23 @@ namespace TurboLabz.Multiplayer
 
         public Text timerLabel;
 
+        public GameObject findBankPanel;
+        public GameObject findPowerPlayPanel;
+        public RectTransform[] findLayouts;
+
+        [SerializeField] private RewardParticleEmitter _coinsParticleEmitter;
+
         private IEnumerator rollOpponentProfilePictureEnumerator;
         private Coroutine findMatchTimeoutCR = null;
         private TimeSpan countDownTimer;
         public Signal findMatchTimeoutSignal = new Signal();
         private string oppoenentId;
+
+        public TMP_Text gameModeLabel;
+        public TMP_Text bettingCoins;
+        public Image powerPlayModeOn;
+        public Image powerPlayModeOff;
+        private long betValue;
 
         public void InitFind()
         {
@@ -86,11 +99,42 @@ namespace TurboLabz.Multiplayer
             }
         }
 
+        private string GetMode(string action)
+        {
+            if (action == "Random1" || action == "Challenge1")
+            {
+                return "1M";
+            }
+            else if (action == "Random3" || action == "Challenge3")
+            {
+                return "3M";
+            }
+            else if (action == "Random10" || action == "Challenge10")
+            {
+                return "10M";
+            }
+            else if (action == "Random30" || action == "Challenge30")
+            {
+                return "30M";
+            }
+            else 
+            {
+                return "5M";
+            }
+        }
+
         public void UpdateFind(FindViewVO vo)
         {
             findAvatarRoller.gameObject.SetActive(false);
             opponentFindProfile.SetActive(false);
             playerId = vo.player.playerId;
+            betValue = vo.bettingCoins;
+
+            powerPlayModeOn.enabled = vo.powerMode;
+            powerPlayModeOff.enabled = false;
+            gameModeLabel.text = GetMode(vo.gameMode) + " Chess";
+            bettingCoins.text = vo.bettingCoins.ToString("N0");
+
             SetProfileDisplayPic(ref playerFindAvatarBg, ref playerFindAvatarIcon, ref playerFindProfilePic,
                                 vo.player.playerPic, vo.player.avatarId, vo.player.avatarColorId);
             SetLeagueBorder(playerFindLeageBorder, vo.player.leagueBorder);
@@ -111,6 +155,8 @@ namespace TurboLabz.Multiplayer
                 searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_SEARCHING);
                 RollOpponentProfilePicture();
             }
+
+            SetupFindLayout(vo.bettingCoins > 0, vo.powerMode);
         }
 
         public void SetProfilePicById(string id, Sprite sprite)
@@ -208,7 +254,15 @@ namespace TurboLabz.Multiplayer
             //opponentPremiumBorder.SetActive(vo.isPremium);
             SetLeagueBorder(opponentFindLeagueBorder, vo.leagueBorder);
             searchingLabel.color = Colors.YELLOW;
-            searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
+            if (betValue > 0)
+            {
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_PLACING_BET);
+                PlayCoinsAnimation();
+            }
+            else
+            {
+                searchingLabel.text = localizationService.Get(LocalizationKey.MULTIPLAYER_FOUND);
+            }
         }
 
         private void RollOpponentProfilePicture()
@@ -306,6 +360,25 @@ namespace TurboLabz.Multiplayer
             border.gameObject.SetActive(borderSprite != null);
             border.sprite = borderSprite;
             border.SetNativeSize();
+        }
+
+        private void SetupFindLayout(bool isRanked, bool isPowerMode)
+        {
+            findBankPanel.SetActive(isRanked);
+            findPowerPlayPanel.SetActive(isPowerMode);
+
+            _coinsParticleEmitter.gameObject.SetActive(false);
+
+            foreach (var layout in findLayouts)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(layout);
+            }
+        }
+
+        private void PlayCoinsAnimation()
+        {
+            _coinsParticleEmitter.gameObject.SetActive(true);
+            _coinsParticleEmitter.PlayFx();
         }
     }
 }

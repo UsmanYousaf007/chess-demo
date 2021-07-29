@@ -8,17 +8,19 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
         fileName = "FirebaseRemoteConfigsConfig" )]
     public class FirebaseRemoteConfigsConfig : FeatureConfigBase
     {
+        [SerializeField] bool isMainService = false;
         [SerializeField] bool enableInEditor = true;
-
         [SerializeField] int cacheExpirationInSeconds = 3600;
 
+        public bool IsMain => isMainService;
         public bool EnableInEditor => enableInEditor;
 
         public int CacheExpirationInSeconds => cacheExpirationInSeconds;
 
         public override void RegisterManualInitializers()
         {
-            AddManualSynchronousInitializer( "Remote Configs - Firebase", HRemoteConfigsFirebase.Init );
+            //AddManualSynchronousInitializer( "Remote Configs - Firebase", HRemoteConfigsFirebase.Init);
+            AddManualSynchronousInitializer( "Remote Configs - Firebase", HRemoteConfigsFirebase.Init);
         }
     }
 }

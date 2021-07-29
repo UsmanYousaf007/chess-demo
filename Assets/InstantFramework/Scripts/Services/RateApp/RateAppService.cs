@@ -4,6 +4,7 @@
 /// Proprietary and confidential
 
 using UnityEngine;
+using TurboLabz.InstantGame;
 
 namespace TurboLabz.InstantFramework
 {
@@ -11,10 +12,14 @@ namespace TurboLabz.InstantFramework
     {
         [Inject] public IPreferencesModel preferencesModel { get; set; }
         [Inject] public IMetaDataModel metaDataModel { get; set; }
+        [Inject] public IPlayerModel playerModel { get; set; }
+        [Inject] public ICPUStatsModel cpuStatsModel { get; set; }
+        [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public IAppInfoModel appInfoModel { get; set; }
 
         public void RateApp(bool goRate)
         {
-            preferencesModel.hasRated = true;
+            preferencesModel.hasRated = goRate;
 
             // Bail if not going to rate
             if (!goRate)
@@ -35,6 +40,28 @@ namespace TurboLabz.InstantFramework
             Application.OpenURL("https://itunes.apple.com/us/app/chess/id1386718098?mt=8");
             Application.OpenURL("https://play.google.com/store/apps/details?id=com.turbolabz.instantchess.android.googleplay");
             #endif
+        }
+
+        public bool CanShowRateDialogue()
+        {
+            bool returnVal = false;
+
+            int totalWins = playerModel.totalGamesWon + cpuStatsModel.GetStarsCount();
+
+            if (!preferencesModel.isRateAppDialogueFirstTimeShown && totalWins > 1)
+            {
+                returnVal = true;
+            }
+            else if (!preferencesModel.hasRated && !preferencesModel.isRateAppDialogueShown && (totalWins == 1 || totalWins % metaDataModel.appInfo.nthWinsRateApp == 0) && (matchInfoModel.lastCompletedMatch != null && matchInfoModel.lastCompletedMatch.winnerId == playerModel.id))
+            {
+                returnVal = true;
+            }
+            else
+            {
+                returnVal = false;
+            }
+
+            return returnVal;
         }
     }
 }

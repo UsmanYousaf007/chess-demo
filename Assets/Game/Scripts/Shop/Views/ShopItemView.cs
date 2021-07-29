@@ -18,7 +18,7 @@ namespace TurboLabz.InstantFramework
         public string shortCode;
         public Text title;
         public ShopPayout currencyPayout;
-        public ShopPayout[] payouts;
+        public ShopPayout currency2Payout;
         public Text price;
         public Button buyButton;
         public GameObject loading;
@@ -43,6 +43,8 @@ namespace TurboLabz.InstantFramework
         public Text newPrice;
         public GameObject ribbon;
         public Text ribbonText;
+        public GameObject offBadage;
+        public Text offBadgeText;
 
         private bool isInitlialised = false;
         private StoreItem storeItem;
@@ -51,6 +53,7 @@ namespace TurboLabz.InstantFramework
         private static StoreThumbsContainer thumbsContainer;
         private bool isOwned;
         private bool isOnSale;
+        private bool storeAvailable;
 
         //Models
         [Inject] public IStoreSettingsModel storeSettingsModel { get; set; }
@@ -75,6 +78,9 @@ namespace TurboLabz.InstantFramework
                 thumbsContainer = StoreThumbsContainer.Load();
             }
 
+            buyButton.onClick.AddListener(OnBuyButtonClicked);
+            thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
+
             ShowSaleItems(false);
         }
 
@@ -92,18 +98,16 @@ namespace TurboLabz.InstantFramework
 
             if (!isInitlialised)
             {
-                title.text = isGems ? storeItem.displayName.Split(' ')[0] : storeItem.displayName;
+                title.text = isGems ? storeItem.displayName.Split(' ')[0] : isBundle ? storeItem.description : storeItem.displayName;
                 icon.sprite = iconsContainer.GetSprite(shortCode);
                 icon.SetNativeSize();
-                buyButton.onClick.AddListener(OnBuyButtonClicked);
-                thumbnailButton.onClick.AddListener(OnBuyButtonClicked);
 
                 if (loadThumbnail)
                 {
                     thumbnail.sprite = thumbsContainer.GetSprite(isGems ? "Gem" : shortCode);
                 }
 
-                if (isBundle && storeItem.bundledItems != null)
+                if (isBundle)
                 {
                     if (storeItem.currency3Cost > 0)
                     {
@@ -111,15 +115,10 @@ namespace TurboLabz.InstantFramework
                         currencyPayout.count.text = storeItem.currency3Cost.ToString();
                     }
 
-                    var i = 0;
-                    foreach (var item in storeItem.bundledItems)
+                    if (storeItem.currency4Cost > 0)
                     {
-                        if (i < payouts.Length)
-                        {
-                            payouts[i].icon.sprite = iconsContainer.GetSprite(item.Key);
-                            payouts[i].count.text = $"{item.Value} {storeSettingsModel.items[item.Key].displayName}";
-                            i++;
-                        }
+                        currency2Payout.icon.sprite = iconsContainer.GetSprite("Coin");
+                        currency2Payout.count.text = storeItem.currency4Cost.ToString("N0");
                     }
                 }
 
@@ -130,6 +129,12 @@ namespace TurboLabz.InstantFramework
                     discountObj.SetActive(true);
                     discountAmount.text = $"{discountPercentage * 100}% Bonus";
                     discountValue.text = $"{(int)(storeItem.currency3Payout - (storeItem.currency3Payout * discountPercentage))}";
+                }
+
+                if (isGems)
+                {
+                    offBadage.SetActive(!(string.IsNullOrEmpty(storeItem.description) || string.IsNullOrWhiteSpace(storeItem.description)));
+                    offBadgeText.text = "<size=27%>" + storeItem.description + "</size>" + "% Extra";
                 }
 
                 isInitlialised = true;
@@ -145,6 +150,7 @@ namespace TurboLabz.InstantFramework
             thumbnailButton.enabled = available;
             price.gameObject.SetActive(available && !isOnSale);
             loading.SetActive(!available);
+            storeAvailable = available;
         }
 
         private void OnBuyButtonClicked()
@@ -208,8 +214,8 @@ namespace TurboLabz.InstantFramework
                 return;
             }
 
-            var discount = 1 - (float)(saleItem.productPrice / storeItem.productPrice);
-            orignalPrice.text = storeItem.remoteProductPrice;
+            var discount = storeItem.productPrice > 0 ? 1 - (float)(saleItem.productPrice / storeItem.productPrice) : 0.5f;
+            orignalPrice.text = StrikeThrough(storeItem.remoteProductPrice);
             newPrice.text = saleItem.remoteProductPrice;
             ribbonText.text = $"FIRE SALE! {(int)(discount * 100)}% OFF";
         }
@@ -221,6 +227,24 @@ namespace TurboLabz.InstantFramework
                 isOnSale = true;
                 ShowSaleItems(true);
             }
+        }
+
+        public string StrikeThrough(string s)
+        {
+            string strikethrough = "";
+            foreach (char c in s)
+            {
+                strikethrough = strikethrough + c + "<b>" +'\u0336' + "</b>";
+            }
+            return strikethrough;
+        }
+
+        public void OverrideItem(string newShortCode)
+        {
+            shortCode = newShortCode;
+            isInitlialised = false;
+            storeItem = null;
+            OnStoreAvailable(storeAvailable);
         }
     }
 }

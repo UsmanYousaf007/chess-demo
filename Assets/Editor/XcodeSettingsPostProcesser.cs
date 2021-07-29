@@ -22,8 +22,11 @@ public class XcodeSettingsPostProcesser
         PBXProject proj = new PBXProject();
         proj.ReadFromString(File.ReadAllText(projPath));
 
-        string target = proj.TargetGuidByName("Unity-iPhone");
-        string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+        //string target = proj.TargetGuidByName("Unity-iPhone");
+        //string targetGuid = proj.TargetGuidByName(PBXProject.GetUnityTargetName());
+
+        string target = proj.GetUnityMainTargetGuid();
+        string targetGuid = proj.GetUnityFrameworkTargetGuid();
 
         //Required Frameworks
         proj.AddFrameworkToProject(target, "UserNotifications.framework", false);
@@ -122,10 +125,15 @@ public class XcodeSettingsPostProcesser
         File.WriteAllText(projPath, proj.WriteToString());
 
         //Adding Apple Sign-In Capability
-#if UNITY_IOS
-	    ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
-	    ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
-	    projCapability.WriteToFile();
-#endif
+//#if UNITY_IOS
+//     //   ProjectCapabilityManager projCapability = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", targetGuid);
+//	    //ProjectCapabilityManagerExtension.AddSignInWithAppleWithCompatibility(projCapability, target);
+//	    //projCapability.WriteToFile();
+
+//        ProjectCapabilityManager projCapManager = new ProjectCapabilityManager(projPath,"Entitlements.entitlements", "Unity-iPhone");
+//        projCapManager.AddSignInWithApple();
+//        projCapManager.WriteToFile();
+
+//#endif
     }
 }

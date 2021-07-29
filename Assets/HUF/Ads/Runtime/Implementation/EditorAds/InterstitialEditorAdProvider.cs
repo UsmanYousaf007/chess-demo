@@ -1,3 +1,4 @@
+using System;
 using HUF.Ads.Runtime.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -7,9 +8,11 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
 {
     public class InterstitialEditorAdProvider : BaseEditorAdProvider, IInterstitialAdProvider
     {
-        public event UnityAction<IAdCallbackData> OnInterstitialEnded;
-        public event UnityAction<IAdCallbackData> OnInterstitialFetched;
-        public event UnityAction<IAdCallbackData> OnInterstitialClicked;
+#pragma warning disable CS0067
+        public event Action<IAdCallbackData> OnInterstitialEnded;
+        public event Action<IAdCallbackData> OnInterstitialFetched;
+        public event Action<IAdCallbackData> OnInterstitialClicked;
+#pragma warning restore CS0067
 
         protected override HLogPrefix LogPrefix { get; } = new HLogPrefix( nameof(InterstitialEditorAdProvider) );
 

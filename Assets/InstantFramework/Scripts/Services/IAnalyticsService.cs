@@ -29,8 +29,12 @@ namespace TurboLabz.InstantFramework
 
         void DesignEvent(AnalyticsEventId evt);
         void DesignEvent(AnalyticsEventId evt, AnalyticsParameter param, object val, AnalyticsEventId subEvt);
+        void DesignEvent(AnalyticsEventId evt, params string[] contexts);
         void HEvent(string evt, params string [] param);
         void ResourceEvent(GAResourceFlowType flowType, string currency, int amount, string itemType, string itemId);
+        void ValueEvent(AnalyticsEventId evt, string context, float val);
+        void ValueEvent(string evt, AnalyticsContext context, float val);
+        void BusinessEvent(string currency, int amount, string itemType, string itemId, string cartType);
 
         void LevelComplete(int difficulty);
         void LevelFail(int difficulty);

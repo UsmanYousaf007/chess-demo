@@ -7,13 +7,13 @@ namespace HUF.Utils.Editor.Attributes
     [CustomPropertyDrawer(typeof(WarningAttribute))]
     public class WarningDrawer : PropertyDrawer
     {
+        const float MINIMUM_HEIGHT = 30;
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (attribute is WarningAttribute warningAttribute && warningAttribute.size > 0)
-            {
-                return warningAttribute.size;
-            }
-            return base.GetPropertyHeight(property, label);
+            float exactHeight = EditorStyles.helpBox.CalcHeight( new GUIContent( property.stringValue ),
+                EditorGUIUtility.currentViewWidth );
+            return Mathf.Max( MINIMUM_HEIGHT, exactHeight );
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

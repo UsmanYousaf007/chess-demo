@@ -23,7 +23,6 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public LoadLobbySignal loadLobbySignal { get; set; }
         [Inject] public LoadFriendsSignal loadFriendsSignal { get; set; }
-        [Inject] public LoadArenaSignal loadArenaSignal { get; set; }
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public UpdateBottomNavSignal updateBottomNavSignal { get; set; }
 
@@ -38,7 +37,6 @@ namespace TurboLabz.InstantFramework
             view.friendsButtonClickedSignal.AddListener(OnFriendsButtonClicked);
             view.inventoryButtonClickedSignal.AddListener(OnInventoryButtonClicked);
             view.shopButtonClickedSignal.AddListener(OnShopButtonClicked);
-            view.arenaButtonClickedSignal.AddListener(OnArenaButtonClicked);
         }
 
         public override void OnRemove()
@@ -63,18 +61,11 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.friends);
         }
 
-        void OnArenaButtonClicked()
-        {
-            loadArenaSignal.Dispatch();
-            updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Arena);
-            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.arena);
-        }
-
         void OnInventoryButtonClicked()
         {
             navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_INVENTORY);
             updateBottomNavSignal.Dispatch(BottomNavView.ButtonId.Inventory);
-            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.inventory);
+            analyticsService.Event(AnalyticsEventId.navigation_clicked, AnalyticsContext.themes);
         }
 
         void OnShopButtonClicked()
@@ -98,7 +89,7 @@ namespace TurboLabz.InstantFramework
             view.Show(value);
         }
 
-        [ListensTo(typeof(ActivePromotionSaleSingal))]
+        //[ListensTo(typeof(ActivePromotionSaleSingal))]
         public void OnShowSale(string key)
         {
             view.ShowSale(true);

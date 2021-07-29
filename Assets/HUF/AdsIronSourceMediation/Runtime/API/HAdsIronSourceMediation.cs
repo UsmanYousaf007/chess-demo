@@ -1,17 +1,24 @@
 using HUF.Ads.Runtime.API;
 using HUF.AdsIronSourceMediation.Runtime.Implementation;
+using HUF.Analytics.Runtime.API;
+using HUF.AnalyticsHBI.Runtime.API;
+using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Logging;
 using JetBrains.Annotations;
 using UnityEngine;
+using Facebook.Unity;
 
 namespace HUF.AdsIronSourceMediation.Runtime.API
 {
     public static class HAdsIronSourceMediation
     {
+        const float DELAY_BETWEEN_CHECKING_FACEBOOK = 0.5f;
+
         public static readonly HLogPrefix logPrefix = new HLogPrefix( HAds.logPrefix, nameof(HAdsIronSourceMediation) );
 
         static bool isInitialized;
+        static bool isInitializing;
         static IronSourceBannerProvider bannerProvider;
 
         /// <summary>
@@ -21,15 +28,22 @@ namespace HUF.AdsIronSourceMediation.Runtime.API
         [PublicAPI]
         public static void Init()
         {
-            if ( isInitialized )
+            var hasConfig = HConfigs.HasConfig<IronSourceAdsProviderConfig>();
+            if ( !hasConfig)
+            {
+                HLog.LogError( logPrefix, "IronSource Config is Missing" );
                 return;
+            }
 
-            var provider = new IronSourceBaseProvider();
-            var adsService = HAds.Interstitial.RegisterAdProvider( new IronSourceInterstitialProvider( provider ) );
-            HAds.Rewarded.RegisterAdProvider( new IronSourceRewardedProvider( provider ) );
-            HAds.Banner.RegisterAdProvider( bannerProvider = new IronSourceBannerProvider( provider ) );
-            isInitialized = true;
-            provider.SetAdsService( adsService );
+            if ( isInitializing || isInitialized )
+            {
+                return;
+            }
+
+            isInitializing = true;
+            HAnalytics.OnServiceInitializationComplete += HandleAnalyticsInitializationComplete;
+            CheckFacebookInit();
+            CheckInitializationStatus();
         }
 
         /// <summary>
@@ -66,6 +80,48 @@ namespace HUF.AdsIronSourceMediation.Runtime.API
             {
                 Init();
             }
+        }
+
+        static void CheckInitializationStatus()
+        {
+            HLog.Log( logPrefix, $"CheckInitializationStatus {HAnalyticsHBI.IsInitialized} && {FB.IsInitialized}" );
+            if ( HAnalyticsHBI.IsInitialized && FB.IsInitialized)
+            {
+                Initialize();
+            }
+        }
+
+        static void HandleAnalyticsInitializationComplete( string serviceName, bool didInitialize )
+        {
+            if ( !didInitialize || serviceName != AnalyticsServiceName.HBI )
+                return;
+
+            HAnalytics.OnServiceInitializationComplete -= HandleAnalyticsInitializationComplete;
+            CheckInitializationStatus();
+        }
+
+        static void CheckFacebookInit()
+        {
+            if ( !FB.IsInitialized && IntervalManager.Instance != null )
+            {
+                IntervalManager.Instance.RunWithDelay( CheckFacebookInit, DELAY_BETWEEN_CHECKING_FACEBOOK );
+                return;
+            }
+
+            CheckInitializationStatus();
+        }
+
+        static void Initialize()
+        {
+            if ( isInitialized )
+                return;
+
+            var provider = new IronSourceBaseProvider();
+            var adsService = HAds.Interstitial.RegisterAdProvider( new IronSourceInterstitialProvider( provider ) );
+            HAds.Rewarded.RegisterAdProvider( new IronSourceRewardedProvider( provider ) );
+            HAds.Banner.RegisterAdProvider( bannerProvider = new IronSourceBannerProvider( provider ) );
+            isInitialized = true;
+            provider.SetAdsService( adsService );
         }
     }
 }

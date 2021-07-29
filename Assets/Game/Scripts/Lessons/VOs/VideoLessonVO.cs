@@ -18,7 +18,8 @@ namespace TurboLabz.InstantGame
         public int indexInTopic;
         public int overallIndex;
         public string section;
-        public StoreItem unlockItem;
+        public StoreItem storeItem;
         public IPlayerModel playerModel;
+        public long duration;
     }
 }

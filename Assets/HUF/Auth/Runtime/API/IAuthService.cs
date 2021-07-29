@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 
 namespace HUF.Auth.Runtime.API
@@ -9,10 +10,10 @@ namespace HUF.Auth.Runtime.API
         string UserId { get; }
         bool IsInitialized { get; }
 
-        event UnityAction<string> OnInitialized;
-        event UnityAction OnInitializationFailure;
-        event UnityAction<string, bool> OnSignIn;
-        event UnityAction<string> OnSignOutComplete;
+        event Action<string> OnInitialized;
+        event Action OnInitializationFailure;
+        event Action<string, AuthSignInResult> OnSignInResult;
+        event Action<string> OnSignOutComplete;
 
         void Init();
         bool SignIn();

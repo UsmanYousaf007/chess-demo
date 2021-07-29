@@ -36,6 +36,8 @@ namespace TurboLabz.InstantGame
         public const string MOVE_LIST = "moveList";
         public const string TRIMMED_MOVE_LIST = "trimmedMoveList";
         public const string USED_HELP = "usedHelp";
+        public const string POWER_MODE = "powerMode";
+        public const string FREE_HINTS = "freeHints";
 
         // STATS MODEL
         public const string STATS_DATA = "statsData";

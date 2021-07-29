@@ -18,6 +18,9 @@ namespace TurboLabz.CPU
 {
     public class StartCPUGameCommand : Command
     {
+        //Parameters
+        [Inject] public bool powerModeEnabled { get; set; }
+
         // Dispatch signals
         [Inject] public ChessboardEventSignal chessboardEventSignal { get; set; }
 
@@ -25,14 +28,18 @@ namespace TurboLabz.CPU
         [Inject] public IChessboardModel chessboardModel { get; set; }
         [Inject] public ICPUGameModel cpuGameModel { get; set; }
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         // Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
         [Inject] public IAppsFlyerService appsFlyerService { get; set; }
         [Inject] public IHAnalyticsService hAnalyticsService { get; set; }
+        [Inject] public IChessAiService chessAiService { get; set; }
 
         public override void Execute()
         {
+            chessAiService.AiMoveRequestInit();
+
             if (cpuGameModel.inProgress)
             {
                 chessboardModel.currentState = null;
@@ -45,6 +52,9 @@ namespace TurboLabz.CPU
                     
                 chessboardModel.playerColor = (UnityEngine.Random.Range(0,2) == 0) ? ChessColor.BLACK : ChessColor.WHITE;
                 chessboardModel.opponentColor = (chessboardModel.playerColor == ChessColor.BLACK) ? ChessColor.WHITE : ChessColor.BLACK;
+
+                chessboardModel.powerMode = powerModeEnabled;
+                chessboardModel.freeHints = powerModeEnabled ? settingsModel.powerModeFreeHints : 0;
 
                 chessboardEventSignal.Dispatch(ChessboardEvent.GAME_STARTED);
 

@@ -14,7 +14,8 @@ namespace HUF.NotificationsUnity.Runtime.Implementation.iOS
             {
                 Identifier = notificationData.identifier,
                 Title = notificationData.title,
-                Subtitle = notificationData.text,
+                Subtitle = notificationData.subtitle,
+                Body = notificationData.text,
                 ShowInForeground = true,
                 CategoryIdentifier = notificationData.categoryIdentifier,
                 Trigger = new iOSNotificationTimeIntervalTrigger

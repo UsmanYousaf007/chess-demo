@@ -22,6 +22,10 @@ namespace TurboLabz.TLUtils
         private static Dictionary<string, string> stateToContextMap;
         private static Dictionary<string, AnalyticsContext> stringToContextMap;
         private static Dictionary<string, AdPlacements> stringToAdPlacementMap;
+        private static Dictionary<AdPlacements, string> adPlacementToRewardTypeMap;
+        private static Dictionary<AdPlacements, AnalyticsContext> adPlacementToAdContextMap;
+        public static Dictionary<string, int> fakeEloScores = new Dictionary<string, int>();
+
 
         public static void Shuffle<T>(T[] collection)
         {
@@ -82,6 +86,36 @@ namespace TurboLabz.TLUtils
             return stringToAdPlacementMap[id];
         }
 
+        public static string GetRewardTypeFromAdPlacement(AdPlacements id)
+        {
+            if (adPlacementToRewardTypeMap == null)
+            {
+                CreateAdPlacementToRewardTypeMap();
+            }
+
+            if (!adPlacementToRewardTypeMap.ContainsKey(id))
+            {
+                return string.Empty;
+            }
+
+            return adPlacementToRewardTypeMap[id];
+        }
+
+        public static AnalyticsContext GetAdContextFromAdPlacement(AdPlacements id)
+        {
+            if (adPlacementToAdContextMap == null)
+            {
+                CreateAdPlacementToAdContextMap();
+            }
+
+            if (!adPlacementToAdContextMap.ContainsKey(id))
+            {
+                return AnalyticsContext.unknown;
+            }
+
+            return adPlacementToAdContextMap[id];
+        }
+
         private static void CreateStateToContextMap()
         {
             stateToContextMap = new Dictionary<string, string>();
@@ -97,8 +131,9 @@ namespace TurboLabz.TLUtils
             stateToContextMap.Add("MultiplayerResultsDlg", "end_card");
             stateToContextMap.Add("RewardDailySubscription", "daily_subscription_reward");
             stateToContextMap.Add("RewardDailyLeague", "daily_league_reward");
-            stateToContextMap.Add("RewardTournamentEnd", "tournament_reward");
+            stateToContextMap.Add("RewardTournamentEnd", "championship_reward");
             stateToContextMap.Add("TournamentLeaderboard", "tournament_main");
+            stateToContextMap.Add("RewardLeaguePromotion", "league_progression_rewards");
         }
 
         private static void CreateStringToContextMap()
@@ -130,34 +165,61 @@ namespace TurboLabz.TLUtils
             stringToContextMap.Add("ARENA_VIEW", AnalyticsContext.tournament_main);
             stringToContextMap.Add("SHOP", AnalyticsContext.shop);
             stringToContextMap.Add("LOBBY", AnalyticsContext.games);
+            stringToContextMap.Add("coins", AnalyticsContext.coins);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_ELITE, AnalyticsContext.elite_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GOLDEN, AnalyticsContext.golden_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_EMERALD, AnalyticsContext.emerald_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_RUBY, AnalyticsContext.ruby_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_DIAMOND, AnalyticsContext.diamond_bundle);
+            stringToContextMap.Add(GSBackendKeys.ShopItem.SPECIAL_BUNDLE_GRAND_MASTER, AnalyticsContext.grand_master_bundle);
+
         }
 
         private static void CreateStringToAdPlacementMap()
         {
             stringToAdPlacementMap = new Dictionary<string, AdPlacements>();
-            stringToAdPlacementMap.Add("Rewarded_rating_booster", AdPlacements.Rewarded_rating_booster);
-            stringToAdPlacementMap.Add("Rewarded_hints", AdPlacements.Rewarded_hints);
-            stringToAdPlacementMap.Add("Rewarded_keys", AdPlacements.Rewarded_keys);
-            stringToAdPlacementMap.Add("Rewarded_tickets", AdPlacements.Rewarded_tickets);
-            stringToAdPlacementMap.Add("Rewarded_rating_booster_popup", AdPlacements.Rewarded_rating_booster_popup);
-            stringToAdPlacementMap.Add("Rewarded_keys_popup", AdPlacements.Rewarded_keys_popup);
-            stringToAdPlacementMap.Add("Rewarded_tickets_popup", AdPlacements.Rewarded_tickets_popup);
+            stringToAdPlacementMap.Add("Rewarded_daily_reward", AdPlacements.Rewarded_daily_reward);
+            stringToAdPlacementMap.Add("Rewarded_lobby_chest", AdPlacements.Rewarded_lobby_chest);
+            stringToAdPlacementMap.Add("Rewarded_coins_purchase", AdPlacements.Rewarded_coins_purchase);
+            stringToAdPlacementMap.Add("Rewarded_powerplay", AdPlacements.Rewarded_powerplay);
+            stringToAdPlacementMap.Add("Rewarded_coins_banner", AdPlacements.Rewarded_coins_banner);
+            stringToAdPlacementMap.Add("Rewarded_coins_popup", AdPlacements.Rewarded_coins_popup);
+            stringToAdPlacementMap.Add("Rewarded_analysis", AdPlacements.Rewarded_analysis);
+            stringToAdPlacementMap.Add("RV_rating_booster", AdPlacements.RV_rating_booster);
             stringToAdPlacementMap.Add("Interstitial_pregame", AdPlacements.Interstitial_pregame);
             stringToAdPlacementMap.Add("Interstitial_endgame", AdPlacements.Interstitial_endgame);
             stringToAdPlacementMap.Add("interstitial_in_game_cpu", AdPlacements.interstitial_in_game_cpu);
             stringToAdPlacementMap.Add("interstitial_in_game_30_min", AdPlacements.interstitial_in_game_30_min);
-            stringToAdPlacementMap.Add("Interstitial_tournament_pre", AdPlacements.Interstitial_tournament_pre);
-            stringToAdPlacementMap.Add("Interstitial_tournament_end_co", AdPlacements.Interstitial_tournament_end_co);
-            stringToAdPlacementMap.Add("Interstitial_in_game_classic", AdPlacements.Interstitial_in_game_classic);
             stringToAdPlacementMap.Add("Banner", AdPlacements.Banner);
-            stringToAdPlacementMap.Add("SpecialItemRatingBoosterPoints", AdPlacements.Rewarded_rating_booster);
-            stringToAdPlacementMap.Add("SpecialItemHintPoints", AdPlacements.Rewarded_hints);
-            stringToAdPlacementMap.Add("SpecialItemKeyPoints", AdPlacements.Rewarded_keys);
-            stringToAdPlacementMap.Add("SpecialItemTicketPoints", AdPlacements.Rewarded_tickets);
-            stringToAdPlacementMap.Add("SpecialItemRatingBoosterPointsPopup", AdPlacements.Rewarded_rating_booster_popup);
-            stringToAdPlacementMap.Add("SpecialItemKeyPointsPopup", AdPlacements.Rewarded_keys_popup);
-            stringToAdPlacementMap.Add("SpecialItemTicketPointsPopup", AdPlacements.Rewarded_tickets_popup);
-            stringToAdPlacementMap.Add("SpecialItemHintPointsPopup", AdPlacements.Rewarded_hints_popup);
+        }
+
+        private static void CreateAdPlacementToRewardTypeMap()
+        {
+            adPlacementToRewardTypeMap = new Dictionary<AdPlacements, string>();
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_purchase, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_daily_reward, GSBackendKeys.ClaimReward.TYPE_DAILY);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_lobby_chest, GSBackendKeys.ClaimReward.TYPE_LOBBY_CHEST_V2);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_banner, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_coins_popup, GSBackendKeys.ClaimReward.TYPE_COINS_PURCHASE);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_powerplay, GSBackendKeys.ClaimReward.TYPE_POWERPLAY);
+            adPlacementToRewardTypeMap.Add(AdPlacements.RV_rating_booster, GSBackendKeys.ClaimReward.TYPE_RV_RATING_BOOSTER);
+            adPlacementToRewardTypeMap.Add(AdPlacements.Rewarded_analysis, GSBackendKeys.ClaimReward.TYPE_RV_ANALYSIS);
+        }
+
+        private static void CreateAdPlacementToAdContextMap()
+        {
+            adPlacementToAdContextMap = new Dictionary<AdPlacements, AnalyticsContext>();
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_purchase, AnalyticsContext.rewarded_coins_spot_state_1);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_daily_reward, AnalyticsContext.rewarded_daily_doubler);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_lobby_chest, AnalyticsContext.rewarded_lobby_chest);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_banner, AnalyticsContext.rewarded_out_of_coins_lobby_banner_popup);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_coins_popup, AnalyticsContext.rewarded_out_of_coins_lobby_popup);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_powerplay, AnalyticsContext.rewarded_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.RV_rating_booster, AnalyticsContext.rewarded_rating_booster);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_in_game_power_mode, AnalyticsContext.rewarded_cpu_in_game_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_pregame_power_mode, AnalyticsContext.rewarded_cpu_pregame_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_cpu_resume_power_mode, AnalyticsContext.rewarded_cpu_resume_power_mode);
+            adPlacementToAdContextMap.Add(AdPlacements.Rewarded_analysis, AnalyticsContext.rewarded_analysis);
         }
     }
 }

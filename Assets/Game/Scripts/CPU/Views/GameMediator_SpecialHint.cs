@@ -16,6 +16,7 @@ namespace TurboLabz.CPU
 
         //Models
         [Inject] public IPreferencesModel preferencesModel { get; set; }
+        [Inject] public IChessboardModel chessboardModel { get; set; }
 
         //Services
         [Inject] public IAnalyticsService analyticsService { get; set; }
@@ -49,14 +50,24 @@ namespace TurboLabz.CPU
         {
             if (result == BackendResult.SUCCESS)
             {
+                var isPremium = transactionVO.consumeItemShortCode.Equals("premium");
                 preferencesModel.cpuPowerUpsUsedCount++;
-                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount);
+
+                if (chessboardModel.freeHints > 0)
+                {
+                    chessboardModel.freeHints--;
+                }
+
+                //if (preferencesModel.freeHint == FreePowerUpStatus.NOT_CONSUMED)
+                //    preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
+
+                view.UpdateSpecialHintButton(preferencesModel.cpuPowerUpsUsedCount, !isPremium, chessboardModel.freeHints);
                 getHintSignal.Dispatch(true);
 
-                if (!transactionVO.consumeItemShortCode.Equals("premium"))
+                if (!isPremium)
                 {
                     analyticsService.ResourceEvent(GAResourceFlowType.Sink, CollectionsUtil.GetContextFromString(transactionVO.consumeItemShortCode).ToString(), transactionVO.consumeQuantity, "booster_used", "hint");
-                    preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
+                    //preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][transactionVO.consumeItemShortCode] += transactionVO.consumeQuantity;
                 }
             }
             else
@@ -139,6 +150,11 @@ namespace TurboLabz.CPU
                 {
                     view.ProcessHint(transactionVO);
                 }
+            }
+
+            if (key.Equals(view.specialHintShortCode))
+            {
+                //preferencesModel.freeDailyHint = FreePowerUpStatus.BOUGHT;
             }
         }
     }

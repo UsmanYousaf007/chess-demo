@@ -36,6 +36,7 @@ namespace TurboLabz.Multiplayer
         public Image opponentClockImage;
         public Text waitingLabel;
         public Image opponentClockBg;
+        public GameObject opponentClockContainer;
 
         private Coroutine playerClockCR;
         private Coroutine opponentClockCR;
@@ -61,7 +62,7 @@ namespace TurboLabz.Multiplayer
 
         public void OnParentShowClock()
         {
-            // Do nothing
+            opponentClockContainer.SetActive(true);
         }
 
         public void CleanupClock()

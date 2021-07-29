@@ -43,6 +43,9 @@ namespace TurboLabz.InstantFramework
             vo.player = new ProfileVO();
             vo.opponent = new ProfileVO();
             vo.timeoutSeconds = 30;
+            vo.gameMode = actionData.action;
+            vo.powerMode = actionData.powerMode;
+            vo.bettingCoins = actionData.betValue;
 
             vo.player.playerPic = picsModel.GetPlayerPic(playerModel.id);
             vo.player.avatarId = playerModel.avatarId;

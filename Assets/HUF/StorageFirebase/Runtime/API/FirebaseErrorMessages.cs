@@ -7,5 +7,6 @@ namespace HUF.StorageFirebase.Runtime.API
         public const string CONFIG_MISSING_ERROR = "Config for Firebase Storage is missing. Fix before continue.";
         public const string FIREBASE_NOT_INITIALIZED = "Firebase is not initialized.";
         public const string FIREBASE_STORAGE_MISSING = "Firebase storage reference missing.";
+        public const string STORAGE_ALREADY_INITIALIZED = "Storage already initialized";
     }
 }

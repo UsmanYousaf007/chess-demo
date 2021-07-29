@@ -44,16 +44,18 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.OKAY_TEXT, "Ok" },
                 { LocalizationKey.BACK_TEXT, "BACK" },
                 { LocalizationKey.UPGRADE_TEXT, "Upgrade" },
-                { LocalizationKey.MIN1_GAME_TEXT, "1 Min" },
-                { LocalizationKey.MIN3_GAME_TEXT, "3 Min" },
-                { LocalizationKey.MIN5_GAME_TEXT, "5 Min" },
-                { LocalizationKey.MIN10_GAME_TEXT, "10 Min" },
-                { LocalizationKey.MIN30_GAME_TEXT, "30 Min" },
+                { LocalizationKey.MIN1_GAME_TEXT, "1m" },
+                { LocalizationKey.MIN3_GAME_TEXT, "3m" },
+                { LocalizationKey.MIN5_GAME_TEXT, "5m" },
+                { LocalizationKey.MIN10_GAME_TEXT, "10m" },
+                { LocalizationKey.MIN30_GAME_TEXT, "30m" },
                 { LocalizationKey.ON_TEXT, "On" },
                 { LocalizationKey.OFF_TEXT, "Off" },
                 { LocalizationKey.ACCEPT_TEXT, "Accept" },
                 { LocalizationKey.DECLINE_TEXT, "Decline" },
                 { LocalizationKey.START_TEXT, "Start" },
+                { LocalizationKey.WIN_TEXT, "Win" },
+                { LocalizationKey.LOSS_TEXT, "Loss" },
 
                 #endregion
 
@@ -83,7 +85,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.SIGN_IN, "Sign in with Apple" },
                 { LocalizationKey.PLAY_TOURNAMENT, "Play Tournament" },
                 { LocalizationKey.LIVE_TEXT, "LIVE" },
-                { LocalizationKey.PLAYING_LEVEL, "Resume lvl "},
+                { LocalizationKey.PLAYING_LEVEL, "Resume Level "},
 
                 #endregion
 
@@ -108,10 +110,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_RESULT_DIALOG_BONUS_TOURNAMENT_ROUND_SCORE, " Time Bonus" },
                 { LocalizationKey.GM_RESULT_DIALOG_LABEL_TICKETS_LEFT, "You Have " },
                 { LocalizationKey.GM_RESULT_DIALOG_REASON_RESIGNATION_OPPONENT, "Opponent Resigned" },
-                { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim Fifty Move Draw?" },
-                { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim Threefold Repeat Draw?" },
-                { LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON, "Yes" },
-                { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "No" },
+                { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_FIFTY_MOVE_RULE, "Claim Fifty Move Rule Draw" },
+                { LocalizationKey.GM_DRAW_DIALOG_CLAIM_BY_THREEFOLD_REPEAT_RULE, "Claim Threefold Repeat Draw" },
+                { LocalizationKey.GM_DRAW_DIALOG_YES_BUTTON, "Accept" },
+                { LocalizationKey.GM_DRAW_DIALOG_NO_BUTTON, "Decline" },
                 { LocalizationKey.GM_ROOM_DURATION, "{0} m" },
                 { LocalizationKey.GM_DISCONNECTED, "Waiting for Opponent..." },
                 { LocalizationKey.GM_ADVANTAGE, "Adv" },
@@ -120,6 +122,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.GM_EXIT_BUTTON_LOBBY, "LOBBY" },
                 { LocalizationKey.GM_EXIT_BUTTON_COLLECT_REWARD, "COLLECT REWARD" },
                 { LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE, "hints can be used in a game."},
+                { LocalizationKey.GM_BUY_GAME_ANALYSIS_TITLE_TEXT, "Activate Full Analysis to traverse and analyze moves"},
 
                 #endregion
 
@@ -178,7 +181,7 @@ namespace TurboLabz.InstantFramework
 
                 #region GameResults
 
-                { LocalizationKey.RESULTS_CLOSE_BUTTON, "View Board" },
+                { LocalizationKey.RESULTS_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_TOURNAMENT_CLOSE_BUTTON, "Board" },
                 { LocalizationKey.RESULTS_COLLECT_REWARD_BUTTON, "Collect" },
                 { LocalizationKey.RESULTS_RECOVER_RATING_BUTTON, "Recover Rating" },
@@ -188,7 +191,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.RESULTS_REWARD, "You Earned" },
                 { LocalizationKey.RESULTS_BOOSTED, "Boosted!"},
                 { LocalizationKey.RESULTS_BOOST_DRAW, "Rating boosts are available for wins and losses only"},
-                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for ranked games only"},
+                { LocalizationKey.RESULTS_BOOST_FRIENDLY, "Rating boosts are available for career games only"},
 
                 #endregion
 
@@ -201,6 +204,7 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.QUICK_MATCH_FAILED_REASON, "Player is already in a game" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED, "Match Expired" },
                 { LocalizationKey.QUICK_MATCH_EXPIRED_REASON, "You took too long to respond" },
+                { LocalizationKey.MULTIPLAYER_PLACING_BET, "Placing bet..." },
 
                 #endregion
 
@@ -365,12 +369,13 @@ namespace TurboLabz.InstantFramework
 
                 #region Bottom Nav
 
-                { LocalizationKey.NAV_HOME, "GAMES" },
+                { LocalizationKey.NAV_HOME, "PLAY" },
                 { LocalizationKey.NAV_PROFILE, "Profile" },
                 { LocalizationKey.NAV_SHOP, "SHOP" },
                 { LocalizationKey.NAV_FRIENDS, "FRIENDS" },
-                { LocalizationKey.NAV_INVENTORY, "INVENTORY" },
+                { LocalizationKey.NAV_INVENTORY, "CHESS SETS" },
                 { LocalizationKey.NAV_ARENA, "TOURNAMENT" },
+                { LocalizationKey.NAV_LESSON, "LESSONS" },
 
                 #endregion
 
@@ -433,7 +438,7 @@ namespace TurboLabz.InstantFramework
 
                 #region Rate App
 
-                { LocalizationKey.RATE_APP_TITLE, "Enjoying" },
+                { LocalizationKey.RATE_APP_TITLE, "RATE US" },
                 { LocalizationKey.RATE_APP_SUB_TITLE_RATE, "Please take a few seconds to rate us on the store. It really helps." },
                 { LocalizationKey.RATE_APP_SUB_TITLE_TELL, "Please tell us how we can improve the game for you." },
                 { LocalizationKey.RATE_APP_RATE, "RATE US" },
@@ -526,6 +531,18 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.TOURNAMENT_CHEST_CONTENT_DIALOGUE_OKAY_BUTTON_TEXT, "Got it"},
 
                 { LocalizationKey.TOURNAMENT_REWARD_DLG_TROPHIES_ADDED, "Trophies already added to your account"},
+                { LocalizationKey.TOURNAMANT_FINAL_STANDINGS, "Final Standings"},
+
+                #endregion
+
+                #region TournamentItem
+
+                { LocalizationKey.LEADERBOARD_WORLD, "ALL STARS"},
+                { LocalizationKey.LEADERBOARD_CHAMPIONSHIP, "CHAMPIONSHIP"},
+                { LocalizationKey.LEADERBOARD_RANK, "Rank"},
+                { LocalizationKey.LEADERBOARD_REWARDS, "Rewards"},
+                { LocalizationKey.LEADERBOARD_WINNINGS, "Total Winnings"},
+
                 #endregion
 
                 #region InBox
@@ -555,7 +572,10 @@ namespace TurboLabz.InstantFramework
                 { LocalizationKey.NOTIFICATION_DAILY_REWARD_BODY, "Your daily league reward is waiting for you."},
                 { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_TITLE, "Collect your Subscription Rewards!"},
                 { LocalizationKey.NOTIFICATION_SUBSCRIPTION_REWARD_BODY, "Your daily subscription reward is waiting for you."},
-               
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_SOON_BODY, "The championship is about to end."},
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_END_BODY, "Your championship results are here!"},
+                { LocalizationKey.NOTIFICATION_CHAMPIONSHIP_BEGIN_BODY, "A new championship is underway."},
+
                 #endregion
     };
         }

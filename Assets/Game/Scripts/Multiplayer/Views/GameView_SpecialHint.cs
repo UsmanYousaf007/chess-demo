@@ -20,6 +20,13 @@ namespace TurboLabz.Multiplayer
         public Text specialHintTooltipText;
         public Text specialHintCountText;
         public GameObject specialHintCountContainer;
+        public ToolTip freeHintTooltip;
+        public GameObject specialHintPowerModeHints;
+        public Text specialHintPowerModeHintsCount;
+        public Image specialHintGemIcon;
+        public Text specialHintBubbleText;
+        public Image specialFreeHintContainer;
+        public Text specialFreeHintText;
 
         private bool haveEnoughHints;
         private bool haveEnoughGemsForHint;
@@ -27,6 +34,10 @@ namespace TurboLabz.Multiplayer
         private StoreItem hintsStoreItem;
         private int hintsAllowedPerGame;
         private int hintCount;
+        private int powerModeHints;
+        private bool specialHintBubbleShown;
+        private int specialHintBubbleAdvantageThreshold;
+        private bool specialHintUsedAfterTooltip;
 
         public Signal<VirtualGoodsTransactionVO> specialHintClickedSignal = new Signal<VirtualGoodsTransactionVO>();
         public Signal<VirtualGoodsTransactionVO> notEnoughSpecialHintsSingal = new Signal<VirtualGoodsTransactionVO>();
@@ -45,6 +56,9 @@ namespace TurboLabz.Multiplayer
             specialHintThinkinig.SetActive(false);
             specialHintView.Hide();
             specialHintToolTip.SetActive(false);
+            specialHintBubbleShown = false;
+            specialHintUsedAfterTooltip = false;
+            freeHintTooltip.hiddenByClick = false;
         }
 
         public void SetupSpecialHintButton(SpecialHintVO vo)
@@ -53,6 +67,8 @@ namespace TurboLabz.Multiplayer
             canUseSpecialHint = vo.isAvailable;
             hintsAllowedPerGame = vo.hintsAllowedPerGame;
             hintCount = vo.hintCount;
+            powerModeHints = vo.powerModeHints;
+            specialHintBubbleAdvantageThreshold = vo.advantageThreshold;
             SetupSpecialHintButton();
             specialHintTooltipText.text = $"*Only {hintsAllowedPerGame} {localizationService.Get(LocalizationKey.GM_SPECIAL_HINT_NOT_AVAILABLE)}";
             specialHintToolTip.SetActive(!canUseSpecialHint);
@@ -63,10 +79,15 @@ namespace TurboLabz.Multiplayer
             }
         }
 
-        public void UpdateSpecialHintButton(int hintUsedCount)
+        public void UpdateSpecialHintButton(int hintUsedCount, bool updateHintCount, int powerModeHints)
         {
-            hintCount--;
-            hintCount = hintCount < 0 ? 0 : hintCount;
+            if (updateHintCount)
+            {
+                hintCount--;
+                hintCount = hintCount < 0 ? 0 : hintCount;
+            }
+
+            this.powerModeHints = powerModeHints;
             canUseSpecialHint = hintUsedCount < hintsAllowedPerGame;
             SetupSpecialHintButton();
         }
@@ -78,15 +99,18 @@ namespace TurboLabz.Multiplayer
                 return;
             }
 
+            specialHintGemsBg.gameObject.SetActive(!preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) && powerModeHints <= 0);
             specialHintGemsCost.text = hintsStoreItem.currency3Cost.ToString();
-            haveEnoughHints = hintCount > 0 || playerModel.HasSubscription();
+            haveEnoughHints = preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) || powerModeHints > 0;
             haveEnoughGemsForHint = playerModel.gems >= hintsStoreItem.currency3Cost;
-            specialHintGemsBg.sprite = haveEnoughGemsForHint ? enoughGemsSprite : notEnoughGemsSprite;
-            specialHintGemsBg.gameObject.SetActive(false);
             specialHintButton.image.color = Colors.ColorAlpha(specialHintButton.image.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, canUseSpecialHint ? 1 : 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, canUseSpecialHint ? 1 : 0.5f);
             specialHintCountText.text = hintCount.ToString();
-            specialHintCountContainer.SetActive(!playerModel.HasSubscription());
+            specialFreeHintContainer.gameObject.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+            //freeHintTooltip.SetActive(preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE));
+            specialHintPowerModeHints.SetActive(powerModeHints > 0);
+            specialHintPowerModeHintsCount.text = powerModeHints.ToString();
         }
 
         public void ToggleSpecialHintButton(bool on)
@@ -104,11 +128,22 @@ namespace TurboLabz.Multiplayer
         private void DisableSpecialHintButton()
         {
             specialHintButton.interactable = false;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 0.5f);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 0.5f);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 0.5f);
+            specialFreeHintContainer.color = Colors.ColorAlpha(specialFreeHintContainer.color, 0.5f);
+            specialFreeHintText.color = Colors.ColorAlpha(specialFreeHintText.color, 0.5f);
+            freeHintTooltip.gameObject.SetActive(false);
         }
 
         private void EnableSpecialHintButton()
         {
             specialHintButton.interactable = true;
+            specialHintCountText.color = Colors.ColorAlpha(specialHintCountText.color, 1);
+            specialHintGemIcon.color = Colors.ColorAlpha(specialHintGemIcon.color, 1);
+            specialHintGemsCost.color = Colors.ColorAlpha(specialHintGemsCost.color, 1);
+            specialFreeHintContainer.color = Colors.ColorAlpha(specialFreeHintContainer.color, 1);
+            specialFreeHintText.color = Colors.ColorAlpha(specialFreeHintText.color, 1);
         }
 
         public void RenderSpecialHint(HintVO vo)
@@ -153,31 +188,33 @@ namespace TurboLabz.Multiplayer
 
         private void SpecialHintButtonClicked()
         {
+            //max
             if (canUseSpecialHint)
             {
-                var transactionVO = new VirtualGoodsTransactionVO();
-                transactionVO.consumeItemShortCode = specialHintShortCode;
-                transactionVO.consumeQuantity = 1;
-
+                //premium hints
                 if (haveEnoughHints)
                 {
-                    if (playerModel.HasSubscription())
-                    {
-                        transactionVO.consumeItemShortCode = "premium";
-                    }
-
+                    var transactionVO = new VirtualGoodsTransactionVO();
+                    transactionVO.consumeItemShortCode = "premium";
+                    transactionVO.consumeQuantity = 1;
                     ProcessHint(transactionVO);
                 }
-                //else if (haveEnoughGemsForHint)
-                //{
-                //    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
-                //    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
-                //    ProcessHint(transactionVO);
-                //}
+                //buy hints
+                else if (haveEnoughGemsForHint)
+                {
+                    var transactionVO = new VirtualGoodsTransactionVO();
+                    transactionVO.consumeItemShortCode = GSBackendKeys.PlayerDetails.GEMS;
+                    transactionVO.consumeQuantity = hintsStoreItem.currency3Cost;
+                    transactionVO.buyItemShortCode = specialHintShortCode;
+                    transactionVO.buyQuantity = 1;
+                    ProcessHint(transactionVO);
+                }
                 else
                 {
+                    audioService.PlayStandardClick();
                     EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
-                    notEnoughSpecialHintsSingal.Dispatch(transactionVO);
+                    SpotPurchaseMediator.analyticsContext = "hint";
+                    notEnoughGemsSignal.Dispatch();
                 }
             }
         }
@@ -188,6 +225,29 @@ namespace TurboLabz.Multiplayer
             specialHintThinkinig.SetActive(true);
             EnableModalBlocker(Colors.UI_BLOCKER_INVISIBLE_ALPHA);
             specialHintClickedSignal.Dispatch(vo);
+            specialHintUsedAfterTooltip = specialHintBubbleShown;
+            freeHintTooltip.gameObject.SetActive(false);
+        }
+
+        private void ShowSpecialHintBubble(int opponentScore)
+        {
+            if (!freeHintTooltip.hiddenByClick && !specialHintUsedAfterTooltip && opponentScore >= specialHintBubbleAdvantageThreshold)
+            {
+                specialHintBubbleShown = true;
+                freeHintTooltip.gameObject.SetActive(true);
+                var freeText = preferencesModel.freeHint.HasFlag(FreePowerUpStatus.AVAILABLE) ? "FREE " : string.Empty;
+                specialHintBubbleText.text = $"Stuck? Use a {freeText}HINT";
+            }
+        }
+
+        private void DisableFreeHint()
+        {
+            if (preferencesModel.freeHint.HasFlag(FreePowerUpStatus.NOT_CONSUMED | FreePowerUpStatus.AVAILABLE))
+            {
+                preferencesModel.freeHint = FreePowerUpStatus.CONSUMED;
+            }
+
+            SetupSpecialHintButton();
         }
     }
 }

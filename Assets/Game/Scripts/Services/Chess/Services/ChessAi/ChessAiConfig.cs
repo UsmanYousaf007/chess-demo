@@ -22,7 +22,7 @@ namespace TurboLabz.Chess
         public const string SF_SKILL_LEVEL = "19"; // We use multipv and custom code to generate moves, therefore DO NOT change this value
         //public const string SF_SLOW_MOVER = "10"; // This makes the engine think less. No documentation on this.
         //public const string SF_HASH = "128"; // This is a value in MB and it may improve performance as you increase it (testing pending)
-
+        public const string SF_ANALYSIS_MULTIPV = "20";
 
         // Duration difficulty thresholds
         public const double DURATION_FAST_MINS = 1;
@@ -33,6 +33,7 @@ namespace TurboLabz.Chess
         // Search depth is key to making stockfish smarter
         public const int SF_MIN_SEARCH_DEPTH = 0; 
         public const int SF_MAX_SEARCH_DEPTH = 12;
+        public const int SF_ANALYSIS_SEARCH_DEPTH = 12;
 
         // Basic move selection
         public const int OPENING_MOVES_SELECT_COUNT = 3;

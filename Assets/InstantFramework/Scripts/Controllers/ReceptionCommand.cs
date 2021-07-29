@@ -29,10 +29,10 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public RefreshFriendsSignal refreshFriendsSignal { get; set; }
         [Inject] public RefreshCommunitySignal refreshCommunitySignal { get; set; }
-        [Inject] public LoadPromotionSingal loadPromotionSingal { get; set; }
         [Inject] public AuthFacebookResultSignal authFacebookResultSignal { get; set; }
         [Inject] public SetLeaguesSignal setLeaguesSignal { get; set; }
         [Inject] public AppUpdateSignal appUpdateSignal { get; set; }
+        [Inject] public GDPRDlgClosedSignal gdprDlgClosedSignal { get; set; }
 
         // Models
         [Inject] public IAppInfoModel appInfoModel { get; set; }
@@ -58,6 +58,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public ISchedulerService schedulerService { get; set; }
         [Inject] public IAppUpdateService appUpdateService { get; set; }
         [Inject] public IPromotionsService promotionsService { get; set; }
+        [Inject] public ISignInWithAppleService signInWithAppleService { get; set; }
 
         public override void Execute()
         {
@@ -118,10 +119,10 @@ namespace TurboLabz.InstantFramework
 
         private void InitGame()
         {
-            DispatchGameSignals();
             schedulerService.Init();
-            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
             schedulerService.Start();
+            DispatchGameSignals();
+            schedulerService.Subscribe(tournamentsModel.UpdateSchedule);
             ResumeGame();
         }
 
@@ -148,16 +149,39 @@ namespace TurboLabz.InstantFramework
         {
             preferencesModel.sessionCount++;
             initBackendOnceSignal.Dispatch();
-            setLeaguesSignal.Dispatch();
+            //setLeaguesSignal.Dispatch();
             loadLobbySignal.Dispatch();
-            //loadPromotionSingal.Dispatch();
             //autoSubscriptionDialogueService.Show();
             pushNotificationService.Init();
             notificationsModel.Init();
             refreshFriendsSignal.Dispatch();
             refreshCommunitySignal.Dispatch(true);
             SendAnalytics();
-            promotionsService.LoadPromotion();
+            OnGDPROver();
+
+            //if (playerModel.personalisedAdsRewardClaimed == 0)
+            //{
+            //    navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_GDPR_DLG);
+            //    gdprDlgClosedSignal.AddOnce(OnGDPROver);
+            //}
+            //else
+            //{
+            //    OnGDPROver();
+            //}
+        }
+
+        private void OnGDPROver()
+        {
+            var socailLoggedIn = facebookService.isLoggedIn() || signInWithAppleService.IsSignedIn();
+            if (!socailLoggedIn && preferencesModel.FTUE)
+            {
+                navigatorEventSignal.Dispatch(NavigatorEvent.SHOW_LOGIN_DLG);
+                preferencesModel.FTUE = false;
+            }
+            else
+            {
+                promotionsService.LoadPromotion();
+            }
         }
 
         private void UpdateProfilePic(ref bool picWait)
@@ -203,6 +227,8 @@ namespace TurboLabz.InstantFramework
             vo.name = playerModel.name;
             vo.playerId = playerModel.id;
             vo.rating = playerModel.eloScore;
+            vo.trophies2 = playerModel.trophies2;
+            vo.countryId = playerModel.countryId;
 
             authFacebookResultSignal.Dispatch(vo);
 
@@ -222,22 +248,28 @@ namespace TurboLabz.InstantFramework
 
         private void SendAnalytics()
         {
-            if (playerModel.HasSubscription())
+            if (playerModel != null && playerModel.HasSubscription())
             {
-                var context = playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
+                var context = playerModel.subscriptionType != null && playerModel.subscriptionType.Equals(GSBackendKeys.ShopItem.SUBSCRIPTION_SHOP_TAG) ? AnalyticsContext.monthly : AnalyticsContext.yearly;
                 context = playerModel.isPremium ? AnalyticsContext.premium : context;
                 analyticsService.Event(AnalyticsEventId.subscription_session, context);
             }
 
-            if (leaguesModel.leagues.ContainsKey(playerModel.league.ToString()))
+            if (leaguesModel != null)
             {
-                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.leagues[playerModel.league.ToString()].name);
+                analyticsService.Event(AnalyticsEventId.current_league, AnalyticsParameter.context, leaguesModel.GetCurrentLeagueInfo().name.Replace(" ","_").Replace(".",string.Empty).ToLower());
             }
 
             // Logging target architecture event
             analyticsService.Event(AnalyticsEventId.target_architecture, UnityInfo.Is64Bit() ? AnalyticsContext.ARM64 : AnalyticsContext.ARM);
 
-            tournamentsModel.LogConcludedJoinedTournaments();
+            if (tournamentsModel != null)
+            {
+                tournamentsModel.LogConcludedJoinedTournaments();
+            }
+
+            GameAnalyticsSDK.GameAnalytics.SetCustomDimension01(playerModel.HasPurchased() ? "payers" : "non_payers");
+
             SendDailyAnalytics();
         }
 
@@ -257,22 +289,21 @@ namespace TurboLabz.InstantFramework
 
         private void SendDailyAnalytics()
         {
-            var daysBetweenLastLogin = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime() - preferencesModel.lastLaunchTime).Days;
+            var currentlocalTime = TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp).ToLocalTime();
+            var daysBetweenLastLogin = TimeUtil.GetDaysDifference(currentlocalTime, preferencesModel.lastLaunchTime);
 
             if (daysBetweenLastLogin >= 1)
             {
                 gameModesAnalyticsService.LogTimeSpent();
                 gameModesAnalyticsService.LogInstallDayData();
 
-                analyticsService.Event(AnalyticsEventId.trophies_earned, AnalyticsParameter.count, playerModel.trophies);
+                //analyticsService.Event(AnalyticsEventId.trophies_earned, AnalyticsParameter.count, playerModel.trophies);
 
                 analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.gems, playerModel.gems);
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.tickets, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.rating_boosters, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_RATING_BOOSTER));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.hints, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_HINT));
-                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.keys, playerModel.GetInventoryItemCount(GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY));
+                analyticsService.Event(AnalyticsEventId.items_owned, AnalyticsParameter.coins, playerModel.coins);
 
-                SendResourceManagerAnalytics();
+                //SendResourceManagerAnalytics();
+                SendLeagueLifeCycleAnalytics();
                 preferencesModel.ResetDailyPrefers();
             }
         }
@@ -322,5 +353,44 @@ namespace TurboLabz.InstantFramework
             analyticsService.Event(AnalyticsEventId.resource_used, AnalyticsParameter.keys, preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_USED][GSBackendKeys.ShopItem.SPECIAL_ITEM_KEY]);
 
         }
+
+        private void SendLeagueLifeCycleAnalytics()
+        {
+            var league = leaguesModel.GetCurrentLeagueInfo().name.Replace(" ", "_").Replace(".", string.Empty).ToLower();
+            var daySinceCreationDate = (TimeUtil.ToDateTime(backendService.serverClock.currentTimestamp) - TimeUtil.ToDateTime(playerModel.creationDate)).TotalDays;
+            var dayToString = GetLeagueLifeCycleDay((int)daySinceCreationDate);
+
+            if (!string.IsNullOrEmpty(dayToString))
+            {
+                analyticsService.DesignEvent(AnalyticsEventId.league_lifecycle, dayToString, league);
+            }
+        }
+
+        private string GetLeagueLifeCycleDay(int day)
+        {
+            var dayToString = string.Empty;
+
+            switch (day)
+            {
+                case 1:
+                    dayToString = "D1";
+                    break;
+
+                case 7:
+                    dayToString = "D7";
+                    break;
+
+                case 14:
+                    dayToString = "D14";
+                    break;
+
+                case 30:
+                    dayToString = "D30";
+                    break;
+            }
+
+            return dayToString;
+        }
     }
+
 }
