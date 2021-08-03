@@ -213,7 +213,7 @@ namespace TurboLabz.InstantFramework
             closeButtonSignal.Dispatch();
         }
 
-        private void SetupPlayButtons(bool enable)
+        public void SetupPlayButtons(bool enable)
         {
             startGame3mButton.interactable =
                 startGame5mButton.interactable =

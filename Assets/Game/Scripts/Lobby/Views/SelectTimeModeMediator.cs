@@ -204,5 +204,11 @@ namespace TurboLabz.InstantFramework
                 view.UpdatePowerModeRVTimer(timer, rvEnabled);
             }
         }
+
+        [ListensTo(typeof(ReconnectResetStateSignal))]
+        public void ReconnectResetState()
+        {
+            view.SetupPlayButtons(true);
+        }
     }
 }

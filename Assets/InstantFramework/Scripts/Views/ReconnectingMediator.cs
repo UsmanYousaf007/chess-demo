@@ -26,6 +26,7 @@ namespace TurboLabz.InstantFramework
         // Dispatch signals
         [Inject] public ToggleBannerSignal toggleBannerSignal { get; set; }
         [Inject] public PauseNotificationsSignal pauseNotificationsSignal { get; set; }
+        [Inject] public ReconnectResetStateSignal reconnectResetStateSignal { get; set; } 
 
         // Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -72,6 +73,7 @@ namespace TurboLabz.InstantFramework
             else
             {
                 view.HidePopUp();
+                reconnectResetStateSignal.Dispatch();
             }
         }
 
