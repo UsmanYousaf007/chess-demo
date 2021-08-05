@@ -21,7 +21,6 @@ namespace HUFEXT.PackageManager.Editor.Models
         Migration, // Status for packages that have different names but same path.
         Conflict, // Status for packages that have same name but different paths.
         Embedded, // Status for packages without manifest and version data (Used for submodules in old format).
-        Development, // Status for packages in development.
         Git, // Status for repositories with package structure.
         GitUpdate, // Status for repositories with not updated package version.
         GitError, // Status for repositories with old package version.
@@ -41,9 +40,6 @@ namespace HUFEXT.PackageManager.Editor.Models
     [Serializable]
     public class PackageManifest
     {
-        public static readonly string PREVIEW_TAG = "preview";
-        public static readonly string EXPERIMENTAL_TAG = "experimental";
-
         [Serializable]
         public class Author
         {
@@ -73,7 +69,6 @@ namespace HUFEXT.PackageManager.Editor.Models
             public string build = string.Empty;
             public string path = string.Empty;
             public bool isLocal = false;
-            public bool isPreview = false;
             public bool isUnity = false;
             public List<string> dependencies = new List<string>();
             public List<string> optionalDependencies = new List<string>();
@@ -103,10 +98,28 @@ namespace HUFEXT.PackageManager.Editor.Models
                                     huf.status == PackageStatus.GitUpdate ||
                                     huf.status == PackageStatus.GitError;
 
+        public bool IsStable => string.IsNullOrEmpty( huf.prerelease );
         public bool IsHufPackage => name.Contains( ".huuuge." );
 
         public bool HasExternalDependencies =>
             huf.dependencies.Select( p => new Models.Dependency( p ) ).Any( d => !d.IsHufPackage );
+
+        public string LocalChangelog
+        {
+            get
+            {
+                var changelogPath = $"{huf.path}/CHANGELOG.md";
+
+                if ( File.Exists( changelogPath ) )
+                {
+                    return File.ReadAllText( changelogPath );
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string RemoteChangelog { get; set; }
 
         public bool SupportsCurrentUnityVersion
         {
@@ -144,6 +157,13 @@ namespace HUFEXT.PackageManager.Editor.Models
         public bool TryGetChangelog( out string changelog )
         {
             changelog = string.Empty;
+
+            if ( !string.IsNullOrEmpty( RemoteChangelog ) )
+            {
+                changelog = RemoteChangelog;
+                return true;
+            }
+
             var changelogPath = $"{huf.path}/CHANGELOG.md";
 
             if ( File.Exists( changelogPath ) )
@@ -161,8 +181,9 @@ namespace HUFEXT.PackageManager.Editor.Models
 
             if ( latestPackage == null )
             {
-                Utils.Common.LogError( "Manifest wasn't found in the remote package: " + name,
-                    nameof(PackageManifest) );
+                if ( IsHufPackage )
+                    Utils.Common.LogError( "Manifest wasn't found in the remote package: " + name,
+                        nameof(PackageManifest) );
                 return this;
             }
             else
@@ -194,7 +215,6 @@ namespace HUFEXT.PackageManager.Editor.Models
                 {
                     huf.version = parts[0];
                     huf.prerelease = parts[1];
-                    huf.isPreview = huf.prerelease == PREVIEW_TAG;
                     break;
                 }
                 default: return;

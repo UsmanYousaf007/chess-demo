@@ -1,3 +1,35 @@
+## [1.10.0] - 2021-08-03
+### Added
+- Showing development channel
+
+### Updated
+- Documentation
+
+
+## [1.9.0] - 2021-07-21
+### Added
+- Showing popup with new package updates
+
+
+## [1.8.0] - 2021-07-21
+### Added
+- Downloading changelog for selected package version (won't work on older package versions)
+
+
+## [1.7.3] - 2021-07-01
+### Fixed
+- Updating not working
+
+
+## [1.7.2] - 2021-06-28
+### Added
+- Displaying minimum package version
+
+### Fixed
+- Updating dependencies when it is not needed
+- Removed "Manifest wasn't found in the remote package" error in non-HUF packages
+
+
 ## [1.7.1] - 2021-06-14
 ### Fixed
 - Not checking in optional dependencies if other packages need to be updated

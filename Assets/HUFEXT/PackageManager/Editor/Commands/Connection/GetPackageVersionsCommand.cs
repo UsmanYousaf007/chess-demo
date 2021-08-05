@@ -13,22 +13,19 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
         public override void Execute()
         {
-            if ( Core.Packages.Channel == Models.PackageChannel.Development )
-            {
-                Complete( false, "Unable to fetch versions from development channel." );
-                return;
-            }
             EditorApplication.update += WaitForFinish;
             fetchesFinished = 0;
-            fetchesCount = package.huf.scopes.Count * 3;
+            fetchesCount = package.huf.scopes.Count * 4;
 
             package.huf.config.stableVersions.Clear();
             package.huf.config.previewVersions.Clear();
-            package.huf.config.previewVersions.Clear();
+            package.huf.config.developmentVersions.Clear();
+            package.huf.config.experimentalVersions.Clear();
             foreach ( var scope in package.huf.scopes )
             {
                 FetchPackageVersions( Models.Keys.Routing.PREVIEW_CHANNEL, scope );
                 FetchPackageVersions( Models.Keys.Routing.EXPERIMENTAL_CHANNEL, scope );
+                FetchPackageVersions( Models.Keys.Routing.DEVELOPMENT_CHANNEL, scope );
                 FetchPackageVersions( Models.Keys.Routing.STABLE_CHANNEL, scope );
             }
         }
@@ -61,6 +58,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
                         AddToVersionsList( package.huf.config.previewVersions, versions );
                     else if ( channel == Models.Keys.Routing.EXPERIMENTAL_CHANNEL )
                         AddToVersionsList( package.huf.config.experimentalVersions, versions );
+                    else if ( channel == Models.Keys.Routing.DEVELOPMENT_CHANNEL )
+                        AddToVersionsList( package.huf.config.developmentVersions, versions );
                     else
                         AddToVersionsList( package.huf.config.stableVersions, versions );
                 } );

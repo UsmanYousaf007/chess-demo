@@ -379,46 +379,6 @@ namespace HUFEXT.PackageManager.Editor.Views
                     currentEvent.completed = true;
                     break;
                 }
-                case Models.EventType.ChangeDevelopmentEnvPath:
-                {
-                    var temp = EditorUtility.OpenFolderPanel( "Change development registry",
-                        currentEvent.data,
-                        "" );
-
-                    if ( temp != string.Empty )
-                    {
-                        Core.Registry.Save( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, temp );
-
-                        RegisterEvent( new Models.PackageManagerViewEvent
-                        {
-                            owner = currentEvent.owner,
-                            eventType = Models.EventType.RefreshPackages
-                        } );
-                    }
-
-                    currentEvent.completed = true;
-                    break;
-                }
-                case Models.EventType.DisableDeveloperMode:
-                {
-                    Core.Registry.Pop( Models.Keys.PACKAGE_MANAGER_DEBUG_LOGS );
-                    Core.Packages.Channel = Models.PackageChannel.Stable;
-                    state.channel = Models.PackageChannel.Stable;
-
-                    Core.Command.Execute( new Commands.Processing.RefreshPackagesCommand
-                    {
-                        downloadLatest = true,
-                        OnComplete = ( result, serializedData ) =>
-                        {
-                            var group = BuildPipeline.GetBuildTargetGroup( EditorUserBuildSettings.activeBuildTarget );
-                            var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup( group );
-                            var replace = defines.Replace( "HPM_DEV_MODE", "" );
-                            PlayerSettings.SetScriptingDefineSymbolsForGroup( group, replace );
-                            currentEvent.completed = true;
-                        }
-                    } );
-                    break;
-                }
                 case Models.EventType.RevokeLicense:
                 {
                     if ( EditorUtility.DisplayDialogComplex( "Are you sure?",
@@ -443,11 +403,8 @@ namespace HUFEXT.PackageManager.Editor.Views
                     {
                         break;
                     }
-
-                    var useLatestVersion = package.huf.status == Models.PackageStatus.UpdateAvailable ||
-                                           package.huf.status == Models.PackageStatus.ForceUpdate ||
-                                           package.huf.status == Models.PackageStatus.Migration;
-                    Core.Command.Enqueue( new Commands.Processing.PackageResolveCommand( package, useLatestVersion ) );
+                    
+                    Core.Command.Enqueue( new Commands.Processing.PackageResolveCommand( package ) );
                     Core.Command.Enqueue( new Commands.Processing.PackageLockCommand() );
                     Core.Command.Enqueue( new Commands.Processing.ProcessPackageLockCommand() );
                     currentEvent.completed = true;

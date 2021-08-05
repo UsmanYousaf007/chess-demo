@@ -120,10 +120,9 @@ namespace HUFEXT.PackageManager.Editor.Views
                 case Models.PackageStatus.ForceUpdate:
                 case Models.PackageStatus.UpdateAvailable:
                 case Models.PackageStatus.Migration:
-                case Models.PackageStatus.Development:
                 {
                     var update = package.huf.status != Models.PackageStatus.NotInstalled;
-                    var label = !update ? "Install" : $"Update to {package.huf.config.latestVersion}";
+                    var label = update ? $"Update to {package.huf.config.latestVersion}" : "Install";
 
                     if ( GUILayout.Button( label, GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
@@ -131,7 +130,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                         {
                             owner = Type,
                             eventType = Models.EventType.InstallPackage,
-                            data = package.ToString()
+                            data = update ? package.LatestPackageVersion().ToString() : package.ToString()
                         } );
                     }
 
@@ -159,7 +158,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 case Models.PackageStatus.Conflict:
                 {
                     TryDrawExternalDependenciesButtons();
-                    
+
                     if ( GUILayout.Button( "Remove", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                     {
                         RegisterEvent( new Models.PackageManagerViewEvent
@@ -169,6 +168,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                             data = package.ToString()
                         } );
                     }
+
                     break;
                 }
             }
@@ -186,11 +186,11 @@ namespace HUFEXT.PackageManager.Editor.Views
 
                         foreach ( var pack in packages )
                         {
-
                             foreach ( var dependency in pack.huf.dependencies
                                 .Select( p => new Models.Dependency( p ) ).Where( d => !d.IsHufPackage ) )
                             {
                                 hadUnityDependency = true;
+
                                 var existingDependency =
                                     unityPackages.FirstOrDefault( d => d.name == dependency.name );
 
@@ -236,7 +236,7 @@ namespace HUFEXT.PackageManager.Editor.Views
 
                 if ( GUILayout.Button( "Install Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
                 {
-                    InstallUnityDependencies( new List<PackageManifest>() {package} );
+                    InstallUnityDependencies( new List<PackageManifest>() { package } );
                 }
 
                 if ( GUILayout.Button( "Install all Unity dependencies", GUILayout.MinWidth( BUTTON_WIDTH ) ) )
@@ -321,9 +321,15 @@ namespace HUFEXT.PackageManager.Editor.Views
             {
                 GUILayout.Label( "This package is local." );
             }
-            else if ( !string.IsNullOrEmpty( package.huf.config.latestVersion ) )
+
+            if ( !string.IsNullOrEmpty( package.huf.config.latestVersion ) )
             {
                 GUILayout.Label( $"Latest version: {package.huf.config.latestVersion}" );
+            }
+
+            if ( !string.IsNullOrEmpty( package.huf.config.minimumVersion ) )
+            {
+                GUILayout.Label( $"Minimum version: {package.huf.config.minimumVersion}" );
             }
 
             if ( !string.IsNullOrEmpty( package.huf.path ) )
@@ -416,15 +422,13 @@ namespace HUFEXT.PackageManager.Editor.Views
                             fontSize = 12,
                             wordWrap = true
                         } );
-
-                    if ( package.huf.details.Count > 0 )
-                    {
-                        EditorGUILayout.Space();
-                        DrawDetailsData( package );
-                    }
+                    
+                    DrawDetailsData( package );
 
                     if ( package.TryGetChangelog( out string changelog ) )
                     {
+                        EditorGUILayout.Space();
+                        GUILayout.Label( "Changelog", EditorStyles.boldLabel );
                         EditorGUILayout.Space();
 
                         using ( new GUILayout.VerticalScope() )
@@ -444,6 +448,7 @@ namespace HUFEXT.PackageManager.Editor.Views
         {
             if ( package.huf.details.Count > 0 )
             {
+                EditorGUILayout.Space();
                 using ( new GUILayout.VerticalScope( GUILayout.Height( 200f ) ) )
                 {
                     for ( int i = 0; i < package.huf.details.Count; ++i )
@@ -501,8 +506,9 @@ namespace HUFEXT.PackageManager.Editor.Views
 
                 //using window.state.originalSelectedPackage as DownloadPackageManifestCommand() does not get versions
                 using ( new EditorGUI.DisabledScope(
-                    originalSelectedPackage.huf.config.previewVersions.Count == 0 &&
                     originalSelectedPackage.huf.config.stableVersions.Count == 0 &&
+                    originalSelectedPackage.huf.config.previewVersions.Count == 0 &&
+                    originalSelectedPackage.huf.config.developmentVersions.Count == 0    &&
                     originalSelectedPackage.huf.config.experimentalVersions.Count == 0 ) )
                 {
                     if ( GUILayout.Button( "Other versions", EditorStyles.popup ) )
@@ -517,6 +523,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                         DisplayVersionsMenu( ref menu,
                             originalSelectedPackage.huf.config.previewVersions,
                             Models.Keys.Routing.PREVIEW_CHANNEL,
+                            package );
+                        
+                        DisplayVersionsMenu( ref menu,
+                            originalSelectedPackage.huf.config.developmentVersions,
+                            Models.Keys.Routing.DEVELOPMENT_CHANNEL,
                             package );
 
                         DisplayVersionsMenu( ref menu,
@@ -566,25 +577,49 @@ namespace HUFEXT.PackageManager.Editor.Views
                                 return;
                             }
 
-                            Core.Command.Execute( new Commands.Connection.DownloadPackageManifestCommand()
-                            {
-                                version = version.version,
-                                channel = channel,
-                                packageName = package.name,
-                                scope = string.IsNullOrEmpty( version.scope ) ? package.huf.scope : version.scope,
-                                OnComplete = ( success, serializedData ) =>
-                                {
-                                    if ( !success )
-                                    {
-                                        return;
-                                    }
-
-                                    package = Models.PackageManifest.ParseManifest( serializedData, true );
-                                    window.state.selectedPackage = package;
-                                    window.state.selectedPackage.CheckIfCurrentUnitySupportsThisPackage();
-                                }
-                            } );
+                            string scope = string.IsNullOrEmpty( version.scope ) ? package.huf.scope : version.scope;
+                            DownloadPackageManifestAndChangelog( version.version, package.name, scope );
                         } );
+                }
+
+                void DownloadPackageManifestAndChangelog( string packageVersion,
+                    string packageName,
+                    string packageScope )
+                {
+                    Core.Command.Execute( new Commands.Connection.DownloadPackageManifestCommand()
+                    {
+                        version = packageVersion,
+                        channel = channel,
+                        packageName = packageName,
+                        scope = packageScope,
+                        OnComplete = ( success, serializedData ) =>
+                        {
+                            if ( !success )
+                            {
+                                return;
+                            }
+
+                            package = Models.PackageManifest.ParseManifest( serializedData, true );
+                            DownloadPackageChangelog( packageVersion, packageName, packageScope );
+                        }
+                    } );
+                }
+
+                void DownloadPackageChangelog( string packageVersion, string packageName, string packageScope )
+                {
+                    Core.Command.Execute( new Commands.Connection.DownloadPackageChangelogCommand()
+                    {
+                        version = packageVersion,
+                        channel = channel,
+                        packageName = packageName,
+                        scope = packageScope,
+                        OnComplete = ( success2, serializedData2 ) =>
+                        {
+                            package.RemoteChangelog = serializedData2;
+                            window.state.selectedPackage = package;
+                            window.state.selectedPackage.CheckIfCurrentUnitySupportsThisPackage();
+                        }
+                    } );
                 }
             }
         }

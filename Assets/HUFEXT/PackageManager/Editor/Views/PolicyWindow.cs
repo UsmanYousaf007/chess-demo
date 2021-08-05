@@ -11,8 +11,6 @@ namespace HUFEXT.PackageManager.Editor.Views
         const float BANNER_LOGO_HEIGHT = 80f;
         const float BOTTOM_SECTION_HEIGHT = 300f;
         const float CREDENTIALS_PANEL_WIDTH = 350f;
-        const float PROCEED_BUTTON_WIDTH = 150f;
-        const float PROCEED_BUTTON_HEIGHT = 30f;
         const int LICENSE_FONT_SIZE = 12;
 
         Vector2 scroll;
@@ -147,7 +145,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                                 ? Models.Keys.Views.Policy.VALIDATE
                                 : Models.Keys.Views.Policy.BUTTON;
 
-                            if ( GUILayout.Button( label, GUILayout.Width( PROCEED_BUTTON_WIDTH ), GUILayout.Height( PROCEED_BUTTON_HEIGHT ) ) )
+                            if ( GUILayout.Button( label, Models.Keys.GUI.mediumButtonSize ) )
                             {
                                 OnProceedRequest();
                             }

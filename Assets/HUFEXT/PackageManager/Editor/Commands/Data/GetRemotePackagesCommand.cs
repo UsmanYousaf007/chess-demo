@@ -53,11 +53,9 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
             {
                 case Models.PackageChannel.Stable:
                 case Models.PackageChannel.Preview:
+                case Models.PackageChannel.Development:
                 case Models.PackageChannel.Experimental:
                     FetchRemotePackages( Models.Keys.Routing.STABLE_CHANNEL );
-                    break;
-                case Models.PackageChannel.Development:
-                    FetchDevelopmentPackages();
                     break;
                 default:
                     Complete( false, "Unsupported channel." );
@@ -130,50 +128,6 @@ namespace HUFEXT.PackageManager.Editor.Commands.Data
                 package.huf.isLocal = false;
                 packages.Add( package );
             }
-        }
-
-        void FetchDevelopmentPackages()
-        {
-            Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, out string devEnvPath );
-
-            if ( string.IsNullOrEmpty( devEnvPath ) )
-            {
-                Complete( false, "Development environment path is empty." );
-                return;
-            }
-
-            if ( !Directory.Exists( devEnvPath ) )
-            {
-                Core.Registry.Remove( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT );
-                Complete( false, "Incorrect development environment path." );
-                return;
-            }
-
-            var directories = Directory.GetFiles( devEnvPath,
-                Models.Keys.Filesystem.MANIFEST_EXTENSION,
-                SearchOption.AllDirectories );
-
-            foreach ( var path in directories )
-            {
-                var manifest = Models.PackageManifest.ParseManifest( path );
-                manifest.huf.status = Models.PackageStatus.NotInstalled;
-                manifest.huf.isLocal = false;
-
-                var configPath = path.Replace( Models.Keys.Filesystem.MANIFEST_EXTENSION,
-                    Models.Keys.Filesystem.CONFIG_EXTENSION );
-
-                if ( File.Exists( configPath ) )
-                {
-                    var config = new Models.PackageConfig();
-                    EditorJsonUtility.FromJsonOverwrite( File.ReadAllText( configPath ), config );
-                    manifest.huf.config = config;
-                    manifest.huf.config.latestVersion = manifest.version;
-                }
-
-                packages.Add( manifest );
-            }
-
-            Complete( true );
         }
     }
 }

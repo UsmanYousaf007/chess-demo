@@ -44,6 +44,7 @@ Assets/HUFEXT/PackageManager/Editor/Models/PackageManagerViewEvent.cs
 Assets/HUFEXT/PackageManager/Editor/Models/PackageManagerState.cs
 Assets/HUFEXT/PackageManager/Editor/Models/Dependency.cs
 Assets/HUFEXT/PackageManager/Editor/PackageManagerOnScriptsReloaded.cs
+Assets/HUFEXT/PackageManager/Editor/Commands/Connection/DownloadPackageChangelogCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Commands/Connection/DownloadPackageManifestCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Commands/Connection/AuthorizeTokenCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Commands/Connection/DownloadPackageCommand.cs
@@ -64,10 +65,10 @@ Assets/HUFEXT/PackageManager/Editor/Commands/Base/AddScopedRegistriesCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Commands/Base/BootstrapCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Commands/Base/RemoveScopedRegistriesCommand.cs
 Assets/HUFEXT/PackageManager/Editor/Views/DeveloperView.cs
+Assets/HUFEXT/PackageManager/Editor/Views/NewPackageUpdatesWindow.cs
 Assets/HUFEXT/PackageManager/Editor/Views/PackageView.cs
 Assets/HUFEXT/PackageManager/Editor/Views/ToolbarView.cs
 Assets/HUFEXT/PackageManager/Editor/Views/Editors/CustomRegistryWindow.cs
-Assets/HUFEXT/PackageManager/Editor/Views/Editors/PackageEditorWindow.cs
 Assets/HUFEXT/PackageManager/Editor/Views/PolicyWindow.cs
 Assets/HUFEXT/PackageManager/Editor/Views/PackageManagerWindow.cs
 Assets/HUFEXT/PackageManager/Editor/Views/PackageManagerView.cs

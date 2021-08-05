@@ -61,8 +61,8 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
             }
 
             EditorJsonUtility.FromJsonOverwrite( response.text, manifest.huf.config );
-            Complete( true, manifest.ToString() );
             EditorUtility.ClearProgressBar();
+            Complete( true, manifest.ToString() );
         }
     }
 }

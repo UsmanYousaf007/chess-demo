@@ -266,7 +266,7 @@ namespace HUFEXT.PackageManager.Editor.Views
         void DrawPackages()
         {
             var index = (int)( scrollPosition.y / ITEM_HEIGHT );
-            var visibleCount = (int)window.position.height / 30 + 1;
+            var visibleCount = (int)(window.position.height / ITEM_HEIGHT) + 1;
             index = Mathf.Clamp( index, 0, Mathf.Max( 0, currentItems.Count - visibleCount ) );
             GUILayout.Space( index * ITEM_HEIGHT );
 
@@ -328,7 +328,7 @@ namespace HUFEXT.PackageManager.Editor.Views
             }
 
             if ( manifest.huf.status == Models.PackageStatus.NotInstalled &&
-                 manifest.huf.isPreview &&
+                 !manifest.IsStable &&
                  !window.state.showPreviewPackages )
             {
                 return false;
@@ -383,7 +383,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                     return manifest.huf.status == Models.PackageStatus.UpdateAvailable ||
                            manifest.huf.status == Models.PackageStatus.ForceUpdate ||
                            manifest.huf.status == Models.PackageStatus.Migration;
-                case Models.PackageSortingType.PreviewPackages: return manifest.huf.isPreview;
+                case Models.PackageSortingType.PreviewPackages: return manifest.IsStable;
                 default: return false;
             }
         }

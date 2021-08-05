@@ -214,10 +214,6 @@ namespace HUFEXT.PackageManager.Editor.Utils
             dataStream.Write( dataBytes, 0, dataBytes.Length );
             dataStream.Close();
             var response = request.GetResponse();
-#if HPM_DEV_MODE
-            Debug.Log(
-                $"Report: {response.ResponseUri} with result: {( ( HttpWebResponse ) response ).StatusDescription}" );
-#endif
             response.Close();
         }
     }

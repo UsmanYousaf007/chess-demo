@@ -137,8 +137,8 @@ namespace HUFEXT.PackageManager.Editor.Views
                     Models.EventType.TogglePreviewOrStableChannel );
                 menu.AddSeparator( string.Empty );
                 RegisterMenuItem( ref menu, "Revoke HUF license", Models.EventType.RevokeLicense );
-#if HPM_DEV_MODE
-                AddDebugOptions( menu );
+#if HUF_TESTS
+                AddDebugOptions( ref menu);
 #endif
                 menu.ShowAsContext();
             }
@@ -155,7 +155,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 } ) );
         }
 
-        void AddDebugOptions( GenericMenu menu )
+        void AddDebugOptions( ref GenericMenu menu )
         {
             menu.AddSeparator( string.Empty );
             menu.AddDisabledItem( new GUIContent( "Development Options" ) );

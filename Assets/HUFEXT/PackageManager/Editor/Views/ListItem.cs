@@ -6,7 +6,6 @@ namespace HUFEXT.PackageManager.Editor.Views
 {
     public abstract class ListItem
     {
-        const float ITEM_HEIGHT = 30f;
         static GUIStyle NO_MARGINS = new GUIStyle {margin = new RectOffset( 0, 0, 0, 0 )};
 
         public ListItem( PackageManagerWindow window )
@@ -19,7 +18,7 @@ namespace HUFEXT.PackageManager.Editor.Views
 
         public void Draw()
         {
-            using ( var v = new EditorGUILayout.VerticalScope( NO_MARGINS, GUILayout.Height( ITEM_HEIGHT ) ) )
+            using ( var v = new EditorGUILayout.VerticalScope( NO_MARGINS, Models.Keys.GUI.mediumButtonHeight ) )
             {
                 DrawContent( v.rect );
             }

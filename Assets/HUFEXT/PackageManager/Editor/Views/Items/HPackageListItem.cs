@@ -8,6 +8,8 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
 {
     public class HPackageListItem : ListItem
     {
+        static readonly Color lightGrey = new Color( 0.8f, 0.8f, 0.8f );
+
         static readonly Dictionary<Models.PackageStatus, GUIContent> statusContent =
             new Dictionary<Models.PackageStatus, GUIContent>
             {
@@ -65,13 +67,6 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                     {
                         image = Utils.HGUI.Icons.PackageConflictIcon,
                         tooltip = "There are different packages with same path. Please, contact HUF support."
-                    }
-                },
-                {
-                    Models.PackageStatus.Development, new GUIContent()
-                    {
-                        image = Utils.HGUI.Icons.PackageConflictIcon,
-                        tooltip = "This package is still in development."
                     }
                 },
                 {
@@ -219,14 +214,9 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                 else
                 {
                     if ( package.huf.isLocal )
-                    {
                         MiniLabel( "local" );
-                    }
-
-                    if ( package.huf.isPreview )
-                    {
-                        MiniLabel( "preview" );
-                    }
+                    if ( !package.IsStable )
+                        MiniLabel( package.huf.prerelease );
                 }
 
                 GUILayout.FlexibleSpace();
@@ -239,10 +229,11 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                     case Models.PackageStatus.UpdateAvailable:
                     case Models.PackageStatus.ForceUpdate:
                     case Models.PackageStatus.Migration:
-                    case Models.PackageStatus.Development:
                     {
                         GUILayout.Label( package.huf.version );
-                        if(package.SupportsCurrentUnityVersion || !statusContentWhenUnityNotSupported.ContainsKey( package.huf.status ))
+
+                        if ( package.SupportsCurrentUnityVersion ||
+                             !statusContentWhenUnityNotSupported.ContainsKey( package.huf.status ) )
                             GUILayout.Label( statusContent[package.huf.status], width );
                         else
                             GUILayout.Label( statusContentWhenUnityNotSupported[package.huf.status], width );
@@ -260,7 +251,7 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                         GUILayout.Label( statusContent[Models.PackageStatus.Embedded],
                             new GUIStyle( EditorStyles.centeredGreyMiniLabel )
                             {
-                                normal = {textColor = isActive ? Color.white : Color.grey}
+                                normal = { textColor = isActive ? Color.white : lightGrey }
                             } );
                         break;
                     }
@@ -276,7 +267,7 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
                         GUILayout.Label( statusContent[package.huf.status],
                             new GUIStyle( EditorStyles.centeredGreyMiniLabel )
                             {
-                                normal = {textColor = isActive ? Color.white : Color.grey}
+                                normal = { textColor = isActive ? Color.white : lightGrey }
                             } );
                         break;
                     }
@@ -291,7 +282,7 @@ namespace HUFEXT.PackageManager.Editor.Views.Items
             GUILayout.Label( text,
                 new GUIStyle( EditorStyles.centeredGreyMiniLabel )
                 {
-                    normal = {textColor = isActive ? Color.white : Color.gray}
+                    normal = { textColor = isActive ? Color.white : lightGrey }
                 } );
         }
     }
