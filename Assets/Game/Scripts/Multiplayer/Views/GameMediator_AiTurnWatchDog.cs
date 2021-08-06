@@ -25,7 +25,7 @@ namespace TurboLabz.Multiplayer
         {
             LogUtil.Log("AiTurnWatchdog: Start AiTurnWatchdog", "cyan");
 
-            aiTurnWatchdogCR = routineRunner.StartCoroutine(AiTurnWatchdogCR(1.0f + delay));
+            aiTurnWatchdogCR = routineRunner.StartCoroutine(AiTurnWatchdogCR(-2.0f + delay));
         }
 
         [ListensTo(typeof(ChallengeMessageProcessedSignal))]
