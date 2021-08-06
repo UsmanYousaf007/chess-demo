@@ -25,6 +25,9 @@ namespace TurboLabz.InstantFramework
         [Inject] public NavigatorEventSignal navigatorEventSignal { get; set; }
         [Inject] public GetAllStarLeaderboardSignal getAllStarLeaderboardSignal { get; set; }
         [Inject] public GetProfilePictureSignal getProfilePictureSignal { get; set; }
+        [Inject] public UpdateTournamentLeaderboardPartialSignal updateTournamentLeaderboardPartialSignal { get; set; }
+        [Inject] public GetTournamentLeaderboardSignal getJoinedTournamentLeaderboardSignal { get; set; }
+        [Inject] public FetchLiveTournamentRewardsSignal fetchLiveTournamentRewardsSignal { get; set; }
 
         public override void OnRegister()
         {
@@ -110,6 +113,27 @@ namespace TurboLabz.InstantFramework
             else
             {
                 schedulerService.UnSubscribe(callback);
+            }
+        }
+
+        [ListensTo(typeof(ReconnectResetStateSignal))]
+        public void ReconnectResetState()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                JoinedTournamentData joinedTournament = tournamentsModel.GetJoinedTournament();
+                LiveTournamentData openTournament = tournamentsModel.GetOpenTournament();
+
+                if (joinedTournament != null)
+                {
+                    updateTournamentLeaderboardPartialSignal.Dispatch(joinedTournament.id);
+                    getJoinedTournamentLeaderboardSignal.Dispatch(joinedTournament.id, true);
+                }
+                else if (openTournament != null)
+                {
+                    updateTournamentLeaderboardPartialSignal.Dispatch(openTournament.shortCode);
+                    fetchLiveTournamentRewardsSignal.Dispatch(openTournament.shortCode);
+                }
             }
         }
     }
