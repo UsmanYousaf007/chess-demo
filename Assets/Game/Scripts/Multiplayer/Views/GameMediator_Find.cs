@@ -36,13 +36,12 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowFind(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
             {
                 toggleLeaderboardViewNavButtons.Dispatch(true);
 
                 view.ShowFind();
                 pauseNotificationsSignal.Dispatch(true);
-                view.FindMatchTimeoutEnable(true, 30);
             }
         }
 
@@ -185,7 +184,8 @@ namespace TurboLabz.Multiplayer
             transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
             transactionVO.buyQuantity = (int)value;
             virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            virtualGoodBoughtSignal.AddOnce((vo) => {
+            virtualGoodBoughtSignal.AddOnce((vo) =>
+            {
                 analyticsService.ResourceEvent(GAResourceFlowType.Source, vo.buyItemShortCode, vo.buyQuantity, "refund", "match_not_found");
                 loadLobbySignal.Dispatch();
             });
@@ -195,6 +195,15 @@ namespace TurboLabz.Multiplayer
         {
             analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "refund", "match_not_found");
             preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][key] += 1;
+        }
+
+        [ListensTo(typeof(SignalLostSaveStateSignal))]
+        public void SaveState()
+        {
+            if (view.isActiveAndEnabled)
+            {
+                view.SaveState();
+            }
         }
     }
 }

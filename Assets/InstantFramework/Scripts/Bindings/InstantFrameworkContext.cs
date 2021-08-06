@@ -517,6 +517,7 @@ namespace TurboLabz.InstantFramework
             injectionBinder.Bind<GetGameStartTimeFailedSignal>().ToSingleton();
             injectionBinder.Bind<UpdatePromotionBundleSignal>().ToSingleton();
             injectionBinder.Bind<ReconnectResetStateSignal>().ToSingleton();
+            injectionBinder.Bind<SignalLostSaveStateSignal>().ToSingleton();
 
             // Bind models
             injectionBinder.Bind<ICPUStatsModel>().To<CPUStatsModel>().ToSingleton();

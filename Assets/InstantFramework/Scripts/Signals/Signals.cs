@@ -284,4 +284,5 @@ namespace TurboLabz.InstantFramework
     public class UpdatePromotionBundleSignal : Signal { }
 
     public class ReconnectResetStateSignal : Signal { }
+    public class SignalLostSaveStateSignal : Signal { }
 }
