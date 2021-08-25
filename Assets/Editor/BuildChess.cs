@@ -178,7 +178,7 @@ public class BuildChess : MonoBehaviour
         PlayerSettings.Android.useAPKExpansionFiles = false;
         PlayerSettings.Android.useCustomKeystore = true;
 
-        PlayerSettings.applicationIdentifier = "com.turbolabz.instantchess.android.googleplay";
+        //PlayerSettings.applicationIdentifier = "com.turbolabz.instantchess.android.googleplay";
         PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android, ApiCompatibilityLevel.NET_4_6);
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.turbolabz.instantchess.android.googleplay");
         PlayerSettings.SetManagedStrippingLevel(BuildTargetGroup.Android, ManagedStrippingLevel.Low);
