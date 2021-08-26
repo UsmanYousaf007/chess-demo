@@ -10,6 +10,7 @@ using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
+using HUF.Utils.Runtime.PlayerPrefs;
 using UnityEngine;
 using HBIAnalytics = huuuge.Analytics;
 
@@ -17,14 +18,16 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 {
     public class HBIAnalyticsService : IAnalyticsService
     {
+        const string HUF_HDS_FIRST_LAUNCH_EVENT = nameof(HUF_HDS_FIRST_LAUNCH_EVENT);
         static readonly HLogPrefix logPrefix = new HLogPrefix( HAnalyticsHBI.logPrefix, nameof(HBIAnalyticsService) );
 
         HBIAnalytics hbi;
-        int minutesToResetSessionId = 5;
         static SynchronizationContext syncContext;
 
         public string Name => AnalyticsServiceName.HBI;
         public bool IsInitialized => hbi != null && hbi.IsInitialized();
+        public string UserId => IsInitialized ? hbi.UserId() : string.Empty;
+        public string SessionId => IsInitialized ? hbi.SessionId() : string.Empty;
 
         public void Init( AnalyticsModel model )
         {
@@ -49,42 +52,13 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
                     hbi.UpdateTrackingConsent();
             };
 #endif
-            hbi = new HBIAnalytics( config.ProjectName, config.Sku, Debug.isDebugBuild, config.Amazon ? "amazon" : "" );
+            hbi = new HBIAnalytics( config.ProjectName, config.Sku, Debug.isDebugBuild,
+                config.CustomPlatformName.IsNullOrEmpty() ? string.Empty : config.CustomPlatformName );
             syncContext = SynchronizationContext.Current;
             HLog.LogImportant( logPrefix, $"UserID: {UserId} | SessionID: {SessionId}" );
             model?.CompleteServiceInitialization( Name, IsInitialized );
             Application.quitting += Dispose;
-        }
-
-        void Dispose()
-        {
-            syncContext.Post( data => hbi.Dispose(), null );
-        }
-
-        public string UserId => IsInitialized ? hbi.UserId() : string.Empty;
-        public string SessionId => IsInitialized ? hbi.SessionId() : string.Empty;
-
-        bool HasCorrectSettings( HBIAnalyticsConfig config )
-        {
-            string configType = nameof(HBIAnalyticsConfig);
-
-            if ( config == null )
-            {
-                HLog.LogError( logPrefix, $"Can't find {configType}" );
-                return false;
-            }
-
-            if ( config.ProjectName.Length > HBIAnalyticsConfig.MaxProjectLength )
-            {
-                HLog.LogError( logPrefix, $"Project name is too long - check {configType}" );
-                return false;
-            }
-
-            if ( config.Sku.Length <= HBIAnalyticsConfig.MaxSKULength )
-                return true;
-
-            HLog.LogError( logPrefix, $"SKU is too long - check {configType}" );
-            return false;
+            TrySendFirstLaunchEvent();
         }
 
         public void LogEvent( AnalyticsEvent analyticsEvent )
@@ -122,7 +96,7 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
         public void SetMinutesToResetSessionId( int minutes )
         {
-            minutesToResetSessionId = minutes;
+            HAnalyticsHBI.minutesToResetSessionId = minutes;
         }
 
         Dictionary<string, object> GetHBIConvertedParameters( Dictionary<string, object> input )
@@ -205,11 +179,48 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
         void HandleApplicationFocus( bool pauseStatus )
         {
-            if ( pauseStatus && minutesToResetSessionId != 0 )
+            if ( pauseStatus && HAnalyticsHBI.minutesToResetSessionId != 0 )
             {
-                hbi.ResetSession( minutesToResetSessionId );
+                hbi.ResetSession( HAnalyticsHBI.minutesToResetSessionId );
                 HLog.LogImportant( logPrefix, $"Focus restored, SessionID: {SessionId}" );
             }
+        }
+
+        void Dispose()
+        {
+            syncContext.Post( data => hbi.Dispose(), null );
+        }
+
+        bool HasCorrectSettings( HBIAnalyticsConfig config )
+        {
+            string configType = nameof(HBIAnalyticsConfig);
+
+            if ( config == null )
+            {
+                HLog.LogError( logPrefix, $"Can't find {configType}" );
+                return false;
+            }
+
+            if ( config.ProjectName.Length > HBIAnalyticsConfig.MaxProjectLength )
+            {
+                HLog.LogError( logPrefix, $"Project name is too long - check {configType}" );
+                return false;
+            }
+
+            if ( config.Sku.Length <= HBIAnalyticsConfig.MaxSKULength )
+                return true;
+
+            HLog.LogError( logPrefix, $"SKU is too long - check {configType}" );
+            return false;
+        }
+
+        void TrySendFirstLaunchEvent()
+        {
+            if ( HPlayerPrefs.HasKey( HUF_HDS_FIRST_LAUNCH_EVENT ) || HAnalytics.GetGDPRConsent() != null)
+                return;
+
+            LogEvent( new AnalyticsEvent( "first_launch" ).ST1( "launch" ));
+            HPlayerPrefs.SetBool( HUF_HDS_FIRST_LAUNCH_EVENT, true );
         }
     }
 }

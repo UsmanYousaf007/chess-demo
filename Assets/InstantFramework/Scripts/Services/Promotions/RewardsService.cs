@@ -25,6 +25,7 @@ namespace TurboLabz.InstantFramework
         [Inject] public InboxEmptySignal inboxEmptySignal { get; set; }
         [Inject] public RankPromotedDlgClosedSignal rankPromotedDlgClosedSignal { get; set; }
         [Inject] public SpotCoinsPurchaseDlgClosedSignal spotCoinsPurchaseDlgClosedSignal { get; set; }
+        [Inject] public ShowLobbyRewardsSignal showLobbyRewardsSignal { get; set; }
 
         // Models
         [Inject] public IInboxModel inboxModel { get; set; }
@@ -57,6 +58,7 @@ namespace TurboLabz.InstantFramework
             promotionCycleOverSignal.AddListener(SetPomotionFlag);
             inboxAddMessagesSignal.AddListener(LoadDailyRewards);
             inboxEmptySignal.AddListener(LoadDailyRewards);
+            showLobbyRewardsSignal.AddListener(LoadDailyRewards);
         }
 
         private void Init()
@@ -75,9 +77,10 @@ namespace TurboLabz.InstantFramework
 
         private void LoadDailyRewards()
         {
+            SetupRewards();
+
             if (isPromotionShownOnStart && navigatorModel.currentViewId == NavigatorViewId.LOBBY)
             {
-                SetupRewards();
                 LoadDailyReward();
             }
         }
@@ -111,19 +114,6 @@ namespace TurboLabz.InstantFramework
                     rewardKey = GetRewardKeyByValue(reward);
                     break;
                 }
-            }
-
-            rewards.Remove(rewardKey);
-            var onCloseSignal = new Signal();
-            onCloseSignal.AddListener(LoadDailyReward);
-            loadRewardDlgViewSignal.Dispatch(rewardKey, onCloseSignal);
-        }
-
-        public void LoadDailyReward(string rewardKey)
-        {
-            if (rewards.Count == 0)
-            {
-                return;
             }
 
             rewards.Remove(rewardKey);

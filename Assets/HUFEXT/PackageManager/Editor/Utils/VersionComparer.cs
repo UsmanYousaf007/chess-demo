@@ -9,9 +9,9 @@ namespace HUFEXT.PackageManager.Editor.Utils
     {
         static readonly Dictionary<string, int> tags = new Dictionary<string, int>()
         {
-            {"develop", 11},
             {"preview", 10},
-            {"experimental", 9},
+            {"development", 9},
+            {"experimental", 8},
             {"unknown", 0}
         };
 
@@ -44,8 +44,8 @@ namespace HUFEXT.PackageManager.Editor.Utils
 
             var v1version = v1.Split( '-' );
             var v2version = v2.Split( '-' );
-            var v1HasTag = v1version.Length > 1 && v1version[1] != "develop";
-            var v2HasTag = v2version.Length > 1 && v2version[1] != "develop";
+            var v1HasTag = v1version.Length > 1;
+            var v2HasTag = v2version.Length > 1;
             var v1arr = Array.ConvertAll( v1version[0].Split( '.' ), int.Parse );
             var v2arr = Array.ConvertAll( v2version[0].Split( '.' ), int.Parse );
 
@@ -120,7 +120,7 @@ namespace HUFEXT.PackageManager.Editor.Utils
                 "1.0.0",
                 "1.0.0-preview",
                 "1.0.0-experimental",
-                "1.0.0-develop",
+                "1.0.0-development",
                 "0.9.0",
                 "0.9.0-preview",
                 "0.9.0-experimental",

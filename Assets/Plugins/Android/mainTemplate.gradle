@@ -100,11 +100,11 @@ dependencies {
     implementation 'com.appsflyer:unity-wrapper:6.3.0' // Assets/HUF/AnalyticsAppsFlyer/SDK/AppsFlyer/Editor/AppsFlyerDependencies.xml:8
     implementation 'com.chartboost:chartboost-sdk:8.2.1' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISChartboostAdapterDependencies.xml:15
     implementation 'com.facebook.android:audience-network-sdk:6.5.0' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFacebookAdapterDependencies.xml:8
-    implementation 'com.facebook.android:facebook-applinks:[9.0, 10)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:6
-    implementation 'com.facebook.android:facebook-core:[9.0, 10)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:5
-    implementation 'com.facebook.android:facebook-gamingservices:[9.0, 10)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:9
-    implementation 'com.facebook.android:facebook-login:[9.0, 10)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
-    implementation 'com.facebook.android:facebook-share:[9.0, 10)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
+    implementation 'com.facebook.android:facebook-applinks:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:6
+    implementation 'com.facebook.android:facebook-core:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:5
+    implementation 'com.facebook.android:facebook-gamingservices:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:9
+    implementation 'com.facebook.android:facebook-login:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
+    implementation 'com.facebook.android:facebook-share:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
     implementation 'com.fyber.vamp:core-sdk:7.8.2' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:8
     implementation 'com.fyber.vamp:mraid-kit:7.8.2' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:24
     implementation 'com.fyber.vamp:video-kit:7.8.2' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISFyberAdapterDependencies.xml:16
@@ -114,19 +114,19 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:17.6.0' // Assets/Firebase/SDK/Firebase/Editor/AppDependencies.xml:17
     implementation 'com.google.android.gms:play-services-basement:17.2.1' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/IronSourceSDKDependencies.xml:25
     implementation 'com.google.android.play:core:1.7.3' // Assets/AppUpdate/hardartcore/In-App Updates/Editor/InAppUpdatesAndroidDependencies.xml:7
-    implementation 'com.google.firebase:firebase-analytics:18.0.3' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:15
-    implementation 'com.google.firebase:firebase-app-unity:7.2.0' // Assets/Firebase/SDK/Firebase/Editor/AppDependencies.xml:22
-    implementation 'com.google.firebase:firebase-auth:20.0.4' // Assets/HUF/AuthFirebase/SDK/Firebase/Editor/AuthDependencies.xml:13
-    implementation 'com.google.firebase:firebase-auth-unity:7.2.0' // Assets/HUF/AuthFirebase/SDK/Firebase/Editor/AuthDependencies.xml:20
-    implementation 'com.google.firebase:firebase-common:19.5.0' // Assets/Firebase/SDK/Firebase/Editor/AppDependencies.xml:13
-    implementation 'com.google.firebase:firebase-config:20.0.4' // Assets/HUF/RemoteConfigsFirebase/SDK/Firebase/Editor/RemoteConfigDependencies.xml:13
-    implementation 'com.google.firebase:firebase-config-unity:7.2.0' // Assets/HUF/RemoteConfigsFirebase/SDK/Firebase/Editor/RemoteConfigDependencies.xml:20
-    implementation 'com.google.firebase:firebase-crashlytics:17.4.1' // Assets/HUF/CrashreportFirebase/SDK/Firebase/Editor/CrashlyticsDependencies.xml:13
-    implementation 'com.google.firebase:firebase-crashlytics-unity:7.2.0' // Assets/HUF/CrashreportFirebase/SDK/Firebase/Editor/CrashlyticsDependencies.xml:20
-    implementation 'com.google.firebase:firebase-messaging:21.1.0' // Assets/HUF/NotificationsFirebase/SDK/Firebase/Editor/MessagingDependencies.xml:13
-    implementation 'com.google.firebase:firebase-messaging-unity:7.2.0' // Assets/HUF/NotificationsFirebase/SDK/Firebase/Editor/MessagingDependencies.xml:20
-    implementation 'com.google.firebase:firebase-storage:19.2.2' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:13
-    implementation 'com.google.firebase:firebase-storage-unity:7.2.0' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:20
+    implementation 'com.google.firebase:firebase-analytics:19.0.0' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:15
+    implementation 'com.google.firebase:firebase-app-unity:8.1.0' // Assets/Firebase/SDK/Firebase/Editor/AppDependencies.xml:22
+    implementation 'com.google.firebase:firebase-auth:21.0.1' // Assets/HUF/AuthFirebase/SDK/Firebase/Editor/AuthDependencies.xml:13
+    implementation 'com.google.firebase:firebase-auth-unity:8.1.0' // Assets/HUF/AuthFirebase/SDK/Firebase/Editor/AuthDependencies.xml:20
+    implementation 'com.google.firebase:firebase-common:20.0.0' // Assets/Firebase/SDK/Firebase/Editor/AppDependencies.xml:13
+    implementation 'com.google.firebase:firebase-config:21.0.0' // Assets/HUF/RemoteConfigsFirebase/SDK/Firebase/Editor/RemoteConfigDependencies.xml:13
+    implementation 'com.google.firebase:firebase-config-unity:8.1.0' // Assets/HUF/RemoteConfigsFirebase/SDK/Firebase/Editor/RemoteConfigDependencies.xml:20
+    implementation 'com.google.firebase:firebase-crashlytics:18.0.1' // Assets/HUF/CrashreportFirebase/SDK/Firebase/Editor/CrashlyticsDependencies.xml:13
+    implementation 'com.google.firebase:firebase-crashlytics-unity:8.1.0' // Assets/HUF/CrashreportFirebase/SDK/Firebase/Editor/CrashlyticsDependencies.xml:20
+    implementation 'com.google.firebase:firebase-messaging:22.0.0' // Assets/HUF/NotificationsFirebase/SDK/Firebase/Editor/MessagingDependencies.xml:13
+    implementation 'com.google.firebase:firebase-messaging-unity:8.1.0' // Assets/HUF/NotificationsFirebase/SDK/Firebase/Editor/MessagingDependencies.xml:20
+    implementation 'com.google.firebase:firebase-storage:20.0.0' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:13
+    implementation 'com.google.firebase:firebase-storage-unity:8.1.0' // Assets/HUF/StorageFirebase/SDK/Firebase/Editor/StorageDependencies.xml:20
     implementation 'com.hyprmx.android:HyprMX-SDK:5.1.2' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISHyprMXAdapterDependencies.xml:8
     implementation 'com.inmobi.monetization:inmobi-ads:9.1.9' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISInMobiAdapterDependencies.xml:15
     implementation 'com.ironsource.adapters:adcolonyadapter:4.3.8' // Assets/HUF/AdsIronSourceMediation/SDK/IronSource/Editor/ISAdColonyAdapterDependencies.xml:16

@@ -60,7 +60,7 @@ namespace HUF.Utils.Runtime.Configs.API
                 }
 
                 JsonUtility.FromJsonOverwrite( RemoveObjectReferences( json ), this );
-                HLog.Log( logPrefix, $"Json applied to config: {configId}." );
+                HLog.Log( logPrefix, $"Json applied to config: {configId}.\n{json}" );
                 ValidateConfig();
                 OnChanged.Dispatch( this );
             }

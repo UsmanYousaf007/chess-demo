@@ -32,7 +32,6 @@ namespace TurboLabz.InstantGame
         [Inject] public SubscriptionDlgClosedSignal subscriptionDlgClosedSignal { get; set; }
         [Inject] public UpdateInboxMessageCountViewSignal updateInboxMessageCountViewSignal { get; set; }
         [Inject] public UpdateLeagueProfileSignal updateLeagueProfileSignal { get; set; }
-        [Inject] public LoadRewardsSignal loadRewardsSignal { get; set; }
         [Inject] public UpdateLessonCardSignal updateLessonCardSignal { get; set; }
         [Inject] public LoadCareerCardSignal loadCareerCardSignal { get; set; }
         [Inject] public RateAppDlgClosedSignal rateAppDlgClosedSignal { get; set; }
@@ -110,7 +109,6 @@ namespace TurboLabz.InstantGame
             LobbyVO vo = new LobbyVO(cpuGameModel, playerModel, metaDataModel);
 
             updateMenuViewSignal.Dispatch(vo);
-            //loadRewardsSignal.Dispatch();
 
             DispatchProfileSignal();
             DispatchRemoveAdsSignal();

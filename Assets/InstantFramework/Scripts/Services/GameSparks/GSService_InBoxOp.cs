@@ -188,18 +188,7 @@ namespace TurboLabz.InstantFramework
             }
 
             GSData inBoxMessagesData = response.ScriptData.GetGSData(GSBackendKeys.InBoxOp.GET);
-            if (inBoxMessagesData != null)
-            {
-                Dictionary<string, InboxMessage> dict = new Dictionary<string, InboxMessage>();
-                FillInbox(dict, inBoxMessagesData);
-                inboxModel.lastFetchedTime = DateTime.UtcNow;
-                inboxModel.items = dict;
-                inboxAddMessagesSignal.Dispatch();
-            }
-            else
-            {
-                inboxEmptySignal.Dispatch();
-            }
+            PopulateInboxModel(inBoxMessagesData);
 
             if (response.ScriptData.ContainsKey("count"))
             {

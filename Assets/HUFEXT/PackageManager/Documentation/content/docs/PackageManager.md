@@ -1,6 +1,6 @@
  # Package Manager
-<!--- Auto:date -->**Updated:** 08-12-2020 \
-<!--- Auto:version -->**version:** 1.5.1 \
+<!--- Auto:date -->**Updated:** 03-08-2021 \
+<!--- Auto:version -->**version:** 1.10.0 \
 [Changelog][Ref.Changelog]
 
 **Table of contents**
@@ -61,42 +61,53 @@ Toolbar shows developer ID of existing authorization token for the project, enab
 
 **Package List** is a scrollable area that contains all available packages depending on the license scope and sorting options. It lists simple package items that contain package name, labels, version and status icon.
 
-Another thing that is quite important are rollout labels. Those labels have different color than packages and contain only rollout identifier.
-
-Types of rollout labels:
+#### Types of labels:
 
 | Label | Description |
 | :---: | :---: |
-| **Experimental** | Packages in early development stage or ones have exclusive features not available in a stable version. |
-| **Rollout X** | Normal packages that have defined rollout version, if the package is up to date it should be in the highest available rollout section. |
-| **Development** | Packages that were built by developer on the local machine, it is not an important section for other users. |
+| **Rollout X** | Rollout number of the package. If the package is up to date it should be in the highest available rollout section. |
+| **Preview** | Packages that were tested by other developers, tested by QA and released on iOS and Android if applicable, but aren't yet verified as stable. |
+| **Development** | Packages that were reviewed in pull requests and tested by its developer. |
+| **Experimental** | Packages in early development stage or that have exclusive features not available in a stable version. |
 | **Undefined** | Packages that have undefined rollout tag or that are older than rollout 1.9. |
-| **Not Installed** | The section for all available packages that are not installed. |
+| **Not Installed** | Available packages that are not yet installed. |
 
-### Package Info
-
-**Package Info** shows a detailed information about the package. It contains package metadata like package name, detailed version, build commit and time, rollout tag, the latest available version number, the path to the package in the project view and detailed description of the package and external SDK versions (for example ads adapters used by specific mediation). There are also options to manage that package: **install, update or remove**.
-
-### Package Status
+#### Package Status
 
 | Icon | Title | Description |
 | :---: | --- | -------- |
 | ![Not Installed icon][Fig.NotInstalled] | Not Installed | White square without the background indicates that the package is found on the remote server, but is not added in the project. |  
 | ![Installed icon][Fig.Installed] | Installed | Filled square indicates that the package is installed and up to date with the remote package if it exist. |
 | ![Update icon][Fig.Update] | Update Available | Orange circle icon indicates that the package have a newer version on the remote server. |
-| ![Force Update icon][Fig.ForceUpdate] | Mandatory Update | Red icon indicates that the update is mandatory. It must be updated as soon as possible. |
+| ![Force Update icon][Fig.ForceUpdate] | Required Update | Red icon indicates that the update is mandatory. It should be updated as soon as possible. |
 | ![Migration icon][Fig.Migration] | Migration | An icon pointing to the right indicates that the package have an invalid or missing manifest, but there is a remote package with same path. |
 | ![Error icon][Fig.Error] | Error | An icon with an exclamation mark indicates that there is an error with obtaining package info. |
 
+
+### Package Info
+
+**Package Info** shows a detailed information about the package.
+
+On the top are buttons to manage the package: **install, update or remove**.
+
+On the left side is a menu for changing package version and package metadata: its name, detailed version, build time and commit, rollout tag, the latest available version number, the minimum required version, the path to the package in the project view and its external SDK dependencies (for example ads adapters used by specific mediation).
+
+On the right side is a detailed description of the package and its changelog.
+
 ### Unity Dependencies
-If the package uses Unity dependencies, they will be installed with the package. 
+If the package has Unity dependencies, they will be installed automatically with the package. 
 
 ![Install Unity Dependencies][Fig.InstallUnityDependencies]
-If the package is a local repository, `Install Unity dependencies` needs to be pressed to install its Unity dependencies. 
-To install all Unity dependencies used in the project, press `Install all Unity dependencies`.
+To reinstall its dependencies, press `Install Unity dependencies`.
+To reinstall all Unity dependencies used in the project, press `Install all Unity dependencies`.
+
+### Preview packages
+
+If a HUF package that isn't installed doesn't appear on the packages list, try clicking cogwheel icon and select "Show preview packages". Packages list will then include packages that aren't yet stable.
 
 ### Issues
-To generate the current packages report of the project, click the cogwheel icon, select _GenerateReport_ and choose one of the options. The report will be saved to the system clipboard.
+When reporting issues to HUF append generated packages report of the project, so it will be easier to find its cause. To generate it click 
+the cogwheel icon, select _GenerateReport_ and choose one of the options. The report will be saved to the system clipboard.
 
 ![Generate report][Fig.Logs]
 
@@ -112,7 +123,6 @@ In Package view there are shown supported Unity versions. This is how to interpr
 - `2018.4` - all Unity versions from 2018.4.0
 - `2018.4-2019` - all Unity 2018 versions from 2018.4.0 and all Unity 2019 versions
 - `2018.4-2019, 2021.2` - all Unity 2018 versions from 2018.4.0, all Unity 2019 versions and all Unity versions from 2021.2
-
 
 <!--- DEFAULT REFERENCES -->
 [Ref.Changelog]: ./../../../CHANGELOG.md

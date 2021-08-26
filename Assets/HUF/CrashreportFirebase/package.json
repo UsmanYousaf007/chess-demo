@@ -1,21 +1,21 @@
 {
   "name": "com.huuuge.huf.crashreport.firebase",
   "displayName": "Crashreport Firebase",
-  "version": "2.4.0",
+  "version": "2.5.0-development",
   "unity": "2018.4",
   "description": "Crashreport Firebase is used for reporting logs, exceptions and crashes under Firebase console.",
   "huf": {
     "dependencies": [
-      "com.huuuge.huf.firebase.wrapper@^3.2.0",
+      "com.huuuge.huf.firebase.wrapper@^3.3.0",
       "com.huuuge.huf.utils@^2.2.0"
     ],
-    "date": "10.05.2021 16:55",
-    "commit": "5552b20",
-    "build": "33",
+    "date": "13.08.2021 09:20",
+    "commit": "71bc00a",
+    "build": "38",
     "scope": "public",
-    "channel": "stable",
+    "channel": "development",
     "path": "Assets/HUF/CrashreportFirebase",
-    "rollout": "38"
+    "rollout": "44"
   },
   "doc_section": "Crashreport"
 }

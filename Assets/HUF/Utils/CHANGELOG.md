@@ -1,3 +1,35 @@
+## [3.17.0] - 2021-08-10
+### Added
+- Deserializing object to a dictionary to HUFMiniJson
+
+
+## [3.16.1] - 2021-06-30
+### Added
+- `HLog.IsTrueDebugBuild` for correct development/production builds detection (mostly because of iOS)
+
+
+## [3.15.0] - 2021-06-24
+### Added
+- Input fields to DebugButtonsScreen
+- Property to check is the DebugButtonsScreen is in use
+- Ability to intercept outgoing web requests and fake server response
+- Simple, synchronous HTTP server
+
+### Fixed
+- Controls layouting issues in DebugButtonsScreen
+
+
+## [3.14.1] - 2021-06-24
+### Added
+- New string extensions
+
+
+## [3.14.0] - 2021-06-11
+### Added
+- Applying selected JSON array element to a config
+- Breaking up JSON array to parts in HUFMiniJson
+
+
 ## [3.13.3] - 2021-06-08
 ### Fixed
 - iOS Debug flag adding on Unity 2019+

@@ -2,9 +2,26 @@
 HDS SDK Android v1.3.1
 HDS SDK iOS v1.3.1
 
+
+## [2.6.1] - 2021-06-28
+### Changed
+- Changed `Amazon` flag to `CustomPlatformName` to be able to login other platform then native, like `amazon`, `facebook`, `facebook_cloud`.
+
+
+## [2.6.0] - 2021-06-28
+### Added
+- Automated first launch event.
+
+
+## [2.5.6] - 2021-06-30
+### Fixed
+- Updated documentation to contain info about minutesToResetSessionId
+
+
 ## [2.5.5] - 2021-03-18
 ### Fixed
 - Reverted plist postprocess for HDS domains exceptions
+
 
 ## [2.5.4] - 2021-03-03
 ### Fixed

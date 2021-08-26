@@ -278,13 +278,6 @@ namespace TurboLabz.InstantFramework
                 backendErrorSignal.Dispatch(result);
                 Release();
             }
-            else
-            {
-                var betValue = FindMatchAction.actionData.betValue;
-                playerModel.coins -= betValue;
-                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
-                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
-            }
         }
 
         private MatchAnalyticsVO GetFindMatchAnalyticsVO(AnalyticsContext context)

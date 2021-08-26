@@ -9,6 +9,7 @@ using System;
 using strange.extensions.promise.impl;
 using GameSparks.Api.Messages;
 using GameSparks.Api.Requests;
+using GameAnalyticsSDK;
 
 namespace TurboLabz.InstantFramework
 {
@@ -23,6 +24,16 @@ namespace TurboLabz.InstantFramework
         {
             ScriptMessage message = (ScriptMessage)m;
             matchInfoModel.activeMatch.gameStartTimeMilliseconds = message.Data.GetLong(GSBackendKeys.GAME_START_TIME).Value;
+
+            //Deduct player bet coins
+            var betValue = matchInfoModel.activeMatch.betValue;
+
+            if (betValue > 0)
+            {
+                playerModel.coins -= betValue;
+                updatePlayerInventorySignal.Dispatch(playerModel.GetPlayerInventory());
+                analyticsService.ResourceEvent(GAResourceFlowType.Sink, GSBackendKeys.PlayerDetails.COINS, (int)betValue, "championship_coins", "bet_placed");
+            }
         }
     }
 

@@ -1,3 +1,8 @@
+## [1.4.1] - 2021-06-25
+### Fixed 
+- Missing definition in AnonymizationHandler for Unity 2018
+
+
 ## [1.4.0] - 2021-06-01
 ### Added
 - OnInitialized event

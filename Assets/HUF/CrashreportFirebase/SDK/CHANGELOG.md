@@ -13,7 +13,6 @@ features on *iOS* and *Android*:
 | Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Installations             | FirebaseInstallations.unitypackage|
-| Firebase Instance ID               | FirebaseInstanceId.unitypackage   |
 | Firebase Messaging                 | FirebaseMessaging.unitypackage    |
 | Firebase Realtime Database         | FirebaseDatabase.unitypackage     |
 | Firebase Remote Config             | FirebaseRemoteConfig.unitypackage |
@@ -164,6 +163,30 @@ Support
 
 Release Notes
 -------------
+### 8.2.0:
+-   Changes
+    - Firestore: Removed `Equals` and `GetHashCode` methods from `Query`,
+      `QuerySnapshot`, and `DocumentSnapshot` classes. These methods were
+      unimplemented, and we plan to add proper support for them in a future
+      release.
+
+### 8.1.0:
+-   Changes
+    - Database: Fixed a crash around using DataSnapshots within Coroutines
+      ([#635](https://github.com/firebase/quickstart-unity/issues/635)).
+    - Firestore: Implemented `IDisposable` for `ListenerRegistration`
+      ([#746](https://github.com/firebase/quickstart-unity/issues/746)).
+    - Firestore: Added `null` and empty string argument checks to all
+      public methods, which now throw exceptions instead of crashing
+      ([#1053](https://github.com/firebase/quickstart-unity/issues/1053)).
+    - Firestore: Fixed Android crash due to missing QueryEventListener class
+      ([#1080](https://github.com/firebase/quickstart-unity/issues/1080)).
+    - Firestore: Added support for Firestore Bundles via
+      `FirebaseFirestore.LoadBundleAsync()` and
+      `FirebaseFirestore.GetNamedQueryAsync()`. Bundles contain pre-packaged
+      data produced with the Firestore Server SDKs and can be used to populate
+      Firestore's cache without reading documents from the backend.
+
 ### 8.0.0:
 -   Breaking Changes
     - Instance Id: Removed support for the previously-deprecated Instance ID
@@ -171,6 +194,24 @@ Release Notes
     - Remote Config: The previously-deprecated class
       `FirebaseRemoteConfigDeprecated` and the property
       `ConfigSettings.IsDeveloperMode` have been removed.
+-   Changes
+    - Firestore: Internal assertions will now trigger C# exceptions (possible
+      exception types are `ArgumentException`, `InvalidOperationException` and
+      `FirestoreException` with `ErrorCode` set to `Internal`). These exceptions
+      are not meant to be caught -- rather, they are to help with debugging and
+      to avoid crashing the Unity editor instance.
+      *Important*: on iOS, you would need to change two settings on the exported
+      XCode project for this feature to work properly. Open `Build Settings` and
+      make sure that `Enable C++ Exceptions` and `Enable C++ Runtime Types`
+      settings are set to `Yes` for _all_ of the following: the `Unity-iPhone`
+      scheme, the `UnityFramework` scheme (for Unity versions 2019.3 and above)
+      _and_ the `Unity-iPhone` project. If you're doing incremental iOS builds
+      (i.e., if you use `Append` instead of `Replace` when doing the build),
+      these settings will persist between rebuilds, so you would only have to do
+      this once per project.
+    - Firestore: Fix `RunTransactionAsync()` to roll back the transaction if
+      the task returned from the given callback faults
+      ([#1042](https://github.com/firebase/quickstart-unity/issues/1042)).
 
 ### 7.2.0:
 -   Changes
@@ -180,7 +221,7 @@ Release Notes
     - Database: Fixed a crash when setting large values on Windows and Mac
       systems ([#517](https://github.com/firebase/quickstart-unity/issues/517)].
     - FCM (Android): Fixed triggering of callback handlers for background
-      notifications. Using `enqueuWork` instead of `startService`.
+      notifications. Using `enqueueWork` instead of `startService`.
     - Crashlytics: Added new Unity-specific metadata to help diagnose tricky
       crashes around specific hardware setups.
 
@@ -1316,7 +1357,7 @@ Release Notes
     - Storage: Fixed a bug that prevented the construction of Metadata without
       a storage reference.
     - Editor (Android): Fixed referenced Android dependencies in maven
-      where the POM references a specific version e.g '[1.2.3]'.
+      where the POM references a specific version e.g. '[1.2.3]'.
     - Editor (iOS): Improved compatibility with Unity 5.6's Cocoapods support
       required to use the GoogleVR SDK.
     - Editor (Android): Fixed Android dependency resolution when the bundle ID

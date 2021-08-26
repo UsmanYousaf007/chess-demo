@@ -1,3 +1,19 @@
+## [3.0.0] - 2021-07-23
+### Updated
+- Google Play Billing Library to v3 (Remember to contact SIM before updating to this package version. Delete Assets\Plugins\UnityPurchasing folder after updating)
+
+### Fixed
+- UpdateSubscription in editor purchases
+- Nulls in OnPurchaseSuccess response in editor purchases
+- OnSubscriptionExpired not being raised
+
+
+## [2.9.9] - 2021-06-29
+### Fixed
+- OnPurchaseInit is now called in test editor purchases
+- In case of unavailable product, failure is no longer called twice
+
+
 ## [2.9.8] - 2021-06-14
 ### Fixed
 - Instantaneous initialization in test editor purchases

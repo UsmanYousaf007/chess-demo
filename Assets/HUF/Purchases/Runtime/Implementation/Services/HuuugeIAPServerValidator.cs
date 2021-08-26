@@ -35,6 +35,8 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         const string REQUIRED_STATUS_VALUE = "OK";
         const float DELAY = 0.5f;
 
+        public static HuuugeIAPServerValidator instance;
+
         public static event UnityAction<ValidatorResponse> OnHuuugeServerValidate;
 
         static readonly HLogPrefix logPrefix = new HLogPrefix( HPurchases.logPrefix, nameof(HuuugeIAPServerValidator) );
@@ -48,6 +50,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 
         public HuuugeIAPServerValidator()
         {
+            instance = this;
             var purchasesConfig = HConfigs.GetConfig<PurchasesConfig>();
             Token = purchasesConfig.HuuugeIAPServerToken;
             BasePath = purchasesConfig.HuuugeIAPServerURL;
@@ -87,7 +90,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             bool isSubscription = product.definition.type == ProductType.Subscription;
             string address = isSubscription ? SubscriptionsEndpoint : VerificationsEndpoint;
             HLog.Log( logPrefix, $"Verify path {address}" );
-            string json = GetVerifyJSON( product );
+            string json = GetVerifyJSON( product, receipt );
             HLog.Log( logPrefix, json );
 
             for ( int attempt = 0; attempt < AttemptsAmount; attempt++ )
@@ -144,6 +147,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 var subscriptionResponse = failure || !isSubscription
                     ? null
                     : JsonUtility.FromJson<SubscriptionResponse>( request.downloadHandler.text );
+                HLog.Log( logPrefix, $"SubscriptionResponse: {JsonUtility.ToJson( subscriptionResponse )}" );
                 var responseError = failure ? request.downloadHandler.text : string.Empty;
 
                 var response = new ValidatorResponse
@@ -161,20 +165,85 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         }
 
 #if UNITY_ANDROID
-        string GetVerifyJSON( Product product )
+        public IEnumerator VerifySubscriptionRenewal( Product product, IPurchaseReceipt receipt )
         {
-            var payloadData = new PurchaseReceiptData( product.receipt ).GetGooglePayloadData();
-            var purchaseToken = GetFieldFromJson<string>( payloadData.json, "purchaseToken" );
+            string address = SubscriptionsEndpoint;
+            HLog.Log( logPrefix, $"Verify path {address}" );
+            string json = GetVerifyJSON( product, receipt );
+            HLog.Log( logPrefix, json );
+
+            for ( int attempt = 0; attempt < AttemptsAmount; attempt++ )
+            {
+                bool isLastAttempt = attempt + 1 == AttemptsAmount;
+                var request = new UnityWebRequest( address, REQUEST_TYPE_POST );
+                var bodyRaw = Encoding.UTF8.GetBytes( json );
+                request.uploadHandler = new UploadHandlerRaw( bodyRaw );
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader( CONTENT_TYPE, CONTENT_TYPE_JSON );
+                request.SetRequestHeader( TOKEN_HEADER, Token );
+                yield return request.SendWebRequest();
+
+                bool failure = request.isNetworkError || request.isHttpError || request.responseCode != 200;
+                HLog.Log( logPrefix, $"Status Code for transaction {product.definition.id}: {request.responseCode}" );
+                HLog.Log( logPrefix, "Response: " + request.downloadHandler.text );
+
+                if ( !failure )
+                {
+                    var validSubscription = GetFieldFromJson<bool>( request.downloadHandler.text, VALID_FIELD );
+                    failure = !validSubscription;
+
+                    if ( failure )
+                    {
+                        HLog.LogError( logPrefix,
+                            $"Server returned that this transaction is not valid: {product.definition.id}" );
+                    }
+                }
+
+                if ( failure )
+                {
+                    HLog.Log( logPrefix, "Something went wrong: " + request.downloadHandler.text );
+
+                    if ( !isLastAttempt )
+                    {
+                        yield return delayBetweenRequests;
+
+                        continue;
+                    }
+                }
+
+                var subscriptionResponse = failure ? null : JsonUtility.FromJson<SubscriptionResponse>( request.downloadHandler.text );
+                HLog.Log( logPrefix, $"SubscriptionResponse: {JsonUtility.ToJson( subscriptionResponse )}" );
+                var responseError = failure ? request.downloadHandler.text : string.Empty;
+
+                var response = new ValidatorResponse
+                {
+                    product = product,
+                    receipt = receipt,
+                    requestId = String.Empty,
+                    responseCode = request.responseCode,
+                    subscriptionResponse = subscriptionResponse,
+                    responseError = responseError
+                };
+                OnHuuugeServerValidate.Dispatch( response );
+                yield break;
+            }
+        }
+#endif
+
+#if UNITY_ANDROID
+        string GetVerifyJSON( Product product, IPurchaseReceipt receipt )
+        {
+            var googlePlayReceipt = (GooglePlayReceipt)receipt;
 
             return JsonUtility.ToJson( new VerifyJsonGP
             {
                 productId = product.definition.storeSpecificId,
                 packageName = Application.identifier,
-                purchaseToken = purchaseToken
+                purchaseToken = googlePlayReceipt.purchaseToken
             } );
         }
 #elif UNITY_IOS
-        string GetVerifyJSON( Product product )
+        string GetVerifyJSON( Product product, IPurchaseReceipt receipt )
         {
             string payloadData = new PurchaseReceiptData( product.receipt ).receipt.Payload;
 

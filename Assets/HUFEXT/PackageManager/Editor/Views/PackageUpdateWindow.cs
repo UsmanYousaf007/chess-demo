@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HUFEXT.PackageManager.Editor.Models;
+using HUFEXT.PackageManager.Editor.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,10 +25,11 @@ namespace HUFEXT.PackageManager.Editor.Views
                 if ( window.Initialize() )
                 {
                     window.titleContent = new GUIContent( Models.Keys.Views.Update.TITLE );
-                    window.minSize = new Vector2( 430f, 400f );
+                    window.minSize = new Vector2( 800f, 800f );
                     window.ShowUtility();
                 }
-                else Debug.LogFormat( "<color=\"#2ECC40\"><b>All HUF packages are up to date.</b></color>" );
+                else
+                    Common.LogAlways( Models.Keys.Views.Update.FORMATTED_ALL_HUF_PACKAGES_ARE_UP_TO_DATE );
             }
         }
 
@@ -73,7 +75,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 {
                     GUILayout.FlexibleSpace();
 
-                    if ( GUILayout.Button( "Continue", GUILayout.Width( 150f ), GUILayout.Height( 30f ) ) )
+                    if ( GUILayout.Button( "Continue", Keys.GUI.mediumButtonSize ) )
                     {
                         List<Models.PackageManifest> chosenPackages = new List<PackageManifest>();
 
@@ -106,7 +108,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                 EditorGUILayout.LabelField( Models.Keys.Views.Update.SELECT, EditorStyles.boldLabel );
                 GUILayout.FlexibleSpace();
 
-                if ( GUILayout.Button( "All" ) )
+                if ( GUILayout.Button( "All", Keys.GUI.smallButtonSize ) )
                 {
                     for ( int i = 0; i < packagesToUpdate.Count; ++i )
                     {
@@ -114,7 +116,7 @@ namespace HUFEXT.PackageManager.Editor.Views
                     }
                 }
 
-                if ( GUILayout.Button( "None" ) )
+                if ( GUILayout.Button( "Required", Keys.GUI.smallButtonSize ) )
                 {
                     for ( int i = 0; i < packagesToUpdate.Count; ++i )
                     {
@@ -148,7 +150,7 @@ namespace HUFEXT.PackageManager.Editor.Views
         void DrawItem( int i )
         {
             var myStyle = new GUIStyle { margin = new RectOffset( 0, 0, 0, 0 ) };
-            var rect = EditorGUILayout.BeginVertical( myStyle, GUILayout.Height( 30f ) );
+            var rect = EditorGUILayout.BeginVertical( myStyle, Models.Keys.GUI.mediumButtonHeight );
 
             {
                 GUILayout.FlexibleSpace();
@@ -193,26 +195,26 @@ namespace HUFEXT.PackageManager.Editor.Views
                             GUILayout.Label( package.displayName );
 
                             GUILayout.Label( $"Package only supports Unity: {package.unity}",
-                                EditorStyles.whiteMiniLabel );
+                                EditorStyles.whiteLabel );
                         }
                         else if ( isMigration )
                         {
                             GUILayout.Label( package.displayName );
 
                             GUILayout.Label( $"Migrate to {package.huf.config.latestVersion}",
-                                EditorStyles.whiteMiniLabel );
+                                EditorStyles.whiteLabel );
                         }
                         else
                         {
                             GUILayout.Label( $"{package.displayName} {package.version}" );
 
                             GUILayout.Label( $"Update to {package.huf.config.latestVersion}",
-                                EditorStyles.centeredGreyMiniLabel );
+                                EditorStyles.whiteLabel );
                         }
 
                         if ( package.huf.status == Models.PackageStatus.ForceUpdate )
                         {
-                            GUILayout.Label( "- Update required.", EditorStyles.centeredGreyMiniLabel );
+                            GUILayout.Label( "- Update required.", EditorStyles.whiteLabel );
                         }
 
                         GUILayout.FlexibleSpace();

@@ -16,7 +16,9 @@ namespace HUF.Purchases.Runtime.API.Data
         DuplicateTransaction = 6,
         Unknown = 7,
         NonConsumableAlreadyPurchased = 8,
-        HuuugeIAPServerError = 9
+        HuuugeIAPServerError = 9,
+        OldSubscriptionNotBought = 10,
+        NewSubscriptionNotAvailable = 11
     }
 
 #if UNITY_PURCHASING

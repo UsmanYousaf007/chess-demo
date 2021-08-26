@@ -1,3 +1,8 @@
+## [2.7.0] - 2021-07-26
+### Added
+- Mock banner using safe area
+
+
 ## [2.6.2] - 2021-05-17
 ### Fixed
 - Banner heights in BannerCallbackData from mock banner

@@ -31,32 +31,42 @@ namespace TurboLabz.InstantFramework
 
         // Models
         [Inject] public IMatchInfoModel matchInfoModel { get; set; }
+        [Inject] public ISettingsModel settingsModel { get; set; }
 
         // Utils
         [Inject] public IRoutineRunner routineRunner { get; set; }
+
+        private Coroutine timeoutCoroutine;
+        private bool isTimedOut;
 
         public override void Execute()
         {
             Retain();
             backendService.GetGameStartTime(matchInfoModel.activeChallengeId).Then(OnGetGameStartTime);
+            timeoutCoroutine = routineRunner.StartCoroutine(OnTimeoutGetGameStartTimeCR());
+            isTimedOut = false;
         }
 
         private void OnGetGameStartTime(BackendResult result)
         {
-            if (result == BackendResult.SUCCESS)
+            if (timeoutCoroutine != null && !isTimedOut)
             {
-                long targetTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
-                long currentTime = backendService.serverClock.currentTimestamp;
+                routineRunner.StopCoroutine(timeoutCoroutine);
 
-                // If current time is past target time then don't wait at all
-                float waitDuration = Mathf.Max((targetTime - currentTime) / 1000f, 0f);
+                if (result == BackendResult.SUCCESS)
+                {
+                    long targetTime = matchInfoModel.activeMatch.gameStartTimeMilliseconds;
+                    long currentTime = backendService.serverClock.currentTimestamp;
 
-                routineRunner.StartCoroutine(OnGetGameStartTimeCR(waitDuration));
-            }
-            else if (result != BackendResult.CANCELED)
-            {
-                backendErrorSignal.Dispatch(result);
-                getGameStarTimeFailedSignal.Dispatch();
+                    // If current time is past target time then don't wait at all
+                    float waitDuration = Mathf.Max((targetTime - currentTime) / 1000f, 0f);
+
+                    routineRunner.StartCoroutine(OnGetGameStartTimeCR(waitDuration));
+                }
+                else if (result != BackendResult.CANCELED)
+                {
+                    OnGetGameStartTimeFailed(result);
+                }
             }
 
             Release();
@@ -67,6 +77,19 @@ namespace TurboLabz.InstantFramework
             yield return new WaitForSecondsRealtime(waitDuration);
             chessAiService.AiMoveRequestInit();
             startGameSignal.Dispatch();
+        }
+
+        private void OnGetGameStartTimeFailed(BackendResult result)
+        {
+            backendErrorSignal.Dispatch(result);
+            getGameStarTimeFailedSignal.Dispatch();
+        }
+
+        private IEnumerator OnTimeoutGetGameStartTimeCR()
+        {
+            yield return new WaitForSecondsRealtime(settingsModel.timeoutGetGameStartTime);
+            OnGetGameStartTimeFailed(BackendResult.GET_GAME_START_TIME_REQUEST_FAILED);
+            isTimedOut = true;
         }
     }
 }

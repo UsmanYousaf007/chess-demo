@@ -22,7 +22,7 @@ namespace HUF.Purchases.Runtime.API.Models
 
         void Init();
         void UpdateSubscription( string oldProductId, string newProductId );
-        bool IsProductAvailable( string productId );
+        bool IsProductAvailable( string productId, out IProductInfo productInfo);
         bool IsNonConsumableBought( string productId );
         string GetLocalizedPrice( string productId, bool isoFormat );
         decimal GetPrice( string productId );

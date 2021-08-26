@@ -237,7 +237,7 @@ namespace TurboLabz.InstantFramework
             chestVideoIcon.sprite = available && unlocked ? videoAvailable : videoNotAvailable;
         }
 
-        void RebuildLayout()
+        public void RebuildLayout()
         {
             foreach (var layout in layouts)
             {

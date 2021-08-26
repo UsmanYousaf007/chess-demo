@@ -927,6 +927,7 @@ MonoBehaviour:
   bettingCoins: {fileID: 1832367632}
   powerPlayModeOn: {fileID: 1832367631}
   powerPlayModeOff: {fileID: 1832367630}
+  countdownTime: 0
   hindsightFromIndicator: {fileID: 908542597}
   hindsightToIndicator: {fileID: 1507716580}
   hindsightButton: {fileID: 960894626}
@@ -38925,7 +38926,7 @@ RectTransform:
   - {fileID: 806899329}
   - {fileID: 335218127}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 48
+  m_RootOrder: 55
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -87317,16 +87318,16 @@ RectTransform:
   - {fileID: 708720602}
   - {fileID: 1291811486}
   - {fileID: 1997636336}
-  - {fileID: 715771923}
+  - {fileID: 2014710825}
   - {fileID: 1491666462}
   - {fileID: 9127065666094234404}
   - {fileID: 2023727890}
   - {fileID: 1397814651}
   - {fileID: 6692640417531893264}
   - {fileID: 1271251047}
-  - {fileID: 1568624387}
+  - {fileID: 715771923}
   - {fileID: 1823569312}
-  - {fileID: 2014710825}
+  - {fileID: 1568624387}
   - {fileID: 1537316253}
   - {fileID: 6172539409292215209}
   m_Father: {fileID: 1780115401}
@@ -87929,7 +87930,7 @@ RectTransform:
   m_Children:
   - {fileID: 1304078662}
   m_Father: {fileID: 1542369593}
-  m_RootOrder: 55
+  m_RootOrder: 57
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -115927,10 +115928,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56a4a841746a4771b1b49d7d8e264e1, type: 3}
---- !u!224 &2014710825 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7252183528400087642, guid: b56a4a841746a4771b1b49d7d8e264e1,
-    type: 3}
+--- !u!4 &2014710825 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 2014710824}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &2015249863 stripped

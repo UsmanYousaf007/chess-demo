@@ -4,6 +4,7 @@ using HUF.Purchases.Runtime.API.Data;
 using HUF.Purchases.Runtime.API.Models;
 using HUF.Purchases.Runtime.Implementation.Data;
 using HUF.Purchases.Runtime.Implementation.Models;
+using HUF.Utils.Runtime;
 using HUF.Utils.Runtime.Configs.API;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
@@ -199,7 +200,7 @@ namespace HUF.Purchases.Runtime.API
         [PublicAPI]
         public static bool IsProductAvailable( string productId )
         {
-            return PurchasesModel.IsProductAvailable( productId );
+            return PurchasesModel.IsProductAvailable( productId, out IProductInfo _ );
         }
 
         /// <summary>
@@ -258,7 +259,6 @@ namespace HUF.Purchases.Runtime.API
 
             if ( config != null )
                 priceInCents = config.GetProductInfo( productId )?.PriceInCents;
-
             return priceInCents ?? 0;
         }
 
@@ -358,7 +358,8 @@ namespace HUF.Purchases.Runtime.API
         {
             if ( !IsInitialized )
             {
-                response.Dispatch( new PriceConversionResponse( GameServerResponseStatus.NotInitialized, GameServerUtils.UNINITIALIZED_CODE ) );
+                response.Dispatch( new PriceConversionResponse( GameServerResponseStatus.NotInitialized,
+                    GameServerUtils.UNINITIALIZED_CODE ) );
                 return;
             }
 

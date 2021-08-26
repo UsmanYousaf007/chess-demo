@@ -21,13 +21,14 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 {
     public class PurchasesService : IPurchasesService, IStoreListener
     {
-#if !UNITY_IOS
-        const string SUBSCRIPTION_URL = "https://apps.apple.com/account/subscriptions";
+#if UNITY_IOS
+        const string SUBSCRIPTION_URL =
+            "itms-apps://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions";
 #endif
         const string CONSUMED = "CONSUMED";
 
         public event Action<Product[]> OnInitComplete;
-        public event Action<Product, IPurchaseReceipt> OnPurchaseSuccess;
+        public event Action<Product, IPurchaseReceipt, SubscriptionResponse> OnPurchaseSuccess;
         public event Action<string, PurchaseFailureType> OnPurchaseFailure;
         public event Action<string> OnPurchaseHandleInterrupted;
 
@@ -43,33 +44,51 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 
         public bool IsInitialized => storeController != null && storeExtensionProvider != null;
 
-        HuuugeIAPServerValidator serverValidator;
+        readonly HuuugeIAPServerValidator serverValidator;
         Coroutine failPurchaseCoroutine;
 
         public PurchasesService( IEnumerable<IProductInfo> products,
             bool isLocalVerificationEnabled,
             bool isHuuugeServerVerificationEnabled,
-            float interruptedPaymentWaitTime )
+            float interruptedPaymentWaitTime,
+            HuuugeIAPServerValidator serverValidator )
         {
             this.isLocalVerificationEnabled = isLocalVerificationEnabled;
             this.isHuuugeServerVerificationEnabled = isHuuugeServerVerificationEnabled;
             this.interruptedPaymentWaitTime = interruptedPaymentWaitTime;
+            this.serverValidator = serverValidator;
             InitService( products );
         }
 
         public void UpdateSubscription( string oldProductId, string newProductId )
         {
+            var oldProduct = storeController.products.WithID( oldProductId );
+            var newProduct = storeController.products.WithID( newProductId );
 #if UNITY_ANDROID
+            if ( oldProduct.receipt == null || oldProduct.definition == null )
+            {
+                OnPurchaseFailure.Dispatch( newProductId, PurchaseFailureType.OldSubscriptionNotBought );
+                return;
+            }
+
+            if ( !newProduct.availableToPurchase || newProduct.definition == null )
+            {
+                OnPurchaseFailure.Dispatch( newProductId, PurchaseFailureType.NewSubscriptionNotAvailable );
+                return;
+            }
+
             SubscriptionManager.UpdateSubscriptionInGooglePlayStore(
-                storeController.products.WithID( oldProductId ),
-                storeController.products.WithID( newProductId ),
+                oldProduct,
+                newProduct,
                 ( oldSku, newSku ) =>
                 {
                     storeExtensionProvider.GetExtension<IGooglePlayStoreExtensions>()
-                        .UpgradeDowngradeSubscription( oldSku, newSku );
+                        .UpgradeDowngradeSubscription( oldProduct.definition.storeSpecificId,
+                            newProduct.definition.storeSpecificId );
                 } );
-#elif !UNITY_IOS
+#elif UNITY_IOS
             Application.OpenURL( SUBSCRIPTION_URL );
+            OnPurchaseFailure.Dispatch( newProductId, PurchaseFailureType.PurchasingUnavailable );
 #endif
         }
 
@@ -124,7 +143,6 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 AccountCurrency = storeController.products.all[0].metadata.isoCurrencyCode;
             }
 
-            serverValidator = new HuuugeIAPServerValidator();
             HLog.Log( logPrefix, $"Products received: \n{products}" );
             OnInitComplete.Dispatch( storeController.products.all );
         }
@@ -168,7 +186,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 else
                 {
                     HLog.Log( logPrefix, $"Purchase validated. Product id: {args.purchasedProduct.definition.id}" );
-                    OnPurchaseSuccess.Dispatch( args.purchasedProduct, productReceipt );
+                    OnPurchaseSuccess.Dispatch( args.purchasedProduct, productReceipt, null );
                 }
             }
             else
@@ -189,7 +207,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             {
                 HLog.Log( logPrefix,
                     $"Purchase validated. Product id: {response.product.definition.id}, requestId: {response.requestId}" );
-                OnPurchaseSuccess.Dispatch( response.product, response.receipt );
+                OnPurchaseSuccess.Dispatch( response.product, response.receipt, response.subscriptionResponse );
 
                 if ( response.Type == ProductType.Consumable )
                 {
@@ -234,7 +252,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                     {
                         HLog.LogError( logPrefix,
                             $"Purchase was already consumed on the server: {response.responseError}" );
-                        //storeController.ConfirmPendingPurchase( response.product );
+                        storeController.ConfirmPendingPurchase( response.product );
                     }
                     else
                     {
@@ -247,16 +265,21 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             OnPurchaseFailure.Dispatch( response.product.definition.id, type );
         }
 
-        bool IsValidReceipt( PurchaseEventArgs args, out IPurchaseReceipt productReceipt )
+        static bool IsValidReceipt( PurchaseEventArgs args, out IPurchaseReceipt productReceipt )
+        {
+            return IsValidReceipt( args.purchasedProduct, out productReceipt );
+        }
+
+        public static bool IsValidReceipt( Product product, out IPurchaseReceipt productReceipt )
         {
             productReceipt = null;
             var isValid = true;
-            var productId = args.purchasedProduct.definition.id;
+            var productId = product.definition.id;
 
             HLog.Log( logPrefix,
                 $" Process Purchase, ProductId: {productId}, " +
-                $"hasReceipt: {args.purchasedProduct.hasReceipt}, " +
-                $"TransactionId: {args.purchasedProduct.transactionID}" );
+                $"hasReceipt: {product.hasReceipt}, " +
+                $"TransactionId: {product.transactionID}" );
 
             var validator = new CrossPlatformValidator(
                 PurchasesTangleWrapper.GooglePlayTangleData,
@@ -267,10 +290,10 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             {
                 // On Google Play, result has a single product ID.
                 // On Apple stores, receipts contain multiple products.
-                var receipts = validator.Validate( args.purchasedProduct.receipt );
+                var receipts = validator.Validate( product.receipt );
 
                 productReceipt = receipts.FirstOrDefault( q =>
-                    q.productID.Equals( args.purchasedProduct.definition.storeSpecificId ) );
+                    q.productID.Equals( product.definition.storeSpecificId ) );
                 isValid = productReceipt != null;
 
                 foreach ( var receipt in receipts )

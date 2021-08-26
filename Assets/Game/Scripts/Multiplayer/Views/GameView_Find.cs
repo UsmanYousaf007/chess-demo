@@ -66,11 +66,13 @@ namespace TurboLabz.Multiplayer
         public Image powerPlayModeOn;
         public Image powerPlayModeOff;
         private long betValue;
+        public int countdownTime; 
 
         public void InitFind()
         {
             playerFindProfilePic.sprite = defaultAvatar;
             opponentFindProfilePic.sprite = defaultAvatar;
+            countdownTime = 30;
         }
 
         void SetProfileDisplayPic(ref Image bg, ref Image icon, ref Image pic,
@@ -191,6 +193,7 @@ namespace TurboLabz.Multiplayer
             OnParentHideAdBanner();
             ResetCapturedPieces();
             OnParentShowScore();
+            countdownTime = 0;
         }
 
         public void HideFind()
@@ -312,6 +315,11 @@ namespace TurboLabz.Multiplayer
         {
             if (enable)
             {
+                if(countdownTime != 0)
+                {
+                    seconds = countdownTime;
+                }
+
                 countDownTimer = new TimeSpan(0, 0, seconds);
                 UpdateCountDownTimerText();
 
@@ -380,5 +388,11 @@ namespace TurboLabz.Multiplayer
             _coinsParticleEmitter.gameObject.SetActive(true);
             _coinsParticleEmitter.PlayFx();
         }
+
+        public void SaveState()
+        {
+            countdownTime = countDownTimer.Seconds;
+        }
+
     }
 }

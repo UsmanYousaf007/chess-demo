@@ -1,6 +1,17 @@
 ## External SDKs
-- Firebase SDK Unity plugin - 7.2.0
-- Firebase Remote Config - 7.2.0
+- Firebase SDK Unity plugin - 8.1.0
+- Firebase Remote Config - 8.1.0
+
+## [3.6.0] - 2021-08-11
+### Updated
+- Firebase SDK Unity plugin - 8.1.0
+
+
+## [3.5.1] - 2021-07-29
+### Fixed
+- Raising two OnFetchComplete events in some cases
+- Raising OnFetchComplete event before updating configs dictionary
+
 
 ## [3.5.0] - 2021-05-06
 ### Changed

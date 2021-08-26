@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using HUF.Utils.Runtime.Logging;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebRequestAction = UnityEngine.Events.UnityAction<UnityEngine.Networking.UnityWebRequest>;
@@ -15,6 +16,12 @@ namespace HUF.Utils.Runtime.NetworkRequests
         const ushort SERVER_ERROR_THRESHOLD = (ushort)System.Net.HttpStatusCode.InternalServerError;
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(GameServer.Runtime.Utils) );
         public static readonly HttpMethod patchMethod = new HttpMethod( "PATCH" );
+
+        /// <summary>
+        /// Toggles requests interception. Applies if DEBUG_INTERCEPT_REQUESTS is defined
+        /// </summary>
+        [PublicAPI]
+        public static bool InterceptRequests { get; set; } = true;
 
         public static RouteBuilder CreateRoute( string path )
         {
@@ -44,9 +51,27 @@ namespace HUF.Utils.Runtime.NetworkRequests
             WebRequestAction response,
             int retryCount = 0 )
         {
-            var www = PrepareRequest( data );
-            yield return www.SendWebRequest();
+            UnityWebRequest www = PrepareRequest( data );
 
+#if DEBUG_INTERCEPT_REQUESTS
+            if ( InterceptRequests )
+            {
+                var intercept = new RequestsAuthoringInterceptor( www );
+                yield return intercept.Prompt();
+
+                if ( intercept.IsOverriden )
+                {
+                    response.Invoke( www );
+                    yield break;
+                }
+            }
+            else
+            {
+                yield return www.SendWebRequest();
+            }
+#else
+            yield return www.SendWebRequest();
+#endif
 #if HUF_TIMESERVER
             TimeServer.Runtime.Implementation.ExternalWebrequestConnector.HandleRequest( www );
 #endif

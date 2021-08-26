@@ -12,12 +12,18 @@ using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.UI.CanvasBlocker;
 using JetBrains.Annotations;
+using UnityEngine;
+using UnityEngine.Purchasing.Security;
 
 namespace HUF.Purchases.Runtime.Implementation.Models
 {
     [UsedImplicitly]
     public class EmptyPurchasesModel : IPurchasesModel
     {
+        const string TEST_PURCHASE = "testPurchase";
+
+        readonly string testPurchaseReceiptData =
+            $"{{\"Store\": \"{TEST_PURCHASE}\", \"Payload\": \"{TEST_PURCHASE}\", \"TransactionID\": \"{TEST_PURCHASE}\"}}";
         const float INITIALIZATION_DELAY_LENGTH = 0.5f;
         const float HANDLE_PURCHASE_DELAY_LENGTH = 0.5f;
 
@@ -65,25 +71,29 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                 INITIALIZATION_DELAY_LENGTH );
         }
 
-        public void UpdateSubscription( string oldProductId, string newProductId ) { }
+        public void UpdateSubscription( string oldProductId, string newProductId )
+        {
+            BuyProduct( newProductId );
+        }
 
         bool HaveInitAndConfig()
         {
             return isInitialized && purchasesConfig != null;
         }
 
-        public bool IsProductAvailable( string productId )
+        public bool IsProductAvailable( string productId, out IProductInfo productInfo )
         {
             if ( HaveInitAndConfig() )
             {
-                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
+                productInfo = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
 
-                if ( product != null )
+                if ( productInfo != null )
                 {
                     return true;
                 }
             }
 
+            productInfo = default;
             return false;
         }
 
@@ -101,13 +111,15 @@ namespace HUF.Purchases.Runtime.Implementation.Models
         {
             HLog.Log( logPrefix, $"Try to buy {productId}" );
 
-            if ( !IsProductAvailable( productId ) )
+            if ( !IsProductAvailable( productId, out IProductInfo productInfo ) )
             {
-                var product = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
-                OnPurchaseFailure.Dispatch( product, PurchaseFailureType.ProductUnavailable );
+                OnPurchaseFailure.Dispatch( productInfo, PurchaseFailureType.ProductUnavailable );
+                return;
             }
 
             purchaseProductId = productId;
+
+            OnPurchaseInit.Dispatch( productInfo );
 
             if ( purchasesConfig.ShowDebugMenuInEditor )
             {
@@ -138,8 +150,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                 DebugButtonsScreen.Instance.Hide();
             }
 
-            IntervalManager.Instance.RunWithDelay( () => HandlePurchaseDelayedCoroutine( result ),
-                HANDLE_PURCHASE_DELAY_LENGTH );
+            IntervalManager.Instance.RunWithDelay( () => HandlePurchaseDelayedCoroutine( result ), HANDLE_PURCHASE_DELAY_LENGTH  );
         }
 
         public void RestorePurchases()
@@ -177,7 +188,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
         {
             if ( IsSubscriptionActive( subscriptionId ) )
             {
-                return DateTime.UtcNow.AddDays( 1 );
+                return PurchasesDateTimeUtils.CurrentUTCDateTime.AddDays( 1 );
             }
 
             return DateTime.MinValue;
@@ -266,8 +277,8 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                     OnPurchaseSuccess.Dispatch(
                         purchasesConfig.Products.FirstOrDefault( p => p.ProductId == purchaseProductId ),
                         TransactionType.Purchase,
-                        null,
-                        null );
+                        GetPriceConversionData(),
+                        new PurchaseReceiptData( testPurchaseReceiptData ) );
                     break;
                 }
                 case TestPaymentResult.Fail:

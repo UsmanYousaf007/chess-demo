@@ -45,9 +45,11 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
         [SerializeField] float refreshPlayerAttributesDistance = 300;
 
         [Space]
-        [Header( "Build for Amazon Store" )]
+        [Header( "Custom platform")]
+        [Tooltip( "Custom platform name to log in events, like: amazon, facebook, facebook_cloud." +
+                  "Needs to be empty to log native platform." )]
         [SerializeField]
-        bool amazon = false;
+        string customPlatformName = string.Empty;
 
         public static int MaxProjectLength => int.Parse( MAX_PROJECT_LENGTH );
 
@@ -63,14 +65,16 @@ namespace HUF.AnalyticsHBI.Runtime.Implementation
 
         public float RefreshPlayerAttributesDistanceInSeconds => refreshPlayerAttributesDistance;
 
-        public bool Amazon
+        public string CustomPlatformName
         {
             get
             {
 #if HUF_AMAZON
-                return true;
+                return "amazon";
+#elif HUF_FACEBOOK_CLOUD
+                return "facebook_cloud";
 #else
-                return amazon;
+                return customPlatformName;
 #endif
             }
         }

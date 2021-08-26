@@ -74,11 +74,11 @@ namespace HUF.Ads.Runtime.Implementation.EditorAds
                 case BannerPosition.TopLeft:
                 case BannerPosition.TopCenter:
                 case BannerPosition.TopRight:
-                    return 0;
+                    return ScreenSize.Height - SafeAreaManager.instance.SafeArea.yMax;
                 case BannerPosition.Centered:
                     return ( ScreenSize.Height - bannerHeight ) / 2;
                 default:
-                    return ScreenSize.Height - bannerHeight;
+                    return ScreenSize.Height - bannerHeight - SafeAreaManager.instance.SafeArea.yMin;
             }
         }
 

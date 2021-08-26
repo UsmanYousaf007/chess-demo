@@ -80,19 +80,25 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
                 var json = fetchedDict[config.ConfigId];
                 config.ApplyJson( json );
             }
+            else
+            {
+                HLog.Log( logPrefix, $"Service doesn't contain {config.ConfigId}." );
+            }
         }
 
         public override void Fetch()
         {
             if ( !IsInitialized )
             {
-                HLog.LogWarning( logPrefix, $"Firebase RemoteConfig is not initialized yet." );
+                HLog.LogWarning( logPrefix, "Service is not initialized yet." );
                 return;
             }
 
-            HLog.Log( logPrefix, $"Fetch started." );
+            HLog.Log( logPrefix, "Fetch started." );
             var cacheExpirationTimeSpan = TimeSpan.FromSeconds( Config.CacheExpirationInSeconds );
-            FirebaseRemoteConfig.DefaultInstance.FetchAsync( cacheExpirationTimeSpan ).ContinueWithOnMainThread( HandleFetchCompleted );
+
+            FirebaseRemoteConfig.DefaultInstance.FetchAsync( cacheExpirationTimeSpan )
+                .ContinueWithOnMainThread( HandleFetchCompleted );
         }
 
         void DetachCallbacks()
@@ -139,8 +145,6 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 
             if ( FirebaseRemoteConfig.DefaultInstance.Info.LastFetchStatus == LastFetchStatus.Success )
             {
-                HLog.Log( logPrefix, $"Firebase cache used. Nothing new was fetched" );
-                OnFetchComplete.Dispatch( SERVICE_TYPE );
                 return;
             }
 
@@ -181,18 +185,19 @@ namespace HUF.RemoteConfigsFirebase.Runtime.Implementation
 
         void FinalizeFetchCompleted()
         {
-            OnFetchComplete.Dispatch( SERVICE_TYPE );
             SaveCache();
+            OnFetchComplete.Dispatch( SERVICE_TYPE );
         }
 
-        void HandleActivateConfig(Task<bool> activateTask)
+        void HandleActivateConfig( Task<bool> activateTask )
         {
-            if (activateTask.Result == false)
-                return;
-
-            HLog.Log( logPrefix, $"Fetch completed." );
+            if ( activateTask.Result )
+                HLog.Log( logPrefix, "Fetch completed." );
+            else
+                HLog.Log( logPrefix, "Fetch completed. Configs didn't change." );
+            //new dictionary is created even when configs didn't change to avoid issues when the cache is bad or outdated
+            CreateFetchedDict(); 
             FinalizeFetchCompleted();
-            CreateFetchedDict();
         }
 
         void CreateFetchedDictFromCache()

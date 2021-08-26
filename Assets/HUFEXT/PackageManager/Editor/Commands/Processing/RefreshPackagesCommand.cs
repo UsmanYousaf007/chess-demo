@@ -156,11 +156,6 @@ namespace HUFEXT.PackageManager.Editor.Commands.Processing
                         }
                     }
                 }
-
-                if ( packages[index].version.Contains( "develop" ) )
-                {
-                    packages[index].huf.status = Models.PackageStatus.Development;
-                }
             }
 
             CheckIfPackagesAreSupportedByCurrentUnity();

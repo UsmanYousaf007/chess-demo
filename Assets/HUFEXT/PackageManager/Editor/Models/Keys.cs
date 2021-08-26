@@ -1,4 +1,6 @@
-﻿namespace HUFEXT.PackageManager.Editor.Models
+﻿using UnityEngine;
+
+namespace HUFEXT.PackageManager.Editor.Models
 {
     internal static class Keys
     {
@@ -67,7 +69,10 @@
                 internal const string BUTTON = "Proceed";
                 internal const string VALIDATE = "Validating...";
                 internal const string ERROR_TITLE = "Error...";
-                internal const string VALIDATION_ERROR_DESC = "You must accept our license and enter valid credentials.";
+
+                internal const string VALIDATION_ERROR_DESC =
+                    "You must accept our license and enter valid credentials.";
+
                 internal const string CONNECTION_ERROR_DESC = "Could not connect to the server.";
                 internal const string ERROR_BUTTON = "OK";
             }
@@ -76,6 +81,14 @@
             {
                 internal const string TITLE = "Huuuge Unity Framework - Update Packages";
                 internal const string SELECT = "Select packages to update:";
+
+                internal const string FORMATTED_ALL_HUF_PACKAGES_ARE_UP_TO_DATE =
+                    "<color=\"#2ECC40\"><b>All HUF packages are up to date.</b></color>";
+            }
+
+            internal static class NewPackageUpdates
+            {
+                internal const string TITLE = "Huuuge Unity Framework - New Package Updates";
             }
 
             internal static class VersionEditor
@@ -110,11 +123,22 @@
             }
         }
 
+        internal static class GUI
+        {
+            public static readonly GUILayoutOption smallButtonWidth = GUILayout.Width( 70 );
+            public static readonly GUILayoutOption smallButtonHeight = GUILayout.Height( 25 );
+            public static readonly GUILayoutOption[] smallButtonSize = { smallButtonWidth, smallButtonHeight };
+            public static readonly GUILayoutOption mediumButtonWidth = GUILayout.Width( 150 );
+            public static readonly GUILayoutOption mediumButtonHeight = GUILayout.Height( 30 );
+            public static readonly GUILayoutOption[] mediumButtonSize = { mediumButtonWidth, mediumButtonHeight };
+        }
+
         internal static class Routing
         {
             public const int TIMEOUT = 999;
             public const string STABLE_CHANNEL = "stable";
             public const string PREVIEW_CHANNEL = "preview";
+            public const string DEVELOPMENT_CHANNEL = "development";
             public const string EXPERIMENTAL_CHANNEL = "experimental";
 
             public static class Tag
@@ -139,6 +163,9 @@
 
                 public const string PACKAGE_MANIFEST =
                     URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/manifest";
+
+                public const string PACKAGE_CHANGELOG =
+                    URL + "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/changelog";
 
                 public const string PACKAGE_LINK = URL +
                                                    "/v1/scopes/{scope}/channels/{channel}/packages/{package}/versions/{version}/download-link";

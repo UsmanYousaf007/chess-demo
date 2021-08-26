@@ -25,7 +25,7 @@ namespace HUF.PolicyGuard.Runtime.Implementations
         }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.AfterAssembliesLoaded )]
+        [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
         static void ConfigurationCheck()
         {
             if ( HConfigs.HasConfig<PolicyGuardConfig>()

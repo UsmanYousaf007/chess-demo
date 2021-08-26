@@ -33,6 +33,11 @@ namespace HUF.AnalyticsHBI.Runtime.API
         static HBIAnalyticsConfig config;
 
         /// <summary>
+        /// Session ID will reset if the app is minimized for such duration of minutes.
+        /// </summary>
+        public static int minutesToResetSessionId = 5;
+
+        /// <summary>
         /// Raised when player revenue level changes.
         /// </summary>
         [PublicAPI]

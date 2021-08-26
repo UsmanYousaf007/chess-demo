@@ -25,20 +25,15 @@
         }
       ],
       "services": {
+        "analytics_service": {
+          "status": 1
+        },
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1097695887212-8binmtbaabbf145ahfrrjch66um535ng.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1097695887212-ad0alfvdtvg1sn7me4r9t3urtj3054n5.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.turbolabz.instantchess.ios"
-              }
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
         }
       }
     }

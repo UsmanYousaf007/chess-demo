@@ -36,13 +36,12 @@ namespace TurboLabz.Multiplayer
         [ListensTo(typeof(NavigatorShowViewSignal))]
         public void OnShowFind(NavigatorViewId viewId)
         {
-            if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG) 
+            if (viewId == NavigatorViewId.MULTIPLAYER_FIND_DLG)
             {
                 toggleLeaderboardViewNavButtons.Dispatch(true);
 
                 view.ShowFind();
                 pauseNotificationsSignal.Dispatch(true);
-                view.FindMatchTimeoutEnable(true, 30);
             }
         }
 
@@ -80,12 +79,6 @@ namespace TurboLabz.Multiplayer
         private void FindMatchBail()
         {
             matchAnalyticsSignal.Dispatch(GetFindMatchAnalyticsVO(AnalyticsContext.failed));
-
-            if (vo.bettingCoins > 0)
-            {
-                RefundCoins(vo.bettingCoins);
-            }
-
             loadLobbySignal.Dispatch();
         }
 
@@ -168,33 +161,6 @@ namespace TurboLabz.Multiplayer
             }
 
             return matchAnalyticsVO;
-        }
-
-        private void RefundTicket()
-        {
-            var transactionVO = new VirtualGoodsTransactionVO();
-            transactionVO.buyItemShortCode = GSBackendKeys.ShopItem.SPECIAL_ITEM_TICKET;
-            transactionVO.buyQuantity = 1;
-            //virtualGoodBoughtSignal.AddOnce(OnTicketRefunded);
-            virtualGoodsTransactionSignal.Dispatch(transactionVO);
-        }
-
-        private void RefundCoins(long value)
-        {
-            var transactionVO = new VirtualGoodsTransactionVO();
-            transactionVO.buyItemShortCode = GSBackendKeys.PlayerDetails.COINS;
-            transactionVO.buyQuantity = (int)value;
-            virtualGoodsTransactionSignal.Dispatch(transactionVO);
-            virtualGoodBoughtSignal.AddOnce((vo) => {
-                analyticsService.ResourceEvent(GAResourceFlowType.Source, vo.buyItemShortCode, vo.buyQuantity, "refund", "match_not_found");
-                loadLobbySignal.Dispatch();
-            });
-        }
-
-        private void OnTicketRefunded(string key)
-        {
-            analyticsService.ResourceEvent(GAResourceFlowType.Source, CollectionsUtil.GetContextFromString(key).ToString(), 1, "refund", "match_not_found");
-            preferencesModel.dailyResourceManager[PrefKeys.RESOURCE_FREE][key] += 1;
         }
     }
 }

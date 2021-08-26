@@ -26,6 +26,7 @@ Assets/HUF/Utils/Documentation~/static/SafeArea/SafeAreaScaleRectTransform.png
 Assets/HUF/Utils/Documentation~/static/SafeArea/SafeAreaSimulator.png
 Assets/HUF/Utils/Documentation~/static/SafeArea/SafeAreaSimulatorInMenu.png
 Assets/HUF/Utils/Documentation~/static/SafeArea/AddComponent.png
+Assets/HUF/Utils/Documentation~/static/Utils/WebRequestIntercept.png
 Assets/HUF/Utils/Documentation~/static/Utils/ScreenshotMaker.png
 Assets/HUF/Utils/Documentation~/static/DefineSymbols/RebuildDefines.png
 Assets/HUF/Utils/Documentation~/static/ProguardMerger/ProguardMerger.png
@@ -101,8 +102,10 @@ Assets/HUF/Utils/Runtime/NetworkRequests/GameServerResponseStatus.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/RequestBuffer.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/ServerResponse.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/GameServerResponse.cs
+Assets/HUF/Utils/Runtime/NetworkRequests/RequestsAuthoringInterceptor.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/GameServerRoutingConfig.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/GameServerUtils.cs
+Assets/HUF/Utils/Runtime/NetworkRequests/TCPServer.cs
 Assets/HUF/Utils/Runtime/NetworkRequests/GameServerBaseConfig.cs
 Assets/HUF/Utils/Runtime/InteractionManager.cs
 Assets/HUF/Utils/Runtime/Extensions/EnumExtensions.cs
@@ -127,6 +130,7 @@ Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxRange.cs
 Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxInt.cs
 Assets/HUF/Utils/Runtime/MinMaxRange/MinMaxFloat.cs
 Assets/HUF/Utils/Runtime/HSingleton.cs
+Assets/HUF/Utils/Runtime/HUFMiniJsonDeserializeObjectToDictionary.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/Security/Implementation/HSecureValueVault.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/Security/API/HSecureValueVault.cs
 Assets/HUF/Utils/Runtime/PlayerPrefs/CustomPP.cs

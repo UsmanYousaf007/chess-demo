@@ -13,6 +13,7 @@ namespace HUFEXT.PackageManager.Editor.Models
         public bool overwritePackage = false;
         public List<Models.Version> stableVersions = new List<Models.Version>();
         public List<Models.Version> previewVersions = new List<Models.Version>();
+        public List<Models.Version> developmentVersions = new List<Models.Version>();
         public List<Models.Version> experimentalVersions = new List<Models.Version>();
 
         public List<Models.Version> GetVersionsForChannel( Models.PackageChannel channel )
@@ -23,6 +24,8 @@ namespace HUFEXT.PackageManager.Editor.Models
                     return stableVersions;
                 case Models.PackageChannel.Preview:
                     return previewVersions;
+                case Models.PackageChannel.Development:
+                    return developmentVersions;
                 case Models.PackageChannel.Experimental:
                     return experimentalVersions;
             }

@@ -15,14 +15,19 @@ public class GameSceneLoader : FeatureConfigBase
         HAuth.OnSignInResult += (serviceName, result) =>
         {
             HLog.Log($"HAuth.OnSignInResult: serviceName: {serviceName} result: {result}");
+
             if (serviceName == AuthServiceName.FIREBASE && result == AuthSignInResult.Success)
-            {
-                HCrossPromo.Init();
-                HCrossPromo.Fetch();
-            }
+                CrossPromoInitAndFetch();
         };
 
-        HAuth.SignIn(AuthServiceName.FIREBASE);
+        if (!HAuth.SignIn(AuthServiceName.FIREBASE))
+            CrossPromoInitAndFetch();
+
+        void CrossPromoInitAndFetch()
+        {
+            HCrossPromo.Init();
+            HCrossPromo.Fetch();
+        }
     }
 
     public override void RegisterManualInitializers()

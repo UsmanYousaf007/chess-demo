@@ -21,6 +21,7 @@ namespace TurboLabz.InstantFramework
         //Dispatch Signals
         [Inject] public LoadStatsSignal loadStatsSignal { get; set; }
         [Inject] public StartLobbyChampionshipTimerSignal startLobbyChampionshipTimerSignal { get; set; }
+        [Inject] public RebuildLayoutSignal rebuildLayoutSignal { get; set; }
 
         //Models
         [Inject] public INavigatorModel navigatorModel { get; set; }
@@ -28,6 +29,7 @@ namespace TurboLabz.InstantFramework
         public override void OnRegister()
         {
             view.Init();
+            view.rebuildLayoutSignal.AddListener(RebuildLayout);
         }
 
         [ListensTo(typeof(NavigatorShowViewSignal))]
@@ -101,6 +103,11 @@ namespace TurboLabz.InstantFramework
         {
             view.LogBannerPurchasedAnalytics();
             view.RemovePromotion();
+        }
+
+        public void RebuildLayout()
+        {
+            rebuildLayoutSignal.Dispatch();
         }
     }
 }

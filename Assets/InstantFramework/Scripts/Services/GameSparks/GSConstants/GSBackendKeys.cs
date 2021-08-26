@@ -45,6 +45,7 @@ namespace TurboLabz.InstantFramework
         public const string GAMES_PLAYED_TODAY = "todayGamesCount";
         public const string MAINTENANCE_WARNING_TIMESTAMP = "maintenanceWarningTimeStamp";
         public const string SESSION_DURATION_FOR_GDPR = "sessionDurationForGDPRinMinutes";
+        public const string GET_GAME_START_TIME_OUT = "getGameStartTimeOut";
 
         //game Settings
         public const string GAME_SETTINGS = "gameSettings";

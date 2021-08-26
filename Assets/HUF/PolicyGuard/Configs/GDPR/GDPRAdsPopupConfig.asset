@@ -12,21 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7fb867432348628bf30b45b0e8d8af, type: 3}
   m_Name: GDPRAdsPopupConfig
   m_EditorClassIdentifier: 
-  configId: PreTrackingPopup
+  configId: GDPRAdsPopup
   showSecondaryButton: 0
   showTertiaryButton: 0
   prefab: {fileID: -5377238869153244571, guid: 97078756baea84b66b70b42a40422935, type: 3}
-  showSchema: {fileID: 11400000, guid: 4615ecb889e8a40d3a46cc714f81462a, type: 2}
+  showSchema: {fileID: 11400000, guid: 7cbb61f8bd17a44139c938c579dc9eb5, type: 2}
   headerTranslation: We care about your privacy
-  contentTranslation: By clicking OK, you agree to be bound by our <link="https://www.huuugegames.com/terms-of-use"><color=#CF000B><u>Terms
-    of Use</u></color></link> and our <link="https://huuugegames.com/privacy-policy"><color=#CF000B><u>Privacy
+  contentTranslation: By clicking OK, you agree to be bound by our <link="https://www.huuugegames.com/terms-of-use"><color={COLOR}><u>Terms
+    of Use</u></color></link> and our <link="https://huuugegames.com/privacy-policy"><color={COLOR}><u>Privacy
     Policy</u></color></link>.
   primaryButtonTranslation: OK
   secondaryButtonTranslation: I Accept
   tertiaryButtonTranslation: I hereby consent to the usage and disclosure of my personal
-    data (including device information and my preferences) to <link="https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list"><color=#COLOR#><u>advertising
+    data (including device information and my preferences) to <link="https://huuugegames.com/privacy-policy/#huuuge%27s+partner+list"><color={COLOR}><u>advertising
     network companies</u></color></link> for the purpose of serving targeted advertisements
-    to me in the game. I understand that I can withdraw this consent at any time
-    within the game Settings, as also described in our <link="https://huuugegames.com/privacy-policy"><color=#COLOR#><u>Privacy
+    to me in the game. I understand that I can withdraw this consent at any time within
+    the game Settings, as also described in our <link="https://huuugegames.com/privacy-policy"><color={COLOR}><u>Privacy
     Policy</u></color></link>.
-  linkColor: {r: 0.7607843, g: 0, b: 0, a: 1}

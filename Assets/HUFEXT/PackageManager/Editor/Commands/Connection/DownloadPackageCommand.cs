@@ -19,57 +19,13 @@ namespace HUFEXT.PackageManager.Editor.Commands.Connection
 
         public override void Execute()
         {
-            if ( Core.Packages.Channel == Models.PackageChannel.Development )
-            {
-                CopyPackageFromDevelopmentEnvironment();
-            }
-            else
-            {
-                SendDownloadRequest();
-            }
+            SendDownloadRequest();
         }
 
         protected override void Complete( bool result, string serializedData = "" )
         {
             Utils.Common.Log( serializedData );
             base.Complete( result, serializedData );
-        }
-
-        void CopyPackageFromDevelopmentEnvironment()
-        {
-            Core.Registry.Load( Models.Keys.PACKAGE_MANAGER_DEV_ENVIRONMENT, out string devEnvPath );
-
-            if ( devEnvPath == string.Empty )
-            {
-                Complete( false, "Environment path is empty." );
-                return;
-            }
-
-            try
-            {
-                var packagePath = $"{Path.Combine( devEnvPath, packageName )}/";
-                var files = Directory.GetFiles( packagePath, "*.unitypackage", SearchOption.TopDirectoryOnly );
-
-                if ( files.Length != 1 )
-                {
-                    Complete( false, $"Package {packageName} doesn't exists." );
-                    return;
-                }
-
-                if ( !Directory.Exists( Models.Keys.CACHE_DIRECTORY ) )
-                {
-                    Directory.CreateDirectory( Models.Keys.CACHE_DIRECTORY );
-                }
-
-                File.Copy( files[0],
-                    Path.Combine( Models.Keys.CACHE_DIRECTORY,
-                        packageName + Models.Keys.Filesystem.UNITY_PACKAGE_EXTENSION ) );
-                Complete( true );
-            }
-            catch ( Exception )
-            {
-                Complete( false, $"Package {packageName} doesn't exists." );
-            }
         }
 
         void SendDownloadRequest()

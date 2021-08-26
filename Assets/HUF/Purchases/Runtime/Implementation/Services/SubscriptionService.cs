@@ -7,6 +7,7 @@ using HUF.Purchases.Runtime.API;
 using HUF.Purchases.Runtime.API.Data;
 using HUF.Purchases.Runtime.API.Services;
 using HUF.Purchases.Runtime.Implementation.Data;
+using HUF.Purchases.Runtime.Implementation.Models;
 using HUF.Utils.Runtime;
 using HUF.Utils.Runtime._3rdParty.Blowfish;
 using HUF.Utils.Runtime.Extensions;
@@ -15,6 +16,8 @@ using HUF.Utils.Runtime.PlayerPrefs;
 using HUF.Utils.Runtime.PlayerPrefs.SecureTypes;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
+using UnityEngine.UDP.Common.MiniJSON;
 
 namespace HUF.Purchases.Runtime.Implementation.Services
 {
@@ -46,40 +49,124 @@ namespace HUF.Purchases.Runtime.Implementation.Services
         };
 #endif
 #endif
+        readonly bool isHuuugeServerVerificationEnabled;
         readonly BlowFish encryption;
         readonly IEnumerable<IProductInfo> productsInfo;
-        readonly Dictionary<string, SecureCustomPP<SubscriptionSaveData>> subscriptionCachedSaves;
-        readonly Dictionary<string, SubscriptionInfo> subscriptionsInfo;
+        readonly Dictionary<string, SecureCustomPP<SubscriptionSaveData>> cashedSubscriptionSaves;
+        readonly Dictionary<string, SubscriptionResponse> subscriptionsResponses;
+        readonly HuuugeIAPServerValidator serverValidator;
 
         internal SubscriptionService( IEnumerable<IProductInfo> productsInfo,
+            bool isHuuugeServerVerificationEnabled,
+            HuuugeIAPServerValidator serverValidator,
             BlowFish encryption = null )
         {
             this.productsInfo = productsInfo;
+            this.isHuuugeServerVerificationEnabled = isHuuugeServerVerificationEnabled;
+            this.serverValidator = serverValidator;
             this.encryption = encryption;
-            subscriptionsInfo = new Dictionary<string, SubscriptionInfo>();
-            subscriptionCachedSaves = new Dictionary<string, SecureCustomPP<SubscriptionSaveData>>();
+            subscriptionsResponses = new Dictionary<string, SubscriptionResponse>();
+            cashedSubscriptionSaves = new Dictionary<string, SecureCustomPP<SubscriptionSaveData>>();
+
+            IntervalManager.Instance.EverySecond += () =>
+            {
+                var values = cashedSubscriptionSaves.Values.ToList();
+
+                foreach ( var value in values )
+                {
+                    var id = value.Value.Id;
+
+                    if ( GetStatus( id ) == SubscriptionStatus.Expired )
+                    {
+                        var productInfo = productsInfo.FirstOrDefault( q => q.ProductId == id );
+                        TryDeleteSave( id );
+                        OnSubscriptionExpired.Dispatch( productInfo );
+                    }
+                }
+            };
         }
 
         public void UpdateSubscriptions( Product[] products )
         {
+            //TO DO: queueing  
             foreach ( var product in products )
             {
-                if ( product.definition.type != ProductType.Subscription )
+                if ( product == null || product.definition.type != ProductType.Subscription )
                     continue;
 
-                SubscriptionInfo info = null;
+                HLog.Log( logPrefix,
+                    $"UpdateSubscriptions: {product.definition.id} hasReceipt: {product.hasReceipt} HuuugeIAPServerValidator == null: {HuuugeIAPServerValidator.instance == null}" );
 
-                if ( product.hasReceipt && IsAvailableForSubscriptionManager( product.receipt ) )
-                {
-                    var manager = new SubscriptionManager( product, null );
-                    info = manager.getSubscriptionInfo();
-                }
+                if ( !product.hasReceipt )
+                    continue;
 
-                UpdateSubscriptionInfo( product.definition.id, info );
+                PurchasesService.IsValidReceipt( product, out var productReceipt );
+
+                if ( productReceipt != null && HuuugeIAPServerValidator.instance != null )
+                    CoroutineManager.StartCoroutine(
+                        HuuugeIAPServerValidator.instance.Verify( product, productReceipt ) );
             }
 
             if ( Debug.isDebugBuild )
                 LogSubscriptions();
+        }
+
+        public void UpdateSubscription( Product product,
+            SubscriptionResponse subscriptionResponse,
+            IPurchaseReceipt receipt )
+        {
+            var id = product.definition.id;
+            var productInfo = productsInfo.FirstOrDefault( q => q.ProductId == id );
+
+            HLog.Log( logPrefix,
+                $"UpdateSubscription: {id} {productInfo} IsExpired {subscriptionResponse.IsExpired} CurrentDate {subscriptionResponse.CurrentDate} ExpiresDate {subscriptionResponse.ExpiresDate}" );
+
+            if ( productInfo == null )
+                return;
+
+            if ( subscriptionResponse.IsExpired )
+            {
+                HLog.Log( logPrefix, "UpdateSubscription: Expired" );
+
+                if ( TryDeleteSave( id ) )
+                    OnSubscriptionExpired.Dispatch( productInfo );
+                return;
+            }
+
+            if ( subscriptionsResponses.ContainsKey( id ) )
+                subscriptionsResponses[id] = subscriptionResponse;
+            else
+                subscriptionsResponses.Add( id, subscriptionResponse );
+            var isPaid = !subscriptionResponse.isFreeTrial;
+            var expirationDate = subscriptionResponse.ExpiresDate;
+            var subscriptionSave = GetSubscriptionDataFromSave( id );
+            var missingPaymentsCount = 0;
+
+            if ( subscriptionResponse.isAutoRenewing )
+                missingPaymentsCount = GetMissingPaymentsCount( subscriptionSave, productInfo, expirationDate );
+
+            HLog.Log( logPrefix,
+                $"UpdateSubscription: isPaid {isPaid} expirationDate {expirationDate} missingPaymentsCount {missingPaymentsCount} isAutoRenewing {subscriptionResponse.isAutoRenewing}" );
+
+            //temporary
+            OnSubscriptionPurchase.Dispatch( new SubscriptionPurchaseData(
+                productInfo,
+                isPaid,
+                isPaid
+            ) );
+            DumpSubscriptionDataToSave( id, isPaid, expirationDate, receipt );
+
+            if ( subscriptionSave != null && subscriptionSave.isPaid == isPaid && missingPaymentsCount <= 0 )
+                return;
+
+            for ( var i = 0; i < missingPaymentsCount; i++ )
+            {
+                OnSubscriptionPurchase.Dispatch( new SubscriptionPurchaseData(
+                    productInfo,
+                    isPaid,
+                    i > 0 || subscriptionSave != null && subscriptionSave.isPaid
+                ) );
+            }
         }
 
         public bool IsSubscriptionActive( string id )
@@ -89,60 +176,91 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 
         public SubscriptionStatus GetStatus( string id )
         {
-            if ( id == null || subscriptionsInfo == null || !subscriptionsInfo.ContainsKey( id ) )
-            {
-                HLog.LogWarning( logPrefix, $"Can't find subscriptions with id: {id} {subscriptionsInfo == null}" );
+            if ( id == null )
                 return SubscriptionStatus.Unknown;
+
+            if ( subscriptionsResponses == null || !subscriptionsResponses.ContainsKey( id ) )
+            {
+                var subscriptionSaveData = GetSubscriptionDataFromSave( id );
+
+                if ( subscriptionSaveData == null )
+                    return SubscriptionStatus.Unknown;
+
+                if ( subscriptionSaveData.expirationTimestamp >
+                     PurchasesDateTimeUtils.CurrentUTCDateTime.ToTimestamp() )
+                    return SubscriptionStatus.Active;
+
+                VerifySubscriptionRenewal( id );
+                return SubscriptionStatus.Expired;
             }
 
-            var status = SubscriptionStatus.Unknown;
-            var info = subscriptionsInfo[id];
+            var subscriptionsResponse = subscriptionsResponses[id];
 
-            if ( info == null && IsSubscriptionSave( id ) )
-                status = SubscriptionStatus.Expired;
-            else if ( IsExpired( info ) )
-                status = SubscriptionStatus.Expired;
-            else if ( IsSubscribed( info ) )
-                status = SubscriptionStatus.Active;
-            return status;
+            if ( subscriptionsResponse.ExpiresDate.ToTimestamp() >
+                 PurchasesDateTimeUtils.CurrentUTCDateTime.ToTimestamp() )
+                return subscriptionsResponse.isSubscribed ? SubscriptionStatus.Active : SubscriptionStatus.Unknown;
+
+            VerifySubscriptionRenewal( id );
+            return SubscriptionStatus.Expired;
+        }
+
+        private void VerifySubscriptionRenewal( string id )
+        {
+#if UNITY_ANDROID
+            if ( !isHuuugeServerVerificationEnabled || Application.isEditor )
+                return;
+
+            var subscriptionSaveData = GetSubscriptionDataFromSave( id );
+
+            if ( subscriptionSaveData == null )
+                return;
+
+            var product = HPurchases.TryGetStoreProductInfo( id );
+
+            var receipt = new GooglePlayReceipt( null,
+                null,
+                null,
+                subscriptionSaveData.PurchaseToken,
+                new DateTime(),
+                GooglePurchaseState.Purchased );
+
+            CoroutineManager.StartCoroutine( serverValidator.VerifySubscriptionRenewal( product,
+                receipt
+            ) );
+#endif
         }
 
         public bool IsInTrialMode( string id )
         {
-            if ( subscriptionsInfo == null || !subscriptionsInfo.ContainsKey( id ) )
+            if ( subscriptionsResponses == null || !subscriptionsResponses.ContainsKey( id ) )
             {
-                HLog.LogWarning( logPrefix, $"Can't find subscriptions with id: {id}" );
-                return false;
+                var subscriptionSaveData = GetSubscriptionDataFromSave( id );
+                return subscriptionSaveData != null && !subscriptionSaveData.isPaid;
             }
 
-            var info = subscriptionsInfo[id];
+            var subscriptionResponse = subscriptionsResponses[id];
 
-            return info != null &&
-                   info.isFreeTrial() == Result.True &&
-                   IsTimeNewer( DateTime.UtcNow, info.getExpireDate() ) == false;
+            return subscriptionResponse.isFreeTrial &&
+                   IsTimeNewer( PurchasesDateTimeUtils.CurrentUTCDateTime, subscriptionResponse.ExpiresDate ) ==
+                   false;
         }
 
         public DateTime GetExpirationDate( string id )
         {
-            if ( subscriptionsInfo == null || !subscriptionsInfo.ContainsKey( id ) )
+            if ( subscriptionsResponses == null || !subscriptionsResponses.ContainsKey( id ) )
             {
-                HLog.LogWarning( logPrefix, $"Can't find subscriptions with id: {id}" );
-                return DateTime.UtcNow;
+                var subscriptionSaveData = GetSubscriptionDataFromSave( id );
+
+                return subscriptionSaveData != null
+                    ? DateTimeOffset.FromUnixTimeSeconds( subscriptionSaveData.expirationTimestamp ).UtcDateTime
+                    : PurchasesDateTimeUtils.CurrentUTCDateTime.AddDays( -1 );
             }
 
-            var info = subscriptionsInfo[id];
-
-            if ( info != null )
-            {
-                return info.isExpired() != Result.Unsupported
-                    ? info.getExpireDate()
-                    : GetUnsupportedSubscriptionExpirationDate( info );
-            }
-
-            return DateTime.UtcNow;
+            var subscriptionResponse = subscriptionsResponses[id];
+            return subscriptionResponse.ExpiresDate;
         }
 
-        DateTime GetUnsupportedSubscriptionExpirationDate( SubscriptionInfo info )
+        /*DateTime GetUnsupportedSubscriptionExpirationDate( SubscriptionInfo info )
         {
             var productInfo = productsInfo.FirstOrDefault( q => info.getProductId().EndsWith( q.ProductId ) );
 
@@ -162,76 +280,6 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             return info.getExpireDate();
         }
 
-        bool IsAvailableForSubscriptionManager( string receipt )
-        {
-            var receiptWrapper = (Dictionary<string, object>)MiniJson.JsonDecode( receipt );
-
-            if ( !receiptWrapper.ContainsKey( "Store" ) || !receiptWrapper.ContainsKey( "Payload" ) )
-            {
-                HLog.LogError( logPrefix, "The product receipt does not contain enough information" );
-                return false;
-            }
-
-            var store = (string)receiptWrapper["Store"];
-            var payload = (string)receiptWrapper["Payload"];
-
-            if ( payload == null )
-                return false;
-
-            switch ( store )
-            {
-                case GooglePlay.Name:
-                {
-                    return ProcessGooglePlaySubscription( payload );
-                }
-                case AppleAppStore.Name:
-                case AmazonApps.Name:
-                case MacAppStore.Name:
-                {
-                    return true;
-                }
-                default:
-                {
-                    return false;
-                }
-            }
-        }
-
-        bool ProcessGooglePlaySubscription( string payload )
-        {
-            var payloadWrapper = (Dictionary<string, object>)MiniJson.JsonDecode( payload );
-
-            if ( !payloadWrapper.ContainsKey( "json" ) )
-            {
-                HLog.LogError( logPrefix, "The product receipt is messed, the 'json' field is missing" );
-                return false;
-            }
-
-            var originalJsonPayloadWrapper =
-                (Dictionary<string, object>)MiniJson.JsonDecode( (string)payloadWrapper["json"] );
-
-            if ( originalJsonPayloadWrapper == null ||
-                 !originalJsonPayloadWrapper.ContainsKey( "developerPayload" ) )
-            {
-                HLog.LogError( logPrefix, "The product receipt is messed, the 'developerPayload' field is missing" );
-                return false;
-            }
-
-            var developerPayloadWrapper = (Dictionary<string, object>)MiniJson.JsonDecode(
-                (string)originalJsonPayloadWrapper["developerPayload"] );
-
-            if ( developerPayloadWrapper == null ||
-                 !developerPayloadWrapper.ContainsKey( "is_free_trial" ) ||
-                 !developerPayloadWrapper.ContainsKey( "has_introductory_price_trial" ) )
-            {
-                HLog.LogError( logPrefix,
-                    "The product receipt is messed, the product is not purchased using 1.19 or later" );
-                return false;
-            }
-
-            return true;
-        }
-
         void UpdateSubscriptionInfo( string id, SubscriptionInfo info )
         {
             var productInfo = productsInfo.FirstOrDefault( q => q.ProductId == id );
@@ -246,10 +294,10 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                 return;
             }
 
-            if ( subscriptionsInfo.ContainsKey( id ) )
-                subscriptionsInfo[id] = info;
+            if ( subscriptionsResponses.ContainsKey( id ) )
+                subscriptionsResponses[id] = info;
             else
-                subscriptionsInfo.Add( id, info );
+                subscriptionsResponses.Add( id, info );
             var isPaid = info.isFreeTrial() != Result.True;
             var expirationDate = info.getExpireDate();
             var subscriptionSave = GetSubscriptionDataFromSave( id );
@@ -271,7 +319,7 @@ namespace HUF.Purchases.Runtime.Implementation.Services
                     i > 0 || subscriptionSave != null && subscriptionSave.isPaid
                 ) );
             }
-        }
+        }*/
 
         static bool IsSubscriptionSave( string id )
         {
@@ -300,38 +348,43 @@ namespace HUF.Purchases.Runtime.Implementation.Services
 
         SubscriptionSaveData GetSubscriptionDataFromSave( string id )
         {
-            if ( subscriptionCachedSaves.ContainsKey( id ) )
-                return subscriptionCachedSaves[id];
+            if ( cashedSubscriptionSaves.ContainsKey( id ) )
+                return cashedSubscriptionSaves[id];
 
             if ( !IsSubscriptionSave( id ) )
                 return null;
 
-            subscriptionCachedSaves.Add( id,
+            cashedSubscriptionSaves.Add( id,
                 new SecureCustomPP<SubscriptionSaveData>( $"{SUBSCRIPTION_SAVE_PATH}{id}", encryption ) );
-            return subscriptionCachedSaves[id];
+            return cashedSubscriptionSaves[id];
         }
 
-        void DumpSubscriptionDataToSave( string id, bool isPaid, DateTime expirationDate )
+        void DumpSubscriptionDataToSave( string id, bool isPaid, DateTime expirationDate, IPurchaseReceipt receipt )
         {
-            if ( !subscriptionCachedSaves.ContainsKey( id ) )
-                subscriptionCachedSaves.Add( id,
+            if ( !cashedSubscriptionSaves.ContainsKey( id ) )
+                cashedSubscriptionSaves.Add( id,
                     new SecureCustomPP<SubscriptionSaveData>( $"{SUBSCRIPTION_SAVE_PATH}{id}", encryption ) );
+#if UNITY_ANDROID
+            var purchaseToken = ( (GooglePlayReceipt)receipt ).purchaseToken;
+#else
+            var purchaseToken = String.Empty;
+#endif
 
-            var saveData = new SubscriptionSaveData( id )
+            var saveData = new SubscriptionSaveData( id, purchaseToken )
             {
                 isPaid = isPaid,
                 expirationTimestamp = expirationDate.ToTimestamp()
             };
-            subscriptionCachedSaves[id].Value = saveData;
+            cashedSubscriptionSaves[id].Value = saveData;
         }
 
         bool TryDeleteSave( string id )
         {
-            if ( subscriptionCachedSaves.ContainsKey( id ) )
-                subscriptionCachedSaves.Remove( id );
+            if ( cashedSubscriptionSaves.ContainsKey( id ) )
+                cashedSubscriptionSaves.Remove( id );
 
-            if ( subscriptionsInfo.ContainsKey( id ) )
-                subscriptionsInfo.Remove( id );
+            if ( subscriptionsResponses.ContainsKey( id ) )
+                subscriptionsResponses.Remove( id );
 
             if ( !IsSubscriptionSave( id ) )
                 return false;
@@ -340,67 +393,28 @@ namespace HUF.Purchases.Runtime.Implementation.Services
             return true;
         }
 
-        bool IsExpired( SubscriptionInfo info )
-        {
-            if ( info.isExpired() == Result.False ||
-                 info.isAutoRenewing() != Result.Unsupported &&
-                 !IsTimeNewer( DateTime.UtcNow, info.getExpireDate() ) )
-            {
-                return false;
-            }
-
-            if ( info.isExpired() == Result.Unsupported )
-                return IsTimeNewer( DateTime.UtcNow, GetUnsupportedSubscriptionExpirationDate( info ) );
-
-            return true;
-        }
-
         bool IsTimeNewer( DateTime newTime, DateTime oldTime )
         {
             return DateTime.Compare( newTime, oldTime ) > 0;
-        }
-
-        static bool IsSubscribed( SubscriptionInfo info )
-        {
-            return info.isSubscribed() == Result.True || info.isSubscribed() == Result.Unsupported;
         }
 
         void LogSubscriptions()
         {
             HLog.Log( logPrefix, "UpdateSubscriptions:" );
 
-            foreach ( var keyValuePair in subscriptionsInfo )
+            foreach ( var keyValuePair in subscriptionsResponses )
             {
                 var id = keyValuePair.Key;
 
                 if ( id == null )
                     continue;
 
-                var info = keyValuePair.Value;
+                var subscriptionResponse = keyValuePair.Value;
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append( $"Subscription id: {id}" );
-                stringBuilder.Append( $"\n    status: {GetStatus( id )}" );
 
-                if ( info != null )
-                {
-                    stringBuilder.Append( $"\n    UTC time now: {DateTime.UtcNow}" );
-                    stringBuilder.Append( $"\n    purchase date: {info.getPurchaseDate()}" );
-                    stringBuilder.Append( $"\n    expirationDate: {info.getExpireDate()}" );
-                    stringBuilder.Append( $"\n    remaining time: {info.getRemainingTime()}" );
-                    stringBuilder.Append( $"\n    cancel date: {info.getCancelDate()}" );
-                    stringBuilder.Append( $"\n    is trial: {info.isFreeTrial()}" );
-                    stringBuilder.Append( $"\n    is auto-renewing: {info.isAutoRenewing()}" );
-                    stringBuilder.Append( $"\n    is subscribed: {info.isSubscribed()}" );
-                    stringBuilder.Append( $"\n    is expired: {info.isExpired()}" );
-                    stringBuilder.Append( $"\n    is canceled: {info.isCancelled()}" );
-                    stringBuilder.Append( $"\n    subscription period: {info.getSubscriptionPeriod()}" );
-                    stringBuilder.Append( $"\n    free trial period: {info.getFreeTrialPeriod()}" );
-                    stringBuilder.Append( $"\n    introductory price period: {info.getIntroductoryPricePeriod()}" );
-
-                    stringBuilder.Append(
-                        $"\n    introductory price period cycles: {info.getIntroductoryPricePeriodCycles()}" );
-                }
-
+                stringBuilder.Append(
+                    $"\n    status: {GetStatus( id )}\n{JsonUtility.ToJson( subscriptionResponse )}" );
                 HLog.Log( logPrefix, stringBuilder.ToString() );
             }
         }

@@ -226,6 +226,8 @@ namespace TurboLabz.InstantFramework
     public class BuyDynamicBundleClickedSignal : Signal { }
     public class UpdateRVTimerSignal : Signal<long, bool> { }
     public class DailyRewardClaimFailedSignal : Signal { }
+    public class ShowLobbyRewardsSignal : Signal { }
+    public class RebuildLayoutSignal : Signal { }
 
     // Tournaments
     public class GetAllTournamentsSignal : Signal { }
@@ -281,4 +283,7 @@ namespace TurboLabz.InstantFramework
     public class GetInitDataOnCompleteSignal : Signal { }
     public class UpdateNewRankChampionshipDlgViewSignal : Signal<string, bool, float> { }
     public class UpdatePromotionBundleSignal : Signal { }
+
+    public class ReconnectResetStateSignal : Signal { }
+    public class SignalLostSaveStateSignal : Signal { }
 }

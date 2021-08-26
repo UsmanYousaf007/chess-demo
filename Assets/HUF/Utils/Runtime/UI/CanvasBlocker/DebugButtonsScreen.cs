@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using HUF.Utils.Runtime.Extensions;
 using HUF.Utils.Runtime.Logging;
 using HUF.Utils.Runtime.SafeArea;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
 namespace HUF.Utils.Runtime.UI.CanvasBlocker
 {
@@ -18,11 +15,22 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         static readonly HLogPrefix logPrefix = new HLogPrefix( nameof(DebugButtonsScreen) );
         readonly Color backgroundColor = new Color( 0, 0, 0, 0.7f );
 
-        List<GUIButtonData> guiButtonDatas = new List<GUIButtonData>();
+        readonly List<GUIButtonData> guiButtonData = new List<GUIButtonData>();
+        readonly List<GUIInputData> guiInputData = new List<GUIInputData>();
+
         string screenName;
-        static float ButtonWidth => ScreenSize.Width / 2;
-        static float ButtonHeight => ScreenSize.Height / MAXIMUM_NUMBER_OF_BUTTONS;
         CanvasBlocker canvasBlocker;
+
+        static float ButtonWidth => ScreenSize.Width / 2;
+
+        static float ButtonHeight =>
+            ( ScreenSize.Height - ( MAXIMUM_NUMBER_OF_BUTTONS + 1 ) * MARGIN )
+            / MAXIMUM_NUMBER_OF_BUTTONS;
+
+        /// <summary>
+        /// States if it is possible to open the debug screen
+        /// </summary>
+        public static bool IsAvailable { get; private set; } = true;
 
         /// <summary>
         /// Adds a GUI button.
@@ -33,7 +41,19 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         [PublicAPI]
         public void AddGUIButton( string buttonText, Action onClickAction )
         {
-            guiButtonDatas.Add( new GUIButtonData( buttonText, onClickAction ) );
+            guiButtonData.Add( new GUIButtonData( buttonText, onClickAction ) );
+        }
+
+        /// <summary>
+        /// Adds a GUI input field.
+        /// <para>Controls are deleted when DebugButtonsScreen is hidden or a button is clicked.</para>
+        /// </summary>
+        /// <param name="label">A label of the input field</param>
+        /// <param name="dataCallback">A callback sent before the window is closed, containing entered data.</param>
+        [PublicAPI]
+        public void AddGUIInput( string label, Action<string> dataCallback )
+        {
+            guiInputData.Add( new GUIInputData( label, dataCallback ) );
         }
 
         /// <summary>
@@ -44,7 +64,7 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         [PublicAPI]
         public void Show( string inScreenName )
         {
-            if ( guiButtonDatas.Count == 0 )
+            if ( guiButtonData.Count == 0 )
             {
                 HLog.LogWarning( logPrefix, "Cannot be shown without any buttons!" );
                 return;
@@ -52,6 +72,7 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
 
             screenName = inScreenName;
             gameObject.SetActive( true );
+            IsAvailable = false;
             canvasBlocker.ShowFullScreen( backgroundColor );
         }
 
@@ -62,8 +83,15 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
         public void Hide()
         {
             gameObject.SetActive( false );
-            guiButtonDatas.Clear();
+            guiButtonData.Clear();
+            guiInputData.Clear();
             canvasBlocker.Hide();
+            IsAvailable = true;
+        }
+
+        static Rect GetButtonRect( Vector2 position )
+        {
+            return new Rect( position, new Vector2( ButtonWidth, ButtonHeight ) );
         }
 
         void Awake()
@@ -77,28 +105,49 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
                 screenName );
 
             var buttonPost = new Vector2( ScreenSize.Width / 2 - ButtonWidth / 2f + MARGIN,
-                ScreenSize.Height / 2 - guiButtonDatas.Count * ButtonHeight / 2f - MARGIN );
+                 MARGIN + ButtonHeight );
 
-            for ( var i = 0; i < guiButtonDatas.Count; i++ )
+            for ( var i = 0; i < guiButtonData.Count; i++ )
             {
-                DrawGUIButton( guiButtonDatas[i], ref buttonPost );
+                DrawGUIElement( guiButtonData[i], ref buttonPost );
+            }
+
+            for ( var i = 0; i < guiInputData.Count; i++ )
+            {
+                DrawGUIElement( guiInputData[i], ref buttonPost );
             }
         }
 
-        static Rect GetButtonRect( Vector2 position )
-        {
-            return new Rect( position, new Vector2( ButtonWidth, ButtonHeight ) );
-        }
-
-        void DrawGUIButton( GUIButtonData guiButtonData, ref Vector2 position )
+        void DrawGUIElement( GUIButtonData guiButtonData, ref Vector2 position )
         {
             if ( GUI.Button( GetButtonRect( position ), guiButtonData.buttonText ) )
             {
+                SendInputCallbacks();
                 guiButtonData.clickAction.Dispatch();
                 Hide();
             }
 
-            position.y += MARGIN * 2 + ButtonHeight;
+            position.y += MARGIN + ButtonHeight;
+        }
+
+        void DrawGUIElement( GUIInputData data, ref Vector2 position )
+        {
+            data.text = GUI.TextField( GetButtonRect( position ), data.text );
+
+            Vector2 labelSize = GUI.skin.label.CalcSize( new GUIContent( data.label ) );
+            var labelRect = new Rect( position - new Vector2( labelSize.x + MARGIN, 0 ), labelSize );
+            GUI.Label( labelRect, data.label );
+
+            position.y += MARGIN + ButtonHeight;
+        }
+
+        void SendInputCallbacks()
+        {
+            for ( var i = 0; i < guiInputData.Count; i++ )
+            {
+                GUIInputData inputData = guiInputData[i];
+                inputData.callback.Dispatch( inputData.text );
+            }
         }
 
         readonly struct GUIButtonData
@@ -110,6 +159,19 @@ namespace HUF.Utils.Runtime.UI.CanvasBlocker
             {
                 this.buttonText = buttonText;
                 this.clickAction = clickAction;
+            }
+        }
+
+        class GUIInputData
+        {
+            public readonly string label;
+            public readonly Action<string> callback;
+            public string text;
+
+            public GUIInputData( string label, Action<string> callback )
+            {
+                this.label = label;
+                this.callback = callback;
             }
         }
     }

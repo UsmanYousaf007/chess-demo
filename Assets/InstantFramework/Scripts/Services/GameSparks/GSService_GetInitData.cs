@@ -384,7 +384,7 @@ namespace TurboLabz.InstantFramework
             settingsModel.powerModeFreeHints = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.POWER_MODE_FREE_HINTS);
             settingsModel.maintenanceWarningTimeStamp = GSParser.GetSafeLong(gsSettingsData, GSBackendKeys.MAINTENANCE_WARNING_TIMESTAMP);
             settingsModel.sessionDurationForGDPRinMinutes = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.SESSION_DURATION_FOR_GDPR, 15);
-
+            settingsModel.timeoutGetGameStartTime = GSParser.GetSafeFloat(gsSettingsData, GSBackendKeys.GET_GAME_START_TIME_OUT, 5.0f);
             settingsModel.opponentHigherEloCap = GSParser.GetSafeInt(gsSettingsData, GSBackendKeys.OPPONENT_HIGHER_ELO_CAP);
 
             GSData opponentLowerEloCapData = gsSettingsData.GetGSData(GSBackendKeys.OPPONENT_LOWER_ELO_CAP);

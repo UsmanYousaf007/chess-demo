@@ -236,14 +236,8 @@ namespace TurboLabz.InstantFramework
             blurredBgImg.DOFade(0, 0.3f);
             UIBlurBackground.AnimateBrightness(blurredBgImg, 0.7f, 0.0f, 0.3f);
             careerSectionGroup.transform.DOScale(1.0f, 0.25f).SetEase(Ease.OutSine);
-            careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLeaguePromotionReward); ;
+            careerSectionGroup.DOFade(0.0f, 0.35f).OnComplete(LoadLobby); ;
             isCareerProgressionShown = true; 
-        }
-
-        private void LoadLeaguePromotionReward()
-        {
-            LoadLobby();
-            rewardsService.LoadDailyReward("RewardLeaguePromotion");
         }
 
         private void FadeInCareerProgressionView()

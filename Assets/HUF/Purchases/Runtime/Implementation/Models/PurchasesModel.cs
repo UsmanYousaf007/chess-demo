@@ -49,6 +49,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
         ISubscriptionService subscriptionsService;
         IPriceConversionService priceConversionService;
 
+        HuuugeIAPServerValidator serverValidator;
         BlowFish blowFish;
         Product[] loadedProducts;
 
@@ -75,12 +76,14 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             var useEncryption = purchasesConfig != null && purchasesConfig.IsEncryptionEnabled;
             GenerateBlowFishKey( useEncryption );
             purchasesAttemptsMade = new SecureStringArrayPP( "PurchasesModel.purchasesAttemptsMade", '|', blowFish );
+            serverValidator = new HuuugeIAPServerValidator();
 
             purchasesService =
                 new PurchasesService( purchasesConfig.Products,
                     purchasesConfig.IsLocalVerificationEnabled,
                     purchasesConfig.IsHuuugeServerVerificationEnabled,
-                    purchasesConfig.InterruptedPaymentWaitTime);
+                    purchasesConfig.InterruptedPaymentWaitTime,
+                    serverValidator );
 
             refundService =
                 new NonConsumablesRefundService( purchasesConfig.Products,
@@ -88,7 +91,11 @@ namespace HUF.Purchases.Runtime.Implementation.Models
                     blowFish );
 
             subscriptionsService =
-                new SubscriptionService( purchasesConfig.Products, blowFish );
+                new SubscriptionService( purchasesConfig.Products,
+                    purchasesConfig.IsHuuugeServerVerificationEnabled,
+                    serverValidator,
+                    blowFish );
+
             priceConversionService = new PriceConversionService( purchasesConfig );
             StartListening();
         }
@@ -105,7 +112,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             return product;
         }
 
-        public void UpdateSubscription(string oldProductId, string newProductId)
+        public void UpdateSubscription( string oldProductId, string newProductId )
         {
             purchasesService.UpdateSubscription( oldProductId, newProductId );
         }
@@ -130,7 +137,9 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             OnInitialized.Dispatch();
         }
 
-        void ServicePurchaseSuccess( Product product, IPurchaseReceipt receipt )
+        void ServicePurchaseSuccess( Product product,
+            IPurchaseReceipt receipt,
+            SubscriptionResponse subscriptionResponse )
         {
             var productId = product.definition.id;
 
@@ -156,7 +165,7 @@ namespace HUF.Purchases.Runtime.Implementation.Models
 
             if ( productInfo.Type == IAPProductType.Subscription )
             {
-                subscriptionsService.UpdateSubscriptions( loadedProducts );
+                subscriptionsService.UpdateSubscription( product, subscriptionResponse, receipt );
             }
 
             if ( purchasesConfig.IsDownloadPriceConversionEnabled &&
@@ -180,7 +189,6 @@ namespace HUF.Purchases.Runtime.Implementation.Models
             var transactionType = TryRemoveAttempt( productId )
                 ? TransactionType.Purchase
                 : TransactionType.Restore;
-            
 
             OnPurchaseSuccess?.Invoke( productInfo,
                 transactionType,
@@ -218,13 +226,18 @@ namespace HUF.Purchases.Runtime.Implementation.Models
 
             if ( productInfo == null )
                 return;
-            
+
             OnPurchaseHandleInterrupted.Dispatch( productInfo );
         }
 
-        public bool IsProductAvailable( string productId )
+        public bool IsProductAvailable( string productId, out IProductInfo productInfo )
         {
             var product = TryGetStoreProduct( productId );
+
+            if ( purchasesConfig != null && purchasesConfig.Products != null )
+                productInfo = purchasesConfig.Products.FirstOrDefault( p => p.ProductId == productId );
+            else
+                productInfo = null;
             return IsProductAvailable( product );
         }
 

@@ -400,7 +400,7 @@ namespace TurboLabz.InstantFramework
 
                         if (CollectionsUtil.fakeEloScores.ContainsKey(friendId))
                         {
-                            int eloChange = updatedStatsData.GetInt("friendEloChange").Value;
+                            int eloChange = GSParser.GetSafeInt(updatedStatsData, "friendEloChange");
                             CollectionsUtil.fakeEloScores[friendId] += eloChange;
                         }
 
@@ -417,7 +417,7 @@ namespace TurboLabz.InstantFramework
 
                     if (CollectionsUtil.fakeEloScores.ContainsKey(opponentId))
                     {
-                        int eloChange = updatedStatsData.GetInt(GSBackendKeys.OPPONENT_ELO_CHANGE).Value;
+                        int eloChange = GSParser.GetSafeInt(updatedStatsData, GSBackendKeys.OPPONENT_ELO_CHANGE);
                         CollectionsUtil.fakeEloScores[opponentId] = CollectionsUtil.fakeEloScores[opponentId] + eloChange;
                     }
 

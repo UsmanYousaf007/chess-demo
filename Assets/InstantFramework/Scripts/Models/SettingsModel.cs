@@ -47,6 +47,8 @@ namespace TurboLabz.InstantFramework
         public int opponentLowerEloCapMin { get; set; }
         public int opponentLowerEloCapMax { get; set; }
 
+        public float timeoutGetGameStartTime { get; set; }
+
         // Listen to signals
         [Inject] public ModelsResetSignal modelsResetSignal { get; set; }
 
@@ -92,6 +94,8 @@ namespace TurboLabz.InstantFramework
             opponentHigherEloCap = 0;
             opponentLowerEloCapMin = 0;
             opponentLowerEloCapMax = 0;
+
+            timeoutGetGameStartTime = 5.0f;
     }
 
         public int GetInventorySpecialItemsRewardedVideoCost(string key)

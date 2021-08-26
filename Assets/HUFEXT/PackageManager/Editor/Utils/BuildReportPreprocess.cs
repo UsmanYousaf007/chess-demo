@@ -120,13 +120,5 @@ namespace HUFEXT.PackageManager.Editor.Utils
         {
             GenerateBuildInfo( Reporter.Send );
         }
-
-#if HPM_DEV_MODE
-        [MenuItem("HUF/Debug/Send Test HBI report")]
-        public static void SendTestReport()
-        {
-            new BuildReportPreprocess().OnPreprocessBuild( null );
-        }
-#endif
     }
 }

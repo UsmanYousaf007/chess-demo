@@ -1,20 +1,24 @@
 {
   "name": "com.huuuge.huf.purchases",
   "displayName": "Purchases",
-  "version": "2.9.8",
-  "unity": "2018.4",
+  "version": "3.0.0-experimental",
+  "unity": "2019.4",
   "description": "Purchases module can be used to integrate Unity IAP system for Android or iOS. \nCurrent module includes:\n\n• Store info (items price and availability)\n• Purchasing non-consumable and consumable items\n• Restoring transactions\n• Refunding transactions (optional)\n• Locally verifying transactions (optional)\n• Unity IAP version: 1.23.1",
   "huf": {
     "message": "Please, before installing this package enable In App Purchases via Services window and import latest Unity IAP package.",
     "dependencies": [
-      "com.huuuge.huf.utils@^2.8.0"
+      "com.huuuge.huf.utils@^2.8.0",
+      "com.unity.purchasing@^3.2.3"
     ],
-    "date": "21.06.2021 14:16",
-    "commit": "a386dbd",
-    "build": "78",
+    "optionalDependencies": [
+      "com.huuuge.huf.timeserver@^3.2.0"
+    ],
+    "date": "12.08.2021 10:15",
+    "commit": "484a539",
+    "build": "84",
     "scope": "public",
-    "channel": "stable",
+    "channel": "experimental",
     "path": "Assets/HUF/Purchases",
-    "rollout": "41"
+    "rollout": "Experimental"
   }
 }

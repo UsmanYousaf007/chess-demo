@@ -57,5 +57,7 @@ namespace TurboLabz.InstantFramework
         float GetSafeCoinsMultiplyer(string key);
 
         int sessionDurationForGDPRinMinutes { get; set; }
+
+        float timeoutGetGameStartTime { get; set; }
     }
 }

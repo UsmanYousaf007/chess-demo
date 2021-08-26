@@ -1,6 +1,12 @@
 ## External SDKs
-- Firebase SDK Unity plugin - 7.2.0
-- Firebase Auth - 7.2.0
+- Firebase SDK Unity plugin - 8.1.0
+- Firebase Auth - 8.1.0
+
+
+## [2.7.0] - 2021-08-11
+### Updated
+- Firebase SDK Unity plugin - 8.1.0
+
 
 ## [2.6.0] - 2021-05-06
 ### Changed

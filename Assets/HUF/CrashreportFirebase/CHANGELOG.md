@@ -1,6 +1,11 @@
 ## External SDKs
-- Firebase SDK Unity plugin - 7.2.0
-- Firebase Crashlytics - 7.2.0
+- Firebase SDK Unity plugin - 8.1.0
+- Firebase Crashlytics - 8.1.0
+
+## [2.5.0] - 2021-08-11
+### Updated
+- Firebase SDK Unity plugin - 8.1.0
+
 
 ## [2.4.0] - 2021-05-06
 ### Changed

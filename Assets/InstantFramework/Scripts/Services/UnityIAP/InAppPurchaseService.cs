@@ -50,12 +50,12 @@ public class InAppPurchaseService : IStoreService
             var product = HPurchases.TryGetStoreProductInfo(productId);
             if (product != null)
             {
-                if (HPurchases.IsProductAvailable(productId) && productInfo.Type == IAPProductType.Subscription && product.receipt != null)
-                    
+                if (HPurchases.IsProductAvailable(productId) && productInfo.Type == IAPProductType.Subscription && product.receipt != null)   
                 {
-                    playerModel.renewDate = HPurchases.GetSubscriptionExpirationDate(productId).ToShortDateString();
+                    var subscriptionExpirationDate = HPurchases.GetSubscriptionExpirationDate(productId);
+                    var expiryTimeStamp = TimeUtil.ToUnixTimestamp(subscriptionExpirationDate);
+                    playerModel.renewDate = subscriptionExpirationDate.ToShortDateString();
 
-                    var expiryTimeStamp = TimeUtil.ToUnixTimestamp(HPurchases.GetSubscriptionExpirationDate(productId));
                     if (expiryTimeStamp > playerModel.subscriptionExipryTimeStamp)
                     {
                         playerModel.subscriptionExipryTimeStamp = expiryTimeStamp;
@@ -74,7 +74,6 @@ public class InAppPurchaseService : IStoreService
                     if (playerModel.subscriptionExipryTimeStamp > 0)
                     {
                         playerModel.subscriptionExipryTimeStamp = 1;
-                        loadPromotionSingal.Dispatch();
                         updatePlayerDataSignal.Dispatch();
                     }
 #endif

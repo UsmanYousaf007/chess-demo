@@ -1,16 +1,16 @@
 {
   "name": "com.huuuge.plugins.externaldependencymanager",
   "displayName": "External Dependency Manager",
-  "version": "1.2.165",
+  "version": "1.2.166-development",
   "unity": "2018.4",
   "description": "The External Dependency Manager for Unity (EDM4U) (formerly Play Services Resolver / Jar Resolver) is intended to be used by any Unity plugin that requires:\n\n-Android specific libraries (e.g AARs).\n-iOS CocoaPods.\n-Version management of transitive dependencies.\n-Management of Unity Package Manager Registries.",
   "huf": {
-    "date": "24.05.2021 13:01",
-    "commit": "863b544",
-    "build": "5",
+    "date": "13.08.2021 11:37",
+    "commit": "e4abf75",
+    "build": "10",
     "scope": "public",
-    "channel": "stable",
+    "channel": "development",
     "path": "Assets/ExternalDependencyManager",
-    "rollout": "39"
+    "rollout": "44"
   }
 }
